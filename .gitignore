@@ -1,0 +1,17 @@
+# dependencies and caches
+node_modules/
+__pycache__/
+*.pyc
+
+# tool state
+.claude-flow/
+.swarm/
+design/rive/.rive-session.txt
+
+# generated check frames (the helper scripts in this folder are kept)
+design/rive/captures/**/*.png
+design/rive/captures/**/*.json
+design/rive/captures/**/*.wav
+
+# local safety copies of the design file; its history is in git
+pendev/backups/
