@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Dombi Playground</title>
+<style>
+  :root { --bg: #F7F5FF; --card: #FFFFFF; --text: #2B2B3C; --muted: #6E6E82; --violet: #7B5CFF; --violet-soft: #EFEBFF; --line: #E5E5E5; --green: #58CC02; --coral: #FF6B5E; --gold: #FFC800; }
+  * { box-sizing: border-box; } html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 700 14px/1.4 Nunito, system-ui, sans-serif; overscroll-behavior: none; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: 400px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 820px) { main { grid-template-columns: 1fr; } }
+  #screen { width: 400px; max-width: 100%; height: 640px; background: #fff; border: 3px solid var(--line); border-radius: 30px; position: relative; overflow: hidden; touch-action: none; user-select: none; }
+  #card { position: absolute; left: 30px; top: 200px; width: 210px; height: 92px; border-radius: 18px; background: var(--violet); border-bottom: 6px solid #5B3FD9; color: #fff; padding: 14px 16px; font-weight: 900; font-size: 17px; }
+  #card small { display: block; font-weight: 700; opacity: .85; font-size: 12px; }
+  #flameSpot { position: absolute; right: 26px; bottom: 44px; width: 58px; height: 75px; }
+  #flameSpot canvas { width: 58px; height: 75px; }
+  #floor { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; background: var(--violet-soft); }
+  #chips { position: absolute; left: 14px; top: 16px; display: flex; gap: 8px; z-index: 6; }
+  .chip { background: #fff; border: 2px solid var(--line); border-bottom-width: 4px; border-radius: 12px; padding: 6px 12px; font-weight: 800; cursor: grab; touch-action: none; position: relative; }
+  .chip.drag { z-index: 30; cursor: grabbing; border-color: var(--violet); }
+  #dombi { position: absolute; left: 0; top: 0; width: 234px; height: 207px; transform-origin: 50% 45%; z-index: 10; will-change: transform; cursor: grab; touch-action: none; }
+  #dombi canvas { width: 234px; height: 207px; pointer-events: none; display: block; }
+  #word { position: absolute; left: 0; right: 0; top: 96px; text-align: center; color: #fff; font-weight: 900; font-size: 19px; opacity: 0; pointer-events: none; }
+  #pop { position: absolute; width: 200px; height: 200px; pointer-events: none; z-index: 20; }
+  #tabs { display: flex; gap: 6px; margin-bottom: 8px; } #tabs button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: #fff; color: var(--text); border-radius: 12px; padding: 6px 12px; cursor: pointer; }
+  #tabs button[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
+  #exercise { position: absolute; left: 20px; right: 20px; top: 150px; display: none; z-index: 4; }
+  #exercise h3 { margin: 0 0 12px; font-weight: 900; font-size: 18px; } #exercise .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  #exercise .t { height: 70px; border-radius: 14px; border: 2px solid var(--line); border-bottom-width: 5px; display: grid; place-items: center; font-weight: 800; }
+  #exercise .go { margin-top: 14px; height: 48px; border-radius: 14px; background: var(--violet); border-bottom: 5px solid #5B3FD9; color: #fff; display: grid; place-items: center; font-weight: 900; letter-spacing: .04em; }
+  #dtitle { position: absolute; left: 0; right: 0; top: 70px; text-align: center; font-weight: 900; font-size: 22px; display: none; }
+  select { font: inherit; font-weight: 700; border: 2px solid var(--line); border-radius: 12px; padding: 6px 10px; background: #fff; color: var(--text); }
+  #hint { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; color: var(--muted); font-size: 12px; pointer-events: none; z-index: 5; }
+  h1 { font-size: 22px; font-weight: 900; margin: 0 0 6px; } p { color: var(--muted); margin: 0 0 12px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 6px; }
+  ul { margin: 0; padding-left: 18px; } li { margin: 3px 0; font-weight: 600; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btns button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: #fff; color: var(--text); border-radius: 14px; padding: 7px 12px; cursor: pointer; touch-action: none; }
+  .btns button[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
+  label { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; } input[type=range] { width: 170px; }
+  #log { font: 12px ui-monospace, monospace; color: var(--muted); min-height: 18px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<main>
+  <div><div id="tabs"><button id="tabHome" aria-pressed="true">Home</button><button id="tabLesson" aria-pressed="false">Lesson (exercise active)</button><button id="tabDombi" aria-pressed="false" style="display:none">Dombi screen</button></div>
+  <div id="screen">
+    <div id="chips"><div class="chip" data-w="coffee">coffee</div><div class="chip" data-w="please">please</div><div class="chip" data-w="thank you">thank you</div></div>
+    <div id="card">Kafeda<small>3-dars · A coffee, please.</small></div>
+    <div id="exercise"><h3>“Menga bitta qahva, iltimos.”</h3><div class="row"><div class="t">A coffee</div><div class="t">please</div><div class="t">tea</div></div><div class="go">TEKSHIRISH</div></div>
+    <div id="dtitle">Dombi</div>
+    <div id="floor"></div>
+    <div id="flameSpot"><canvas id="flame" width="232" height="300"></canvas></div>
+    <div id="dombi"><canvas id="c" width="468" height="414"></canvas><div id="word"></div></div>
+    <canvas id="pop" width="400" height="400"></canvas>
+    <div id="hint">hold him to pick him up</div>
+  </div></div>
+  <div>
+    <h1>Dombi playground</h1>
+    <p>The page does the physics (where he is, how fast he moves). Rive does the acting.</p>
+    <h2>Where can he be touched?</h2>
+    <div class="btns"><select id="policy">
+      <option value="everywhere">B · Everywhere (in a lesson: taps yes, carrying locked) — chosen</option>
+      <option value="home">A · Home screen only (locked in lessons)</option>
+      <option value="dombi">C · A dedicated Dombi screen (tap him on Home to go there)</option></select></div>
+    <p id="policyNote" style="margin:6px 0 0;font-size:13px"></p>
+    <h2>Touch him</h2>
+    <ul>
+      <li><b>Hold ~0.3 s</b>: he hops onto your finger. Drag to carry (he swings, grips, looks where you go). Shake him: dizzy.</li>
+      <li><b>Let go</b>: he falls, lands, shakes it off, walks home. <b>Throw</b> him: he tumbles, lands on his feet, smug blink.</li>
+      <li><b>Drop on the card</b>: sits and peeks. <b>Drop by the flame</b>: warms his hands. <b>Drag off the screen</b>: he peeks back in.</li>
+      <li><b>Tap</b>: poke (1 wobble, 2 raised lid, 3 pushes you away, 4 turns his back). <b>Double-tap</b>: a trick.</li>
+      <li><b>Rub</b> (press and move straight away): petting. <b>Mouse wheel / two fingers</b>: pinch stretch.</li>
+      <li><b>Drag a word</b> from the top onto him: he eats it.</li>
+      <li>Move the pointer anywhere: his eyes follow.</li>
+    </ul>
+    <h2>Things a phone would do</h2>
+    <div class="btns">
+      <button id="bCorrect">Correct answer → high-five</button>
+      <button id="bSleep">Fall asleep</button>
+      <button id="bShake">Shake the phone</button>
+      <button id="bBlow">Blow (hold)</button>
+      <button id="bMic" aria-pressed="false">Use my mic (talk while held / blow)</button>
+    </div>
+    <div class="btns" style="margin-top:10px"><label>Tilt the phone <input id="tilt" type="range" min="-45" max="45" value="0"></label></div>
+    <div id="log"></div>
+  </div>
+</main>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id), screenEl = $('screen'), el = $('dombi');
+  const W = 234, H = 207, FEET = { x: 117, y: 180 }, BODY = { x: 117, y: 94, r: 60 };   // inside the 234×207 canvas box
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), log = (t) => $('log').textContent = t, buzz = (p) => navigator.vibrate && navigator.vibrate(p);
+  const mk = (id, artboard, sm) => new Promise(res => { const r = new rive.Rive({ src: 'out/dombi.riv', canvas: $(id), artboard, stateMachines: sm, autoplay: true, autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }), onLoad: () => { r.resizeDrawingSurfaceToCanvas(); res(r.viewModelInstance); } }); });
+  let D, POP, FLAME;
+  const S = { mode: 'idle', x: 0, y: 0, vx: 0, vy: 0, rot: 0, spin: 0, flip: 1, tx: 0, ty: 0, swing: 0, swingV: 0, squish: 0, pokes: 0, lastPoke: 0, lastTap: 0, lastTrick: -1,
+    hf: false, locked: false, trail: [], tilt: 0, stretch: 0, lastAct: performance.now(), shakeHits: [], lastVxSign: 0, dizzyAt: 0, mic: null, perch: null };
+  window.playState = S; S.screen = 'home'; S.policy = 'everywhere';   // LOCKED 2026-10-11: option B
+  // what touch does on each screen under each option: all · nocarry (taps, pokes, tricks, petting, high-five) · open (a tap opens the Dombi screen) · none (eyes only)
+  const RULES = { home: { home: 'all', lesson: 'none' }, everywhere: { home: 'all', lesson: 'nocarry' }, dombi: { home: 'open', lesson: 'none', dombi: 'all' } };
+  const rule = () => RULES[S.policy][S.screen] || 'none';
+  const NOTE = { home: 'He can be picked up and played with on Home. In a lesson only his eyes follow you.', everywhere: 'Same as Home everywhere, but while an exercise is active he cannot be carried, thrown, fed or pinched: taps, tricks, petting and the high-five still work.',
+    dombi: 'On Home and in lessons he only watches. Tap him on Home to open his own screen, where everything works.' };
+  const size = () => ({ w: screenEl.clientWidth, h: screenEl.clientHeight });
+  const floorY = () => size().h - 44, homeX = () => size().w * 0.42;
+  const fire = (t) => D.trigger(t).trigger(), play = (v) => { D.enum('play').value = v; }, mood = (v) => { D.enum('mood').value = v; };
+  const active = () => { S.lastAct = performance.now(); };
+  function apply() { el.style.transform = `translate(${S.x - FEET.x}px, ${S.y - FEET.y}px) rotate(${S.rot}deg) scaleX(${S.flip})`; }
+  const local = (e) => { const b = screenEl.getBoundingClientRect(); return { x: e.clientX - b.left, y: e.clientY - b.top }; };
+  const overBody = (p) => Math.hypot(p.x - (S.x - FEET.x + BODY.x), p.y - (S.y - FEET.y + BODY.y)) < BODY.r + 8;
+
+  // ---------- eye tracking ----------
+  let lookTimer = 0;
+  function lookAt(p) { if (!D) return; const ex = S.x, ey = S.y - 95; D.boolean('looking').value = true;
+    D.number('lookX').value = clamp((p.x - ex) / 2.2, -100, 100) * S.flip; D.number('lookY').value = clamp((p.y - ey) / 2.2, -100, 100);
+    clearTimeout(lookTimer); lookTimer = setTimeout(() => { if (S.mode !== 'held') { D.boolean('looking').value = false; D.number('lookX').value = 0; D.number('lookY').value = 0; } }, 2500); }
+  screenEl.addEventListener('pointermove', (e) => { if (S.mode === 'idle' || S.mode === 'perched') lookAt(local(e)); });
+
+  // ---------- press / tap / hold / rub ----------
+  let press = null;
+  el.addEventListener('pointerdown', (e) => {
+    if (!D || rule() === 'none') return; const p = local(e); if (!overBody(p) && !(S.hf && overHand(p))) return;
+    e.preventDefault(); el.setPointerCapture(e.pointerId); active();
+    if (pointers.size >= 1) { pointers.set(e.pointerId, p); return; }      // second finger = pinch
+    pointers.set(e.pointerId, p);
+    press = { id: e.pointerId, start: p, last: p, t: performance.now(), moved: 0, mode: 'press' };
+    press.timer = setTimeout(() => { if (press && rule() === 'all' && press.mode === 'press' && press.moved < 10 && !['asleep', 'back', 'hidden', 'flying', 'falling'].includes(S.mode)) startCarry(press.last); }, 300);
+  });
+  el.addEventListener('pointermove', (e) => {
+    const p = local(e); if (pointers.has(e.pointerId)) pointers.set(e.pointerId, p);
+    if (pointers.size === 2) return pinchMove();
+    if (!press || e.pointerId !== press.id) return;
+    press.moved += Math.hypot(p.x - press.last.x, p.y - press.last.y); press.last = p; active();
+    if (press.mode === 'press' && rule() !== 'open' && press.moved > 12 && performance.now() - press.t < 300 && S.mode !== 'asleep') { press.mode = 'pet'; clearTimeout(press.timer); play('pet'); log('petting'); buzz(5); }
+    if (press.mode === 'carry') { const nowT = performance.now(), prev = S.trail[S.trail.length - 1]; S.tx = p.x; S.ty = p.y - 4; S.trail.push({ x: p.x, y: p.y, t: nowT }); if (S.trail.length > 16) S.trail.shift();
+      // shaken = the FINGER reverses direction fast, 5 times within 0.9 s (measured on pointer events, so it does not depend on frame rate)
+      if (prev && nowT > prev.t) { const fvx = (p.x - prev.x) / ((nowT - prev.t) / 1000), sg = Math.abs(fvx) > 380 ? Math.sign(fvx) : 0;
+        if (sg && sg !== S.lastVxSign) { S.lastVxSign = sg; S.shakeHits.push(nowT); S.shakeHits = S.shakeHits.filter(t => nowT - t < 900);
+          if (S.shakeHits.length >= 5 && nowT - S.dizzyAt > 2600) { S.dizzyAt = nowT; S.shakeHits = []; fire('dizzy'); buzz([10, 30, 10, 30, 10]); log('dizzy'); } } } }
+  });
+  const up = (e) => {
+    pointers.delete(e.pointerId); if (pinch && pointers.size < 2) pinchEnd();
+    if (!press || e.pointerId !== press.id) return; clearTimeout(press.timer); const pr = press; press = null; active();
+    if (pr.mode === 'carry') return release();
+    if (pr.mode === 'pet') { play(S.perch || 'none'); fire('ahem'); log('“that was nothing”'); return; }
+    if (performance.now() - pr.t < 300 && pr.moved < 12) tap(pr.start);
+  };
+  el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+
+  function tap(p) {
+    const now = performance.now();
+    if (rule() === 'open') return setScreen('dombi');
+    if (S.hf && overHand(p)) return clap();
+    if (S.mode === 'asleep') return wake();
+    if (S.mode === 'back') return;
+    if (now - S.lastTap < 300) { S.lastTap = 0; S.pokes = Math.max(0, S.pokes - 1); return trick(); }
+    S.lastTap = now;
+    if (now - S.lastPoke > 4000) S.pokes = 0; S.lastPoke = now; S.pokes++;
+    buzz(8);
+    if (S.pokes === 1) { fire('poke1'); log('poke 1: wobble + side-eye'); }
+    else if (S.pokes === 2) { fire('poke2'); log('poke 2: one lid drops'); }
+    else if (S.pokes === 3) { fire('poke3'); log('poke 3: pushes your finger away'); buzz([10, 40, 10]); }
+    else { S.pokes = 0; const was = S.mode; S.mode = 'back'; play('back'); log('poke 4: turns his back'); setTimeout(() => { if (S.mode === 'back') { S.mode = was === 'perched' ? 'perched' : 'idle'; play(S.perch || 'none'); } }, 3000); }
+  }
+  function trick() { const list = ['trickSpin', 'trickFlick', 'trickShades']; let i; do { i = Math.floor(Math.random() * list.length); } while (i === S.lastTrick); S.lastTrick = i;
+    if (list[i] === 'trickFlick') { mood('wink'); setTimeout(() => mood('smirk'), 800); }
+    fire(list[i]); log('double-tap: ' + list[i].slice(5).toLowerCase()); buzz(12); }
+
+  // ---------- carry ----------
+  function startCarry(p) { press.mode = 'carry'; S.mode = 'held'; S.perch = null; S.hf = false; S.tx = p.x; S.ty = p.y - 4; S.flip = 1; S.rot = 0; S.spin = 0;
+    S.trail = []; fire('hop'); play('held'); mood('smirk'); D.boolean('looking').value = true; buzz(15); log('carried'); $('hint').textContent = 'let go to drop · throw him · drop him on the card or by the flame'; }
+  function release() {
+    D.number('swing').value = 0; D.number('squish').value = 0; D.number('amp').value = 0; D.boolean('looking').value = false; D.number('lookX').value = 0; D.number('lookY').value = 0;
+    // throw speed comes from the finger (last ~90 ms), not from his body, which lags behind on a spring
+    const now = performance.now(); let tr = S.trail.filter(q => now - q.t < 130); if (tr.length < 2) tr = S.trail.slice(-3).filter(q => now - q.t < 260);   // widen the window when events are sparse (slow device)
+    if (tr.length >= 2 && tr[tr.length - 1].t > tr[0].t) { const dtm = (tr[tr.length - 1].t - tr[0].t) / 1000; S.vx = (tr[tr.length - 1].x - tr[0].x) / dtm; S.vy = (tr[tr.length - 1].y - tr[0].y) / dtm; }
+    else { S.vx *= 0.4; S.vy *= 0.4; }
+    S.vx = clamp(S.vx, -2600, 2600); S.vy = clamp(S.vy, -2600, 2600);
+    const sp = Math.hypot(S.vx, S.vy), { w, h } = size();
+    if (S.x < -10 || S.x > w + 10 || S.y < 0 || S.y > h + 60) return hide();
+    if (sp > 1500 && Math.abs(S.vx) > Math.abs(S.vy) * 1.6 && sp > 2100) { S.mode = 'exit'; play('none'); log('swiped off the edge'); return; }
+    if (sp > 900) { S.mode = 'flying'; S.spin = clamp(S.vx * 0.9, -900, 900); play('none'); log('thrown: tumbling'); return; }
+    S.mode = 'falling'; S.vx *= 0.3; play('none'); log('dropped');
+  }
+  // ---------- drop zones ----------
+  function zoneAt() { const b = screenEl.getBoundingClientRect(), c = $('card').getBoundingClientRect(), f = $('flameSpot').getBoundingClientRect();
+    const card = { l: c.left - b.left, r: c.right - b.left, top: c.top - b.top }, fl = { x: f.left - b.left, w: f.width };
+    if (S.x > card.l + 20 && S.x < card.r - 20 && S.y <= card.top + 30) return { kind: 'peek', y: card.top + 4 };
+    if (S.x > fl.x - 80 && S.x < fl.x + 12) return { kind: 'warm', y: floorY(), x: fl.x - 62 };
+    return { kind: 'floor', y: floorY() }; }
+  function landed(zone, hard) { S.vy = 0; S.vx = 0; S.rot = 0; S.spin = 0; S.y = zone.y; fire('land'); buzz(hard ? [20, 30, 10] : 18);
+    if (zone.kind === 'peek') { S.mode = 'perched'; S.perch = 'peek'; setTimeout(() => { if (S.perch === 'peek') play('peek'); }, 420); log('sitting on the card, peeking'); return; }
+    if (zone.kind === 'warm') { S.mode = 'perched'; S.perch = 'warm'; S.x = zone.x; mood('happy'); setTimeout(() => { if (S.perch === 'warm') play('warm'); }, 420); log('warming his hands'); return; }
+    S.mode = 'recover'; const wait = hard ? 1500 : 700; if (hard) setTimeout(() => fire('smug'), 520);
+    setTimeout(() => { if (S.mode === 'recover') walkHome(); }, wait); }
+  function walkHome() { if (Math.abs(S.x - homeX()) < 6) { S.mode = 'idle'; play('none'); S.flip = 1; $('hint').textContent = 'hold him to pick him up'; return; }
+    S.mode = 'walking'; S.flip = homeX() < S.x ? -1 : 1; play('walk'); log('walking back to his spot'); }
+  // ---------- hide & peek ----------
+  function hide() { S.mode = 'hidden'; play('none'); el.style.visibility = 'hidden'; log('gone…');
+    setTimeout(() => { const { w, h } = size(), side = Math.random() < 0.5 ? 'left' : 'right'; el.style.visibility = 'visible'; S.mode = 'peeking'; S.flip = 1;
+      S.y = h * 0.5; S.rot = side === 'left' ? 24 : -24; S.x = side === 'left' ? -70 : w + 70; S.peekTo = side === 'left' ? 8 : w - 8; S.peekT = performance.now();
+      D.boolean('looking').value = true; D.number('lookX').value = side === 'left' ? 80 : -80; D.number('lookY').value = 0; log('peeking back in from the ' + side); }, 700); }
+  // ---------- high-five ----------
+  const handPos = () => ({ x: S.x - FEET.x + 185, y: S.y - FEET.y + 66 });
+  const overHand = (p) => { const h = handPos(); return Math.hypot(p.x - h.x, p.y - h.y) < 30; };
+  function clap() { S.hf = false; clearTimeout(S.hfTimer); fire('clap'); const h = handPos(); $('pop').style.left = (h.x - 100) + 'px'; $('pop').style.top = (h.y - 100) + 'px';
+    POP.color('color').value = 0xFFFFC800; POP.trigger('fire').trigger(); buzz([15, 20, 25]); log('high-five!'); mood('happy'); setTimeout(() => { play(S.perch || 'none'); mood('smirk'); }, 520); }
+  $('bCorrect').onclick = () => { if (!D || !['idle', 'perched'].includes(S.mode)) return; active(); fire('correct'); log('correct… and a hand comes up');
+    setTimeout(() => { if (!['idle', 'perched'].includes(S.mode)) return; S.hf = true; play('highfive'); S.hfTimer = setTimeout(() => { if (S.hf) { S.hf = false; fire('playoff'); play(S.perch || 'none'); log('ignored: he plays it off'); } }, 2800); }, 1000); };
+  // ---------- sleep / wake ----------
+  function sleep() { if (S.mode !== 'idle' && S.mode !== 'perched') return; S.mode = 'asleep'; mood('sleepy'); play('sleep'); log('asleep (tap him)'); }
+  function wake() { fire('wake'); log('one eye first…'); buzz(10); setTimeout(() => { mood('smirk'); play(S.perch || 'none'); S.mode = S.perch ? 'perched' : 'idle'; active(); }, 950); }
+  $('bSleep').onclick = sleep;
+  // ---------- pinch ----------
+  const pointers = new Map(); let pinch = null, wheelTimer = 0;
+  function pinchMove() { if (rule() !== 'all') return; const [a, b] = [...pointers.values()], d = Math.hypot(a.x - b.x, a.y - b.y); if (!pinch) { pinch = { d0: d }; if (press) { clearTimeout(press.timer); press = null; } }
+    S.stretch = clamp((d - pinch.d0) * 0.6, 0, 100); D.number('stretch').value = S.stretch; }
+  function pinchEnd() { pinch = null; S.stretch = 0; D.number('stretch').value = 0; fire('snap'); buzz(12); log('snap'); }
+  el.addEventListener('wheel', (e) => { if (!D || rule() !== 'all') return; e.preventDefault(); active(); S.stretch = clamp(S.stretch + Math.abs(e.deltaY) * 0.22, 0, 100); D.number('stretch').value = S.stretch; log('stretching like gum');
+    clearTimeout(wheelTimer); wheelTimer = setTimeout(() => { S.stretch = 0; D.number('stretch').value = 0; fire('snap'); log('snap'); }, 240); }, { passive: false });
+  // ---------- phone things ----------
+  $('tilt').oninput = () => { S.tilt = +$('tilt').value; active(); };
+  addEventListener('deviceorientation', (e) => { if (e.gamma != null && Math.abs(e.gamma) > 3) { S.tilt = clamp(e.gamma, -45, 45); } });
+  function shakePhone() { if (!D || ['held', 'hidden', 'peeking'].includes(S.mode)) return; active(); S.perch = null; S.mode = 'flying'; S.shook = true; S.vx = (Math.random() < 0.5 ? -1 : 1) * (700 + Math.random() * 500); S.vy = -900 - Math.random() * 300; S.spin = S.vx * 0.7; play('none'); log('phone shaken'); }
+  $('bShake').onclick = shakePhone;
+  let lastMotion = 0; addEventListener('devicemotion', (e) => { const a = e.acceleration; if (a && Math.hypot(a.x || 0, a.y || 0, a.z || 0) > 22 && performance.now() - lastMotion > 1500) { lastMotion = performance.now(); shakePhone(); } });
+  const blow = (on) => { if (!D) return; if (on && S.mode === 'idle') { S.mode = 'wind'; play('wind'); log('whoosh'); } else if (!on && S.mode === 'wind') { S.mode = 'idle'; play('none'); } };
+  $('bBlow').addEventListener('pointerdown', () => blow(true)); addEventListener('pointerup', () => blow(false));
+  function setScreen(name) { S.screen = name; for (const [id, n2] of [['tabHome', 'home'], ['tabLesson', 'lesson'], ['tabDombi', 'dombi']]) $(id).setAttribute('aria-pressed', n2 === name);
+    $('card').style.display = name === 'home' ? '' : 'none'; $('exercise').style.display = name === 'lesson' ? 'block' : 'none'; $('dtitle').style.display = name === 'dombi' ? 'block' : 'none';
+    $('chips').style.display = name === 'lesson' ? 'none' : 'flex'; $('flameSpot').style.display = name === 'lesson' ? 'none' : '';
+    S.perch = null; S.hf = false; S.pokes = 0; if (D) { play('none'); mood('smirk'); } S.mode = 'idle'; S.x = homeX(); S.y = floorY(); S.rot = 0; S.flip = 1; el.style.visibility = 'visible';
+    const r = rule(); $('hint').textContent = r === 'all' ? 'hold him to pick him up' : r === 'nocarry' ? 'exercise active: tap him, but he stays put' : r === 'open' ? 'tap him to open his screen' : 'he only watches here';
+    log(name + ' screen · ' + (r === 'all' ? 'everything works' : r === 'nocarry' ? 'taps only, carrying locked' : r === 'open' ? 'tap opens the Dombi screen' : 'touch locked, eyes follow')); }
+  window.setScreen = setScreen;
+  $('tabHome').onclick = () => setScreen('home'); $('tabLesson').onclick = () => setScreen('lesson'); $('tabDombi').onclick = () => setScreen('dombi');
+  const setPolicy = (v) => { S.policy = v; $('policy').value = v; $('tabDombi').style.display = v === 'dombi' ? '' : 'none'; $('policyNote').textContent = NOTE[v]; setScreen(S.screen === 'dombi' && v !== 'dombi' ? 'home' : S.screen); };
+  $('policy').onchange = () => setPolicy($('policy').value); window.setPolicy = setPolicy; $('policyNote').textContent = NOTE.everywhere;
+  $('bMic').onclick = async () => { if (S.mic) { S.mic.stream.getTracks().forEach(t => t.stop()); S.mic = null; $('bMic').setAttribute('aria-pressed', false); return; }
+    try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }), ctx = new AudioContext(), an = ctx.createAnalyser(); an.fftSize = 512; ctx.createMediaStreamSource(stream).connect(an);
+      S.mic = { stream, an, buf: new Uint8Array(an.fftSize), level: 0 }; $('bMic').setAttribute('aria-pressed', true); log('mic on: hold him and talk, or blow at him'); } catch (err) { log('no mic: ' + err.message); } };
+  // ---------- feeding ----------
+  document.querySelectorAll('.chip').forEach(ch => { let d = null;
+    ch.addEventListener('pointerdown', (e) => { if (rule() !== 'all') return; ch.setPointerCapture(e.pointerId); d = { x: e.clientX, y: e.clientY }; ch.classList.add('drag'); active(); });
+    ch.addEventListener('pointermove', (e) => { if (!d) return; ch.style.transform = `translate(${e.clientX - d.x}px, ${e.clientY - d.y}px)`; if (D && (S.mode === 'idle' || S.mode === 'perched')) lookAt(local(e)); });
+    ch.addEventListener('pointerup', (e) => { if (!d) return; d = null; ch.classList.remove('drag'); const p = local(e);
+      if (D && overBody(p) && ['idle', 'perched'].includes(S.mode)) { ch.style.visibility = 'hidden'; fire('eat'); buzz([8, 60, 8, 60, 14]); log('eating “' + ch.dataset.w + '”');
+        const wEl = $('word'); wEl.textContent = ch.dataset.w; wEl.animate([{ opacity: 0, transform: 'scale(.6)' }, { opacity: 1, transform: 'scale(1)', offset: .25 }, { opacity: 1, offset: .75 }, { opacity: 0, transform: 'scale(.9)' }], { duration: 1700, delay: 620 });
+        setTimeout(() => { ch.style.transform = ''; ch.style.visibility = 'visible'; }, 3200); }
+      else ch.style.transform = ''; }); });
+
+  // ---------- main loop ----------
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.033, (now - last) / 1000); last = now; const { w, h } = size();
+    if (D) {
+      if (S.mic) {   // live mic level (0-100), fast attack / slow release
+        S.mic.an.getByteTimeDomainData(S.mic.buf); let pk = 0; for (const v of S.mic.buf) pk = Math.max(pk, Math.abs(v - 128)); const t = clamp(pk * 2.2, 0, 100);
+        S.mic.level += (t - S.mic.level) * (t > S.mic.level ? 0.5 : 0.12);
+        // blowing = loud and steady for 0.25 s while he's just standing there -> leans back in the wind until it stops
+        S.mic.loud = S.mic.level > 78 ? (S.mic.loud || 0) + dt : 0;
+        if (S.mic.loud > 0.25 && S.mode === 'idle') { S.micWind = true; blow(true); }
+        if (S.micWind && S.mic.level < 45) { S.micWind = false; blow(false); }
+      }
+      if (S.mode === 'held') {
+        const ox = S.vx, oy = S.vy, k = 130, c = 15;                                   // spring toward the finger: he lags a little
+        S.vx += ((S.tx - S.x) * k - S.vx * c) * dt; S.vy += ((S.ty - S.y) * k - S.vy * c) * dt; S.x += S.vx * dt; S.y += S.vy * dt;
+        const ax = (S.vx - ox) / dt, ay = (S.vy - oy) / dt;
+        S.swingV += (-ax * 0.012 - S.swing * 70 - S.swingV * 7) * dt; S.swing = clamp(S.swing + S.swingV * dt, -38, 38);   // jelly pendulum on the fingertip
+        S.squish += (clamp(-ay * 0.012, -70, 70) - S.squish) * 0.25;
+        D.number('swing').value = S.swing; D.number('squish').value = S.squish;
+        D.number('lookX').value = clamp(S.vx / 6, -100, 100); D.number('lookY').value = clamp(S.vy / 6, -100, 100);
+        if (S.mic) D.number('amp').value = S.mic.level;   // talk to him while he's held: he squashes with your voice
+      } else if (S.mode === 'falling' || S.mode === 'flying' || S.mode === 'exit') {
+        S.vy += 2600 * dt; S.x += S.vx * dt; S.y += S.vy * dt; S.rot += S.spin * dt;
+        if (S.mode === 'exit') { if (S.x < -140 || S.x > w + 140 || S.y > h + 200) hide(); }
+        else {
+          if (S.x < 50) { S.x = 50; S.vx = Math.abs(S.vx) * 0.55; S.spin *= -0.6; buzz(8); } if (S.x > w - 50) { S.x = w - 50; S.vx = -Math.abs(S.vx) * 0.55; S.spin *= -0.6; buzz(8); }
+          if (S.y < 110 && S.vy < 0) { S.y = 110; S.vy = Math.abs(S.vy) * 0.5; }
+          const z = S.mode === 'falling' ? zoneAt() : { kind: 'floor', y: floorY() };
+          if (S.y >= z.y && S.vy > 0) {
+            if (S.mode === 'flying' && S.vy > 700) { S.y = z.y; S.vy = -S.vy * 0.42; S.vx *= 0.7; S.spin *= 0.5; buzz(10); }        // bounce
+            else { const hard = S.mode === 'flying'; landed(hard ? { kind: 'floor', y: floorY() } : z, hard); if (S.shook) { S.shook = false; setTimeout(() => fire('shook'), 450); } }
+          }
+        }
+      } else if (S.mode === 'walking') {
+        const dir = Math.sign(homeX() - S.x); S.x += dir * 95 * dt; if (Math.abs(S.x - homeX()) < 4) { S.x = homeX(); S.mode = 'idle'; play('none'); S.flip = 1; log(''); $('hint').textContent = 'hold him to pick him up'; }
+      } else if (S.mode === 'peeking') {
+        const t = (now - S.peekT) / 1000; if (t < 0.5) S.x += (S.peekTo - S.x) * 0.16;
+        if (t > 1.9) { S.mode = 'flying'; S.vy = -500; S.vx = (homeX() - S.x) * 1.5; S.spin = 0; S.rot = 0; D.boolean('looking').value = false; D.number('lookX').value = 0; log('hops back in'); }
+      } else if (S.mode === 'idle') {
+        if (Math.abs(S.tilt) > 2) { S.vx += S.tilt * 26 * dt; S.vx *= 0.96; S.x = clamp(S.x + S.vx * dt, 60, w - 60); if (S.x === 60 || S.x === w - 60) S.vx = 0; S.swingT = -S.tilt * 0.45; S.slid = true; }
+        else { S.swingT = 0; S.vx = 0; if (S.slid) { S.slid = false; walkHome(); } }
+        S.swing += ((S.swingT || 0) - S.swing) * 0.12; D.number('swing').value = S.swing;
+        if (now - S.lastAct > 22000) sleep();
+      }
+    }
+    apply(); requestAnimationFrame(frame);
+  }
+  Promise.all([mk('c', 'Dombi', 'Dombi'), mk('pop', 'FX Pop', 'State Machine 1'), mk('flame', 'Streak Flame', 'State Machine 1')]).then(([d, p, f]) => {
+    D = d; POP = p; FLAME = f; FLAME.boolean('lit').value = true; S.x = homeX(); S.y = floorY(); window.dombi = D; window.playReady = true; requestAnimationFrame(frame); });
+})();
+</script>
+</body>
+</html>
