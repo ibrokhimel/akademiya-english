@@ -1,0 +1,17 @@
+{
+  "name": "rive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dombi_engine.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@rive-app/canvas": "^2.42.2",
+    "cmu-pronouncing-dictionary": "^3.0.0"
+  }
+}
