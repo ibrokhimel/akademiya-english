@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dombi Engine</title>
+<style>
+  :root { --bg: #F7F5FF; --card: #FFFFFF; --text: #2B2B3C; --muted: #6E6E82; --violet: #7B5CFF; --line: #E5E5E5; --green: #58CC02; --coral: #FF6B5E; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 600 15px/1.4 Nunito, system-ui, sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 24px; font-weight: 900; margin: 0 0 4px; }
+  p { color: var(--muted); margin: 0 0 16px; }
+  .stage { background: var(--card); border-radius: 24px; display: grid; place-items: center; padding: 16px; }
+  canvas { width: 340px; height: 300px; max-width: 100%; cursor: pointer; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 20px 0 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--card);
+           color: var(--text); border-radius: 14px; padding: 8px 14px; cursor: pointer; }
+  button[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
+  button.good { border-color: #46A302; background: var(--green); color: #fff; }
+  button.bad { border-color: #D94B40; background: var(--coral); color: #fff; }
+  label.inline { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+  input[type=range] { width: 180px; }
+  #state { font: 12px/1.5 ui-monospace, monospace; color: var(--muted); margin-top: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Dombi engine</h1>
+  <p>One rig, one state machine. Breathing, blinks, glances and idle breaks run on their own. Click him to poke him.</p>
+  <div class="stage"><canvas id="c" width="680" height="600"></canvas></div>
+
+  <h2>Answer reactions</h2>
+  <div class="row"><button class="good" id="correct">Correct</button><button class="bad" id="wrong">Wrong</button></div>
+
+  <h2>Mood</h2><div class="row" id="moods"></div>
+  <h2>Gesture (intro, then idle loop)</h2><div class="row" id="gestures"></div>
+
+  <h2>Listening</h2>
+  <div class="row">
+    <button id="listening" aria-pressed="false">Listening</button>
+    <label class="inline">Voice level <input id="amp" type="range" min="0" max="100" value="0"></label>
+    <button id="fakeVoice" aria-pressed="false">Simulate a voice</button>
+  </div>
+  <p style="margin:8px 0 0;font-size:13px">With Listening on and the level at 0 for 1.5 s he tilts his head (“can’t hear you”). The level also makes his body pulse.</p>
+
+  <h2>Look at things</h2>
+  <div class="row"><button id="follow" aria-pressed="false">Eyes follow the mouse</button></div>
+
+  <h2>Enter / exit</h2>
+  <div class="row"><button id="hidden" aria-pressed="false">Hidden</button></div>
+
+  <div id="state"></div>
+</main>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script>
+  const MOODS = ['smirk','happy','laugh','talk','listen','think','surprised','sleepy','wink','proud','focus','confused','oops'];
+  const GESTURES = ['none','wave','celebrate','thinking','point'];
+  const $ = (id) => document.getElementById(id);
+  let vmi = null;
+  const r = new rive.Rive({
+    src: 'out/dombi.riv', canvas: $('c'), artboard: 'Dombi', stateMachines: 'Dombi', autoplay: true, autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad: () => { r.resizeDrawingSurfaceToCanvas(); vmi = r.viewModelInstance; window.vmi = vmi; window.dombiReady = true; render(); },
+  });
+  window.set = (prop, value) => { vmi.enum(prop).value = value; render(); };
+  function buttons(el, prop, list) {
+    el.innerHTML = '';
+    for (const v of list) {
+      const b = document.createElement('button'); b.textContent = v;
+      b.setAttribute('aria-pressed', vmi && vmi.enum(prop).value === v);
+      b.onclick = () => set(prop, v); el.appendChild(b);
+    }
+  }
+  function render() {
+    buttons($('moods'), 'mood', MOODS); buttons($('gestures'), 'gesture', GESTURES);
+    $('state').textContent = vmi ? `mood=${vmi.enum('mood').value}  gesture=${vmi.enum('gesture').value}  listening=${vmi.boolean('listening').value}  amp=${Math.round(vmi.number('amp').value)}  hidden=${vmi.boolean('hidden').value}` : 'loading…';
+  }
+  $('correct').onclick = () => vmi.trigger('correct').trigger();
+  $('wrong').onclick = () => vmi.trigger('wrong').trigger();
+  const toggle = (id, prop, after) => $(id).onclick = () => { const on = $(id).getAttribute('aria-pressed') !== 'true'; $(id).setAttribute('aria-pressed', on); if (prop) vmi.boolean(prop).value = on; after && after(on); render(); };
+  toggle('listening', 'listening'); toggle('hidden', 'hidden');
+  $('amp').oninput = () => { vmi.number('amp').value = +$('amp').value; render(); };
+  let fake = 0;
+  toggle('fakeVoice', null, (on) => { cancelAnimationFrame(fake); if (!on) { vmi.number('amp').value = 0; $('amp').value = 0; return; }
+    let level = 0; const tick = () => { const t = performance.now() / 1000;   // syllable-like bursts, smoothed
+      const target = Math.max(0, Math.sin(t * 9) * 0.6 + Math.sin(t * 3.1) * 0.5) * 100 * (Math.sin(t * 0.9) > -0.5 ? 1 : 0);
+      level += (target - level) * (target > level ? 0.5 : 0.12); vmi.number('amp').value = level; $('amp').value = level; fake = requestAnimationFrame(tick); }; tick(); });
+  toggle('follow', 'looking', (on) => { if (!on) { vmi.number('lookX').value = 0; vmi.number('lookY').value = 0; } });
+  addEventListener('mousemove', (e) => { if (!vmi || $('follow').getAttribute('aria-pressed') !== 'true') return;
+    const b = $('c').getBoundingClientRect(), cx = b.left + b.width / 2, cy = b.top + b.height * 0.45;
+    const cl = (v) => Math.max(-100, Math.min(100, v));
+    vmi.number('lookX').value = cl((e.clientX - cx) / 3); vmi.number('lookY').value = cl((e.clientY - cy) / 3); });
+</script>
+</body>
+</html>
