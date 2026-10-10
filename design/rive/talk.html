@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dombi Talk Test</title>
+<style>
+  :root { --bg: #F7F5FF; --card: #FFFFFF; --text: #2B2B3C; --muted: #6E6E82; --violet: #7B5CFF; --violet-soft: #EFEBFF; --line: #E5E5E5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 600 15px/1.45 Nunito, system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; display: grid; gap: 16px; }
+  h1 { font-size: 24px; font-weight: 900; margin: 0; }
+  p.sub { color: var(--muted); margin: 4px 0 0; }
+  .top { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+  @media (max-width: 720px) { .top { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border-radius: 22px; padding: 16px; }
+  .stage { display: grid; place-items: center; gap: 8px; }
+  canvas { width: 260px; height: 230px; max-width: 100%; }
+  #shape { font: 900 20px Nunito, sans-serif; color: var(--violet); min-height: 28px; }
+  textarea { width: 100%; min-height: 110px; font: inherit; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; resize: vertical; color: var(--text); }
+  label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: block; margin: 10px 0 4px; }
+  select, input[type=range] { width: 100%; font: inherit; }
+  select { border: 2px solid var(--line); border-radius: 12px; padding: 7px 10px; background: #fff; color: var(--text); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--card); color: var(--text);
+           border-radius: 14px; padding: 9px 16px; cursor: pointer; }
+  button.primary { background: var(--violet); border-color: #5B3FD9; color: #fff; }
+  button.small { padding: 5px 10px; font-size: 13px; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .note.warn { color: #C2410C; }
+  #words { display: flex; flex-wrap: wrap; gap: 10px; }
+  .w { background: var(--violet-soft); border-radius: 14px; padding: 6px 8px; }
+  .w.on { outline: 3px solid var(--violet); }
+  .w b { display: block; font-size: 14px; }
+  .w small { color: var(--muted); font-size: 11px; display: block; }
+  .chips { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 4px; }
+  .chip { font-size: 10px; font-weight: 800; background: #fff; border-radius: 6px; padding: 1px 5px; color: var(--muted); }
+  .chip.on { background: var(--violet); color: #fff; }
+</style>
+</head>
+<body>
+<main>
+  <div><h1>Dombi talk test</h1><p class="sub">Type something, pick the language, press Speak. The mouth follows the sounds of the text.</p></div>
+  <div class="top">
+    <div class="card stage"><canvas id="c" width="520" height="460"></canvas><div id="shape">—</div></div>
+    <div class="card">
+      <textarea id="text"></textarea>
+      <div class="row">
+        <button class="small" data-sample="en">English sample</button>
+        <button class="small" data-sample="uz">O'zbek namuna</button>
+        <button class="small" data-sample="ru">Русский пример</button>
+      </div>
+      <label for="lang">Language</label>
+      <select id="lang"><option value="en">English</option><option value="uz">O'zbek</option><option value="ru">Русский</option></select>
+      <label for="voice">Voice</label>
+      <select id="voice"></select>
+      <div class="note" id="voiceNote"></div>
+      <label for="rate">Speed <span id="rateVal">1.0</span></label>
+      <input id="rate" type="range" min="0.6" max="1.4" step="0.05" value="1">
+      <label for="mood">Mood while talking</label>
+      <select id="mood"><option>smirk</option><option>happy</option><option>laugh</option><option>talk</option><option>listen</option><option>think</option><option>surprised</option><option>sleepy</option><option>wink</option><option>proud</option><option>focus</option><option>confused</option><option>oops</option></select>
+      <div class="row">
+        <button class="primary" id="speak">Speak</button>
+        <button id="silent">Mouth only (no voice)</button>
+        <button id="stop">Stop</button>
+      </div>
+      <div class="note" id="status"></div>
+    </div>
+  </div>
+  <div class="card"><label style="margin-top:0">Words → mouth shapes</label><div id="words"></div></div>
+</main>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script type="module">
+import { buildTrack, visemeAt, VNAME } from './talk/engine.js';
+const $ = (id) => document.getElementById(id);
+const SAMPLES = {
+  en: "Hello! I'm Dombi. Let's practise speaking English together. Can I have a cup of coffee, please?",
+  uz: "Salom! Men Dombi. Keling, birga ingliz tilida gaplashamiz. Rahmat, o'qituvchi!",
+  ru: 'Привет! Я Домби. Давай вместе говорить по-английски. Спасибо, хорошо!',
+};
+const LANG_TAG = { en: 'en', uz: 'uz', ru: 'ru' };
+let dict = null, vmi = null, riveReady = false;
+$('text').value = SAMPLES.en;
+
+// ---- Rive ----
+const r = new rive.Rive({ src: 'out/dombi.riv', canvas: $('c'), artboard: 'Dombi', stateMachines: 'Dombi', autoplay: true, autoBind: true,
+  layout: new rive.Layout({ fit: rive.Fit.Contain }),
+  onLoad: () => { r.resizeDrawingSurfaceToCanvas(); vmi = r.viewModelInstance; riveReady = true; vmi.enum('mood').value = $('mood').value; } });
+const setV = (v) => { if (vmi) vmi.number('viseme').value = v; $('shape').textContent = VNAME[v]; };
+const setTalking = (b) => { if (vmi) vmi.boolean('talking').value = b; if (!b) $('shape').textContent = '—'; };
+$('mood').onchange = () => vmi && (vmi.enum('mood').value = $('mood').value);
+
+// ---- English dictionary (loaded on demand, ~4.7 MB) ----
+async function ensureDict() {
+  if (dict) return dict;
+  $('status').textContent = 'Loading the English dictionary…';
+  dict = (await import('./node_modules/cmu-pronouncing-dictionary/index.js')).dictionary;
+  $('status').textContent = '';
+  return dict;
+}
+
+// ---- voices ----
+function fillVoices() {
+  const lang = $('lang').value, all = speechSynthesis.getVoices();
+  const list = all.filter(v => v.lang.toLowerCase().startsWith(LANG_TAG[lang]));
+  list.sort((a, b) => (/natural|online/i.test(b.name) - /natural|online/i.test(a.name)));
+  $('voice').innerHTML = list.map(v => `<option value="${v.name}">${v.name} (${v.lang})</option>`).join('') || '<option value="">No voice for this language</option>';
+  const n = $('voiceNote');
+  if (!list.length) { n.className = 'note warn'; n.textContent = lang === 'uz'
+      ? "No Uzbek voice in this browser. Open this page in Microsoft Edge (voices Madina / Sardor), or use “Mouth only”."
+      : 'No voice for this language here. Use “Mouth only”, or try Microsoft Edge.'; }
+  else { n.className = 'note'; n.textContent = /google/i.test(list[0].name) ? 'Google voices send no word timing, so the mouth runs on its own clock.' : ''; }
+}
+speechSynthesis.onvoiceschanged = fillVoices; fillVoices();
+$('lang').onchange = () => { fillVoices(); };
+document.querySelectorAll('[data-sample]').forEach(b => b.onclick = () => { $('lang').value = b.dataset.sample; $('text').value = SAMPLES[b.dataset.sample]; fillVoices(); });
+$('rate').oninput = () => $('rateVal').textContent = (+$('rate').value).toFixed(2);
+
+// ---- word strip ----
+function renderWords(track) {
+  $('words').innerHTML = track.words.map((w, wi) => {
+    const segs = track.segs.filter(s => s.wi === wi && s.ph !== ',' && s.ph !== '.');
+    return `<div class="w" data-w="${wi}"><b>${w.text}</b><small>${w.phones.map(p => p.ph).join(' ')}</small>
+      <div class="chips">${segs.map(s => `<span class="chip" data-s="${track.segs.indexOf(s)}">${VNAME[s.v]}</span>`).join('')}</div></div>`;
+  }).join('');
+}
+function highlight(track, ms) {
+  let idx = -1; track.segs.forEach((s, i) => { if (s.start <= ms) idx = i; });
+  document.querySelectorAll('.chip.on, .w.on').forEach(e => e.classList.remove('on'));
+  if (idx < 0) return;
+  document.querySelector(`.chip[data-s="${idx}"]`)?.classList.add('on');
+  document.querySelector(`.w[data-w="${track.segs[idx].wi}"]`)?.classList.add('on');
+}
+
+// ---- playback ----
+let raf = 0, stopFlag = false;
+const LEAD = 30;   // show each shape ~30 ms before its sound
+const calib = JSON.parse(localStorage.getItem('dombiVoiceCalib') || '{}');   // per-voice speed factor (learned)
+
+function sentences(text) { return text.match(/[^.!?…]+[.!?…]*/g)?.map(s => s.trim()).filter(Boolean) || []; }
+
+async function play(withVoice) {
+  stop(); stopFlag = false;
+  const lang = $('lang').value, rate = +$('rate').value;
+  if (lang === 'en') await ensureDict();
+  if (!riveReady) { $('status').textContent = 'Dombi is still loading…'; return; }
+  vmi.enum('mood').value = $('mood').value;
+  const voice = speechSynthesis.getVoices().find(v => v.name === $('voice').value);
+  const parts = sentences($('text').value);
+  for (const part of parts) {
+    if (stopFlag) break;
+    const track = buildTrack(part, lang, { rate, dict });
+    renderWords(track);
+    if (withVoice && voice) await speakOne(part, track, voice, rate);
+    else await mouthOnly(track);
+  }
+  setTalking(false);
+}
+
+function mouthOnly(track) {
+  return new Promise(res => {
+    const t0 = performance.now(); setTalking(true);
+    const tick = () => {
+      const ms = performance.now() - t0;
+      if (stopFlag || ms > track.total) { setV(0); res(); return; }
+      setV(visemeAt(track, ms + LEAD)); highlight(track, ms); raf = requestAnimationFrame(tick);
+    };
+    tick();
+  });
+}
+
+function speakOne(text, track, voice, rate) {
+  return new Promise(res => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = voice; u.lang = voice.lang; u.rate = rate;
+    let t0 = 0, rateEMA = calib[voice.name] || 1, anchor = { wi: -1, real: 0, pred: 0 }, gotBoundary = false;
+    const wordAt = (ci) => { let wi = 0; track.words.forEach((w, i) => { if (w.char <= ci) wi = i; }); return wi; };
+    u.onstart = () => { t0 = performance.now(); setTalking(true); loop(); };
+    u.onboundary = (e) => {
+      if (e.name && e.name !== 'word') return;
+      gotBoundary = true;
+      const wi = wordAt(e.charIndex), real = performance.now() - t0, pred = track.words[wi].start;
+      if (anchor.wi >= 0 && wi > anchor.wi) {
+        const k = (real - anchor.real) / Math.max(1, pred - anchor.pred);
+        rateEMA = 0.7 * rateEMA + 0.3 * Math.min(2, Math.max(0.5, k));
+      }
+      anchor = { wi, real, pred };
+    };
+    const loop = () => {
+      const real = performance.now() - t0;
+      let pred = anchor.wi >= 0 ? anchor.pred + (real - anchor.real) / rateEMA : real / rateEMA;
+      const next = anchor.wi >= 0 ? track.words[anchor.wi + 1] : null;
+      if (gotBoundary && next && pred > next.start) pred = next.start - 1;   // ran ahead of the voice: hold, don't drift
+      setV(visemeAt(track, pred + LEAD)); highlight(track, pred);
+      raf = requestAnimationFrame(loop);
+    };
+    const done = () => {
+      cancelAnimationFrame(raf); setV(0);
+      const real = performance.now() - t0;
+      if (t0 && track.total > 300) {           // learn this voice's speed for next time
+        const k = Math.min(2, Math.max(0.5, real / track.total));
+        calib[voice.name] = calib[voice.name] ? 0.6 * calib[voice.name] + 0.4 * k : k;
+        localStorage.setItem('dombiVoiceCalib', JSON.stringify(calib));
+      }
+      $('status').textContent = gotBoundary ? 'Synced to the voice’s word timing.' : 'This voice sent no word timing; the mouth ran on its own clock (it learns the voice speed each time).';
+      res();
+    };
+    u.onend = done; u.onerror = done;
+    speechSynthesis.speak(u);
+  });
+}
+
+function stop() { stopFlag = true; speechSynthesis.cancel(); cancelAnimationFrame(raf); setTalking(false); }
+$('speak').onclick = () => play(true);
+$('silent').onclick = () => play(false);
+$('stop').onclick = stop;
+window.dombiTalk = { play, stop, buildTrack };
+</script>
+</body>
+</html>
