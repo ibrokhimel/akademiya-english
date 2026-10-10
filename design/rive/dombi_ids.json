@@ -1,0 +1,240 @@
+{
+ "artboard": "0-10187",
+ "root": "0-10199",
+ "squash": "0-10200",
+ "bodyShapes": [
+  {
+   "id": "0-10201",
+   "pathId": "0-10202",
+   "name": "bodyEdge",
+   "primitive": "ellipse",
+   "parentId": "0-10200"
+  },
+  {
+   "id": "0-10205",
+   "pathId": "0-10206",
+   "name": "body",
+   "primitive": "ellipse",
+   "parentId": "0-10200"
+  }
+ ],
+ "face": "0-10209",
+ "eyes": "0-10210",
+ "eyeShapes": [
+  {
+   "id": "0-10211",
+   "pathId": "0-10212",
+   "name": "eyeL",
+   "primitive": "rectangle",
+   "parentId": "0-10210"
+  },
+  {
+   "id": "0-10215",
+   "pathId": "0-10216",
+   "name": "eyeR",
+   "primitive": "rectangle",
+   "parentId": "0-10210"
+  },
+  {
+   "id": "0-10219",
+   "pathId": "0-10220",
+   "name": "lidL",
+   "primitive": "rectangle",
+   "parentId": "0-10210"
+  },
+  {
+   "id": "0-10223",
+   "pathId": "0-10224",
+   "name": "lidR",
+   "primitive": "rectangle",
+   "parentId": "0-10210"
+  }
+ ],
+ "handL": "0-10243",
+ "handLShapes": [
+  {
+   "id": "0-10244",
+   "pathId": "0-10245",
+   "name": "handLEdge",
+   "primitive": "ellipse",
+   "parentId": "0-10243"
+  },
+  {
+   "id": "0-10248",
+   "pathId": "0-10249",
+   "name": "handLFill",
+   "primitive": "ellipse",
+   "parentId": "0-10243"
+  }
+ ],
+ "handR": "0-10252",
+ "handRShapes": [
+  {
+   "id": "0-10253",
+   "pathId": "0-10254",
+   "name": "handREdge",
+   "primitive": "ellipse",
+   "parentId": "0-10252"
+  },
+  {
+   "id": "0-10257",
+   "pathId": "0-10258",
+   "name": "handRFill",
+   "primitive": "ellipse",
+   "parentId": "0-10252"
+  }
+ ],
+ "z1": "0-10261",
+ "z1Shapes": [
+  {
+   "id": "0-10262",
+   "pathId": "0-10263",
+   "name": "z1Top",
+   "primitive": "rectangle",
+   "parentId": "0-10261"
+  },
+  {
+   "id": "0-10266",
+   "pathId": "0-10267",
+   "name": "z1Bottom",
+   "primitive": "rectangle",
+   "parentId": "0-10261"
+  },
+  {
+   "id": "0-10270",
+   "pathId": "0-10271",
+   "name": "z1Diag",
+   "primitive": "rectangle",
+   "parentId": "0-10261"
+  }
+ ],
+ "z2": "0-10274",
+ "z2Shapes": [
+  {
+   "id": "0-10275",
+   "pathId": "0-10276",
+   "name": "z2Top",
+   "primitive": "rectangle",
+   "parentId": "0-10274"
+  },
+  {
+   "id": "0-10279",
+   "pathId": "0-10280",
+   "name": "z2Bottom",
+   "primitive": "rectangle",
+   "parentId": "0-10274"
+  },
+  {
+   "id": "0-10283",
+   "pathId": "0-10284",
+   "name": "z2Diag",
+   "primitive": "rectangle",
+   "parentId": "0-10274"
+  }
+ ],
+ "armL": "0-12696",
+ "armR": "0-12697",
+ "handRFront": "0-12698",
+ "handRFrontShapes": [
+  {
+   "id": "0-12699",
+   "pathId": "0-12700",
+   "name": "handRFrontEdge",
+   "primitive": "ellipse",
+   "parentId": "0-12698"
+  },
+  {
+   "id": "0-12703",
+   "pathId": "0-12704",
+   "name": "handRFrontFill",
+   "primitive": "ellipse",
+   "parentId": "0-12698"
+  }
+ ],
+ "lean": "0-12904",
+ "mouthShape": {
+  "id": "0-13379",
+  "path": "0-13380",
+  "verts": [
+   "0-13381",
+   "0-13382",
+   "0-13383"
+  ],
+  "paint": "0-13384",
+  "stroke": "0-16974"
+ },
+ "oldMouthDeleted": [
+  "0-10227",
+  "0-10231",
+  "0-10235",
+  "0-10239"
+ ],
+ "act": "0-14636",
+ "deletedMouthLine": {
+  "id": "0-13386",
+  "path": "0-13387",
+  "verts": [
+   "0-13388",
+   "0-13389",
+   "0-13390"
+  ],
+  "paint": "0-13391"
+ },
+ "react": "0-18501",
+ "look": "0-18502",
+ "stage": "0-18503",
+ "listen": "0-18808",
+ "voice": "0-18809",
+ "converters": {
+  "ampY": "0-18810",
+  "ampX": "0-18816",
+  "look": "0-18822"
+ },
+ "carry": "0-55453",
+ "gum": "0-55454",
+ "pose": "0-55455",
+ "once": "0-55456",
+ "shades": "0-55457",
+ "shadesShapes": [
+  "0-55458",
+  "0-55462",
+  "0-55466",
+  "0-55470",
+  "0-55474"
+ ],
+ "playBound": true,
+ "hat": "0-69116",
+ "hatShapes": [
+  "0-69117",
+  "0-69121",
+  "0-69125",
+  "0-69129",
+  "0-69133"
+ ],
+ "theme": {
+  "edge": [
+   "0-10204",
+   "0-10247",
+   "0-10256",
+   "0-12702"
+  ],
+  "body": [
+   "0-10208"
+  ],
+  "hand": [
+   "0-10251",
+   "0-10260",
+   "0-12706",
+   "0-10265",
+   "0-10269",
+   "0-10273",
+   "0-10278",
+   "0-10282",
+   "0-10286"
+  ],
+  "lids": [
+   "0-10222",
+   "0-10226"
+  ]
+ }
+}
