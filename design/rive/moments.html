@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya Moments</title>
+<style>
+  :root { --bg: #F7F5FF; --card: #FFFFFF; --text: #2B2B3C; --muted: #6E6E82; --violet: #7B5CFF; --violet-edge: #5B3FD9; --line: #E5E5E5; --edge: #B7B7B7;
+          --green: #58CC02; --green-edge: #46A302; --green-soft: #D7FFB8; --coral: #FF6B5E; --coral-edge: #D94B40; --red-soft: #FFDFE0; --gold: #FFC800; --gold-edge: #E0A800; --orange: #FF9600; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 700 15px/1.4 Nunito, system-ui, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; display: grid; grid-template-columns: 330px 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; } }
+  h1 { font-size: 22px; font-weight: 900; margin: 0 0 4px; } p { color: var(--muted); margin: 0 0 14px; font-size: 14px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btns button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--card); color: var(--text); border-radius: 14px; padding: 8px 14px; cursor: pointer; }
+  .wrap { width: 312px; height: 675px; position: relative; }                       /* 390×844 at 0.8 */
+  .phone { width: 390px; height: 844px; transform: scale(.8); transform-origin: 0 0; background: #fff; border-radius: 36px; position: relative; overflow: hidden; border: 3px solid var(--line); }
+  .top { position: absolute; left: 20px; right: 20px; top: 58px; display: flex; align-items: center; gap: 12px; }
+  .bar { flex: 1; height: 16px; border-radius: 8px; background: var(--line); position: relative; overflow: hidden; }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 35%; border-radius: 8px; background: var(--green); transition: width .32s cubic-bezier(.05,.7,.1,1), background .2s; overflow: hidden; }
+  .fill.gold { background: var(--gold); }
+  .sheen { position: absolute; top: 0; bottom: 0; width: 46px; left: -60px; background: rgba(255,255,255,.55); transform: skewX(-20deg); }
+  .pill { display: flex; align-items: center; gap: 5px; font-weight: 900; font-size: 16px; }
+  .pill .ico { width: 20px; height: 24px; border-radius: 10px 10px 12px 12px; background: var(--line); transition: background .25s, transform .25s; }
+  .pill.lit .ico { background: var(--orange); } .pill.phr .ico { width: 22px; height: 18px; border-radius: 7px; background: var(--violet); } .pill.xp .ico { width: 18px; height: 18px; border-radius: 6px; background: var(--gold); transform: rotate(45deg); }
+  .chip { position: absolute; left: 50%; top: 92px; transform: translateX(-50%) scale(0); background: var(--gold); color: #6B4A00; font-weight: 900; padding: 6px 14px; border-radius: 14px; border-bottom: 4px solid var(--gold-edge); white-space: nowrap; }
+  #dombi { position: absolute; left: 65px; top: 150px; width: 260px; height: 230px; z-index: 2; }
+  .title, .level, .badge, .xpline, .phrase, .chip { z-index: 3; } canvas.fx { z-index: 4; }
+  .tiles { position: absolute; left: 20px; right: 20px; top: 430px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .tile { height: 96px; border-radius: 16px; border: 2px solid var(--line); border-bottom-width: 5px; display: grid; place-items: center; font-weight: 800; background: #fff; }
+  .tile.ok { background: var(--green-soft); border-color: var(--green); color: #2E7D00; } .tile.no { background: var(--red-soft); border-color: var(--coral); color: #B3261E; }
+  .cta { position: absolute; left: 20px; right: 20px; bottom: 44px; height: 54px; border-radius: 16px; border: 0; border-bottom: 5px solid var(--violet-edge); background: var(--violet); color: #fff; font: 900 17px Nunito, sans-serif; letter-spacing: .04em; overflow: hidden; }
+  .cta .sheen { background: rgba(255,255,255,.35); width: 60px; left: -90px; }
+  .cta:active { transform: translateY(4px); border-bottom-width: 1px; }
+  canvas.fx { position: absolute; pointer-events: none; }
+  #frost { width: 200px; height: 200px; } #dust { width: 200px; height: 120px; } #rings { width: 240px; height: 240px; } #twinkle { width: 240px; height: 200px; }
+  #voice { width: 200px; height: 200px; left: 95px; top: 562px; z-index: 3 !important; }   /* above the mic: the check draws on the button */
+  #flame { position: static; width: 24px; height: 31px; margin-top: -8px; }
+  .mic { position: absolute; left: 159px; top: 626px; width: 72px; height: 72px; border-radius: 36px; background: var(--coral); border-bottom: 5px solid var(--coral-edge); z-index: 2; display: grid; place-items: center; }
+  .mic::before { content: ''; width: 16px; height: 28px; border-radius: 8px; background: #fff; }
+  .mic { transition: background .15s, border-color .15s; } .mic.ok { background: var(--green); border-bottom-color: var(--green-edge); } .mic.ok::before { display: none; }
+  .trophy { position: absolute; left: 135px; top: 392px; width: 120px; height: 120px; object-fit: contain; opacity: 0; z-index: 3; }
+  .week { position: absolute; left: 0; right: 0; top: 410px; display: flex; justify-content: center; gap: 10px; opacity: 0; z-index: 3; }
+  .day { width: 36px; height: 36px; border-radius: 18px; background: var(--orange); display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 13px; }
+  .day.miss { background: var(--line); color: var(--muted); transition: background .35s; } .day.miss.ice { background: #5BC8F5; color: #fff; } .day.next { background: var(--line); color: var(--muted); }
+  #apples { width: 240px; height: 240px; } #poof { width: 200px; height: 200px; } #chest { width: 240px; height: 240px; left: 75px; top: 330px; opacity: 0; transition: opacity .2s; z-index: 3 !important; }
+  .rank { position: absolute; left: 145px; top: 390px; width: 100px; height: 100px; object-fit: contain; opacity: 0; z-index: 3; }
+  .mic.ready::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 4px solid var(--coral); animation: glow 1.2s ease-out infinite; }
+  @keyframes glow { from { transform: scale(.92); opacity: .75; } to { transform: scale(1.38); opacity: 0; } }
+  .waves { position: absolute; left: 312px; top: 236px; display: flex; gap: 4px; align-items: center; height: 30px; opacity: 0; z-index: 3; }
+  .waves i { width: 5px; border-radius: 3px; background: var(--violet); height: 8px; animation: wave .5s ease-in-out infinite alternate; } .waves i:nth-child(2) { animation-delay: .12s; } .waves i:nth-child(3) { animation-delay: .24s; }
+  @keyframes wave { from { height: 6px; } to { height: 26px; } }
+  .path { position: absolute; left: 0; right: 0; top: 420px; height: 150px; opacity: 0; z-index: 3; pointer-events: none; }
+  .node { position: absolute; width: 62px; height: 56px; border-radius: 50%; background: var(--line); border-bottom: 7px solid var(--edge); transition: background .2s, border-color .2s; overflow: hidden; }
+  .node.done { background: var(--gold); border-bottom-color: var(--gold-edge); } .node.open { background: var(--coral); border-bottom-color: var(--coral-edge); }
+  .phone.dark { background: #17171F; } .phone.dark .tile { background: #23232F; border-color: #3A3A4A; color: #EDEDF5; } .phone.dark .pill, .phone.dark .title { color: #EDEDF5; } .phone.dark .bar { background: #3A3A4A; }
+  #confetti { left: 0; top: 0; width: 390px; height: 844px; } #pop { width: 200px; height: 200px; } #embers { width: 200px; height: 260px; }
+  .overlay { position: absolute; inset: 0; background: rgba(23,23,31,.0); pointer-events: none; transition: background .3s; } .overlay.dim { background: rgba(91,63,217,.94); }   /* violet, not black: Dombi is black and must stay visible */
+  .title { position: absolute; left: 0; right: 0; top: 108px; text-align: center; font-weight: 900; font-size: 30px; transform: scale(0); color: var(--text); }
+  .title.light { color: #fff; }
+  .badge { position: absolute; left: 50%; top: 392px; transform: translateX(-50%) scale(0); background: var(--gold); color: #6B4A00; font-weight: 900; font-size: 20px; padding: 8px 20px; border-radius: 16px; border-bottom: 5px solid var(--gold-edge); }
+  .xpline { position: absolute; left: 0; right: 0; top: 400px; text-align: center; font-weight: 900; font-size: 26px; color: #B88600; opacity: 0; }
+  .phrase { position: absolute; left: 50%; top: 396px; transform: translateX(-50%) scale(0); background: #fff; border: 2px solid var(--violet); border-bottom-width: 5px; border-radius: 18px; padding: 12px 18px; font-weight: 900; font-size: 19px; color: var(--violet-edge); white-space: nowrap; }
+  .tw { position: absolute; width: 14px; height: 14px; opacity: 0; } .tw::before, .tw::after { content: ''; position: absolute; left: 5px; top: 0; width: 4px; height: 14px; border-radius: 2px; background: var(--gold); } .tw::after { transform: rotate(90deg); }
+  .dot { position: absolute; width: 10px; height: 10px; border-radius: 3px; background: var(--gold); pointer-events: none; }
+  .level { position: absolute; left: 0; right: 0; top: 380px; text-align: center; font-weight: 900; font-size: 84px; color: var(--gold); transform: scale(0); }
+</style>
+</head>
+<body>
+<main>
+  <div class="wrap"><div class="phone" id="phone">
+    <div class="top">
+      <div class="bar"><div class="fill" id="fill"><div class="sheen" id="sheen"></div></div></div>
+      <div class="pill" id="streak"><canvas class="fx" id="flame" width="96" height="124"></canvas><span id="streakN">6</span></div>
+      <div class="pill phr" id="phr"><span class="ico"></span><span id="phrN">12</span></div>
+      <div class="pill xp" id="xp"><span class="ico"></span><span id="xpN">140</span></div>
+    </div>
+    <div class="chip" id="chip"></div>
+    <canvas id="dombi" width="520" height="460"></canvas>
+    <div class="tiles"><div class="tile" id="t0">coffee</div><div class="tile" id="t1">tea</div><div class="tile" id="t2">juice</div></div>
+    <button class="cta" id="cta">TEKSHIRISH<div class="sheen" id="ctaSheen"></div></button>
+    <div class="overlay" id="overlay"></div>
+    <div class="title" id="title"></div><div class="xpline" id="xpline"></div><div class="badge" id="badge">Mukammal!</div>
+    <div class="phrase" id="phrase">A coffee, please.</div><div class="level" id="level">2</div>
+    <div class="mic" id="mic"></div>
+    <img class="trophy" id="trophy" src="assets/trophy-unit.png" alt="">
+    <div class="week" id="week"><div class="day">Ya</div><div class="day">Du</div><div class="day">Se</div><div class="day miss" id="missed">Ch</div><div class="day">Pa</div><div class="day next">Ju</div><div class="day next">Sh</div></div>
+    <img class="rank" id="rank" src="assets/level-badge.png" alt="">
+    <div class="waves" id="waves"><i></i><i></i><i></i></div>
+    <div class="path" id="path"><svg width="390" height="150" style="position:absolute;left:0;top:0"><path id="pline" d="M118 40 C 160 60, 230 60, 272 104" fill="none" stroke="#FFC800" stroke-width="8" stroke-linecap="round" stroke-dasharray="190" stroke-dashoffset="190"/></svg>
+      <div class="node" id="n1" style="left:87px;top:12px"><div class="sheen" id="n1s"></div></div><div class="node" id="n2" style="left:241px;top:76px"><div class="sheen" id="n2s"></div></div></div>
+    <canvas class="fx" id="chest" width="480" height="480"></canvas>
+    <canvas class="fx" id="poof" width="400" height="400"></canvas>
+    <canvas class="fx" id="apples" width="480" height="480"></canvas>
+    <canvas class="fx" id="voice" width="400" height="400"></canvas>
+    <canvas class="fx" id="dust" width="400" height="240"></canvas>
+    <canvas class="fx" id="rings" width="480" height="480"></canvas>
+    <canvas class="fx" id="twinkle" width="480" height="400"></canvas>
+    <canvas class="fx" id="frost" width="400" height="400"></canvas>
+    <canvas class="fx" id="embers" width="400" height="520"></canvas>
+    <canvas class="fx" id="pop" width="400" height="400"></canvas>
+    <canvas class="fx" id="confetti" width="780" height="1688"></canvas>
+  </div></div>
+  <div>
+    <h1>Moments</h1>
+    <p>Each button plays one moment the way the app would: Dombi + particles (Rive) + simple UI motion (shine, count-up, shake, fly-to-counter). The main button shines by itself every 5 s.</p>
+    <h2>In a lesson</h2>
+    <div class="btns"><button data-m="correct">Correct</button><button data-m="wrong">Wrong</button><button data-m="combo3">3 in a row</button><button data-m="combo5">5 in a row</button><button data-m="phrase">New phrase</button><button data-m="speak">Speaking</button></div>
+    <h2>End of lesson</h2>
+    <div class="btns"><button data-m="lesson">Lesson complete</button><button data-m="perfect">Perfect lesson</button><button data-m="streak">Streak +1</button><button data-m="freeze">Streak freeze used</button></div>
+    <h2>Big</h2>
+    <div class="btns"><button data-m="checkpoint">Checkpoint trophy</button><button data-m="levelup">Level up</button></div>
+    <h2>Full app (after the first version)</h2>
+    <div class="btns"><button data-m="milestone">Streak milestone</button><button data-m="flamelife">Streak at risk → lost → repaired</button><button data-m="applesEarned">Apples earned</button><button data-m="quest">Quest chest</button>
+      <button data-m="outfit">Outfit: doppi</button><button data-m="grow">Dombi grows</button><button data-m="league">League promotion</button><button data-m="achievement">Achievement</button><button data-m="dark">Dark mode on / off</button></div>
+    <h2>Small UI effects (reference code)</h2>
+    <div class="btns"><button data-m="yourturn">Your turn (glow)</button><button data-m="dombiTalks">Dombi speaks (waves)</button><button data-m="pathUnlock">Path: next lesson unlocks</button></div>
+    <p id="log" style="margin-top:16px;font:12px ui-monospace,monospace"></p>
+  </div>
+</main>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id), wait = (ms) => new Promise(r => setTimeout(r, ms));
+  const EASE_OUT = 'cubic-bezier(.05,.7,.1,1)', BACK = 'cubic-bezier(.34,1.56,.64,1)';
+  // ---- Rive: one file, four artboards ----
+  const mk = (id, artboard, sm) => new Promise(res => { const r = new rive.Rive({ src: 'out/dombi.riv', canvas: $(id), artboard, stateMachines: sm, autoplay: true, autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }), onLoad: () => { r.resizeDrawingSurfaceToCanvas(); res(r.viewModelInstance); } }); });
+  let D, POP, CONF, EMB, FROST, DUST, RINGS, TWK, VOICE, FLAME, APL, POOF, CHEST;
+  Promise.all([mk('dombi', 'Dombi', 'Dombi'), mk('pop', 'FX Pop', 'State Machine 1'), mk('confetti', 'FX Confetti', 'State Machine 1'), mk('embers', 'FX Embers', 'State Machine 1'),
+    mk('frost', 'FX Frost', 'State Machine 1'), mk('dust', 'FX Dust', 'State Machine 1'), mk('rings', 'FX Rings', 'State Machine 1'), mk('twinkle', 'FX Twinkle', 'State Machine 1'),
+    mk('voice', 'FX Voice', 'State Machine 1'), mk('flame', 'Streak Flame', 'State Machine 1'),
+    mk('apples', 'FX Apples', 'State Machine 1'), mk('poof', 'FX Poof', 'State Machine 1'), mk('chest', 'FX Chest', 'State Machine 1')])
+    .then(([d, p, c, e, fr, du, ri, tw, vo, fl, ap, po, ch]) => { D = d; POP = p; CONF = c; EMB = e; FROST = fr; DUST = du; RINGS = ri; TWK = tw; VOICE = vo; FLAME = fl; APL = ap; POOF = po; CHEST = ch; window.momentsReady = true; });
+  const GREEN = 0xFF58CC02, GOLD = 0xFFFFC800;
+  // ---- UI effects (app code) ----
+  const center = (el) => { const p = $('phone').getBoundingClientRect(), b = el.getBoundingClientRect(), k = 390 / p.width; return [(b.left - p.left + b.width / 2) * k, (b.top - p.top + b.height / 2) * k]; };
+  function popAt(el, color = GREEN, dy = 0) { const [x, y] = center(el); $('pop').style.left = (x - 100) + 'px'; $('pop').style.top = (y - 100 + dy) + 'px'; POP.color('color').value = color; POP.trigger('fire').trigger(); }
+  const punch = (el, s = 1.08) => el.animate([{ transform: 'scale(1)' }, { transform: `scale(${s})`, offset: .45 }, { transform: 'scale(1)' }], { duration: 200, easing: 'ease-out' });
+  const shake = (el) => el.animate([0, -9, 8, -6, 5, -3, 0].map(x => ({ transform: `translateX(${x}px)` })), { duration: 360, easing: 'linear' });
+  const shine = (el, d = 620) => el.animate([{ left: '-90px' }, { left: '110%' }], { duration: d, easing: 'ease-in-out' });
+  // pop in/out commit their end state as inline style, so reset() can simply clear it
+  const popIn = (el, keep = 'translateX(-50%)') => { el.style.transform = `${keep} scale(1)`; el.style.opacity = 1;
+    return el.animate([{ transform: `${keep} scale(0)` }, { transform: `${keep} scale(1.12)`, offset: .6 }, { transform: `${keep} scale(1)` }], { duration: 320, easing: EASE_OUT }); };
+  const popOut = (el, keep = 'translateX(-50%)') => { el.style.transform = '';
+    return el.animate([{ transform: `${keep} scale(1)` }, { transform: `${keep} scale(0)` }], { duration: 180, easing: 'ease-in' }); };
+  function countUp(el, from, to, ms = 600) { const t0 = performance.now(); const f = (t) => { const k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(from + (to - from) * e); if (k < 1) requestAnimationFrame(f); else punch(el.parentElement, 1.2); }; requestAnimationFrame(f); }
+  function fly(fromEl, toEl, n = 6, color = 'var(--gold)', onLand) { const [x0, y0] = center(fromEl), [x1, y1] = center(toEl);
+    for (let i = 0; i < n; i++) { const d = document.createElement('div'); d.className = 'dot'; d.style.background = color; $('phone').appendChild(d);
+      const mx = (x0 + x1) / 2 + (Math.random() - .5) * 120, my = Math.min(y0, y1) - 60 - Math.random() * 60;
+      d.animate([{ transform: `translate(${x0}px,${y0}px) scale(0)` }, { transform: `translate(${mx}px,${my}px) scale(1.1)`, offset: .45 }, { transform: `translate(${x1}px,${y1}px) scale(.5)` }],
+        { duration: 620, delay: i * 70, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'both' }).onfinish = () => { d.remove(); punch(toEl, 1.25); onLand && onLand(i); }; } }
+  function twinkles(el, n = 5) { const [x, y] = center(el), b = el.getBoundingClientRect(), k = 390 / $('phone').getBoundingClientRect().width;
+    for (let i = 0; i < n; i++) { const t = document.createElement('div'); t.className = 'tw'; t.style.left = (x + (Math.random() - .5) * (b.width * k + 40)) + 'px'; t.style.top = (y + (Math.random() - .5) * (b.height * k + 50)) + 'px'; $('phone').appendChild(t);
+      t.animate([{ opacity: 0, transform: 'scale(0) rotate(0)' }, { opacity: 1, transform: 'scale(1) rotate(45deg)', offset: .35 }, { opacity: 0, transform: 'scale(0) rotate(90deg)' }], { duration: 700, delay: i * 130 }).onfinish = () => t.remove(); } }
+  const place = (id, el, w, h, dx = 0, dy = 0) => { const [x, y] = center(el); $(id).style.left = (x - w / 2 + dx) + 'px'; $(id).style.top = (y - h / 2 + dy) + 'px'; };
+  let voiceRaf = 0;
+  function fakeVoice(ms) { const t0 = performance.now(); let level = 0; return new Promise(res => { const tick = () => { const t = (performance.now() - t0) / 1000;
+      if (t * 1000 > ms) { VOICE.number('amp').value = 0; D.number('amp').value = 0; return res(); }
+      const target = Math.max(0, Math.sin(t * 9) * 0.6 + Math.sin(t * 3.1) * 0.5) * 100; level += (target - level) * (target > level ? 0.5 : 0.12);
+      VOICE.number('amp').value = level; D.number('amp').value = level; voiceRaf = requestAnimationFrame(tick); }; tick(); }); }
+  let progress = 35; const grow = (by) => { progress = Math.min(100, progress + by); $('fill').style.width = progress + '%'; shine($('sheen'), 480); };
+  setInterval(() => shine($('ctaSheen')), 5000); setTimeout(() => shine($('ctaSheen')), 800);
+  const tiles = () => ['t0', 't1', 't2'].forEach(id => $(id).className = 'tile');
+  function reset() { tiles(); $('overlay').className = 'overlay'; $('title').className = 'title'; ['title', 'badge', 'phrase', 'level', 'chip'].forEach(id => { $(id).getAnimations().forEach(a => a.cancel()); $(id).style.transform = ''; $(id).style.opacity = ''; }); $('xpline').style.opacity = 0;
+    $('fill').classList.remove('gold'); D.enum('mood').value = 'smirk'; D.enum('gesture').value = 'none'; D.boolean('listening').value = false; $('mic').classList.remove('ok');
+    $('trophy').getAnimations().forEach(a => a.cancel()); $('trophy').style.opacity = 0; $('rank').getAnimations().forEach(a => a.cancel()); $('rank').style.opacity = 0; $('chest').style.opacity = 0; $('path').style.opacity = 0; $('waves').style.opacity = 0; $('mic').classList.remove('ready'); D.boolean('talking').value = false; $('week').style.opacity = 0; $('missed').className = 'day miss'; $('missed').textContent = 'Ch'; }
+  // ---- moments ----
+  const M = {
+    async correct() { tiles(); $('t0').classList.add('ok'); punch($('t0')); popAt($('t0')); grow(8); await wait(50); D.trigger('correct').trigger(); },
+    async wrong() { tiles(); $('t1').classList.add('no'); shake($('t1')); grow(2); D.trigger('wrong').trigger(); },
+    async combo3() { await M.correct(); await wait(180); $('chip').textContent = '3 ta ketma-ket!'; popIn($('chip')); popAt($('chip'), GOLD); await wait(1300); popOut($('chip')); },
+    async combo5() { await M.correct(); $('fill').classList.add('gold'); await wait(180); $('chip').textContent = '5 ta ketma-ket!'; popIn($('chip')); popAt($('chip'), GOLD); await wait(140); popAt($('fill'), GOLD); D.enum('gesture').value = 'point'; await wait(1500); popOut($('chip')); D.enum('gesture').value = 'none'; },
+    async phrase() { D.enum('mood').value = 'happy'; popIn($('phrase')); twinkles($('phrase')); await wait(1300); fly($('phrase'), $('phr'), 5, 'var(--violet)'); popOut($('phrase')); await wait(700); $('phrN').textContent = +$('phrN').textContent + 1; await wait(600); D.enum('mood').value = 'smirk'; },
+    async lesson() { progress = 100; $('fill').style.width = '100%'; shine($('sheen'), 480); D.enum('mood').value = 'laugh'; D.enum('gesture').value = 'celebrate'; $('title').textContent = 'Dars tugadi!'; popIn($('title'), '');
+      await wait(150); CONF.trigger('medium').trigger(); await wait(450); $('xpline').style.opacity = 1; $('xpline').innerHTML = '+<span id="gain">0</span> XP'; countUp($('gain'), 0, 15, 600);
+      await wait(900); fly($('xpline'), $('xp'), 6, 'var(--gold)'); countUp($('xpN'), +$('xpN').textContent, +$('xpN').textContent + 15, 900); await wait(2400); reset(); progress = 35; $('fill').style.width = '35%'; },
+    async perfect() { progress = 100; $('fill').style.width = '100%'; D.enum('mood').value = 'proud'; $('title').textContent = 'Dars tugadi!'; popIn($('title'), ''); await wait(250); CONF.trigger('large').trigger();
+      await wait(350); $('badge').animate([{ transform: 'translateX(-50%) scale(2.2)', opacity: 0 }, { transform: 'translateX(-50%) scale(.92)', opacity: 1, offset: .55 }, { transform: 'translateX(-50%) scale(1)', opacity: 1 }], { duration: 300, easing: 'ease-in' }); $('badge').style.transform = 'translateX(-50%) scale(1)';
+      await wait(170); popAt($('badge'), GOLD); D.enum('mood').value = 'laugh'; D.enum('gesture').value = 'celebrate'; await wait(400); twinkles($('badge'), 6); await wait(3000); reset(); progress = 35; $('fill').style.width = '35%'; },
+    async streak() { D.enum('mood').value = 'happy'; const [x, y] = center($('flame')); $('embers').style.left = (x - 100) + 'px'; $('embers').style.top = (y - 222) + 'px';
+      FLAME.boolean('lit').value = true; FLAME.trigger('ignite').trigger(); punch($('streak'), 1.35); await wait(120); EMB.trigger('fire').trigger(); await wait(260); $('streakN').textContent = +$('streakN').textContent + 1; punch($('streakN'), 1.4); D.trigger('tapped').trigger(); await wait(1600); D.enum('mood').value = 'smirk'; },
+    async speak() { D.boolean('listening').value = true; punch($('mic'), 1.12); await wait(350); await fakeVoice(1700); D.boolean('listening').value = false;
+      $('mic').classList.add('ok'); VOICE.trigger('heard').trigger(); await wait(300); popAt($('mic'), GREEN); D.trigger('correct').trigger(); grow(8); await wait(1100); $('mic').classList.remove('ok'); await wait(300); },
+    async freeze() { $('title').textContent = 'Seriya saqlab qolindi'; popIn($('title'), ''); $('week').style.opacity = 1; $('week').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: EASE_OUT });
+      D.enum('mood').value = 'wink'; await wait(600); place('frost', $('missed'), 200, 200, 0, 4); FROST.trigger('fire').trigger(); $('missed').classList.add('ice'); punch($('missed'), 1.3); await wait(2400); reset(); },
+    async checkpoint() { $('title').textContent = 'Bosqich tugadi!'; popIn($('title'), ''); D.enum('mood').value = 'surprised'; await wait(350);
+      const T = $('trophy'); T.style.opacity = 1; place('dust', T, 200, 120, 0, 22); place('rings', T, 240, 240); place('twinkle', T, 240, 200);
+      T.animate([{ transform: 'translateY(-420px) scale(1)', offset: 0, easing: 'cubic-bezier(.5,0,1,.6)' }, { transform: 'translateY(0) scale(1.14,.84)', offset: .62, easing: 'ease-out' }, { transform: 'translateY(-14px) scale(.95,1.06)', offset: .8, easing: 'ease-in' }, { transform: 'translateY(0) scale(1)', offset: 1 }], { duration: 520 });
+      await wait(320); DUST.trigger('fire').trigger(); RINGS.trigger('fire').trigger(); D.trigger('tapped').trigger();
+      await wait(260); CONF.trigger('large').trigger(); D.enum('mood').value = 'laugh'; D.enum('gesture').value = 'celebrate'; await wait(240); TWK.trigger('fire').trigger(); await wait(3200); reset(); },
+    async milestone() { $('title').textContent = '7 kunlik seriya!'; popIn($('title'), ''); D.enum('mood').value = 'laugh'; D.enum('gesture').value = 'celebrate'; FLAME.boolean('lit').value = true; FLAME.trigger('ignite').trigger(); punch($('streak'), 1.5);
+      await wait(200); CONF.trigger('streak').trigger(); const [x, y] = center($('flame')); $('embers').style.left = (x - 100) + 'px'; $('embers').style.top = (y - 222) + 'px'; EMB.trigger('fire').trigger(); $('streakN').textContent = 7; await wait(3400); reset(); },
+    async flamelife() { FLAME.boolean('lit').value = true; await wait(700); $('title').textContent = 'Seriya xavf ostida'; popIn($('title'), ''); FLAME.boolean('risk').value = true; D.enum('mood').value = 'confused'; await wait(2000);
+      $('title').textContent = 'Seriya uzildi'; FLAME.boolean('risk').value = false; FLAME.boolean('lit').value = false; FLAME.trigger('out').trigger(); D.enum('mood').value = 'oops'; await wait(1700);
+      $('title').textContent = 'Seriya tiklandi!'; FLAME.boolean('lit').value = true; FLAME.trigger('repair').trigger(); await wait(450); const [x, y] = center($('flame')); $('embers').style.left = (x - 100) + 'px'; $('embers').style.top = (y - 222) + 'px'; EMB.trigger('fire').trigger(); D.enum('mood').value = 'happy'; await wait(1800); reset(); },
+    async applesEarned() { D.enum('mood').value = 'happy'; place('apples', $('t1'), 240, 240, 0, -40); APL.trigger('fire').trigger(); await wait(520); fly($('t1'), $('xp'), 6, '#FF4B4B'); countUp($('xpN'), +$('xpN').textContent, +$('xpN').textContent + 10, 800); await wait(1700); reset(); },
+    async quest() { $('title').textContent = 'Kunlik vazifa bajarildi!'; popIn($('title'), ''); $('chest').style.opacity = 1; D.enum('mood').value = 'surprised'; await wait(350); CHEST.trigger('shake').trigger(); await wait(720); CHEST.trigger('open').trigger();
+      await wait(260); $('apples').style.left = '75px'; $('apples').style.top = '280px'; APL.trigger('fire').trigger(); D.enum('mood').value = 'happy'; D.trigger('tapped').trigger(); await wait(700); fly($('chest'), $('xp'), 7, '#FF4B4B'); countUp($('xpN'), +$('xpN').textContent, +$('xpN').textContent + 25, 900);
+      await wait(1900); CHEST.trigger('reset').trigger(); await wait(300); reset(); },
+    async outfit() { const on = D.enum('hat').value !== 'doppi'; place('poof', $('dombi'), 200, 200, 0, -52); POOF.trigger('fire').trigger(); D.trigger('dress').trigger(); await wait(90); D.enum('hat').value = on ? 'doppi' : 'none'; await wait(1300); },
+    async grow() { place('rings', $('dombi'), 240, 240, 0, 10); RINGS.color('color').value = 0xFF7B5CFF; RINGS.trigger('fire').trigger(); D.trigger('grow').trigger(); await wait(420); place('twinkle', $('dombi'), 240, 200, 0, 4); TWK.trigger('fire').trigger(); await wait(1900); RINGS.color('color').value = GOLD; },
+    async league() { $('title').textContent = 'Yuqori ligaga o‘tdingiz!'; popIn($('title'), ''); D.enum('mood').value = 'proud'; const B = $('rank'); B.style.opacity = 1; place('rings', B, 240, 240); place('twinkle', B, 240, 200);
+      B.animate([{ transform: 'translateY(150px) scale(.5)', opacity: 0 }, { transform: 'translateY(-16px) scale(1.12)', opacity: 1, offset: .65 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 560, easing: EASE_OUT });
+      await wait(380); RINGS.trigger('fire').trigger(); CONF.trigger('medium').trigger(); await wait(320); TWK.trigger('fire').trigger(); D.enum('gesture').value = 'celebrate'; D.enum('mood').value = 'laugh'; await wait(3000); reset(); },
+    async achievement() { $('title').textContent = 'Yangi yutuq!'; popIn($('title'), ''); D.enum('mood').value = 'surprised'; const B = $('rank'); B.style.opacity = 1; place('dust', B, 200, 120, 0, 30); place('rings', B, 240, 240); place('twinkle', B, 240, 200);
+      B.animate([{ transform: 'scale(2.4)', opacity: 0 }, { transform: 'scale(.9)', opacity: 1, offset: .6 }, { transform: 'scale(1.06)', offset: .8 }, { transform: 'scale(1)', opacity: 1 }], { duration: 380, easing: 'ease-in' });
+      await wait(230); DUST.trigger('fire').trigger(); RINGS.trigger('fire').trigger(); D.trigger('tapped').trigger(); await wait(350); TWK.trigger('fire').trigger(); D.enum('mood').value = 'proud'; await wait(2400); reset(); },
+    async dark() { const on = !$('phone').classList.contains('dark'); $('phone').classList.toggle('dark', on); D.boolean('dark').value = on; await wait(500); },
+    async yourturn() { $('mic').classList.add('ready'); D.boolean('listening').value = true; await wait(2600); },
+    async dombiTalks() { $('waves').style.opacity = 1; D.boolean('talking').value = true; const seq = [3, 5, 5, 8, 1, 6, 3, 4, 7, 1, 5, 9, 4, 0];
+      for (const v of seq) { D.number('viseme').value = v; D.number('amp').value = v === 0 || v === 1 ? 5 : 40 + Math.random() * 50; await wait(120); } D.number('amp').value = 0; D.boolean('talking').value = false; await wait(300); },
+    async pathUnlock() { $('n1').className = 'node open'; $('n2').className = 'node'; $('pline').style.transition = 'none'; $('pline').style.strokeDashoffset = 190; $('path').style.opacity = 1; D.boolean('looking').value = true; D.number('lookX').value = -20; D.number('lookY').value = 90; await wait(500);
+      $('n1').className = 'node done'; punch($('n1'), 1.2); popAt($('n1'), GOLD); await wait(350); $('pline').style.transition = 'stroke-dashoffset .6s cubic-bezier(.4,0,.2,1)'; $('pline').style.strokeDashoffset = 0; D.number('lookX').value = 60;
+      await wait(650); $('n2').className = 'node open'; $('n2').animate([{ transform: 'scale(.8)' }, { transform: 'scale(1.18)', offset: .5 }, { transform: 'scale(1)' }], { duration: 360, easing: EASE_OUT }); shine($('n2s'), 520); D.enum('gesture').value = 'point';
+      await wait(1900); D.boolean('looking').value = false; D.number('lookX').value = 0; D.number('lookY').value = 0; reset(); },
+    async levelup() { $('overlay').className = 'overlay dim'; D.enum('mood').value = 'proud'; $('title').className = 'title light'; $('title').textContent = 'Yangi daraja!'; await wait(250); popIn($('title'), '');
+      $('level').textContent = '1'; popIn($('level'), ''); await wait(350); $('level').textContent = '2'; punch($('level'), 1.25); CONF.trigger('fountain').trigger(); await wait(500); D.enum('gesture').value = 'celebrate'; D.enum('mood').value = 'laugh'; await wait(3000); reset(); },
+  };
+  let busy = false;
+  const run = async (m) => { reset(); await M[m](); };
+  document.querySelectorAll('[data-m]').forEach(b => b.onclick = async () => { if (busy || !window.momentsReady) return; busy = true; $('log').textContent = 'playing: ' + b.dataset.m; await run(b.dataset.m); busy = false; $('log').textContent = ''; });
+  window.play = run;
+</script>
+</body>
+</html>
