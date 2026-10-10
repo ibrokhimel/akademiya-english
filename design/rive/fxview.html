@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>FX View</title>
+<style>body{margin:0;background:#F7F5FF;display:grid;place-items:center;min-height:100vh}canvas{background:var(--bg,#2B2B3C);border-radius:16px}</style></head>
+<body><canvas id="c"></canvas>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script>
+  // fxview.html?artboard=FX%20Pop&w=200&h=200&bg=%23ffffff  -> window.vmi + window.dombiReady (same hooks as preview.html)
+  const q = new URLSearchParams(location.search), w = +q.get('w') || 200, h = +q.get('h') || 200, c = document.getElementById('c');
+  c.width = w * 2; c.height = h * 2; c.style.width = w + 'px'; c.style.height = h + 'px'; if (q.get('bg')) c.style.setProperty('--bg', q.get('bg'));
+  const r = new rive.Rive({ src: 'out/dombi.riv', canvas: c, artboard: q.get('artboard') || 'FX Pop', stateMachines: q.get('sm') || 'State Machine 1', autoplay: true, autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }), onLoad: () => { r.resizeDrawingSurfaceToCanvas(); window.vmi = r.viewModelInstance; window.dombiReady = true; } });
+</script></body></html>
