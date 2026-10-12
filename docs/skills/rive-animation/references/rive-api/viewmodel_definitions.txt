@@ -1,0 +1,10 @@
+export type ViewModel1 = {
+new: (self: ViewModel1) -> ViewModel1,
+} & ViewModel
+declare ViewModel1: {
+ new: (instanceName: string?) -> ViewModel1,
+}
+declare Data: {
+ ViewModel1: typeof(ViewModel1),
+}
+

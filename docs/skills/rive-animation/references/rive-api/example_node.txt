@@ -1,0 +1,84 @@
+For scripting, this is an example module which returns a Node for a Rive designer to place and use in their Rive file.
+function addOval(
+  path: Path,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+)
+  local c: number = 0.5519150244935105707435627
+  local unit: { Vector } = {
+    Vector.xy(1, 0),
+    Vector.xy(1, c),
+    Vector.xy(c, 1), -- quadrant 1 ( 4:30)
+    Vector.xy(0, 1),
+    Vector.xy(-c, 1),
+    Vector.xy(-1, c), -- quadrant 2 ( 7:30)
+    Vector.xy(-1, 0),
+    Vector.xy(-1, -c),
+    Vector.xy(-c, -1), -- quadrant 3 (10:30)
+    Vector.xy(0, -1),
+    Vector.xy(c, -1),
+    Vector.xy(1, -c), -- quadrant 4 ( 1:30)
+    Vector.xy(1, 0),
+  }
+
+  local dx: number = x - width / 2
+  local dy: number = y - height / 2
+  local sx: number = width * 0.5
+  local sy: number = height * 0.5
+
+  local map = function(p: Vector): Vector
+    return Vector.xy(p.x * sx + dx, p.y * sy + dy)
+  end
+  path:moveTo(map(unit[1]))
+  for i = 1, 12, 3 do
+    path:cubicTo(map(unit[i + 1]), map(unit[i + 2]), map(unit[i + 3]))
+  end
+  path:close()
+end
+
+local paint = Paint.with({ color = 0xFFFF0000 })
+
+type Oval = {
+  -- This tells Rive that the Node has a numeric input for the width.
+  width: Input<number>,
+  -- This tells Rive that the Node has a numeric input for the height
+  height: Input<number>,
+
+  -- This is just a field we store and use in our methods below in context of a single Oval Node.
+  path: Path,
+}
+
+function init(self: Oval): boolean
+  addOval(self.path, 0, 0, self.width, self.height)
+  return true
+end
+
+-- The advance function returns true if it needs to keep drawing. It's a good opporunity to animate paths.
+function advance(self: Oval, seconds: number): boolean
+  return false
+end
+
+-- Called when any input value changes. Do NOT call markNeedsUpdate() here.
+function update(self: Oval) end
+
+function draw(self: Oval, renderer: Renderer)
+  renderer:drawPath(self.path, paint)
+end
+
+-- This tells Rive that this module returns a Node of type Oval.
+return function(): Node<Oval>
+  return {
+    width = 100,
+    height = 200,
+    path = Path.new(),
+    init = init,
+    advance = advance,
+    update = update,
+    draw = draw,
+  }
+end
+
+
+
