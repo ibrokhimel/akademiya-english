@@ -12332,6 +12332,7 @@
                           "id": "sAwtd",
                           "x": 21.84,
                           "y": 29.76,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 6.24,
                           "height": 1.68
@@ -12342,9 +12343,30 @@
                           "id": "EsKwl",
                           "x": 26.400000000000002,
                           "y": 28.32,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 1.68,
                           "height": 3.12
+                        },
+                        {
+                          "type": "path",
+                          "id": "l9NrT",
+                          "x": 21.12,
+                          "y": 28.56,
+                          "name": "mouth",
+                          "geometry": "M0 1.92c1.92 0.96 4.8 0.96 7.2-1.92",
+                          "viewBox": [
+                            0,
+                            0,
+                            7.2,
+                            2.88
+                          ],
+                          "fill": "#00000000",
+                          "width": 7.2,
+                          "height": 2.88,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 1.68,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12419,6 +12441,7 @@
                           "id": "fADTs",
                           "x": 36.4,
                           "y": 49.6,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 10.4,
                           "height": 2.8
@@ -12429,9 +12452,30 @@
                           "id": "txTxG",
                           "x": 44,
                           "y": 47.2,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 2.8,
                           "height": 5.2
+                        },
+                        {
+                          "type": "path",
+                          "id": "AfCHr",
+                          "x": 35.2,
+                          "y": 47.6,
+                          "name": "mouth",
+                          "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                          "viewBox": [
+                            0,
+                            0,
+                            12,
+                            4.8
+                          ],
+                          "fill": "#00000000",
+                          "width": 12,
+                          "height": 4.8,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.8,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12506,6 +12550,7 @@
                           "id": "f3fQ1",
                           "x": 36.4,
                           "y": 49.6,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 10.4,
                           "height": 2.8
@@ -12516,6 +12561,7 @@
                           "id": "BiWQz",
                           "x": 44,
                           "y": 47.2,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 2.8,
                           "height": 5.2
@@ -12537,6 +12583,26 @@
                           "fill": "$dombi-hand",
                           "width": 11.200000000000001,
                           "height": 11.200000000000001
+                        },
+                        {
+                          "type": "path",
+                          "id": "k4IrQB",
+                          "x": 35.2,
+                          "y": 47.6,
+                          "name": "mouth",
+                          "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                          "viewBox": [
+                            0,
+                            0,
+                            12,
+                            4.8
+                          ],
+                          "fill": "#00000000",
+                          "width": 12,
+                          "height": 4.8,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.8,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12611,6 +12677,7 @@
                           "id": "M9cWU",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -12621,9 +12688,30 @@
                           "id": "NeN2g",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
+                        },
+                        {
+                          "type": "path",
+                          "id": "ztabz",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12698,6 +12786,7 @@
                           "id": "QIGYy",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -12708,6 +12797,7 @@
                           "id": "wQwJL",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
@@ -12729,6 +12819,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "a91vhK",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12803,6 +12913,7 @@
                           "id": "lne6X",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -12813,6 +12924,7 @@
                           "id": "ae84i",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
@@ -12852,6 +12964,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "TxHrF",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -12926,6 +13058,7 @@
                           "id": "ekxeU",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -12936,6 +13069,7 @@
                           "id": "ZhLIh",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
@@ -12957,6 +13091,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "FeehY",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -17119,6 +17273,7 @@
                           "id": "GZf5G",
                           "x": 43.68,
                           "y": 59.52,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 12.48,
                           "height": 3.36
@@ -17129,9 +17284,30 @@
                           "id": "etowK",
                           "x": 52.800000000000004,
                           "y": 56.64,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 3.36,
                           "height": 6.24
+                        },
+                        {
+                          "type": "path",
+                          "id": "Kczbx",
+                          "x": 42.24,
+                          "y": 57.12,
+                          "name": "mouth",
+                          "geometry": "M0 3.84c3.84 1.92 9.6 1.92 14.4-3.84",
+                          "viewBox": [
+                            0,
+                            0,
+                            14.4,
+                            5.76
+                          ],
+                          "fill": "#00000000",
+                          "width": 14.4,
+                          "height": 5.76,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 3.36,
+                          "strokeLinecap": "round"
                         }
                       ]
                     }
@@ -17336,6 +17512,7 @@
                               "id": "Mqo5s",
                               "x": 16.38,
                               "y": 22.32,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 4.68,
                               "height": 1.26
@@ -17346,9 +17523,30 @@
                               "id": "Ky69x",
                               "x": 19.8,
                               "y": 21.24,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 1.26,
                               "height": 2.34
+                            },
+                            {
+                              "type": "path",
+                              "id": "gNg0N",
+                              "x": 15.84,
+                              "y": 21.42,
+                              "name": "mouth",
+                              "geometry": "M0 1.44c1.44 0.72 3.6 0.72 5.4-1.44",
+                              "viewBox": [
+                                0,
+                                0,
+                                5.4,
+                                2.16
+                              ],
+                              "fill": "#00000000",
+                              "width": 5.4,
+                              "height": 2.16,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 1.26,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -22957,6 +23155,7 @@
                               "id": "o5N29O",
                               "x": 68.25,
                               "y": 93,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 19.5,
                               "height": 5.25
@@ -22967,6 +23166,7 @@
                               "id": "ExEVy",
                               "x": 82.5,
                               "y": 88.5,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.25,
                               "height": 9.75
@@ -22988,6 +23188,26 @@
                               "fill": "$dombi-hand",
                               "width": 21,
                               "height": 21
+                            },
+                            {
+                              "type": "path",
+                              "id": "T7bNe",
+                              "x": 66,
+                              "y": 89.25,
+                              "name": "mouth",
+                              "geometry": "M0 6c6 3 15 3 22.5-6",
+                              "viewBox": [
+                                0,
+                                0,
+                                22.5,
+                                9
+                              ],
+                              "fill": "#00000000",
+                              "width": 22.5,
+                              "height": 9,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.25,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -23247,6 +23467,7 @@
                               "id": "C0VOf",
                               "x": 59.15,
                               "y": 80.60000000000001,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 16.900000000000002,
                               "height": 4.55
@@ -23257,6 +23478,7 @@
                               "id": "Vso2R",
                               "x": 71.5,
                               "y": 76.7,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 4.55,
                               "height": 8.450000000000001
@@ -23296,6 +23518,26 @@
                               "fill": "$dombi-hand",
                               "width": 18.2,
                               "height": 18.2
+                            },
+                            {
+                              "type": "path",
+                              "id": "lS9tL",
+                              "x": 57.2,
+                              "y": 77.35,
+                              "name": "mouth",
+                              "geometry": "M0 5.2c5.2 2.6 13 2.6 19.5-5.2",
+                              "viewBox": [
+                                0,
+                                0,
+                                19.5,
+                                7.8
+                              ],
+                              "fill": "#00000000",
+                              "width": 19.5,
+                              "height": 7.8,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 4.55,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -56652,6 +56894,7 @@
                               "id": "jPcZZ",
                               "x": 36.4,
                               "y": 49.6,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 10.4,
                               "height": 2.8
@@ -56662,6 +56905,7 @@
                               "id": "P5UAkW",
                               "x": 44,
                               "y": 47.2,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 2.8,
                               "height": 5.2
@@ -56683,6 +56927,26 @@
                               "fill": "$dombi-hand",
                               "width": 11.200000000000001,
                               "height": 11.200000000000001
+                            },
+                            {
+                              "type": "path",
+                              "id": "vmaTv",
+                              "x": 35.2,
+                              "y": 47.6,
+                              "name": "mouth",
+                              "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                              "viewBox": [
+                                0,
+                                0,
+                                12,
+                                4.8
+                              ],
+                              "fill": "#00000000",
+                              "width": 12,
+                              "height": 4.8,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 2.8,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -57313,6 +57577,7 @@
                                   "id": "RizZi",
                                   "x": 20.93,
                                   "y": 28.519999999999996,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 5.9799999999999995,
                                   "height": 1.6099999999999999
@@ -57323,6 +57588,7 @@
                                   "id": "seORU",
                                   "x": 25.299999999999997,
                                   "y": 27.139999999999997,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 1.6099999999999999,
                                   "height": 2.9899999999999998
@@ -57344,6 +57610,26 @@
                                   "fill": "$dombi-hand",
                                   "width": 6.44,
                                   "height": 6.44
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "QtgaF",
+                                  "x": 20.24,
+                                  "y": 27.37,
+                                  "name": "mouth",
+                                  "geometry": "M0 1.84c1.84 0.92 4.6 0.92 6.9-1.84",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    6.9,
+                                    2.76
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 6.9,
+                                  "height": 2.76,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 1.61,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             }
@@ -57537,6 +57823,7 @@
                                   "id": "y96xb",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -57547,9 +57834,30 @@
                                   "id": "GpWuN",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "XmnUY",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -58001,6 +58309,7 @@
                               "id": "d3jo1q",
                               "x": 77.35,
                               "y": 105.39999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 22.099999999999998,
                               "height": 5.95
@@ -58011,6 +58320,7 @@
                               "id": "DFaTP",
                               "x": 93.5,
                               "y": 100.3,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.95,
                               "height": 11.049999999999999
@@ -58050,6 +58360,26 @@
                               "fill": "$dombi-hand",
                               "width": 23.8,
                               "height": 23.8
+                            },
+                            {
+                              "type": "path",
+                              "id": "oRviN",
+                              "x": 74.8,
+                              "y": 101.15,
+                              "name": "mouth",
+                              "geometry": "M0 6.8c6.8 3.4 17 3.4 25.5-6.8",
+                              "viewBox": [
+                                0,
+                                0,
+                                25.5,
+                                10.2
+                              ],
+                              "fill": "#00000000",
+                              "width": 25.5,
+                              "height": 10.2,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.95,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -58328,6 +58658,7 @@
                                   "id": "eJIHD",
                                   "x": 77.35,
                                   "y": 105.39999999999999,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 22.099999999999998,
                                   "height": 5.95
@@ -58338,9 +58669,30 @@
                                   "id": "jNbVa",
                                   "x": 93.5,
                                   "y": 100.3,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 5.95,
                                   "height": 11.049999999999999
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "hKWh1",
+                                  "x": 74.8,
+                                  "y": 101.15,
+                                  "name": "mouth",
+                                  "geometry": "M0 6.8c6.8 3.4 17 3.4 25.5-6.8",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    25.5,
+                                    10.2
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 25.5,
+                                  "height": 10.2,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 5.95,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -58776,6 +59128,7 @@
                                   "id": "h0DZx",
                                   "x": 50.05,
                                   "y": 68.19999999999999,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 14.299999999999999,
                                   "height": 3.8499999999999996
@@ -58786,9 +59139,30 @@
                                   "id": "do6t2",
                                   "x": 60.49999999999999,
                                   "y": 64.89999999999999,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 3.8499999999999996,
                                   "height": 7.1499999999999995
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "N1T25V",
+                                  "x": 48.4,
+                                  "y": 65.45,
+                                  "name": "mouth",
+                                  "geometry": "M0 4.4c4.4 2.2 11 2.2 16.5-4.4",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    16.5,
+                                    6.6
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 16.5,
+                                  "height": 6.6,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 3.85,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -59355,6 +59729,7 @@
                               "id": "Q65doI",
                               "x": 45.5,
                               "y": 62,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 13,
                               "height": 3.5
@@ -59365,6 +59740,7 @@
                               "id": "HJXKR",
                               "x": 55,
                               "y": 59,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 3.5,
                               "height": 6.5
@@ -59386,6 +59762,26 @@
                               "fill": "$dombi-hand",
                               "width": 14,
                               "height": 14
+                            },
+                            {
+                              "type": "path",
+                              "id": "RSfhd",
+                              "x": 44,
+                              "y": 59.5,
+                              "name": "mouth",
+                              "geometry": "M0 4c4 2 10 2 15-4",
+                              "viewBox": [
+                                0,
+                                0,
+                                15,
+                                6
+                              ],
+                              "fill": "#00000000",
+                              "width": 15,
+                              "height": 6,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 3.5,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -59610,6 +60006,7 @@
                               "id": "I5fr1I",
                               "x": 77.35,
                               "y": 105.39999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 22.099999999999998,
                               "height": 5.95
@@ -59620,6 +60017,7 @@
                               "id": "T50akX",
                               "x": 93.5,
                               "y": 100.3,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.95,
                               "height": 11.049999999999999
@@ -59641,6 +60039,26 @@
                               "fill": "$dombi-hand",
                               "width": 23.8,
                               "height": 23.8
+                            },
+                            {
+                              "type": "path",
+                              "id": "z9n0D",
+                              "x": 74.8,
+                              "y": 101.15,
+                              "name": "mouth",
+                              "geometry": "M0 6.8c6.8 3.4 17 3.4 25.5-6.8",
+                              "viewBox": [
+                                0,
+                                0,
+                                25.5,
+                                10.2
+                              ],
+                              "fill": "#00000000",
+                              "width": 25.5,
+                              "height": 10.2,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.95,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -62391,6 +62809,7 @@
                               "id": "VIxwc",
                               "x": 96.91499999999999,
                               "y": 132.06,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 27.689999999999998,
                               "height": 7.455
@@ -62401,6 +62820,7 @@
                               "id": "R43GN",
                               "x": 117.14999999999999,
                               "y": 125.66999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 7.455,
                               "height": 13.844999999999999
@@ -62422,6 +62842,26 @@
                               "fill": "$dombi-hand",
                               "width": 29.82,
                               "height": 29.82
+                            },
+                            {
+                              "type": "path",
+                              "id": "sJjIa",
+                              "x": 93.72,
+                              "y": 126.74,
+                              "name": "mouth",
+                              "geometry": "M0 8.52c8.52 4.26 21.3 4.26 31.95-8.52",
+                              "viewBox": [
+                                0,
+                                0,
+                                31.95,
+                                12.78
+                              ],
+                              "fill": "#00000000",
+                              "width": 31.95,
+                              "height": 12.78,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 7.46,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -62667,6 +63107,7 @@
                               "id": "KvvFK",
                               "x": 108.29,
                               "y": 147.56,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 30.94,
                               "height": 8.33
@@ -62677,6 +63118,7 @@
                               "id": "HUwaR",
                               "x": 130.9,
                               "y": 140.42,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 8.33,
                               "height": 15.47
@@ -62698,6 +63140,26 @@
                               "fill": "$dombi-hand",
                               "width": 33.32,
                               "height": 33.32
+                            },
+                            {
+                              "type": "path",
+                              "id": "Ii8S9",
+                              "x": 104.72,
+                              "y": 141.61,
+                              "name": "mouth",
+                              "geometry": "M0 9.52c9.52 4.76 23.8 4.76 35.7-9.52",
+                              "viewBox": [
+                                0,
+                                0,
+                                35.7,
+                                14.28
+                              ],
+                              "fill": "#00000000",
+                              "width": 35.7,
+                              "height": 14.28,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 8.33,
+                              "strokeLinecap": "round"
                             }
                           ]
                         }
@@ -62959,6 +63421,7 @@
                                   "id": "UiLT6",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -62969,9 +63432,30 @@
                                   "id": "MDV4h",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "fVlb0",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -63307,6 +63791,7 @@
                                   "id": "uP9k3",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -63317,9 +63802,30 @@
                                   "id": "eVD2z",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "wiOQe",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -63637,6 +64143,7 @@
                                   "id": "Lg2i0",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -63647,9 +64154,30 @@
                                   "id": "G0heM",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "W5z9oY",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -64087,6 +64615,7 @@
                                   "id": "kSiJS",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -64097,9 +64626,30 @@
                                   "id": "zOTsS",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "JipGh",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -64661,6 +65211,7 @@
                               "id": "Vak5c",
                               "x": 86.45,
                               "y": 117.8,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 24.7,
                               "height": 6.6499999999999995
@@ -64671,6 +65222,7 @@
                               "id": "zQZGY",
                               "x": 104.5,
                               "y": 112.1,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 6.6499999999999995,
                               "height": 12.35
@@ -64694,6 +65246,26 @@
                               "y": 126,
                               "width": 36,
                               "height": 36
+                            },
+                            {
+                              "type": "path",
+                              "id": "YDp2u",
+                              "x": 83.6,
+                              "y": 113.05,
+                              "name": "mouth",
+                              "geometry": "M0 7.6c7.6 3.8 19 3.8 28.5-7.6",
+                              "viewBox": [
+                                0,
+                                0,
+                                28.5,
+                                11.4
+                              ],
+                              "fill": "#00000000",
+                              "width": 28.5,
+                              "height": 11.4,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 6.65,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -65004,6 +65576,7 @@
                               "id": "YQ8KB",
                               "x": 86.45,
                               "y": 117.8,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 24.7,
                               "height": 6.6499999999999995
@@ -65014,9 +65587,30 @@
                               "id": "oyYz0",
                               "x": 104.5,
                               "y": 112.1,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 6.6499999999999995,
                               "height": 12.35
+                            },
+                            {
+                              "type": "path",
+                              "id": "K2fK3A",
+                              "x": 83.6,
+                              "y": 113.05,
+                              "name": "mouth",
+                              "geometry": "M0 7.6c7.6 3.8 19 3.8 28.5-7.6",
+                              "viewBox": [
+                                0,
+                                0,
+                                28.5,
+                                11.4
+                              ],
+                              "fill": "#00000000",
+                              "width": 28.5,
+                              "height": 11.4,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 6.65,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -65366,6 +65960,7 @@
                               "id": "U9MdV",
                               "x": 77.35,
                               "y": 105.39999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 22.099999999999998,
                               "height": 5.95
@@ -65376,6 +65971,7 @@
                               "id": "JPbm6",
                               "x": 93.5,
                               "y": 100.3,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.95,
                               "height": 11.049999999999999
@@ -65415,6 +66011,26 @@
                               "fill": "$dombi-hand",
                               "width": 23.8,
                               "height": 23.8
+                            },
+                            {
+                              "type": "path",
+                              "id": "Fhp3C",
+                              "x": 74.8,
+                              "y": 101.15,
+                              "name": "mouth",
+                              "geometry": "M0 6.8c6.8 3.4 17 3.4 25.5-6.8",
+                              "viewBox": [
+                                0,
+                                0,
+                                25.5,
+                                10.2
+                              ],
+                              "fill": "#00000000",
+                              "width": 25.5,
+                              "height": 10.2,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.95,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -65723,6 +66339,7 @@
                                   "id": "D4VQw3",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -65733,9 +66350,30 @@
                                   "id": "YTdj8",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "p5QroB",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -66217,6 +66855,7 @@
                                   "id": "G1FNO",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -66227,9 +66866,30 @@
                                   "id": "VZuS3",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "r5iPRQ",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -66504,6 +67164,7 @@
                                   "id": "w7lsEC",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -66514,6 +67175,7 @@
                                   "id": "URzDM",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
@@ -66535,6 +67197,26 @@
                                   "fill": "$dombi-hand",
                                   "width": 11.200000000000001,
                                   "height": 11.200000000000001
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "FPaXt",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -66935,6 +67617,7 @@
                                   "id": "j9p8h",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -66945,9 +67628,30 @@
                                   "id": "X0II3K",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "I6GOY",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -67217,6 +67921,7 @@
                               "id": "cJM2I",
                               "x": 68.25,
                               "y": 93,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 19.5,
                               "height": 5.25
@@ -67227,6 +67932,7 @@
                               "id": "KeFCt",
                               "x": 82.5,
                               "y": 88.5,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.25,
                               "height": 9.75
@@ -67248,6 +67954,26 @@
                               "fill": "$dombi-hand",
                               "width": 21,
                               "height": 21
+                            },
+                            {
+                              "type": "path",
+                              "id": "Hdlbw",
+                              "x": 66,
+                              "y": 89.25,
+                              "name": "mouth",
+                              "geometry": "M0 6c6 3 15 3 22.5-6",
+                              "viewBox": [
+                                0,
+                                0,
+                                22.5,
+                                9
+                              ],
+                              "fill": "#00000000",
+                              "width": 22.5,
+                              "height": 9,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.25,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -67460,6 +68186,7 @@
                               "id": "bKqBl",
                               "x": 96.91499999999999,
                               "y": 132.06,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 27.689999999999998,
                               "height": 7.455
@@ -67470,6 +68197,7 @@
                               "id": "IILBx",
                               "x": 117.14999999999999,
                               "y": 125.66999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 7.455,
                               "height": 13.844999999999999
@@ -67491,6 +68219,26 @@
                               "fill": "$dombi-hand",
                               "width": 29.82,
                               "height": 29.82
+                            },
+                            {
+                              "type": "path",
+                              "id": "y9BDsG",
+                              "x": 93.72,
+                              "y": 126.74,
+                              "name": "mouth",
+                              "geometry": "M0 8.52c8.52 4.26 21.3 4.26 31.95-8.52",
+                              "viewBox": [
+                                0,
+                                0,
+                                31.95,
+                                12.78
+                              ],
+                              "fill": "#00000000",
+                              "width": 31.95,
+                              "height": 12.78,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 7.46,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -67849,6 +68597,7 @@
                               "id": "PnFRp",
                               "x": 85.54,
                               "y": 116.56,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 24.44,
                               "height": 6.58
@@ -67859,6 +68608,7 @@
                               "id": "C0X2s",
                               "x": 103.4,
                               "y": 110.92,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 6.58,
                               "height": 12.22
@@ -67880,6 +68630,26 @@
                               "fill": "$dombi-hand",
                               "width": 26.32,
                               "height": 26.32
+                            },
+                            {
+                              "type": "path",
+                              "id": "ymqcu",
+                              "x": 82.72,
+                              "y": 111.86,
+                              "name": "mouth",
+                              "geometry": "M0 7.52c7.52 3.76 18.8 3.76 28.2-7.52",
+                              "viewBox": [
+                                0,
+                                0,
+                                28.2,
+                                11.28
+                              ],
+                              "fill": "#00000000",
+                              "width": 28.2,
+                              "height": 11.28,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 6.58,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -68149,6 +68919,7 @@
                                   "id": "o0IpyW",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -68159,9 +68930,30 @@
                                   "id": "bO7yc",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "O3Qda",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -68701,6 +69493,7 @@
                               "id": "GVVyL",
                               "x": 68.25,
                               "y": 93,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 19.5,
                               "height": 5.25
@@ -68711,6 +69504,7 @@
                               "id": "bRWaj",
                               "x": 82.5,
                               "y": 88.5,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 5.25,
                               "height": 9.75
@@ -68732,6 +69526,26 @@
                               "fill": "$dombi-hand",
                               "width": 21,
                               "height": 21
+                            },
+                            {
+                              "type": "path",
+                              "id": "j138hu",
+                              "x": 66,
+                              "y": 89.25,
+                              "name": "mouth",
+                              "geometry": "M0 6c6 3 15 3 22.5-6",
+                              "viewBox": [
+                                0,
+                                0,
+                                22.5,
+                                9
+                              ],
+                              "fill": "#00000000",
+                              "width": 22.5,
+                              "height": 9,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 5.25,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -69012,6 +69826,7 @@
                               "id": "GnSZo",
                               "x": 50.05,
                               "y": 68.19999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 14.299999999999999,
                               "height": 3.8499999999999996
@@ -69022,6 +69837,7 @@
                               "id": "D0ifu",
                               "x": 60.49999999999999,
                               "y": 64.89999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 3.8499999999999996,
                               "height": 7.1499999999999995
@@ -69043,6 +69859,26 @@
                               "fill": "$dombi-hand",
                               "width": 15.400000000000002,
                               "height": 15.400000000000002
+                            },
+                            {
+                              "type": "path",
+                              "id": "i3fK6",
+                              "x": 48.4,
+                              "y": 65.45,
+                              "name": "mouth",
+                              "geometry": "M0 4.4c4.4 2.2 11 2.2 16.5-4.4",
+                              "viewBox": [
+                                0,
+                                0,
+                                16.5,
+                                6.6
+                              ],
+                              "fill": "#00000000",
+                              "width": 16.5,
+                              "height": 6.6,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 3.85,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -69364,6 +70200,7 @@
                                   "id": "mw7Q3",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -69374,9 +70211,30 @@
                                   "id": "ilyUU",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "ns9Ix",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -69908,6 +70766,7 @@
                                   "id": "ww79x",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -69918,9 +70777,30 @@
                                   "id": "muiOd",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "DBpiy",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -70269,6 +71149,7 @@
                                   "id": "GtTOP",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -70279,9 +71160,30 @@
                                   "id": "n3OJtS",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "fW6eT",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -70619,6 +71521,7 @@
                                   "id": "k6R148",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -70629,9 +71532,30 @@
                                   "id": "Uu68R",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "Tpw5D",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -71160,6 +72084,7 @@
                                   "id": "AaXBE",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8
@@ -71170,9 +72095,30 @@
                                   "id": "fMDFb",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "Vy20i",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -71284,6 +72230,7 @@
                                       "id": "nOVKm",
                                       "x": 18.2,
                                       "y": 24.8,
+                                      "enabled": false,
                                       "fill": "#FFFFFF",
                                       "width": 5.2,
                                       "height": 1.4
@@ -71294,9 +72241,30 @@
                                       "id": "Q8NE6",
                                       "x": 22,
                                       "y": 23.6,
+                                      "enabled": false,
                                       "fill": "#FFFFFF",
                                       "width": 1.4,
                                       "height": 2.6
+                                    },
+                                    {
+                                      "type": "path",
+                                      "id": "xFvoH",
+                                      "x": 17.6,
+                                      "y": 23.8,
+                                      "name": "mouth",
+                                      "geometry": "M0 1.6c1.6 0.8 4 0.8 6-1.6",
+                                      "viewBox": [
+                                        0,
+                                        0,
+                                        6,
+                                        2.4
+                                      ],
+                                      "fill": "#00000000",
+                                      "width": 6,
+                                      "height": 2.4,
+                                      "stroke": "#FFFFFF",
+                                      "strokeWidth": 1.4,
+                                      "strokeLinecap": "round"
                                     }
                                   ]
                                 }
@@ -71575,6 +72543,7 @@
                               "id": "I6BFRX",
                               "x": 63.7,
                               "y": 86.8,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 18.2,
                               "height": 4.9
@@ -71585,6 +72554,7 @@
                               "id": "u400s",
                               "x": 77,
                               "y": 82.6,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 4.9,
                               "height": 9.1
@@ -71624,6 +72594,26 @@
                               "fill": "$dombi-hand",
                               "width": 19.599999999999998,
                               "height": 19.599999999999998
+                            },
+                            {
+                              "type": "path",
+                              "id": "sHWTC",
+                              "x": 61.6,
+                              "y": 83.3,
+                              "name": "mouth",
+                              "geometry": "M0 5.6c5.6 2.8 14 2.8 21-5.6",
+                              "viewBox": [
+                                0,
+                                0,
+                                21,
+                                8.4
+                              ],
+                              "fill": "#00000000",
+                              "width": 21,
+                              "height": 8.4,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 4.9,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -72827,6 +73817,7 @@
                           "id": "g6btcY",
                           "x": 63.75,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 22.5,
                           "height": 5.25
@@ -72837,6 +73828,7 @@
                           "id": "vzAgd",
                           "x": 81,
                           "y": 90.75,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 7.5
@@ -72847,9 +73839,30 @@
                           "id": "z5CYAL",
                           "x": 63.75,
                           "y": 90.75,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 7.5
+                        },
+                        {
+                          "type": "path",
+                          "id": "KPIc0",
+                          "x": 64.5,
+                          "y": 91.5,
+                          "name": "mouth",
+                          "geometry": "M0 1.5c5.25 6.75 17.25 6.75 23.25-1.5",
+                          "viewBox": [
+                            0,
+                            0,
+                            23.25,
+                            8.25
+                          ],
+                          "fill": "#00000000",
+                          "width": 23.25,
+                          "height": 8.25,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -72929,9 +73942,30 @@
                           "id": "isUnj",
                           "x": 62.25,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 25.5,
                           "height": 15
+                        },
+                        {
+                          "type": "path",
+                          "id": "OOAy6",
+                          "x": 63,
+                          "y": 87.75,
+                          "name": "mouth",
+                          "geometry": "M0 3c0 0 25.5-3 25.5-3 1.5 8.25-4.5 15.75-12.75 15-6.75-0.75-12-5.25-12.75-12z",
+                          "viewBox": [
+                            0,
+                            0,
+                            27,
+                            15.75
+                          ],
+                          "fill": "#FFFFFF",
+                          "width": 27,
+                          "height": 15.75,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.25,
+                          "strokeLinejoin": "round"
                         }
                       ]
                     },
@@ -73011,9 +74045,30 @@
                           "id": "nddAP",
                           "x": 69,
                           "y": 90.38,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 15,
                           "height": 11.25
+                        },
+                        {
+                          "type": "path",
+                          "id": "bhzpL",
+                          "x": 69.75,
+                          "y": 91.5,
+                          "name": "mouth",
+                          "geometry": "M0 1.5c0 0 13.5-1.5 13.5-1.5 0.75 5.25-2.25 9-6.75 9-3.75 0-6.75-3-6.75-7.5z",
+                          "viewBox": [
+                            0,
+                            0,
+                            14.25,
+                            9
+                          ],
+                          "fill": "#FFFFFF",
+                          "width": 14.25,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.25,
+                          "strokeLinejoin": "round"
                         }
                       ]
                     },
@@ -73095,10 +74150,31 @@
                           "id": "MyVER",
                           "x": 72.91,
                           "y": 92.85,
+                          "enabled": false,
                           "rotation": -8,
                           "fill": "#FFFFFF",
                           "width": 9,
                           "height": 5.25
+                        },
+                        {
+                          "type": "path",
+                          "id": "fIAQ2",
+                          "x": 72.5,
+                          "y": 95.39,
+                          "name": "mouth",
+                          "geometry": "M0 0.44c2.23 0.31 5.3-0.01 7.63-0.44",
+                          "viewBox": [
+                            0,
+                            0,
+                            7.63,
+                            1
+                          ],
+                          "fill": "#00000000",
+                          "width": 7.63,
+                          "height": 1,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73178,9 +74254,30 @@
                           "id": "TBBmS",
                           "x": 78.75,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 10.5,
                           "height": 5.25
+                        },
+                        {
+                          "type": "path",
+                          "id": "xhcOT",
+                          "x": 79.5,
+                          "y": 94.5,
+                          "name": "mouth",
+                          "geometry": "M0 1.5c3-1.5 5.25-1.5 8.25 0",
+                          "viewBox": [
+                            0,
+                            0,
+                            8.25,
+                            1.5
+                          ],
+                          "fill": "#00000000",
+                          "width": 8.25,
+                          "height": 1.5,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73268,9 +74365,30 @@
                           "id": "VWiZD",
                           "x": 69.75,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 10.5,
                           "height": 10.5
+                        },
+                        {
+                          "type": "path",
+                          "id": "ao7QO",
+                          "x": 69.18,
+                          "y": 93,
+                          "name": "mouth",
+                          "geometry": "M6.57 0c4.04 0 6.57 4.37 4.55 7.88-2.02 3.5-7.08 3.5-9.09 0-2.03-3.51 0.5-7.88 4.54-7.88z",
+                          "viewBox": [
+                            0,
+                            0,
+                            13.14,
+                            11.38
+                          ],
+                          "fill": "#FFFFFF",
+                          "width": 13.14,
+                          "height": 11.38,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.25,
+                          "strokeLinejoin": "round"
                         }
                       ]
                     },
@@ -73352,6 +74470,7 @@
                           "id": "Zqd1V",
                           "x": 74.33,
                           "y": 93.15,
+                          "enabled": false,
                           "rotation": 6.000000000000001,
                           "fill": "#FFFFFF",
                           "width": 7.5,
@@ -73418,6 +74537,26 @@
                           "fill": "$dombi-hand",
                           "width": 2.36,
                           "height": 10.5
+                        },
+                        {
+                          "type": "path",
+                          "id": "ddD4E",
+                          "x": 75.39,
+                          "y": 94.61,
+                          "name": "mouth",
+                          "geometry": "M0 1.45c2.32 0.51 4.55 0.27 6.64-1.45",
+                          "viewBox": [
+                            0,
+                            0,
+                            6.64,
+                            1.96
+                          ],
+                          "fill": "#00000000",
+                          "width": 6.64,
+                          "height": 1.96,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73498,6 +74637,7 @@
                           "id": "eSXG4",
                           "x": 65.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 22.5,
                           "height": 5.25
@@ -73508,9 +74648,30 @@
                           "id": "t7i75K",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
+                        },
+                        {
+                          "type": "path",
+                          "id": "VUUHf",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73608,6 +74769,7 @@
                           "id": "e8N8kb",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -73618,9 +74780,30 @@
                           "id": "xJc8J",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
+                        },
+                        {
+                          "type": "path",
+                          "id": "BD9NL",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73720,9 +74903,30 @@
                           "id": "jARxq",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 13.5,
                           "height": 5.25
+                        },
+                        {
+                          "type": "path",
+                          "id": "z6tDx9",
+                          "x": 69.75,
+                          "y": 94.5,
+                          "name": "mouth",
+                          "geometry": "M0 0.75c4.5 0 9 0 12.75-0.75",
+                          "viewBox": [
+                            0,
+                            0,
+                            12.75,
+                            1
+                          ],
+                          "fill": "#00000000",
+                          "width": 12.75,
+                          "height": 1,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73804,10 +75008,31 @@
                           "id": "wePfQ",
                           "x": 70.11,
                           "y": 94.83,
+                          "enabled": false,
                           "rotation": 14.999999999999998,
                           "fill": "#FFFFFF",
                           "width": 15,
                           "height": 5.25
+                        },
+                        {
+                          "type": "path",
+                          "id": "sSkSB",
+                          "x": 69.1,
+                          "y": 93.01,
+                          "name": "mouth",
+                          "geometry": "M0 3.58c3.47-3.32 6.47-3.58 9.71-0.85 3.25 2.72 6.18 1.72 8.91-1.53",
+                          "viewBox": [
+                            0,
+                            0,
+                            18.62,
+                            5.45
+                          ],
+                          "fill": "#00000000",
+                          "width": 18.62,
+                          "height": 5.45,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73897,10 +75122,31 @@
                           "id": "jHVhJ",
                           "x": 62.04,
                           "y": 91.38,
+                          "enabled": false,
                           "rotation": -4,
                           "fill": "#FFFFFF",
                           "width": 21,
                           "height": 7.5
+                        },
+                        {
+                          "type": "path",
+                          "id": "q2DFg",
+                          "x": 63.27,
+                          "y": 92.54,
+                          "name": "mouth",
+                          "geometry": "M0 2.68c4.7-2.68 8.07 2.82 12.77 0.14 4.7-2.68 8.07 2.82 12.03 0.09",
+                          "viewBox": [
+                            0,
+                            0,
+                            24.8,
+                            5.64
+                          ],
+                          "fill": "#00000000",
+                          "width": 24.8,
+                          "height": 5.64,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -73980,6 +75226,7 @@
                           "id": "O8w5Ks",
                           "x": 63.75,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 22.5,
                           "height": 5.25
@@ -73990,6 +75237,7 @@
                           "id": "afi8X",
                           "x": 81,
                           "y": 90.75,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 7.5
@@ -74000,6 +75248,7 @@
                           "id": "vXOKD",
                           "x": 63.75,
                           "y": 90.75,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 7.5
@@ -74021,6 +75270,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "V9Cs8T",
+                          "x": 64.5,
+                          "y": 91.5,
+                          "name": "mouth",
+                          "geometry": "M0 1.5c5.25 6.75 17.25 6.75 23.25-1.5",
+                          "viewBox": [
+                            0,
+                            0,
+                            23.25,
+                            8.25
+                          ],
+                          "fill": "#00000000",
+                          "width": 23.25,
+                          "height": 8.25,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -74100,6 +75369,7 @@
                           "id": "FfVlw",
                           "x": 62.25,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 25.5,
                           "height": 15
@@ -74139,6 +75409,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "EKtK8",
+                          "x": 63,
+                          "y": 87.75,
+                          "name": "mouth",
+                          "geometry": "M0 3c0 0 25.5-3 25.5-3 1.5 8.25-4.5 15.75-12.75 15-6.75-0.75-12-5.25-12.75-12z",
+                          "viewBox": [
+                            0,
+                            0,
+                            27,
+                            15.75
+                          ],
+                          "fill": "#FFFFFF",
+                          "width": 27,
+                          "height": 15.75,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 2.25,
+                          "strokeLinejoin": "round"
                         }
                       ]
                     },
@@ -74218,6 +75508,7 @@
                           "id": "ecm8h",
                           "x": 78.75,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 10.5,
                           "height": 5.25
@@ -74239,6 +75530,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "N43iG8",
+                          "x": 79.5,
+                          "y": 94.5,
+                          "name": "mouth",
+                          "geometry": "M0 1.5c3-1.5 5.25-1.5 8.25 0",
+                          "viewBox": [
+                            0,
+                            0,
+                            8.25,
+                            1.5
+                          ],
+                          "fill": "#00000000",
+                          "width": 8.25,
+                          "height": 1.5,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -74318,6 +75629,7 @@
                           "id": "MJUSp",
                           "x": 68.25,
                           "y": 93,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 19.5,
                           "height": 5.25
@@ -74328,6 +75640,7 @@
                           "id": "rJISh",
                           "x": 82.5,
                           "y": 88.5,
+                          "enabled": false,
                           "fill": "#FFFFFF",
                           "width": 5.25,
                           "height": 9.75
@@ -74349,6 +75662,26 @@
                           "fill": "$dombi-hand",
                           "width": 21,
                           "height": 21
+                        },
+                        {
+                          "type": "path",
+                          "id": "loCPm",
+                          "x": 66,
+                          "y": 89.25,
+                          "name": "mouth",
+                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "viewBox": [
+                            0,
+                            0,
+                            22.5,
+                            9
+                          ],
+                          "fill": "#00000000",
+                          "width": 22.5,
+                          "height": 9,
+                          "stroke": "#FFFFFF",
+                          "strokeWidth": 5.25,
+                          "strokeLinecap": "round"
                         }
                       ]
                     },
@@ -74494,6 +75827,7 @@
                               "id": "hgFNc",
                               "x": 96.91499999999999,
                               "y": 132.06,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 27.689999999999998,
                               "height": 7.455
@@ -74504,6 +75838,7 @@
                               "id": "z3QcC",
                               "x": 117.14999999999999,
                               "y": 125.66999999999999,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 7.455,
                               "height": 13.844999999999999
@@ -74525,6 +75860,26 @@
                               "fill": "$dombi-hand",
                               "width": 29.82,
                               "height": 29.82
+                            },
+                            {
+                              "type": "path",
+                              "id": "MN8Vv",
+                              "x": 93.72,
+                              "y": 126.74,
+                              "name": "mouth",
+                              "geometry": "M0 8.52c8.52 4.26 21.3 4.26 31.95-8.52",
+                              "viewBox": [
+                                0,
+                                0,
+                                31.95,
+                                12.78
+                              ],
+                              "fill": "#00000000",
+                              "width": 31.95,
+                              "height": 12.78,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 7.46,
+                              "strokeLinecap": "round"
                             }
                           ]
                         },
@@ -74788,6 +76143,7 @@
                                   "id": "uxijn",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8000000000000003
@@ -74798,9 +76154,30 @@
                                   "id": "NflkU",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8000000000000003,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "HnQ2u",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -75105,6 +76482,7 @@
                                   "id": "kzmNJ",
                                   "x": 36.4,
                                   "y": 49.6,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 10.4,
                                   "height": 2.8000000000000003
@@ -75115,9 +76493,30 @@
                                   "id": "NsbBr",
                                   "x": 44,
                                   "y": 47.2,
+                                  "enabled": false,
                                   "fill": "#FFFFFF",
                                   "width": 2.8000000000000003,
                                   "height": 5.2
+                                },
+                                {
+                                  "type": "path",
+                                  "id": "roXdh",
+                                  "x": 35.2,
+                                  "y": 47.6,
+                                  "name": "mouth",
+                                  "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                                  "viewBox": [
+                                    0,
+                                    0,
+                                    12,
+                                    4.8
+                                  ],
+                                  "fill": "#00000000",
+                                  "width": 12,
+                                  "height": 4.8,
+                                  "stroke": "#FFFFFF",
+                                  "strokeWidth": 2.8,
+                                  "strokeLinecap": "round"
                                 }
                               ]
                             },
@@ -75868,6 +77267,7 @@
                               "id": "FRzei",
                               "x": 35.035000000000004,
                               "y": 47.74,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 10.01,
                               "height": 2.6950000000000003
@@ -75878,9 +77278,30 @@
                               "id": "dBJJT",
                               "x": 42.35,
                               "y": 45.43,
+                              "enabled": false,
                               "fill": "#FFFFFF",
                               "width": 2.6950000000000003,
                               "height": 5.005
+                            },
+                            {
+                              "type": "path",
+                              "id": "CPrQ5",
+                              "x": 33.88,
+                              "y": 45.82,
+                              "name": "mouth",
+                              "geometry": "M0 3.08c3.08 1.54 7.7 1.54 11.55-3.08",
+                              "viewBox": [
+                                0,
+                                0,
+                                11.55,
+                                4.62
+                              ],
+                              "fill": "#00000000",
+                              "width": 11.55,
+                              "height": 4.62,
+                              "stroke": "#FFFFFF",
+                              "strokeWidth": 2.7,
+                              "strokeLinecap": "round"
                             }
                           ]
                         }
