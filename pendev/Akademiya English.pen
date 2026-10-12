@@ -6341,14 +6341,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Q6oLCC",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳☕",
-                          "fontFamily": "$font",
-                          "fontSize": 72,
-                          "fontWeight": "normal"
+                          "id": "Ip3Oj",
+                          "type": "ref",
+                          "ref": "O9PkPM",
+                          "name": "Icon",
+                          "width": 83,
+                          "height": 83
                         }
                       ]
                     },
@@ -6965,6 +6963,7 @@
                           "type": "frame",
                           "id": "kvn0K",
                           "name": "Avatar",
+                          "clip": true,
                           "width": 56,
                           "height": 56,
                           "fill": "$violet-soft",
@@ -6973,14 +6972,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "M6xgET",
-                              "name": "Face",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 30,
-                              "fontWeight": "normal"
+                              "id": "Gm4Cy",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 56,
+                              "height": 56
                             }
                           ]
                         },
@@ -21878,6 +21875,7 @@
                                   "type": "frame",
                                   "id": "CgMhd",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -21886,14 +21884,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "sRs9T",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "d4QIA",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -22102,6 +22098,7 @@
                               "type": "frame",
                               "id": "zaCZm",
                               "name": "Character (Rive)",
+                              "clip": true,
                               "width": 150,
                               "height": 150,
                               "fill": "$violet-soft",
@@ -22112,14 +22109,12 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "text",
-                                  "id": "kSrHV",
-                                  "name": "F",
-                                  "fill": "$ink",
-                                  "content": "🧑‍🍳",
-                                  "fontFamily": "$font",
-                                  "fontSize": 80,
-                                  "fontWeight": "normal"
+                                  "id": "J8Rcn",
+                                  "type": "ref",
+                                  "ref": "YpKhS",
+                                  "name": "Waiter",
+                                  "width": 150,
+                                  "height": 150
                                 }
                               ]
                             },
@@ -24589,14 +24584,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "gJuRc",
-                              "name": "P",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳☕",
-                              "fontFamily": "$font",
-                              "fontSize": 80,
-                              "fontWeight": "normal"
+                              "id": "VZ9ZU",
+                              "type": "ref",
+                              "ref": "O9PkPM",
+                              "name": "Icon",
+                              "width": 83,
+                              "height": 83
                             }
                           ]
                         },
@@ -24837,6 +24830,7 @@
                           "type": "frame",
                           "id": "sKbth",
                           "name": "Character",
+                          "clip": true,
                           "width": 150,
                           "height": 150,
                           "fill": "$violet-soft",
@@ -24847,14 +24841,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "Q5qE1",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 80,
-                              "fontWeight": "normal"
+                              "id": "jCfai",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 150,
+                              "height": 150
                             }
                           ]
                         },
@@ -32549,6 +32541,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -32559,14 +32552,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Lw8yY",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "fIHv8",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -33831,6 +33822,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -33841,14 +33833,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "GTERc",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "ZtRNL",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -34784,6 +34774,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -34794,14 +34785,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "Qc3XA",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "yEucG",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -42804,6 +42793,286 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "MoZqJ",
+          "name": "Waiter options header",
+          "layout": "vertical",
+          "gap": 4,
+          "padding": [
+            24,
+            0,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "W2AAi3",
+              "name": "Title",
+              "fill": "$text",
+              "content": "Café waiters — A and C (both being animated in Rive)",
+              "fontFamily": "$font",
+              "fontSize": 22,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "G1lsCc",
+              "name": "Note",
+              "fill": "$text-muted",
+              "content": "They replace the cook emoji in Echo Line, the feedback screen and the Checkpoint. Shown at 150 px and 56 px. Source: design/icons/build_waiter.py; animation in the Rive file (artboards Waiter A, Waiter C).",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jlTMI",
+          "name": "Waiter options row",
+          "gap": 48,
+          "alignItems": "end",
+          "children": [
+            {
+              "type": "frame",
+              "id": "rxrRq",
+              "name": "Waiter A",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BJOxr",
+                  "name": "Avatars",
+                  "gap": 16,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q1MsV",
+                      "name": "Avatar 150",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "VBEk8",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NxREM",
+                      "name": "Avatar 56",
+                      "clip": true,
+                      "width": 56,
+                      "height": 56,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 28,
+                      "children": [
+                        {
+                          "id": "c7SoHs",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 56,
+                          "height": 56
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "oRP5i",
+                  "name": "Caption",
+                  "fill": "$text",
+                  "content": "A · young man, vest and bow tie",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "H9uRS",
+              "name": "Waiter C",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ng1M4",
+                  "name": "Avatars",
+                  "gap": 16,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "L6NHY",
+                      "name": "Avatar 150",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "CZ6MK",
+                          "type": "ref",
+                          "ref": "vwHho",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "beCl8",
+                      "name": "Avatar 56",
+                      "clip": true,
+                      "width": 56,
+                      "height": 56,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 28,
+                      "children": [
+                        {
+                          "id": "YZsVv",
+                          "type": "ref",
+                          "ref": "vwHho",
+                          "name": "Waiter",
+                          "width": 56,
+                          "height": 56
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "b6mpg",
+                  "name": "Caption",
+                  "fill": "$text",
+                  "content": "C · man with a moustache and a do'ppi",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "800"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "OhLTI",
+          "name": "Waiter components",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "p8SDWK",
+              "name": "waiter-a",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YpKhS",
+                  "name": "Waiter / A",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-a.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-a-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "ovkX7",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "Waiter / A",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q6ayK",
+              "name": "waiter-c",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vwHho",
+                  "name": "Waiter / C",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-c.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-c-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "mp1b0",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "Waiter / C",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -44328,6 +44597,7 @@
                           "type": "frame",
                           "id": "jzGt7",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 140,
                           "height": 140,
                           "fill": "$violet-soft",
@@ -44338,14 +44608,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "aS9bW",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 76,
-                              "fontWeight": "normal"
+                              "id": "WK9s2",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 140,
+                              "height": 140
                             }
                           ]
                         },
@@ -45284,6 +45552,7 @@
                           "type": "frame",
                           "id": "S6LNu",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 110,
                           "height": 110,
                           "fill": "$card",
@@ -45294,14 +45563,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "R0Ugo",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 60,
-                              "fontWeight": "normal"
+                              "id": "AHmoI",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 110,
+                              "height": 110
                             }
                           ]
                         },
@@ -46027,6 +46294,7 @@
                           "type": "frame",
                           "id": "KvLCJ",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 140,
                           "height": 140,
                           "fill": "$violet-soft",
@@ -46037,14 +46305,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "grJlg",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 76,
-                              "fontWeight": "normal"
+                              "id": "Lps0V",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 140,
+                              "height": 140
                             }
                           ]
                         },
@@ -58797,6 +59063,7 @@
                                   "type": "frame",
                                   "id": "UYKmC",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -58805,14 +59072,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "FG730",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "fDPmY",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -59407,6 +59672,7 @@
                                   "type": "frame",
                                   "id": "eV75w",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -59415,14 +59681,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "xsBeD",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "aOCHW",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -80141,6 +80405,7 @@
                                   "type": "frame",
                                   "id": "e6v3XK",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -80149,14 +80414,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "iMR1K",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "J226r1",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -80368,6 +80631,7 @@
                               "type": "frame",
                               "id": "rzxBD",
                               "name": "Character (Rive)",
+                              "clip": true,
                               "width": 150,
                               "height": 150,
                               "fill": "$violet-soft",
@@ -80378,14 +80642,12 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "text",
-                                  "id": "k8Ukz",
-                                  "name": "F",
-                                  "fill": "$ink",
-                                  "content": "🧑‍🍳",
-                                  "fontFamily": "$font",
-                                  "fontSize": 80,
-                                  "fontWeight": "normal"
+                                  "id": "Z2LqCe",
+                                  "type": "ref",
+                                  "ref": "YpKhS",
+                                  "name": "Waiter",
+                                  "width": 150,
+                                  "height": 150
                                 }
                               ]
                             },
@@ -82879,14 +83141,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "KJ0zB",
-                              "name": "P",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳☕",
-                              "fontFamily": "$font",
-                              "fontSize": 80,
-                              "fontWeight": "normal"
+                              "id": "d1xNM",
+                              "type": "ref",
+                              "ref": "O9PkPM",
+                              "name": "Icon",
+                              "width": 83,
+                              "height": 83
                             }
                           ]
                         },
@@ -83130,6 +83390,7 @@
                           "type": "frame",
                           "id": "qBNdY",
                           "name": "Character",
+                          "clip": true,
                           "width": 150,
                           "height": 150,
                           "fill": "$violet-soft",
@@ -83140,14 +83401,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "lar6l",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 80,
-                              "fontWeight": "normal"
+                              "id": "O1OEPZ",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 150,
+                              "height": 150
                             }
                           ]
                         },
@@ -90837,6 +91096,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -90847,14 +91107,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "P0ClKi",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "Izf0F",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -92122,6 +92380,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -92132,14 +92391,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "M73fb0",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "diqt2",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -93078,6 +93335,7 @@
                       "x": 262,
                       "y": 378,
                       "name": "Waiter (Rive character)",
+                      "clip": true,
                       "width": 92,
                       "height": 92,
                       "fill": "$violet-soft",
@@ -93088,14 +93346,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "UfPoZ",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳",
-                          "fontFamily": "Nunito",
-                          "fontSize": 50,
-                          "fontWeight": "normal"
+                          "id": "Vn8FS",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 92,
+                          "height": 92
                         }
                       ]
                     },
@@ -94907,6 +95163,7 @@
                           "type": "frame",
                           "id": "sj9Ha",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 140,
                           "height": 140,
                           "fill": "$violet-soft",
@@ -94917,14 +95174,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "UzB38",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 76,
-                              "fontWeight": "normal"
+                              "id": "bq0MF",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 140,
+                              "height": 140
                             }
                           ]
                         },
@@ -95872,6 +96127,7 @@
                           "type": "frame",
                           "id": "Oe77o",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 110,
                           "height": 110,
                           "fill": "$card",
@@ -95882,14 +96138,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "WTNNs",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 60,
-                              "fontWeight": "normal"
+                              "id": "Tv11h",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 110,
+                              "height": 110
                             }
                           ]
                         },
@@ -96618,6 +96872,7 @@
                           "type": "frame",
                           "id": "qog41",
                           "name": "Character (Rive)",
+                          "clip": true,
                           "width": 140,
                           "height": 140,
                           "fill": "$violet-soft",
@@ -96628,14 +96883,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "ejsMB",
-                              "name": "F",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 76,
-                              "fontWeight": "normal"
+                              "id": "S35WU",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 140,
+                              "height": 140
                             }
                           ]
                         },
@@ -107511,6 +107764,7 @@
                                   "type": "frame",
                                   "id": "qNrQg",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -107519,14 +107773,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "W0I2Py",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "GDvxE",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -108124,6 +108376,7 @@
                                   "type": "frame",
                                   "id": "VT3Sz",
                                   "name": "Avatar",
+                                  "clip": true,
                                   "width": 56,
                                   "height": 56,
                                   "fill": "$violet-soft",
@@ -108132,14 +108385,12 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "text",
-                                      "id": "D4g6vW",
-                                      "name": "Face",
-                                      "fill": "$ink",
-                                      "content": "🧑‍🍳",
-                                      "fontFamily": "$font",
-                                      "fontSize": 30,
-                                      "fontWeight": "normal"
+                                      "id": "G6O6N",
+                                      "type": "ref",
+                                      "ref": "YpKhS",
+                                      "name": "Waiter",
+                                      "width": 56,
+                                      "height": 56
                                     }
                                   ]
                                 },
@@ -125769,14 +126020,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "JYYVg",
-                          "name": "Placeholder",
-                          "fill": "$ink",
-                          "content": "🧑‍🍳☕",
-                          "fontFamily": "$font",
-                          "fontSize": 72,
-                          "fontWeight": "normal"
+                          "id": "TCGgA",
+                          "type": "ref",
+                          "ref": "O9PkPM",
+                          "name": "Icon",
+                          "width": 83,
+                          "height": 83
                         }
                       ]
                     },
@@ -126393,6 +126642,7 @@
                           "type": "frame",
                           "id": "CKr5a",
                           "name": "Avatar",
+                          "clip": true,
                           "width": 56,
                           "height": 56,
                           "fill": "$violet-soft",
@@ -126401,14 +126651,12 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "p8L1t5",
-                              "name": "Face",
-                              "fill": "$ink",
-                              "content": "🧑‍🍳",
-                              "fontFamily": "$font",
-                              "fontSize": 30,
-                              "fontWeight": "normal"
+                              "id": "xM4jR",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Waiter",
+                              "width": 56,
+                              "height": 56
                             }
                           ]
                         },
@@ -135096,6 +135344,7 @@
                                       "type": "frame",
                                       "id": "upXfT",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -135104,14 +135353,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "u5OLV",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "PUI3i",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
@@ -135335,6 +135582,7 @@
                                       "type": "frame",
                                       "id": "fVWxD",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -135343,14 +135591,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "eOFTj",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "WV9Bi",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
@@ -135574,6 +135820,7 @@
                                       "type": "frame",
                                       "id": "ur2CM",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -135582,14 +135829,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "iQdgR",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "bpYmy",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
@@ -143057,6 +143302,7 @@
                                       "type": "frame",
                                       "id": "nfvny",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -143065,14 +143311,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "o5yqyj",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "w2aHPn",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
@@ -143299,6 +143543,7 @@
                                       "type": "frame",
                                       "id": "cakdq",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -143307,14 +143552,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "dDQym",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "TOdau",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
@@ -143541,6 +143784,7 @@
                                       "type": "frame",
                                       "id": "JSg50",
                                       "name": "Avatar",
+                                      "clip": true,
                                       "width": 56,
                                       "height": 56,
                                       "fill": "$violet-soft",
@@ -143549,14 +143793,12 @@
                                       "alignItems": "center",
                                       "children": [
                                         {
-                                          "type": "text",
-                                          "id": "SiEVZ",
-                                          "name": "Face",
-                                          "fill": "$ink",
-                                          "content": "🧑‍🍳",
-                                          "fontFamily": "$font",
-                                          "fontSize": 30,
-                                          "fontWeight": "normal"
+                                          "id": "XciAp",
+                                          "type": "ref",
+                                          "ref": "YpKhS",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
                                         }
                                       ]
                                     },
