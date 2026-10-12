@@ -43073,6 +43073,290 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "G76dax",
+          "name": "Waiter poses",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "a38xpR",
+              "name": "waiter-a-talk",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "X4gkER",
+                  "name": "Waiter / A / talk",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-a-talk.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-a-talk-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "gqCHj",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "A / talk",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KViAB",
+              "name": "waiter-a-grin",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EjEqp",
+                  "name": "Waiter / A / grin",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-a-grin.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-a-grin-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "K4kBMN",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "A / grin",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wTtva",
+              "name": "waiter-a-hm",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "E4KJR3",
+                  "name": "Waiter / A / hm",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-a-hm.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-a-hm-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "i9ywb",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "A / hm",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JjYKa",
+              "name": "waiter-c-talk",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XypHM",
+                  "name": "Waiter / C / talk",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-c-talk.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-c-talk-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "GmUKL",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "C / talk",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yftmI",
+              "name": "waiter-c-grin",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "S8DX4F",
+                  "name": "Waiter / C / grin",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-c-grin.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-c-grin-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "T3RuLo",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "C / grin",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nfyHc",
+              "name": "waiter-c-hm",
+              "width": 110,
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CWbu9",
+                  "name": "Waiter / C / hm",
+                  "reusable": true,
+                  "width": 96,
+                  "height": 96,
+                  "fill": [
+                    {
+                      "type": "image",
+                      "enabled": "$on-light",
+                      "url": "icons-r2/waiter-c-hm.png",
+                      "mode": "contain"
+                    },
+                    {
+                      "type": "image",
+                      "enabled": "$on-dark",
+                      "url": "icons-r2/waiter-c-hm-dark.png",
+                      "mode": "contain"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "WWhaT",
+                  "name": "Caption",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": 110,
+                  "content": "C / hm",
+                  "textAlign": "center",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "800"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -146061,6 +146345,4038 @@
                           "type": "ref",
                           "ref": "Okrd9",
                           "name": "Feedback"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Q0jKK",
+      "x": 5000,
+      "y": 22000,
+      "name": "Storyboard · Waiters in the screens",
+      "fill": "#F1F0F7",
+      "cornerRadius": 40,
+      "layout": "vertical",
+      "gap": 56,
+      "padding": 56,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Xl9vr",
+          "name": "Header",
+          "layout": "vertical",
+          "gap": 6,
+          "children": [
+            {
+              "type": "text",
+              "id": "JFD4t",
+              "name": "Title",
+              "fill": "$text",
+              "content": "Waiters in the screens — A and C",
+              "fontFamily": "$font",
+              "fontSize": 34,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "Wt8YR",
+              "name": "Sub",
+              "fill": "$text-muted",
+              "content": "Still frames taken from the Rive animation. In the app they move: breathing, blinking, talking, reacting. Live preview: design/rive/waiters.html.",
+              "fontFamily": "$font",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mXypB",
+          "name": "Row · Waiter A",
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "WYsOZ",
+              "name": "Row title",
+              "fill": "$text",
+              "content": "Waiter A — vest and bow tie",
+              "fontFamily": "$font",
+              "fontSize": 26,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "m03bjl",
+              "name": "Poses",
+              "gap": 28,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cjufb",
+                  "name": "rest",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "C3huaV",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "Sbwp1",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "iWNyc",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Idle",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "R4jBTN",
+                  "name": "talk",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "e3ETg",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "ebVsc",
+                          "type": "ref",
+                          "ref": "X4gkER",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Y5WhZ",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Talking",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o80IzW",
+                  "name": "grin",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "BQF19",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "WZI52",
+                          "type": "ref",
+                          "ref": "EjEqp",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "pGSOb",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Right answer",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HEZK1",
+                  "name": "hm",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PAMII",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "iVYdk",
+                          "type": "ref",
+                          "ref": "E4KJR3",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "X3bGb",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Mistake (\"hm\")",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U36Cf",
+              "name": "Screens · Waiter A",
+              "gap": 48,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "MX5Mo",
+                  "name": "Echo Line — he says the line",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cSc8V",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Echo Line — he says the line",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hQWeQ",
+                      "name": "Screen E9 · Start",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "lkhnA",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BYo12",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "gbUBs",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 200
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f54jC",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "A4Hitp",
+                              "name": "E9",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 20,
+                              "children": [
+                                {
+                                  "id": "MgJ5w",
+                                  "type": "ref",
+                                  "ref": "fR979",
+                                  "name": "Task header",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "C83w8": {
+                                      "content": "QAYTARING"
+                                    },
+                                    "bmNYI": {
+                                      "content": "Ofitsiantdan keyin qaytaring"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "SPfoQ",
+                                  "name": "Character line",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "lxtHS",
+                                      "name": "Avatar",
+                                      "clip": true,
+                                      "width": 56,
+                                      "height": 56,
+                                      "fill": "$violet-soft",
+                                      "cornerRadius": 28,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "LTuVn",
+                                          "type": "ref",
+                                          "ref": "X4gkER",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "WwAq1",
+                                      "name": "Bubble",
+                                      "width": "fill_container",
+                                      "fill": "$card",
+                                      "cornerRadius": [
+                                        18,
+                                        18,
+                                        18,
+                                        4
+                                      ],
+                                      "stroke": "$grey",
+                                      "strokeWidth": 2,
+                                      "gap": 10,
+                                      "padding": 14,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "fqXvc",
+                                          "type": "ref",
+                                          "ref": "nGAHo",
+                                          "name": "Play"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "IYBbi",
+                                          "name": "Line",
+                                          "fill": "$text",
+                                          "content": "Anything else?",
+                                          "fontFamily": "$font",
+                                          "fontSize": 18,
+                                          "fontWeight": "900"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "VbqBM",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Zn1Ck",
+                                  "name": "Mic",
+                                  "width": "fill_container",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "lL5UK",
+                                      "type": "ref",
+                                      "ref": "j32DR9",
+                                      "name": "Mic"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Cft7R",
+                          "type": "ref",
+                          "ref": "YZbuA",
+                          "name": "Bottom bar"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l0SKMu",
+                  "name": "Right answer — he reacts",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ps4Z9",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Right answer — he reacts",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cA3Ad",
+                      "name": "Screen 14a · Correct",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "x9bSR",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tU3hp",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Mw8R3",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "width": "fill_container",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 230
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vVUeM",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 20,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rSCc7",
+                              "name": "Tutor (C)",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "w8LHl",
+                                  "name": "Character (Rive)",
+                                  "clip": true,
+                                  "width": 150,
+                                  "height": 150,
+                                  "fill": "$violet-soft",
+                                  "cornerRadius": 75,
+                                  "stroke": "$violet",
+                                  "strokeWidth": 4,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "pJc5D",
+                                      "type": "ref",
+                                      "ref": "EjEqp",
+                                      "name": "Waiter",
+                                      "width": 150,
+                                      "height": 150
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "w2RDvO",
+                                  "name": "Bubble",
+                                  "width": "fill_container",
+                                  "fill": "$card",
+                                  "cornerRadius": 20,
+                                  "stroke": "$grey",
+                                  "strokeWidth": 2,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "padding": 16,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "P4BVuM",
+                                      "name": "En",
+                                      "fill": "$text",
+                                      "content": "\"Hi! What would you like?\"",
+                                      "fontFamily": "$font",
+                                      "fontSize": 20,
+                                      "fontWeight": "900"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "swqCf",
+                                      "name": "Uz",
+                                      "fill": "$text-muted",
+                                      "content": "Unga qahva xohlashingizni ayting",
+                                      "fontFamily": "$font",
+                                      "fontSize": 14,
+                                      "fontWeight": "700"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "WPy2O",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "id": "eAmiv",
+                                  "type": "ref",
+                                  "ref": "EXY8z",
+                                  "name": "Mic"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "R9jQ9D",
+                          "type": "ref",
+                          "ref": "Okrd9",
+                          "name": "Feedback",
+                          "width": "fill_container"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mjiFR",
+                  "name": "Checkpoint — he talks to you",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xE0Se",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Checkpoint — he talks to you",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UHK9y",
+                      "name": "Screen 21 · Checkpoint player",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h72HP",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JOhcy",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "H3Fll8",
+                          "name": "Checkpoint top bar",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "padding": [
+                            8,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "Su61Q",
+                              "type": "ref",
+                              "ref": "CcKCC",
+                              "name": "Close"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kn13A",
+                              "name": "Chain wrap",
+                              "width": "fill_container",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "MEFsJ",
+                                  "name": "Story chain",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "DhwUV",
+                                      "name": "Step 1 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "ksvNn",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "m7EzKM",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "bmRko",
+                                      "name": "Step 2 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "gS0za",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "hJg0y",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "XrGCm",
+                                      "name": "Step 3 · cur",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$gold-edge",
+                                      "strokeWidth": 3,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "Kal98",
+                                          "type": "ref",
+                                          "ref": "MFMM6",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "nTepv",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "sRpmg",
+                                      "name": "Step 4 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "dDOfu",
+                                          "type": "ref",
+                                          "ref": "AMgHl",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "M2lCzI",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "vNQGE",
+                                      "name": "Step 5 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "tjyXH",
+                                          "type": "ref",
+                                          "ref": "ghRIT",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "az6EZ",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mRGQv",
+                              "name": "Step chip",
+                              "fill": "$gold-soft",
+                              "cornerRadius": 12,
+                              "gap": 6,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "bcuqm",
+                                  "name": "T",
+                                  "fill": "$gold-text",
+                                  "content": "3/5 · NARXNI SO'RANG",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "BDoPn",
+                              "name": "Character (Rive)",
+                              "clip": true,
+                              "width": 140,
+                              "height": 140,
+                              "fill": "$violet-soft",
+                              "cornerRadius": 70,
+                              "stroke": "$violet",
+                              "strokeWidth": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "FhnzP",
+                                  "type": "ref",
+                                  "ref": "X4gkER",
+                                  "name": "Waiter",
+                                  "width": 140,
+                                  "height": 140
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "jRsXf",
+                              "name": "Bubble",
+                              "width": "fill_container",
+                              "fill": "$card",
+                              "cornerRadius": 20,
+                              "stroke": "$grey",
+                              "strokeWidth": 2,
+                              "layout": "vertical",
+                              "gap": 6,
+                              "padding": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Q5rPXo",
+                                  "name": "En",
+                                  "fill": "$text",
+                                  "content": "\"Here's your coffee!\"",
+                                  "fontFamily": "$font",
+                                  "fontSize": 20,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "qtdFY",
+                                  "name": "Uz",
+                                  "fill": "$text-muted",
+                                  "content": "Endi narxini so'rang",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "deZBy",
+                              "name": "Spacer",
+                              "width": 10,
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "RTQ7l",
+                              "type": "ref",
+                              "ref": "j32DR9",
+                              "name": "Mic"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "J1C3F",
+                          "name": "Bottom",
+                          "width": "fill_container",
+                          "padding": [
+                            0,
+                            16,
+                            28,
+                            16
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "id": "Yr9b9",
+                              "type": "ref",
+                              "ref": "HpqBt",
+                              "name": "Can't speak"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vXhbr",
+          "name": "Row · Waiter C",
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "usAqb",
+              "name": "Row title",
+              "fill": "$text",
+              "content": "Waiter C — moustache and do'ppi",
+              "fontFamily": "$font",
+              "fontSize": 26,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "Eg1A7",
+              "name": "Poses",
+              "gap": 28,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Rc8t2",
+                  "name": "rest",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lleU6",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "sQUwv",
+                          "type": "ref",
+                          "ref": "vwHho",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "jS2LX",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Idle",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "O9mYU",
+                  "name": "talk",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iy8eL",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "zj9Gz",
+                          "type": "ref",
+                          "ref": "XypHM",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "U5xMR3",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Talking",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BJQKl",
+                  "name": "grin",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CPH9v",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "zBPuw",
+                          "type": "ref",
+                          "ref": "S8DX4F",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "pOeLd",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Right answer",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vgfhK",
+                  "name": "hm",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "me9N7",
+                      "name": "Avatar",
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "T6dxM",
+                          "type": "ref",
+                          "ref": "CWbu9",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "uRBzl",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Mistake (\"hm\")",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Qc6Pp",
+              "name": "Screens · Waiter C",
+              "gap": 48,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bTowO",
+                  "name": "Echo Line — he says the line",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rYUEq",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Echo Line — he says the line",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ceZpu",
+                      "name": "Screen E9 · Start",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dnv2U",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "aZDtG",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "UxhNo",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 200
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QeEms",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "CPnOH",
+                              "name": "E9",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 20,
+                              "children": [
+                                {
+                                  "id": "zkkaN",
+                                  "type": "ref",
+                                  "ref": "fR979",
+                                  "name": "Task header",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "C83w8": {
+                                      "content": "QAYTARING"
+                                    },
+                                    "bmNYI": {
+                                      "content": "Ofitsiantdan keyin qaytaring"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "aSMDa",
+                                  "name": "Character line",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "sK3OX",
+                                      "name": "Avatar",
+                                      "clip": true,
+                                      "width": 56,
+                                      "height": 56,
+                                      "fill": "$violet-soft",
+                                      "cornerRadius": 28,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "C30JEl",
+                                          "type": "ref",
+                                          "ref": "XypHM",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "Syy82",
+                                      "name": "Bubble",
+                                      "width": "fill_container",
+                                      "fill": "$card",
+                                      "cornerRadius": [
+                                        18,
+                                        18,
+                                        18,
+                                        4
+                                      ],
+                                      "stroke": "$grey",
+                                      "strokeWidth": 2,
+                                      "gap": 10,
+                                      "padding": 14,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "dhAK2",
+                                          "type": "ref",
+                                          "ref": "nGAHo",
+                                          "name": "Play"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "ZX0W9",
+                                          "name": "Line",
+                                          "fill": "$text",
+                                          "content": "Anything else?",
+                                          "fontFamily": "$font",
+                                          "fontSize": 18,
+                                          "fontWeight": "900"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "KPHsj",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "uqesb",
+                                  "name": "Mic",
+                                  "width": "fill_container",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "l4a8wR",
+                                      "type": "ref",
+                                      "ref": "j32DR9",
+                                      "name": "Mic"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "v9YV4i",
+                          "type": "ref",
+                          "ref": "YZbuA",
+                          "name": "Bottom bar"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "B4Jff",
+                  "name": "Right answer — he reacts",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FdeYC",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Right answer — he reacts",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i9BM5n",
+                      "name": "Screen 14a · Correct",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VQ6jN",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Vxgxh",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "izHzj",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "width": "fill_container",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 230
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yEDc2",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 20,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IR0Ws",
+                              "name": "Tutor (C)",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "WcVBF",
+                                  "name": "Character (Rive)",
+                                  "clip": true,
+                                  "width": 150,
+                                  "height": 150,
+                                  "fill": "$violet-soft",
+                                  "cornerRadius": 75,
+                                  "stroke": "$violet",
+                                  "strokeWidth": 4,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "FmuG7",
+                                      "type": "ref",
+                                      "ref": "S8DX4F",
+                                      "name": "Waiter",
+                                      "width": 150,
+                                      "height": 150
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "B2Pk5j",
+                                  "name": "Bubble",
+                                  "width": "fill_container",
+                                  "fill": "$card",
+                                  "cornerRadius": 20,
+                                  "stroke": "$grey",
+                                  "strokeWidth": 2,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "padding": 16,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "fguei",
+                                      "name": "En",
+                                      "fill": "$text",
+                                      "content": "\"Hi! What would you like?\"",
+                                      "fontFamily": "$font",
+                                      "fontSize": 20,
+                                      "fontWeight": "900"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "oSfD3",
+                                      "name": "Uz",
+                                      "fill": "$text-muted",
+                                      "content": "Unga qahva xohlashingizni ayting",
+                                      "fontFamily": "$font",
+                                      "fontSize": 14,
+                                      "fontWeight": "700"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "I8vmS",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "id": "aq3Db",
+                                  "type": "ref",
+                                  "ref": "EXY8z",
+                                  "name": "Mic"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Latso",
+                          "type": "ref",
+                          "ref": "Okrd9",
+                          "name": "Feedback",
+                          "width": "fill_container"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hKNje",
+                  "name": "Checkpoint — he talks to you",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WmHPJ",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Checkpoint — he talks to you",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j6kB7",
+                      "name": "Screen 21 · Checkpoint player",
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "D75WG",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "fosKK",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "WDOiO",
+                          "name": "Checkpoint top bar",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "padding": [
+                            8,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "L4JUB",
+                              "type": "ref",
+                              "ref": "CcKCC",
+                              "name": "Close"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "NhKaF",
+                              "name": "Chain wrap",
+                              "width": "fill_container",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "mo3cR",
+                                  "name": "Story chain",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "Bt3RB",
+                                      "name": "Step 1 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "dfjTd",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "tgccS",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "yOtXe",
+                                      "name": "Step 2 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "seMR7",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "wtMk5",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "XQfHa",
+                                      "name": "Step 3 · cur",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$gold-edge",
+                                      "strokeWidth": 3,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "P8MBc",
+                                          "type": "ref",
+                                          "ref": "MFMM6",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "uaXlv",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "OIsZZ",
+                                      "name": "Step 4 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "zRUlv",
+                                          "type": "ref",
+                                          "ref": "AMgHl",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "VznaC",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "yxrUf",
+                                      "name": "Step 5 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "kA313",
+                                          "type": "ref",
+                                          "ref": "ghRIT",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "HDcLd",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Y3Zoot",
+                              "name": "Step chip",
+                              "fill": "$gold-soft",
+                              "cornerRadius": 12,
+                              "gap": 6,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "bOKEf",
+                                  "name": "T",
+                                  "fill": "$gold-text",
+                                  "content": "3/5 · NARXNI SO'RANG",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RAM7T",
+                              "name": "Character (Rive)",
+                              "clip": true,
+                              "width": 140,
+                              "height": 140,
+                              "fill": "$violet-soft",
+                              "cornerRadius": 70,
+                              "stroke": "$violet",
+                              "strokeWidth": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "cRv0F",
+                                  "type": "ref",
+                                  "ref": "XypHM",
+                                  "name": "Waiter",
+                                  "width": 140,
+                                  "height": 140
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "S3AQNZ",
+                              "name": "Bubble",
+                              "width": "fill_container",
+                              "fill": "$card",
+                              "cornerRadius": 20,
+                              "stroke": "$grey",
+                              "strokeWidth": 2,
+                              "layout": "vertical",
+                              "gap": 6,
+                              "padding": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "o9xEA6",
+                                  "name": "En",
+                                  "fill": "$text",
+                                  "content": "\"Here's your coffee!\"",
+                                  "fontFamily": "$font",
+                                  "fontSize": 20,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "JMTRY",
+                                  "name": "Uz",
+                                  "fill": "$text-muted",
+                                  "content": "Endi narxini so'rang",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "cQCz9",
+                              "name": "Spacer",
+                              "width": 10,
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "jvoVE",
+                              "type": "ref",
+                              "ref": "j32DR9",
+                              "name": "Mic"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j8C6z",
+                          "name": "Bottom",
+                          "width": "fill_container",
+                          "padding": [
+                            0,
+                            16,
+                            28,
+                            16
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "id": "Iqa2I",
+                              "type": "ref",
+                              "ref": "HpqBt",
+                              "name": "Can't speak"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "V6Xey",
+      "x": 18000,
+      "y": 22000,
+      "name": "Storyboard · Waiters in the screens · Dark",
+      "fill": "#F1F0F7",
+      "cornerRadius": 40,
+      "layout": "vertical",
+      "gap": 56,
+      "padding": 56,
+      "children": [
+        {
+          "type": "frame",
+          "id": "QMZrB",
+          "name": "Header",
+          "layout": "vertical",
+          "gap": 6,
+          "children": [
+            {
+              "type": "text",
+              "id": "IyXnh",
+              "name": "Title",
+              "fill": "$text",
+              "content": "Waiters in the screens — A and C",
+              "fontFamily": "$font",
+              "fontSize": 34,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "q4wm0T",
+              "name": "Sub",
+              "fill": "$text-muted",
+              "content": "Still frames taken from the Rive animation. In the app they move: breathing, blinking, talking, reacting. Live preview: design/rive/waiters.html.",
+              "fontFamily": "$font",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JjvWW",
+          "name": "Row · Waiter A",
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "n7xjT",
+              "name": "Row title",
+              "fill": "$text",
+              "content": "Waiter A — vest and bow tie",
+              "fontFamily": "$font",
+              "fontSize": 26,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "g4hQX",
+              "name": "Poses",
+              "gap": 28,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "NBowJ",
+                  "name": "rest",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nka6J",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "cxa9e",
+                          "type": "ref",
+                          "ref": "YpKhS",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "A6dQ1j",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Idle",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IIZiI",
+                  "name": "talk",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "C7TITq",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "yKqKx",
+                          "type": "ref",
+                          "ref": "X4gkER",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "rKG1n",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Talking",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JC9cY",
+                  "name": "grin",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X2ush",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "p9TfMn",
+                          "type": "ref",
+                          "ref": "EjEqp",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "J4ae7",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Right answer",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HdDGV",
+                  "name": "hm",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "quyuO",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "f1fWn",
+                          "type": "ref",
+                          "ref": "E4KJR3",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "VMVmB",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Mistake (\"hm\")",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JyJ7Z",
+              "name": "Screens · Waiter A",
+              "gap": 48,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LLdbM",
+                  "name": "Echo Line — he says the line",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N566S",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Echo Line — he says the line",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nuA94",
+                      "name": "Screen E9 · Start",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "A5HOS1",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "O6EHw",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "Pwqgm",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 200
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "PLcAg",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rjT9S",
+                              "name": "E9",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 20,
+                              "children": [
+                                {
+                                  "id": "xOPBF",
+                                  "type": "ref",
+                                  "ref": "fR979",
+                                  "name": "Task header",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "C83w8": {
+                                      "content": "QAYTARING"
+                                    },
+                                    "bmNYI": {
+                                      "content": "Ofitsiantdan keyin qaytaring"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "i7TZcE",
+                                  "name": "Character line",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "NYMJL",
+                                      "name": "Avatar",
+                                      "clip": true,
+                                      "width": 56,
+                                      "height": 56,
+                                      "fill": "$violet-soft",
+                                      "cornerRadius": 28,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "kx8S3",
+                                          "type": "ref",
+                                          "ref": "X4gkER",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "qaqlD",
+                                      "name": "Bubble",
+                                      "width": "fill_container",
+                                      "fill": "$card",
+                                      "cornerRadius": [
+                                        18,
+                                        18,
+                                        18,
+                                        4
+                                      ],
+                                      "stroke": "$grey",
+                                      "strokeWidth": 2,
+                                      "gap": 10,
+                                      "padding": 14,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "H9moIN",
+                                          "type": "ref",
+                                          "ref": "nGAHo",
+                                          "name": "Play"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "FsSvB",
+                                          "name": "Line",
+                                          "fill": "$text",
+                                          "content": "Anything else?",
+                                          "fontFamily": "$font",
+                                          "fontSize": 18,
+                                          "fontWeight": "900"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "OK6kY",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "wguQQ",
+                                  "name": "Mic",
+                                  "width": "fill_container",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "y4FUn",
+                                      "type": "ref",
+                                      "ref": "j32DR9",
+                                      "name": "Mic"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "z27SS8",
+                          "type": "ref",
+                          "ref": "YZbuA",
+                          "name": "Bottom bar"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "P9cEeI",
+                  "name": "Right answer — he reacts",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "z1IEC",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Right answer — he reacts",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hwzKu",
+                      "name": "Screen 14a · Correct",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XSMFe",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NGs14",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "K9zG0",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "width": "fill_container",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 230
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JK8Tz",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 20,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "e3Ahhg",
+                              "name": "Tutor (C)",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "DozNX",
+                                  "name": "Character (Rive)",
+                                  "clip": true,
+                                  "width": 150,
+                                  "height": 150,
+                                  "fill": "$violet-soft",
+                                  "cornerRadius": 75,
+                                  "stroke": "$violet",
+                                  "strokeWidth": 4,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "k1Q84S",
+                                      "type": "ref",
+                                      "ref": "EjEqp",
+                                      "name": "Waiter",
+                                      "width": 150,
+                                      "height": 150
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "gg80h",
+                                  "name": "Bubble",
+                                  "width": "fill_container",
+                                  "fill": "$card",
+                                  "cornerRadius": 20,
+                                  "stroke": "$grey",
+                                  "strokeWidth": 2,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "padding": 16,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "UrFxP",
+                                      "name": "En",
+                                      "fill": "$text",
+                                      "content": "\"Hi! What would you like?\"",
+                                      "fontFamily": "$font",
+                                      "fontSize": 20,
+                                      "fontWeight": "900"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Xeur2",
+                                      "name": "Uz",
+                                      "fill": "$text-muted",
+                                      "content": "Unga qahva xohlashingizni ayting",
+                                      "fontFamily": "$font",
+                                      "fontSize": 14,
+                                      "fontWeight": "700"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "kxERf",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "id": "B0UE3",
+                                  "type": "ref",
+                                  "ref": "EXY8z",
+                                  "name": "Mic"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "xFyJe",
+                          "type": "ref",
+                          "ref": "Okrd9",
+                          "name": "Feedback",
+                          "width": "fill_container"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FUpLc",
+                  "name": "Checkpoint — he talks to you",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sQgmG",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Checkpoint — he talks to you",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tSP9w",
+                      "name": "Screen 21 · Checkpoint player",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WCUlu",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "gtETf",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "war0Q",
+                          "name": "Checkpoint top bar",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "padding": [
+                            8,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "P0fflS",
+                              "type": "ref",
+                              "ref": "CcKCC",
+                              "name": "Close"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IK96b",
+                              "name": "Chain wrap",
+                              "width": "fill_container",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "k7FPFz",
+                                  "name": "Story chain",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "ANhgu",
+                                      "name": "Step 1 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "bEKiJ",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "E8DbTP",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "v3HBpt",
+                                      "name": "Step 2 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "xumVv",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "v2YCT",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "j3704",
+                                      "name": "Step 3 · cur",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$gold-edge",
+                                      "strokeWidth": 3,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "W1RE22",
+                                          "type": "ref",
+                                          "ref": "MFMM6",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "IOmLV",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "W3ouT",
+                                      "name": "Step 4 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "Q70nA",
+                                          "type": "ref",
+                                          "ref": "AMgHl",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "nlUw2",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "OAfDp",
+                                      "name": "Step 5 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "GO1Xq",
+                                          "type": "ref",
+                                          "ref": "ghRIT",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TRDF0",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "DDeir",
+                              "name": "Step chip",
+                              "fill": "$gold-soft",
+                              "cornerRadius": 12,
+                              "gap": 6,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "bu4xe",
+                                  "name": "T",
+                                  "fill": "$gold-text",
+                                  "content": "3/5 · NARXNI SO'RANG",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "sMKMY",
+                              "name": "Character (Rive)",
+                              "clip": true,
+                              "width": 140,
+                              "height": 140,
+                              "fill": "$violet-soft",
+                              "cornerRadius": 70,
+                              "stroke": "$violet",
+                              "strokeWidth": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "p3rmIJ",
+                                  "type": "ref",
+                                  "ref": "X4gkER",
+                                  "name": "Waiter",
+                                  "width": 140,
+                                  "height": 140
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "E9rX1",
+                              "name": "Bubble",
+                              "width": "fill_container",
+                              "fill": "$card",
+                              "cornerRadius": 20,
+                              "stroke": "$grey",
+                              "strokeWidth": 2,
+                              "layout": "vertical",
+                              "gap": 6,
+                              "padding": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "hadsR",
+                                  "name": "En",
+                                  "fill": "$text",
+                                  "content": "\"Here's your coffee!\"",
+                                  "fontFamily": "$font",
+                                  "fontSize": 20,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ohgpb",
+                                  "name": "Uz",
+                                  "fill": "$text-muted",
+                                  "content": "Endi narxini so'rang",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QiXPw",
+                              "name": "Spacer",
+                              "width": 10,
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "IdpQQ",
+                              "type": "ref",
+                              "ref": "j32DR9",
+                              "name": "Mic"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "v4NUH",
+                          "name": "Bottom",
+                          "width": "fill_container",
+                          "padding": [
+                            0,
+                            16,
+                            28,
+                            16
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "id": "ZCeoj",
+                              "type": "ref",
+                              "ref": "HpqBt",
+                              "name": "Can't speak"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JvP9Z",
+          "name": "Row · Waiter C",
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "BZKXJ",
+              "name": "Row title",
+              "fill": "$text",
+              "content": "Waiter C — moustache and do'ppi",
+              "fontFamily": "$font",
+              "fontSize": 26,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "Mnihx",
+              "name": "Poses",
+              "gap": 28,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XrE34",
+                  "name": "rest",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Rblha",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "wQI74",
+                          "type": "ref",
+                          "ref": "vwHho",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "d0D0s",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Idle",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l1pObJ",
+                  "name": "talk",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "u9yik",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "oL44N",
+                          "type": "ref",
+                          "ref": "XypHM",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "s1Nh5z",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Talking",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rYu4b",
+                  "name": "grin",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tZygf",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "P9Kow",
+                          "type": "ref",
+                          "ref": "S8DX4F",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "vXAJD",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Right answer",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BOMKA",
+                  "name": "hm",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "QiOR9",
+                      "name": "Avatar",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 150,
+                      "height": 150,
+                      "fill": "$violet-soft",
+                      "cornerRadius": 75,
+                      "children": [
+                        {
+                          "id": "ayJwz",
+                          "type": "ref",
+                          "ref": "CWbu9",
+                          "name": "Waiter",
+                          "width": 150,
+                          "height": 150
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "j2A5t",
+                      "name": "Caption",
+                      "fill": "$text",
+                      "content": "Mistake (\"hm\")",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VGmJL",
+              "name": "Screens · Waiter C",
+              "gap": 48,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "g2CsJ",
+                  "name": "Echo Line — he says the line",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jTbVU",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Echo Line — he says the line",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dn8qD",
+                      "name": "Screen E9 · Start",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ViRKY",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "zLm4a",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "HTuc5",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 200
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g8b7Sq",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "gqaRP",
+                              "name": "E9",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 20,
+                              "children": [
+                                {
+                                  "id": "JwsOT",
+                                  "type": "ref",
+                                  "ref": "fR979",
+                                  "name": "Task header",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "C83w8": {
+                                      "content": "QAYTARING"
+                                    },
+                                    "bmNYI": {
+                                      "content": "Ofitsiantdan keyin qaytaring"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "A0npbA",
+                                  "name": "Character line",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "end",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "oCon5",
+                                      "name": "Avatar",
+                                      "clip": true,
+                                      "width": 56,
+                                      "height": 56,
+                                      "fill": "$violet-soft",
+                                      "cornerRadius": 28,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "TWwkd",
+                                          "type": "ref",
+                                          "ref": "XypHM",
+                                          "name": "Waiter",
+                                          "width": 56,
+                                          "height": 56
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "Gokle",
+                                      "name": "Bubble",
+                                      "width": "fill_container",
+                                      "fill": "$card",
+                                      "cornerRadius": [
+                                        18,
+                                        18,
+                                        18,
+                                        4
+                                      ],
+                                      "stroke": "$grey",
+                                      "strokeWidth": 2,
+                                      "gap": 10,
+                                      "padding": 14,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "r9fErV",
+                                          "type": "ref",
+                                          "ref": "nGAHo",
+                                          "name": "Play"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "DinbV",
+                                          "name": "Line",
+                                          "fill": "$text",
+                                          "content": "Anything else?",
+                                          "fontFamily": "$font",
+                                          "fontSize": 18,
+                                          "fontWeight": "900"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Rp75b",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "VCOto",
+                                  "name": "Mic",
+                                  "width": "fill_container",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "ktmRx",
+                                      "type": "ref",
+                                      "ref": "j32DR9",
+                                      "name": "Mic"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "OqpzI",
+                          "type": "ref",
+                          "ref": "YZbuA",
+                          "name": "Bottom bar"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QySqU",
+                  "name": "Right answer — he reacts",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "E0NrkI",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Right answer — he reacts",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yAhj6",
+                      "name": "Screen 14a · Correct",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "AIeR1",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "WhUCP",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "zHlDE",
+                          "type": "ref",
+                          "ref": "wmvSi",
+                          "name": "Top bar",
+                          "width": "fill_container",
+                          "descendants": {
+                            "p5XmJ": {
+                              "width": 230
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "okFKx",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 20,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lu8yb",
+                              "name": "Tutor (C)",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "layout": "vertical",
+                              "gap": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "cJvC9",
+                                  "name": "Character (Rive)",
+                                  "clip": true,
+                                  "width": 150,
+                                  "height": 150,
+                                  "fill": "$violet-soft",
+                                  "cornerRadius": 75,
+                                  "stroke": "$violet",
+                                  "strokeWidth": 4,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "id": "GnaM4",
+                                      "type": "ref",
+                                      "ref": "S8DX4F",
+                                      "name": "Waiter",
+                                      "width": 150,
+                                      "height": 150
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "h10kM",
+                                  "name": "Bubble",
+                                  "width": "fill_container",
+                                  "fill": "$card",
+                                  "cornerRadius": 20,
+                                  "stroke": "$grey",
+                                  "strokeWidth": 2,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "padding": 16,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "L05OrY",
+                                      "name": "En",
+                                      "fill": "$text",
+                                      "content": "\"Hi! What would you like?\"",
+                                      "fontFamily": "$font",
+                                      "fontSize": 20,
+                                      "fontWeight": "900"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "B6g5Y9",
+                                      "name": "Uz",
+                                      "fill": "$text-muted",
+                                      "content": "Unga qahva xohlashingizni ayting",
+                                      "fontFamily": "$font",
+                                      "fontSize": 14,
+                                      "fontWeight": "700"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "TGoY3",
+                                  "name": "Spacer",
+                                  "width": 10,
+                                  "height": "fill_container"
+                                },
+                                {
+                                  "id": "kAqdu",
+                                  "type": "ref",
+                                  "ref": "EXY8z",
+                                  "name": "Mic"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "yXQtP",
+                          "type": "ref",
+                          "ref": "Okrd9",
+                          "name": "Feedback",
+                          "width": "fill_container"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GvJYd",
+                  "name": "Checkpoint — he talks to you",
+                  "width": 390,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pqTz7",
+                      "name": "Page",
+                      "fill": "$text",
+                      "content": "Checkpoint — he talks to you",
+                      "fontFamily": "$font",
+                      "fontSize": 18,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R0e7r",
+                      "name": "Screen 21 · Checkpoint player",
+                      "theme": {
+                        "mode": "dark"
+                      },
+                      "clip": true,
+                      "width": 390,
+                      "height": 844,
+                      "fill": "$bg",
+                      "cornerRadius": 36,
+                      "stroke": "$grey",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ars41",
+                          "name": "Status bar",
+                          "width": "fill_container",
+                          "height": 44,
+                          "padding": [
+                            14,
+                            28,
+                            0,
+                            28
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Lnftv",
+                              "name": "Time",
+                              "fill": "$text",
+                              "content": "9:41",
+                              "fontFamily": "$font",
+                              "fontSize": 15,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rO2Nx",
+                          "name": "Checkpoint top bar",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "padding": [
+                            8,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "VP442",
+                              "type": "ref",
+                              "ref": "CcKCC",
+                              "name": "Close"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "FGwaN",
+                              "name": "Chain wrap",
+                              "width": "fill_container",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "ngXbO",
+                                  "name": "Story chain",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "KaBDY",
+                                      "name": "Step 1 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "NQmFC",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "KtDs2",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "H7BBZ",
+                                      "name": "Step 2 · done",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$green",
+                                      "cornerRadius": 15,
+                                      "stroke": "#00000000",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "OEZIo",
+                                          "type": "ref",
+                                          "ref": "Qkxgq",
+                                          "name": "Glyph check",
+                                          "width": 20,
+                                          "height": 20
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "h16sz2",
+                                      "name": "Link",
+                                      "fill": "$green",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "AyCLJ",
+                                      "name": "Step 3 · cur",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$gold-edge",
+                                      "strokeWidth": 3,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "ucZCq",
+                                          "type": "ref",
+                                          "ref": "MFMM6",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "xYEmH",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "h13XBh",
+                                      "name": "Step 4 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "QOyMX",
+                                          "type": "ref",
+                                          "ref": "AMgHl",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "rectangle",
+                                      "cornerRadius": 2,
+                                      "id": "kIlU1",
+                                      "name": "Link",
+                                      "fill": "$grey",
+                                      "width": 16.5,
+                                      "height": 4
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "vE41r",
+                                      "name": "Step 5 · todo",
+                                      "width": 30,
+                                      "height": 30,
+                                      "fill": "$card",
+                                      "cornerRadius": 15,
+                                      "stroke": "$grey-edge",
+                                      "strokeWidth": 2,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "eVE5P",
+                                          "type": "ref",
+                                          "ref": "ghRIT",
+                                          "name": "Icon",
+                                          "width": 22,
+                                          "height": 22,
+                                          "opacity": 1
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "PK8TL",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "gap": 16,
+                          "padding": [
+                            12,
+                            16,
+                            16,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "yzxX1",
+                              "name": "Step chip",
+                              "fill": "$gold-soft",
+                              "cornerRadius": 12,
+                              "gap": 6,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uqFlN",
+                                  "name": "T",
+                                  "fill": "$gold-text",
+                                  "content": "3/5 · NARXNI SO'RANG",
+                                  "fontFamily": "$font",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "DaUIC",
+                              "name": "Character (Rive)",
+                              "clip": true,
+                              "width": 140,
+                              "height": 140,
+                              "fill": "$violet-soft",
+                              "cornerRadius": 70,
+                              "stroke": "$violet",
+                              "strokeWidth": 4,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "L5TwP",
+                                  "type": "ref",
+                                  "ref": "XypHM",
+                                  "name": "Waiter",
+                                  "width": 140,
+                                  "height": 140
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Pap4A",
+                              "name": "Bubble",
+                              "width": "fill_container",
+                              "fill": "$card",
+                              "cornerRadius": 20,
+                              "stroke": "$grey",
+                              "strokeWidth": 2,
+                              "layout": "vertical",
+                              "gap": 6,
+                              "padding": 16,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "u0CFE",
+                                  "name": "En",
+                                  "fill": "$text",
+                                  "content": "\"Here's your coffee!\"",
+                                  "fontFamily": "$font",
+                                  "fontSize": 20,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cQtjY",
+                                  "name": "Uz",
+                                  "fill": "$text-muted",
+                                  "content": "Endi narxini so'rang",
+                                  "fontFamily": "$font",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "f8R6N",
+                              "name": "Spacer",
+                              "width": 10,
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "haXsU",
+                              "type": "ref",
+                              "ref": "j32DR9",
+                              "name": "Mic"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JZ1S6",
+                          "name": "Bottom",
+                          "width": "fill_container",
+                          "padding": [
+                            0,
+                            16,
+                            28,
+                            16
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "id": "eCysU",
+                              "type": "ref",
+                              "ref": "HpqBt",
+                              "name": "Can't speak"
+                            }
+                          ]
                         }
                       ]
                     }
