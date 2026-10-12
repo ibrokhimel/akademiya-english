@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Café waiters</title>
+<style>
+  :root { --bg: #F7F5FF; --card: #FFFFFF; --text: #2B2B3C; --muted: #6E6E82; --ring: #EFEBFF; --line: #E5E5E5; --violet: #7B5CFF; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 600 15px/1.4 Nunito, system-ui, sans-serif; }
+  body.dark { --bg: #121214; --card: #1B1B1F; --text: #F4F4F6; --muted: #9C9CA6; --ring: #26214A; --line: #34343B; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 24px; font-weight: 900; margin: 0 0 4px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 20px 0 8px; }
+  p { color: var(--muted); margin: 0 0 16px; }
+  #stage { background: var(--card); border-radius: 24px; display: flex; gap: 48px; justify-content: center; align-items: flex-end; padding: 24px; }
+  figure { margin: 0; text-align: center; font-weight: 800; white-space: nowrap; }
+  .big, .small { border-radius: 50%; background: var(--ring); overflow: hidden; display: inline-block; vertical-align: bottom; }
+  .big { width: 200px; height: 200px; } .small { width: 56px; height: 56px; margin-left: 10px; }
+  canvas { width: 100%; height: 100%; display: block; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button { font: inherit; font-weight: 800; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--card); color: var(--text);
+           border-radius: 14px; padding: 8px 14px; cursor: pointer; }
+  button.good { border-color: #46A302; background: #58CC02; color: #fff; }
+  button.bad { border-color: #D94B40; background: #FF6B5E; color: #fff; }
+  button[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Café waiters</h1>
+  <p>Two waiters, each with its own Rive artboard, one shared set of controls. They breathe and blink on their own.</p>
+  <div id="stage"></div>
+
+  <h2>Answer reactions</h2>
+  <div class="row"><button class="good" id="correct">Right answer</button><button class="bad" id="wrong">Mistake ("hm")</button></div>
+  <h2>Talking</h2>
+  <div class="row"><button id="say1">Say "Anything else?"</button><button id="say2">Say "Hi! What would you like?"</button></div>
+  <h2>Mouth shapes (hold one)</h2>
+  <div class="row" id="visemes"></div>
+  <h2>Theme</h2>
+  <div class="row"><button id="dark" aria-pressed="false">Dark mode</button></div>
+</main>
+<script src="node_modules/@rive-app/canvas/rive.js"></script>
+<script>
+  const SRC = 'out/waiters/test.riv?' + Date.now();
+  const NAMES = ['REST', 'MBP', 'FV', 'TEETH', 'EE', 'EH', 'AA', 'OH', 'OO', 'SH_R', 'TH', 'UH'];
+  const stage = document.getElementById('stage');
+  const vmis = []; let loaded = 0;
+  for (const k of ['A', 'C']) {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `<span class="big"><canvas width="400" height="400" id="big${k}"></canvas></span>` +
+                    `<span class="small"><canvas width="168" height="168" id="small${k}"></canvas></span><figcaption>Waiter ${k}</figcaption>`;
+    stage.appendChild(fig);
+    for (const size of ['big', 'small']) {
+      const r = new rive.Rive({ src: SRC, canvas: document.getElementById(size + k), artboard: 'Waiter ' + k, stateMachines: 'Waiter',
+        autoplay: true, autoBind: true, onLoad: () => { r.resizeDrawingSurfaceToCanvas(); vmis.push(r.viewModelInstance); if (++loaded === 4) window.waitersReady = true; } });
+    }
+  }
+  const each = (fn) => vmis.forEach(fn);
+  let timer = 0, held = -1;
+  const api = window.api = {
+    correct: () => each(v => v.trigger('correct').trigger()),
+    wrong: () => each(v => v.trigger('wrong').trigger()),
+    dark: (on) => { each(v => v.boolean('dark').value = on); document.body.classList.toggle('dark', on); document.getElementById('dark').setAttribute('aria-pressed', on); },
+    viseme: (n) => { clearTimeout(timer); each(v => { v.number('viseme').value = n; v.boolean('talking').value = true; }); },
+    stop: () => { clearTimeout(timer); held = -1; each(v => v.boolean('talking').value = false); mark(); },
+    say: (seq) => { clearTimeout(timer); held = -1; mark(); let i = 0;
+      const step = () => { if (i >= seq.length) return api.stop(); const [n, ms] = seq[i++]; each(v => { v.number('viseme').value = n; v.boolean('talking').value = true; }); timer = setTimeout(step, ms); };
+      step(); },
+  };
+  // rough mouth-shape timings for the test lines (the app will use the same timeline format as Dombi)
+  const SAY1 = [[5, 110], [3, 70], [4, 90], [10, 90], [4, 80], [3, 90], [0, 60], [5, 110], [5, 70], [3, 130]];
+  const SAY2 = [[6, 100], [4, 130], [0, 140], [8, 80], [6, 90], [3, 70], [8, 70], [11, 80], [3, 70], [4, 70], [8, 110], [5, 60], [6, 100], [4, 80], [3, 90]];
+  window.SAY1 = SAY1; window.SAY2 = SAY2;
+  const box = document.getElementById('visemes');
+  NAMES.forEach((n, i) => { const b = document.createElement('button'); b.textContent = i + ' ' + n; b.dataset.v = i;
+    b.onclick = () => { if (held === i) return api.stop(); held = i; api.viseme(i); mark(); }; box.appendChild(b); });
+  function mark() { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.v === held)); }
+  document.getElementById('correct').onclick = api.correct;
+  document.getElementById('wrong').onclick = api.wrong;
+  document.getElementById('say1').onclick = () => api.say(SAY1);
+  document.getElementById('say2').onclick = () => api.say(SAY2);
+  document.getElementById('dark').onclick = () => api.dark(!document.body.classList.contains('dark'));
+</script>
+</body>
+</html>
