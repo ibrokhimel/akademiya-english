@@ -1,1 +1,0 @@
-No definition found for "index". Available keys: rive/vector, rive/path, rive/mat2d, rive/gradient, rive/mat4, rive/color, rive/mesh, rive/gpu_types, rive/image, rive/paint, rive/renderer, rive/text, rive/artboards, rive/dataValue, rive/gpu, rive/promise, rive/interfaces, rive/testing, rive/fileFormat, rive/base, @luau, rive/typeslib
