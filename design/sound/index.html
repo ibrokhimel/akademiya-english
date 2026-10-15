@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — sounds</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../motion/tokens.css">
+<link rel="stylesheet" href="audition.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Sounds</h1>
+    <p class="lead">Every sound the app needs, with at least 10 options each. Press a card to hear it. Press the heart on the ones you like — as many as you want. Your likes are saved by themselves.</p>
+    <div class="legend"><span><i class="lic">CC0</i> free for anything</span><span><i class="lic by">free</i> free to use in an app</span><span><i class="lic by">credit</i> free, but the maker must be named in the app</span><span>All options are set to the same loudness. Esc stops the sound.</span></div>
+  </div></header>
+  <div class="tools">
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tLiked" aria-pressed="false">Show only liked</button>
+    <label class="tool vol">Volume <input type="range" id="vol" min="0" max="100" value="80"></label>
+    <span class="tool stat" id="stat"></span>
+    <span class="tool stat" id="saved"></span>
+  </div>
+  <div class="cols">
+    <nav class="slots" id="nav"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+<script src="audition.js"></script>
+</body>
+</html>

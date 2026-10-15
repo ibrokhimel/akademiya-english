@@ -1,0 +1,1387 @@
+{
+ "families": [
+  {
+   "id": "sine",
+   "name": "Sine",
+   "by": "SND01 \"sine\" (snd.dev)",
+   "licence": "free for apps (SND terms of use)",
+   "credit": null,
+   "about": "pure, tiny, electronic; the closest to the iPhone feel",
+   "sounds": {
+    "button": {
+     "when": "a main or small button is pressed",
+     "step": 0,
+     "files": [
+      {
+       "file": "button.wav",
+       "volume": 0.077,
+       "ms": 100,
+       "from": "button"
+      }
+     ]
+    },
+    "pick": {
+     "when": "something becomes the picked one",
+     "step": 0,
+     "files": [
+      {
+       "file": "pick.wav",
+       "volume": 0.189,
+       "ms": 99,
+       "from": "select"
+      }
+     ]
+    },
+    "tile": {
+     "when": "a word tile lands in the line (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "tile.wav",
+       "volume": 0.494,
+       "ms": 10,
+       "from": "tap_03"
+      }
+     ]
+    },
+    "pop": {
+     "when": "a toast, tip, dialog or speech bubble appears",
+     "step": 0,
+     "files": [
+      {
+       "file": "pop.wav",
+       "volume": 1.0,
+       "ms": 9,
+       "from": "tap_02"
+      }
+     ]
+    },
+    "whoosh": {
+     "when": "a bottom sheet comes up",
+     "step": 0,
+     "files": [
+      {
+       "file": "whoosh.wav",
+       "volume": 0.057,
+       "ms": 88,
+       "from": "transition_up"
+      }
+     ]
+    },
+    "close": {
+     "when": "a sheet or dialog goes away",
+     "step": 0,
+     "files": [
+      {
+       "file": "close.wav",
+       "volume": 0.045,
+       "ms": 95,
+       "from": "transition_down"
+      }
+     ]
+    },
+    "switch-on": {
+     "when": "a toggle is switched on",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-on.wav",
+       "volume": 0.178,
+       "ms": 99,
+       "from": "toggle_on"
+      }
+     ]
+    },
+    "switch-off": {
+     "when": "a toggle is switched off",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-off.wav",
+       "volume": 0.185,
+       "ms": 99,
+       "from": "toggle_off"
+      }
+     ]
+    },
+    "count": {
+     "when": "a gold bit lands on a counter (rises)",
+     "step": -12,
+     "files": [
+      {
+       "file": "count.wav",
+       "volume": 0.189,
+       "ms": 99,
+       "from": "select"
+      }
+     ]
+    },
+    "step": {
+     "when": "a step of a list lights up (rises)",
+     "step": -12,
+     "files": [
+      {
+       "file": "step.wav",
+       "volume": 0.189,
+       "ms": 99,
+       "from": "select"
+      }
+     ]
+    },
+    "appear": {
+     "when": "one of several things arriving one after another (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "appear.wav",
+       "volume": 0.263,
+       "ms": 9,
+       "from": "tap_01"
+      }
+     ]
+    },
+    "turn": {
+     "when": "it becomes your turn to speak",
+     "step": -5,
+     "files": [
+      {
+       "file": "turn.wav",
+       "volume": 0.074,
+       "ms": 300,
+       "from": "notification"
+      }
+     ]
+    },
+    "tick": {
+     "when": "one step of the time wheel",
+     "step": 0,
+     "files": [
+      {
+       "file": "tick-1.wav",
+       "volume": 0.785,
+       "ms": 9,
+       "from": "type_01"
+      },
+      {
+       "file": "tick-2.wav",
+       "volume": 0.779,
+       "ms": 9,
+       "from": "type_02"
+      },
+      {
+       "file": "tick-3.wav",
+       "volume": 0.783,
+       "ms": 9,
+       "from": "type_03"
+      },
+      {
+       "file": "tick-4.wav",
+       "volume": 0.8,
+       "ms": 10,
+       "from": "type_04"
+      },
+      {
+       "file": "tick-5.wav",
+       "volume": 0.79,
+       "ms": 9,
+       "from": "type_05"
+      }
+     ]
+    },
+    "roll": {
+     "when": "a number counting up (a few soft ticks)",
+     "step": 0,
+     "files": [
+      {
+       "file": "roll-1.wav",
+       "volume": 0.495,
+       "ms": 9,
+       "from": "type_01"
+      },
+      {
+       "file": "roll-2.wav",
+       "volume": 0.491,
+       "ms": 9,
+       "from": "type_02"
+      },
+      {
+       "file": "roll-3.wav",
+       "volume": 0.494,
+       "ms": 9,
+       "from": "type_03"
+      },
+      {
+       "file": "roll-4.wav",
+       "volume": 0.505,
+       "ms": 10,
+       "from": "type_04"
+      },
+      {
+       "file": "roll-5.wav",
+       "volume": 0.499,
+       "ms": 9,
+       "from": "type_05"
+      }
+     ]
+    },
+    "tab": {
+     "when": "a tab at the bottom is chosen",
+     "step": 0,
+     "files": [
+      {
+       "file": "tab.wav",
+       "volume": 0.295,
+       "ms": 9,
+       "from": "tap_01"
+      }
+     ]
+    },
+    "seg": {
+     "when": "the two-option control changes",
+     "step": 0,
+     "files": [
+      {
+       "file": "seg.wav",
+       "volume": 0.392,
+       "ms": 9,
+       "from": "tap_05"
+      }
+     ]
+    },
+    "next": {
+     "when": "onboarding moves to the next screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "next.wav",
+       "volume": 0.072,
+       "ms": 148,
+       "from": "swipe_01"
+      }
+     ]
+    },
+    "back": {
+     "when": "onboarding goes back a screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "back.wav",
+       "volume": 0.062,
+       "ms": 149,
+       "from": "swipe_02"
+      }
+     ]
+    },
+    "unfold": {
+     "when": "the streak calendar opens or closes",
+     "step": 0,
+     "files": [
+      {
+       "file": "unfold.wav",
+       "volume": 0.06,
+       "ms": 149,
+       "from": "swipe_03"
+      }
+     ]
+    },
+    "mistakes": {
+     "when": "the mistakes round arrives",
+     "step": 0,
+     "files": [
+      {
+       "file": "mistakes.wav",
+       "volume": 0.087,
+       "ms": 149,
+       "from": "swipe_04"
+      }
+     ]
+    },
+    "sent": {
+     "when": "a friend request is sent",
+     "step": 0,
+     "files": [
+      {
+       "file": "sent.wav",
+       "volume": 0.123,
+       "ms": 148,
+       "from": "swipe_05"
+      }
+     ]
+    },
+    "star": {
+     "when": "a phrase earns a star",
+     "step": -5,
+     "files": [
+      {
+       "file": "star.wav",
+       "volume": 0.199,
+       "ms": 99,
+       "from": "toggle_on"
+      }
+     ]
+    },
+    "unlock": {
+     "when": "the next lesson circle unlocks",
+     "step": 0,
+     "files": [
+      {
+       "file": "unlock.wav",
+       "volume": 0.105,
+       "ms": 300,
+       "from": "notification"
+      }
+     ]
+    },
+    "friend": {
+     "when": "a friend request is accepted",
+     "step": 0,
+     "files": [
+      {
+       "file": "friend.wav",
+       "volume": 0.164,
+       "ms": 554,
+       "from": "celebration"
+      }
+     ]
+    },
+    "nothing": {
+     "when": "the mic heard nothing",
+     "step": 0,
+     "files": [
+      {
+       "file": "nothing.wav",
+       "volume": 0.27,
+       "ms": 70,
+       "from": "disabled"
+      }
+     ]
+    }
+   },
+   "tune": {
+    "not-right": -1,
+    "combo": -2,
+    "mic-on": -2,
+    "mic-off": -2,
+    "level-up": 2,
+    "freeze": 1
+   }
+  },
+  {
+   "id": "piano",
+   "name": "Piano",
+   "by": "SND02 \"piano\" (snd.dev)",
+   "licence": "free for apps (SND terms of use)",
+   "credit": null,
+   "about": "the same set played on a grand piano: notes, hammer knocks, string scrapes; warm and musical, but longer",
+   "sounds": {
+    "button": {
+     "when": "a main or small button is pressed",
+     "step": 0,
+     "files": [
+      {
+       "file": "button.wav",
+       "volume": 0.018,
+       "ms": 522,
+       "from": "button"
+      }
+     ]
+    },
+    "pick": {
+     "when": "something becomes the picked one",
+     "step": 0,
+     "files": [
+      {
+       "file": "pick.wav",
+       "volume": 0.157,
+       "ms": 259,
+       "from": "select"
+      }
+     ]
+    },
+    "tile": {
+     "when": "a word tile lands in the line (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "tile.wav",
+       "volume": 0.197,
+       "ms": 195,
+       "from": "tap_01"
+      }
+     ]
+    },
+    "pop": {
+     "when": "a toast, tip, dialog or speech bubble appears",
+     "step": 0,
+     "files": [
+      {
+       "file": "pop.wav",
+       "volume": 0.166,
+       "ms": 191,
+       "from": "tap_04"
+      }
+     ]
+    },
+    "whoosh": {
+     "when": "a bottom sheet comes up",
+     "step": 0,
+     "files": [
+      {
+       "file": "whoosh.wav",
+       "volume": 0.045,
+       "ms": 748,
+       "from": "transition_up"
+      }
+     ]
+    },
+    "close": {
+     "when": "a sheet or dialog goes away",
+     "step": 0,
+     "files": [
+      {
+       "file": "close.wav",
+       "volume": 0.036,
+       "ms": 727,
+       "from": "transition_down"
+      }
+     ]
+    },
+    "switch-on": {
+     "when": "a toggle is switched on",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-on.wav",
+       "volume": 0.054,
+       "ms": 515,
+       "from": "toggle_on"
+      }
+     ]
+    },
+    "switch-off": {
+     "when": "a toggle is switched off",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-off.wav",
+       "volume": 0.047,
+       "ms": 550,
+       "from": "toggle_off"
+      }
+     ]
+    },
+    "count": {
+     "when": "a gold bit lands on a counter (rises)",
+     "step": -12,
+     "files": [
+      {
+       "file": "count.wav",
+       "volume": 0.035,
+       "ms": 522,
+       "from": "button"
+      }
+     ]
+    },
+    "step": {
+     "when": "a step of a list lights up (rises)",
+     "step": -12,
+     "files": [
+      {
+       "file": "step.wav",
+       "volume": 0.035,
+       "ms": 522,
+       "from": "button"
+      }
+     ]
+    },
+    "appear": {
+     "when": "one of several things arriving one after another (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "appear.wav",
+       "volume": 0.104,
+       "ms": 233,
+       "from": "tap_03"
+      }
+     ]
+    },
+    "turn": {
+     "when": "it becomes your turn to speak",
+     "step": 7,
+     "files": [
+      {
+       "file": "turn.wav",
+       "volume": 0.056,
+       "ms": 522,
+       "from": "button"
+      }
+     ]
+    },
+    "tick": {
+     "when": "one step of the time wheel",
+     "step": 0,
+     "files": [
+      {
+       "file": "tick-1.wav",
+       "volume": 0.109,
+       "ms": 313,
+       "from": "type_01"
+      },
+      {
+       "file": "tick-2.wav",
+       "volume": 0.11,
+       "ms": 311,
+       "from": "type_02"
+      },
+      {
+       "file": "tick-3.wav",
+       "volume": 0.11,
+       "ms": 209,
+       "from": "type_03"
+      },
+      {
+       "file": "tick-4.wav",
+       "volume": 0.111,
+       "ms": 196,
+       "from": "type_04"
+      },
+      {
+       "file": "tick-5.wav",
+       "volume": 0.111,
+       "ms": 253,
+       "from": "type_05"
+      }
+     ]
+    },
+    "roll": {
+     "when": "a number counting up (a few soft ticks)",
+     "step": 0,
+     "files": [
+      {
+       "file": "roll-1.wav",
+       "volume": 0.069,
+       "ms": 313,
+       "from": "type_01"
+      },
+      {
+       "file": "roll-2.wav",
+       "volume": 0.069,
+       "ms": 311,
+       "from": "type_02"
+      },
+      {
+       "file": "roll-3.wav",
+       "volume": 0.07,
+       "ms": 209,
+       "from": "type_03"
+      },
+      {
+       "file": "roll-4.wav",
+       "volume": 0.07,
+       "ms": 196,
+       "from": "type_04"
+      },
+      {
+       "file": "roll-5.wav",
+       "volume": 0.07,
+       "ms": 253,
+       "from": "type_05"
+      }
+     ]
+    },
+    "tab": {
+     "when": "a tab at the bottom is chosen",
+     "step": 0,
+     "files": [
+      {
+       "file": "tab.wav",
+       "volume": 0.095,
+       "ms": 213,
+       "from": "tap_02"
+      }
+     ]
+    },
+    "seg": {
+     "when": "the two-option control changes",
+     "step": 0,
+     "files": [
+      {
+       "file": "seg.wav",
+       "volume": 0.108,
+       "ms": 219,
+       "from": "tap_05"
+      }
+     ]
+    },
+    "next": {
+     "when": "onboarding moves to the next screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "next.wav",
+       "volume": 0.053,
+       "ms": 209,
+       "from": "swipe_01"
+      }
+     ]
+    },
+    "back": {
+     "when": "onboarding goes back a screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "back.wav",
+       "volume": 0.051,
+       "ms": 229,
+       "from": "swipe_02"
+      }
+     ]
+    },
+    "unfold": {
+     "when": "the streak calendar opens or closes",
+     "step": 0,
+     "files": [
+      {
+       "file": "unfold.wav",
+       "volume": 0.053,
+       "ms": 230,
+       "from": "swipe_03"
+      }
+     ]
+    },
+    "mistakes": {
+     "when": "the mistakes round arrives",
+     "step": 0,
+     "files": [
+      {
+       "file": "mistakes.wav",
+       "volume": 0.066,
+       "ms": 239,
+       "from": "swipe_04"
+      }
+     ]
+    },
+    "sent": {
+     "when": "a friend request is sent",
+     "step": 0,
+     "files": [
+      {
+       "file": "sent.wav",
+       "volume": 0.087,
+       "ms": 196,
+       "from": "swipe_05"
+      }
+     ]
+    },
+    "star": {
+     "when": "a phrase earns a star",
+     "step": 0,
+     "files": [
+      {
+       "file": "star.wav",
+       "volume": 0.06,
+       "ms": 515,
+       "from": "toggle_on"
+      }
+     ]
+    },
+    "unlock": {
+     "when": "the next lesson circle unlocks",
+     "step": 0,
+     "files": [
+      {
+       "file": "unlock.wav",
+       "volume": 0.081,
+       "ms": 1892,
+       "from": "notification"
+      }
+     ]
+    },
+    "friend": {
+     "when": "a friend request is accepted",
+     "step": 0,
+     "files": [
+      {
+       "file": "friend.wav",
+       "volume": 0.134,
+       "ms": 2656,
+       "from": "celebration"
+      }
+     ]
+    },
+    "nothing": {
+     "when": "the mic heard nothing",
+     "step": 0,
+     "files": [
+      {
+       "file": "nothing.wav",
+       "volume": 0.09,
+       "ms": 404,
+       "from": "disabled"
+      }
+     ]
+    }
+   },
+   "tune": {
+    "not-right": -2,
+    "lesson-done": 2,
+    "perfect": -1,
+    "level-up": 2,
+    "freeze": 1
+   }
+  },
+  {
+   "id": "material",
+   "name": "Material",
+   "by": "Google Material sounds",
+   "licence": "CC BY 4.0",
+   "credit": "Sounds from Material Design sound resources by Google, licensed under CC BY 4.0.",
+   "about": "soft, rounded, tonal; the family your Right and Pick already come from",
+   "sounds": {
+    "button": {
+     "when": "a main or small button is pressed",
+     "step": 0,
+     "files": [
+      {
+       "file": "button.wav",
+       "volume": 0.055,
+       "ms": 66,
+       "from": "ui_tap-variant-01"
+      }
+     ]
+    },
+    "pick": {
+     "when": "something becomes the picked one",
+     "step": 0,
+     "files": [
+      {
+       "file": "pick.wav",
+       "volume": 0.15,
+       "ms": 236,
+       "from": "navigation_hover-tap"
+      }
+     ]
+    },
+    "tile": {
+     "when": "a word tile lands in the line (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "tile.wav",
+       "volume": 0.121,
+       "ms": 77,
+       "from": "ui_tap-variant-02"
+      }
+     ]
+    },
+    "pop": {
+     "when": "a toast, tip, dialog or speech bubble appears",
+     "step": 0,
+     "files": [
+      {
+       "file": "pop.wav",
+       "volume": 0.239,
+       "ms": 155,
+       "from": "ui_lock"
+      }
+     ]
+    },
+    "whoosh": {
+     "when": "a bottom sheet comes up",
+     "step": 0,
+     "files": [
+      {
+       "file": "whoosh.wav",
+       "volume": 0.053,
+       "ms": 767,
+       "from": "navigation_transition-right"
+      }
+     ]
+    },
+    "close": {
+     "when": "a sheet or dialog goes away",
+     "step": 0,
+     "files": [
+      {
+       "file": "close.wav",
+       "volume": 0.053,
+       "ms": 759,
+       "from": "navigation_transition-left"
+      }
+     ]
+    },
+    "switch-on": {
+     "when": "a toggle is switched on",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-on.wav",
+       "volume": 0.058,
+       "ms": 701,
+       "from": "state-change_confirm-up"
+      }
+     ]
+    },
+    "switch-off": {
+     "when": "a toggle is switched off",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-off.wav",
+       "volume": 0.056,
+       "ms": 684,
+       "from": "state-change_confirm-down"
+      }
+     ]
+    },
+    "count": {
+     "when": "a gold bit lands on a counter (rises)",
+     "step": 0,
+     "files": [
+      {
+       "file": "count.wav",
+       "volume": 0.15,
+       "ms": 236,
+       "from": "navigation_hover-tap"
+      }
+     ]
+    },
+    "step": {
+     "when": "a step of a list lights up (rises)",
+     "step": 0,
+     "files": [
+      {
+       "file": "step.wav",
+       "volume": 0.15,
+       "ms": 236,
+       "from": "navigation_hover-tap"
+      }
+     ]
+    },
+    "appear": {
+     "when": "one of several things arriving one after another (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "appear.wav",
+       "volume": 0.08,
+       "ms": 75,
+       "from": "ui_tap-variant-04"
+      }
+     ]
+    },
+    "turn": {
+     "when": "it becomes your turn to speak",
+     "step": -5,
+     "files": [
+      {
+       "file": "turn.wav",
+       "volume": 0.106,
+       "ms": 404,
+       "from": "notification_simple-01"
+      }
+     ]
+    },
+    "tick": {
+     "when": "one step of the time wheel",
+     "step": 0,
+     "files": [
+      {
+       "file": "tick-1.wav",
+       "volume": 0.079,
+       "ms": 77,
+       "from": "ui_tap-variant-03"
+      },
+      {
+       "file": "tick-2.wav",
+       "volume": 0.089,
+       "ms": 75,
+       "from": "ui_tap-variant-04"
+      },
+      {
+       "file": "tick-3.wav",
+       "volume": 0.076,
+       "ms": 77,
+       "from": "ui_tap-variant-02"
+      }
+     ]
+    },
+    "roll": {
+     "when": "a number counting up (a few soft ticks)",
+     "step": 0,
+     "files": [
+      {
+       "file": "roll-1.wav",
+       "volume": 0.05,
+       "ms": 77,
+       "from": "ui_tap-variant-03"
+      },
+      {
+       "file": "roll-2.wav",
+       "volume": 0.056,
+       "ms": 75,
+       "from": "ui_tap-variant-04"
+      }
+     ]
+    },
+    "tab": {
+     "when": "a tab at the bottom is chosen",
+     "step": 0,
+     "files": [
+      {
+       "file": "tab.wav",
+       "volume": 0.079,
+       "ms": 77,
+       "from": "ui_tap-variant-03"
+      }
+     ]
+    },
+    "seg": {
+     "when": "the two-option control changes",
+     "step": 0,
+     "files": [
+      {
+       "file": "seg.wav",
+       "volume": 0.089,
+       "ms": 75,
+       "from": "ui_tap-variant-04"
+      }
+     ]
+    },
+    "next": {
+     "when": "onboarding moves to the next screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "next.wav",
+       "volume": 0.109,
+       "ms": 234,
+       "from": "navigation_forward-selection-minimal"
+      }
+     ]
+    },
+    "back": {
+     "when": "onboarding goes back a screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "back.wav",
+       "volume": 0.107,
+       "ms": 283,
+       "from": "navigation_backward-selection-minimal"
+      }
+     ]
+    },
+    "unfold": {
+     "when": "the streak calendar opens or closes",
+     "step": 0,
+     "files": [
+      {
+       "file": "unfold.wav",
+       "volume": 0.048,
+       "ms": 767,
+       "from": "navigation_transition-right"
+      }
+     ]
+    },
+    "mistakes": {
+     "when": "the mistakes round arrives",
+     "step": 0,
+     "files": [
+      {
+       "file": "mistakes.wav",
+       "volume": 0.06,
+       "ms": 767,
+       "from": "navigation_transition-right"
+      }
+     ]
+    },
+    "sent": {
+     "when": "a friend request is sent",
+     "step": 0,
+     "files": [
+      {
+       "file": "sent.wav",
+       "volume": 0.094,
+       "ms": 404,
+       "from": "notification_simple-01"
+      }
+     ]
+    },
+    "star": {
+     "when": "a phrase earns a star",
+     "step": 0,
+     "files": [
+      {
+       "file": "star.wav",
+       "volume": 0.115,
+       "ms": 167,
+       "from": "ui_unlock"
+      }
+     ]
+    },
+    "unlock": {
+     "when": "the next lesson circle unlocks",
+     "step": 0,
+     "files": [
+      {
+       "file": "unlock.wav",
+       "volume": 0.204,
+       "ms": 167,
+       "from": "ui_unlock"
+      }
+     ]
+    },
+    "friend": {
+     "when": "a friend request is accepted",
+     "step": 0,
+     "files": [
+      {
+       "file": "friend.wav",
+       "volume": 0.305,
+       "ms": 1081,
+       "from": "navigation_selection-complete-celebration"
+      }
+     ]
+    },
+    "nothing": {
+     "when": "the mic heard nothing",
+     "step": 0,
+     "files": [
+      {
+       "file": "nothing.wav",
+       "volume": 0.136,
+       "ms": 228,
+       "from": "navigation_unavailable-selection"
+      }
+     ]
+    }
+   },
+   "tune": {
+    "lesson-done": -3,
+    "perfect": 1,
+    "new-phrase": 2,
+    "level-up": -1,
+    "trophy": -1
+   }
+  },
+  {
+   "id": "clicks",
+   "name": "Clicks",
+   "by": "Kenney Interface Sounds",
+   "licence": "CC0",
+   "credit": null,
+   "about": "dry clicks and ticks with no pitch of their own, like switches on a device",
+   "sounds": {
+    "button": {
+     "when": "a main or small button is pressed",
+     "step": 0,
+     "files": [
+      {
+       "file": "button.wav",
+       "volume": 0.432,
+       "ms": 11,
+       "from": "click_002"
+      }
+     ]
+    },
+    "pick": {
+     "when": "something becomes the picked one",
+     "step": 0,
+     "files": [
+      {
+       "file": "pick.wav",
+       "volume": 0.218,
+       "ms": 40,
+       "from": "select_002"
+      }
+     ]
+    },
+    "tile": {
+     "when": "a word tile lands in the line (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "tile.wav",
+       "volume": 0.162,
+       "ms": 283,
+       "from": "drop_004"
+      }
+     ]
+    },
+    "pop": {
+     "when": "a toast, tip, dialog or speech bubble appears",
+     "step": 0,
+     "files": [
+      {
+       "file": "pop.wav",
+       "volume": 0.296,
+       "ms": 99,
+       "from": "pluck_001"
+      }
+     ]
+    },
+    "whoosh": {
+     "when": "a bottom sheet comes up",
+     "step": 0,
+     "files": [
+      {
+       "file": "whoosh.wav",
+       "volume": 0.058,
+       "ms": 145,
+       "from": "open_001"
+      }
+     ]
+    },
+    "close": {
+     "when": "a sheet or dialog goes away",
+     "step": 0,
+     "files": [
+      {
+       "file": "close.wav",
+       "volume": 0.052,
+       "ms": 147,
+       "from": "close_001"
+      }
+     ]
+    },
+    "switch-on": {
+     "when": "a toggle is switched on",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-on.wav",
+       "volume": 0.056,
+       "ms": 182,
+       "from": "maximize_007"
+      }
+     ]
+    },
+    "switch-off": {
+     "when": "a toggle is switched off",
+     "step": 0,
+     "files": [
+      {
+       "file": "switch-off.wav",
+       "volume": 0.058,
+       "ms": 174,
+       "from": "minimize_007"
+      }
+     ]
+    },
+    "count": {
+     "when": "a gold bit lands on a counter (rises)",
+     "step": 0,
+     "files": [
+      {
+       "file": "count.wav",
+       "volume": 0.156,
+       "ms": 188,
+       "from": "drop_003"
+      }
+     ]
+    },
+    "step": {
+     "when": "a step of a list lights up (rises)",
+     "step": 0,
+     "files": [
+      {
+       "file": "step.wav",
+       "volume": 0.156,
+       "ms": 188,
+       "from": "drop_003"
+      }
+     ]
+    },
+    "appear": {
+     "when": "one of several things arriving one after another (rises a step each time)",
+     "step": 0,
+     "files": [
+      {
+       "file": "appear.wav",
+       "volume": 0.222,
+       "ms": 7,
+       "from": "click_005"
+      }
+     ]
+    },
+    "turn": {
+     "when": "it becomes your turn to speak",
+     "step": 0,
+     "files": [
+      {
+       "file": "turn.wav",
+       "volume": 0.11,
+       "ms": 248,
+       "from": "select_005"
+      }
+     ]
+    },
+    "tick": {
+     "when": "one step of the time wheel",
+     "step": 0,
+     "files": [
+      {
+       "file": "tick-1.wav",
+       "volume": 0.583,
+       "ms": 42,
+       "from": "tick_001"
+      },
+      {
+       "file": "tick-2.wav",
+       "volume": 0.28,
+       "ms": 20,
+       "from": "tick_002"
+      }
+     ]
+    },
+    "roll": {
+     "when": "a number counting up (a few soft ticks)",
+     "step": 0,
+     "files": [
+      {
+       "file": "roll.wav",
+       "volume": 0.368,
+       "ms": 42,
+       "from": "tick_001"
+      }
+     ]
+    },
+    "tab": {
+     "when": "a tab at the bottom is chosen",
+     "step": 0,
+     "files": [
+      {
+       "file": "tab.wav",
+       "volume": 0.382,
+       "ms": 7,
+       "from": "click_003"
+      }
+     ]
+    },
+    "seg": {
+     "when": "the two-option control changes",
+     "step": 0,
+     "files": [
+      {
+       "file": "seg.wav",
+       "volume": 0.249,
+       "ms": 7,
+       "from": "click_005"
+      }
+     ]
+    },
+    "next": {
+     "when": "onboarding moves to the next screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "next.wav",
+       "volume": 0.081,
+       "ms": 206,
+       "from": "maximize_003"
+      }
+     ]
+    },
+    "back": {
+     "when": "onboarding goes back a screen",
+     "step": 0,
+     "files": [
+      {
+       "file": "back.wav",
+       "volume": 0.081,
+       "ms": 211,
+       "from": "minimize_003"
+      }
+     ]
+    },
+    "unfold": {
+     "when": "the streak calendar opens or closes",
+     "step": 0,
+     "files": [
+      {
+       "file": "unfold.wav",
+       "volume": 0.043,
+       "ms": 310,
+       "from": "open_002"
+      }
+     ]
+    },
+    "mistakes": {
+     "when": "the mistakes round arrives",
+     "step": 0,
+     "files": [
+      {
+       "file": "mistakes.wav",
+       "volume": 0.061,
+       "ms": 307,
+       "from": "open_004"
+      }
+     ]
+    },
+    "sent": {
+     "when": "a friend request is sent",
+     "step": 0,
+     "files": [
+      {
+       "file": "sent.wav",
+       "volume": 0.085,
+       "ms": 247,
+       "from": "select_006"
+      }
+     ]
+    },
+    "star": {
+     "when": "a phrase earns a star",
+     "step": 0,
+     "files": [
+      {
+       "file": "star.wav",
+       "volume": 0.224,
+       "ms": 161,
+       "from": "pluck_002"
+      }
+     ]
+    },
+    "unlock": {
+     "when": "the next lesson circle unlocks",
+     "step": 0,
+     "files": [
+      {
+       "file": "unlock.wav",
+       "volume": 0.097,
+       "ms": 289,
+       "from": "confirmation_001"
+      }
+     ]
+    },
+    "friend": {
+     "when": "a friend request is accepted",
+     "step": 0,
+     "files": [
+      {
+       "file": "friend.wav",
+       "volume": 0.119,
+       "ms": 538,
+       "from": "confirmation_002"
+      }
+     ]
+    },
+    "nothing": {
+     "when": "the mic heard nothing",
+     "step": 0,
+     "files": [
+      {
+       "file": "nothing.wav",
+       "volume": 0.135,
+       "ms": 167,
+       "from": "switch_006"
+      }
+     ]
+    }
+   },
+   "tune": {}
+  }
+ ]
+}

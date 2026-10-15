@@ -1,0 +1,823 @@
+[
+  {
+    "slug": "kenney-interface-sounds",
+    "name": "Kenney Interface Sounds",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/interface-sounds",
+    "download_url": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-interface-sounds",
+    "file_count": 100,
+    "extensions": {
+      "ogg": 100
+    },
+    "unique_sound_names": 100,
+    "character": "Clean, dry, modern UI one-shots: click, select, confirmation, error, toggle, switch, tick, open/close, maximize/minimize, drop, pluck, glass, bong.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-ui-audio",
+    "name": "Kenney UI Audio",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/ui-audio",
+    "download_url": "https://kenney.nl/media/pages/assets/ui-audio/490d233f68-1677590494/kenney_ui-audio.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-ui-audio",
+    "file_count": 52,
+    "extensions": {
+      "ogg": 52
+    },
+    "unique_sound_names": 52,
+    "character": "Tiny mechanical clicks, rollovers and 38 switch variations; very short and neutral, good for taps and toggles.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-digital-audio",
+    "name": "Kenney Digital Audio",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/digital-audio",
+    "download_url": "https://kenney.nl/media/pages/assets/digital-audio/216eac4753-1677590265/kenney_digital-audio.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-digital-audio",
+    "file_count": 63,
+    "extensions": {
+      "ogg": 63
+    },
+    "unique_sound_names": 63,
+    "character": "Synthetic retro-digital bleeps: power-ups, two/three-tone confirms, phasers, zaps, lasers. Arcade flavour, for contrast.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-impact-sounds",
+    "name": "Kenney Impact Sounds",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/impact-sounds",
+    "download_url": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-impact-sounds",
+    "file_count": 130,
+    "extensions": {
+      "ogg": 130
+    },
+    "unique_sound_names": 130,
+    "character": "Recorded physical impacts (glass, bell, wood, metal, plate, soft, punch) plus footsteps; raw material for thuds, glass/ice hits and wrong-answer knocks.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-music-jingles",
+    "name": "Kenney Music Jingles",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/music-jingles",
+    "download_url": "https://kenney.nl/media/pages/assets/music-jingles/f37e530b9e-1677590399/kenney_music-jingles.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-music-jingles",
+    "file_count": 86,
+    "extensions": {
+      "ogg": 86
+    },
+    "unique_sound_names": 86,
+    "character": "17 short win/lose/stinger jingles, each in 5 instrument sets (NES chip, hit, pizzicato, sax, steel drum).",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-casino-audio",
+    "name": "Kenney Casino Audio",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/casino-audio",
+    "download_url": "https://kenney.nl/media/pages/assets/casino-audio/2472606a04-1721639069/kenney_casino-audio.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-casino-audio",
+    "file_count": 55,
+    "extensions": {
+      "ogg": 55
+    },
+    "unique_sound_names": 55,
+    "character": "Recorded chips, cards and dice: chip stacks/handling/collisions for coin and counter ticks, card slides for swipes.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only."
+  },
+  {
+    "slug": "kenney-rpg-audio",
+    "name": "Kenney RPG Audio",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/rpg-audio",
+    "download_url": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-rpg-audio",
+    "file_count": 52,
+    "extensions": {
+      "ogg": 52
+    },
+    "unique_sound_names": 52,
+    "character": "Foley one-shots: coins handling, book flips/page turns, cloth, leather, metal clicks, doors, footsteps.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only. Extra pack (not in the brief) kept for coin and page-turn sounds."
+  },
+  {
+    "slug": "kenney-sci-fi-sounds",
+    "name": "Kenney Sci-Fi Sounds",
+    "author": "Kenney (kenney.nl)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "License.txt inside the archive: \"License: (Creative Commons Zero, CC0) ... This content is free to use in personal, educational and commercial projects. Support us by crediting Kenney or www.kenney.nl (this is not mandatory)\"",
+    "page_url": "https://kenney.nl/assets/sci-fi-sounds",
+    "download_url": "https://kenney.nl/media/pages/assets/sci-fi-sounds/6b296f9ecf-1677589334/kenney_sci-fi-sounds.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/kenney-sci-fi-sounds",
+    "file_count": 73,
+    "extensions": {
+      "ogg": 73
+    },
+    "unique_sound_names": 73,
+    "character": "Sci-fi engines, force fields, lasers, thruster fire, explosions; mostly not UI, a few whoosh/ignite candidates.",
+    "notes": "Credit to Kenney / www.kenney.nl is optional. OGG only. Extra pack (not in the brief); lowest relevance of the Kenney set."
+  },
+  {
+    "slug": "google-material-product-sounds",
+    "name": "Material Design product sounds (material_product_sounds.zip)",
+    "author": "Google (Material Design)",
+    "licence": "CC-BY 4.0",
+    "attribution": "Not prescribed word-for-word by Google. CC BY 4.0 requires credit + licence notice, e.g. \"Sounds from Material Design sound resources by Google, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)\" and an indication if the sounds were modified.",
+    "licence_quote": "Material Design \"Sound resources\" page (page-data JSON, Internet Archive capture 2021-02-16): \"Download this set of audio files for use in your own product ... Available under CC-BY 4.0. By downloading these files, you agree to the Google Terms of Service.\"",
+    "page_url": "https://web.archive.org/web/20211113030521/https://material.io/design/sound/sound-resources.html",
+    "download_url": "https://web.archive.org/web/20211008070625id_/https://storage.googleapis.com/material-design/downloads/material_product_sounds.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/google-material-product-sounds",
+    "file_count": 120,
+    "extensions": {
+      "caf": 40,
+      "ogg": 40,
+      "wav": 40
+    },
+    "unique_sound_names": 40,
+    "character": "Polished, soft, tonal product sounds: hero celebrations, notifications, alerts/errors, navigation taps, transitions, confirm up/down, lock/unlock. 40 sounds, each as wav/ogg/caf.",
+    "notes": "FLAG: the official URL https://storage.googleapis.com/material-design/downloads/material_product_sounds.zip now returns 403 and the sound-resources page is gone from m2.material.io, so the file and the licence sentence were both taken from Internet Archive captures of the official URLs (17,270,584 bytes). Attribution is mandatory. 40 unique sounds x 3 formats = 120 files."
+  },
+  {
+    "slug": "snd-snd01-sine",
+    "name": "SND01 'sine' UI sound kit",
+    "author": "Yasuhiro Tsuchiya / Dentsu (snd.dev)",
+    "licence": "SND Terms of Use (custom free licence, commercial use allowed)",
+    "attribution": null,
+    "licence_quote": "Terms of Use on snd.dev: \"All the UI sound assets on this website ... are made available for free personal, business, commercial, and non-commercial uses under the Terms of Use.\" / \"You do not need to notify us of your use of the materials. However, we would appreciate it if you could link or credit this site to the extent possible\" / prohibited: \"Redistributing or selling the materials by itself as unprocessed.\"",
+    "page_url": "https://snd.dev/",
+    "download_url": "https://snd.dev/assets/sounds/SND01_sine.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/snd-snd01-sine",
+    "file_count": 28,
+    "extensions": {
+      "wav": 28
+    },
+    "unique_sound_names": 28,
+    "character": "Minimal pure sine-wave UI kit: very small, clean taps, selects, toggles, swipes, notification, caution, celebration.",
+    "notes": "Custom licence, not CC. Copyright stays with the sound designer / Dentsu; raw files may not be redistributed on their own; terms say use 'may be suspended' if Dentsu judges a use inappropriate and that the terms can change without notice. Each kit has the same 27-28 event names (tap, button, select, toggle_on/off, swipe, transition, notification, caution, celebration, type, loops). 10 of the tap/type files are under 1 KB (10 ms sine ticks) - they decode fine."
+  },
+  {
+    "slug": "snd-snd02-piano",
+    "name": "SND02 'piano' UI sound kit",
+    "author": "Ayako Taniguchi / Dentsu (snd.dev)",
+    "licence": "SND Terms of Use (custom free licence, commercial use allowed)",
+    "attribution": null,
+    "licence_quote": "Terms of Use on snd.dev: \"All the UI sound assets on this website ... are made available for free personal, business, commercial, and non-commercial uses under the Terms of Use.\" / \"You do not need to notify us of your use of the materials. However, we would appreciate it if you could link or credit this site to the extent possible\" / prohibited: \"Redistributing or selling the materials by itself as unprocessed.\"",
+    "page_url": "https://snd.dev/",
+    "download_url": "https://snd.dev/assets/sounds/SND02_piano.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/snd-snd02-piano",
+    "file_count": 27,
+    "extensions": {
+      "wav": 27
+    },
+    "unique_sound_names": 27,
+    "character": "Same UI event set played on a Steinway grand (notes, hammer knocks, string scrapes): warm, musical, organic.",
+    "notes": "Custom licence, not CC. Copyright stays with the sound designer / Dentsu; raw files may not be redistributed on their own; terms say use 'may be suspended' if Dentsu judges a use inappropriate and that the terms can change without notice. Each kit has the same 27-28 event names (tap, button, select, toggle_on/off, swipe, transition, notification, caution, celebration, type, loops)."
+  },
+  {
+    "slug": "snd-snd03-industrial",
+    "name": "SND03 'industrial' UI sound kit",
+    "author": "INDUSTRIAL JP / Dentsu (snd.dev)",
+    "licence": "SND Terms of Use (custom free licence, commercial use allowed)",
+    "attribution": null,
+    "licence_quote": "Terms of Use on snd.dev: \"All the UI sound assets on this website ... are made available for free personal, business, commercial, and non-commercial uses under the Terms of Use.\" / \"You do not need to notify us of your use of the materials. However, we would appreciate it if you could link or credit this site to the extent possible\" / prohibited: \"Redistributing or selling the materials by itself as unprocessed.\"",
+    "page_url": "https://snd.dev/",
+    "download_url": "https://snd.dev/assets/sounds/SND03_industrial.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/snd-snd03-industrial",
+    "file_count": 27,
+    "extensions": {
+      "wav": 27
+    },
+    "unique_sound_names": 27,
+    "character": "Same UI event set built from recorded factory machines: mechanical clacks, stamps and servo sounds.",
+    "notes": "Custom licence, not CC. Copyright stays with the sound designer / Dentsu; raw files may not be redistributed on their own; terms say use 'may be suspended' if Dentsu judges a use inappropriate and that the terms can change without notice. Each kit has the same 27-28 event names (tap, button, select, toggle_on/off, swipe, transition, notification, caution, celebration, type, loops)."
+  },
+  {
+    "slug": "octave-ui-sounds",
+    "name": "Octave UI sounds",
+    "author": "Fred Showell / Raised Beaches (github.com/scopegate/octave)",
+    "licence": "Octave licence (custom free licence, commercial use allowed, no attribution)",
+    "attribution": null,
+    "licence_quote": "LICENSE.md in the repo: \"You are free to use Octave (the \"sound set\") or any part thereof (the \"sounds\") in any personal, open-source or commercial work without obligation of payment (monetary or otherwise) or attribution. Do not sell the sound set, host the sound set or rent the sound set (either in existing or modified form).\"",
+    "page_url": "https://github.com/scopegate/octave",
+    "download_url": "https://codeload.github.com/scopegate/octave/zip/refs/heads/master",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/octave-ui-sounds",
+    "file_count": 48,
+    "extensions": {
+      "aif": 48
+    },
+    "unique_sound_names": 48,
+    "character": "48 handmade iOS UI sounds in three families: taps (very short ticks), beeps (tonal: piano, xylo, plucked, organ, rejected...) and slides (paper, magic, metal).",
+    "notes": "Custom licence, not CC. Audio is in octave-master/Octave-Sounds/ (.aif); the rest of the repo is an untouched Xcode demo project - ignore it. 7 tap files are under 1 KB (3-10 ms) and decode fine."
+  },
+  {
+    "slug": "akx-notifications",
+    "name": "Notifications (akx)",
+    "author": "Aarni Koskela 'akx' (github.com/akx/Notifications)",
+    "licence": "CC0 or CC-BY 3.0 (dual licence, your choice)",
+    "attribution": null,
+    "licence_quote": "README.md: \"Dual license -- choose between these two. CC Attribution 3.0 Unported / CC0 Public Domain. My intention is that it would be nice to get some sort of attribution ... but it's by no means necessary.\"",
+    "page_url": "https://github.com/akx/Notifications",
+    "download_url": "https://codeload.github.com/akx/Notifications/zip/refs/heads/master",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/akx-notifications",
+    "file_count": 55,
+    "extensions": {
+      "ogg": 36,
+      "wav": 19
+    },
+    "unique_sound_names": 36,
+    "character": "Hand-crafted subtle notification tones: bells, chords, glass, glisten, harp, koto, polite pings, alarms. 1-3 s each.",
+    "notes": "README's CC0 link points at the Public Domain Mark page, but the text says 'CC0 Public Domain'. OGG folder has 36 tones, WAV folder 19 (some WAVs are 32-bit float). Repo also holds one .py script and .mid files - not run."
+  },
+  {
+    "slug": "rcptones-dev-tones-free",
+    "name": "dev_tones Free Edition",
+    "author": "RCP Tones (rcptones.com)",
+    "licence": "CC-BY 3.0 US plus extra restrictions in dev_tones_License.txt",
+    "attribution": "Attribution can be made to \"RCP\", \"RCP Tones\", or \"dev_tones\" with either of the following links: http://rcptones.com or http://rcptones.com/dev_tones/",
+    "licence_quote": "dev_tones_License.txt: \"to use the free tones, attribution is required: http://creativecommons.org/licenses/by/3.0/us/ ... You are allowed to use the 8 tones in our sample pack free of charge and royalty free in your projects (such as ... games ... apps) be it for commercial or non-commercial purposes (with attribution).\"",
+    "page_url": "https://rcptones.com/dev_tones/",
+    "download_url": "https://rcptones.com/dev_tones_free.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/rcptones-dev-tones-free",
+    "file_count": 16,
+    "extensions": {
+      "aif": 8,
+      "wav": 8
+    },
+    "unique_sound_names": 8,
+    "character": "8 high-polish mobile UI tones: beep on/off, bell ding chime, click, digital plink, marimba chord, pad confirm, pop drip.",
+    "notes": "Only 8 unique sounds (each as wav + aif). Attribution mandatory. The licence file also forbids use in sound-related apps, app-builder tools and redistribution as sound effects. The other 600+ sounds on the page are paid - not downloaded."
+  },
+  {
+    "slug": "itch-obsydianx-interface-sfx-pack-1",
+    "name": "Interface SFX Pack 1",
+    "author": "ObsydianX",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "itch.io page: \"Asset license: Creative Commons Zero v1.0 Universal\" and \"These are CC0 licensed and are free\"; README.txt in archive: \"License: CC0\"",
+    "page_url": "https://obsydianx.itch.io/interface-sfx-pack-1",
+    "download_url": "https://obsydianx.itch.io/interface-sfx-pack-1 (itch.io 'Download Now' -> 'No thanks'; upload id 195827 = OGG zip, 195829 = WAV zip; links are generated per session)",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/itch-obsydianx-interface-sfx-pack-1",
+    "file_count": 222,
+    "extensions": {
+      "ogg": 222
+    },
+    "unique_sound_names": 222,
+    "character": "222 synth UI tones in 5 styles: confirm, back, error and cursor, each in 7 pitches with dry and echo versions. JRPG-menu flavour, clean and tonal.",
+    "notes": "Only the OGG zip was extracted; the identical WAV zip (222 files) is downloaded but left unextracted at ../_archives/itch-obsydianx-interface-sfx-pack-1/upload_195829.zip. Name-your-own-price page, no login needed."
+  },
+  {
+    "slug": "itch-cyrex-studios-universal-ui-soundpack",
+    "name": "Universal UI/Menu Soundpack",
+    "author": "Nathan Gibson (published by Cyrex Studios, formerly 'ellr' on itch.io)",
+    "licence": "CC-BY 4.0",
+    "attribution": "Credit 'Nathan Gibson' (https://nathangibson.myportfolio.com), licence CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+    "licence_quote": "readme.txt in archive: \"License: Attribution 4.0 International (CC BY 4.0) ... Support me by crediting Nathan Gibson or https://nathangibson.myportfolio.com\"; itch.io page: \"Licence: CC BY 4.0 to credit 'Nathan Gibson'\"",
+    "page_url": "https://cyrex-studios.itch.io/universal-ui-soundpack",
+    "download_url": "https://cyrex-studios.itch.io/universal-ui-soundpack (itch.io 'Download Now'; upload id 4516396; link generated per session)",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/itch-cyrex-studios-universal-ui-soundpack",
+    "file_count": 156,
+    "extensions": {
+      "mp3": 52,
+      "ogg": 52,
+      "wav": 52
+    },
+    "unique_sound_names": 52,
+    "character": "52 UI sounds in themed sets: Modern, Minimalist, Retro, African percussion, Wood block, Abstract, Coffee. Short clicks, selects, confirms.",
+    "notes": "Attribution mandatory. 52 unique sounds x 3 formats (wav/ogg/mp3) = 156 files. https://ellr.itch.io/universal-ui-soundpack redirects to the Cyrex Studios URL."
+  },
+  {
+    "slug": "itch-shapeforms-free-sfx",
+    "name": "Shapeforms Audio Free Sound Effects",
+    "author": "Shapeforms Audio",
+    "licence": "Shapeforms Audio Free Sounds licence (custom, royalty-free, commercial use allowed, no credit)",
+    "attribution": null,
+    "licence_quote": "License Agreement PDF in archive: \"You may use the Licensed Content, commercially and otherwise, in the creation of all forms of creative works, media, and projects, including but not limited to video games, interactive media ...\" / \"You are not required to credit Shapeforms Audio when using the Licensed Content.\"",
+    "page_url": "https://shapeforms.itch.io/shapeforms-audio-free-sfx",
+    "download_url": "https://shapeforms.itch.io/shapeforms-audio-free-sfx (itch.io 'Download Now'; upload id 19069465; link generated per session)",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/itch-shapeforms-free-sfx",
+    "file_count": 180,
+    "extensions": {
+      "wav": 180
+    },
+    "unique_sound_names": 180,
+    "character": "High-end designed samplers: Future UI (15 clean sci-fi UI sounds), The Mint (coins and money), Arcane Activations (magic chimes, glyphs), Type (keyboard), Cassette, Balloon, plus sci-fi weapons, fly-bys and punches.",
+    "notes": "FLAG: custom licence, not CC. It requires 'all reasonable measures' to stop end users extracting the individual files (e.g. embed in the app binary / packed container), forbids redistribution as files and forbids use for AI training. 24-bit/48 kHz WAVs, 132 MB. Most relevant folders: Future UI Preview, The Mint, Arcane Activations Preview, Type Preview."
+  },
+  {
+    "slug": "oga-lokif-gui-sound-effects",
+    "name": "GUI Sound Effects",
+    "author": "Lokif",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/gui-sound-effects",
+    "download_url": "https://opengameart.org/sites/default/files/GUI_Sound_Effects_by_Lokif.7z",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-lokif-gui-sound-effects",
+    "file_count": 13,
+    "extensions": {
+      "wav": 13
+    },
+    "unique_sound_names": 13,
+    "character": "13 soft synth menu sounds: click, positive, negative, save, load, sharp echo, misc menu blips.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-mousebyte-chimey-ui-sounds",
+    "name": "Chimey UI Sounds",
+    "author": "MouseBYTE",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/chimey-ui-sounds",
+    "download_url": "https://opengameart.org/sites/default/files/mousebyte_chimeyui.7z",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-mousebyte-chimey-ui-sounds",
+    "file_count": 7,
+    "extensions": {
+      "mp3": 7
+    },
+    "unique_sound_names": 7,
+    "character": "7 bell/chime UI cues: confirm, cancel, save, load, exit, level up, sleep. Gentle and musical.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-joth-7-ui-sound-effects",
+    "name": "7 Assorted Sound Effects (Menu, Level Up)",
+    "author": "Joth",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/7-assorted-sound-effects-menu-level-up",
+    "download_url": "https://opengameart.org/sites/default/files/UISoundEffects.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-joth-7-ui-sound-effects",
+    "file_count": 8,
+    "extensions": {
+      "mp3": 8
+    },
+    "unique_sound_names": 8,
+    "character": "Menu move/confirm/error, item pickup, ability learn, level up, transition. MP3 (7 sounds + 1 preview reel).",
+    "notes": ""
+  },
+  {
+    "slug": "oga-robinlamb-ui-sound-effects",
+    "name": "UI Sound Effects (Button Clicks, User Feedback, Notifications)",
+    "author": "Robin Lamb",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/ui-sound-effects-button-clicks-user-feedback-notifications",
+    "download_url": "https://opengameart.org/sites/default/files/ui_wav.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-robinlamb-ui-sound-effects",
+    "file_count": 12,
+    "extensions": {
+      "wav": 12
+    },
+    "unique_sound_names": 12,
+    "character": "12 plain UI sounds: 4 clicks, ding, deep ding, chimes, negative x2, alarm x2, dum.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-haeldb-ui-sounds",
+    "name": "UI Sounds",
+    "author": "HaelDB",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/ui-sounds-0",
+    "download_url": "https://opengameart.org/sites/default/files/ui_sounds.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-haeldb-ui-sounds",
+    "file_count": 11,
+    "extensions": {
+      "wav": 11
+    },
+    "unique_sound_names": 11,
+    "character": "10 numbered tonal UI blips plus one 'wrong/error' sound.",
+    "notes": "Files are named '#0.wav' .. '#9.wav' inside 'New folder'; several are 32-bit float WAV (decode fine in ffmpeg)."
+  },
+  {
+    "slug": "oga-legoluft-atmospheric-interaction",
+    "name": "Atmospheric Interaction Sound Pack (sounds of the game 'krank')",
+    "author": "monsterkodi (krank game); uploaded to OpenGameArt by legoluft",
+    "licence": "CC0 1.0 / Public Domain",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"; original project page https://sourceforge.net/projects/krank/ lists \"License: Public Domain\"",
+    "page_url": "https://opengameart.org/content/atmospheric-interaction-sound-pack",
+    "download_url": "https://opengameart.org/sites/default/files/krank_sounds.7z",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-legoluft-atmospheric-interaction",
+    "file_count": 43,
+    "extensions": {
+      "wav": 43
+    },
+    "unique_sound_names": 43,
+    "character": "43 airy, glassy, reverberant interaction sounds (link/unlink, magnet on/off, part, wall, exit): soft blops, chimes, crystal and water tones.",
+    "notes": "Uploaded by a third party, not the original author; public-domain status checked against the krank SourceForge page."
+  },
+  {
+    "slug": "oga-wobbleboxx-level-up-power-up-coin",
+    "name": "Level up, power up, Coin get (13 Sounds)",
+    "author": "wobbleboxx",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/level-up-power-up-coin-get-13-sounds",
+    "download_url": "https://opengameart.org/sites/default/files/SoundPack01.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-wobbleboxx-level-up-power-up-coin",
+    "file_count": 13,
+    "extensions": {
+      "aif": 13
+    },
+    "unique_sound_names": 13,
+    "character": "13 bright synth reward sounds: 7 rising 'level up' sweeps, coin, upper, downer, alarm, 2 FX. Stereo AIFF.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-mintodog-cozy-puzzle-jingles",
+    "name": "Cozy Puzzle Jingle & Result",
+    "author": "MintoDog",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/cozy-puzzle-jingle-result",
+    "download_url": "https://opengameart.org/sites/default/files/ogg_cozy_puzzle_jingle_result.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-mintodog-cozy-puzzle-jingles",
+    "file_count": 4,
+    "extensions": {
+      "ogg": 4
+    },
+    "unique_sound_names": 4,
+    "character": "Cozy acoustic puzzle-game music: a 'clear' win jingle and a 'failure' jingle, each with a matching result-screen loop.",
+    "notes": "Only 4 files but they are the longer win/fail pieces. An MP3 zip of the same tracks exists on the page (not downloaded)."
+  },
+  {
+    "slug": "oga-rubberduck-100-cc0-sfx",
+    "name": "100 CC0 SFX",
+    "author": "rubberduck",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/100-cc0-sfx",
+    "download_url": "https://opengameart.org/sites/default/files/100-CC0-SFX_0.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-rubberduck-100-cc0-sfx",
+    "file_count": 100,
+    "extensions": {
+      "ogg": 100
+    },
+    "unique_sound_names": 100,
+    "character": "100 recorded household/foley one-shots: metal, glass, bells, gongs, springs, paper, switches, plops, splashes, doors.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-rubberduck-100-cc0-sfx-2",
+    "name": "100 CC0 SFX #2",
+    "author": "rubberduck",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/100-cc0-sfx-2",
+    "download_url": "https://opengameart.org/sites/default/files/sfx_100_v2.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-rubberduck-100-cc0-sfx-2",
+    "file_count": 100,
+    "extensions": {
+      "ogg": 100
+    },
+    "unique_sound_names": 100,
+    "character": "100 more recorded one-shots and loops: glass, metal, wood, air whooshes, switches, items, footsteps, ambient loops.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-rubberduck-80-cc0-rpg-sfx",
+    "name": "80 CC0 RPG SFX",
+    "author": "rubberduck",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/80-cc0-rpg-sfx",
+    "download_url": "https://opengameart.org/sites/default/files/80-CC0-RPG-SFX_0.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-rubberduck-80-cc0-rpg-sfx",
+    "file_count": 80,
+    "extensions": {
+      "ogg": 80
+    },
+    "unique_sound_names": 80,
+    "character": "RPG one-shots: fire spells (7), other spells, coins, gems, stones, books, locks, blades, creature noises.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-rubberduck-75-cc0-breaking-falling-hit-sfx",
+    "name": "75 CC0 breaking / falling / hit sfx",
+    "author": "rubberduck",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "download_url": "https://opengameart.org/sites/default/files/sfx_breaking_and_falling.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-rubberduck-75-cc0-breaking-falling-hit-sfx",
+    "file_count": 75,
+    "extensions": {
+      "ogg": 75
+    },
+    "unique_sound_names": 75,
+    "character": "Glass breaking/falling/hits (12), wood and rock breaking, metal hits, thuds. Source material for ice-shatter and streak-break sounds.",
+    "notes": ""
+  },
+  {
+    "slug": "oga-rubberduck-50-cc0-retro-synth-sfx",
+    "name": "50 CC0 retro / synth SFX",
+    "author": "rubberduck",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"",
+    "page_url": "https://opengameart.org/content/50-cc0-retro-synth-sfx",
+    "download_url": "https://opengameart.org/sites/default/files/50-CC0-retro-synth-SFX.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-rubberduck-50-cc0-retro-synth-sfx",
+    "file_count": 50,
+    "extensions": {
+      "ogg": 50
+    },
+    "unique_sound_names": 50,
+    "character": "RETRO contrast pack: 8-bit coins, power-ups, beeps, lasers, explosions, die sounds.",
+    "notes": "Also contains 50 .xpf synth preset files (not audio)."
+  },
+  {
+    "slug": "oga-subspaceaudio-512-retro-sfx",
+    "name": "The Essential Retro Video Game Sound Effects Collection [512 sounds]",
+    "author": "Juhani Junkala (SubspaceAudio)",
+    "licence": "CC0 1.0",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\"; INFO.txt in archive: \"These sound effects have been released under CC0 creative commons license. You can do anything you want with these sounds.\"",
+    "page_url": "https://opengameart.org/content/512-sound-effects-8-bit-style",
+    "download_url": "https://opengameart.org/sites/default/files/The%20Essential%20Retro%20Video%20Game%20Sound%20Effects%20Collection%20%5B512%20sounds%5D.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-subspaceaudio-512-retro-sfx",
+    "file_count": 512,
+    "extensions": {
+      "wav": 512
+    },
+    "unique_sound_names": 512,
+    "character": "RETRO contrast pack: 512 chiptune/8-bit effects - buttons, blips, interaction, power-ups, coins, errors, fanfares, jumps, explosions, weapons, alarms.",
+    "notes": "Largest pack by count; 16-bit mono WAV at -6 dB. Mostly game action sounds; the General Sounds folders (buttons, coins, fanfares, positive/negative) are the relevant part."
+  },
+  {
+    "slug": "oga-cc0-singles",
+    "name": "OpenGameArt CC0 singles and mini-packs (win jingles, pops, swishes, magic, ice, fire, bells)",
+    "author": "various - see sources",
+    "licence": "CC0 1.0 (every item)",
+    "attribution": null,
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC0\" on each of the 20 source pages listed in 'sources' ('completion-sound' is dual 'OGA-BY 3.0, CC0'); swoosh.txt in the qubodup archive: \"Free for *any* use. This means that the files are in the public domain, Gemeindegut, cc0-licensed or WTFPL-licensed.\"",
+    "page_url": "https://opengameart.org/ (20 pages, see 'sources')",
+    "download_url": "see 'sources'",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-cc0-singles",
+    "file_count": 160,
+    "extensions": {
+      "flac": 43,
+      "mp3": 1,
+      "ogg": 45,
+      "wav": 71
+    },
+    "unique_sound_names": 143,
+    "character": "Mixed bag, one sub-folder per source: win jingle in 17 instruments, victory fanfare, win sound, completion ding, pops (18), swishes/swooshes (56), magic spells, ice spells, freeze, teleport, fire staff (FLAC), flame ignite, bell dings, menu tick.",
+    "notes": "Sub-folder name = <oga-slug>_<author>. fire-staff-sound-effects_legit-audio is 43 FLAC files (about 140 MB of the folder).",
+    "sources": [
+      {
+        "subfolder": "completion-sound_brandon-morris",
+        "author": "Brandon Morris",
+        "page_url": "https://opengameart.org/content/completion-sound",
+        "licence": "OGA-BY 3.0 or CC0"
+      },
+      {
+        "subfolder": "new-thing-get_congusbongus",
+        "author": "congusbongus",
+        "page_url": "https://opengameart.org/content/new-thing-get",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "win-jingle_fupi",
+        "author": "Fupi",
+        "page_url": "https://opengameart.org/content/win-jingle",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "victory-fanfare-short_cynicmusic",
+        "author": "cynicmusic",
+        "page_url": "https://opengameart.org/content/victory-fanfare-short",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "win-sound-effect_listener",
+        "author": "Listener",
+        "page_url": "https://opengameart.org/content/win-sound-effect",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "up-3x_qubodup",
+        "author": "qubodup",
+        "page_url": "https://opengameart.org/content/up-3x",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "pop-sounds_cogitollc",
+        "author": "cogitollc",
+        "page_url": "https://opengameart.org/content/pop-sounds",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "pop-effect-sounds_trezegames",
+        "author": "trezegames",
+        "page_url": "https://opengameart.org/content/pop-effect-sounds",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "3-pop-sounds_wubitog",
+        "author": "wubitog",
+        "page_url": "https://opengameart.org/content/3-pop-sounds",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "magic-spell-sfx_jaggedstone",
+        "author": "JaggedStone",
+        "page_url": "https://opengameart.org/content/magic-spell-sfx",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "ice-spells_bart",
+        "author": "bart",
+        "page_url": "https://opengameart.org/content/ice-spells",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "freeze-spell_artisticdude",
+        "author": "artisticdude",
+        "page_url": "https://opengameart.org/content/freeze-spell-0",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "teleport-spell_ogrebane",
+        "author": "Ogrebane",
+        "page_url": "https://opengameart.org/content/teleport-spell",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "botton-sound-pack_listener",
+        "author": "Listener",
+        "page_url": "https://opengameart.org/content/botton-sound-pack",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "bell-dings-chimes_pwl",
+        "author": "PWL",
+        "page_url": "https://opengameart.org/content/bell-dingschimes",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "swishes-sound-pack_artisticdude",
+        "author": "artisticdude",
+        "page_url": "https://opengameart.org/content/swishes-sound-pack",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "swish-bamboo-swooshes_qubodup",
+        "author": "qubodup",
+        "page_url": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "catching-fire_themightyglider",
+        "author": "themightyglider",
+        "page_url": "https://opengameart.org/content/catching-fire",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "fire-staff-sound-effects_legit-audio",
+        "author": "LEGIT Audio",
+        "page_url": "https://opengameart.org/content/fire-staff-sound-effects",
+        "licence": "CC0"
+      },
+      {
+        "subfolder": "menu-select-tick_mikeask",
+        "author": "mikeask",
+        "page_url": "https://opengameart.org/content/menu-select-tick",
+        "licence": "CC0"
+      }
+    ]
+  },
+  {
+    "slug": "oga-lrsf-ui-sound-effects-library",
+    "name": "UI Sound Effects Library",
+    "author": "Little Robot Sound Factory",
+    "licence": "CC-BY 3.0",
+    "attribution": "Not prescribed word-for-word on the page. CC BY 3.0 requires author credit + licence, e.g. \"UI Sound Effects Library by Little Robot Sound Factory (www.littlerobotsoundfactory.com), licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)\".",
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC-BY 3.0\"",
+    "page_url": "https://opengameart.org/content/ui-sound-effects-library",
+    "download_url": "https://opengameart.org/sites/default/files/UI%20Sound%20Library.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-lrsf-ui-sound-effects-library",
+    "file_count": 210,
+    "extensions": {
+      "mp3": 105,
+      "wav": 105
+    },
+    "unique_sound_names": 105,
+    "character": "105 UI sounds: electronic, standard, soft, mechanical and sharp clicks, slides, and 68 playful mouth-made pops/clicks.",
+    "notes": "Attribution mandatory. 105 unique sounds x 2 formats (wav + mp3) = 210 files."
+  },
+  {
+    "slug": "oga-lrsf-fantasy-sound-effects-library",
+    "name": "Fantasy Sound Effects Library",
+    "author": "Little Robot Sound Factory",
+    "licence": "CC-BY 3.0",
+    "attribution": "Not prescribed word-for-word on the page. CC BY 3.0 requires author credit + licence, e.g. \"Fantasy Sound Effects Library by Little Robot Sound Factory (www.littlerobotsoundfactory.com), licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)\".",
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC-BY 3.0\"",
+    "page_url": "https://opengameart.org/content/fantasy-sound-effects-library",
+    "download_url": "https://opengameart.org/sites/default/files/Fantasy%20Sound%20Library.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-lrsf-fantasy-sound-effects-library",
+    "file_count": 90,
+    "extensions": {
+      "mp3": 45,
+      "wav": 45
+    },
+    "unique_sound_names": 45,
+    "character": "Orchestral/fantasy set: win, lose and achievement jingles, 5 spells (fire, ice, sparkle-type), gold pickups, menu select, inventory open; plus footsteps and creature sounds.",
+    "notes": "Attribution mandatory. 45 unique sounds x 2 formats (wav + mp3) = 90 files. Only about half is relevant to an app."
+  },
+  {
+    "slug": "oga-jcsounds-ui-utility-pack-vol-1",
+    "name": "JC Sounds - UI Utility Pack Vol 1",
+    "author": "JC Sounds",
+    "licence": "CC-BY 4.0",
+    "attribution": "Not prescribed word-for-word on the page. CC BY 4.0 requires author credit + licence, e.g. \"UI Utility Pack Vol 1 by JC Sounds (https://opengameart.org/content/jc-sounds-ui-utility-pack-vol-1), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)\".",
+    "licence_quote": "OpenGameArt page licence field: \"License(s): CC-BY 4.0\"",
+    "page_url": "https://opengameart.org/content/jc-sounds-ui-utility-pack-vol-1",
+    "download_url": "https://opengameart.org/sites/default/files/ui_utility_pack_vol_1_0.7z",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-jcsounds-ui-utility-pack-vol-1",
+    "file_count": 101,
+    "extensions": {
+      "wav": 101
+    },
+    "unique_sound_names": 101,
+    "character": "101 crisp digital console-style UI sounds: single blips, two-note up/down, flourishes up/down, swells, intermittent tones, loops.",
+    "notes": "Attribution mandatory. Includes an 'Assets List' PDF."
+  },
+  {
+    "slug": "oga-virix-ui-item-magic-samples",
+    "name": "ViRiX UI / item jingle / magic sample packs (4 small packs)",
+    "author": "David McKee (ViRiX)",
+    "licence": "CC-BY 3.0",
+    "attribution": "\"Some of the sounds in this project were created by David McKee (ViRiX) soundcloud.com/virix\"",
+    "licence_quote": "OpenGameArt page licence field on all four pages: \"License(s): CC-BY 3.0\"; Notes.txt in UI pack 1: \"They can be used in any project, commercial or noncommercial. The only thing I ask is that you put the following in the credits. \\\"Some of the sounds in this project were created by David McKee (ViRiX) soundcloud.com/virix\\\"\"",
+    "page_url": "https://opengameart.org/content/ui-sound-effects-pack",
+    "download_url": "https://opengameart.org/sites/default/files/UI%20pack%201.zip",
+    "folder": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-akademiya-apps/96530962-0578-4291-b31f-89b0b6108bfd/scratchpad/sound-src/packs/oga-virix-ui-item-magic-samples",
+    "file_count": 22,
+    "extensions": {
+      "wav": 22
+    },
+    "unique_sound_names": 22,
+    "character": "Bright, musical puzzle-game cues: menu select/back, message accept/decline, alert appear/error, item-get jingles, plus 5 magic samples (fire impact, ice attack, healing, wind).",
+    "notes": "Attribution mandatory; the exact credit line is given on the 'UI Sound effects pack' page and in Notes.txt, and is applied here to all four ViRiX packs. Samples of paid Unity Asset Store packs.",
+    "sources": [
+      {
+        "subfolder": "ui-sound-effects-pack",
+        "page_url": "https://opengameart.org/content/ui-sound-effects-pack",
+        "download_url": "https://opengameart.org/sites/default/files/UI%20pack%201.zip"
+      },
+      {
+        "subfolder": "ui-and-item-sounds-sample-1",
+        "page_url": "https://opengameart.org/content/ui-and-item-sounds-sample-1",
+        "download_url": "https://opengameart.org/sites/default/files/Menu%20FX%20example.zip"
+      },
+      {
+        "subfolder": "ui-and-item-jingles-sample-2",
+        "page_url": "https://opengameart.org/content/ui-and-item-sound-effect-jingles-sample-2",
+        "download_url": "https://opengameart.org/sites/default/files/Menu%20and%20Item%20Jingles%20Sampe%202_0.zip"
+      },
+      {
+        "subfolder": "magic-sfx-sample",
+        "page_url": "https://opengameart.org/content/magic-sfx-sample",
+        "download_url": "https://opengameart.org/sites/default/files/Magic%20SFX%20Preview%20Pack.zip"
+      }
+    ]
+  }
+]

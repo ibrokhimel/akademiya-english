@@ -1,0 +1,436 @@
+{
+ "voices": [
+  {
+   "id": "dombi-cool",
+   "name": "Cool",
+   "about": "laid-back and sure of himself",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 2096,
+     "volume": 0.195,
+     "act": "cool"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2810,
+     "volume": 0.241,
+     "act": "cool"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1966,
+     "volume": 0.235,
+     "act": "cool"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2490,
+     "volume": 0.187,
+     "act": "cool"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3989,
+     "volume": 0.208,
+     "act": "cool"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2586,
+     "volume": 0.188,
+     "act": "cool"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 4643,
+     "volume": 0.212,
+     "act": "cool"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1582,
+     "volume": 0.296,
+     "act": "cool"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "dombi-playful",
+   "name": "Playful",
+   "about": "cheeky and quick",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 1590,
+     "volume": 0.19,
+     "act": "playful"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2168,
+     "volume": 0.17,
+     "act": "playful"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 2516,
+     "volume": 0.242,
+     "act": "playful"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2041,
+     "volume": 0.229,
+     "act": "playful"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3917,
+     "volume": 0.184,
+     "act": "playful"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2466,
+     "volume": 0.21,
+     "act": "playful"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 3656,
+     "volume": 0.187,
+     "act": "playful"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1562,
+     "volume": 0.193,
+     "act": "playful"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "dombi-dry",
+   "name": "Dry",
+   "about": "a knowing drawl, a little mocking",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 2001,
+     "volume": 0.198,
+     "act": "dry"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2173,
+     "volume": 0.292,
+     "act": "dry"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 2042,
+     "volume": 0.195,
+     "act": "dry"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2404,
+     "volume": 0.198,
+     "act": "dry"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 4268,
+     "volume": 0.22,
+     "act": "dry"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2708,
+     "volume": 0.263,
+     "act": "dry"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 4431,
+     "volume": 0.202,
+     "act": "dry"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1694,
+     "volume": 0.248,
+     "act": "dry"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "dombi-acted",
+   "name": "Acted line by line",
+   "about": "every line in the mood that fits it",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 2096,
+     "volume": 0.195,
+     "act": "cool"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2168,
+     "volume": 0.17,
+     "act": "playful"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1966,
+     "volume": 0.235,
+     "act": "cool"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 3121,
+     "volume": 0.234,
+     "act": "happy"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3917,
+     "volume": 0.184,
+     "act": "playful"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2930,
+     "volume": 0.265,
+     "act": "warm"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 4433,
+     "volume": 0.185,
+     "act": "warm"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1562,
+     "volume": 0.193,
+     "act": "playful"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "dombi-deep",
+   "name": "Cool, deeper",
+   "about": "the cool acting in a grown man's voice",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 2089,
+     "volume": 0.199,
+     "act": "cool"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2800,
+     "volume": 0.23,
+     "act": "cool"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1965,
+     "volume": 0.229,
+     "act": "cool"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2488,
+     "volume": 0.176,
+     "act": "cool"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3981,
+     "volume": 0.196,
+     "act": "cool"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2595,
+     "volume": 0.2,
+     "act": "cool"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 4641,
+     "volume": 0.228,
+     "act": "cool"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1554,
+     "volume": 0.285,
+     "act": "cool"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "dombi-light",
+   "name": "Cool, lighter",
+   "about": "the cool acting in a woman's voice",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 2178,
+     "volume": 0.145,
+     "act": "cool"
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2795,
+     "volume": 0.199,
+     "act": "cool"
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1972,
+     "volume": 0.19,
+     "act": "cool"
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2486,
+     "volume": 0.164,
+     "act": "cool"
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3992,
+     "volume": 0.148,
+     "act": "cool"
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2599,
+     "volume": 0.212,
+     "act": "cool"
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 4637,
+     "volume": 0.189,
+     "act": "cool"
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1605,
+     "volume": 0.204,
+     "act": "cool"
+    }
+   },
+   "kind": "acts"
+  },
+  {
+   "id": "sardor",
+   "name": "Sardor",
+   "about": "a man, reading",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 1533,
+     "volume": 0.228
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 1876,
+     "volume": 0.191
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1802,
+     "volume": 0.158
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 1920,
+     "volume": 0.224
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3110,
+     "volume": 0.167
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2524,
+     "volume": 0.223
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 3592,
+     "volume": 0.209
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1507,
+     "volume": 0.175
+    }
+   },
+   "kind": "reads"
+  },
+  {
+   "id": "madina",
+   "name": "Madina",
+   "about": "a woman, reading",
+   "lines": {
+    "Salom! Men Dombiman.": {
+     "file": "line-1.wav",
+     "ms": 1674,
+     "volume": 0.136
+    },
+    "Ingliz tili sizga nima uchun kerak?": {
+     "file": "line-2.wav",
+     "ms": 2043,
+     "volume": 0.135
+    },
+    "Ingliz tilini qanchalik bilasiz?": {
+     "file": "line-3.wav",
+     "ms": 1878,
+     "volume": 0.129
+    },
+    "30 kunda mana shularga erishasiz!": {
+     "file": "line-4.wav",
+     "ms": 2042,
+     "volume": 0.158
+    },
+    "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?": {
+     "file": "line-5.wav",
+     "ms": 3385,
+     "volume": 0.124
+    },
+    "Ovozingiz faqat sizniki. Va'da beraman:": {
+     "file": "line-6.wav",
+     "ms": 2679,
+     "volume": 0.168
+    },
+    "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.": {
+     "file": "line-7.wav",
+     "ms": 3899,
+     "volume": 0.146
+    },
+    "Sizni nima deb chaqiray?": {
+     "file": "line-8.wav",
+     "ms": 1434,
+     "volume": 0.129
+    }
+   },
+   "kind": "reads"
+  }
+ ]
+}
