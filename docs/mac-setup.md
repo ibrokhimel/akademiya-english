@@ -124,5 +124,12 @@ cd ~/Documents/akademiya-english && git pull && cd src/mobile && npm ci && npx e
 
 Then press **i** in the Terminal for the simulator, or open the app on the iPhone.
 
-Run `npx expo run:ios` (or `--device`) again instead of `npx expo start` only when Claude says a new native
+Run `npx expo run:ios` (or `--device`) again instead of `npx expo start` only when Codex or Claude says a new native
 package was added. Otherwise the plain start is enough and takes seconds.
+
+---
+
+## Building with Codex
+
+When steps 1–6 are done, start Codex in `~/Documents/akademiya-english` and paste the prompt from
+[codex-prompt.md](codex-prompt.md).
