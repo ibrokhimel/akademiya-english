@@ -6876,16 +6876,6 @@
                           "name": "coffee",
                           "width": "fill_container",
                           "descendants": {
-                            "T95E2": {
-                              "children": [
-                                {
-                                  "id": "r7rj2p",
-                                  "type": "ref",
-                                  "ref": "r7rj2p",
-                                  "content": "☕"
-                                }
-                              ]
-                            },
                             "oQ9dz": {
                               "content": "coffee"
                             }
@@ -12355,19 +12345,19 @@
                         {
                           "type": "path",
                           "id": "l9NrT",
-                          "x": 21.12,
-                          "y": 28.56,
+                          "x": 20.400000000000002,
+                          "y": 29.28,
                           "name": "mouth",
-                          "geometry": "M0 1.92c1.92 0.96 4.8 0.96 7.2-1.92",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
-                            7.2,
-                            2.88
+                            22.5,
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 7.2,
-                          "height": 2.88,
+                          "height": 1.44,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 1.68,
                           "strokeLinecap": "round"
@@ -12464,19 +12454,19 @@
                         {
                           "type": "path",
                           "id": "AfCHr",
-                          "x": 35.2,
-                          "y": 47.6,
+                          "x": 34,
+                          "y": 48.8,
                           "name": "mouth",
-                          "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
-                            12,
-                            4.8
+                            22.5,
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 12,
-                          "height": 4.8,
+                          "height": 2.4,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 2.8,
                           "strokeLinecap": "round"
@@ -12591,19 +12581,19 @@
                         {
                           "type": "path",
                           "id": "k4IrQB",
-                          "x": 35.2,
-                          "y": 47.6,
+                          "x": 34,
+                          "y": 48.8,
                           "name": "mouth",
-                          "geometry": "M0 3.2c3.2 1.6 8 1.6 12-3.2",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
-                            12,
-                            4.8
+                            22.5,
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 12,
-                          "height": 4.8,
+                          "height": 2.4,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 2.8,
                           "strokeLinecap": "round"
@@ -12700,19 +12690,19 @@
                         {
                           "type": "path",
                           "id": "ztabz",
-                          "x": 66,
-                          "y": 89.25,
+                          "x": 63.75,
+                          "y": 91.5,
                           "name": "mouth",
-                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
                             22.5,
-                            9
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 22.5,
-                          "height": 9,
+                          "height": 4.5,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 5.25,
                           "strokeLinecap": "round"
@@ -12827,19 +12817,19 @@
                         {
                           "type": "path",
                           "id": "a91vhK",
-                          "x": 66,
-                          "y": 89.25,
+                          "x": 63.75,
+                          "y": 91.5,
                           "name": "mouth",
-                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
                             22.5,
-                            9
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 22.5,
-                          "height": 9,
+                          "height": 4.5,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 5.25,
                           "strokeLinecap": "round"
@@ -12972,19 +12962,19 @@
                         {
                           "type": "path",
                           "id": "TxHrF",
-                          "x": 66,
-                          "y": 89.25,
+                          "x": 63.75,
+                          "y": 91.5,
                           "name": "mouth",
-                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
                             22.5,
-                            9
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 22.5,
-                          "height": 9,
+                          "height": 4.5,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 5.25,
                           "strokeLinecap": "round"
@@ -13099,19 +13089,19 @@
                         {
                           "type": "path",
                           "id": "FeehY",
-                          "x": 66,
-                          "y": 89.25,
+                          "x": 63.75,
+                          "y": 91.5,
                           "name": "mouth",
-                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
                             22.5,
-                            9
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 22.5,
-                          "height": 9,
+                          "height": 4.5,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 5.25,
                           "strokeLinecap": "round"
@@ -13285,7 +13275,8 @@
                           "content": "Gapirish mashqlarida javobingizni tekshirish uchun.",
                           "textAlign": "center",
                           "fontFamily": "Inter",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -77517,19 +77508,19 @@
                         {
                           "type": "path",
                           "id": "loCPm",
-                          "x": 66,
-                          "y": 89.25,
+                          "x": 63.75,
+                          "y": 91.5,
                           "name": "mouth",
-                          "geometry": "M0 6c6 3 15 3 22.5-6",
+                          "geometry": "M0 0c5.6 6 16.9 6 22.5 0",
                           "viewBox": [
                             0,
                             0,
                             22.5,
-                            9
+                            4.5
                           ],
                           "fill": "#00000000",
                           "width": 22.5,
-                          "height": 9,
+                          "height": 4.5,
                           "stroke": "#FFFFFF",
                           "strokeWidth": 5.25,
                           "strokeLinecap": "round"
@@ -128421,16 +128412,6 @@
                           "name": "coffee",
                           "width": "fill_container",
                           "descendants": {
-                            "T95E2": {
-                              "children": [
-                                {
-                                  "id": "r7rj2p",
-                                  "type": "ref",
-                                  "ref": "r7rj2p",
-                                  "content": "☕"
-                                }
-                              ]
-                            },
                             "oQ9dz": {
                               "content": "coffee"
                             }
@@ -154923,6 +154904,1152 @@
                           }
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "bV6xN",
+      "x": 5000,
+      "y": 26200,
+      "name": "Storyboard · App icon & launch screen",
+      "fill": "$surface",
+      "cornerRadius": 40,
+      "layout": "vertical",
+      "gap": 48,
+      "padding": 56,
+      "children": [
+        {
+          "type": "text",
+          "id": "l8gF1C",
+          "name": "Board title",
+          "fill": "$text",
+          "content": "App icon & launch screen",
+          "fontFamily": "$font",
+          "fontSize": 32,
+          "fontWeight": "900"
+        },
+        {
+          "type": "text",
+          "id": "x8zIF",
+          "name": "Board note",
+          "fill": "$text-muted",
+          "textGrowth": "fixed-width",
+          "width": 1100,
+          "content": "Phone-only pieces the browser version never needed. Icon: Dombi up close, one eye showing. Pick A, B or C. Each comes in the three versions iOS asks for: light, dark and tinted.",
+          "fontFamily": "$font",
+          "fontSize": 15,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "s1VNE",
+          "name": "Icon options",
+          "gap": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "nuHqj",
+              "name": "Option A",
+              "width": 440,
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CYd5a",
+                  "name": "Option title",
+                  "fill": "$text",
+                  "content": "A · Dombi on violet — PICKED 2026-10-15",
+                  "fontFamily": "$font",
+                  "fontSize": 20,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "ygwYi",
+                  "name": "Option note",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dark Dombi peeks in from the right on the app's violet.",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "vuy5E",
+                  "name": "Versions",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SwiQ5",
+                      "name": "Light",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "pgP3k",
+                          "name": "Icon A · Light",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#7B5CFF",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "drbEk",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#2B2B3C",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "J8OZWR",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "CxlDn",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Light",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ehU86",
+                      "name": "Dark",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "DnS4S",
+                          "name": "Icon A · Dark",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#121214",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "OP17B",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "XFbMm",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZfQdK",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Dark",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Bw72t",
+                      "name": "Tinted",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CM5R2",
+                          "name": "Icon A · Tinted",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#000000",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "Dee6r",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#3A3A3A",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "R81ZH",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#E6E6E6",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "eYCMb",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Tinted",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "L5M7i2",
+              "name": "Option B",
+              "width": 440,
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Vder4",
+                  "name": "Option title",
+                  "fill": "$text",
+                  "content": "B · Violet Dombi on black (not picked)",
+                  "fontFamily": "$font",
+                  "fontSize": 20,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "ZyCzo",
+                  "name": "Option note",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Your example: violet Dombi peeks in on black. Same in light and dark.",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "XR7yY",
+                  "name": "Versions",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lMuOY",
+                      "name": "Light",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vxcLE",
+                          "name": "Icon B · Light",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#121214",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "bauDh",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "Blqeh",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#EDEDF2",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "T8v2R",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Light",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zMBtx",
+                      "name": "Dark",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Svnw1",
+                          "name": "Icon B · Dark",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#0B0B0D",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "mrgIx",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "rTYyv",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#EDEDF2",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "k4BvR",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Dark",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dqyVg",
+                      "name": "Tinted",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Pzifc",
+                          "name": "Icon B · Tinted",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#000000",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "mwAl7",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#3A3A3A",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "Sw1Fd",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#E6E6E6",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "zoLaL",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Tinted",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TaHOe",
+              "name": "Option C",
+              "width": 440,
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EAvoh",
+                  "name": "Option title",
+                  "fill": "$text",
+                  "content": "C · Dombi on white (not picked)",
+                  "fontFamily": "$font",
+                  "fontSize": 20,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "RL1BG",
+                  "name": "Option note",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dark Dombi peeks in on white, like the Welcome screen.",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "BwnqT",
+                  "name": "Versions",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "P25uJh",
+                      "name": "Light",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bVVI2",
+                          "name": "Icon C · Light",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 27,
+                          "stroke": "#E4E4EC",
+                          "strokeWidth": 1,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "fNRmi",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#2B2B3C",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "P6PpL7",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "vMCfS",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Light",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vVoEj",
+                      "name": "Dark",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "q4kdcB",
+                          "name": "Icon C · Dark",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#121214",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "niy6j",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#5A5A7A",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "OhW0H",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "uHJqT",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Dark",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fAD0y",
+                      "name": "Tinted",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Qcfpu",
+                          "name": "Icon C · Tinted",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#000000",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "wOGJD",
+                              "x": 30,
+                              "y": -6,
+                              "name": "Dombi body",
+                              "fill": "#3A3A3A",
+                              "width": 156,
+                              "height": 156
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 10.639199999999999,
+                              "id": "c6vHA",
+                              "x": 67.8144,
+                              "y": 41.268,
+                              "name": "Dombi eye",
+                              "fill": "#E6E6E6",
+                              "width": 21.278399999999998,
+                              "height": 40.1856
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "v1I0t",
+                          "name": "Version label",
+                          "fill": "$text-muted",
+                          "content": "Tinted",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xY7t7",
+          "name": "Home screen preview",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "IZWYu",
+              "name": "Section title",
+              "fill": "$text",
+              "content": "On a home screen (real size)",
+              "fontFamily": "$font",
+              "fontSize": 20,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "bcjiK",
+              "name": "Wallpapers",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Z6aua",
+                  "name": "Light wallpaper",
+                  "fill": "#DCD6F0",
+                  "cornerRadius": 28,
+                  "gap": 28,
+                  "padding": [
+                    28,
+                    32
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hUx5v",
+                      "name": "App A",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "kfodX",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#7B5CFF",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "lNRez",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#2B2B3C",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "U8njE",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "McRSr",
+                          "name": "App name",
+                          "fill": "#2B2B3C",
+                          "content": "A · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OBAjc",
+                      "name": "App B",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "zw7N8",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#121214",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "nVemI",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "DUtWl",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#EDEDF2",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "qFTWi",
+                          "name": "App name",
+                          "fill": "#2B2B3C",
+                          "content": "B · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t1l4q",
+                      "name": "App C",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mrn64",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "aiUub",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#2B2B3C",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "jnfV8",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "TP924",
+                          "name": "App name",
+                          "fill": "#2B2B3C",
+                          "content": "C · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "eblMG",
+                  "name": "Dark wallpaper",
+                  "fill": "#1C1B26",
+                  "cornerRadius": 28,
+                  "gap": 28,
+                  "padding": [
+                    28,
+                    32
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iAqw4",
+                      "name": "App A",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cnOq1",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#121214",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "MH6kK",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "cSA29",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "hipE7",
+                          "name": "App name",
+                          "fill": "#F4F4F6",
+                          "content": "A · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "d7Pjr",
+                      "name": "App B",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "nZbom",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#0B0B0D",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "rqwkn",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#7B5CFF",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "FPmh1",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#EDEDF2",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "spvxp",
+                          "name": "App name",
+                          "fill": "#F4F4F6",
+                          "content": "B · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bn0dP",
+                      "name": "App C",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Lp70Y",
+                          "name": "Icon 60",
+                          "clip": true,
+                          "width": 60,
+                          "height": 60,
+                          "fill": "#121214",
+                          "cornerRadius": 13.5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "vIStl",
+                              "x": 15,
+                              "y": -3,
+                              "name": "Dombi body",
+                              "fill": "#5A5A7A",
+                              "width": 78,
+                              "height": 78
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 5.319599999999999,
+                              "id": "iYWjN",
+                              "x": 33.9072,
+                              "y": 20.634,
+                              "name": "Dombi eye",
+                              "fill": "#FFFFFF",
+                              "width": 10.639199999999999,
+                              "height": 20.0928
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "MZzwh",
+                          "name": "App name",
+                          "fill": "#F4F4F6",
+                          "content": "C · Akademiya",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VTwY3",
+          "name": "Launch screen",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "eHcNu",
+              "name": "Section title",
+              "fill": "$text",
+              "content": "Launch screen",
+              "fontFamily": "$font",
+              "fontSize": 20,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "hdqxK",
+              "name": "Section note",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": 820,
+              "content": "Shown for a moment while the app opens, then Welcome (new learner) or the Learn page. Dombi and the app name only: no buttons, no loading text. Follows the phone's light or dark setting.",
+              "fontFamily": "$font",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "ww2dE",
+              "name": "Screens",
+              "gap": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "aVBoD",
+                  "name": "Launch · Light",
+                  "theme": {
+                    "mode": "light"
+                  },
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$bg",
+                  "cornerRadius": 36,
+                  "stroke": "#E4E4EC",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "u2x3Z",
+                      "type": "ref",
+                      "ref": "Ivo3m",
+                      "name": "Dombi",
+                      "width": 150,
+                      "height": 150
+                    },
+                    {
+                      "type": "text",
+                      "id": "k6s2E7",
+                      "name": "Wordmark",
+                      "fill": "$violet",
+                      "content": "Akademiya English",
+                      "fontFamily": "$font",
+                      "fontSize": 30,
+                      "fontWeight": "900"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fW6mA",
+                  "name": "Launch · Dark",
+                  "theme": {
+                    "mode": "dark"
+                  },
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$bg",
+                  "cornerRadius": 36,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "XGtM3",
+                      "type": "ref",
+                      "ref": "Ivo3m",
+                      "name": "Dombi",
+                      "width": 150,
+                      "height": 150
+                    },
+                    {
+                      "type": "text",
+                      "id": "own8w",
+                      "name": "Wordmark",
+                      "fill": "$violet",
+                      "content": "Akademiya English",
+                      "fontFamily": "$font",
+                      "fontSize": 30,
+                      "fontWeight": "900"
                     }
                   ]
                 }
