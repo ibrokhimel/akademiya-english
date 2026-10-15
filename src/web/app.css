@@ -1,0 +1,60 @@
+/* The browser version's own styles: the shell round the phone, the lesson list, and the few pieces the lab pages did not have.
+   Everything else comes from the lab's files (design/motion), linked in index.html. */
+body.app { min-height: 100vh; overflow: hidden; }
+.shell { margin: 16px auto 0; position: relative; }
+.app .phone { transform-origin: 0 0; }
+body.full .shell { margin: 0; } body.full .phone { border: 0; border-radius: 0; }
+#screen { position: absolute; inset: 0; }
+#park { position: absolute; left: -9999px; top: 0; }
+.boot { position: absolute; inset: 0; z-index: 90; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; } .boot b { font-size: 26px; font-weight: 900; color: var(--violet); } .boot span { color: var(--text-muted); font-size: 14px; }
+.fxlayer { position: absolute; pointer-events: none; }
+.scr .status { height: 44px; } body.full .scr .status { height: calc(env(safe-area-inset-top, 0px) + 12px); }
+.scr.over { z-index: 30; }
+
+/* ---- the Learn page (nav.css has the locked design; these are the changes for three units on one scrolling path) ---- */
+.learnpage .learn { overflow: hidden; }
+.learnpage .stat.lv { left: 40px; } .learnpage .stat.st { left: 160px; } .learnpage .stat.ph { left: 280px; }
+.learnpage .flm { display: contents; }
+.learnpage .path { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px); mask-image: linear-gradient(to bottom, transparent 0, #000 28px); } .learnpage .path::-webkit-scrollbar { display: none; }
+.learnpage .pathin { top: 0; height: 1960px; }
+.learnpage .tabbar { top: auto; bottom: 0; }
+.udiv { position: absolute; left: 24px; right: 24px; height: 40px; display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 900; letter-spacing: .5px; color: var(--text-muted); white-space: nowrap; }
+.udiv i { flex: 1; height: 2px; background: var(--grey); }
+.trophyn .tick { position: absolute; right: -8px; top: -8px; width: 26px; height: 26px; border-radius: 13px; background: var(--green); border: 3px solid var(--bg); display: grid; place-items: center; opacity: 0; z-index: 2; } .trophyn .tick img { width: 16px; height: 16px; }
+.trophyn.done .tick { opacity: 1; }
+.spill { position: absolute; left: 50%; bottom: 108px; translate: -50% 0; z-index: 6; display: flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 20px; background: var(--violet-soft); border: 2px solid var(--violet-line); color: var(--violet); font-size: 13px; font-weight: 900; white-space: nowrap; } .spill img { width: 16px; height: 16px; } .spill b { text-decoration: underline; }
+.learnpage .otherpage { display: block; top: 0; bottom: 94px; font-size: inherit; font-weight: inherit; color: var(--text); overflow: hidden; place-items: initial; }
+.learnpage .otherpage .mid { height: 100%; }
+.learnpage .dim { z-index: 12; pointer-events: none; } .learnpage .cpsheet { z-index: 13; }
+.tprof { padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 4px; } .tprof h1 { margin: 0; font-size: 28px; font-weight: 900; } .tprof h2 { margin: 22px 0 0; font-size: 18px; font-weight: 900; }
+.tprof p { margin: 4px 0 6px; font-size: 14px; font-weight: 700; color: var(--text-muted); } .tprof p.small { font-size: 12.5px; text-align: center; } .tprof #reset { margin-top: 16px; }
+.hset { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; font-size: 14px; font-weight: 800; color: var(--text-muted); }
+.hseg { display: flex; padding: 3px; border-radius: 12px; background: var(--surface); gap: 2px; } .hseg button { padding: 7px 12px; border-radius: 9px; font-size: 13px; font-weight: 900; color: var(--text-muted); } .hseg button.on { background: var(--card); color: var(--violet); box-shadow: 0 1px 0 var(--grey); }
+
+/* ---- the lesson screen ---- */
+.xbtn { width: 24px; height: 24px; flex: none; }
+.lesson .cant.off { color: var(--violet); } .lesson .cant b { font-weight: 900; text-decoration: underline; }
+.lesson .toast { top: 54px; white-space: normal; width: 320px; text-align: center; justify-content: center; }
+.pict .pictext { font-size: 34px; font-weight: 900; color: var(--text); text-align: center; line-height: 1.15; padding: 0 12px; }
+.picture .pic .pictext { font-size: 17px; font-weight: 900; text-align: center; line-height: 1.15; padding: 0 4px; }
+.bline { border-bottom: 2px solid var(--grey); padding-bottom: 8px; min-height: 112px; align-content: flex-start; }
+.bbank { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.mword.plain { border-bottom-color: transparent; cursor: default; padding: 2px 2px; }
+.msent { row-gap: 12px; }
+.talkers { display: flex; justify-content: center; gap: 28px; }
+.talker { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); transition: opacity calc(160ms * var(--slow, 1)); } .talker b { font-weight: 900; }
+.talker .tav { width: 92px; height: 92px; border-radius: 50%; background: var(--violet-soft); overflow: hidden; outline: 3px solid transparent; transition: outline-color calc(160ms * var(--slow, 1)), scale calc(160ms * var(--slow, 1)); }
+.talker.on .tav { outline-color: var(--violet); scale: 1.06; } .talker.on { color: var(--violet); }
+.talkers.small .tav { width: 56px; height: 56px; } .talkers.small .tav canvas { width: 56px !important; height: 56px !important; }
+.replay { align-self: center; } .replay .face { height: 44px; padding: 0 18px; gap: 8px; font-size: 13px; } .replay img { width: 16px; height: 16px; } .replay.disabled { opacity: .5; pointer-events: none; }
+.script { flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--surface); font-size: 15px; font-weight: 800; } .script .lbl { font-size: 11px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); } .script b { color: var(--text-muted); font-weight: 900; }
+.rbody { overflow-y: auto; }
+
+.lesson .row3 { align-items: stretch; } .lesson .row3 .picture { display: flex; } .lesson .row3 .picture .face { flex: 1; justify-content: flex-start; text-align: center; line-height: 1.15; }
+.lesson .combo14 { top: 0; border-radius: 0; padding-top: 44px; } .lesson .combo14 .big { opacity: 0; }
+.lesson .qback { position: absolute; inset: 0; background: rgba(20, 20, 30, .45); opacity: 0; pointer-events: none; z-index: 40; } .lesson .qsheet { z-index: 41; }
+.practice { position: absolute; inset: 0; z-index: 80; background: var(--bg); }
+/* the read-aloud after a sentence built right */
+.readaloud { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 4px; } .readaloud .ralbl { font-size: 13px; font-weight: 900; letter-spacing: .5px; color: var(--violet); text-transform: uppercase; }
+.readaloud .result { width: 100%; }
+.result .chipw.live { color: var(--text-muted); background: var(--surface); }

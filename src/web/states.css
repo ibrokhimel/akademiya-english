@@ -1,0 +1,60 @@
+/* Pop-ups and problem screens (pages 29, 29b, 30, 30b, 31a, 31b, 31c, 31e, 31d). Sizes from the Pencil screens; colours are tokens. */
+.stlayer { position: absolute; inset: 0; display: flex; flex-direction: column; color: var(--text); }
+.stlayer.full { background: var(--bg); padding-top: 44px; } body.full .stlayer.full { padding-top: calc(env(safe-area-inset-top, 0px) + 12px); }
+.stlayer .stdim { position: absolute; inset: 0; background: rgba(43, 43, 60, .4); opacity: 0; }
+.stlayer .stsheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 28px 28px 0 0; padding: 10px 20px 30px; display: flex; flex-direction: column; gap: 12px; align-items: center; transform: translateY(105%); touch-action: none; }
+.stlayer .stgrab { width: 40px; height: 5px; border-radius: 3px; background: var(--grey); flex: none; }
+.stlayer .sth22 { font-size: 22px; font-weight: 900; text-align: center; width: 100%; line-height: 1.25; }
+.stlayer .stp14 { font-size: 14px; font-weight: 700; line-height: 20px; color: var(--text-muted); text-align: center; width: 100%; }
+.stlayer .stbody { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 0 28px; }
+.stlayer .stbot { padding: 12px 16px 30px; display: flex; flex-direction: column; gap: 10px; flex: none; }
+.stlayer .stlink { padding: 4px 0 0; font-size: 14px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); align-self: center; }
+.stlayer .stdbox { position: relative; flex: none; }
+.stlayer .bdots { display: flex; gap: 6px; position: absolute; opacity: 0; } .stlayer .bdots i { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+
+/* 29 · feedback form */
+.st29 .stsheet { padding-top: 10px; }
+.st29 .chips { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.st29 .chip { padding: 10px 12px; border-radius: 14px; background: var(--bg); border: 2px solid var(--grey); font-size: 13px; font-weight: 900; color: var(--text); transition: background-color var(--tc), border-color var(--tc), color var(--tc); }
+.st29 .chip.on { background: var(--violet-soft); border-color: var(--violet); color: var(--violet); }
+.st29 textarea { width: 100%; height: 76px; padding: 12px; border-radius: 14px; border: 2px solid var(--grey); background: transparent; resize: none; font: 700 13px Nunito, system-ui, sans-serif; color: var(--text); outline: none; transition: border-color var(--tc); }
+.st29 textarea::placeholder { color: var(--text-muted); } .st29 textarea:focus { border-color: var(--violet); }
+.st29 .shot { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 800; }
+.st29 .tgl { width: 52px; height: 32px; border-radius: 16px; background: var(--grey); padding: 3px; flex: none; transition: background-color calc(180ms * var(--slow, 1)); } .st29 .tgl.on { background: var(--violet); }
+.st29 .tgl i { display: block; width: 26px; height: 26px; border-radius: 13px; background: #fff; }
+.st29 .btn { margin-top: 4px; }
+/* 29b · thank-you toast */
+.sttoast { position: absolute; left: 16px; top: 60px; width: 358px; display: flex; align-items: center; gap: 12px; padding: 12px 14px 12px 12px; border-radius: 18px; background: #2B2B3C; box-shadow: 0 6px 16px rgba(0, 0, 0, .2); color: #fff; z-index: 65; opacity: 0; pointer-events: none; }
+body.dark .sttoast { background: #3A3A4E; }
+.sttoast .tile { width: 52px; height: 52px; border-radius: 12px; background: #8A8A9C; display: grid; place-items: center; flex: none; } .sttoast .tile img { width: 46px; height: 46px; }
+.sttoast b { display: block; font-size: 14px; font-weight: 900; } .sttoast small { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, .7); }
+
+/* 30 · confidence again, 30b · it grew */
+.st30 .cbody { flex: 1; display: flex; flex-direction: column; gap: 12px; padding: 16px 20px 12px; }
+.st30 .guide { display: flex; gap: 10px; align-items: flex-end; }
+.st30 .speech { flex: 1; padding: 12px 14px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 2px solid var(--grey); font-size: 16px; font-weight: 900; line-height: 21px; transform-origin: 0 100%; }
+.st30 .copt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; border-radius: 16px; background: var(--bg); border: 2px solid var(--grey); text-align: left; transition: background-color var(--tc), border-color var(--tc), opacity var(--tc); }
+.st30 .copt img { width: 32px; height: 32px; flex: none; } .st30 .copt .lb { flex: 1; font-size: 15px; font-weight: 900; color: var(--text); transition: color var(--tc); }
+.st30 .copt .num { font-size: 14px; font-weight: 900; color: var(--text-muted); } .st30 .copt .day1 { padding: 3px 8px; border-radius: 99px; background: var(--surface); font-size: 11px; font-weight: 900; color: var(--text-muted); }
+.st30 .copt.sel { background: var(--violet-soft); border-color: var(--violet); } .st30 .copt.sel .lb { color: var(--violet); }
+.st30 .grow { display: flex; align-items: center; gap: 14px; }
+.st30 .gtile { width: 64px; height: 64px; border-radius: 20px; background: var(--grey); display: grid; place-items: center; font-size: 30px; font-weight: 900; color: var(--text-muted); overflow: hidden; transition: background-color calc(200ms * var(--slow, 1)), color calc(200ms * var(--slow, 1)); }
+.st30 .gtile.up { background: var(--green); color: #fff; } .st30 .gtile span { grid-area: 1 / 1; }
+.st30 .garrow { font-size: 28px; font-weight: 900; color: var(--text-muted); display: inline-block; clip-path: inset(0 100% 0 0); }
+
+/* 31a · no internet */
+.st31a .badge { position: absolute; left: 120px; top: 4px; width: 46px; height: 46px; border-radius: 23px; background: var(--card); border: 2px solid var(--grey); display: grid; place-items: center; z-index: 2; } .st31a .badge img { width: 28px; height: 28px; }
+
+/* 31b · mic blocked */
+.st31b .mbd { width: 110px; height: 110px; } .st31b .badge { position: absolute; left: 76px; top: 0; width: 36px; height: 36px; border-radius: 18px; background: var(--card); border: 2px solid var(--grey); display: grid; place-items: center; z-index: 2; opacity: 0; } .st31b .badge img { width: 22px; height: 22px; }
+.st31b .steps { width: 100%; padding: 14px; border-radius: 16px; background: var(--surface); display: flex; flex-direction: column; gap: 8px; }
+.st31b .steps div { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; opacity: 0; } .st31b .steps i { width: 24px; height: 24px; border-radius: 12px; background: var(--violet); color: #fff; display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 900; flex: none; }
+.st31b .btn, .st31c .btn { margin-top: 12px; }
+
+/* 31d · not ready yet */
+.st31d .xclose { position: absolute; left: 12px; top: 48px; width: 32px; height: 32px; display: grid; place-items: center; z-index: 2; } .st31d .xclose img { width: 32px; height: 32px; }
+body.full .st31d .xclose { top: calc(env(safe-area-inset-top, 0px) + 16px); }
+.st31d .stbody { gap: 14px; padding: 34px 32px 0; }
+.st31d .art { width: 168px; height: 168px; border-radius: 84px; background: var(--green-soft); display: grid; place-items: center; flex: none; margin-bottom: 6px; } .st31d .art img { width: 104px; height: 104px; transform-origin: 50% 88%; }
+.st31d .h26 { font-size: 26px; font-weight: 900; text-align: center; line-height: 1.3; } .st31d .p16 { font-size: 16px; font-weight: 700; line-height: 22px; color: var(--text-muted); text-align: center; }
+.st31d .stbot { padding: 16px 16px 32px; gap: 12px; }
