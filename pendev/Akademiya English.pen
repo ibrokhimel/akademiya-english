@@ -156178,6 +156178,78 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "u3Bt3",
+              "name": "Splash image (export source)",
+              "gap": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lnloS",
+                  "name": "Splash image · light",
+                  "theme": {
+                    "mode": "light"
+                  },
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "u6BZnU",
+                      "type": "ref",
+                      "ref": "Ivo3m",
+                      "name": "Dombi",
+                      "width": 150,
+                      "height": 150
+                    },
+                    {
+                      "type": "text",
+                      "id": "O2njy",
+                      "name": "Wordmark",
+                      "fill": "$violet",
+                      "content": "Akademiya English",
+                      "fontFamily": "$font",
+                      "fontSize": 30,
+                      "fontWeight": "900"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZbADj",
+                  "name": "Splash image · dark",
+                  "theme": {
+                    "mode": "dark"
+                  },
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "UH50b",
+                      "type": "ref",
+                      "ref": "Ivo3m",
+                      "name": "Dombi",
+                      "width": 150,
+                      "height": 150
+                    },
+                    {
+                      "type": "text",
+                      "id": "gh8mt",
+                      "name": "Wordmark",
+                      "fill": "$violet",
+                      "content": "Akademiya English",
+                      "fontFamily": "$font",
+                      "fontSize": 30,
+                      "fontWeight": "900"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
