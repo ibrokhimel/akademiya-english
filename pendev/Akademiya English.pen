@@ -55724,6 +55724,68 @@
                                   "height": 22
                                 }
                               ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "CZjYj",
+                              "name": "Row · English voices",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "padding": [
+                                10,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "F7Nv3",
+                                  "type": "ref",
+                                  "ref": "mWgHK",
+                                  "name": "Icon",
+                                  "width": 24,
+                                  "height": 24
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "jHPvy",
+                                  "name": "Label",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Inglizcha ovozlar",
+                                  "fontFamily": "$font",
+                                  "fontSize": 15,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "id": "P6T4is",
+                                  "type": "ref",
+                                  "ref": "RdGHL",
+                                  "name": "Voices switch",
+                                  "descendants": {
+                                    "gXX01": {
+                                      "padding": [
+                                        6,
+                                        10
+                                      ]
+                                    },
+                                    "quqUR": {
+                                      "content": "Britancha",
+                                      "fontSize": 13
+                                    },
+                                    "V9lcx": {
+                                      "padding": [
+                                        6,
+                                        10
+                                      ]
+                                    },
+                                    "M9CWY": {
+                                      "content": "Amerikacha",
+                                      "fontSize": 13
+                                    }
+                                  }
+                                }
+                              ]
                             }
                           ]
                         },
@@ -106482,6 +106544,68 @@
                                   "ref": "rQjnG",
                                   "width": 22,
                                   "height": 22
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "hUaxu",
+                              "name": "Row · English voices",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "padding": [
+                                10,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "Zy3pT",
+                                  "type": "ref",
+                                  "ref": "mWgHK",
+                                  "name": "Icon",
+                                  "width": 24,
+                                  "height": 24
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "H5Esg",
+                                  "name": "Label",
+                                  "fill": "$text",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Inglizcha ovozlar",
+                                  "fontFamily": "$font",
+                                  "fontSize": 15,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "id": "K6do6",
+                                  "type": "ref",
+                                  "ref": "RdGHL",
+                                  "name": "Voices switch",
+                                  "descendants": {
+                                    "gXX01": {
+                                      "padding": [
+                                        6,
+                                        10
+                                      ]
+                                    },
+                                    "quqUR": {
+                                      "content": "Britancha",
+                                      "fontSize": 13
+                                    },
+                                    "V9lcx": {
+                                      "padding": [
+                                        6,
+                                        10
+                                      ]
+                                    },
+                                    "M9CWY": {
+                                      "content": "Amerikacha",
+                                      "fontSize": 13
+                                    }
+                                  }
                                 }
                               ]
                             }

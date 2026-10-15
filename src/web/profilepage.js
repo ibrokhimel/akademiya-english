@@ -174,12 +174,11 @@ export function settingsPage(ctx) {
     <div class="pf-group">${row('glyph-speaker-grey', 'Ovozli effektlar', toggleHTML(s.sound !== false, 'sound'))}${row('glyph-moon-grey', 'Tungi rejim', toggleHTML(!!s.dark, 'dark'))}
       ${link('glyph-bell-grey', 'Eslatma vaqti', 'reminder', s.reminder || '19:00')}${link((GOALS[s.goal] || GOALS.self)[0], 'Maqsad', 'goal', goalName())}</div>
     <div class="pf-h">GAPIRISH</div>
-    <div class="pf-group">${row('glyph-mic-grey', 'Gapirish mashqlari', toggleHTML(s.speaking !== false, 'speaking'), '', 'Mikrofon ishlatib bo\'lmaydigan joyda vaqtincha o\'chiring')}${link('glyph-shield-grey', 'Ovoz yozuvlari', 'voice')}</div>
+    <div class="pf-group">${row('glyph-mic-grey', 'Gapirish mashqlari', toggleHTML(s.speaking !== false, 'speaking'), '', 'Mikrofon ishlatib bo\'lmaydigan joyda vaqtincha o\'chiring')}${link('glyph-shield-grey', 'Ovoz yozuvlari', 'voice')}${row('glyph-wave-grey', 'Inglizcha ovozlar', `<div class="seg"><i class="thumb"></i><button data-v="uk"${s.cast !== 'us' ? ' class="on"' : ''}>Britancha</button><button data-v="us"${s.cast === 'us' ? ' class="on"' : ''}>Amerikacha</button></div>`)}</div>
     <div class="pf-h">HISOB</div>
     <div class="pf-group">${link('glyph-lock-grey', 'Maxfiylik', 'privacy')}${link('glyph-logout-grey', 'Chiqish', 'logout')}${link('glyph-trash-red', 'Hisobni o\'chirish', 'delete', '', ' red')}</div>
     <div class="pf-h">SINOV UCHUN<small>Bu bo'lim faqat sinov versiyasida bor.</small></div>
-    <div class="pf-group test">${row('glyph-wave-grey', 'Inglizcha ovozlar', `<div class="seg"><i class="thumb"></i><button data-v="uk"${s.cast !== 'us' ? ' class="on"' : ''}>Britancha</button><button data-v="us"${s.cast === 'us' ? ' class="on"' : ''}>Amerikacha</button></div>`)}
-      ${row('glyph-list-grey', 'Hamma darslar ochiq', toggleHTML(!!s.openAll, 'openAll'))}
+    <div class="pf-group test">${row('glyph-list-grey', 'Hamma darslar ochiq', toggleHTML(!!s.openAll, 'openAll'))}
       ${row('glyph-timer-grey', 'Sanani surish', '', '', `<span data-today>${today()}</span><span class="pf-days"><button data-d="1">+1 kun</button><button data-d="14">+14 kun</button><button data-d="0">Bugun</button></span>`)}
       ${link('glyph-info-grey', 'Oynalarni ko\'rish', 'windows')}${link('glyph-replay-grey', 'Boshidan boshlash', 'restart', '', ' red')}</div>
   </div>`);
