@@ -1,0 +1,68 @@
+{
+  "about": "Every English line the learner is taught in the MVP (Level 0), once. id · en · uz (the meaning shown in Meet It and in feedback) · pic · voice (who says it) · lesson (where it is met) · loose (words that count as said whatever the phone heard: names and Uzbek words). Format: docs/ideas/lesson-template.md.",
+  "phrases": [
+    {"id": "hello", "en": "Hello!", "uz": "Assalomu alaykum!", "pic": "hello", "voice": "malika", "lesson": 1},
+    {"id": "hi", "en": "Hi!", "uz": "Salom!", "pic": "icon:hand-wave", "voice": "aziz", "lesson": 1},
+    {"id": "good-morning", "en": "Good morning!", "uz": "Xayrli tong!", "pic": "morning", "voice": "malika", "lesson": 1},
+
+    {"id": "im-aziz", "en": "I'm Aziz.", "uz": "Men Azizman.", "pic": "aziz", "voice": "aziz", "lesson": 2, "loose": ["Aziz"]},
+    {"id": "my-name-is-malika", "en": "My name is Malika.", "uz": "Mening ismim Malika.", "pic": "malika", "voice": "malika", "lesson": 2, "loose": ["Malika"]},
+    {"id": "whats-your-name", "en": "What's your name?", "uz": "Ismingiz nima?", "pic": "name-ask", "voice": "aziz", "lesson": 2},
+
+    {"id": "from-uzbekistan", "en": "I'm from Uzbekistan.", "uz": "Men O'zbekistondanman.", "pic": "uzbekistan", "voice": "malika", "lesson": 3},
+    {"id": "from-tashkent", "en": "I'm from Tashkent.", "uz": "Men Toshkentdanman.", "pic": "tashkent", "voice": "aziz", "lesson": 3, "loose": ["Tashkent"]},
+    {"id": "where-from", "en": "Where are you from?", "uz": "Siz qayerdansiz?", "pic": "where", "voice": "malika", "lesson": 3},
+
+    {"id": "how-are-you", "en": "How are you?", "uz": "Qalaysiz?", "pic": "how", "voice": "aziz", "lesson": 4},
+    {"id": "im-fine", "en": "I'm fine, thank you.", "uz": "Yaxshiman, rahmat.", "pic": "fine", "voice": "malika", "lesson": 4},
+    {"id": "im-good-and-you", "en": "I'm good. And you?", "uz": "Yaxshiman. O'zingiz-chi?", "pic": "and-you", "voice": "aziz", "lesson": 4},
+
+    {"id": "nice-to-meet-you", "en": "Nice to meet you.", "uz": "Tanishganimdan xursandman.", "pic": "handshake", "voice": "malika", "lesson": 5},
+    {"id": "goodbye", "en": "Goodbye!", "uz": "Xayr!", "pic": "goodbye", "voice": "aziz", "lesson": 5},
+    {"id": "see-you", "en": "See you!", "uz": "Ko'rishguncha!", "pic": "see-you", "voice": "malika", "lesson": 5},
+
+    {"id": "a-coffee", "en": "A coffee, please.", "uz": "Menga bitta qahva, iltimos.", "pic": "icon:coffee-kafeda", "voice": "aziz", "lesson": 6},
+    {"id": "a-tea", "en": "A tea, please.", "uz": "Menga bitta choy, iltimos.", "pic": "tea", "voice": "malika", "lesson": 6},
+    {"id": "an-orange-juice", "en": "An orange juice, please.", "uz": "Menga apelsin sharbati, iltimos.", "pic": "orange-juice", "voice": "aziz", "lesson": 6},
+
+    {"id": "can-i-have-a-sandwich", "en": "Can I have a sandwich?", "uz": "Menga sendvich bera olasizmi?", "pic": "sandwich", "voice": "malika", "lesson": 7},
+    {"id": "id-like-a-samsa", "en": "I'd like a samsa, please.", "uz": "Menga bitta somsa bersangiz.", "pic": "samsa", "voice": "aziz", "lesson": 7, "loose": ["samsa"]},
+    {"id": "a-salad", "en": "A salad, please.", "uz": "Menga bitta salat, iltimos.", "pic": "salad", "voice": "malika", "lesson": 7},
+
+    {"id": "one-to-five", "en": "One, two, three, four, five.", "uz": "Bir, ikki, uch, to'rt, besh.", "pic": "text:1 2 3 4 5", "voice": "malika", "lesson": 8},
+    {"id": "six-to-ten", "en": "Six, seven, eight, nine, ten.", "uz": "Olti, yetti, sakkiz, to'qqiz, o'n.", "pic": "text:6 7 8 9 10", "voice": "aziz", "lesson": 8},
+    {"id": "how-much-is-it", "en": "How much is it?", "uz": "Narxi qancha?", "pic": "price-ask", "voice": "aziz", "lesson": 8},
+    {"id": "its-ten-thousand", "en": "It's ten thousand som.", "uz": "O'n ming so'm.", "pic": "text:10 000 so'm", "voice": "waiter", "lesson": 8, "loose": ["som"]},
+
+    {"id": "no-sugar", "en": "No sugar, please.", "uz": "Shakarsiz, iltimos.", "pic": "no-sugar", "voice": "malika", "lesson": 9},
+    {"id": "no-thank-you", "en": "No, thank you.", "uz": "Yo'q, rahmat.", "pic": "no-thanks", "voice": "aziz", "lesson": 9},
+    {"id": "just-water", "en": "Just water, please.", "uz": "Faqat suv, iltimos.", "pic": "water", "voice": "malika", "lesson": 9},
+    {"id": "eleven-to-fifteen", "en": "Eleven, twelve, thirteen, fourteen, fifteen.", "uz": "O'n bir, o'n ikki, o'n uch, o'n to'rt, o'n besh.", "pic": "text:11 12 13 14 15", "voice": "aziz", "lesson": 9},
+
+    {"id": "pay-by-card", "en": "Can I pay by card?", "uz": "Karta bilan to'lasam bo'ladimi?", "pic": "icon:card", "voice": "aziz", "lesson": 10},
+    {"id": "here-you-are", "en": "Here you are.", "uz": "Marhamat.", "pic": "here-you-are", "voice": "waiter", "lesson": 10},
+    {"id": "thank-you-goodbye", "en": "Thank you! Goodbye!", "uz": "Rahmat! Xayr!", "pic": "thanks", "voice": "malika", "lesson": 10},
+    {"id": "sixteen-to-twenty", "en": "Sixteen, seventeen, eighteen, nineteen, twenty.", "uz": "O'n olti, o'n yetti, o'n sakkiz, o'n to'qqiz, yigirma.", "pic": "text:16 17 18 19 20", "voice": "malika", "lesson": 10},
+
+    {"id": "do-you-have-water", "en": "Do you have water?", "uz": "Sizda suv bormi?", "pic": "water-ask", "voice": "malika", "lesson": 11},
+    {"id": "yes-we-do", "en": "Yes, we do.", "uz": "Ha, bor.", "pic": "yes", "voice": "seller", "lesson": 11},
+    {"id": "no-sorry", "en": "No, sorry.", "uz": "Yo'q, kechirasiz.", "pic": "no", "voice": "seller", "lesson": 11},
+
+    {"id": "how-much-is-this", "en": "How much is this?", "uz": "Bu qancha turadi?", "pic": "this", "voice": "aziz", "lesson": 12},
+    {"id": "how-much-is-that", "en": "How much is that?", "uz": "Anavi qancha turadi?", "pic": "that", "voice": "malika", "lesson": 12},
+    {"id": "this-one", "en": "This one, please.", "uz": "Mana shunisini, iltimos.", "pic": "this-one", "voice": "aziz", "lesson": 12},
+
+    {"id": "a-red-tshirt", "en": "A red T-shirt, please.", "uz": "Qizil futbolka, iltimos.", "pic": "tshirt-red", "voice": "malika", "lesson": 13},
+    {"id": "in-blue", "en": "Do you have it in blue?", "uz": "Buning ko'k rangi bormi?", "pic": "tshirt-blue", "voice": "aziz", "lesson": 13},
+    {"id": "like-this-colour", "en": "I like this colour.", "uz": "Menga bu rang yoqadi.", "pic": "colour-like", "voice": "malika", "lesson": 13},
+
+    {"id": "sizes", "en": "Small, medium or large?", "uz": "Kichik, o'rta yoki katta?", "pic": "sizes", "voice": "seller", "lesson": 14},
+    {"id": "too-big", "en": "It's too big.", "uz": "Bu menga katta, to'g'ri kelmaydi.", "pic": "too-big", "voice": "aziz", "lesson": 14},
+    {"id": "a-small-one", "en": "Do you have a small one?", "uz": "Kichigi bormi?", "pic": "tshirt-small", "voice": "malika", "lesson": 14},
+
+    {"id": "tens-to-fifty", "en": "Twenty, thirty, forty, fifty.", "uz": "Yigirma, o'ttiz, qirq, ellik.", "pic": "text:20 30 40 50", "voice": "malika", "lesson": 15},
+    {"id": "tens-to-hundred", "en": "Sixty, seventy, eighty, ninety, a hundred.", "uz": "Oltmish, yetmish, sakson, to'qson, yuz.", "pic": "text:60 70 80 90 100", "voice": "aziz", "lesson": 15},
+    {"id": "ill-take-it", "en": "I'll take it.", "uz": "Shuni olaman.", "pic": "bag", "voice": "aziz", "lesson": 15},
+    {"id": "forty-five-thousand", "en": "That's forty-five thousand.", "uz": "Qirq besh ming bo'ladi.", "pic": "text:45 000 so'm", "voice": "seller", "lesson": 15}
+  ]
+}
