@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · small states</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="lessonmoments.css">
+<link rel="stylesheet" href="states.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 10 — small states</h1>
+    <p class="lead">The quieter screens: your confidence grew, the mic is blocked, something went wrong, and a page that is not ready yet.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap"><div class="phone" id="phone"><div id="screen" style="position:absolute;inset:0"></div></div></div>
+    <div class="side" id="side">
+      <h2 style="margin-top:0">Screens</h2>
+      <button class="act" data-s="grew">30b · Your confidence grew<span>The old number pops in, the arrow draws itself, the new number rolls up and turns green with a pop; Dombi celebrates. Shown only when it went up.</span></button>
+      <button class="act" data-s="blocked">31b · Mic blocked<span>The lesson dims and the sheet slides up. The three steps tick in 110 ms apart. Calm: no red, no alarm.</span></button>
+      <button class="act" data-s="error">31e · Something went wrong<span>Dombi comes in and puts a hand to his chin. QAYTA URINISH shows three dots while it tries.</span></button>
+      <button class="act" data-s="fallback">31d · Not ready yet<span>The sprout sways and grows a little, slowly, for as long as the page is open.</span></button>
+    </div>
+  </div>
+  <div id="park"></div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="states.js"></script>
+</body>
+</html>

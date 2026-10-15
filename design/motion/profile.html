@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="profile.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 9 — profile</h1>
+    <p class="lead">Your locked Profile page as a live screen. Scroll inside the phone (mouse wheel or drag), press the buttons, and drag the records row sideways.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap"><div class="phone" id="phone">
+      <div class="pstatus">9:41</div>
+      <div class="pscroll" id="scroll">
+        <div class="banner2" id="banner"><span class="date">Oct 2026</span>
+          <button class="p3d rbtn" style="left:292px"><span class="face"><img src="/pendev/icons-r2/glyph-more-violet.png" alt=""></span></button>
+          <button class="p3d rbtn" style="left:338px"><span class="face"><img src="/pendev/icons-r2/glyph-gear-violet.png" alt=""></span></button></div>
+        <div class="pbody" id="pbody"></div>
+      </div>
+      <div class="tabbar"><div class="tab"><img src="/pendev/icons-r2/tab-home.png" alt=""></div><div class="tab"><img src="/pendev/icons-r2/tab-progress.png" alt=""></div><div class="tab on"><img src="/pendev/icons-r2/tab-profile.png" alt=""></div></div>
+    </div></div>
+    <div class="side">
+      <h2 style="margin-top:0">Moments</h2>
+      <button class="act" data-a="open">Open the page again<span>The avatar bounces in (320 ms), the name and level follow, and the first sections fade up 60 ms apart.</span></button>
+      <button class="act" data-a="award">A new award arrives<span>The page scrolls to it. The tile punches with a pop and one shine, the “YANGI” tag pops in, the number goes up.</span></button>
+      <button class="act" data-a="top">Back to the top</button>
+      <h2>Small things</h2>
+      <p class="spec" style="margin:0">Scrolling: the banner moves at 40 % of the scroll speed and the avatar shrinks a little.<br>Sections fade up the first time they come into view; the four numbers count up.<br>Earned awards: a slow gold twinkle visits one of them every 2.8 s.<br>The hat and scarf on the blue card sway slowly, out of step with each other.<br>DO'ST QO'SHISH: the words slide out and “SO'ROV YUBORILDI” slides in.<br>Records row: drag sideways; it snaps to a card.</p>
+    </div>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="profile.js"></script>
+</body>
+</html>

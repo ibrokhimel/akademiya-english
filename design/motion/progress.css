@@ -1,0 +1,49 @@
+/* Progress and profile pieces: sizes from the Pencil components. */
+.scard { --d: 5px; --r: 20px; width: 330px; max-width: 100%; cursor: pointer; }
+.scard .face { flex-direction: column; gap: 12px; padding: 20px; border: 2px solid var(--grey); }
+.scard .flamebox { width: 64px; height: 82px; position: relative; margin-top: -14px; } .scard .flamebox canvas { position: absolute; }
+.scard .fl { left: 0; top: 0; width: 64px; height: 82px; } .scard .em { left: -68px; top: -150px; width: 200px; height: 260px; pointer-events: none; }
+.scard .count { font-size: 30px; font-weight: 900; color: var(--orange); line-height: 1; }
+.week { display: flex; gap: 8px; } .week .day { display: flex; flex-direction: column; gap: 4px; align-items: center; font-size: 12px; font-weight: 800; color: var(--text-muted); } .week .day.today { color: var(--orange); }
+.dot { width: 32px; height: 32px; border-radius: 16px; background: var(--grey); display: grid; place-items: center; position: relative; transition: background-color calc(200ms * var(--slow)); }
+.dot.done { background: var(--orange); } .dot img { width: 16px; height: 16px; } .dot .tring { position: absolute; inset: -3px; border-radius: 50%; border: 3px solid #FFD08A; opacity: 0; }
+.dot.today .tring { opacity: 1; } .dot .ice { position: absolute; width: 46px; height: 46px; left: -7px; top: -3px; opacity: 0; } .dot .icecheck { position: absolute; width: 24px; height: 24px; opacity: 0; }
+.dot.frozen { background: transparent; } .dot.frozen .ice, .dot.frozen .icecheck { opacity: 1; }
+.dot canvas { position: absolute; width: 120px; height: 120px; left: -44px; top: -44px; pointer-events: none; z-index: 3; }
+.scard .note { font-size: 13px; font-weight: 700; color: var(--text-muted); text-align: center; }
+
+.cal { width: 330px; max-width: 100%; overflow: hidden; }
+.cal .in { padding: 14px 4px 4px; } .cal h4 { margin: 0 0 6px 8px; font-size: 16px; font-weight: 900; }
+.cal .grid7 { display: grid; grid-template-columns: repeat(7, 46px); position: relative; }
+.cal .wd { height: 24px; display: grid; place-items: center; font-size: 11px; font-weight: 900; color: var(--text-muted); }
+.cday { width: 46px; height: 46px; display: grid; place-items: center; font-size: 15px; font-weight: 800; color: #AFAFBF; position: relative; z-index: 1; }
+.cday > i { width: 38px; height: 38px; border-radius: 19px; display: grid; place-items: center; font-style: normal; font-weight: 900; overflow: hidden; position: relative; }
+.cday.p > i { background: var(--orange); color: #3A2400; } .cday.t > i { background: #FF7A4D; color: #3A2400; } .cday.f > i { background: var(--ice); border: 2px solid var(--ice-edge); color: var(--ice-text); }
+.band { position: absolute; height: 38px; border-radius: 19px; background: var(--orange-band); transform-origin: 0 50%; z-index: 0; }
+
+.pcard { --d: 5px; --r: 18px; --e: var(--grey); width: 250px; } .pcard.new { --e: var(--violet-edge); }
+.pcard .face { flex-direction: column; align-items: stretch; gap: 10px; padding: 16px; border: 2px solid var(--grey); text-align: left; } .pcard.new .face { border-color: var(--violet); }
+.pcard .top { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); } .pcard .top span { display: flex; gap: 3px; align-items: center; } .pcard .top img { width: 13px; height: 13px; }
+.pcard .tag { padding: 2px 8px; border-radius: 8px; background: var(--violet); color: #fff; font-size: 10px; letter-spacing: 0; }
+.pcard .stars { font-size: 14px; letter-spacing: 0; color: var(--grey-edge); display: flex; } .pcard .stars b { color: var(--grey-edge); font-weight: 900; transition: color var(--tc); } .pcard .stars b.on { color: var(--gold); }
+.pcard .ph { font-size: 20px; font-weight: 900; color: var(--text); } .pcard .mean { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.pcard .acts { display: flex; gap: 8px; } .pchip { display: flex; gap: 4px; align-items: center; padding: 6px 10px; border-radius: 10px; background: var(--surface); font-size: 12px; font-weight: 900; position: relative; }
+.pchip img { width: 14px; height: 14px; } .pchip.a { color: var(--violet); } .pchip.s { color: var(--coral); } .pchip.m { color: var(--text-muted); }
+.pchip .bars { height: 14px; gap: 2px; left: 10px; } .pchip .bars i { width: 2.5px; background: var(--violet); }
+.plist { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; position: relative; } canvas.ptw { position: absolute; width: 240px; height: 200px; left: 4px; top: -30px; pointer-events: none; z-index: 3; }
+
+.ringcard { width: 220px; padding: 16px; border-radius: 18px; background: var(--card); border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.ring { width: 132px; height: 132px; position: relative; } .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 13.2; } .ring .trk { stroke: var(--grey); } .ring .prg { stroke: var(--violet); }
+.ring .mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; } .ring .num { font-size: 28px; font-weight: 900; line-height: 1.1; } .ring .lbl { font-size: 11px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); }
+.ringcard > b { font-size: 17px; font-weight: 900; }
+.tiles { display: grid; grid-template-columns: 150px 150px; gap: 10px; }
+.stile { display: flex; gap: 10px; align-items: center; padding: 14px; border-radius: 16px; background: var(--card); border: 2px solid var(--grey); } .stile img { width: 25px; height: 25px; }
+.stile b { display: block; font-size: 18px; font-weight: 900; line-height: 1.15; } .stile small { font-size: 12px; font-weight: 800; color: var(--text-muted); }
+.bigcount { font-size: 64px; font-weight: 900; color: var(--violet); line-height: 1; } .bigcap { font-size: 14px; font-weight: 800; color: var(--text-muted); }
+
+.fbtn { --r: 16px; --c: var(--card); --e: var(--grey); width: 280px; }
+.fbtn .face { height: 50px; gap: 8px; border: 2px solid var(--grey); font-size: 14px; font-weight: 900; letter-spacing: .6px; color: var(--violet); white-space: nowrap; } .fbtn img { width: 24px; height: 24px; }
+.fbtn.sent { --c: var(--surface); } .fbtn.sent .face { color: var(--glyph-muted); }
+.fbtn.accept { --c: var(--violet); --e: var(--violet-edge); } .fbtn.accept .face { border-color: var(--violet-edge); color: #fff; }
+.fbtn.friends { --c: var(--green-soft); --e: var(--green-edge); } .fbtn.friends .face { border-color: var(--green); color: var(--green-edge); }

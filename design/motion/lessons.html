@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — the lessons</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="lessons.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>11 — the lessons</h1>
+    <p class="lead">All 15 lessons and 3 checkpoints, item by item, as the app will play them. Read the Uzbek lines, press a line to hear it. This page is for checking the content; it is not how the lesson looks.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <label class="tool" id="tCast" style="display:flex;align-items:center;gap:8px">English voices <select style="font:inherit;font-weight:800;color:var(--violet);background:none;border:0;outline:0;cursor:pointer"></select></label>
+  </div>
+  <div class="lwrap">
+    <nav class="lnav" id="lnav"></nav>
+    <main class="lmain" id="lmain"></main>
+    <aside class="lspeak" id="lspeak"><div class="who"><canvas id="cA" width="264" height="264"></canvas><canvas id="cC" width="264" height="264"></canvas><canvas id="cZ" width="264" height="264"></canvas><canvas id="cM" width="264" height="264"></canvas></div><b id="nWho">—</b><span id="tWho">Press a line to hear it.</span></aside>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="lessons.js"></script>
+</body>
+</html>

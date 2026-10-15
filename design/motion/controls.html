@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · sheets and controls</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="controls.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 3 — sheets and controls</h1>
+    <p class="lead">Settings controls, sheets, dialogs, toasts and waiting states. Click and type in them.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+
+  <h2>Controls</h2>
+  <div class="grid">
+    <section class="demo" id="dToggle">
+      <h3>Toggle</h3>
+      <p class="spec">The knob slides 20 px in 180 ms and stretches a little on the way; the track changes colour with it. The “Tungi rejim” switch cross-fades the whole screen in 250 ms.</p>
+      <div class="stage col">
+        <div class="setrow">Tovush effektlari<div class="toggle on"><i></i></div></div>
+        <div class="setrow">Kunlik eslatma<div class="toggle"><i></i></div></div>
+        <div class="setrow">Tungi rejim<div class="toggle" id="darkToggle"><i></i></div></div>
+      </div>
+    </section>
+    <section class="demo" id="dField">
+      <h3>Text field</h3>
+      <p class="spec">Focus: the edge turns violet in 120 ms. Right: green with a small punch. Not right: red with a shake (350 ms).</p>
+      <div class="stage col" style="align-items:center">
+        <input class="field" id="field" placeholder="so'zni yozing" autocomplete="off" spellcheck="false">
+        <button class="p3d btn disabled check" style="width:220px"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="right">Type “coffee”</button><button data-a="wrong">Type “cofee”</button><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dSeg">
+      <h3>Segmented switch</h3>
+      <p class="spec">The white pill slides under the chosen word in 180 ms; the words swap colour in 120 ms.</p>
+      <div class="stage"><div class="seg" id="seg"><i class="thumb"></i><button class="on">O'zbekcha</button><button>Русский</button><button>English</button></div></div>
+    </section>
+    <section class="demo" id="dForm">
+      <h3>Rating and feedback form</h3>
+      <p class="spec">Number: press, then violet with a punch. YUBORISH: the form shrinks up and away (220 ms), then a green “Rahmat!” toast.</p>
+      <div class="stage" style="min-height:330px;align-items:flex-start">
+        <div class="toastbar ok" id="thanks"><img src="/pendev/icons-r2/glyph-circle-check-white.png" alt="">Rahmat!</div>
+        <div class="form" id="form">
+          <h4>Dars sizga yoqdimi?</h4>
+          <div class="rating" id="rating"></div>
+          <textarea placeholder="Fikringizni yozing (ixtiyoriy)"></textarea>
+          <button class="p3d btn disabled check"><span class="face">YUBORISH</span></button>
+        </div>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dWheel">
+      <h3>Reminder time picker</h3>
+      <p class="spec">Drag, scroll or tap a time. It follows the finger, then snaps to the nearest time in 220 ms; the chosen time grows and turns violet.</p>
+      <div class="stage"><div class="wheel" id="wheel"><div class="sel"></div><div class="list"></div></div></div>
+    </section>
+  </div>
+
+  <h2>Sheets and dialogs</h2>
+  <div class="grid">
+    <section class="demo" id="dQuit">
+      <h3>Bottom sheet (quit the lesson)</h3>
+      <p class="spec">Backdrop fades in 200 ms; the sheet slides up in 300 ms with a small overshoot. It leaves in 200 ms. Dombi stays calm.</p>
+      <div class="mini"><span>Dars</span><div class="backdrop"></div>
+        <div class="qsheet" id="qsheet"><span class="qdombi"><canvas width="220" height="220"></canvas></span><b>Darsni tark etasizmi?</b><p>Bu darsdagi natija saqlanmaydi.</p>
+          <button class="p3d btn primary"><span class="face">DAVOM ETISH</span></button><button class="leave">CHIQISH</button></div></div>
+      <div class="ctl"><button data-a="open">Open</button><button data-a="close">Close</button></div>
+    </section>
+    <section class="demo" id="dDialog">
+      <h3>Dialog, then rows collapsing</h3>
+      <p class="spec">Dialog: pops in from 90 % size in 220 ms; leaves in 140 ms. After O'CHIRISH the recordings fold away one by one, 70 ms apart.</p>
+      <div class="mini"><div class="recs" id="recs"></div><div class="toastbar ok" id="deleted"><img src="/pendev/icons-r2/glyph-circle-check-white.png" alt="">O'chirildi</div><div class="backdrop"></div>
+        <div class="dialog" id="dialog"><img src="/pendev/icons-r2/trash.png" alt=""><b>Ovoz yozuvlarini o'chirasizmi?</b><p>Hamma yozuvlar butunlay o'chadi. Buni qaytarib bo'lmaydi.</p>
+          <button class="p3d btn danger"><span class="face">O'CHIRISH</span></button><button class="p3d btn secondary"><span class="face">BEKOR QILISH</span></button></div></div>
+      <div class="ctl"><button data-a="open">Delete the recordings</button><button data-a="reset">Reset</button></div>
+    </section>
+  </div>
+
+  <h2>Waiting and problems</h2>
+  <div class="grid">
+    <section class="demo" id="dLoad">
+      <h3>Loading</h3>
+      <p class="spec">Grey shapes with a slow shine moving across (1.4 s). When the content arrives it fades up, 40 ms apart.</p>
+      <div class="stage"><div class="skel" id="skel">
+        <div class="sk" style="height:84px;border-radius:18px"></div>
+        <div class="skrow"><div class="sk n"></div><div><div class="sk l1"></div><div class="sk l2"></div></div></div>
+        <div class="skrow"><div class="sk n"></div><div><div class="sk l1"></div><div class="sk l2"></div></div></div>
+        <div class="real"><div class="ban"><small>2-BO'LIM · UNIT 2</small>Kafeda</div>
+          <div class="r"><i></i><span><b>Ichimlik buyurtma qilish</b><small>ORDER A DRINK</small></span></div>
+          <div class="r"><i></i><span><b>Taom buyurtma qilish</b><small>ORDER FOOD</small></span></div></div>
+      </div></div>
+      <div class="ctl"><button data-a="load">Content arrives</button><button data-a="reset">Loading again</button></div>
+    </section>
+    <section class="demo" id="dOffline">
+      <h3>No internet</h3>
+      <p class="spec">The orange toast stays while offline. The wifi icon fades slowly in and out (2 s). QAYTA URINISH shows three dots while it tries; if it fails, a small shake.</p>
+      <div class="stage" style="min-height:290px;align-items:flex-end">
+        <div class="toastbar off" id="offToast"><img src="/pendev/icons-r2/glyph-wifi-off-white.png" alt="">Internet yo'q — dars saqlanadi</div>
+        <div class="problem" id="problem"><img src="/pendev/icons-r2/no-wifi.png" alt=""><b>Internet yo'q</b><p>Ulanishni tekshiring.</p>
+          <button class="p3d btn primary"><span class="face"><span class="lbl">QAYTA URINISH</span><span class="bdots"><i></i><i></i><i></i></span></span></button></div>
+      </div>
+      <div class="ctl"><button data-a="offline">Go offline</button><button data-a="online">Back online</button></div>
+    </section>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="controls.js"></script>
+</body>
+</html>

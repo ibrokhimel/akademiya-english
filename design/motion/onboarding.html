@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 8 — onboarding</h1>
+    <p class="lead">The 12 locked onboarding screens as one flow. Use the buttons inside the phone to move on, the arrow at the top to go back, or jump to a screen on the right. Dombi is one character who travels from screen to screen.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap"><div class="phone" id="phone">
+      <div id="obstage"></div>
+      <div id="obstatus">9:41</div>
+      <div id="obbar"><img id="obback" src="/pendev/icons-r2/glyph-chevron-left-muted.png" alt=""><div class="steps"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <canvas id="fxDombi" width="480" height="480"></canvas>
+    </div></div>
+    <div class="side" id="side">
+      <h2 style="margin-top:0">Screens</h2>
+      <button class="act" data-s="welcome">1 · Welcome</button><button class="act" data-s="meet">1b · Meet Dombi</button>
+      <button class="act" data-s="goal">2 · Goal</button><button class="act" data-s="level">3 · Your level</button>
+      <button class="act" data-s="achieve">4 · What you'll achieve</button><button class="act" data-s="confidence">5 · Confidence</button>
+      <button class="act" data-s="mic">6 · Mic explainer</button><button class="act" data-s="listen">7 · Mic check</button>
+      <button class="act" data-s="heard">7b · Heard you</button><button class="act" data-s="promise">8 · Dombi's promise</button>
+      <button class="act" data-s="reminder">9 · Reminder time</button><button class="act" data-s="name">10 · Your name</button>
+      <h2>On the mic check</h2>
+      <button class="act" id="sayHello" style="grid-column:1/-1">Say “Hello!”</button>
+      <p class="spec" style="margin:4px 0 0">Between screens: the old one leaves to the left in 180 ms, the new one comes from the right in 250 ms with its parts 40 ms apart, and the step at the top grows with a shine. Dombi glides to his new place in 300 ms. Going back plays it the other way.</p>
+    </div>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="onboarding.js"></script>
+<script src="onboarding2.js"></script>
+</body>
+</html>

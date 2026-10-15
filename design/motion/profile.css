@@ -1,0 +1,40 @@
+/* Profile: the owner's locked design (Pencil top-level frame "Profile"). */
+.side { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+.side button.act { text-align: left; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 2px solid var(--grey); border-bottom-width: 4px; font-weight: 900; }
+.side button.act span { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+.pscroll { position: absolute; left: 0; right: 0; top: 0; bottom: 94px; overflow-y: auto; scrollbar-width: none; } .pscroll::-webkit-scrollbar { display: none; }
+.pstatus { position: absolute; left: 0; right: 0; top: 0; height: 30px; padding: 9px 20px 0; font-size: 12px; font-weight: 800; background: var(--bg); z-index: 4; }
+.banner2 { height: 199px; margin-top: 30px; background: var(--violet-soft); position: relative; transform-origin: 50% 0; }
+.banner2 .date { position: absolute; right: 14px; bottom: 6px; font-size: 11px; font-weight: 800; color: var(--text-muted); }
+.rbtn { --d: 3px; --r: 19px; --e: var(--violet-shadow); position: absolute; top: 8px; width: 38px; } .rbtn .face { height: 38px; } .rbtn img { width: 28px; height: 28px; }
+.pbody { padding: 0 20px 28px; display: flex; flex-direction: column; gap: 18px; position: relative; background: var(--bg); }
+.ident { height: 68px; position: relative; }
+.avatar2 { position: absolute; left: 0; top: -26px; width: 96px; height: 96px; border-radius: 48px; background: var(--violet); border: 4px solid var(--card); display: grid; place-items: center; color: #fff; font-size: 43px; font-weight: 900; z-index: 2; }
+.ident .name { position: absolute; left: 110px; top: 24px; font-size: 26px; font-weight: 900; line-height: 1.1; }
+.lvchip { position: absolute; right: 0; top: 29px; display: flex; align-items: center; gap: 6px; padding: 6px 10px 6px 8px; border-radius: 99px; background: var(--violet-soft); font-size: 12px; font-weight: 900; color: var(--violet); } .lvchip img { width: 18px; height: 18px; }
+.bio { font-size: 14px; font-weight: 700; color: var(--text-muted); margin-top: 6px; }
+.goalcard { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: var(--tile-blue); } .goalcard img { width: 36px; height: 36px; } .goalcard span { flex: 1; } .goalcard b { display: block; font-size: 15px; font-weight: 900; } .goalcard small { font-size: 12px; font-weight: 700; color: var(--text-muted); } .goalcard i { font-style: normal; font-size: 12px; font-weight: 900; color: var(--violet); }
+.social { display: flex; align-items: center; gap: 12px; } .social .cnt b { display: block; font-size: 20px; font-weight: 900; line-height: 1.1; } .social .cnt small { font-size: 13px; font-weight: 800; color: var(--text-muted); }
+.fbtn { --r: 16px; --c: var(--bg); --e: var(--grey); flex: 1; } .fbtn .face { height: 50px; gap: 8px; border: 2px solid var(--grey); font-size: 14px; font-weight: 900; letter-spacing: .6px; color: var(--violet); white-space: nowrap; } .fbtn img { width: 24px; height: 24px; }
+.fbtn.sent { --c: var(--surface); } .fbtn.sent .face { color: var(--glyph-muted); } .fbtn.sq { flex: none; width: 50px; } .fbtn.sq img { width: 26px; height: 26px; }
+.promo { --d: 4px; --r: 20px; --c: #4FB6F0; --e: #2E95D0; } .promo .face { flex-direction: column; align-items: stretch; gap: 8px; padding: 18px; color: #fff; text-align: left; }
+.promo .row { display: flex; gap: 10px; align-items: center; } .promo .txt { flex: 1; font-size: 18px; font-weight: 900; line-height: 1.25; } .promo .days { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 900; letter-spacing: .6px; color: #FFE27A; margin-top: 6px; } .promo .days img { width: 18px; height: 18px; }
+.promo .art { width: 96px; height: 84px; position: relative; flex: none; } .promo .art img { position: absolute; } .promo .hat { width: 52px; height: 52px; left: 50px; top: -11px; rotate: -17deg; } .promo .scarf { width: 56px; height: 50px; left: -14px; top: 51px; rotate: 28deg; }
+.promo .see { --d: 4px; --r: 14px; --c: #fff; --e: var(--blue-shadow); } .promo .see .face { height: 48px; color: #2E95D0; font-size: 14px; font-weight: 900; letter-spacing: .6px; }
+.h13 { font-size: 13px; font-weight: 900; letter-spacing: .8px; color: var(--text-muted); display: flex; justify-content: space-between; } .h13 i { font-style: normal; color: var(--violet); letter-spacing: .6px; }
+.over { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 10px; } .over div { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 900; } .over img { width: 30px; height: 30px; }
+.fstreaks { display: flex; justify-content: space-between; } .fstreaks i { width: 58px; height: 58px; border-radius: 29px; border: 2px solid var(--grey-edge); display: grid; place-items: center; font-style: normal; font-size: 28px; font-weight: 700; color: var(--text-faint); }
+.records { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -20px; padding: 0 20px; } .records::-webkit-scrollbar { display: none; }
+.rec2 { width: 150px; flex: none; scroll-snap-align: center; padding: 14px 10px; border-radius: 20px; border: 2px solid var(--grey); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rec2 .t { width: 96px; height: 96px; position: relative; } .rec2 .t u { position: absolute; left: -3px; top: -7px; width: 102px; height: 102px; border-radius: 26px; } .rec2 .t img { position: absolute; left: 22px; top: 2px; width: 52px; height: 52px; } .rec2 .t b { position: absolute; left: 0; right: 0; top: 62px; text-align: center; font-size: 24px; font-weight: 900; }
+.rec2 > b { font-size: 14px; font-weight: 900; } .rec2 small { font-size: 12px; font-weight: 800; color: var(--text-muted); }
+.awards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 10px; position: relative; }
+.award { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; cursor: pointer; } .award > b { font-size: 14px; font-weight: 900; } .award small { font-size: 12px; font-weight: 800; color: var(--text-muted); }
+.award .t { width: 100px; height: 104px; position: relative; } .award .t u { position: absolute; left: 8px; top: 6px; width: 84px; height: 84px; border-radius: 28px; background: var(--ac-soft); border: 3px solid var(--ac); overflow: hidden; }
+.award .t img { position: absolute; left: 20px; top: 12px; width: 60px; height: 60px; } .award .n { position: absolute; left: 0; right: 0; top: 76px; display: flex; justify-content: center; } .award .n b { padding: 2px 10px; border-radius: 99px; background: var(--ac); border: 3px solid var(--card); color: #fff; font-size: 15px; font-weight: 900; line-height: 1.2; }
+.award .new { position: absolute; left: 58px; top: 0; padding: 3px 7px; border-radius: 8px; background: var(--red); border: 2px solid var(--card); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: .4px; line-height: 1.2; }
+canvas.atw { position: absolute; width: 150px; height: 125px; pointer-events: none; z-index: 3; left: 0; top: 0; }
+.ver { text-align: center; font-size: 10px; font-weight: 700; color: var(--text-faint); padding-top: 10px; }
+.tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: 94px; padding: 14px 40px 0; display: flex; justify-content: space-between; align-items: flex-start; background: var(--card); border-top: 2px solid var(--grey); z-index: 5; }
+.tab { width: 52px; height: 48px; border-radius: 14px; display: grid; place-items: center; border: 2px solid transparent; } .tab.on { background: var(--violet-soft); border-color: var(--violet-line); } .tab img { width: 32px; height: 32px; }
+.rv { opacity: 0; }

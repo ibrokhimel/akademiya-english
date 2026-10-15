@@ -1,0 +1,46 @@
+/* Onboarding, the 12 locked screens (1, 1b, 2 … 10). Sizes from the Pencil "Storyboard · Onboarding > Main flow". */
+.side { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 460px; align-content: start; }
+.side h2, .side p { grid-column: 1 / -1; }
+.side button.act { text-align: left; padding: 9px 12px; border-radius: 12px; background: var(--bg); border: 2px solid var(--grey); border-bottom-width: 4px; font-weight: 900; font-size: 14px; }
+.side button.act.on { border-color: var(--violet); color: var(--violet); }
+#fxDombi { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 6; }
+#obstatus { position: absolute; left: 0; right: 0; top: 0; height: 44px; padding: 14px 28px 0; font-size: 15px; font-weight: 800; z-index: 3; }
+#obbar { position: absolute; left: 0; right: 0; top: 44px; display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 10px; z-index: 3; opacity: 0; }
+#obbar img { width: 30px; height: 30px; cursor: pointer; }
+.steps { display: flex; gap: 6px; align-items: center; } .steps i { width: 24px; height: 8px; border-radius: 4px; background: var(--grey); position: relative; overflow: hidden; }
+#obstage { position: absolute; inset: 0; }
+.obscr { position: absolute; inset: 0; display: flex; flex-direction: column; padding-top: 44px; }
+.obscr.bar { padding-top: 86px; }
+.obmid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 20px; }
+.obbody { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 12px 20px; }
+.obbot { padding: 12px 16px 30px; display: flex; flex-direction: column; gap: 10px; flex: none; }
+.oblink { align-self: center; padding: 6px 8px 0; font-size: 14px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); }
+.dph { display: block; flex: none; position: relative; }
+.obtitle { font-size: 30px; font-weight: 900; color: var(--violet); } .obsub { font-size: 17px; font-weight: 800; color: var(--text-muted); text-align: center; }
+.h24 { font-size: 24px; font-weight: 900; text-align: center; } .h26 { font-size: 26px; font-weight: 900; text-align: center; } .p15 { font-size: 15px; font-weight: 700; color: var(--text-muted); text-align: center; }
+.guide { display: flex; gap: 12px; align-items: flex-end; }
+.speech { flex: 1; padding: 12px 14px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 2px solid var(--grey); font-size: 16px; font-weight: 900; transform-origin: 0 100%; }
+.speech.solo { flex: none; padding: 12px 18px; border-radius: 18px; font-size: 18px; transform-origin: 50% 100%; }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.gopt { width: 100%; } .gopt .face { justify-content: flex-start; gap: 14px; padding: 14px 16px; font-size: 17px; font-weight: 900; text-align: left; } .gopt .face > img { width: 28px; height: 28px; } .gopt .lb { flex: 1; }
+.gopt .ck { width: 24px; height: 24px; border-radius: 12px; background: var(--violet); display: grid; place-items: center; opacity: 0; } .gopt .ck img { width: 14px; height: 14px; }
+.gopt.lvl .face > img { width: 37px; height: 37px; } .gopt.lvl .lb small { display: block; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+.gopt.conf { --d: 3px; } .gopt.conf .face { gap: 12px; padding: 10px 14px; font-size: 16px; } .gopt.conf .face > img { width: 34px; height: 34px; } .gopt.conf .num { font-size: 14px; font-weight: 900; color: var(--text-muted); }
+.outcome { display: flex; gap: 14px; align-items: center; padding: 8px 4px; transform-origin: 0 50%; } .outcome img { width: 44px; height: 44px; flex: none; } .outcome b { display: block; font-size: 17px; font-weight: 900; } .outcome small { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.micbadge { position: absolute; right: 2px; bottom: 14px; width: 54px; height: 54px; border-radius: 50%; background: #FFEDEA; border: 4px solid var(--bg); display: grid; place-items: center; z-index: 7; } .micbadge img { width: 30px; height: 30px; }
+body.dark .micbadge { background: #3A1F1B; }
+.micbadge i { position: absolute; inset: -6px; border-radius: 50%; border: 4px solid var(--coral); opacity: 0; }
+.vbars { display: flex; gap: 6px; align-items: center; height: 40px; } .vbars i { width: 8px; border-radius: 4px; background: var(--violet); }
+.hello { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px 10px 12px; border-radius: 99px; background: var(--green-soft); color: var(--green-edge); font-size: 18px; font-weight: 900; } .hello img { width: 22px; height: 22px; }
+.promise { display: flex; gap: 12px; align-items: center; padding: 8px 4px; } .promise .tile { width: 44px; height: 44px; border-radius: 14px; background: var(--violet-soft); display: grid; place-items: center; flex: none; } .promise .tile img { width: 26px; height: 26px; }
+.promise b { display: block; font-size: 16px; font-weight: 900; } .promise small { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+.wheelwrap { flex: 1; display: grid; place-items: center; }
+.wheel { width: 100%; height: 232px; border-radius: 20px; background: var(--surface); position: relative; overflow: clip; touch-action: none; cursor: grab; }
+.wheel .sel { position: absolute; left: 12px; right: 12px; top: 92px; height: 48px; border-radius: 12px; background: var(--card); border: 2px solid var(--violet); }
+.wheel .list { position: absolute; left: 0; right: 0; top: 0; } .wheel .opt { height: 44px; display: grid; place-items: center; font-size: 12px; font-weight: 900; color: var(--text-muted); transition: color var(--tc), font-size var(--tc); }
+.wheel .opt.near { font-size: 18px; } .wheel .opt.on { font-size: 24px; color: var(--violet); }
+.namefield { width: 100%; height: 56px; padding: 0 16px; border-radius: 16px; border: 2px solid var(--grey); background: transparent; font: 800 18px Nunito, system-ui, sans-serif; color: var(--text); outline: none; transition: border-color var(--tc); } .namefield:focus { border-color: var(--violet); }
+.lbl12 { font-size: 12px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); }
+.signin { width: 100%; } .signin .face { height: 52px; gap: 10px; border: 2px solid var(--grey); font-size: 15px; font-weight: 900; letter-spacing: .5px; color: var(--text); }
+.signin .ico { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text); display: grid; place-items: center; font-size: 11px; font-weight: 900; line-height: 1; } .signin img { width: 20px; height: 20px; }
+body.dark .signin img { filter: invert(1); }

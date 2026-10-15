@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · lesson and checkpoint moments</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="lessonmoments.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 7 — lesson and checkpoint moments</h1>
+    <p class="lead">The mistakes round, the streak screen after a lesson, and the checkpoint: its start sheet and the step-by-step player with the waiter.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap"><div class="phone" id="phone"><div id="screen" style="position:absolute;inset:0"></div></div></div>
+    <div class="side" id="side">
+      <h2 style="margin-top:0">Screens</h2>
+      <button class="act" data-s="mistakes">16 · Mistakes round<span>Dombi comes in thinking. The violet card slides in from the right (250 ms) and its arrows turn once. No red, no blame.</span></button>
+      <button class="act" data-s="streak">19 · Streak after the lesson<span>The card pops in. The flame lights with embers, the number flips up by one, today's dot fills with a check. About 1.2 s.</span></button>
+      <button class="act" data-s="cpstart">20 · Checkpoint start sheet<span>The path dims, the sheet slides up, and the five story steps light up one after another, 110 ms apart.</span></button>
+      <button class="act" data-s="player">21 · Checkpoint player<span>The waiter says his line, then it is your turn. When you have spoken, the step at the top turns green with a check, the line to the next step fills, and the next line comes in.</span></button>
+      <h2>In the player</h2>
+      <button class="act" data-a="speak">Speak<span>Or press the mic in the phone.</span></button>
+    </div>
+  </div>
+  <div id="park"></div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="widgets.js"></script>
+<script src="lessonmoments.js"></script>
+</body>
+</html>

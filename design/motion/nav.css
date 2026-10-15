@@ -1,0 +1,50 @@
+/* The Learn page: LOCKED design "Path H" (Pencil: Screen 11 · Path). Positions and sizes are the screen's own. */
+.learn { position: absolute; inset: 0; }
+.learn .time { position: absolute; left: 47px; top: 19px; font-size: 17px; font-weight: 800; }
+.stat { position: absolute; top: 70px; width: 80px; height: 28px; display: flex; align-items: center; gap: 7px; font-size: 16px; font-weight: 900; cursor: pointer; }
+.stat img { width: 26px; height: 26px; } .stat canvas { width: 26px; height: 33px; margin-top: -8px; }
+.stat.lv { left: 26px; color: var(--text-muted); } .stat.st { left: 118px; color: var(--orange); } .stat.ph { left: 205px; color: var(--violet); } .stat.ap { left: 296px; color: var(--red); }
+.stat.st.notyet { color: var(--text-muted); }
+
+.ubanner { --r: 14px; --c: var(--violet); --e: var(--violet-edge); position: absolute; left: 24px; top: 110px; width: 342px; }
+.ubanner .face { height: 74px; justify-content: flex-start; color: #fff; text-align: left; }
+.ubanner .txt { flex: 1; padding-left: 16px; } .ubanner .k { display: block; font-size: 14px; font-weight: 800; letter-spacing: .5px; opacity: .7; line-height: 1.2; } .ubanner .t { display: block; font-size: 17.3px; font-weight: 800; margin-top: 3px; }
+.ubanner .book { width: 55px; height: 74px; border-left: 2px solid var(--violet-edge); display: grid; place-items: center; flex: none; } .ubanner .book img { width: 34px; height: 34px; }
+
+/* ---- the path ---- */
+.path { position: absolute; left: 0; right: 0; top: 196px; bottom: 94px; overflow: clip; }
+.pathin { position: absolute; left: 0; right: 0; top: -196px; }                 /* children use the screen's own y values */
+.node { --c: var(--grey); --e: var(--grey-edge); position: absolute; width: 71px; height: 66px; cursor: pointer; }
+.node::before { content: ''; position: absolute; left: 0; top: 9px; width: 71px; height: 57px; border-radius: 50%; background: var(--e); transition: background-color var(--tc); }
+.node::after { content: ''; position: absolute; left: 0; top: 28.5px; width: 71px; height: 9.5px; background: var(--e); transition: background-color var(--tc); }
+.node .face { position: absolute; left: 0; top: 0; width: 71px; height: 57px; border-radius: 50%; background: var(--c); z-index: 1; display: grid; place-items: center; overflow: hidden; transition: background-color var(--tc); }
+.node .face img { width: 32px; height: 32px; grid-area: 1 / 1; }
+.node.done { --c: var(--violet); --e: var(--violet-edge); } .node.cur { --c: var(--coral); --e: var(--coral-edge); }
+.node .halo { position: absolute; left: -9px; top: -9px; width: 89px; height: 75px; border-radius: 50%; border: 4px solid var(--coral); opacity: 0; pointer-events: none; }
+.trophyn { --d: 6px; --r: 16px; --c: var(--gold-soft); --e: var(--gold-edge); position: absolute; left: 206.2px; top: 621.4px; width: 69.4px; cursor: pointer; }
+.trophyn .face { height: 54.8px; border: 3px solid var(--gold); } .trophyn img { width: 38px; height: 38px; }
+.unitart { position: absolute; left: 253.9px; top: 364.9px; width: 76.7px; height: 82.6px; border-radius: 38px; background: var(--violet-soft); display: grid; place-items: center; } .unitart img { width: 52px; height: 52px; }
+.ustars { position: absolute; left: 262px; top: 463px; width: 70px; display: flex; gap: 2px; align-items: flex-end; color: var(--text-ghost, #E5E5E5); font-weight: 900; line-height: 1; } .ustars b:nth-child(odd) { font-size: 20px; } .ustars b { font-size: 17px; }
+body.dark .ustars { color: #4A4A54; }
+.nextart { position: absolute; left: 62px; top: 701px; width: 72px; height: 62px; border-radius: 16px; background: var(--surface); display: grid; place-items: center; rotate: 8deg; } .nextart img { width: 46px; height: 46px; }
+canvas.twk { position: absolute; width: 170px; height: 142px; left: 156px; top: 578px; pointer-events: none; z-index: 4; }
+
+/* ---- tab bar: icons only, the chosen one sits on a violet pill ---- */
+.tabbar { position: absolute; left: 0; right: 0; top: 752px; height: 94px; padding: 14px 40px 0; display: flex; justify-content: space-between; align-items: flex-start; background: var(--card); border-top: 2px solid var(--grey); z-index: 5; }
+.tab { width: 52px; height: 48px; border-radius: 14px; display: grid; place-items: center; position: relative; cursor: pointer; }
+.tab::before { content: ''; position: absolute; inset: 0; border-radius: 14px; background: var(--violet-soft); border: 2px solid var(--violet-line); opacity: 0; transition: opacity var(--tc); } .tab.on::before { opacity: 1; }
+.tab img { width: 32px; height: 32px; position: relative; }
+.otherpage { position: absolute; left: 0; right: 0; top: 50px; bottom: 94px; background: var(--bg); display: grid; place-items: center; font-size: 22px; font-weight: 900; color: var(--text-muted); opacity: 0; pointer-events: none; z-index: 4; }
+
+/* ---- lesson start sheet (Screen 12) ---- */
+.backdrop { position: absolute; inset: 0; background: rgba(20, 20, 30, .45); opacity: 0; pointer-events: none; z-index: 10; }
+.startsheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 11; background: var(--card); border: 2px solid var(--grey); border-bottom: 0; border-radius: 28px 28px 0 0; padding: 10px 20px 28px; display: flex; flex-direction: column; gap: 16px; align-items: center; transform: translateY(105%); }
+.startsheet .handle { width: 40px; height: 5px; border-radius: 3px; background: var(--grey); }
+.startsheet .hd { width: 100%; } .startsheet .k { font-size: 11px; font-weight: 800; letter-spacing: .5px; color: var(--text-muted); } .startsheet .t { font-size: 24px; font-weight: 900; margin-top: 4px; }
+.cansay { width: 100%; padding: 16px; border-radius: 16px; background: var(--violet-soft); display: flex; flex-direction: column; gap: 10px; }
+.cansay .l { font-size: 11px; font-weight: 900; letter-spacing: .5px; color: var(--violet); } .cansay .p { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; }
+.meta { width: 100%; display: flex; gap: 16px; font-size: 13px; font-weight: 800; color: var(--text-muted); } .meta span { display: flex; align-items: center; gap: 6px; } .meta img { width: 16px; height: 16px; }
+.flydot { position: absolute; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); pointer-events: none; z-index: 30; left: 0; top: 0; }
+.side { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+.side button.act { text-align: left; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 2px solid var(--grey); border-bottom-width: 4px; font-weight: 900; }
+.side button.act span { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }

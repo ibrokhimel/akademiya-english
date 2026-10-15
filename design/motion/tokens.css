@@ -1,0 +1,45 @@
+/* Design tokens, copied from the Pencil file's variables (light and Charcoal dark). */
+:root {
+  --violet: #7B5CFF; --violet-edge: #5A3FD9; --coral: #FF6B5B; --coral-edge: #D9483A; --gold: #FFC93C; --gold-edge: #E0A400;
+  --red: #FF4B5C; --red-edge: #D63445; --red-deep: #C02A3D; --green: #3DCB6C; --green-edge: #27A852; --orange: #FF9F1C;
+  --bg: #FFFFFF; --card: #FFFFFF; --surface: #F6F6FA; --grey: #E5E5E5; --grey-edge: #B7B7B7;
+  --text: #2B2B3C; --text-muted: #8A8AA0; --gold-text: #C98A00;
+  --green-soft: #E3F9EA; --red-soft: #FFE8EA; --violet-soft: #EFEBFF; --violet-line: #C9BDFF;
+  --cream: #FFFDF3; --orange-wash: #FFF1DC; --inverse: #2B2B3C;
+  --orange-band: #FFE2B8; --ice: #DDF4FF; --ice-edge: #5BC8F5; --ice-text: #1491C9; --glyph-muted: #6E6E82; --gold-soft: #FFF4D1;
+  --tile-blue: #E8F6FD; --tile-grey: #F1F3F7; --tile-orange: #FFF1E0; --tile-gold: #FFF8E0; --tile-pink: #FFE8F3; --coral-soft: #FFEDEA; --violet-shadow: #D9CFFF; --blue-shadow: #D7ECF8; --text-faint: #B7B7B7; --grass: #EAF7EE;
+  --page: #F1F0F7; --glyph: 'dark';
+}
+body.dark {
+  --bg: #121214; --card: #1B1B1F; --surface: #242429; --grey: #34343B; --grey-edge: #26262B;
+  --text: #F4F4F6; --text-muted: #9C9CA6; --gold-text: #FFC93C;
+  --green-soft: #17352A; --red-soft: #3A1D22; --violet-soft: #26214A; --violet-line: #463C85;
+  --cream: #24211A; --orange-wash: #33240F; --inverse: #2E2E35;
+  --orange-band: #4A3212; --ice: #11323F; --ice-text: #5BC8F5; --glyph-muted: #8B8B96; --gold-soft: #383014;
+  --tile-blue: #12303F; --tile-grey: #24262B; --tile-orange: #33240F; --tile-gold: #2E2812; --tile-pink: #3A1C2B; --coral-soft: #3A1F1B; --violet-shadow: #16132E; --blue-shadow: #0E2430; --text-faint: #5F5F69; --grass: #16261C;
+  --page: #0B0B0D;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--page); color: var(--text); font: 700 15px/1.4 Nunito, system-ui, sans-serif; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+img { display: block; }
+
+/* ---- lab chrome (not part of the app) ---- */
+.lab { max-width: 1180px; margin: 0 auto; padding: 20px 16px 80px; }
+.lab > header { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; margin-bottom: 8px; }
+.lab h1 { font-size: 26px; font-weight: 900; margin: 0; }
+.lab .lead { color: var(--text-muted); margin: 4px 0 0; font-size: 14px; max-width: 640px; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; position: sticky; top: 0; z-index: 50; background: var(--page); padding: 10px 0; }
+.tool { font-weight: 800; font-size: 13px; padding: 7px 12px; border-radius: 12px; background: var(--card); border: 2px solid var(--grey); border-bottom-width: 4px; }
+.tool[aria-pressed="true"] { border-color: var(--violet); color: var(--violet); }
+.lab h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 28px 0 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 16px; align-items: start; }
+.demo { background: var(--bg); border-radius: 24px; padding: 18px; border: 2px solid var(--grey); }
+.demo.wide { grid-column: 1 / -1; }
+.demo h3 { font-size: 17px; font-weight: 900; margin: 0 0 2px; }
+.demo .spec { font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px; font-weight: 700; }
+.stage { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; position: relative; min-height: 72px; }
+.stage.col { flex-direction: column; align-items: stretch; }
+.ctl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; justify-content: center; }
+.ctl button { font-weight: 800; font-size: 12.5px; padding: 6px 10px; border-radius: 10px; background: var(--surface); color: var(--text-muted); }
+.ctl button:hover { color: var(--text); }
