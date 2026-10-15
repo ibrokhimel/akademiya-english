@@ -116,7 +116,7 @@ kit and reuse it, instead of inventing an effect per screen.
 | Quit sheet | T0 | sheet up, Dombi calm (no guilt) |
 | Mistakes round start | T1 | divider slides in; Dombi thinking |
 | **New thing you can SAY** | T2 | phrase card pops (F17) with F2 twinkles; Dombi celebrate; the phrase is spoken; card then flies to the phrases counter (F8 + F18) |
-| **Lesson result** | T2 | F4 confetti medium behind Dombi; phrases list in a stagger, each ▶ bounces; stats count up (F13); XP flies to the counter (F8) |
+| **Lesson result** | T2 | three stat tiles arrive and count up (F13) while the sound builds; on its hit, 1.1 s in, Dombi cheers, F4 confetti medium, "Dars tugadi!" pops; then the phrases in a stagger, each ▶ bounces |
 | **Perfect lesson** | T3 | F4 large + gold "Perfect" badge slams in (F9 dust + F10) + F2 lingering |
 | **Streak +1** | T2 | flame lights and grows, F6 embers, number flips N→N+1 with a bump, today's dot fills orange |
 | Streak milestone 7 / 30 / 100 / 365 | T4 | custom Dombi + flame scene, F5 in orange, share card (after MVP) |
@@ -224,9 +224,135 @@ Level-up backdrop is **violet**, not black: Dombi is black and must stay visible
 yet — they reuse Dombi's talking engine and mouth model once drawn; more outfits are art only (the hat slot and the
 put-on move exist); sound design; the app-code effects get rebuilt in the app's own framework in #29.
 
+## 6c. Component motion lab (started 2026-10-12)
+
+The component motions from §3 are built as a live page, with every component drawn to the Pencil sizes and
+tokens (light and dark): `design/motion/` → `node serve.js` → http://127.0.0.1:8791/design/motion/.
+The page has slow motion (×4) and a Reduce Motion switch. `motion.js` holds the primitives and one table of
+timings; the app code copies those numbers. `node check.js` (and `node check.js dark`) plays every demo in
+a real browser and saves pictures for checking.
+
+**Batch 1 — the lesson (built, checked in light and dark):**
+
+| Component | Motion |
+|---|---|
+| Main button | press: face drops 4 px in 60 ms, back in 140 ms with a small overshoot · turns ready: colour 120 ms + one shine (600 ms), again every 5 s · tapped while grey: small shake (250 ms) |
+| Other buttons (secondary, green, danger, small) | same press; small ones drop 3 px; no shine |
+| Answer tile, picture tile | pick: violet in 120 ms, lifts 2 px · right: green, punch 1.08 (200 ms), FX Pop · not right: red, shake (350 ms), the right one turns green 120 ms later with no pop |
+| Word tile (Tile Builder) | flies to the line on a small arc (260 ms), lands with a squash (220 ms); the others close the gap (180 ms); a grey slot stays in the bank · right: green left to right, 60 ms apart |
+| Tap the mistake | pick: violet · right: a line strikes the word (200 ms), the fix drops in from above (200 ms), FX Pop · not right: red + shake, the real mistake turns green |
+| Tap the gap | empty gaps breathe (1.2 s) · pick: fills violet · right: the other gap closes (180 ms), the word drops in and lands, FX Pop |
+| Progress bar | grows in 320 ms with a 2.5 % overshoot and a shine; combo number bumps; gold from 5 in a row; FX Pop at the end at 100 % |
+| Combo moment | the full-screen page 14c: fade in 150 ms, flame pops (300 ms) with FX Embers, text pops 80 ms later, holds about 1.3 s, a tap skips it. Shown after DAVOM ETISH at 3, 5 and 10 in a row |
+| Feedback sheets | up in 260 ms with a 6 px overshoot, badge pops 60 ms later, tip fades in 80 ms later; down in 180 ms |
+| Toast, Uzbek tip | toast: in 220 ms, holds 2.2 s, out 160 ms · tip: pops in (220 ms) |
+| Mic button | your turn: ring breathes out every 1.2 s · listening: coral, FX Voice rings follow the level, bars move · checking: three dots · heard: green, the check draws itself (FX Voice), words light up 90 ms apart · nothing heard: back to violet with a small nudge, no red |
+| Audio buttons | press 6 px (big) / 4 px (slow) / 3 px (small); the icon becomes moving bars while the sound plays |
+| New exercise | old one leaves to the left (180 ms); the task comes in from the right (250 ms), then the answers 40 ms apart |
+
+Changed from the plan: the combo is the locked full-screen page 14c, not the small chip that §7 used as a default.
+
+**Batch 2 — the Learn page** (`nav.html`): the LOCKED Path H screen (Pencil "Screen 11 · Path") as a live phone, with the
+circles at the screen's own positions. A first version was built from the old "Learn — Timeline" frame by mistake and
+was replaced on 2026-10-13.
+
+| Piece | Motion |
+|---|---|
+| Lesson circle | press: drops 9 px (60 ms down, 140 ms back) · locked: press, then a small shake · current: a ring breathes out every 1.2 s |
+| Finishing a lesson (T2, about 1.2 s) | circle turns violet, check pops, FX Pop → 5 gold bits fly to the phrases number, which bumps and counts up → the next circle turns coral with a bounce (340 ms) and a shine, its ring starts → the streak flame lights if it was grey |
+| All five lessons done | the trophy tile bounces and shines, the banner shines once, gold twinkles on the trophy every 2.6 s; the trophy then opens the checkpoint sheet |
+| Numbers at the top | small bounce on tap; count-up with a bump when a number changes |
+| Unit banner | press drops 4 px |
+| Tabs (icons only) | the violet pill fades to the chosen icon in 120 ms, the icon hops 5 px (240 ms); the page cross-fades in 150 ms |
+| Lesson start sheet (Screen 12) | backdrop 200 ms; sheet up in 300 ms with an 8 px overshoot; phrase box and details fade up 120 / 180 ms later; BOSHLASH shines; down in 200 ms |
+| The page | scrolls so the current circle stays in view (300 ms) |
+
+**Batch 3 — sheets and controls** (`controls.html`): toggle (knob slides 20 px in 180 ms and stretches; the dark-mode
+switch cross-fades the screen in 250 ms) · text field (violet on focus, green + punch, red + shake) · segmented switch
+(the pill slides in 180 ms) · rating and feedback form (the form shrinks up and away in 220 ms, then a "Rahmat!" toast) ·
+reminder time wheel (follows the finger, snaps in 220 ms) · quit sheet with a live Dombi · dialog (pops from 90 % in
+220 ms, leaves in 140 ms) and rows folding away 70 ms apart · loading shimmer (1.4 s), content fading up 40 ms apart ·
+offline toast, slow-fading wifi icon, retry button with three dots.
+
+**Batch 4 — progress and profile** (`progress.html`): streak card (flickering flame, breathing ring on today's dot,
+"lesson done" with embers and the number bump, "freeze used" with FX Frost) · calendar unfolding under the card with
+the joining bands drawing left to right · big number and tiles counting up, level ring drawing in 700 ms · phrase
+cards (list 40 ms apart, a new card pops in with twinkles, play bars, stars turning gold) · friend button morphing
+between its four states.
+
+**Batch 5 — onboarding and results** (`screens.html`, six moments): 2 choose a goal · 17 new thing you can say ·
+18 lesson result · 18 perfect lesson · 22 checkpoint result (trophy drop with squash, dust, rings, large confetti,
+waiter's reaction last) · 23 level up (badge slam, rings, confetti fountain, the number flips, the list arrives 90 ms apart).
+
+Screen 18 was redesigned on 2026-10-13 (option A on the Pencil board "Lesson result — redesign ideas"): Dombi on top,
+"Dars tugadi!", three stat tiles, then the phrases. Everything lands on one beat 1.1 s in.
+
+Perfect lesson (T3) is the same screen: the number counts to 100 %, a gold "MUKAMMAL!" badge slams in under the title
+from 2.6× (380 ms with a 120 ms stop) and lands on the beat, with gold rings behind Dombi, large confetti, and a
+twinkle on the badge that comes back at 1.3 s and 2.6 s.
+
+**Batch 6 — speaking exercises** (`exercises.html`): Meet It (the picture pops, the phrase plays with no text, the mic
+waits; said right, the English words appear one by one) · Say What You See (the hint chip shows only the first words) ·
+Echo Line (the waiter's mouth moves with the sound and each word lights as he says it; he reacts after you repeat) ·
+one word off (the word turns orange, tap it to hear it, then the right answer is shown) · nothing heard (the mic
+nudges and waits again, no red).
+
+**Batch 7 — lesson and checkpoint moments** (`lessonmoments.html`): 16 mistakes round (Dombi comes in thinking, the
+violet card slides in from the right in 250 ms, its arrows turn once) · 19 streak after the lesson (flame lights with
+embers, the number flips up by one, today's dot fills with a check, about 1.2 s) · 20 checkpoint start sheet (the path
+dims, the sheet slides up, the five story steps light up 110 ms apart) · 21 checkpoint player (the waiter speaks, then
+your turn; the step at the top turns green, the line to the next step fills, the next line comes in).
+
+**Batch 8 — onboarding** (`onboarding.html`): the 12 locked screens as one flow with the buttons inside the phone.
+Dombi is one Rive view that travels between screens (he moves and resizes in 300 ms, he does not cut). Step bar grows
+one piece per screen; options arrive 40 ms apart; the mic screen has a pulsing mic badge; "Menga Hello deng" uses
+FX Voice and ends with "Zo'r! Sizni eshitdim"; the reminder wheel follows the finger and snaps.
+
+**Batch 9 — Profile** (`profile.html`): the avatar bounces in (320 ms), sections fade up 60 ms apart the first time
+they scroll into view, the four overview numbers count up, the banner moves at 40 % of the scroll speed and the avatar
+shrinks a little, the hat and scarf sway, a gold twinkle visits an earned award every 2.8 s, the friend button swaps
+its label, and a new award punches with a pop, one shine and a "YANGI" tag.
+
+**Batch 10 — small states** (`states.html`): 30b confidence grew (the old number pops in, the arrow draws itself in
+260 ms, the new number rolls up and turns green with a pop, Dombi celebrates) · 31b mic blocked (the lesson dims in
+200 ms, the sheet comes up in 300 ms, the three steps tick in 110 ms apart; no red) · 31e something went wrong (Dombi
+puts a hand to his chin; QAYTA URINISH shows three dots while it tries) · 31d not ready yet (the sprout sways and
+grows a little on a 1.9 s loop).
+
+Every page was played in a real browser in light and dark by its `check-*.js` script, and pages 6–10 were compared
+side by side with exports of the locked Pencil screens.
+
+Dombi size rule for the app: the Rive artboard has empty space around Dombi (the body is 50 % of the canvas), while
+the design's Dombi box has the body at 66 %. To match a design box of size S, draw the Rive view at 1.32 × S and
+shift it left by 0.164 × S and up by 0.231 × S.
+
+**Sound (2026-10-13):** the 20 chosen sounds play in the lab on the motion's beats; see `docs/ideas/sound-plan.md` §5. Small interface sounds come from a switchable family and each has a planned tap in the hand: §6. The reminder time wheel now covers the whole day, turns without end and keeps moving after a flick (same section).
+
+**Listening bars (2026-10-13, asked for by the owner):** the bars shown while the mic listens now follow the real microphone instead of a fixed loop (`design/motion/voice.js`).
+
+- At rest each bar is a dot, exactly as tall as the bar is wide, and a soft glow runs along the row to show it is listening.
+- With a voice the bars rise: the low notes of the voice move the middle bars, the middle rises highest, a bar jumps up fast (about 35 ms) and settles slower (about 160 ms). The rings round the mic button and Dombi's listening squash follow the same level.
+- A real press on the mic button listens with the real mic and ends when the speaker has been quiet for 0.7 s. With no voice for 5 s it gives the "nothing heard" result.
+- The onboarding mic check waits for a real "Hello!" and moves on by itself. The browser asks for the mic when MIKROFONNI YOQISH is pressed.
+- The lab's own buttons ("Speak (all right)", "Nothing heard", "Say Hello") still play a made-up voice, and so does everything when there is no mic or the answer was no.
+- The lab only knows that a voice was heard, not which words. `node check-voice.js` tests it with a recording given to the browser as its mic.
+
+**Taps in the hand (2026-10-14):** every sound's tap is given on the sound's loud moment (`haptic.js`; the table is in
+sound-plan.md §6). The tool bar's Taps switch shows them on a PC.
+
+**Page 11, the lessons (2026-10-14):** `lessons.html` lists all 15 lessons and 3 checkpoints item by item from the app's
+own lesson files, with every English line to hear at normal and slow speed, the words lighting up in time and the
+waiter's or the seller's mouth following the sound. It is a page for checking the content, not an app screen.
+
+**Not done yet:** the after-MVP pieces (§4) · joining all of this into the browser version of the app
+(the plan: tech-stack.md §0), and after that the phone app.
+
+Rule learned: a Rive view shows the runtime's start-up logo for about two seconds when it is created, so every Rive
+view must be created when the screen loads and kept hidden until then, never in the middle of a moment.
+
 ## 7. Open questions — defaults used until the owner says otherwise
 
-Defaults: (1) shine repeats every ~5 s · (2) pop at the answer tile, Dombi reacts separately · (3) calm chip + gold bar ·
+Defaults: (1) shine repeats every ~5 s · (2) pop at the answer tile, Dombi reacts separately · (3) ~~calm chip~~ the full-screen page 14c + gold bar (changed 2026-10-12, see §6c) ·
 (4) streak milestones after MVP · (5) motion + haptics first, sound later.
 
 

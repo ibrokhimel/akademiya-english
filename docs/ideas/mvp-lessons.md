@@ -29,6 +29,9 @@ Traps and Tap the Mistake items: [mistake-engine.md](mistake-engine.md).
 | 10 | PAY AND SAY THANKS | To'lab, rahmat ayta olasiz | Can I pay by card? · Here you are. · Thank you! Goodbye! | How much…, numbers, Goodbye | "Thanks you" → Thank you |
 | ✓ | Checkpoint | | Greet → order → ask the price → pay → goodbye | Unit 1 | |
 
+> **Numbers, as written in the lesson files (2026-10-14):** Lesson 8 teaches 1–10, Lesson 9 adds 11–15 and Lesson 10
+> adds 16–20, each as one counting row. Reason and the other writing choices: [lesson-template.md](lesson-template.md).
+
 ## Unit 3 — 🛍️ Shopping (numbers 20–100)
 
 | # | Can-say skill | Uzbek title | Phrases taught | Reuses | Uzbek trap |

@@ -38,7 +38,7 @@ A **small pet** lives on top of the app, on **every screen**:
 - **Hands:** two plain circles, one shade lighter (`#45455A`), **hidden by default** — they only pop in for
   gestures: wave (one up), celebrate (both up), thinking (hand at the chin). Later: point, thumbs-up.
 - **Also the onboarding guide** — he replaces the chef placeholder on every onboarding screen and introduces
-  himself ("Salom! Men Dombi."). The café **waiter** stays a separate scene character.
+  himself ("Salom! Men Dombiman."). The café **waiter** stays a separate scene character.
 - **Files:** Rive artboard `Dombi` (the animated rig; the old static `pet/*`, `dombi/*`, `char/*`, `bot/*` artboards were
   deleted 2026-10-11, their SVG sources stay in `design/icons/`) · Pencil components `Dombi / …` (board "Pet preview ·
   black (2D)"; all 65 Dombi drawings use the curved mouth since 2026-10-11: a native `mouth` path, the old bar + tick

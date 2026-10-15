@@ -1,7 +1,8 @@
 # Tech Stack (English app)
 
 **Roadmap item:** #29 Tech stack
-**Status:** main choices **LOCKED** 2026-10-12 · the framework is locked on condition that two test builds pass
+**Status:** main choices **LOCKED** 2026-10-12 · the framework is locked on condition that two test builds pass ·
+**build order changed 2026-10-14: a browser version first** (§0)
 **Related:** [ai-plan.md](ai-plan.md) (MVP speech scope) · [motion-plan.md](motion-plan.md) ·
 [companion-pet.md](companion-pet.md) · [product-definition.md](product-definition.md) (pricing)
 
@@ -9,6 +10,142 @@ Based on three research reports made 2026-10-12 (framework, backend and law, pay
 The legal points are research, not legal advice.
 
 ---
+
+## 0. Build order: a browser version first (owner, 2026-10-14)
+
+The owner's words: "let's first build the application in browser for testing purposes". So the whole MVP is first built
+to run in a browser, and the phone app comes after it.
+
+**Started 2026-10-14.** The owner found the lab's lessons page "overcomplicated" and asked to "go thru the lessons myself
+in my browser first", so steps 1 to 3 below are built: every lesson and checkpoint can be played from start to finish at
+http://127.0.0.1:8791/src/web/ (the lab's server). What is there and what is not: "Built so far" at the end of this section.
+
+### Why it is a good first step
+- Everything the owner has approved so far already runs in a browser: the motion lab (`design/motion/`) has the real
+  motion, sounds, taps, Dombi and the waiters. The browser version joins those pieces into one working app, so nothing
+  approved is rebuilt before it can be tried.
+- The lessons can be played from start to finish and judged (too long, too easy, a wrong Uzbek line) weeks before a
+  phone build exists.
+- It opens from a link, on the PC and on a phone, with nothing to install.
+
+### What it is made of
+
+| Part | In the browser version | Carried over to the phone app |
+|---|---|---|
+| Lesson content | `src/content/`: lesson files, sound clips, pictures (done, see lesson-template.md) | as it is |
+| The rules (`src/core/`, new) | plain code with no screen in it: which item comes next, the mistakes round, combo, what counts as a right answer (said, built or tapped), streak and freeze, level and prediction, what is saved | as it is. Written once, with tests that run on the PC |
+| Screens (`src/web/`, new) | the lab's own pieces (`motion.js`, `sound.js`, `haptic.js`, `voice.js`, the component styles, the Rive web player), one file per screen, on the locked Pencil screens | written again for the phone, screen by screen, with the browser version open beside it as the reference |
+| Speech | the browser's speech recognition (Chrome on the PC and on Android; Safari on iPhone). Where a browser has none, the app behaves as on screen 31c: answers are built from words | replaced by the phone's own recogniser (`expo-speech-recognition`) |
+| Saving | in the browser itself, behind one small "save / load" door | the same door, with the phone's database and later the server behind it |
+| Sign-in | the three buttons only keep the name. No accounts, no server | real sign-in |
+| Taps in the hand | Android: the browser's vibration. iPhone: one kind of tick at best | the real ones (`expo-haptics`) |
+| Reminder | chosen and saved, not sent | scheduled on the phone |
+
+### What the app saves (the same in both versions)
+
+| What | Kept as |
+|---|---|
+| Settings | name, goal, "I'm new / I know some", reminder time, sound on, taps on, dark mode, speaking on, "save my voice" |
+| Confidence answers | date and 1–5, for day 1 and for two weeks later |
+| What happened | a list that only grows: lesson finished (which, when, mistakes, seconds spoken), checkpoint finished, item missed (which phrase, which exercise), streak freeze used |
+| Worked out from that list, never stored twice | lessons unlocked, phrases the learner can say, streak and calendar, level and prediction, the numbers on Progress |
+| Voice recordings | the clip, its phrase and the date; only with permission, deletable one by one or all at once |
+
+A list of events is what the phone app sends to the server later (§3, "Offline"), so nothing here is thrown away.
+
+### Order of work
+Each step ends with something the owner can open and try.
+
+1. **The rules and their tests** (`src/core/`): lesson player, answer checking, streak, level. No screens yet.
+2. **One lesson, start to finish**: Lesson 6 with all six exercises, the feedback sheets, "can't speak now", the mistakes
+   round, the new-phrase card and the result screen.
+3. **All 15 lessons and the 3 checkpoints**, with trophy, reaction and level up.
+4. **The Learn page**: the path, lesson start sheet, unlocking, replay, streak screen.
+5. **Onboarding 1–10**, the first lesson inside it, then the name.
+6. **Progress, "things I can say", streak calendar, Profile, Settings** (sound, taps, dark mode, speaking, recordings).
+7. **Pop-ups and states**: feedback form, confidence again, no internet, mic blocked, no speech recognition, error, "not ready yet".
+8. **A pass over everything**: dark mode, Reduce Motion, a phone-sized window, reload in the middle of a lesson.
+
+Then the phone app: the two test builds of §4 first, then the screens in the same order.
+
+### Built so far (2026-10-14): the whole MVP in the browser (steps 1–8)
+
+The owner looked through it on 2026-10-15: "ts look alr".
+
+| Where | What |
+|---|---|
+| `src/core/text.js` | what counts as a right answer: said (numbers in digits, short forms, names and Uzbek words that always count, other right answers), built from tiles, picked |
+| `src/core/session.js` | one lesson being played: the order, the mistakes round (a missed item comes back until it is right), speaking off, the numbers for the result |
+| `src/core/progress.js` | worked out from what happened: which lesson is done, current or locked, the phrase count, the level, and the streak (days in a row, counted day by day as they happen; one freeze a week covers a missed day; weeks start on Sunday) |
+| `src/core/core.test.js` | `node --test src/core/core.test.js`: 12 tests, among them every taught phrase judged right when said as written |
+| `src/web/app.js` | start, saving, settings, the first run, what comes after a lesson, the confidence question after two weeks, the error screen |
+| `src/web/onboarding.js` | onboarding 1–9, Log in (1L) and "no such account" (1L·b), and the name and account (10) after Lesson 1 |
+| `src/web/learn.js` | the Learn page: path, start sheets, tabs |
+| `src/web/progresspage.js` | Progress (24), "Ayta oladiganlarim" (25), the streak calendar (26) |
+| `src/web/profilepage.js`, `record.js` | Profile (27), Settings (28), voice recordings (28b); the recordings are kept in the browser only |
+| `src/web/states.js` | feedback form (29, 29b), confidence again (30, 30b), no internet (31a), mic blocked (31b), speech not available (31c), not ready yet (31d), something went wrong (31e) |
+| `src/web/player.js`, `exercises.js`, `finish.js`, `moments.js` | the lesson screen, the six exercises, the read-aloud after Tile Builder, the screens after a lesson (result, trophy, level up, streak) |
+| `src/web/checks/` | `play.js` plays lessons from the path; `flow.js` the whole first run; `extras.js` log out, delete, the date moved, every pop-up, phone size and Reduce Motion; one harness page each for Progress, Profile and the pop-ups |
+
+- The screens are the lab's own: its style files and its motion, sound and tap scripts are loaded as they are. Pages the
+  lab did not have (log in, 24–26, 28, 28b, 29–31) were built from the locked Pencil screens, read from the file.
+- **First run:** Welcome → Dombi → goal → level → what you'll achieve → confidence → mic (the browser asks for it here)
+  → "Say Hello" (Dombi listens to the real mic) → voice promise → reminder time → Lesson 1 → name and account → the
+  Learn page. KIRISH goes to Log in; in this version the account lives in this browser, so logging in only works with
+  the way chosen on page 10 after logging out, and anything else shows "Bu hisob hali yo'q" with "start fresh".
+- **The Learn page** is the locked Path H screen. The three units sit one under another on one scrolling path, with a
+  thin line and the unit's name between them (new: the design shows one unit); the banner shows the unit in the middle
+  of the view, and its book opens "Ayta oladiganlarim". Lessons open one after another, the trophy after the unit's
+  five lessons, the next unit after the checkpoint. A finished lesson opens again with TAKRORLASH.
+- **After a lesson:** "now you can say" → result → the streak screen if it was the first lesson of the day → the Learn
+  page with the "lesson done" beat. **After a checkpoint:** the trophy with the partner's reaction (set by the number of
+  mistakes) → level up after the third unit → streak. About two weeks after the start the confidence question comes
+  once after a lesson, and 30b only if the answer went up.
+- **Speaking.** The mic button records the answer and sends it to a speech-to-text server on this PC
+  (`src/stt/server.py`, faster-whisper large-v3-turbo on the graphics card, about 1.2 s; it starts with
+  `node design/motion/serve.js`). On 2026-10-15 the owner found that his speech was not understood: the browsers' own
+  recognisers (Chrome sends the sound to Google, Edge to Microsoft) came back empty on this PC, so they are now only
+  the second choice, used when the server is not running. While the learner speaks, the words so far appear
+  live in grey under "ESHITYAPMAN…" (the server is asked every half second), then turn green or orange when checked;
+  the page looks for the server again before every answer, not only when it opens. The owner tried it with his own
+  voice the same day and it worked ("A coffee, please.", "No, thank you." and the numbers were heard). `checks/speak-real.js` answers a lesson item through the real
+  microphone path with a recording; `checks/sttcheck.js` sends lesson clips to the server. A voice with no words understood is asked again and is not a mistake; the third time the
+  31c sheet offers words to build or another try. A blocked mic shows 31b. After a sentence built right from tiles the
+  learner is asked to say it out loud once (it can be skipped and is never a mistake).
+- **Saving your voice:** when the learner chose it (screen 8, or Settings → Ovoz yozuvlari), a phrase said right is
+  kept, one per phrase, newest wins. It plays from "Mening ovozim" on page 25 and from page 28b, and can be deleted.
+- **Settings** has the designed rows, then a test-only part "SINOV UCHUN": British or American voices, every lesson
+  open, moving the date (+1 day, +14 days, back to today) to try the streak and the confidence question, a list that
+  opens every pop-up and problem screen, and start over.
+- **Picked up after a reload:** every answer in a lesson is saved as it is given; after a reload the lesson comes back
+  at the same item, with the bar, combo and speaking as they were.
+- **Reduce Motion** follows the computer's setting. On a phone-sized window the app fills the screen.
+- **Saved:** the growing list of "what happened" (onboarding answers, lessons, account, confidence, feedback) and the
+  settings, in the browser. Progress, streak and level are worked out from the list every time.
+- **Checked (2026-10-14, in a real browser, no page errors):** the whole first run in light and in dark, the dark
+  one through Log in and "no such account"; onboarding answers, name, account and three saved voice clips kept;
+  Progress 24, 25, 26, Profile 27, Settings 28 and 28b; a reload in the middle of Lesson 2 came back at the same item;
+  log out and back in with the results kept; the date moved 14 days, the confidence question after the next lesson,
+  30b when it went up, the answer saved; every pop-up and problem screen opened and closed; Lesson 2 in a 390×844
+  window and in a 360×740 one with Reduce Motion; deleting the account goes back to Welcome with nothing kept; and all
+  15 lessons and 3 checkpoints played in path order with one wrong answer each. The helpers' own pages
+  (`checks/progresspage.html`, `profilepage.html`, `states.html`) were checked in light and dark.
+- **Fixed on the way:** with Reduce Motion the lesson's feedback sheet stayed below the screen (the lab's sheet only
+  faded); the streak now spends a week's freeze on the first missed day, as it would really happen.
+- **Speech, checked with recordings:** the real microphone path, fed a lesson clip, gives "A coffee, please." all green and
+  "A tea, please." with "coffee" orange. Not checked: how it hears the owner's own voice and accent.
+- **Not real in a browser:** reminders (the time is saved; the phone app sends them), taps in the hand, signing in with
+  Google, Apple or a phone number (a button press only marks the account in this browser), the screenshot in the
+  feedback form (only "on/off" is kept), and sending feedback anywhere (it is saved in the list).
+- **Shown but after the MVP:** on Profile, friends, the league, Apples, friend streaks and the pet outfit are drawn as
+  designed and open "not ready yet" (31d).
+
+### What the browser version cannot tell us
+- How the phone's own speech recogniser hears Uzbek-accented English. The browser's is a different one, so its result
+  is a first look, not the answer.
+- How taps feel, how smooth Dombi is on a cheap Android phone, and battery use. Those are tests A and B (§4).
+- On an iPhone the microphone only works on a secure (https) address, so a plain local link is enough on the PC but
+  not on the phone. A secure link from the PC is set up when the owner wants to try it on his iPhone.
 
 ## 1. Who builds, and with what
 
