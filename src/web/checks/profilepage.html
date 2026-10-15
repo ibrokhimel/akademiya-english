@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile tab check</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<!-- The same style files as src/web/index.html, plus the Profile tab's own. Open with ?data=1 (made-up progress), &rec=1 (three saved clips), &dark=1. -->
+<link rel="stylesheet" href="/design/motion/tokens.css">
+<link rel="stylesheet" href="/design/motion/components.css">
+<link rel="stylesheet" href="/design/motion/exercises.css">
+<link rel="stylesheet" href="/design/motion/lessonmoments.css">
+<link rel="stylesheet" href="/design/motion/screens.css">
+<link rel="stylesheet" href="/design/motion/nav.css">
+<link rel="stylesheet" href="/design/motion/controls.css">
+<link rel="stylesheet" href="/design/motion/states.css">
+<link rel="stylesheet" href="../app.css">
+<link rel="stylesheet" href="../profilepage.css">
+<style>
+  body { background: var(--bg-page, #F4F4F8); } .phone { margin: 10px auto; height: 844px; } #host { position: absolute; left: 0; right: 0; top: 0; bottom: 94px; }
+  #log { position: fixed; left: 8px; bottom: 8px; font: 12px monospace; color: #888; max-width: 40vw; }
+</style>
+</head>
+<body class="app">
+<div class="phone" id="phone"><div id="host"></div>
+  <div class="tabbar" style="top:auto;bottom:0"><div class="tab"><img src="/pendev/icons-r2/tab-home.png" alt=""></div><div class="tab"><img src="/pendev/icons-r2/tab-progress.png" alt=""></div><div class="tab on"><img src="/pendev/icons-r2/tab-profile.png" alt=""></div></div></div>
+<div id="park"></div><div id="log"></div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="/design/motion/motion.js"></script>
+<script src="/design/motion/voice.js"></script>
+<script src="/design/motion/lab.js"></script>
+<script src="/design/motion/sound.js"></script>
+<script src="/design/motion/haptic.js"></script>
+<script src="/design/motion/widgets.js"></script>
+<script type="module">
+import { loadContent, C } from '../content.js';
+import { loadPeople } from '../people.js';
+import { progressOf } from '../../core/progress.js';
+import { renderProfile } from '../profilepage.js';
+import { Rec } from '../record.js';
+const P = new URLSearchParams(location.search), NOW = new Date('2026-10-14T18:00:00');
+if (P.get('dark')) document.body.classList.add('dark');
+const at = (d, h = 12) => new Date(`2026-10-${String(d).padStart(2, '0')}T${String(h).padStart(2, '0')}:00:00`).toISOString();
+const events = !P.get('data') ? [] : [['l1', 3, 7, 0], ['l2', 4, 18, 1], ['l3', 5, 12, 0], ['l4', 6, 19, 2], ['l5', 7, 7, 0], ['c1', 8, 12, 1], ['l6', 10, 12, 0], ['l7', 11, 12, 3], ['l8', 13, 12, 0], ['l9', 14, 9, 0]]
+  .map(([id, d, h, m]) => ({ type: 'lesson', id, at: at(d, h), accuracy: m ? 85 : 100, mistakes: m, spokenMs: 41000, skipped: 0 }));
+// a short clip of a rising tone, as a WAV file
+function wav(ms = 700, hz = 330) { const sr = 16000, n = Math.round(sr * ms / 1000), b = new ArrayBuffer(44 + n * 2), v = new DataView(b); const s = (o, t) => [...t].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+  s(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); s(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); s(36, 'data'); v.setUint32(40, n * 2, true);
+  for (let i = 0; i < n; i++) v.setInt16(44 + i * 2, Math.sin(2 * Math.PI * (hz + i / n * 200) * i / sr) * 8000 * Math.min(1, (n - i) / 800), true); return new Blob([b], { type: 'audio/wav' }); }
+const calls = window.CALLS = [], log = (...a) => { calls.push(a.join(' ')); document.querySelector('#log').textContent = calls.slice(-4).join(' · '); };
+(async () => {
+  await loadContent(); await loadPeople(); await M.initPop(); await Rec.clear();
+  if (P.get('rec')) { for (const [i, id] of ['hello', 'a-coffee', 'how-much-is-it'].entries()) { await Rec.save(id, wav(600 + i * 200)); await M.wait(20); } }
+  let shift = 0;
+  const ctx = window.CTX = { phone: document.querySelector('#phone'), C, events, progress: () => progressOf(C.units, events, { now: ctx.now() }),
+    settings: P.get('data') ? { name: 'Ibrokhim', goal: 'travel', dark: !!P.get('dark'), sound: true, speaking: true, reminder: '19:00', saveVoice: true, openAll: false, cast: 'uk' } : { dark: !!P.get('dark'), saveVoice: !P.get('nosave') },
+    set: (k, v) => { log('set', k, v); if (k === 'dark') document.body.classList.toggle('dark', v); }, now: () => new Date(NOW.getTime() + shift * 864e5),
+    shiftDays: (n) => { shift = n ? shift + n : 0; log('shiftDays', n); }, notReady: () => log('notReady'), show: (n) => log('show', n), logOut: () => log('logOut'), deleteAccount: () => log('deleteAccount') };
+  await M.wait(1400);                                                             // the Rive views' start-up moment
+  renderProfile(document.querySelector('#host'), ctx); window.READY = true;
+})().catch((e) => { console.error(e); log('FAIL', e.message); });
+</script>
+</body>
+</html>

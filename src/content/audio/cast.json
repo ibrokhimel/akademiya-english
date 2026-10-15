@@ -1,0 +1,7 @@
+{
+ "use": "uk",
+ "casts": {
+  "uk": "British",
+  "us": "American"
+ }
+}

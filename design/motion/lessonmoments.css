@@ -1,0 +1,47 @@
+/* Lesson and checkpoint moments (pages 16, 19, 20, 21). Sizes from the Pencil screens. */
+.side { display: flex; flex-direction: column; gap: 10px; max-width: 440px; }
+.side button.act { text-align: left; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 2px solid var(--grey); border-bottom-width: 4px; font-weight: 900; }
+.side button.act span { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px; } .side button.act.on { border-color: var(--violet); }
+.scr { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--bg); }
+.scr .status { height: 44px; padding: 14px 28px 0; font-size: 15px; font-weight: 800; flex: none; }
+.scr .bot { padding: 16px 16px 28px; flex: none; } .scr .mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; }
+.btn.gold { --c: var(--gold); --e: var(--gold-edge); }
+#park { position: absolute; left: -9999px; top: 0; }
+
+/* 16 · mistakes round */
+.dombibox { width: 150px; height: 150px; flex: none; }
+.divider { width: 100%; padding: 20px; border-radius: 18px; background: var(--violet-soft); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.divider img { width: 32px; height: 32px; } .divider b { font-size: 18px; font-weight: 900; color: var(--violet); } .divider small { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+
+/* 19 · streak */
+.streakbig { width: 100%; padding: 24px 18px 22px; border-radius: 24px; border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey); display: flex; flex-direction: column; align-items: center; gap: 14px; background: var(--bg); }
+.flamebig { width: 76px; height: 98px; position: relative; margin-top: -22px; } .flamebig canvas { position: absolute; }
+.flamebig .fl { left: 0; top: 0; width: 76px; height: 98px; } .flamebig .em { left: -62px; top: -140px; width: 200px; height: 260px; pointer-events: none; }
+.streakbig .cnt { font-size: 34px; font-weight: 900; color: var(--orange); line-height: 1; display: flex; gap: 8px; } .streakbig .cnt .n { display: inline-grid; overflow: hidden; height: 36px; } .streakbig .cnt .n span { grid-area: 1 / 1; }
+.week { display: flex; gap: 8px; } .week .day { display: flex; flex-direction: column; gap: 4px; align-items: center; font-size: 12px; font-weight: 900; color: var(--text-muted); } .week .day.today { color: var(--orange); }
+.dot { width: 32px; height: 32px; border-radius: 16px; background: var(--grey); display: grid; place-items: center; position: relative; transition: background-color calc(200ms * var(--slow)); }
+.dot.done { background: var(--orange); } .dot img { width: 24px; height: 24px; } .dot.frozen { background: transparent; } .dot.frozen .ice { position: absolute; width: 46px; height: 46px; left: -7px; top: -3px; } .dot.frozen .ic2 { position: absolute; left: 4px; top: 4px; }
+.streakbig .note { font-size: 13px; font-weight: 800; color: var(--text-muted); text-align: center; }
+
+/* 20 · checkpoint start sheet over the path */
+.pathbg { position: absolute; inset: 0; background: url(assets/path-light.png) center top / 390px auto no-repeat; } body.dark .pathbg { background-image: url(assets/path-dark.png); }
+.dim { position: absolute; inset: 0; background: rgba(27, 21, 48, .67); opacity: 0; }
+.cpsheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--card); border-radius: 28px 28px 0 0; padding: 10px 20px 28px; display: flex; flex-direction: column; gap: 16px; align-items: center; transform: translateY(105%); }
+.cpsheet .handle { width: 40px; height: 5px; border-radius: 3px; background: var(--grey); }
+.cphead { width: 100%; display: flex; align-items: center; gap: 12px; } .cphead .tile { width: 56px; height: 56px; border-radius: 16px; background: var(--gold-soft); border: 3px solid var(--gold); display: grid; place-items: center; flex: none; } .cphead .tile img { width: 38px; height: 38px; }
+.cphead .k { font-size: 11px; font-weight: 900; letter-spacing: .6px; color: var(--gold-text); } .cphead .t { font-size: 24px; font-weight: 900; margin-top: 2px; }
+.story { width: 100%; padding: 16px; border-radius: 16px; background: var(--cream); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.story .l { font-size: 11px; font-weight: 900; letter-spacing: .5px; color: var(--gold-text); }
+.chain { display: flex; align-items: center; } .names { display: flex; gap: 8px; } .names span { width: 54px; text-align: center; font-size: 11px; font-weight: 800; color: var(--text-muted); }
+.step { width: 40px; height: 40px; border-radius: 20px; background: var(--card); border: 2px solid var(--grey-edge); display: grid; place-items: center; flex: none; position: relative; transition: border-color var(--tc), background-color var(--tc); } .step img { width: 28px; height: 28px; grid-area: 1 / 1; }
+.step.cur { border: 3px solid #FFD04F; } .step.done { background: var(--green); border-color: var(--green); } .step.done .ic { opacity: 0; } .step .ck { opacity: 0; width: 22px; height: 22px; } .step.done .ck { opacity: 1; }
+.lnk { width: 22px; height: 4px; border-radius: 2px; background: var(--grey); position: relative; overflow: hidden; flex: none; } .lnk i { position: absolute; inset: 0; background: var(--green); transform: scaleX(0); transform-origin: 0 50%; }
+.cpmeta { width: 100%; display: flex; gap: 16px; font-size: 13px; font-weight: 800; color: var(--text-muted); } .cpmeta span { display: flex; align-items: center; gap: 6px; } .cpmeta img { width: 16px; height: 16px; }
+
+/* 21 · checkpoint player */
+.ptop { display: flex; align-items: center; padding: 8px 16px; gap: 12px; flex: none; } .ptop > img { width: 24px; height: 24px; } .ptop .chain { flex: 1; justify-content: center; }
+.ptop .step { width: 32px; height: 32px; border-radius: 16px; } .ptop .step img { width: 20px; height: 20px; } .ptop .step .ck { width: 18px; height: 18px; } .ptop .lnk { width: 14px; }
+.kchip { padding: 6px 14px; border-radius: 12px; background: var(--gold-soft); color: var(--gold-text); font-size: 12px; font-weight: 900; letter-spacing: .6px; overflow: hidden; display: inline-grid; } .kchip span { grid-area: 1 / 1; white-space: nowrap; }
+.wbig { width: 140px; height: 140px; border-radius: 70px; background: var(--violet-soft); border: 4px solid var(--violet); overflow: hidden; flex: none; } .wbig canvas { width: 132px; height: 132px; display: block; }
+.said { width: 100%; padding: 16px; border-radius: 20px; background: var(--card); border: 2px solid var(--grey); text-align: center; } .said b { display: block; font-size: 20px; font-weight: 900; } .said small { display: block; font-size: 14px; font-weight: 700; color: var(--text-muted); margin-top: 4px; }
+.pbody { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 6px 16px 0; } .pbody .michold { margin-top: auto; } .pbody .link { margin-bottom: 18px; }

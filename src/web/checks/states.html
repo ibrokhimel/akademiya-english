@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>States check</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/design/motion/tokens.css">
+<link rel="stylesheet" href="/design/motion/components.css">
+<link rel="stylesheet" href="/design/motion/exercises.css">
+<link rel="stylesheet" href="/design/motion/lessonmoments.css">
+<link rel="stylesheet" href="/design/motion/screens.css">
+<link rel="stylesheet" href="/design/motion/nav.css">
+<link rel="stylesheet" href="/design/motion/controls.css">
+<link rel="stylesheet" href="/design/motion/states.css">
+<link rel="stylesheet" href="../app.css">
+<link rel="stylesheet" href="../states.css">
+<style>body { margin: 0; } .phone { height: 844px; } .behind { position: absolute; inset: 0; background: url(/design/motion/assets/e9-light.png) center top / 390px auto no-repeat; } body.dark .behind { background-image: url(/design/motion/assets/e9-dark.png); }
+.behind .dbxwrap { position: absolute; left: 20px; top: 560px; } .behind .dbx { width: 90px; height: 90px; }</style>
+</head>
+<body class="app">
+<!-- Pop-ups and problem screens on their own, over a lesson picture, for src/web/checks/states.js -->
+<div class="shell" id="shell" style="width:390px;height:844px;margin:0"><div class="phone" id="phone"><div id="screen"><div class="behind"><div class="dbxwrap"><div class="dbx"></div></div></div></div></div></div>
+<div id="park"></div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="/design/motion/motion.js"></script>
+<script src="/design/motion/voice.js"></script>
+<script src="/design/motion/lab.js"></script>
+<script src="/design/motion/sound.js"></script>
+<script src="/design/motion/haptic.js"></script>
+<script src="/design/motion/widgets.js"></script>
+<script type="module">
+import { loadPeople, People, setDark } from '../people.js';
+import * as S from '../states.js';
+const saved = []; const ctx = { phone: document.querySelector('#phone'), firstConfidence: 2, saveFeedback: (f) => saved.push(f), where: () => 'check' };
+if (location.search.includes('dark')) document.body.classList.add('dark');
+await loadPeople(); setDark(document.body.classList.contains('dark')); await M.initPop(); await M.wait(2600);
+People.putDombi(document.querySelector('.dbx'), 90);                               // Dombi is on the screen behind; he must come back there
+window.ST = { S, ctx, saved, result: null, run(name, ...a) { ST.result = null; S[name](ctx, ...a).then((r) => { ST.result = r === undefined ? 'done' : r; }); },
+  dombiHome: () => People.canvas.dombi.parentElement && People.canvas.dombi.parentElement.className };
+window.ready = true;
+</script>
+</body>
+</html>

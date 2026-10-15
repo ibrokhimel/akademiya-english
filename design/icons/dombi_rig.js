@@ -64,6 +64,8 @@ const POSES = {
 // Asymmetric and off-centre like Duolingo's mouths. The old bar parts (mouth/ticks/mouthO) are no longer drawn.
 const seg = (...n) => [[n[0], n[1]], [n[2], n[3]], [n[4], n[5]], [n[6], n[7]]];
 const SMIRK_A = [seg(88, 127, 96, 131, 108, 131, 118, 119)];
+// Default face since 2026-10-15 (owner: "use a normal face"): a centred, even smile. Wink and proud keep the smirk.
+const SMILE = [seg(85, 122, 92.5, 130, 107.5, 130, 115, 122)];
 function circleFill(cx, cy, r) {   // 3-vertex circle
   const k = r * 4 / 3 * Math.tan(Math.PI / 6), th = [-90, 30, 150].map(d => d * Math.PI / 180);
   const v = th.map(t => [cx + r * Math.cos(t), cy + r * Math.sin(t)]);
@@ -72,7 +74,7 @@ function circleFill(cx, cy, r) {   // 3-vertex circle
   return { verts: v, c: [out[0], inn[1], out[1], inn[2], out[2], inn[0]] };
 }
 const MOUTHS = {
-  smirk: { line: SMIRK_A }, wink: { line: SMIRK_A }, proud: { line: SMIRK_A },
+  smirk: { line: SMILE }, wink: { line: SMIRK_A }, proud: { line: SMIRK_A },
   happy: { line: [seg(86, 124, 93, 133, 109, 133, 117, 122)] },
   listen: { line: [seg(100, 128, 103, 128, 107, 127, 110, 126)] },
   think: { line: [seg(106, 128, 110, 126, 113, 126, 117, 128)] },
@@ -144,5 +146,5 @@ function main() {
   console.log(names.join(' '));
 }
 
-module.exports = { C, BASE, EXPR, POSES, MOUTHS, pose };
+module.exports = { C, BASE, EXPR, POSES, MOUTHS, SMIRK_A, pose };
 if (require.main === module) main();

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — component motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+</head>
+<body>
+<div class="lab">
+  <header>
+    <div>
+      <h1>Component motion · 1 — the lesson</h1>
+      <p class="lead">Every lesson component, built to the Pencil sizes, with its real motion. Click and press things. The numbers in grey are the timings the app will copy.</p>
+    </div>
+  </header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+
+  <h2>Buttons</h2>
+  <div class="grid">
+    <section class="demo" id="dMain">
+      <h3>Main button</h3>
+      <p class="spec">Press: face drops 4 px in 60 ms, springs back in 140 ms. Becomes ready: colour 120 ms + one shine (600 ms), again every 5 s. Tapped while grey: small shake.</p>
+      <div class="stage"><button class="p3d btn disabled" id="mainBtn"><span class="face">TEKSHIRISH</span></button></div>
+      <div class="ctl"><button data-a="ready">Make it ready</button><button data-a="disable">Make it grey</button><button data-a="shine">Shine now</button></div>
+    </section>
+    <section class="demo" id="dFamily">
+      <h3>The other buttons</h3>
+      <p class="spec">Same press. No shine. Small buttons drop 3 px.</p>
+      <div class="stage col">
+        <button class="p3d btn secondary"><span class="face">KEYINROQ</span></button>
+        <button class="p3d btn green"><span class="face">DAVOM ETISH</span></button>
+        <button class="p3d btn danger"><span class="face">O'CHIRISH</span></button>
+        <div class="stage"><button class="p3d btn small primary"><span class="face">MASHQ</span></button>
+          <button class="p3d btn small secondary"><span class="face"><img src="/pendev/icons-r2/glyph-replay-violet.png" alt="">TAKRORLASH</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <h2>Answers</h2>
+  <div class="grid">
+    <section class="demo" id="dAnswer">
+      <h3>Answer tiles</h3>
+      <p class="spec">Pick: violet in 120 ms, lifts 2 px. Check → right: green, punch 1.08 (200 ms), pop. Not right: red, shake 350 ms; the right one turns green, no pop.</p>
+      <div class="stage col" data-correct="1">
+        <button class="p3d tile answer"><span class="face"><span class="key">1</span>A tea, please.</span></button>
+        <button class="p3d tile answer"><span class="face"><span class="key">2</span>A coffee, please.</span></button>
+        <button class="p3d tile answer"><span class="face"><span class="key">3</span>An orange juice, please.</span></button>
+        <button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dPicture">
+      <h3>Picture tiles</h3>
+      <p class="spec">Same as answer tiles. The pop comes from the middle of the picture.</p>
+      <div class="stage col" data-correct="1">
+        <div class="row3">
+          <button class="p3d tile picture"><span class="face"><span class="pic"><img src="/pendev/icons-r2/coffee-kafeda.png" alt=""></span>coffee</span></button>
+          <button class="p3d tile picture"><span class="face"><span class="pic"><img src="/pendev/icons-r2/lesson-tea.png" alt=""></span>tea</span></button>
+          <button class="p3d tile picture"><span class="face"><span class="pic"><img src="/pendev/icons-r2/lesson-orange-juice.png" alt=""></span>juice</span></button>
+        </div>
+        <button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dBuilder">
+      <h3>Tile Builder</h3>
+      <p class="spec">Tap: the tile flies to the line on a small arc (260 ms) and lands with a squash; the others close the gap (180 ms). Right: the line turns green left to right, 60 ms apart.</p>
+      <div class="stage col">
+        <div class="sentence" id="bLine" style="border-bottom:2px solid var(--grey);padding-bottom:8px;min-height:112px;align-content:flex-start"></div>
+        <div class="stage" id="bBank" style="justify-content:center;gap:8px"></div>
+        <button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dMistake">
+      <h3>Tap the mistake</h3>
+      <p class="spec">Pick: violet. Right: a line strikes the word (200 ms), the fix drops in from above, pop. Not right: red + shake, the real mistake turns green.</p>
+      <div class="stage col">
+        <div class="sentence" id="mSent"></div>
+        <button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dGap">
+      <h3>Tap the gap</h3>
+      <p class="spec">Empty gaps breathe slowly (1.2 s). Pick: fills violet. Right: the gap closes into the word, which lands with a squash and a pop.</p>
+      <div class="stage col">
+        <div class="sentence" id="gSent"></div>
+        <button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+      </div>
+      <div class="ctl"><button data-a="reset">Reset</button></div>
+    </section>
+  </div>
+
+  <h2>Lesson frame</h2>
+  <div class="grid">
+    <section class="demo" id="dBar">
+      <h3>Progress bar and combo</h3>
+      <p class="spec">Grows in 320 ms with a small overshoot and a shine. The combo number bumps on every right answer. From 5 in a row the bar is gold. At 100 % a pop at the end of the bar.</p>
+      <div class="stage">
+        <div class="topbar"><img class="x" src="/pendev/icons-r2/glyph-close-grey.png" alt="">
+          <div class="progress"><div class="fill tc" id="pFill"></div></div>
+          <div class="combo"><img src="/pendev/icons-r2/flame-streak.png" alt=""><span id="pCombo">0</span></div></div>
+      </div>
+      <div class="ctl"><button data-a="right">Right answer</button><button data-a="wrong">Mistake</button><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dSheet">
+      <h3>Feedback sheets</h3>
+      <p class="spec">Slides up in 260 ms with a 6 px overshoot; the badge pops 60 ms later. Leaves faster: 180 ms.</p>
+      <div class="stage" style="height:250px;overflow:clip;align-items:flex-end;border-radius:16px;background:var(--surface)">
+        <div class="sheet correct" id="sOk" style="transform:translateY(100%);position:absolute;bottom:0">
+          <div class="head"><span class="badge"><img src="/pendev/icons-r2/glyph-check-white.png" alt=""></span><span class="ttl">Zo'r!</span></div>
+          <button class="p3d btn green"><span class="face">DAVOM ETISH</span></button></div>
+        <div class="sheet fix" id="sNo" style="transform:translateY(100%);position:absolute;bottom:0">
+          <div><div class="lbl">To'g'ri javob:</div><div class="ans">A tea, please.</div></div>
+          <div class="tipbox"><img src="/pendev/icons-r2/bulb-tip.png" alt=""><span>Bitta narsa so'ralganda “a” kerak: a tea.</span></div>
+          <button class="p3d btn primary"><span class="face">DAVOM ETISH</span></button></div>
+      </div>
+      <div class="ctl"><button data-a="ok">Right answer</button><button data-a="no">Not right</button><button data-a="hide">Continue</button></div>
+    </section>
+    <section class="demo" id="dToast">
+      <h3>Toast and tip</h3>
+      <p class="spec">Toast: drops in 220 ms, stays 2.2 s, lifts away 160 ms. Tip card: pops in with a small overshoot (220 ms).</p>
+      <div class="stage col" style="min-height:170px;justify-content:flex-end">
+        <div class="toast" id="toast"><img src="/pendev/icons-r2/glyph-info-white.png" alt="">Gapirish mashqi keyinga qoldirildi</div>
+        <div class="uztip" id="uztip" style="opacity:0"><img src="/pendev/icons-r2/bulb-tip.png" alt=""><span><b>O'ZBEKCHA IZOH</b>So'z unli tovush bilan boshlansa — an: an orange juice.</span></div>
+      </div>
+      <div class="ctl"><button data-a="toast">Show the toast</button><button data-a="tip">Show the tip</button></div>
+    </section>
+  </div>
+
+  <h2>Speaking and audio</h2>
+  <div class="grid">
+    <section class="demo" id="dMic">
+      <h3>Mic button</h3>
+      <p class="spec">Your turn: a ring breathes out every 1.2 s. Press: turns coral, rings follow the voice. Then three dots while checking, then green with a check that draws itself. The words light up one by one, 90 ms apart.</p>
+      <div class="stage col" style="align-items:center">
+        <div class="mic" id="mic">
+          <div class="ring"><i class="halo"></i><canvas width="400" height="400"></canvas>
+            <button class="p3d"><span class="face"><img class="g-mic" src="/pendev/icons-r2/glyph-mic-white.png" alt=""><span class="bars"><i></i><i></i><i></i><i></i></span><span class="dots" style="opacity:0"><i></i><i></i><i></i></span></span></button></div>
+          <div class="cap">Bosib gapiring</div>
+        </div>
+        <div class="result" id="micResult" style="opacity:0"><div class="lbl">SIZ AYTDINGIZ:</div><div class="words"></div></div>
+      </div>
+      <div class="ctl"><button data-a="say">Speak (all right)</button><button data-a="retry">Speak (one word off)</button><button data-a="silent">Nothing heard</button><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dAudio">
+      <h3>Audio buttons</h3>
+      <p class="spec">Press drops 6 px (big) or 3 px (small). While the sound plays the icon becomes moving bars; it comes back when the sound ends.</p>
+      <div class="stage">
+        <button class="p3d audio big" data-ms="1800"><span class="face"><img src="/pendev/icons-r2/glyph-speaker-white.png" alt=""><span class="bars"><i></i><i></i><i></i><i></i></span></span></button>
+        <button class="p3d audio slow" data-ms="2600"><span class="face"><img src="/pendev/icons-r2/glyph-slow-violet.png" alt=""></span></button>
+        <button class="p3d audio sm" data-ms="1400"><span class="face"><img src="/pendev/icons-r2/glyph-speaker-violet.png" alt=""><span class="bars"><i></i><i></i><i></i></span></span></button>
+      </div>
+    </section>
+  </div>
+
+  <h2>All together</h2>
+  <div class="grid">
+    <section class="demo wide" id="dPhone">
+      <h3>One exercise, start to finish</h3>
+      <p class="spec">Pick a picture, press TEKSHIRISH, then DAVOM ETISH. The next exercise slides in from the right (250 ms): the task first, then the answers 40 ms apart. After 3 right answers in a row the combo page (14c) plays for about 1.5 s.</p>
+      <div class="stage" style="align-items:flex-start">
+        <div class="phonewrap"><div class="phone" id="phone">
+          <div class="status">9:41</div>
+          <div class="topbar"><img class="x" src="/pendev/icons-r2/glyph-close-grey.png" alt="">
+            <div class="progress"><div class="fill tc" id="phFill"></div></div>
+            <div class="combo"><img src="/pendev/icons-r2/flame-streak.png" alt=""><span id="phCombo">2</span></div></div>
+          <div class="body" id="phBody"></div>
+          <div class="dock" id="phDock"></div>
+        </div></div>
+      </div>
+      <div class="ctl"><button data-a="combo">Show the combo page</button></div>
+    </section>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="demos.js"></script>
+<script src="demo-phone.js"></script>
+</body>
+</html>

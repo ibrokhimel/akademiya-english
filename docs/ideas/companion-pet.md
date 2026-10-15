@@ -33,17 +33,17 @@ A **small pet** lives on top of the app, on **every screen**:
 
 - **Name: Dombi** — from Uzbek *do'mboq* ("chubby, round"); the Uzbek version of a cute "Blob"-style name.
 - **Look:** a round **black blob** (body `#2B2B3C`, darker bottom edge `#17171F`), two **tall white pill eyes**,
-  an off-centre **smirk** (one corner up). Cool and confident for teens + adults — **not kawaii**: no blush,
+  a plain centred **smile** (it was an off-centre smirk until 2026-10-15, when the owner asked for "a normal face"; the smirk stays on the wink and proud faces). Cool and confident for teens + adults — **not kawaii**: no blush,
   no anime ∩∩ eyes, no tongue. Style follows the "cute AI agent" trend (GrokBot, Jolly, Mico) but simpler.
 - **Hands:** two plain circles, one shade lighter (`#45455A`), **hidden by default** — they only pop in for
   gestures: wave (one up), celebrate (both up), thinking (hand at the chin). Later: point, thumbs-up.
 - **Also the onboarding guide** — he replaces the chef placeholder on every onboarding screen and introduces
-  himself ("Salom! Men Dombi."). The café **waiter** stays a separate scene character.
+  himself ("Salom! Men Dombiman."). The café **waiter** stays a separate scene character.
 - **Files:** Rive artboard `Dombi` (the animated rig; the old static `pet/*`, `dombi/*`, `char/*`, `bot/*` artboards were
   deleted 2026-10-11, their SVG sources stay in `design/icons/`) · Pencil components `Dombi / …` (board "Pet preview ·
   black (2D)"; all 65 Dombi drawings use the curved mouth since 2026-10-11: a native `mouth` path, the old bar + tick
   rects are hidden, not deleted) · source `design/icons/dombi_rig.js`.
-- **Expressions (drafted 2026-10-10, #28):** smirk (default) · happy · laugh · talk · listen · think · surprised ·
+- **Expressions (drafted 2026-10-10, #28):** smile (default, still named `smirk` in the files) · happy · laugh · talk · listen · think · surprised ·
   sleepy (Z's) · wink · proud (flat lids) · focus (angled lids) · confused · oops (after a mistake: awkward grin, never
   sad) + gesture poses wave · celebrate · thinking · point. Built only from rounded rects/circles: eyes change height,
   body-coloured lids cut into them, mouth = smirk bar + corner ticks or an open pill, the face can tilt.
@@ -79,7 +79,7 @@ A **small pet** lives on top of the app, on **every screen**:
   placeholders for the animation pass. Build scripts + preview: `design/rive/` (`dombi_engine.js` rig, `dombi_machine.js`
   machine, `node serve.js` → preview page, `capture_preview.js` checks it in the real web runtime).
 - **Talking engine (2026-10-11):** 10 talking mouths covering English, Uzbek and Russian (research: viseme report,
-  Rhubarb/Oculus/Azure sets): 0 REST (= smirk) · 1 MBP · 2 FV · 3 TEETH (t d n s z k g q x r) · 4 EE (i y) · 5 EH (e, uz a, l)
+  Rhubarb/Oculus/Azure sets): 0 REST (= the default smile) · 1 MBP · 2 FV · 3 TEETH (t d n s z k g q x r) · 4 EE (i y) · 5 EH (e, uz a, l)
   · 6 AA · 7 OH (uz o, ru о) · 8 OO (u w, uz o') · 9 SH_R (sh ch j, en r) · 10 TH (th: small relaxed opening, top
   edge dips — added 2026-10-11 because th as the wide TEETH lens read like a grin) + 11 UH (schwa). Rive layer **Mouth** (top
   priority): `talking` + `viseme` → 45 ms morphs; talking off → back to the mood's mouth. Text engine

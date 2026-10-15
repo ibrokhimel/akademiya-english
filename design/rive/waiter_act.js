@@ -37,7 +37,7 @@ const VISEMES = {
   11: { w: 20, h: 9, sag: 1 },                                   // UH   lazy open
 };
 const DARK = { hair: '#666672', shine: '#84848F', jacket: '#5C5C68', doppi: '#4C4C58' };   // brows and moustache sit on skin, so they stay dark
-const THEMED = { hairTop: 'hair', sideL: 'hair', sideR: 'hair', hairShine: 'shine', jacket: 'jacket', doppi: 'doppi' };
+const THEMED = { hairTop: 'hair', sideL: 'hair', sideR: 'hair', hairShine: 'shine', jacket: 'jacket', doppi: 'doppi', tuft: 'hair', bun: 'hair', hairLong: 'hair', browL: 'brow', browR: 'brow' };
 const LIGHT = { hair: '#3D3D3D', shine: '#555555', jacket: '#4B4B4B', doppi: '#2B2B2B' };
 
 async function main(k) {
@@ -152,8 +152,9 @@ async function main(k) {
   await anim('talk/on', 66, true, T(ids.face, K.y, [[0, FY], [9, FY + 1.3], [20, FY], [31, FY + 0.7], [44, FY - 0.4], [56, FY + 1], [66, FY]]));
   // theme
   const cols = (m) => Object.entries(THEMED).filter(([n]) => ids.color[n]).map(([n, c]) => key(ids.color[n], COLOR, 0, argb(m[c])));
-  await anim('theme/light', 6, false, cols(LIGHT));
-  await anim('theme/dark', 6, false, cols(DARK));
+  const own = (m, mine) => ({ ...m, brow: ch.brow || LIGHT.hair, ...(mine || {}) });              // a character's own hair colours; brows keep theirs in both
+  await anim('theme/light', 6, false, cols(own(LIGHT, ch.light)));
+  await anim('theme/dark', 6, false, cols(own(DARK, ch.dark)));
   save();
 
   // ---------- layers ----------

@@ -1,0 +1,51 @@
+/* Onboarding, generated from design/motion/onboarding.css with every rule scoped under .ob (so its wheel and side rules do not reach other pages). */
+.ob #fxDombi { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 6; }
+.ob #obstatus { position: absolute; left: 0; right: 0; top: 0; height: 44px; padding: 14px 28px 0; font-size: 15px; font-weight: 800; z-index: 3; }
+.ob #obbar { position: absolute; left: 0; right: 0; top: 44px; display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 10px; z-index: 3; opacity: 0; }
+.ob #obbar img { width: 30px; height: 30px; cursor: pointer; }
+.ob .steps { display: flex; gap: 6px; align-items: center; } .ob .steps i { width: 24px; height: 8px; border-radius: 4px; background: var(--grey); position: relative; overflow: hidden; }
+.ob #obstage { position: absolute; inset: 0; }
+.ob .obscr { position: absolute; inset: 0; display: flex; flex-direction: column; padding-top: 44px; }
+.ob .obscr.bar { padding-top: 86px; }
+.ob .obmid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 20px; }
+.ob .obbody { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 12px 20px; }
+.ob .obbot { padding: 12px 16px 30px; display: flex; flex-direction: column; gap: 10px; flex: none; }
+.ob .oblink { align-self: center; padding: 6px 8px 0; font-size: 14px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); }
+.ob .dph { display: block; flex: none; position: relative; }
+.ob .obtitle { font-size: 30px; font-weight: 900; color: var(--violet); } .ob .obsub { font-size: 17px; font-weight: 800; color: var(--text-muted); text-align: center; }
+.ob .h24 { font-size: 24px; font-weight: 900; text-align: center; } .ob .h26 { font-size: 26px; font-weight: 900; text-align: center; } .ob .p15 { font-size: 15px; font-weight: 700; color: var(--text-muted); text-align: center; }
+.ob .guide { display: flex; gap: 12px; align-items: flex-end; }
+.ob .speech { flex: 1; padding: 12px 14px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 2px solid var(--grey); font-size: 16px; font-weight: 900; transform-origin: 0 100%; }
+.ob .speech.solo { flex: none; padding: 12px 18px; border-radius: 18px; font-size: 18px; transform-origin: 50% 100%; }
+.ob .opts { display: flex; flex-direction: column; gap: 10px; }
+.ob .gopt { width: 100%; } .ob .gopt .face { justify-content: flex-start; gap: 14px; padding: 14px 16px; font-size: 17px; font-weight: 900; text-align: left; } .ob .gopt .face > img { width: 28px; height: 28px; } .ob .gopt .lb { flex: 1; }
+.ob .gopt .ck { width: 24px; height: 24px; border-radius: 12px; background: var(--violet); display: grid; place-items: center; opacity: 0; } .ob .gopt .ck img { width: 14px; height: 14px; }
+.ob .gopt.lvl .face > img { width: 37px; height: 37px; } .ob .gopt.lvl .lb small { display: block; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+.ob .gopt.conf { --d: 3px; } .ob .gopt.conf .face { gap: 12px; padding: 10px 14px; font-size: 16px; } .ob .gopt.conf .face > img { width: 34px; height: 34px; } .ob .gopt.conf .num { font-size: 14px; font-weight: 900; color: var(--text-muted); }
+.ob .outcome { display: flex; gap: 14px; align-items: center; padding: 8px 4px; transform-origin: 0 50%; } .ob .outcome img { width: 44px; height: 44px; flex: none; } .ob .outcome b { display: block; font-size: 17px; font-weight: 900; } .ob .outcome small { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.ob .micbadge { position: absolute; right: 2px; bottom: 14px; width: 54px; height: 54px; border-radius: 50%; background: #FFEDEA; border: 4px solid var(--bg); display: grid; place-items: center; z-index: 7; } .ob .micbadge img { width: 30px; height: 30px; }
+body.dark .ob .micbadge { background: #3A1F1B; }
+.ob .micbadge i { position: absolute; inset: -6px; border-radius: 50%; border: 4px solid var(--coral); opacity: 0; }
+.ob .vbars { display: flex; gap: 6px; align-items: center; height: 40px; } .ob .vbars i { width: 8px; border-radius: 4px; background: var(--violet); }
+.ob .hello { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px 10px 12px; border-radius: 99px; background: var(--green-soft); color: var(--green-edge); font-size: 18px; font-weight: 900; } .ob .hello img { width: 22px; height: 22px; }
+.ob .promise { display: flex; gap: 12px; align-items: center; padding: 8px 4px; } .ob .promise .tile { width: 44px; height: 44px; border-radius: 14px; background: var(--violet-soft); display: grid; place-items: center; flex: none; } .ob .promise .tile img { width: 26px; height: 26px; }
+.ob .promise b { display: block; font-size: 16px; font-weight: 900; } .ob .promise small { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+.ob .wheelwrap { flex: 1; display: grid; place-items: center; }
+.ob .wheel { width: 100%; height: 232px; border-radius: 20px; background: var(--surface); position: relative; overflow: clip; touch-action: none; cursor: grab; }
+.ob .wheel .sel { position: absolute; left: 12px; right: 12px; top: 92px; height: 48px; border-radius: 12px; background: var(--card); border: 2px solid var(--violet); }
+.ob .wheel .list { position: absolute; left: 0; right: 0; top: 0; } .ob .wheel .opt { height: 44px; display: grid; place-items: center; font-size: 12px; font-weight: 900; color: var(--text-muted); transition: color var(--tc), font-size var(--tc); }
+.ob .wheel .opt.near { font-size: 18px; } .ob .wheel .opt.on { font-size: 24px; color: var(--violet); }
+.ob .namefield { width: 100%; height: 56px; padding: 0 16px; border-radius: 16px; border: 2px solid var(--grey); background: transparent; font: 800 18px Nunito, system-ui, sans-serif; color: var(--text); outline: none; transition: border-color var(--tc); } .ob .namefield:focus { border-color: var(--violet); }
+.ob .lbl12 { font-size: 12px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); }
+.ob .signin { width: 100%; } .ob .signin .face { height: 52px; gap: 10px; border: 2px solid var(--grey); font-size: 15px; font-weight: 900; letter-spacing: .5px; color: var(--text); }
+.ob .signin .ico { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text); display: grid; place-items: center; font-size: 11px; font-weight: 900; line-height: 1; } .ob .signin img { width: 20px; height: 20px; }
+body.dark .ob .signin img { filter: invert(1); }
+/* added for the app: the app frame, Log in (1L) and its "no such account" sheet (1L·b), from the Pencil screens */
+.ob { position: absolute; inset: 0; overflow: hidden; }
+.ob .obtop { padding: 4px 12px; flex: none; } .ob .obback2 { width: 32px; height: 32px; cursor: pointer; display: block; }
+.ob .oblink.violet { color: var(--violet); }
+.ob .obdim { position: absolute; inset: 0; background: rgba(43, 43, 60, .4); opacity: 0; pointer-events: none; z-index: 8; }
+.ob .obsheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 9; background: var(--card); border-radius: 28px 28px 0 0; padding: 10px 20px 30px; display: flex; flex-direction: column; gap: 12px; align-items: center; transform: translateY(105%); }
+.ob .obsheet .grab { width: 40px; height: 5px; border-radius: 3px; background: var(--grey); } .ob .obsheet .dbox { width: 110px; height: 110px; flex: none; position: relative; }
+.ob .obsheet b { font-size: 22px; font-weight: 900; } .ob .obsheet p { margin: 0 0 6px; font-size: 14px; font-weight: 700; line-height: 20px; color: var(--text-muted); text-align: center; } .ob .obsheet .btn { width: 100%; }
+.ob .obscr[data-s="login"] .obbot { padding-bottom: 30px; }

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · speaking exercises</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="exercises.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 6 — the speaking exercises</h1>
+    <p class="lead">Meet It, Say What You See and Echo Line from start to finish. Press the mic to “speak” (the voice is made up, no microphone is used), or use the buttons on the right.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap"><div class="phone" id="phone">
+      <div class="status">9:41</div>
+      <div class="topbar"><img class="x" src="/pendev/icons-r2/glyph-close-grey.png" alt="">
+        <div class="progress"><div class="fill tc" id="fill"></div></div>
+        <div class="combo"><img src="/pendev/icons-r2/flame-streak.png" alt=""><span id="combo">2</span></div></div>
+      <div class="body" id="body"></div>
+      <div class="dock" id="dock">
+        <div class="sheet bar"><button class="p3d btn disabled check"><span class="face">TEKSHIRISH</span></button>
+          <button class="link" id="cant"><img src="/pendev/icons-r2/glyph-mic-off-grey.png" alt="">HOZIR GAPIRA OLMAYMAN</button></div>
+        <div class="sheet correct" id="sOk" style="position:absolute;left:0;bottom:0;transform:translateY(100%)">
+          <div class="head"><span class="badge"><img src="/pendev/icons-r2/glyph-check-white.png" alt=""></span><span class="ttl">Zo'r!</span></div>
+          <button class="p3d btn green next"><span class="face">DAVOM ETISH</span></button></div>
+        <div class="sheet fix" id="sNo" style="position:absolute;left:0;bottom:0;transform:translateY(100%)">
+          <div><div class="lbl">To'g'ri javob:</div><div class="ans"></div></div>
+          <div class="tipbox"><img src="/pendev/icons-r2/bulb-tip.png" alt=""><span class="tiptext"></span></div>
+          <button class="p3d btn primary next"><span class="face">DAVOM ETISH</span></button></div>
+      </div>
+    </div></div>
+    <div class="side" id="side">
+      <h2 style="margin-top:0">Exercise</h2>
+      <button class="act" data-e="e1">Meet It<span>The picture pops, the phrase is played with no text, then the mic waits for you. Said right: the English words appear one by one. “Matnni ko'rsatish” shows the words in time with the audio.</span></button>
+      <button class="act" data-e="e2">Say What You See<span>A task and a picture; the hint chip shows only the first words. You say the phrase from memory.</span></button>
+      <button class="act" data-e="e9">Echo Line<span>The waiter says the line: his mouth moves with the sound and each word lights as he says it. Then you repeat it; he reacts.</span></button>
+      <h2>Speak</h2>
+      <button class="act" data-s="right">Say it right</button>
+      <button class="act" data-s="off">Say it with one word off<span>The word turns orange. Tap it to hear it; then the right answer is shown.</span></button>
+      <button class="act" data-s="silent">Say nothing<span>No red, no error: the mic nudges and waits again.</span></button>
+    </div>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="widgets.js"></script>
+<script src="exercises.js"></script>
+</body>
+</html>

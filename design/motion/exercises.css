@@ -1,0 +1,18 @@
+/* Speaking exercises E1, E2, E9: sizes from the Pencil screens 13a, 13c and the exercise-states storyboard. */
+.side { display: flex; flex-direction: column; gap: 10px; max-width: 440px; }
+.side button.act { text-align: left; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 2px solid var(--grey); border-bottom-width: 4px; font-weight: 900; }
+.side button.act span { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px; } .side button.act.on { border-color: var(--violet); }
+.phone .ex { gap: 16px; padding-bottom: 150px; }
+.pict { width: 100%; border-radius: 20px; background: var(--card); border: 2px solid var(--grey); display: grid; place-items: center; flex: none; } .pict img { width: 83px; height: 83px; }
+.meaning { font-size: 17px; font-weight: 800; color: var(--text-muted); }
+.phraseline { display: flex; flex-wrap: wrap; gap: 0 6px; font-size: 20px; font-weight: 900; min-height: 28px; } .phraseline span { opacity: 0; transition: color var(--tc); } .phraseline span.now { color: var(--violet); }
+.audiorow { display: flex; gap: 16px; align-items: center; justify-content: center; }
+.michold { display: flex; justify-content: center; margin-top: auto; }
+.textlink { align-self: center; padding: 6px 8px; font-size: 14px; font-weight: 800; color: var(--violet); }
+.hintchip { align-self: flex-start; display: flex; align-items: center; gap: 4px; padding: 8px 14px; border-radius: 12px; background: var(--card); border: 2px solid var(--grey); font-size: 15px; font-weight: 800; color: var(--text-muted); transform-origin: 0 50%; } .hintchip img { width: 17px; height: 17px; }
+.charline { display: flex; gap: 12px; align-items: flex-end; }
+.avatar { width: 56px; height: 56px; border-radius: 28px; background: var(--violet-soft); overflow: hidden; flex: none; } .avatar canvas { width: 56px; height: 56px; display: block; }
+.bubble { flex: 1; display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 2px solid var(--grey); transform-origin: 0 100%; }
+.bubble .line { display: flex; flex-wrap: wrap; gap: 0 5px; font-size: 18px; font-weight: 900; } .bubble .line span { transition: color var(--tc); } .bubble .line span.now { color: var(--violet); }
+.result .hint { font-size: 12px; font-weight: 700; color: var(--text-muted); } .chipw.retry { cursor: pointer; }
+.link { align-self: center; margin-top: -4px; }

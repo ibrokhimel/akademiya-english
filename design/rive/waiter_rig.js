@@ -1,6 +1,7 @@
 // Café waiters: builds the animatable rigs in the open Rive file (artboards "Waiter A" and "Waiter C"; B was dropped by the owner).
+// Also the two people of the lessons, on the same rig: z = "Aziz", m = "Malika" (2026-10-14), drawn like their lesson pictures.
 // Same drawings as design/icons/build_waiter.py, at 2x (192x192), split into named parts.
-//   node waiter_rig.js rig a|c      -> artboard + parts (ids -> waiter_ids.json)
+//   node waiter_rig.js rig a|c|z|m  -> artboard + parts (ids -> waiter_ids.json)
 //   node waiter_rig.js capture a|c [name]
 // Hierarchy:  root > torso, neck, head > (hairBack, ears, skull, hair, [cap], face > (brows, eyes, nose, mouth, [stache])), [tie]
 const fs = require('fs');
@@ -45,6 +46,26 @@ const CHARS = {
              { p: 'ellipse', n: 'doppiDot3', x: 115, y: 23, w: 8, h: 8, c: WHITE }],
        stache: [{ p: 'rectangle', n: 'stacheL', x: 87, y: 98.5, w: 24, h: 11, r: 5.5, rot: 10, c: HAIR },
                 { p: 'rectangle', n: 'stacheR', x: 105, y: 98.5, w: 24, h: 11, r: 5.5, rot: -10, c: HAIR }] },
+  // Aziz and Malika: colours and hair of design/icons/lesson_pic_parts.py. whiteEyes = white pills with dark pupils, as in their pictures.
+  // light / dark = their own hair colours for the Theme layer (waiter_act.js).
+  z: { name: 'Aziz', skin: '#DB8E73', shade: '#B4654A', mouth: '#8C432A', whiteEyes: true, brow: '#55505F',
+       light: { hair: '#55505F' }, dark: { hair: '#8E899C' },
+       torso: [{ p: 'rectangle', n: 'top', x: 96, y: 180, w: 136, h: 88, r: 44, c: '#7B5CFF' },
+               { p: 'rectangle', n: 'collar', x: 96, y: 144, w: 50, h: 18, tl: 0, tr: 0, bl: 9, br: 9, c: '#5A3FD9' }],
+       hair: [{ p: 'rectangle', n: 'hairTop', x: 96, y: 31, w: 88, h: 30, tl: 26, tr: 26, bl: 3, br: 3, c: '#55505F' },
+              { p: 'rectangle', n: 'sideL', x: 58.5, y: 55, w: 11, h: 24, r: 5.5, c: '#55505F' },
+              { p: 'rectangle', n: 'sideR', x: 133.5, y: 55, w: 11, h: 24, r: 5.5, c: '#55505F' },
+              { p: 'rectangle', n: 'tuft', x: 114, y: 18, w: 42, h: 20, r: 10, rot: -6, c: '#55505F' }] },
+  m: { name: 'Malika', skin: '#FFB59F', shade: '#FA8E77', mouth: '#C6553F', whiteEyes: true, brow: '#7A4A32',
+       light: { hair: '#7A4A32' }, dark: { hair: '#A06A48' },
+       hairBack: [{ p: 'ellipse', n: 'bun', x: 96, y: 14, w: 46, h: 46, c: '#7A4A32' },
+                  { p: 'rectangle', n: 'hairLong', x: 96, y: 78, w: 106, h: 112, tl: 52, tr: 52, bl: 40, br: 40, c: '#7A4A32' }],
+       torso: [{ p: 'rectangle', n: 'top', x: 96, y: 180, w: 136, h: 88, r: 44, c: '#FF6B5B' },
+               { p: 'rectangle', n: 'collar', x: 96, y: 144, w: 50, h: 18, tl: 0, tr: 0, bl: 9, br: 9, c: '#E0503F' }],
+       hair: [{ p: 'rectangle', n: 'hairTop', x: 96, y: 40, w: 82, h: 22, tl: 26, tr: 26, bl: 0, br: 0, c: '#7A4A32' },
+              { p: 'rectangle', n: 'sideL', x: 63, y: 47, w: 22, h: 36, r: 11, rot: 20, c: '#7A4A32' },
+              { p: 'ellipse', n: 'earringL', x: 55, y: 95, w: 11, h: 11, c: '#FFC800' },
+              { p: 'ellipse', n: 'earringR', x: 137, y: 95, w: 11, h: 11, c: '#FFC800' }] },
 };
 
 async function group(name, parentId, abs, parentAbs) {
@@ -104,10 +125,12 @@ async function rig(k) {
   ids.face = await group('face', ids.head, PIV.face, PIV.head);
   ids.brows = await group('brows', ids.face, PIV.brows, PIV.face);
   Object.assign(ids, await shapes([
-    { p: 'rectangle', n: 'browL', x: 82.5, y: 60.5, w: 17, h: 5.6, r: 2.8, rot: -6, c: HAIR },
-    { p: 'rectangle', n: 'browR', x: 109.5, y: 60.5, w: 17, h: 5.6, r: 2.8, rot: 6, c: HAIR }], ids.brows, PIV.brows));
+    { p: 'rectangle', n: 'browL', x: 82.5, y: 60.5 - (ch.whiteEyes ? 5 : 0), w: 17, h: 5.6, r: 2.8, rot: -6, c: ch.brow || HAIR },
+    { p: 'rectangle', n: 'browR', x: 109.5, y: 60.5 - (ch.whiteEyes ? 5 : 0), w: 17, h: 5.6, r: 2.8, rot: 6, c: ch.brow || HAIR }], ids.brows, PIV.brows));
   ids.eyes = await group('eyes', ids.face, PIV.eyes, PIV.face);
-  Object.assign(ids, await shapes([
+  Object.assign(ids, await shapes(ch.whiteEyes ? [                                   // white pills, pupils a little towards the nose
+    { p: 'rectangle', n: 'whiteL', x: 80, y: 76.5, w: 20, h: 27, r: 10, c: WHITE }, { p: 'rectangle', n: 'whiteR', x: 112, y: 76.5, w: 20, h: 27, r: 10, c: WHITE },
+    { p: 'rectangle', n: 'eyeL', x: 82, y: 78, w: 9, h: 14, r: 4.5, c: EYE }, { p: 'rectangle', n: 'eyeR', x: 110, y: 78, w: 9, h: 14, r: 4.5, c: EYE }] : [
     { p: 'rectangle', n: 'eyeL', x: 82, y: 76.5, w: 10, h: 17, r: 5, c: EYE },
     { p: 'rectangle', n: 'eyeR', x: 110, y: 76.5, w: 10, h: 17, r: 5, c: EYE }], ids.eyes, PIV.eyes));
   // mouth = dark ellipse + skin-coloured cover above it -> a smile crescent; talking moves/resizes both

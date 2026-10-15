@@ -1,13 +1,14 @@
 # Akademiya English — Roadmap
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-15
 **Visual view:** [roadmap.html](roadmap.html) (open in a browser; update it together with this file)
 **Order of work:** A → B → C → D → E → F → G. Item numbers are permanent IDs, so they are not in order
 inside each area.
 
 Legend: ✅ done (locked) · ⏳ in progress · 🟡 proposed, not locked · ❌ not started
 
-**Next up:** #28 characters (Dombi expressions, dark-mode Dombi, Rive animation; the café waiter) and #29 tech stack.
+**Next up:** the phone app (#42): the launch screen, then test builds A and B, then the screens. The owner played the
+browser version end to end on 2026-10-15 with no problems; the app icon (option A) is picked.
 
 ## A. Product foundation
 
@@ -52,6 +53,8 @@ Legend: ✅ done (locked) · ⏳ in progress · 🟡 proposed, not locked · ❌
 | 22 | Mistake engine content — MVP: 9 Uzbek traps + 12 Tap the Mistake items; Russian later | ✅ MVP [ideas/mistake-engine.md](ideas/mistake-engine.md) |
 | 23 | Scene scripts and template — after MVP | ❌ |
 | 24 | How lessons mix exercises — lesson template, Checkpoint story chain, Lesson 6 model | ✅ [ideas/lesson-template.md](ideas/lesson-template.md) |
+| 37 | Lesson scripts — all 15 lessons and 3 checkpoints item by item (222 items, 49 phrases), with a checker; the owner looked at the Uzbek lines 2026-10-14 ("looking alright") | ✅ `src/content/` · [ideas/lesson-template.md](ideas/lesson-template.md) |
+| 38 | Lesson audio — every English line at normal and slow speed, with word times and mouth shapes; British and American voice sets both kept; each learner picks in Settings → Gapirish → Inglizcha ovozlar (owner, 2026-10-15) | ✅ `src/content/audio/` · [ideas/sound-plan.md](ideas/sound-plan.md) |
 
 ## E. Pages and design
 
@@ -60,13 +63,17 @@ Legend: ✅ done (locked) · ⏳ in progress · 🟡 proposed, not locked · ❌
 | 25 | Every element — design system reviewed + cleaned 2026-10-10: one button set, one glyph set, Dombi + shared components (guide row, bottom sheet, streak week/dots, calendar day, iOS alert), 10 new tokens (Dombi, ice, gold-soft…), unique names, retired pieces in Archive, canvas reorganized (Library left, app flow right) | ✅ | `pendev/Akademiya English.pen` |
 | 26 | Every page — 31 MVP pages and pop-ups, 3 tabs, account after Lesson 1 | ✅ [ideas/pages.md](ideas/pages.md) |
 | 27 | Visual design / mockups — ALL 31 MVP screens locked 2026-10-10 (Path H, lesson loop, Checkpoint, Progress, Profile, Settings, onboarding + log in, pop-ups & states, fallback); pet = Dombi; **dark mode (Charcoal palette) for every screen and component, 2026-10-12** | ✅ | `pendev/Akademiya English.pen` |
-| 28 | Town and characters | ❌ |
+| 28 | Characters — Dombi (13 faces, talking, touch, dark mode), the two waiters, and Aziz and Malika (2026-10-14) are drawn and animated; the town map is after the MVP | ✅ MVP part [ideas/companion-pet.md](ideas/companion-pet.md) |
+| 39 | Lesson pictures — all 39 pictures of the 15 lessons, light and dark; waiting for the owner's check | 🟡 [ideas/pages.md](ideas/pages.md) |
+| 40 | Motion, sound and taps — every component and screen moving in the browser lab (11 pages), the 20 chosen sounds + one family of small sounds, a tap in the hand for each, Dombi's voice (acted, line by line) | ✅ [ideas/motion-plan.md](ideas/motion-plan.md) · [ideas/sound-plan.md](ideas/sound-plan.md) |
 
 ## F. Technology
 
 | # | Item | Status | File |
 |---|---|---|---|
-| 29 | Tech stack — main choices locked 2026-10-12: Expo (React Native), PocketBase, recordings on the server, sign-in with Google/Apple/phone; two test builds to prove before building | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) |
+| 29 | Tech stack — main choices locked 2026-10-12: Expo (React Native), PocketBase, recordings on the server, sign-in with Google/Apple/phone; two test builds to prove before the phone app | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) |
+| 41 | Browser version of the app — the whole MVP running in a browser first, for testing (owner, 2026-10-14). 8 steps, all built 2026-10-14: onboarding and log in, the Learn page, all lessons and checkpoints, Progress, Profile, Settings, voice recordings, every pop-up and problem screen, picking up after a reload, at `/src/web/`; Uzbek and English lines approved; waiting for the owner's test | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) §0 |
+| 42 | Phone app (Expo) — after the browser version: the two test builds, then the screens in the same order | ❌ | [ideas/tech-stack.md](ideas/tech-stack.md) |
 | 30 | AI pieces — accent speech recognition, voices, scene AI, cost | ❌ | |
 | 31 | Smart engine spec — FSRS, mistake tracking | ❌ | |
 

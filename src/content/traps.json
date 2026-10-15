@@ -1,0 +1,14 @@
+{
+  "about": "The 9 mistakes Uzbek speakers make (docs/ideas/mistake-engine.md). why = the one line in Uzbek shown under the correct answer when an item with this trap is missed.",
+  "traps": [
+    {"id": "T1", "name": "Missing \"am\"", "why": "O'zbek tilida «-man» qo'shimchasi bor: Men Azizman. Ingliz tilida u alohida so'z — am: I am Aziz → I'm Aziz."},
+    {"id": "T2", "name": "a / an", "why": "O'zbek tilida artikl yo'q. Bitta narsa oldidan a qo'yiladi: a coffee. So'z unli tovush bilan boshlansa — an: an orange juice."},
+    {"id": "T3", "name": "Plural after numbers", "why": "O'zbekchada «ikkita qahva» deymiz. Ingliz tilida birdan ko'p bo'lsa -s qo'shiladi: two coffees."},
+    {"id": "T4", "name": "\"no\" for negation", "why": "O'zbekchada inkor fe'lga qo'shiladi: xohlamayman. Ingliz tilida don't ishlatiladi: I don't want sugar. Qisqasi: No sugar, please."},
+    {"id": "T5", "name": "Thanks you", "why": "Thank you yoki Thanks deymiz. Thanks you — ikkalasini aralashtirmang."},
+    {"id": "T6", "name": "Question without \"Do\"", "why": "O'zbekchada savol «-mi» bilan yasaladi: Sizda suv bormi? Ingliz tilida savol boshiga Do qo'yiladi: Do you have water?"},
+    {"id": "T7", "name": "Missing \"is\"", "why": "O'zbekchada «Bu qancha?» deymiz — fe'lsiz. Ingliz tilida is kerak: How much is this?"},
+    {"id": "T8", "name": "very / too", "why": "O'zbekchada «juda katta» ikki ma'noda. Ingliz tilida: very big — juda katta; too big — haddan tashqari katta, to'g'ri kelmaydi."},
+    {"id": "T9", "name": "fifteen / fifty", "why": "fifTEEN (15) — urg'u oxirida, cho'ziq «i». FIFty (50) — urg'u boshida."}
+  ]
+}

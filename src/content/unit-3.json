@@ -1,0 +1,93 @@
+{
+  "unit": 3, "name": "Do'konda", "icon": "cart-dokon", "people": ["seller", "aziz", "malika"],
+  "lessons": [
+    {"id": "l11", "n": 11, "skill": "ASK IF THEY HAVE SOMETHING", "title": "Kerakli narsani so'ray olasiz", "new": ["do-you-have-water", "yes-we-do", "no-sorry"], "trap": "T6", "items": [
+      {"ex": "meet", "p": "do-you-have-water"},
+      {"ex": "meet", "p": "yes-we-do"},
+      {"ex": "meet", "p": "no-sorry"},
+      {"ex": "heard", "talk": [["malika", "Hello! Do you have orange juice?"], ["seller", "No, sorry."], ["malika", "Do you have water?"], ["seller", "Yes, we do."]], "q": "Do'konda nima bor ekan?", "opts": [["water", "Suv"], ["orange-juice", "Apelsin sharbati"], ["tea", "Choy"]], "right": 0},
+      {"ex": "gap", "ctx": "Do'konda suv bor-yo'qligini so'rayapsiz:", "words": ["you", "have", "water?"], "gap": 0, "right": "Do you have water?", "trap": "T6"},
+      {"ex": "echo", "p": "do-you-have-water"},
+      {"ex": "tiles", "p": "do-you-have-water", "extra": ["are", "is"]},
+      {"ex": "say", "p": "pay-by-card", "task": "Karta bilan to'lasa bo'ladimi? Sotuvchidan so'rang.", "review": true},
+      {"ex": "echo", "p": "yes-we-do"},
+      {"ex": "tiles", "of": "sixteen-to-twenty", "en": "Sixteen, seventeen, eighteen.", "uz": "O'n olti, o'n yetti, o'n sakkiz.", "voice": "malika", "extra": ["eleven", "twenty"], "review": true},
+      {"ex": "echo", "p": "no-sorry"},
+      {"ex": "say", "p": "do-you-have-water", "task": "Do'kondasiz. Suv bor-yo'qligini so'rang.", "use": true}
+    ]},
+    {"id": "l12", "n": 12, "skill": "ASK ABOUT THIS AND THAT", "title": "“Bu” va “u”ning narxini so'ray olasiz", "new": ["how-much-is-this", "how-much-is-that", "this-one"], "trap": "T7", "items": [
+      {"ex": "meet", "p": "how-much-is-this"},
+      {"ex": "meet", "p": "how-much-is-that"},
+      {"ex": "meet", "p": "this-one"},
+      {"ex": "heard", "talk": [["aziz", "How much is this?"], ["seller", "It's twenty thousand som."], ["aziz", "How much is that?"], ["seller", "It's twelve thousand som."], ["aziz", "This one, please."]], "q": "Aziz qaysi birini tanladi?", "opts": [["this", "Qo'lidagisini"], ["that", "Uzoqdagisini"], ["no", "Hech birini"]], "right": 0},
+      {"ex": "gap", "ctx": "Futbolkaning narxini so'rayapsiz:", "words": ["How", "much", "this?"], "gap": 2, "right": "How much is this?", "trap": "T7"},
+      {"ex": "echo", "p": "how-much-is-that"},
+      {"ex": "tiles", "p": "how-much-is-this", "extra": ["that", "are"]},
+      {"ex": "echo", "p": "here-you-are", "voice": "seller", "review": true},
+      {"ex": "tiles", "p": "this-one", "extra": ["that", "a"]},
+      {"ex": "echo", "p": "just-water", "review": true},
+      {"ex": "echo", "p": "this-one"},
+      {"ex": "say", "p": "how-much-is-this", "task": "Qo'lingizdagi futbolkaning narxini so'rang.", "use": true}
+    ]},
+    {"id": "l13", "n": 13, "skill": "CHOOSE A COLOUR", "title": "Rang tanlay olasiz", "new": ["a-red-tshirt", "in-blue", "like-this-colour"], "trap": "T2", "items": [
+      {"ex": "meet", "p": "a-red-tshirt"},
+      {"ex": "meet", "p": "in-blue"},
+      {"ex": "meet", "p": "like-this-colour"},
+      {"ex": "heard", "talk": [["malika", "Hello! A red T-shirt, please."], ["seller", "No, sorry."], ["malika", "Do you have it in blue?"], ["seller", "Yes, we do."]], "q": "Do'konda qaysi rangdagi futbolka bor ekan?", "opts": [["tshirt-blue", "Ko'k"], ["tshirt-red", "Qizil"], ["no", "Hech qaysi"]], "right": 0},
+      {"ex": "gap", "ctx": "Siz qizil futbolka xohlaysiz:", "words": ["red", "T-shirt,", "please."], "gap": 0, "right": "A red T-shirt, please.", "trap": "T2"},
+      {"ex": "echo", "p": "in-blue"},
+      {"ex": "tiles", "p": "a-red-tshirt", "extra": ["an", "blue"]},
+      {"ex": "say", "p": "how-much-is-that", "task": "Uzoqda osilgan futbolkaning narxini so'rang.", "review": true},
+      {"ex": "tiles", "p": "like-this-colour", "extra": ["that", "am"]},
+      {"ex": "echo", "p": "no-sorry", "review": true},
+      {"ex": "echo", "p": "like-this-colour"},
+      {"ex": "say", "p": "a-red-tshirt", "task": "Sizga qizil futbolka kerak. Sotuvchiga ayting.", "accept": ["Can I have a red T-shirt?", "I'd like a red T-shirt, please."], "use": true}
+    ]},
+    {"id": "l14", "n": 14, "skill": "ASK FOR A SIZE", "title": "O'lcham so'ray olasiz", "new": ["sizes", "too-big", "a-small-one"], "trap": "T8", "items": [
+      {"ex": "meet", "p": "sizes"},
+      {"ex": "meet", "p": "too-big"},
+      {"ex": "meet", "p": "a-small-one"},
+      {"ex": "heard", "talk": [["seller", "Small, medium or large?"], ["aziz", "Medium, please."], ["seller", "Here you are."], ["aziz", "It's too big. Do you have a small one?"]], "q": "Oxirida Aziz qaysi o'lchamni so'radi?", "opts": [["text:S", "Kichik"], ["text:M", "O'rta"], ["text:L", "Katta"]], "right": 0},
+      {"ex": "fix", "ctx": "Futbolka sizga to'g'ri kelmaydi — katta:", "words": ["It's", "very", "big."], "bad": 1, "right": "It's too big.", "trap": "T8"},
+      {"ex": "echo", "p": "sizes"},
+      {"ex": "tiles", "p": "too-big", "extra": ["very", "small"]},
+      {"ex": "say", "p": "in-blue", "task": "Bu futbolkaning ko'k rangi bor-yo'qligini so'rang.", "review": true},
+      {"ex": "tiles", "p": "a-small-one", "extra": ["an", "big"]},
+      {"ex": "echo", "p": "yes-we-do", "review": true},
+      {"ex": "echo", "p": "a-small-one"},
+      {"ex": "say", "p": "too-big", "task": "Futbolka sizga katta, to'g'ri kelmayapti. Sotuvchiga ayting.", "use": true}
+    ]},
+    {"id": "l15", "n": 15, "skill": "BUY IT", "title": "Xarid qila olasiz", "new": ["tens-to-fifty", "tens-to-hundred", "ill-take-it", "forty-five-thousand"], "trap": "T9", "items": [
+      {"ex": "meet", "p": "tens-to-fifty"},
+      {"ex": "meet", "p": "tens-to-hundred"},
+      {"ex": "heard", "talk": [["malika", "How much is this?"], ["seller", "It's fifty thousand som."]], "q": "Bu qancha turar ekan?", "opts": [["text:50 000 so'm", ""], ["text:15 000 so'm", ""], ["text:5 000 so'm", ""]], "right": 0, "trap": "T9"},
+      {"ex": "meet", "p": "ill-take-it"},
+      {"ex": "meet", "p": "forty-five-thousand"},
+      {"ex": "heard", "talk": [["aziz", "How much is that?"], ["seller", "It's fifteen thousand som."], ["aziz", "I'll take it."]], "q": "Anavi qancha turar ekan?", "opts": [["text:15 000 so'm", ""], ["text:50 000 so'm", ""], ["text:45 000 so'm", ""]], "right": 0, "trap": "T9"},
+      {"ex": "echo", "p": "ill-take-it"},
+      {"ex": "tiles", "p": "forty-five-thousand", "extra": ["fifty", "fifteen"]},
+      {"ex": "say", "p": "too-big", "task": "Futbolka sizga katta, to'g'ri kelmayapti. Sotuvchiga ayting.", "review": true},
+      {"ex": "tiles", "of": "tens-to-fifty", "en": "Thirty, forty, fifty.", "uz": "O'ttiz, qirq, ellik.", "voice": "malika", "extra": ["fifteen", "thirteen"]},
+      {"ex": "echo", "p": "pay-by-card", "review": true},
+      {"ex": "echo", "p": "tens-to-hundred"},
+      {"ex": "say", "p": "ill-take-it", "task": "Futbolka sizga yoqdi. Uni olishingizni ayting.", "use": true}
+    ]}
+  ],
+  "checkpoint": {"id": "c3", "title": "Do'konda xarid qila olasiz", "levelUp": 1, "steps": ["Salom bering", "Kerakli narsani so'rang", "O'lchamini so'rang", "Narxini so'rang", "Sotib oling"], "items": [
+    {"ex": "heard", "talk": [["malika", "Hello! A red T-shirt, please."], ["seller", "Small, medium or large?"], ["malika", "Small, please."]], "q": "Malika qaysi rangdagi futbolkani so'radi?", "opts": [["tshirt-red", "Qizil"], ["tshirt-blue", "Ko'k"], ["no", "Rangini aytmadi"]], "right": 0},
+    {"ex": "heard", "talk": [["malika", "How much is this?"], ["seller", "That's thirty thousand."], ["malika", "I'll take it. Can I pay by card?"], ["seller", "Yes. Here you are."]], "q": "Futbolka qancha turar ekan?", "opts": [["text:30 000 so'm", ""], ["text:13 000 so'm", ""], ["text:40 000 so'm", ""]], "right": 0, "trap": "T9"},
+    {"ex": "gap", "ctx": "Futbolkaning narxini so'rayapsiz:", "words": ["How", "much", "this?"], "gap": 2, "right": "How much is this?", "trap": "T7"},
+    {"ex": "fix", "ctx": "Futbolka sizga to'g'ri kelmaydi — katta:", "words": ["It's", "very", "big."], "bad": 1, "right": "It's too big.", "trap": "T8"},
+    {"ex": "echo", "p": "this-one"},
+    {"ex": "echo", "p": "sizes"},
+    {"ex": "tiles", "p": "do-you-have-water", "extra": ["are", "is"]},
+    {"ex": "tiles", "p": "like-this-colour", "extra": ["that", "am"]},
+    {"ex": "echo", "p": "id-like-a-samsa", "review": true},
+    {"ex": "say", "p": "how-are-you", "task": "Sotuvchi tanishingiz ekan. Hol-ahvol so'rang.", "review": true},
+    {"ex": "say", "step": 0, "p": "hello", "task": "Do'konga kirdingiz. Sotuvchiga salom bering.", "also": ["hi", "good-morning"]},
+    {"ex": "say", "step": 1, "p": "a-red-tshirt", "task": "Sizga qizil futbolka kerak. Sotuvchiga ayting.", "accept": ["Can I have a red T-shirt?", "I'd like a red T-shirt, please."]},
+    {"ex": "say", "step": 2, "p": "a-small-one", "task": "Futbolka sizga katta. Kichigi bor-yo'qligini so'rang."},
+    {"ex": "say", "step": 3, "p": "how-much-is-this", "task": "Qo'lingizdagi futbolkaning narxini so'rang."},
+    {"ex": "say", "step": 4, "p": "ill-take-it", "task": "Futbolka yoqdi. Uni olishingizni ayting."}
+  ]}
+}

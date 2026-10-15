@@ -1,0 +1,122 @@
+{
+  "right": {
+    "liked": [
+      "right/08-simple-celebration-1"
+    ],
+    "note": ""
+  },
+  "not-right": {
+    "liked": [
+      "not-right/14-two-notes-down-set-9"
+    ],
+    "note": ""
+  },
+  "pick": {
+    "liked": [
+      "pick/07-hover-tap"
+    ],
+    "note": ""
+  },
+  "tile": {
+    "liked": [
+      "tile/04-drop-004"
+    ],
+    "note": ""
+  },
+  "combo": {
+    "liked": [
+      "combo/18-item-pickup"
+    ],
+    "note": ""
+  },
+  "mic": {
+    "liked": [
+      "mic/15-low-swell-set-18-off"
+    ],
+    "note": ""
+  },
+  "lesson-done": {
+    "liked": [
+      "lesson-done/01-completion-of-a-level"
+    ],
+    "note": ""
+  },
+  "perfect": {
+    "liked": [
+      "perfect/03-ethereal-fairy-win-sound"
+    ],
+    "note": ""
+  },
+  "new-phrase": {
+    "liked": [
+      "new-phrase/08-sound-effect-twinkle-sparkle"
+    ],
+    "note": ""
+  },
+  "count": {
+    "liked": [
+      "count/09-gold-pickup-1"
+    ],
+    "note": ""
+  },
+  "level-up": {
+    "liked": [
+      "level-up/12-cute-level-up-1"
+    ],
+    "note": ""
+  },
+  "trophy": {
+    "liked": [
+      "trophy/04-achievement-unlock"
+    ],
+    "note": ""
+  },
+  "award": {
+    "liked": [
+      "award/04-item-2a"
+    ],
+    "note": ""
+  },
+  "streak": {
+    "liked": [
+      "streak/05-match-ignite-no-strike"
+    ],
+    "note": ""
+  },
+  "freeze": {
+    "liked": [
+      "freeze/04-chime-wav"
+    ],
+    "note": ""
+  },
+  "button": {
+    "liked": [
+      "button/10-sine-tap"
+    ],
+    "note": ""
+  },
+  "pop": {
+    "liked": [
+      "pop/05-pop-sound"
+    ],
+    "note": ""
+  },
+  "whoosh": {
+    "liked": [
+      "whoosh/09-swosh-02"
+    ],
+    "note": ""
+  },
+  "switch": {
+    "liked": [
+      "switch/01-sine-toggle-off"
+    ],
+    "note": ""
+  },
+  "reminder": {
+    "liked": [
+      "reminder/10-notification-sound-soft-and-pleasant-dem"
+    ],
+    "note": ""
+  }
+}

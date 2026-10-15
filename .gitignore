@@ -12,6 +12,13 @@ design/rive/.rive-session.txt
 design/rive/captures/**/*.png
 design/rive/captures/**/*.json
 design/rive/captures/**/*.wav
+design/motion/captures/*.png
 
 # local safety copies of the design file; its history is in git
 pendev/backups/
+design/sound/captures/
+design/sound/originals/
+design/sound/*.zip
+
+# pictures the browser version's checks take of every step
+src/web/checks/shots*/

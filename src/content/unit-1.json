@@ -1,0 +1,86 @@
+{
+  "unit": 1, "name": "Salom!", "icon": "hand-wave", "people": ["aziz", "malika"],
+  "lessons": [
+    {"id": "l1", "n": 1, "skill": "GREET someone", "title": "Endi siz salomlasha olasiz", "new": ["hello", "hi", "good-morning"], "items": [
+      {"ex": "meet", "p": "hello"},
+      {"ex": "meet", "p": "hi"},
+      {"ex": "meet", "p": "good-morning"},
+      {"ex": "heard", "talk": [["aziz", "Hi, Malika!"], ["malika", "Hello, Aziz! Good morning!"]], "q": "Aziz va Malika nima qilyapti?", "opts": [["hello", "Salomlashyapti"], ["goodbye", "Xayrlashyapti"], ["sandwich", "Ovqat buyurtma qilyapti"]], "right": 0},
+      {"ex": "echo", "p": "hello"},
+      {"ex": "tiles", "p": "good-morning", "extra": ["Hello", "Hi"]},
+      {"ex": "echo", "p": "hi"},
+      {"ex": "say", "p": "good-morning", "task": "Ertalab do'stingizni uchratdingiz. “Xayrli tong!” deng.", "use": true}
+    ]},
+    {"id": "l2", "n": 2, "skill": "SAY YOUR NAME", "title": "O'zingizni tanishtira olasiz", "new": ["im-aziz", "my-name-is-malika", "whats-your-name"], "trap": "T1", "items": [
+      {"ex": "meet", "p": "im-aziz"},
+      {"ex": "meet", "p": "my-name-is-malika"},
+      {"ex": "meet", "p": "whats-your-name"},
+      {"ex": "heard", "talk": [["malika", "Hello! What's your name?"], ["aziz", "Hi! I'm Aziz."]], "q": "Ular nima haqida gaplashyapti?", "opts": [["name-ask", "Ism haqida"], ["tashkent", "Shahar haqida"], ["icon:coffee-kafeda", "Qahva haqida"]], "right": 0},
+      {"ex": "gap", "ctx": "Aziz o'zini tanishtiryapti:", "words": ["I", "Aziz."], "gap": 1, "put": "am", "right": "I'm Aziz.", "trap": "T1"},
+      {"ex": "echo", "p": "my-name-is-malika"},
+      {"ex": "tiles", "p": "whats-your-name", "extra": ["you", "is"]},
+      {"ex": "say", "p": "good-morning", "task": "Ertalab qo'shningizni ko'rdingiz. “Xayrli tong!” deng.", "review": true},
+      {"ex": "tiles", "p": "im-aziz", "extra": ["am", "is"]},
+      {"ex": "echo", "p": "hi", "review": true},
+      {"ex": "echo", "p": "whats-your-name"},
+      {"ex": "say", "p": "im-aziz", "task": "Sizning ismingiz Aziz. O'zingizni tanishtiring.", "accept": ["My name is Aziz.", "I am Aziz."], "use": true}
+    ]},
+    {"id": "l3", "n": 3, "skill": "SAY WHERE YOU'RE FROM", "title": "Qayerdan ekaningizni ayta olasiz", "new": ["from-uzbekistan", "from-tashkent", "where-from"], "trap": "T1", "items": [
+      {"ex": "meet", "p": "from-uzbekistan"},
+      {"ex": "meet", "p": "from-tashkent"},
+      {"ex": "meet", "p": "where-from"},
+      {"ex": "heard", "talk": [["aziz", "Hi! I'm Aziz. Where are you from?"], ["malika", "Hello! I'm from Tashkent."]], "q": "Aziz Malikadan nimani so'radi?", "opts": [["where", "Qayerdanligini"], ["name-ask", "Ismini"], ["how", "Hol-ahvolini"]], "right": 0},
+      {"ex": "gap", "ctx": "Malika Toshkentdan:", "words": ["I", "from", "Tashkent."], "gap": 1, "put": "am", "right": "I'm from Tashkent.", "trap": "T1"},
+      {"ex": "echo", "p": "where-from"},
+      {"ex": "tiles", "p": "from-uzbekistan", "extra": ["am", "in"]},
+      {"ex": "say", "p": "whats-your-name", "task": "Yangi tanishingizning ismini so'rang.", "review": true},
+      {"ex": "tiles", "p": "where-from", "extra": ["is", "your"]},
+      {"ex": "echo", "p": "im-aziz", "review": true},
+      {"ex": "echo", "p": "from-tashkent"},
+      {"ex": "say", "p": "from-uzbekistan", "task": "Sizdan qayerdanligingizni so'rashdi. Siz O'zbekistondansiz. Javob bering.", "accept": ["I am from Uzbekistan."], "use": true}
+    ]},
+    {"id": "l4", "n": 4, "skill": "ASK HOW SOMEONE IS", "title": "Hol-ahvol so'ray olasiz", "new": ["how-are-you", "im-fine", "im-good-and-you"], "trap": "T1", "items": [
+      {"ex": "meet", "p": "how-are-you"},
+      {"ex": "meet", "p": "im-fine"},
+      {"ex": "meet", "p": "im-good-and-you"},
+      {"ex": "heard", "talk": [["malika", "Hi, Aziz! How are you?"], ["aziz", "I'm good. And you?"], ["malika", "I'm fine, thank you."]], "q": "Malika Azizdan nimani so'radi?", "opts": [["how", "Hol-ahvolini"], ["name-ask", "Ismini"], ["where", "Qayerdanligini"]], "right": 0},
+      {"ex": "gap", "ctx": "Do'stingiz hol-ahvol so'radi, sizda hammasi yaxshi:", "words": ["I", "fine,", "thank", "you."], "gap": 1, "put": "am", "right": "I'm fine, thank you.", "trap": "T1"},
+      {"ex": "echo", "p": "how-are-you"},
+      {"ex": "tiles", "p": "im-fine", "extra": ["am", "is"]},
+      {"ex": "say", "p": "where-from", "task": "Yangi tanishingizdan qayerdanligini so'rang.", "review": true},
+      {"ex": "tiles", "p": "im-good-and-you", "extra": ["are", "your"]},
+      {"ex": "tiles", "p": "my-name-is-malika", "extra": ["are", "you"], "review": true},
+      {"ex": "echo", "p": "im-good-and-you"},
+      {"ex": "say", "p": "how-are-you", "task": "Do'stingizni uchratdingiz. Uning hol-ahvolini so'rang.", "use": true}
+    ]},
+    {"id": "l5", "n": 5, "skill": "SAY GOODBYE", "title": "Xayrlasha olasiz", "new": ["nice-to-meet-you", "goodbye", "see-you"], "items": [
+      {"ex": "meet", "p": "nice-to-meet-you"},
+      {"ex": "meet", "p": "goodbye"},
+      {"ex": "meet", "p": "see-you"},
+      {"ex": "heard", "talk": [["aziz", "Nice to meet you, Malika."], ["malika", "Nice to meet you. Goodbye!"], ["aziz", "See you!"]], "q": "Aziz va Malika nima qilyapti?", "opts": [["goodbye", "Xayrlashyapti"], ["hello", "Salomlashyapti"], ["icon:coffee-kafeda", "Qahva ichyapti"]], "right": 0},
+      {"ex": "echo", "p": "nice-to-meet-you"},
+      {"ex": "tiles", "p": "nice-to-meet-you", "extra": ["see", "your"]},
+      {"ex": "echo", "p": "goodbye"},
+      {"ex": "say", "p": "from-uzbekistan", "task": "Siz O'zbekistondansiz. Shuni ayting.", "accept": ["I am from Uzbekistan."], "review": true},
+      {"ex": "tiles", "p": "see-you", "extra": ["your", "Good"]},
+      {"ex": "echo", "p": "im-fine", "review": true},
+      {"ex": "echo", "p": "see-you"},
+      {"ex": "say", "p": "nice-to-meet-you", "task": "Yangi tanishingiz bilan xayrlashyapsiz. Tanishganingizdan xursand ekaningizni ayting.", "use": true}
+    ]}
+  ],
+  "checkpoint": {"id": "c1", "title": "Yangi odam bilan tanisha olasiz", "steps": ["Salom bering", "Ismingizni ayting", "Qayerdanligingizni ayting", "Hol-ahvol so'rang", "Xayrlashing"], "items": [
+    {"ex": "heard", "talk": [["aziz", "Hello! I'm Aziz. What's your name?"], ["malika", "Hi! My name is Malika. Nice to meet you."]], "q": "Aziz va Malika nima qilyapti?", "opts": [["handshake", "Tanishyapti"], ["goodbye", "Xayrlashyapti"], ["icon:coffee-kafeda", "Buyurtma beryapti"]], "right": 0},
+    {"ex": "heard", "talk": [["malika", "Where are you from?"], ["aziz", "I'm from Tashkent."], ["malika", "Goodbye, Aziz!"], ["aziz", "See you!"]], "q": "Malika Azizdan nimani so'radi?", "opts": [["where", "Qayerdanligini"], ["name-ask", "Ismini"], ["how", "Hol-ahvolini"]], "right": 0},
+    {"ex": "gap", "ctx": "Aziz o'zini tanishtiryapti:", "words": ["I", "Aziz."], "gap": 1, "put": "am", "right": "I'm Aziz.", "trap": "T1"},
+    {"ex": "gap", "ctx": "Do'stingiz hol-ahvol so'radi, sizda hammasi yaxshi:", "words": ["I", "fine,", "thank", "you."], "gap": 1, "put": "am", "right": "I'm fine, thank you.", "trap": "T1"},
+    {"ex": "echo", "p": "im-good-and-you"},
+    {"ex": "echo", "p": "nice-to-meet-you"},
+    {"ex": "tiles", "p": "whats-your-name", "extra": ["you", "is"]},
+    {"ex": "tiles", "p": "where-from", "extra": ["is", "your"]},
+    {"ex": "say", "step": 0, "p": "hello", "task": "Yangi odam bilan uchrashdingiz. Salom bering.", "also": ["hi"]},
+    {"ex": "say", "step": 1, "p": "im-aziz", "task": "Sizning ismingiz Aziz. O'zingizni tanishtiring.", "accept": ["My name is Aziz.", "I am Aziz."]},
+    {"ex": "say", "step": 2, "p": "from-tashkent", "task": "Siz Toshkentdansiz. Shuni ayting.", "accept": ["I am from Tashkent."]},
+    {"ex": "say", "step": 3, "p": "how-are-you", "task": "Uning hol-ahvolini so'rang."},
+    {"ex": "say", "step": 4, "p": "goodbye", "task": "Ketish vaqti bo'ldi. Xayrlashing.", "also": ["see-you"]}
+  ]}
+}

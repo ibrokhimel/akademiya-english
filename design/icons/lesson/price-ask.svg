@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 48 48">
+  <g transform="translate(8.5 15) scale(1.66 1.66) rotate(-18 10 6.5)"><path d="M5.8 6.5 Q0.5 6 -3.5 1" fill="none" stroke="#B66E28" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.38 8.99 A2.20 2.20 0 0 1 1.38 6.01 L5.35 1.71 A2.20 2.20 0 0 1 6.96 1.00 L17.80 1.00 A2.20 2.20 0 0 1 20.00 3.20 L20.00 11.80 A2.20 2.20 0 0 1 17.80 14.00 L6.96 14.00 A2.20 2.20 0 0 1 5.35 13.29 Z" fill="#D49B00"/><path d="M1.38 7.99 A2.20 2.20 0 0 1 1.38 5.01 L5.35 0.71 A2.20 2.20 0 0 1 6.96 0.00 L17.80 0.00 A2.20 2.20 0 0 1 20.00 2.20 L20.00 10.80 A2.20 2.20 0 0 1 17.80 13.00 L6.96 13.00 A2.20 2.20 0 0 1 5.35 12.29 Z" fill="#FFC800"/><circle cx="5.8" cy="6.5" r="1.8" fill="#FFFFFF"/><rect x="10" y="3.4" width="7" height="2.2" rx="1.1" fill="#E6AE00"/><rect x="10" y="7.4" width="5" height="2.2" rx="1.1" fill="#E6AE00"/></g>
+  <circle cx="38.5" cy="11.6" r="8.5" fill="#5A3FD9"/>
+  <circle cx="38.5" cy="10.0" r="8.5" fill="#7B5CFF"/>
+  <path d="M35.7 7.4 A2.8 2.8 0 1 1 40.1 9.8 Q38.5 10.8 38.5 11.9" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="38.5" cy="15.049999999999999" r="1.35" fill="#FFFFFF"/>
+</svg>

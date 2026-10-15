@@ -114,7 +114,7 @@ i.done { background: var(--done); } i.prog { background: var(--prog); } i.prop {
     <div>
       <p class="eyebrow">Akademiya English · new app from scratch</p>
       <h1>Roadmap</h1>
-      <p class="sub">Last updated 9 October 2026 · source: <a href="roadmap.md">roadmap.md</a></p>
+      <p class="sub">Last updated 14 October 2026 · source: <a href="roadmap.md">roadmap.md</a></p>
     </div>
     <div class="counts" id="counts"></div>
   </header>
@@ -126,8 +126,8 @@ i.done { background: var(--done); } i.prog { background: var(--prog); } i.prop {
 
   <section class="next" aria-label="Next up">
     <p class="eyebrow">Next up</p>
-    <p><strong>#28 Characters</strong> (Dombi expressions + Rive, the café waiter), then #29 tech stack. All 31 MVP screens and the design system are done.</p>
-    <p class="sub">All 31 MVP pages are defined. Next they get designed in Pencil (pencil.dev).</p>
+    <p><strong>#42: the phone app</strong>: the launch screen, then test builds A and B, then the screens. The owner played the browser version end to end on 2026-10-15 with no problems; the app icon (option A) is picked.</p>
+    <p class="sub">Steps 1–3 of the browser version are built: every lesson and checkpoint can be played.</p>
   </section>
 
   <nav aria-label="Areas in order of work">
@@ -176,15 +176,21 @@ const AREAS = [
     [22, 'Mistake engine content', 'MVP: 9 Uzbek traps + 12 Tap the Mistake items; Russian later', 'done', 'ideas/mistake-engine.md'],
     [23, 'Scene scripts & template', 'After MVP: goals, twists, what counts as passing', 'todo'],
     [24, 'How lessons mix exercises', 'Lesson template (~12 items), Checkpoint story chain, Lesson 6 model', 'done', 'ideas/lesson-template.md'],
+    [37, 'Lesson scripts', 'All 15 lessons + 3 checkpoints item by item (222 items, 49 phrases), with a checker; the owner looked at the Uzbek lines 2026-10-14', 'done', 'ideas/lesson-template.md'],
+    [38, 'Lesson audio', 'Every English line at normal and slow speed, with word times and mouth shapes; British and American sets both kept, each learner picks in Settings', 'done', 'ideas/sound-plan.md'],
   ]},
   { id: 'E', name: 'Pages & design', about: 'Every element, every page, and how it looks.', items: [
     [25, 'Every element', 'Design system reviewed + cleaned (2026-10-10)', 'done'],
     [26, 'Every page & structure', '31 MVP pages and pop-ups; 3 tabs; account after Lesson 1', 'done', 'ideas/pages.md'],
     [27, 'Visual design & mockups', 'All 31 MVP screens locked (2026-10-10); pet = Dombi; dark mode for every screen (2026-10-12)', 'done'],
-    [28, 'Town & characters', 'Who lives in the town; the map', 'todo'],
+    [28, 'Characters', 'Dombi (13 faces, talking, touch, dark mode), the two waiters, and Aziz and Malika drawn and animated; the town map is after the MVP', 'done', 'ideas/companion-pet.md'],
+    [39, 'Lesson pictures', 'All 39 pictures of the 15 lessons, light and dark; waiting for the owner\'s check', 'prop', 'ideas/pages.md'],
+    [40, 'Motion, sound and taps', 'Every component and screen moving in the browser lab (11 pages); 20 chosen sounds + one family of small sounds; a tap in the hand for each; Dombi\'s acted voice', 'done', 'ideas/motion-plan.md'],
   ]},
   { id: 'F', name: 'Technology', about: 'How it is built.', items: [
-    [29, 'Tech stack', 'Main choices locked (2026-10-12): Expo, PocketBase, recordings on the server, Google/Apple/phone sign-in; two test builds to prove', 'prog', 'ideas/tech-stack.md'],
+    [29, 'Tech stack', 'Main choices locked (2026-10-12): Expo, PocketBase, recordings on the server, Google/Apple/phone sign-in; two test builds to prove before the phone app', 'prog', 'ideas/tech-stack.md'],
+    [41, 'Browser version of the app', 'The whole MVP running in a browser first, for testing (2026-10-14). 8 steps, all built: onboarding, the Learn page, every lesson, Progress, Profile, Settings, recordings, pop-ups and problem screens at /src/web/; waiting for the owner to test it', 'prog', 'ideas/tech-stack.md'],
+    [42, 'Phone app (Expo)', 'After the browser version: the two test builds, then the screens in the same order', 'todo', 'ideas/tech-stack.md'],
     [30, 'AI pieces', 'Accent speech recognition, voices, scene AI, cost per minute', 'todo'],
     [31, 'Smart engine spec', 'FSRS memory, mistake tracking, weak skills', 'todo'],
   ]},

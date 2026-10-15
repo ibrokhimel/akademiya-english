@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · progress and profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="progress.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 4 — progress and profile</h1>
+    <p class="lead">The pieces of the Natijalar and Profil pages: streak, calendar, phrase cards, level ring, numbers and the friend button.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+
+  <h2>Streak</h2>
+  <div class="grid">
+    <section class="demo" id="dStreak">
+      <h3>Streak card</h3>
+      <p class="spec">The flame flickers on its own. Today's dot has a ring that breathes (1.2 s). Lesson done: the dot fills orange, the check pops, embers rise from the flame, the number goes up with a bump. Tap the card to open the calendar.</p>
+      <div class="stage col" style="align-items:center">
+        <button class="p3d scard" id="scard"><span class="face">
+          <span class="flamebox"><canvas class="em" width="400" height="520"></canvas><canvas class="fl" width="192" height="248"></canvas></span>
+          <span class="count"><span id="sNum">6</span> kun!</span>
+          <span class="week" id="week"></span>
+          <span class="note" id="sNote">Bugun bitta dars — seriya 7 kun bo'ladi.</span></span></button>
+        <div class="cal" id="cal" style="height:0"><div class="in"><h4>Oktabr 2026</h4><div class="grid7" id="grid7"></div></div></div>
+      </div>
+      <div class="ctl"><button data-a="done">Lesson done today</button><button data-a="freeze">Missed a day: freeze used</button><button data-a="cal">Open / close the calendar</button><button data-a="reset">Reset</button></div>
+    </section>
+    <section class="demo" id="dNumbers">
+      <h3>Opening the page: numbers and ring</h3>
+      <p class="spec">The big number rolls up in 600 ms and bumps at the end. The ring draws to its value in 700 ms. The tiles come in 60 ms apart and count up.</p>
+      <div class="stage col" style="align-items:center">
+        <div style="text-align:center"><div class="bigcount" id="bigCount">45</div><div class="bigcap">ibora ayta olasiz</div></div>
+        <div class="ringcard"><div class="ring"><svg viewBox="0 0 132 132"><circle class="trk" cx="66" cy="66" r="59.4"/><circle class="prg" id="ringArc" cx="66" cy="66" r="59.4"/></svg>
+          <div class="mid"><span class="num"><span id="ringNum">60</span>%</span><span class="lbl">0-DARAJA</span></div></div><b>Ilk qadamlar</b></div>
+        <div class="tiles" id="tiles"></div>
+      </div>
+      <div class="ctl"><button data-a="open">Open the page again</button><button data-a="more">One more lesson done</button></div>
+    </section>
+  </div>
+
+  <h2>Phrases</h2>
+  <div class="grid">
+    <section class="demo wide" id="dPhrases">
+      <h3>Phrase cards (“Things I can say”)</h3>
+      <p class="spec">A new card pops in with slow twinkles around it. The list comes in 40 ms apart. “Asl” plays the phrase: small bars move while it plays. “Mashq” done well: the next star turns gold with a pop.</p>
+      <div class="stage"><div class="plist" id="plist"><canvas class="ptw" id="ptw" width="480" height="400"></canvas></div></div>
+      <div class="ctl"><button data-a="open">Open the list again</button><button data-a="new">A new phrase arrives</button></div>
+    </section>
+  </div>
+
+  <h2>Profile</h2>
+  <div class="grid">
+    <section class="demo" id="dFriend">
+      <h3>Friend button</h3>
+      <p class="spec">Press it. The colour changes in 160 ms, the old words slide up and out and the new ones come from below (140 ms each). Becoming friends: the check pops and a green pop.</p>
+      <div class="stage"><button class="p3d fbtn" id="fbtn"><span class="face"><img alt=""><span class="lbl"></span></span></button></div>
+      <div class="ctl"><button data-a="incoming">They sent you a request</button><button data-a="reset">Reset</button></div>
+    </section>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="progress.js"></script>
+</body>
+</html>

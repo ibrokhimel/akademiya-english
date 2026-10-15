@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akademiya — motion · the Learn page</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="nav.css">
+</head>
+<body>
+<div class="lab">
+  <header><div>
+    <h1>Component motion · 2 — the Learn page</h1>
+    <p class="lead">The locked Path H screen as a live screen. Press the lesson circles, the numbers at the top, the banner and the tabs. The buttons on the right play the bigger moments.</p>
+  </div></header>
+  <div class="tools">
+    <a class="tool" href="index.html" style="text-decoration:none;color:inherit">← All pages</a>
+    <button class="tool" id="tDark" aria-pressed="false">Dark mode</button>
+    <button class="tool" id="tSlow" aria-pressed="false">Slow motion ×4</button>
+    <button class="tool" id="tReduce" aria-pressed="false">Reduce Motion</button>
+  </div>
+
+  <div class="stage" style="align-items:flex-start;justify-content:flex-start;gap:28px;margin-top:10px">
+    <div class="phonewrap" style="height:635px"><div class="phone" id="phone" style="height:846px">
+      <div class="learn">
+        <div class="time">9:41</div>
+        <div class="stat lv" id="sLv"><img src="/pendev/icons-r2/level-badge.png" alt=""><span>A0</span></div>
+        <div class="stat st" id="sSt"><canvas width="96" height="124"></canvas><span>6</span></div>
+        <div class="stat ph" id="sPh"><img src="/pendev/icons-r2/bubble-phrases.png" alt=""><span>14</span></div>
+        <div class="stat ap" id="sAp"><img src="/pendev/icons-r2/apple-currency.png" alt=""><span>240</span></div>
+        <button class="p3d ubanner" id="banner"><span class="face">
+          <span class="txt"><span class="k">2-BO'LIM · KAFEDA</span><span class="t">Kafeda: buyurtma bering</span></span>
+          <span class="book"><img src="/pendev/icons-r2/book-phrase-list.png" alt=""></span></span></button>
+        <div class="path"><div class="pathin" id="path">
+          <div class="unitart"><img src="/pendev/icons-r2/coffee-kafeda.png" alt=""></div>
+          <div class="ustars"><b>★</b><b>★</b><b>★</b></div>
+          <div class="nextart"><img src="/pendev/icons-r2/cart-dokon.png" alt=""></div>
+          <canvas class="twk" id="twk" width="340" height="284"></canvas>
+        </div></div>
+        <div class="tabbar" id="tabs">
+          <div class="tab on" data-p=""><img src="/pendev/icons-r2/tab-home.png" alt=""></div>
+          <div class="tab" data-p="Natijalar"><img src="/pendev/icons-r2/tab-progress.png" alt=""></div>
+          <div class="tab" data-p="Profil"><img src="/pendev/icons-r2/tab-profile.png" alt=""></div>
+        </div>
+      </div>
+      <div class="otherpage" id="other"></div>
+      <div class="backdrop" id="backdrop"></div>
+      <div class="startsheet" id="sheet">
+        <div class="handle"></div>
+        <div class="hd"><div class="k" id="shK"></div><div class="t" id="shT"></div></div>
+        <div class="cansay"><div class="l">BU DARSDAN KEYIN AYTA OLASIZ:</div>
+          <div class="p"><button class="p3d audio sm" data-ms="1200"><span class="face"><img src="/pendev/icons-r2/glyph-speaker-violet.png" alt=""><span class="bars"><i></i><i></i><i></i></span></span></button><span id="shP"></span></div></div>
+        <div class="meta"><span><img src="/pendev/icons-r2/glyph-list-grey.png" alt="">12 mashq</span><span><img src="/pendev/icons-r2/glyph-mic-grey.png" alt="">Gapirish bor</span><span><img src="/pendev/icons-r2/glyph-timer-grey.png" alt="">≈ 4 daqiqa</span></div>
+        <button class="p3d btn primary" id="shStart"><span class="face">BOSHLASH</span></button>
+      </div>
+    </div></div>
+
+    <div class="side">
+      <h2 style="margin-top:0">Moments</h2>
+      <button class="act" data-a="finish">Finish the lesson<span>The circle turns violet with a check and a pop, phrases fly up to the counter, the next circle unlocks with a bounce and a shine (about 1.2 s).</span></button>
+      <button class="act" data-a="sheet">Open the lesson start sheet<span>Backdrop fades in 200 ms, the sheet slides up in 300 ms with a small overshoot, the phrase fades up, BOSHLASH shines. Tap outside to close (200 ms).</span></button>
+      <button class="act" data-a="today">Streak: first lesson today<span>The flame starts grey; finishing a lesson lights it and the number goes up.</span></button>
+      <button class="act" data-a="reset">Reset</button>
+      <h2>Small things</h2>
+      <p class="spec" style="margin:0">Lesson circle: press drops 9 px (60 ms down, 140 ms back). Locked: press, then a small shake.<br>Current circle: a ring breathes out every 1.2 s.<br>Numbers at the top: a small bounce on tap; they count up with a bump when they change.<br>Banner: press drops 4 px.<br>Tabs: the violet pill fades to the chosen icon in 120 ms and the icon hops 5 px; the page cross-fades in 150 ms.<br>All five lessons done: the banner shines once and the trophy gets slow gold twinkles.</p>
+    </div>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="motion.js"></script>
+<script src="voice.js"></script>
+<script src="lab.js"></script>
+<script src="sound.js"></script>
+<script src="haptic.js"></script>
+<script src="dombi-voice.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>

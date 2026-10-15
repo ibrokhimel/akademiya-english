@@ -33,8 +33,8 @@ Path → Lesson start sheet → Lesson → Mistakes round → Finish screens
 notification prompt · 10 Create account (after Lesson 1; sign-in method in #29).
 
 > **Onboarding locked (2026-10-10):** 1 Welcome (Dombi waving, "Akademiya English", BOSHLASH / KIRISH)
-> → **1b Meet Dombi** ("Salom! Men Dombi.", Duolingo's "Hi there! I'm Duo!" screen) → 2 Goal → 3 Your level →
-> **4 What you'll achieve** (Duolingo-style: "30 kunda mana nimalarga erishasiz!" + 3 outcomes: order at a café,
+> → **1b Meet Dombi** ("Salom! Men Dombiman.", Duolingo's "Hi there! I'm Duo!" screen) → 2 Goal → 3 Your level →
+> **4 What you'll achieve** (Duolingo-style: "30 kunda mana shularga erishasiz!" + 3 outcomes: order at a café,
 > 40+ phrases out loud, a daily habit) → 5 Confidence survey → **6 Mic explainer** (Dombi with a small mic badge: "Mikrofonni yoqamiz" — "Mashqlarda ovoz chiqarib gapirasiz. Javobingizni eshitishim uchun mikrofon kerak.", why the mic is
 > needed, then MIKROFONNI YOQISH → the phone's permission prompt; "Hozir emas" = lessons work without speaking). Dombi is the guide on every
 > step. Then **7 Mic check** (no card — Dombi himself listens, sound bars under him; button off until heard) →
@@ -59,12 +59,13 @@ locked), Checkpoint per unit, replay finished lessons, "Speaking is off · Turn 
 >
 > **Lesson-loop design choices (2026-10-10):** start = bottom sheet (A) · speaking exercises = tutor face — a
 > character asks you directly, mic below (C, Speak-style) · combo moment "3 ta ketma-ket! 🔥" after 3/5/10 correct
-> (1.5 s, Rive) · lesson result = phrases first, each with ▶, stats small (B). Greys = Duolingo neutral
+> (1.5 s, Rive) · lesson result = Dombi cheering with confetti, three stat tiles that count up, then the phrases,
+> each with ▶ (redesigned 2026-10-13 to fit the lesson-done sound; it replaced "phrases first, stats small"). Greys = Duolingo neutral
 > #E5E5E5 / #B7B7B7 across the whole design system.
 
 **C. Lesson** — 13 Lesson screen (✕, progress bar, combo, exercise, Check/Continue, "Can't speak now",
 🐢 slow audio) · 14 Feedback panel (Correct / correct answer + 💡 Uzbek explanation) · 15 Quit lesson? ·
-16 Mistakes round · 17 New thing you can SAY 🎉 · 18 Lesson result (phrases, accuracy, Perfect ✨) ·
+16 Mistakes round · 17 New thing you can SAY 🎉 · 18 Lesson result (Dombi + confetti, accuracy / time spoken / phrases tiles, the phrases, gold MUKAMMAL! badge on a perfect lesson) ·
 19 Streak update (first lesson of the day).
 
 > **Lesson-loop screens locked (2026-10-10):** 13 E1 Meet It · E4 Tile Builder · E9 Echo Line as drafted; 15 Quit =
@@ -125,6 +126,12 @@ following).
 **Not in the MVP:** shop, pet, achievements, scenes, leaderboards, voice comparison screen, weekly summary,
 paywall, placement test.
 
+**Wording changed 2026-10-14 (storyboards, light and dark):** Dombi's four reworded lines are now in the locked screens
+1b, 4, 5 and 9 ("Salom! Men Dombiman." · "30 kunda mana shularga erishasiz!" · "Ingliz tilida gapirganda o'zingizga
+qanchalik ishonasiz?" · "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman."), and page 30 asks the same
+question the same way ("2 hafta o'tdi! Endi gapirganda o'zingizga qanchalik ishonasiz?"). Why each changed:
+sound-plan.md §6. Left as it was: the small line "Kuniga 10 daqiqa, mehribon eslatmalar" on screen 4.
+
 ## Dark mode (LOCKED 2026-10-12)
 
 **Palette: C · Charcoal** (picked by the owner from three options: Violet night, Slate, Charcoal).
@@ -159,6 +166,9 @@ paywall, placement test.
   "Duolingo-style profile" variation was deleted from the light and dark storyboards. B and C remain.
 - **Left as it is:** "Path G — Duolingo exact copy" is a reference screen.
 
+**Token added 2026-10-13:** `red-deep` (#C02A3D) is the edge of the danger button (O'CHIRISH). The owner found the old edge
+(`red-edge`, #D63445) too close to the button's red. `red-edge` stays for red text and the wrong-answer tiles.
+
 ## Exercise states — MVP (designed 2026-10-12, waiting for the owner's check)
 
 Storyboard **"Exercises — every state (MVP)"** in the Pencil file, below the light storyboards, with a dark
@@ -192,8 +202,25 @@ illustrated icons, by `design/icons/build_lesson_pics.py` (SVG in `design/icons/
 
 - **Drawn:** tea, orange juice, water, sandwich, samsa, salad. Coffee reuses the existing coffee icon.
 - **Used in:** the E2 and E6 screens of the exercise storyboard, light and dark.
-- **Still to draw for the 15 lessons:** sugar, T-shirt (red, blue, three sizes), a price tag or som banknote,
-  and the people pictures for Unit 1 (greeting, name, where from, goodbye).
+- **All 39 pictures of the 15 lessons are drawn (2026-10-14):** 33 were added. Unit 1: hello, morning, aziz, malika,
+  name-ask, uzbekistan, tashkent, where, how, fine, and-you, handshake, goodbye, see-you. Unit 2: price-ask, sugar,
+  no-sugar, no-thanks, here-you-are, thanks. Unit 3: water-ask, yes, no, this, that, this-one, tshirt-red, tshirt-blue,
+  colour-like, sizes, too-big, tshirt-small, bag. Two people come back in them: Aziz (violet top) and Malika (coral top).
+  - Built by `python build_lesson_pics.py` then `node lesson_png.js` in `design/icons/` (parts in `lesson_pic_parts.py`,
+    `lesson_pics_people.py`, `lesson_pics_things.py`). All of them on a light and a dark tile: `design/icons/lesson-sheet.png`.
+  - In Pencil: components "Lesson picture / ..." in three new rows on the Icons board.
+  - Numbers and prices are not pictures: the lesson shows them as large text ("1 2 3 4 5", "10 000 so'm").
+  - The weaker ones, to look at first: handshake (can read as a fist clasp), sugar and no-sugar (cubes could be dice),
+    no-thanks (close to the waving-hand icon), too-big (reads as a coat as much as a T-shirt), sizes (small in the tile).
+- **Aziz and Malika are animated (2026-10-14).** The owner saw the lessons page and said "nobody's mouth is moving".
+  Two things were behind it. The page never told the waiter and the seller to talk (a mistake in the page, fixed), and
+  Aziz and Malika, who say 84 of the 107 lines, were still pictures. They are now Rive characters on the waiters' rig:
+  artboards `Aziz` and `Malika` (192x192), state machine `Waiter`, the same controls (`talking`, `viseme`, `correct`,
+  `wrong`, `dark`). Drawn like their lesson pictures (his violet top and short dark hair, her coral top, bun and
+  earrings), with white eyes and pupils. Built by `node waiter_rig.js rig z|m`, `waiter_idle.js`, `waiter_act.js` in
+  `design/rive/`; runtime file `design/rive/out/waiters.riv`; the file before this is in
+  `design/rive-backups/2026-10-14-before-aziz-malika/`. Checked in the real player: rest, mouth shapes, both reactions,
+  dark, and all four speakers photographed while a line plays. Not in a Pencil screen yet.
 - The picture tile components on the MVP components sheet keep their emoji default until the pictures
   are approved.
 - **Café waiters (2026-10-12).** The cook emoji is replaced by a drawn, animated character. The owner
@@ -214,5 +241,6 @@ illustrated icons, by `design/icons/build_lesson_pics.py` (SVG in `design/icons/
     `design/rive/capture_waiter_png.js` from the runtime.
   - Still emoji: the waiter inside the after-MVP components (Scene dialogue, Character reaction).
 - The lesson pictures are not imported into the Rive file yet (the icons' master copy).
+- Waiter C is now the seller of Unit 3 in the lesson files (voice "seller"); he is not placed in a Pencil screen yet.
 
 Not drawn yet: full screens for the 10 after-MVP exercises (their bodies are in "After-MVP components").
