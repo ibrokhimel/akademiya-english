@@ -1,18 +1,15 @@
 """Builds the lesson pictures (things the learner names in exercises E1, E2, E6) as SVG files.
 
-Same style and 48x48 grid as build_icons.py. Run: python build_lesson_pics.py
+Same style and 48x48 grid as build_icons.py. Run: python build_lesson_pics.py, then node lesson_png.js for the PNGs.
+The café food and drinks are here; the people are in lesson_pics_people.py, the rest in lesson_pics_things.py,
+and the parts they share (hands, the T-shirt, Aziz, Malika, the "?" badge) in lesson_pic_parts.py.
 """
 from pathlib import Path
 
 from build_icons import C, F, R, render, rounded_poly, tri
+from lesson_pic_parts import rot
 
 STEAM = "#C9BDFF"
-
-
-def rot(x, y, w, h, deg, f):
-    """Pill rotated around its own centre."""
-    return ("raw", f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{min(w, h) / 2}" fill="{f}" '
-                   f'transform="rotate({deg} {x + w / 2} {y + h / 2})"/>')
 
 
 PICS = {
@@ -57,14 +54,19 @@ PICS = {
 
 
 def main():
+    import lesson_pics_people, lesson_pics_things          # Unit 1 · Units 2 and 3 (they reuse the water bottle above)
+    pics = {**PICS, **lesson_pics_people.PICS, **lesson_pics_things.pics(PICS["water"])}
     out = Path(__file__).parent / "lesson"
     out.mkdir(exist_ok=True)
-    for name, shapes in PICS.items():
+    new = 0
+    for name, shapes in pics.items():
         body = "\n  ".join(s[1] if s[0] == "raw" else render(s) for s in shapes)
-        (out / f"{name}.svg").write_text(
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 48 48">\n  {body}\n</svg>\n',
-            encoding="utf-8")
-    print(f"wrote {len(PICS)} lesson pictures to {out}")
+        text = f'<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 48 48">\n  {body}\n</svg>\n'
+        f = out / f"{name}.svg"
+        if not f.exists() or f.read_text(encoding="utf-8") != text:      # an unchanged picture keeps its date, so its PNG is not made again
+            f.write_text(text, encoding="utf-8")
+            new += 1
+    print(f"{len(pics)} lesson pictures in {out}, {new} new or changed. PNGs: node lesson_png.js")
 
 
 if __name__ == "__main__":

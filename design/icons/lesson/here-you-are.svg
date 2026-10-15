@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 48 48">
+  <g transform="translate(16.5 0.6) scale(0.53 0.53)"><rect x="17" y="3" width="4" height="10" rx="2" fill="#C9BDFF"/><rect x="24" y="1" width="4" height="12" rx="2" fill="#C9BDFF"/><rect x="31" y="3" width="4" height="10" rx="2" fill="#C9BDFF"/><circle cx="38.0" cy="26.0" r="5.074999999999999" fill="none" stroke="#1CB0F6" stroke-width="3.8500000000000005" stroke-linecap="round"/><path d="M13 16 H33 A4 4 0 0 1 37 20 V29 A11 11 0 0 1 26 40 H20 A11 11 0 0 1 9 29 V20 A4 4 0 0 1 13 16 Z" fill="#1CB0F6"/><path d="M29 16 H33 A4 4 0 0 1 37 20 V29 A11 11 0 0 1 26 40 H29 A0 0 0 0 1 29 40 V16 A0 0 0 0 1 29 16 Z" fill="#1899D6"/><rect x="11" y="17" width="24" height="5" rx="2.5" fill="#B66E28"/><rect x="13" y="25" width="4" height="9" rx="2" fill="#84D8FF"/><rect x="4" y="39" width="40" height="6" rx="3" fill="#2B70C9"/></g>
+  <rect x="8" y="26.2" width="39" height="4.8" rx="2.4" fill="#5A3FD9"/>
+  <rect x="8" y="24.4" width="39" height="4.8" rx="2.4" fill="#7B5CFF"/>
+  <rect x="0.6" y="30" width="9" height="15" rx="3.5" fill="#FF6B5B"/>
+  <rect x="7" y="30.5" width="24" height="10.5" rx="5.25" fill="#FFB59F"/>
+  <rect x="9" y="21.6" width="12" height="6.2" rx="3.1" fill="#FFB59F" transform="rotate(-8 15.0 24.700000000000003)"/>
+  <rect x="21" y="34.6" width="7" height="2.2" rx="1.1" fill="#FA8E77"/>
+</svg>
