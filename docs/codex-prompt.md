@@ -33,19 +33,38 @@ You are building the phone app for **Akademiya English**, a speaking-first Engli
 - The design file (`pendev/Akademiya English.pen`) only opens in the Pencil app. You don't need it: the
   browser version already matches it.
 
-## Steps (stop after each one so the owner can try it in the simulator)
+## Steps (three milestones: stop only there so the owner can try it)
 1. **Launch screen.** Add `expo-splash-screen` with the two images above, light and dark. Run
    `npx expo run:ios` and show the app opening.
 2. **Test B: listen, then speak** (tech-stack.md §4). One test screen: play a lesson clip (e.g. "A coffee,
    please.") with Dombi's mouth moving to its mouth-shape timeline, then start speech recognition straight away
    with `expo-speech-recognition`. Show the words heard live on screen, and log the start delay and how often
    loudness arrives. The real question is whether the iPhone's own recogniser understands the owner's Uzbek accent
-   on the lesson phrases; that needs a real iPhone, so say so when the simulator can't answer it. Report what you
-   found before going on.
-3. **The screens, in the browser version's order** (tech-stack.md §0, steps 2–8): one lesson start to finish,
-   all lessons and checkpoints, the Learn page, onboarding, Progress/Profile/Settings, pop-ups and problem screens,
-   then a pass over dark mode, Reduce Motion and picking up after the app is closed. Save progress on the phone
-   (`expo-sqlite`, the same list of events the browser version keeps).
+   on the lesson phrases; that needs a real iPhone, so say so when the simulator can't answer it.
+   **Milestone 1: stop here and report what you found.** If the iPhone's recogniser isn't good enough, the
+   fallback is already decided: send the recorded answer to the Whisper server on the owner's PC
+   (`POST /stt` with the sound, answer `{"text": ...}`; see `src/web/hear.js` for how the browser version uses it).
+3. **One lesson, start to finish** (Lesson 6, every exercise, feedback sheets, "can't speak now", the mistakes
+   round, the new-phrase card, the result). **Milestone 2: stop here and show it.**
+4. **The rest, in the browser version's order** (tech-stack.md §0, steps 3–8): all lessons and checkpoints, the
+   Learn page, onboarding, Progress/Profile/Settings, pop-ups and problem screens, the phone-only pieces (real
+   daily reminder, haptics, mic permission), then a pass over dark mode, Reduce Motion and picking up after the app
+   is closed. Save progress on the phone (`expo-sqlite`, the same list of events the browser version keeps) and
+   send it to the local server when it can be reached. **Milestone 3: stop at the end and show everything.**
+5. **Android, after the iPhone works:** build the same code for Android on the Mac (emulator) and fix what differs.
+
+## Decided with the owner (tech-stack.md §0b, don't reopen these)
+- **iPhone first**; Android only after step 4.
+- **Lessons and audio are built into the app** from `src/content/`. No downloading content.
+- **Server = PocketBase on the owner's PC**, reached over the home Wi-Fi (Claude sets it up on the PC and gives
+  you the address). It keeps accounts, progress events, settings, voice recordings, feedback and usage numbers.
+  If it can't be reached, the app keeps working from the phone's own saved data.
+- **Sign-in = a simple test account** (email and password in PocketBase). Keep the Google and Apple buttons as
+  designed but leave them "not ready yet" for now.
+- **Speech fallback = Whisper on the owner's PC** (above). Phone and PC are on the same Wi-Fi; local network
+  addresses must be allowed in the app (iOS asks the learner for local network access once).
+- The PC's Wi-Fi address and the ports are in `docs/local-servers.md` once Claude has set them up. If that file
+  isn't there yet when you need it, stop and ask.
 
 ## Rules
 - Work on a branch (`phone-app`), never on `main`. Many **small commits**, one per finished piece, each with a
@@ -55,7 +74,7 @@ You are building the phone app for **Akademiya English**, a speaking-first Engli
 - Light and dark mode on every screen; respect Reduce Motion.
 - Dombi is a round black blob with two white pill eyes and a centred smile. Never make him cute or kawaii, and
   don't redraw him: use the Rive file.
-- After each step: run `npx tsc --noEmit` and `npx expo lint`, run the app in the simulator and take a
-  screenshot, and tell the owner in a few plain sentences what to try. Don't say something works until you have
-  seen it run.
+- Keep going between milestones without waiting. After every piece: run `npx tsc --noEmit` and
+  `npx expo lint`, run it in the simulator and look at a screenshot. Don't say something works until you have
+  seen it run. At each milestone, tell the owner in a few plain sentences what to try.
 - If a step needs the owner (a real iPhone, a permission, a choice), stop and ask in one short question.
