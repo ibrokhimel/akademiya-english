@@ -2,7 +2,7 @@
 
 **Roadmap item:** #29 Tech stack
 **Status:** main choices **LOCKED** 2026-10-12 · the framework is locked on condition that two test builds pass ·
-**build order changed 2026-10-14: a browser version first** (§0)
+**build order changed 2026-10-14: a browser version first** (§0) · **local phone build locked 2026-10-16** (§0b)
 **Related:** [ai-plan.md](ai-plan.md) (MVP speech scope) · [motion-plan.md](motion-plan.md) ·
 [companion-pet.md](companion-pet.md) · [product-definition.md](product-definition.md) (pricing)
 
@@ -146,6 +146,31 @@ The owner looked through it on 2026-10-15: "ts look alr".
 - How taps feel, how smooth Dombi is on a cheap Android phone, and battery use. Those are tests A and B (§4).
 - On an iPhone the microphone only works on a secure (https) address, so a plain local link is enough on the PC but
   not on the phone. A secure link from the PC is set up when the owner wants to try it on his iPhone.
+
+## 0b. The local phone build (locked with the owner, 2026-10-16)
+
+Goal: the real app, fully working on the owner's own machines (Mac, iPhone, this PC), before any outside server,
+store or tester. Codex builds it on the Mac from [codex-prompt.md](../codex-prompt.md).
+
+| Question | Decision |
+|---|---|
+| Who builds | **Codex** on the Mac (Apple chip). Claude reviews only when the owner asks. |
+| Pace | Codex stops at **big milestones** only: after test B, after one full lesson, and at the end. |
+| Platforms | **iPhone first** (simulator, then the owner's iPhone). **Android after the iPhone works**, built on the Mac from the same code. |
+| Speech | The iPhone's own recogniser first (test B). If it doesn't understand the owner's accent: **Whisper on this PC** (`src/stt/server.py`, already works with his voice), reached over Wi-Fi. |
+| Server | **PocketBase on this PC**, reached over Wi-Fi: accounts, progress events, settings, voice recordings, feedback, usage numbers. |
+| Sign-in | A **simple test account** (email and password in PocketBase). The Google and Apple buttons stay on screen and are wired later. |
+| Lessons and audio | **Built into the app** (`src/content/`, about 40 MB). Served from the server only for the launch, later. |
+
+**PC-side work (Claude, on this PC):** let the Whisper server listen on the home Wi-Fi as well as on the PC (an
+`STT_HOST` setting); install PocketBase, pinned, with its collections; write down the PC's Wi-Fi address and ports
+for Codex. When a server first listens on the Wi-Fi, Windows asks whether to allow it: the owner clicks **Allow**
+(private networks only).
+
+**Not part of the local build:** a rented server, store accounts, privacy policy, testers, an Android phone, phone
+number sign-in. Those come with the beta (see the roadmap).
+
+---
 
 ## 1. Who builds, and with what
 
