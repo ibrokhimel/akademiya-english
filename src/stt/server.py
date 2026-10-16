@@ -1,11 +1,14 @@
 # Speech to text for the browser version, on this PC (faster-whisper, large-v3-turbo on the graphics card).
 # The browsers' own recognisers send the sound to Google or Microsoft and came back empty here, so the app sends what the
-# learner said to this small server instead (src/web/hear.js). The phone app will use the phone's own recogniser.
+# learner said to this small server instead (src/web/hear.js). The phone app tries the phone's own recogniser first and
+# falls back to this server over the home Wi-Fi (docs/local-servers.md).
 #   python src/stt/server.py            -> http://127.0.0.1:8795   GET /health · POST /stt (the recorded sound) -> {"text": ...}
+#   STT_HOST=0.0.0.0 python src/stt/server.py   -> also reachable from phones on the same Wi-Fi
 import json, os, sys, tempfile, threading, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.environ.get('STT_PORT', 8795))
+HOST = os.environ.get('STT_HOST', '127.0.0.1')
 MODEL = os.environ.get('STT_MODEL', 'large-v3-turbo')
 lock = threading.Lock()
 
@@ -17,7 +20,7 @@ def load():
         return WhisperModel('base.en' if MODEL == 'large-v3-turbo' else MODEL, device='cpu', compute_type='int8'), 'cpu'
 
 model, device = load()
-print(f'speech to text ready on http://127.0.0.1:{PORT} ({MODEL}, {device})', flush=True)
+print(f'speech to text ready on http://{HOST}:{PORT} ({MODEL}, {device})', flush=True)
 
 def transcribe(path, partial=False):
     with lock:
@@ -51,4 +54,4 @@ class H(BaseHTTPRequestHandler):
         finally: os.unlink(f.name)
     def log_message(self, *a): pass
 
-ThreadingHTTPServer(('127.0.0.1', PORT), H).serve_forever()
+ThreadingHTTPServer((HOST, PORT), H).serve_forever()
