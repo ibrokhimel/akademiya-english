@@ -9,7 +9,23 @@ your iPhone. It takes about an hour, most of it waiting for Xcode to download.
 Every command goes into the **Terminal** app (press Cmd + Space, type "Terminal", press Enter). Paste one
 command, press Enter, wait until it finishes, then do the next one.
 
+**Want Claude to do steps 3–7 for you?** Do step 0, then only steps 1–2 are yours.
+
 ---
+
+## 0. Let Claude in from the PC (optional)
+
+1. On the Mac: System Settings → General → **Sharing** → turn on **Remote Login**. Below it the Mac shows a line
+   like `ssh yourname@192.168.1.xx`. Give that line to Claude.
+2. On the PC, once, run this with your Mac's name and address. It asks for the Mac's password once; you type it,
+   not Claude.
+
+```bash
+cat ~/.ssh/id_ed25519.pub | ssh yourname@192.168.1.xx "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+```
+
+After that Claude can log in to the Mac from the PC without a password. Commands that start with `sudo`, Xcode's
+licence and anything on the iPhone still need you.
 
 ## 1. Update macOS
 
@@ -133,3 +149,7 @@ package was added. Otherwise the plain start is enough and takes seconds.
 
 When steps 1–6 are done, start Codex in `~/Documents/akademiya-english` and paste the prompt from
 [codex-prompt.md](codex-prompt.md).
+
+Sign-in, saving and the speech fallback need the two servers on the PC. Before testing those, start them on the
+PC with `node server/start.js` and keep the Mac and iPhone on the same home network
+([local-servers.md](local-servers.md)).

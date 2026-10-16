@@ -1,0 +1,4 @@
+# PocketBase program and its data stay on this PC (data holds accounts and voice recordings)
+pocketbase.exe
+pb_data/
+admin-login.txt
