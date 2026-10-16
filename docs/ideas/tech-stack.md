@@ -162,10 +162,11 @@ store or tester. Codex builds it on the Mac from [codex-prompt.md](../codex-prom
 | Sign-in | A **simple test account** (email and password in PocketBase). The Google and Apple buttons stay on screen and are wired later. |
 | Lessons and audio | **Built into the app** (`src/content/`, about 40 MB). Served from the server only for the launch, later. |
 
-**PC-side work (Claude, on this PC):** let the Whisper server listen on the home Wi-Fi as well as on the PC (an
-`STT_HOST` setting); install PocketBase, pinned, with its collections; write down the PC's Wi-Fi address and ports
-for Codex. When a server first listens on the Wi-Fi, Windows asks whether to allow it: the owner clicks **Allow**
-(private networks only).
+**PC-side work (Claude, on this PC): done 2026-10-16.** The Whisper server can listen on the home network
+(`STT_HOST`); PocketBase 0.40.5 is installed with its collections (`server/pocketbase/pb_migrations/`, 17 rule
+checks pass); `node server/start.js` starts both; addresses and the app-side details are in
+[local-servers.md](../local-servers.md). The owner still switches the PC's network to **Private** and clicks
+**Allow** (private networks only) when Windows asks the first time.
 
 **Not part of the local build:** a rented server, store accounts, privacy policy, testers, an Android phone, phone
 number sign-in. Those come with the beta (see the roadmap).

@@ -63,8 +63,9 @@ You are building the phone app for **Akademiya English**, a speaking-first Engli
   designed but leave them "not ready yet" for now.
 - **Speech fallback = Whisper on the owner's PC** (above). Phone and PC are on the same Wi-Fi; local network
   addresses must be allowed in the app (iOS asks the learner for local network access once).
-- The PC's Wi-Fi address and the ports are in `docs/local-servers.md` once Claude has set them up. If that file
-  isn't there yet when you need it, stop and ask.
+- The PC's address, the ports, the collections and their rules are in `docs/local-servers.md` (ready). The
+  servers only run while the owner has `node server/start.js` open on the PC: if one doesn't answer, ask the owner
+  to start it rather than working around it.
 
 ## Rules
 - Work on a branch (`phone-app`), never on `main`. Many **small commits**, one per finished piece, each with a
