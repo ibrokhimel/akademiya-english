@@ -7,9 +7,10 @@ inside each area.
 
 Legend: ✅ done (locked) · ⏳ in progress · 🟡 proposed, not locked · ❌ not started
 
-**Next up:** the owner sets up the Mac ([mac-setup.md](mac-setup.md)), then Codex builds the phone app (#42) from
+**Next up:** the owner sets up the Mac ([mac-setup.md](mac-setup.md)) and, once, lets phones reach the PC
+(network → Private, then Allow; [local-servers.md](local-servers.md)). Then Codex builds the phone app (#42) from
 [codex-prompt.md](codex-prompt.md): the launch screen, then test B (does the iPhone understand the owner's accent?),
-then the screens. Nothing else is left to design or decide before that.
+then the screens. Everything else before the build is done: design, decisions, and the PC's local servers.
 
 ## A. Product foundation
 
@@ -74,7 +75,7 @@ then the screens. Nothing else is left to design or decide before that.
 |---|---|---|---|
 | 29 | Tech stack — main choices locked 2026-10-12: Expo (React Native), PocketBase, recordings on the server, sign-in with Google/Apple/phone; two test builds to prove before the phone app | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) |
 | 41 | Browser version of the app — the whole MVP running in a browser first, for testing (owner, 2026-10-14). 8 steps, all built 2026-10-14: onboarding and log in, the Learn page, all lessons and checkpoints, Progress, Profile, Settings, voice recordings, every pop-up and problem screen, picking up after a reload, at `/src/web/`; Uzbek and English lines approved; the owner played it end to end on 2026-10-15 with no problems | ✅ | [ideas/tech-stack.md](ideas/tech-stack.md) §0 |
-| 42 | Phone app (Expo) — built by Codex on the Mac (owner, 2026-10-16): Mac setup steps and the Codex prompt written, app icon and launch screen images in `src/mobile/assets/`; next the launch screen, test B, then the screens in the browser version's order | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) |
+| 42 | Phone app (Expo) — built by Codex on the Mac (owner, 2026-10-16): Mac setup steps and the Codex prompt written, app icon and launch screen images in `src/mobile/assets/`; the local servers on the PC (PocketBase for accounts, progress and recordings; Whisper for speech) set up and checked 2026-10-16; next the launch screen, test B, then the screens in the browser version's order | ⏳ | [ideas/tech-stack.md](ideas/tech-stack.md) |
 | 30 | AI pieces — accent speech recognition, voices, scene AI, cost | ❌ | |
 | 31 | Smart engine spec — FSRS, mistake tracking | ❌ | |
 
