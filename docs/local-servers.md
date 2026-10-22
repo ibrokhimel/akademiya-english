@@ -1,5 +1,10 @@
 # Local servers (on the owner's PC)
 
+> Android MVP 1.0 runs without these servers. Lessons, bundled audio, progress,
+> reminders and saved recordings are local. Public builds hide cloud sign-in and
+> reject the old localhost/LAN settings. This document describes optional internal
+> development services only; they are not a dependency of the standalone MVP.
+
 The phone app's local build (tech-stack.md §0b) talks to two servers on the owner's Windows PC, over the home
 network. Set up and checked 2026-10-16.
 
