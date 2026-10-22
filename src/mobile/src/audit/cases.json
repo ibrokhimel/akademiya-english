@@ -1,0 +1,1074 @@
+[
+  {
+    "id": "ob-welcome",
+    "group": "onboarding",
+    "title": "welcome",
+    "native": {
+      "kind": "onboarding",
+      "step": 0
+    }
+  },
+  {
+    "id": "ob-meet",
+    "group": "onboarding",
+    "title": "meet",
+    "native": {
+      "kind": "onboarding",
+      "step": 1
+    }
+  },
+  {
+    "id": "ob-goal",
+    "group": "onboarding",
+    "title": "goal",
+    "native": {
+      "kind": "onboarding",
+      "step": 2
+    }
+  },
+  {
+    "id": "ob-goal-selected",
+    "group": "onboarding",
+    "title": "goal selected",
+    "native": {
+      "kind": "onboarding",
+      "step": 2,
+      "selected": 2
+    }
+  },
+  {
+    "id": "ob-level",
+    "group": "onboarding",
+    "title": "level",
+    "native": {
+      "kind": "onboarding",
+      "step": 3
+    }
+  },
+  {
+    "id": "ob-level-selected",
+    "group": "onboarding",
+    "title": "level selected",
+    "native": {
+      "kind": "onboarding",
+      "step": 3,
+      "selected": 2
+    }
+  },
+  {
+    "id": "ob-achieve",
+    "group": "onboarding",
+    "title": "achieve",
+    "native": {
+      "kind": "onboarding",
+      "step": 4
+    }
+  },
+  {
+    "id": "ob-confidence",
+    "group": "onboarding",
+    "title": "confidence",
+    "native": {
+      "kind": "onboarding",
+      "step": 5
+    }
+  },
+  {
+    "id": "ob-confidence-selected",
+    "group": "onboarding",
+    "title": "confidence selected",
+    "native": {
+      "kind": "onboarding",
+      "step": 5,
+      "selected": 2
+    }
+  },
+  {
+    "id": "ob-mic",
+    "group": "onboarding",
+    "title": "mic",
+    "native": {
+      "kind": "onboarding",
+      "step": 6
+    }
+  },
+  {
+    "id": "ob-listen",
+    "group": "onboarding",
+    "title": "listen",
+    "native": {
+      "kind": "onboarding",
+      "step": 7
+    }
+  },
+  {
+    "id": "ob-heard",
+    "group": "onboarding",
+    "title": "heard",
+    "native": {
+      "kind": "onboarding",
+      "step": 8
+    }
+  },
+  {
+    "id": "ob-promise",
+    "group": "onboarding",
+    "title": "promise",
+    "native": {
+      "kind": "onboarding",
+      "step": 9
+    }
+  },
+  {
+    "id": "ob-reminder",
+    "group": "onboarding",
+    "title": "reminder",
+    "native": {
+      "kind": "onboarding",
+      "step": 10
+    }
+  },
+  {
+    "id": "ob-listening",
+    "group": "onboarding",
+    "title": "Mic check listening",
+    "native": {
+      "kind": "onboarding",
+      "step": 7,
+      "listening": true
+    }
+  },
+  {
+    "id": "account-name",
+    "group": "account",
+    "title": "Name and providers",
+    "native": {
+      "kind": "account"
+    }
+  },
+  {
+    "id": "account-name-filled",
+    "group": "account",
+    "title": "Name filled",
+    "native": {
+      "kind": "account",
+      "populated": true
+    }
+  },
+  {
+    "id": "login",
+    "group": "account",
+    "title": "Sign in",
+    "native": {
+      "kind": "account",
+      "mode": "login"
+    }
+  },
+  {
+    "id": "login-no-account",
+    "group": "account",
+    "title": "Account not found",
+    "native": {
+      "kind": "account",
+      "mode": "login",
+      "action": "provider"
+    }
+  },
+  {
+    "id": "email-login",
+    "group": "account",
+    "title": "Test email sign in",
+    "native": {
+      "kind": "account",
+      "mode": "login",
+      "email": true
+    }
+  },
+  {
+    "id": "email-create",
+    "group": "account",
+    "title": "Test email account",
+    "native": {
+      "kind": "account",
+      "email": true
+    }
+  },
+  {
+    "id": "learn-empty",
+    "group": "learn",
+    "title": "learn empty",
+    "native": {
+      "kind": "learn",
+      "populated": false
+    }
+  },
+  {
+    "id": "learn-full",
+    "group": "learn",
+    "title": "learn with progress",
+    "native": {
+      "kind": "learn",
+      "populated": true
+    }
+  },
+  {
+    "id": "progress-empty",
+    "group": "progress",
+    "title": "progress empty",
+    "native": {
+      "kind": "progress",
+      "populated": false
+    }
+  },
+  {
+    "id": "progress-full",
+    "group": "progress",
+    "title": "progress with progress",
+    "native": {
+      "kind": "progress",
+      "populated": true
+    }
+  },
+  {
+    "id": "profile-empty",
+    "group": "profile",
+    "title": "profile empty",
+    "native": {
+      "kind": "profile",
+      "populated": false
+    }
+  },
+  {
+    "id": "profile-full",
+    "group": "profile",
+    "title": "profile with progress",
+    "native": {
+      "kind": "profile",
+      "populated": true
+    }
+  },
+  {
+    "id": "profile-middle",
+    "group": "profile",
+    "title": "profile middle",
+    "native": {
+      "kind": "profile",
+      "populated": true,
+      "scroll": "middle"
+    }
+  },
+  {
+    "id": "profile-bottom",
+    "group": "profile",
+    "title": "profile bottom",
+    "native": {
+      "kind": "profile",
+      "populated": true,
+      "scroll": "bottom"
+    }
+  },
+  {
+    "id": "progress-middle",
+    "group": "progress",
+    "title": "progress middle",
+    "native": {
+      "kind": "progress",
+      "populated": true,
+      "scroll": "middle"
+    }
+  },
+  {
+    "id": "progress-bottom",
+    "group": "progress",
+    "title": "progress bottom",
+    "native": {
+      "kind": "progress",
+      "populated": true,
+      "scroll": "bottom"
+    }
+  },
+  {
+    "id": "lesson-start",
+    "group": "learn",
+    "title": "lesson-start",
+    "native": {
+      "kind": "learn",
+      "panel": "lesson"
+    }
+  },
+  {
+    "id": "checkpoint-start",
+    "group": "learn",
+    "title": "checkpoint-start",
+    "native": {
+      "kind": "learn",
+      "panel": "checkpoint"
+    }
+  },
+  {
+    "id": "exercise-meet",
+    "group": "exercise",
+    "title": "meet",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-meet-tiles",
+    "group": "exercise",
+    "title": "meet without speaking",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "speaking": false
+    }
+  },
+  {
+    "id": "exercise-say",
+    "group": "exercise",
+    "title": "say",
+    "native": {
+      "kind": "exercise",
+      "exercise": "say",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-say-tiles",
+    "group": "exercise",
+    "title": "say without speaking",
+    "native": {
+      "kind": "exercise",
+      "exercise": "say",
+      "speaking": false
+    }
+  },
+  {
+    "id": "exercise-echo",
+    "group": "exercise",
+    "title": "echo",
+    "native": {
+      "kind": "exercise",
+      "exercise": "echo",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-tiles",
+    "group": "exercise",
+    "title": "tiles",
+    "native": {
+      "kind": "exercise",
+      "exercise": "tiles",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-heard",
+    "group": "exercise",
+    "title": "heard",
+    "native": {
+      "kind": "exercise",
+      "exercise": "heard",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-fix",
+    "group": "exercise",
+    "title": "fix",
+    "native": {
+      "kind": "exercise",
+      "exercise": "fix",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-gap",
+    "group": "exercise",
+    "title": "gap",
+    "native": {
+      "kind": "exercise",
+      "exercise": "gap",
+      "speaking": true
+    }
+  },
+  {
+    "id": "exercise-tiles-selected",
+    "group": "exercise",
+    "title": "tiles-selected",
+    "native": {
+      "kind": "exercise",
+      "exercise": "tiles",
+      "action": "tiles-selected"
+    }
+  },
+  {
+    "id": "exercise-tiles-right",
+    "group": "exercise",
+    "title": "tiles-right",
+    "native": {
+      "kind": "exercise",
+      "exercise": "tiles",
+      "action": "tiles-right"
+    }
+  },
+  {
+    "id": "exercise-tiles-wrong",
+    "group": "exercise",
+    "title": "tiles-wrong",
+    "native": {
+      "kind": "exercise",
+      "exercise": "tiles",
+      "action": "tiles-wrong"
+    }
+  },
+  {
+    "id": "exercise-fix-selected",
+    "group": "exercise",
+    "title": "fix-selected",
+    "native": {
+      "kind": "exercise",
+      "exercise": "fix",
+      "action": "fix-selected"
+    }
+  },
+  {
+    "id": "exercise-gap-selected",
+    "group": "exercise",
+    "title": "gap-selected",
+    "native": {
+      "kind": "exercise",
+      "exercise": "gap",
+      "action": "gap-selected"
+    }
+  },
+  {
+    "id": "exercise-heard-selected",
+    "group": "exercise",
+    "title": "heard-selected",
+    "native": {
+      "kind": "exercise",
+      "exercise": "heard",
+      "action": "heard-selected"
+    }
+  },
+  {
+    "id": "exercise-listening",
+    "group": "exercise",
+    "title": "Speaking microphone active",
+    "native": {
+      "kind": "exercise",
+      "exercise": "say",
+      "speaking": true,
+      "listening": true
+    }
+  },
+  {
+    "id": "feedback-right",
+    "group": "exercise",
+    "title": "Answer feedback right",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "speaking": false,
+      "feedback": "right"
+    }
+  },
+  {
+    "id": "feedback-wrong",
+    "group": "exercise",
+    "title": "Answer feedback wrong",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "speaking": false,
+      "feedback": "wrong"
+    }
+  },
+  {
+    "id": "lesson-quit",
+    "group": "exercise",
+    "title": "Lesson exit sheet",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "quit": true
+    }
+  },
+  {
+    "id": "combo-3",
+    "group": "exercise",
+    "title": "Combo 3",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "combo": 3
+    }
+  },
+  {
+    "id": "combo-5",
+    "group": "exercise",
+    "title": "Combo 5",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "combo": 5
+    }
+  },
+  {
+    "id": "combo-10",
+    "group": "exercise",
+    "title": "Combo 10",
+    "native": {
+      "kind": "exercise",
+      "exercise": "meet",
+      "combo": 10
+    }
+  },
+  {
+    "id": "moment-mistakes",
+    "group": "moment",
+    "title": "mistakes",
+    "native": {
+      "kind": "moment",
+      "phase": "mistakes",
+      "populated": true
+    }
+  },
+  {
+    "id": "moment-canSay",
+    "group": "moment",
+    "title": "canSay",
+    "native": {
+      "kind": "moment",
+      "phase": "canSay",
+      "populated": true
+    }
+  },
+  {
+    "id": "moment-result",
+    "group": "moment",
+    "title": "result",
+    "native": {
+      "kind": "moment",
+      "phase": "result",
+      "populated": true
+    }
+  },
+  {
+    "id": "moment-streak",
+    "group": "moment",
+    "title": "streak",
+    "native": {
+      "kind": "moment",
+      "phase": "streak",
+      "populated": true
+    }
+  },
+  {
+    "id": "moment-level",
+    "group": "moment",
+    "title": "level",
+    "native": {
+      "kind": "moment",
+      "phase": "level",
+      "populated": true
+    }
+  },
+  {
+    "id": "moment-perfect",
+    "group": "moment",
+    "title": "Perfect lesson",
+    "native": {
+      "kind": "moment",
+      "phase": "result",
+      "perfect": true,
+      "populated": true
+    }
+  },
+  {
+    "id": "checkpoint-result-0",
+    "group": "moment",
+    "title": "Checkpoint reaction 0",
+    "native": {
+      "kind": "moment",
+      "phase": "result",
+      "checkpoint": true,
+      "mistakes": 0,
+      "populated": true
+    }
+  },
+  {
+    "id": "checkpoint-result-3",
+    "group": "moment",
+    "title": "Checkpoint reaction 3",
+    "native": {
+      "kind": "moment",
+      "phase": "result",
+      "checkpoint": true,
+      "mistakes": 3,
+      "populated": true
+    }
+  },
+  {
+    "id": "checkpoint-result-6",
+    "group": "moment",
+    "title": "Checkpoint reaction 6",
+    "native": {
+      "kind": "moment",
+      "phase": "result",
+      "checkpoint": true,
+      "mistakes": 6,
+      "populated": true
+    }
+  },
+  {
+    "id": "phrases-empty",
+    "group": "phrases",
+    "title": "phrases",
+    "native": {
+      "kind": "phrases",
+      "populated": false
+    }
+  },
+  {
+    "id": "calendar-empty",
+    "group": "calendar",
+    "title": "calendar",
+    "native": {
+      "kind": "calendar",
+      "populated": false
+    }
+  },
+  {
+    "id": "recordings-empty",
+    "group": "recordings",
+    "title": "recordings",
+    "native": {
+      "kind": "recordings",
+      "populated": false
+    }
+  },
+  {
+    "id": "phrases-full",
+    "group": "phrases",
+    "title": "phrases",
+    "native": {
+      "kind": "phrases",
+      "populated": true
+    }
+  },
+  {
+    "id": "calendar-full",
+    "group": "calendar",
+    "title": "calendar",
+    "native": {
+      "kind": "calendar",
+      "populated": true
+    }
+  },
+  {
+    "id": "recordings-full",
+    "group": "recordings",
+    "title": "recordings",
+    "native": {
+      "kind": "recordings",
+      "populated": true
+    }
+  },
+  {
+    "id": "calendar-previous",
+    "group": "calendar",
+    "title": "Previous month",
+    "native": {
+      "kind": "calendar",
+      "populated": true,
+      "action": "previous"
+    }
+  },
+  {
+    "id": "settings",
+    "group": "settings",
+    "title": "settings",
+    "native": {
+      "kind": "settings"
+    }
+  },
+  {
+    "id": "settings-bottom",
+    "group": "settings",
+    "title": "settings-bottom",
+    "native": {
+      "kind": "settings",
+      "scroll": "bottom"
+    }
+  },
+  {
+    "id": "settings-goal",
+    "group": "settings",
+    "title": "settings-goal",
+    "native": {
+      "kind": "settings",
+      "panel": "goal"
+    }
+  },
+  {
+    "id": "settings-reminder",
+    "group": "settings",
+    "title": "settings-reminder",
+    "native": {
+      "kind": "settings",
+      "panel": "reminder"
+    }
+  },
+  {
+    "id": "settings-logout",
+    "group": "settings",
+    "title": "settings-logout",
+    "native": {
+      "kind": "settings",
+      "action": "logout"
+    }
+  },
+  {
+    "id": "settings-delete",
+    "group": "settings",
+    "title": "settings-delete",
+    "native": {
+      "kind": "settings",
+      "action": "delete"
+    }
+  },
+  {
+    "id": "recordings-off",
+    "group": "recordings",
+    "title": "off",
+    "native": {
+      "kind": "recordings",
+      "populated": true,
+      "action": "off"
+    }
+  },
+  {
+    "id": "recordings-playing",
+    "group": "recordings",
+    "title": "playing",
+    "native": {
+      "kind": "recordings",
+      "populated": true,
+      "action": "playing"
+    }
+  },
+  {
+    "id": "recordings-delete-one",
+    "group": "recordings",
+    "title": "delete-one",
+    "native": {
+      "kind": "recordings",
+      "populated": true,
+      "action": "delete-one"
+    }
+  },
+  {
+    "id": "recordings-delete-all",
+    "group": "recordings",
+    "title": "delete-all",
+    "native": {
+      "kind": "recordings",
+      "populated": true,
+      "action": "delete-all"
+    }
+  },
+  {
+    "id": "feedback-form-empty",
+    "group": "feedback",
+    "title": "Tester feedback empty",
+    "native": {
+      "kind": "feedback",
+      "action": "empty"
+    }
+  },
+  {
+    "id": "feedback-form-filled",
+    "group": "feedback",
+    "title": "Tester feedback filled",
+    "native": {
+      "kind": "feedback",
+      "action": "filled"
+    }
+  },
+  {
+    "id": "feedback-form-sent",
+    "group": "feedback",
+    "title": "Tester feedback sent",
+    "native": {
+      "kind": "feedback",
+      "action": "sent",
+      "result": true
+    }
+  },
+  {
+    "id": "confidence-empty",
+    "group": "confidence",
+    "title": "empty",
+    "native": {
+      "kind": "confidence",
+      "selected": 0,
+      "result": false
+    }
+  },
+  {
+    "id": "confidence-selected",
+    "group": "confidence",
+    "title": "selected",
+    "native": {
+      "kind": "confidence",
+      "selected": 4,
+      "result": false
+    }
+  },
+  {
+    "id": "confidence-improved",
+    "group": "confidence",
+    "title": "improved",
+    "native": {
+      "kind": "confidence",
+      "selected": 4,
+      "result": true
+    }
+  },
+  {
+    "id": "confidence-same",
+    "group": "confidence",
+    "title": "same",
+    "native": {
+      "kind": "confidence",
+      "selected": 2,
+      "result": true
+    }
+  },
+  {
+    "id": "problem-offline",
+    "group": "problem",
+    "title": "offline",
+    "native": {
+      "kind": "problem",
+      "state": "offline"
+    }
+  },
+  {
+    "id": "problem-mic-blocked",
+    "group": "problem",
+    "title": "mic-blocked",
+    "native": {
+      "kind": "problem",
+      "state": "mic-blocked"
+    }
+  },
+  {
+    "id": "problem-speech-unavailable",
+    "group": "problem",
+    "title": "speech-unavailable",
+    "native": {
+      "kind": "problem",
+      "state": "speech-unavailable"
+    }
+  },
+  {
+    "id": "problem-not-ready",
+    "group": "problem",
+    "title": "not-ready",
+    "native": {
+      "kind": "problem",
+      "state": "not-ready"
+    }
+  },
+  {
+    "id": "problem-not-found",
+    "group": "problem",
+    "title": "not-found",
+    "native": {
+      "kind": "problem",
+      "state": "not-found"
+    }
+  },
+  {
+    "id": "problem-error",
+    "group": "problem",
+    "title": "error",
+    "native": {
+      "kind": "problem",
+      "state": "error"
+    }
+  },
+  {
+    "id": "control-buttons",
+    "group": "controls",
+    "title": "buttons",
+    "native": {
+      "kind": "controls",
+      "control": "buttons"
+    }
+  },
+  {
+    "id": "control-options",
+    "group": "controls",
+    "title": "options",
+    "native": {
+      "kind": "controls",
+      "control": "options"
+    }
+  },
+  {
+    "id": "control-toggles",
+    "group": "controls",
+    "title": "toggles",
+    "native": {
+      "kind": "controls",
+      "control": "toggles"
+    }
+  },
+  {
+    "id": "control-segments",
+    "group": "controls",
+    "title": "segments",
+    "native": {
+      "kind": "controls",
+      "control": "segments"
+    }
+  },
+  {
+    "id": "control-text-input",
+    "group": "controls",
+    "title": "text-input",
+    "native": {
+      "kind": "controls",
+      "control": "text-input"
+    }
+  },
+  {
+    "id": "control-toast",
+    "group": "controls",
+    "title": "toast",
+    "native": {
+      "kind": "controls",
+      "control": "toast"
+    }
+  },
+  {
+    "id": "control-dialog",
+    "group": "controls",
+    "title": "dialog",
+    "native": {
+      "kind": "controls",
+      "control": "dialog",
+      "action": "delete"
+    }
+  },
+  {
+    "id": "control-icons",
+    "group": "controls",
+    "title": "icons",
+    "native": {
+      "kind": "controls",
+      "control": "icons"
+    }
+  },
+  {
+    "id": "control-progress",
+    "group": "controls",
+    "title": "progress",
+    "native": {
+      "kind": "controls",
+      "control": "progress"
+    }
+  },
+  {
+    "id": "control-streak-week",
+    "group": "controls",
+    "title": "streak-week",
+    "native": {
+      "kind": "controls",
+      "control": "streak-week"
+    }
+  },
+  {
+    "id": "control-time-wheel",
+    "group": "controls",
+    "title": "time-wheel",
+    "native": {
+      "kind": "controls",
+      "control": "time-wheel"
+    }
+  },
+  {
+    "id": "learn-middle",
+    "group": "learn",
+    "title": "Learn middle unit",
+    "native": {
+      "kind": "learn",
+      "populated": true,
+      "scroll": "middle"
+    }
+  },
+  {
+    "id": "learn-bottom",
+    "group": "learn",
+    "title": "Learn final unit and locked next unit",
+    "native": {
+      "kind": "learn",
+      "populated": true,
+      "scroll": "bottom"
+    }
+  },
+  {
+    "id": "learn-speaking-off",
+    "group": "learn",
+    "title": "Speaking off banner",
+    "native": {
+      "kind": "learn",
+      "speaking": false
+    }
+  },
+  {
+    "id": "lesson-repeat-start",
+    "group": "learn",
+    "title": "Repeat completed lesson",
+    "native": {
+      "kind": "learn",
+      "populated": true,
+      "panel": "lesson"
+    }
+  },
+  {
+    "id": "checkpoint-player",
+    "group": "exercise",
+    "title": "Checkpoint conversation player",
+    "native": {
+      "kind": "exercise",
+      "checkpoint": true,
+      "speaking": true
+    }
+  },
+  {
+    "id": "practice-speak",
+    "group": "practice",
+    "title": "Phrase practice with speech",
+    "native": {
+      "kind": "practice",
+      "speaking": true
+    }
+  },
+  {
+    "id": "practice-tiles",
+    "group": "practice",
+    "title": "Phrase practice without speech",
+    "native": {
+      "kind": "practice",
+      "speaking": false
+    }
+  }
+]

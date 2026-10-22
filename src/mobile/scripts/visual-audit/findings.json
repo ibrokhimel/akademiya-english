@@ -1,0 +1,344 @@
+{
+  "ob-welcome": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-meet": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-goal": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-goal-selected": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-level": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-level-selected": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-achieve": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-confidence": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-confidence-selected": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-mic": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-listen": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-heard": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-promise": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "ob-reminder": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ.",
+    "Preserve the newer approved cylinder-picker demo instead of reverting to the old flat browser wheel."
+  ],
+  "ob-listening": [
+    "Step bar has the wrong segment count and active width. Footer spacing, selected options, guide borders, and some microphone states differ."
+  ],
+  "account-name": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension."
+  ],
+  "account-name-filled": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension."
+  ],
+  "login": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension."
+  ],
+  "login-no-account": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension.",
+    "Provider authentication is deliberately unavailable in this test build; use the styled not-ready state without falsely claiming an account does not exist."
+  ],
+  "email-login": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension."
+  ],
+  "email-create": [
+    "Provider layout and form dimensions drift; literal question-mark placeholders corrupt approved copy. Email/password remains a native test-account extension."
+  ],
+  "learn-empty": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "learn-full": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "progress-empty": [
+    "Empty-state copy, conditional controls, stat labels, and spacing differ. Shared tab-bar height and week controls differ."
+  ],
+  "progress-full": [
+    "Empty-state copy, conditional controls, stat labels, and spacing differ. Shared tab-bar height and week controls differ."
+  ],
+  "profile-empty": [
+    "Overview data differs from the browser. Friend streaks, personal records, and six award components are absent. Name fallback, date labels, typography, and lower-page content differ."
+  ],
+  "profile-full": [
+    "Overview data differs from the browser. Friend streaks, personal records, and six award components are absent. Name fallback, date labels, typography, and lower-page content differ."
+  ],
+  "profile-middle": [
+    "Overview data differs from the browser. Friend streaks, personal records, and six award components are absent. Name fallback, date labels, typography, and lower-page content differ."
+  ],
+  "profile-bottom": [
+    "Overview data differs from the browser. Friend streaks, personal records, and six award components are absent. Name fallback, date labels, typography, and lower-page content differ."
+  ],
+  "progress-middle": [
+    "Empty-state copy, conditional controls, stat labels, and spacing differ. Shared tab-bar height and week controls differ."
+  ],
+  "progress-bottom": [
+    "Empty-state copy, conditional controls, stat labels, and spacing differ. Shared tab-bar height and week controls differ."
+  ],
+  "lesson-start": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "checkpoint-start": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "exercise-meet": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-meet-tiles": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-say": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-say-tiles": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-echo": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-tiles": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-heard": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-fix": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-gap": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-tiles-selected": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-tiles-right": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-tiles-wrong": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-fix-selected": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-gap-selected": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-heard-selected": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "exercise-listening": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "feedback-right": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "feedback-wrong": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "lesson-quit": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ.",
+    "Keep the newly approved save-and-leave behavior and truthful saved-progress copy while restoring the browser sheet structure."
+  ],
+  "combo-3": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "combo-5": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "combo-10": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "moment-mistakes": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "moment-canSay": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "moment-result": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "moment-streak": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "moment-level": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "moment-perfect": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "checkpoint-result-0": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "checkpoint-result-3": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "checkpoint-result-6": [
+    "Result spacing and raised statistic surfaces differ. Checkpoint reactions are absent; streak and level screens use different structures and copy."
+  ],
+  "phrases-empty": [
+    "Header subtitle, unit headings, practice icon, recording badge, and empty-state copy differ. Browser asynchronous recording-presence bug corrected separately."
+  ],
+  "calendar-empty": [
+    "Header, month labels, navigation bounds, statistic tiles, day grid, connected streak bands, goal and freeze panels differ."
+  ],
+  "recordings-empty": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "phrases-full": [
+    "Header subtitle, unit headings, practice icon, recording badge, and empty-state copy differ. Browser asynchronous recording-presence bug corrected separately."
+  ],
+  "calendar-full": [
+    "Header, month labels, navigation bounds, statistic tiles, day grid, connected streak bands, goal and freeze panels differ."
+  ],
+  "recordings-full": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "calendar-previous": [
+    "Header, month labels, navigation bounds, statistic tiles, day grid, connected streak bands, goal and freeze panels differ."
+  ],
+  "settings": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension."
+  ],
+  "settings-bottom": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension."
+  ],
+  "settings-goal": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension."
+  ],
+  "settings-reminder": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension.",
+    "Preserve the newer approved cylinder-picker demo instead of reverting to the old flat browser wheel."
+  ],
+  "settings-logout": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension."
+  ],
+  "settings-delete": [
+    "Row and section dimensions drift; switches use Android styling; segmented control and custom confirmation dialogs differ. Goal sheet text and options differ. Native server configuration is a test-build extension."
+  ],
+  "recordings-off": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "recordings-playing": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "recordings-delete-one": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "recordings-delete-all": [
+    "Row order/details, privacy panel placement, toggle shape, playback visualization, delete interaction, and confirmation dialog differ."
+  ],
+  "feedback-form-empty": [
+    "Android uses a full-page form instead of the approved bottom sheet. Category chips, screenshot toggle, Dombi, and thank-you toast are missing."
+  ],
+  "feedback-form-filled": [
+    "Android uses a full-page form instead of the approved bottom sheet. Category chips, screenshot toggle, Dombi, and thank-you toast are missing."
+  ],
+  "feedback-form-sent": [
+    "Android uses a full-page form instead of the approved bottom sheet. Category chips, screenshot toggle, Dombi, and thank-you toast are missing."
+  ],
+  "confidence-empty": [
+    "Question layout, options, selected states, day-one tag, growth cards and bottom action differ. Existing content overflows smaller phone height."
+  ],
+  "confidence-selected": [
+    "Question layout, options, selected states, day-one tag, growth cards and bottom action differ. Existing content overflows smaller phone height."
+  ],
+  "confidence-improved": [
+    "Question layout, options, selected states, day-one tag, growth cards and bottom action differ. Existing content overflows smaller phone height."
+  ],
+  "confidence-same": [
+    "Question layout, options, selected states, day-one tag, growth cards and bottom action differ. Existing content overflows smaller phone height."
+  ],
+  "problem-offline": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "problem-mic-blocked": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "problem-speech-unavailable": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "problem-not-ready": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "problem-not-found": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "problem-error": [
+    "Approved custom problem screens/sheets are absent or replaced by system alerts."
+  ],
+  "control-buttons": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-options": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-toggles": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-segments": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-text-input": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling.",
+    "Email test form has no direct browser screen counterpart; compare the shared input component separately."
+  ],
+  "control-toast": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-dialog": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-icons": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-progress": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-streak-week": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling."
+  ],
+  "control-time-wheel": [
+    "Shared sizes, colors and theme treatment require normalization; native system switches/dialogs do not match. Gallery fixture dimensions are corrected independently of app styling.",
+    "Preserve the newer approved cylinder-picker demo instead of reverting to the old flat browser wheel."
+  ],
+  "learn-middle": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "learn-bottom": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "learn-speaking-off": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "lesson-repeat-start": [
+    "Header statistics are displaced; initial/current-lesson scroll and banner tracking differ. Start sheets omit approved metadata and checkpoint story components. Final locked node is absent."
+  ],
+  "checkpoint-player": [
+    "Several exercise layouts, word/gap controls, avatar framing, microphone states, caption styles, and feedback surfaces differ."
+  ],
+  "practice-speak": [
+    "Practice uses a different header and footer from the browser lesson player; restore common player controls while keeping practice navigation and progress isolated."
+  ],
+  "practice-tiles": [
+    "Practice uses a different header and footer from the browser lesson player; restore common player controls while keeping practice navigation and progress isolated."
+  ]
+}
