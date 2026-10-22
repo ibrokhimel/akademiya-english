@@ -14,6 +14,15 @@
 | "I know some English" in the MVP | Starts at **Unit 1** like everyone (placement test comes after the MVP) |
 | Tapping a lesson | Opens a **lesson start sheet** with the skill goal + Start |
 
+## Full application update — 2026-10-23
+
+The owner requested a dedicated **AI Speaking** tab in the full application.
+Its main navigation is **Learn · AI Speaking · Progress · Profile**.
+AI Speaking opens free conversation, guided topics and situational roleplays directly.
+Dombi remains an additional shortcut into speaking, not the only entry.
+The three-tab decision above describes the existing MVP; it is not the final full-app navigation.
+Live AI speaking remains to be implemented.
+
 ## Flow
 
 ```

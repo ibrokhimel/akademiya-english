@@ -37,6 +37,12 @@ speech, fluency/confidence scores, pet assistant, conversations, scenes, any liv
 
 ## Part 2 — After-MVP AI plan (PROPOSED — not confirmed)
 
+**Navigation update, 2026-10-23:** the owner confirmed a dedicated **AI Speaking** main tab
+for the full application, alongside Learn, Progress and Profile. Free conversation,
+guided topics and situational roleplays have a direct entrance there; Dombi is an
+additional shortcut. Providers, costs, exact modes and the remaining AI proposals below
+still require their own implementation and decisions.
+
 ### Three kinds of AI
 
 | Kind | Does | Cost per use |
