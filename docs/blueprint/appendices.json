@@ -1,0 +1,1006 @@
+{
+  "levels": [
+    {
+      "number": 0,
+      "title": "First steps (Pre-A1) · 3 units · = the MVP",
+      "units": [
+        {
+          "number": 1,
+          "title": "👋 Hello!",
+          "can": "Greet, say their name, where they're from, how they are",
+          "patterns": "I'm…, my name is…, I'm from…",
+          "trap": "Missing \"am/is\" (\"I Aziz\")"
+        },
+        {
+          "number": 2,
+          "title": "☕ At the café",
+          "can": "Order food and drinks, ask the price, pay, numbers 1–20",
+          "patterns": "I'd like…, Can I have…, How much…?",
+          "trap": "Plural -s (\"two coffee\"), a/an"
+        },
+        {
+          "number": 3,
+          "title": "🛍️ Shopping",
+          "can": "Ask for things, prices, colours, sizes, numbers to 100",
+          "patterns": "Do you have…?, this/that, It's…",
+          "trap": "this/these, plural -s, word order"
+        }
+      ]
+    },
+    {
+      "number": 1,
+      "title": "Survive (A1) · ~11 units",
+      "units": [
+        {
+          "number": 4,
+          "title": "👨‍👩‍👧 Family & friends",
+          "can": "Talk about family, describe people",
+          "patterns": "have/has, his/her",
+          "trap": "he/she"
+        },
+        {
+          "number": 5,
+          "title": "🏠 My home",
+          "can": "Describe home and rooms",
+          "patterns": "there is/are, in/on/under",
+          "trap": "Prepositions"
+        },
+        {
+          "number": 6,
+          "title": "⏰ My day",
+          "can": "Daily routine, telling time",
+          "patterns": "Present simple, at 8 o'clock",
+          "trap": "\"He go\" (verb -s)"
+        },
+        {
+          "number": 7,
+          "title": "🚕 Getting around",
+          "can": "Directions, taxi, bus, metro",
+          "patterns": "Imperatives, Where is…?",
+          "trap": "Question word order"
+        },
+        {
+          "number": 8,
+          "title": "🍽️ At the restaurant",
+          "can": "Full meal, simple problems (café spiral)",
+          "patterns": "Would you like…?, some/any",
+          "trap": "a/the"
+        },
+        {
+          "number": 9,
+          "title": "🎮 Free time",
+          "can": "Hobbies, likes and dislikes",
+          "patterns": "like + -ing, can/can't",
+          "trap": "\"I like play\""
+        },
+        {
+          "number": 10,
+          "title": "🌤️ Weather & seasons",
+          "can": "Weather, what to wear",
+          "patterns": "It's sunny/cold",
+          "trap": "Missing \"it\""
+        },
+        {
+          "number": 11,
+          "title": "🏨 Travel basics",
+          "can": "Hotel, check-in, needs",
+          "patterns": "Can I…?, I need…",
+          "trap": "Polite forms"
+        },
+        {
+          "number": 12,
+          "title": "🤒 Health basics",
+          "can": "How you feel, pharmacy",
+          "patterns": "I have a headache",
+          "trap": "\"I am headache\""
+        },
+        {
+          "number": 13,
+          "title": "📱 Phone & messages",
+          "can": "Simple calls and messages",
+          "patterns": "This is…, Can I speak to…?",
+          "trap": "Phone phrases"
+        },
+        {
+          "number": 14,
+          "title": "📅 Plans",
+          "can": "Weekend plans, invitations",
+          "patterns": "going to, Are you free…?",
+          "trap": "Future forms"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Live (A2) · ~12 units",
+      "units": [
+        {
+          "number": 15,
+          "title": "📖 My weekend",
+          "can": "Tell what happened",
+          "patterns": "Past simple",
+          "trap": ""
+        },
+        {
+          "number": 16,
+          "title": "💼 Work & study",
+          "can": "Job, studies, schedule",
+          "patterns": "Present simple vs continuous",
+          "trap": ""
+        },
+        {
+          "number": 17,
+          "title": "👗 Shopping 2",
+          "can": "Clothes, returns, complaints (shopping spiral)",
+          "patterns": "too/enough, comparatives",
+          "trap": ""
+        },
+        {
+          "number": 18,
+          "title": "🏥 At the doctor",
+          "can": "Symptoms, advice",
+          "patterns": "should, have to",
+          "trap": ""
+        },
+        {
+          "number": 19,
+          "title": "✈️ Airport & travel",
+          "can": "Check-in, security, problems",
+          "patterns": "Past simple questions",
+          "trap": ""
+        },
+        {
+          "number": 20,
+          "title": "🧑 People & places",
+          "can": "Looks, personality, cities",
+          "patterns": "Adjectives, comparatives",
+          "trap": ""
+        },
+        {
+          "number": 21,
+          "title": "🆘 Problems & help",
+          "can": "Lost bag, broken phone",
+          "patterns": "Can you help me…?, I lost…",
+          "trap": ""
+        },
+        {
+          "number": 22,
+          "title": "🎉 Invitations & events",
+          "can": "Invite, accept, refuse politely",
+          "patterns": "Would you like to…?, I'd love to…",
+          "trap": ""
+        },
+        {
+          "number": 23,
+          "title": "💳 Money & services",
+          "can": "Bank, card, delivery, post",
+          "patterns": "Countable/uncountable",
+          "trap": ""
+        },
+        {
+          "number": 24,
+          "title": "📲 Tech & social media",
+          "can": "Apps, online life",
+          "patterns": "Present continuous for now",
+          "trap": ""
+        },
+        {
+          "number": 25,
+          "title": "🇺🇿 Explain Uzbekistan",
+          "can": "Plov, Navruz, your city — to a foreigner",
+          "patterns": "Descriptions, sequences",
+          "trap": ""
+        },
+        {
+          "number": 26,
+          "title": "🔮 Future plans",
+          "can": "Promises, predictions",
+          "patterns": "will vs going to",
+          "trap": ""
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Connect (B1) · ~12 units",
+      "units": [
+        {
+          "number": 27,
+          "title": "💭 Opinions",
+          "can": "Give and defend opinions",
+          "patterns": "I think…, In my opinion…, because",
+          "trap": ""
+        },
+        {
+          "number": 28,
+          "title": "📚 Telling stories",
+          "can": "Tell a detailed story",
+          "patterns": "Past continuous, linking words",
+          "trap": ""
+        },
+        {
+          "number": 29,
+          "title": "☕ Small talk",
+          "can": "Chat naturally with strangers",
+          "patterns": "Question tags, follow-up questions",
+          "trap": ""
+        },
+        {
+          "number": 30,
+          "title": "📞 Phone calls",
+          "can": "Bookings, problems",
+          "patterns": "Polite requests",
+          "trap": ""
+        },
+        {
+          "number": 31,
+          "title": "😤 Complaints & solutions",
+          "can": "Complain politely, solve problems",
+          "patterns": "should have…, Could you…?",
+          "trap": ""
+        },
+        {
+          "number": 32,
+          "title": "🌍 Experiences",
+          "can": "Life experiences",
+          "patterns": "Present perfect",
+          "trap": ""
+        },
+        {
+          "number": 33,
+          "title": "💡 Advice",
+          "can": "Give and ask for advice",
+          "patterns": "should, if I were you",
+          "trap": ""
+        },
+        {
+          "number": 34,
+          "title": "🎯 Dreams & goals",
+          "can": "Ambitions, plans",
+          "patterns": "First conditional",
+          "trap": ""
+        },
+        {
+          "number": 35,
+          "title": "📰 News & events",
+          "can": "What's happening",
+          "patterns": "Passive basics",
+          "trap": ""
+        },
+        {
+          "number": 36,
+          "title": "🤝 Job interview basics",
+          "can": "Common interview questions",
+          "patterns": "Talking about strengths",
+          "trap": ""
+        },
+        {
+          "number": 37,
+          "title": "🌐 Cultures",
+          "can": "Compare traditions",
+          "patterns": "Comparisons, generalising",
+          "trap": ""
+        },
+        {
+          "number": 38,
+          "title": "🧩 Problem solving",
+          "can": "Options, agree/disagree",
+          "patterns": "Suggesting, agreeing",
+          "trap": ""
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Achieve (B2) · ~10 units + goal tracks",
+      "units": [
+        {
+          "number": 39,
+          "title": "🎤 Speaking at length",
+          "can": "Talk 2 minutes on a topic",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 40,
+          "title": "⚖️ Debating",
+          "can": "Argue both sides, persuade",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 41,
+          "title": "🧠 Hypotheticals",
+          "can": "\"What would you do if…\" (2nd/3rd conditional)",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 42,
+          "title": "🎓 Study abroad",
+          "can": "University life, applications, interviews",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 43,
+          "title": "💼 Professional English",
+          "can": "Meetings, presentations, negotiation",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 44,
+          "title": "🗣️ Natural English",
+          "can": "Idioms, phrasal verbs",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 45,
+          "title": "🎧 Real-speed listening",
+          "can": "Accents, fast speech",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 46,
+          "title": "📊 Data & trends",
+          "can": "Charts, changes, comparisons",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 47,
+          "title": "🌱 Big topics",
+          "can": "Environment, technology, education",
+          "patterns": "",
+          "trap": ""
+        },
+        {
+          "number": 48,
+          "title": "🏆 Final challenge",
+          "can": "Long conversation covering everything",
+          "patterns": "",
+          "trap": ""
+        }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "E1",
+      "activity": "Picture Talk",
+      "title": "Meet It",
+      "does": "Listen first: picture + Uzbek/Russian meaning + audio, no text. Repeat what you heard; text appears in feedback (\"Stuck? Show the text\" link).",
+      "ladder": "Intro"
+    },
+    {
+      "id": "E2",
+      "activity": "Picture Talk",
+      "title": "Say What You See",
+      "does": "A task in Uzbek/Russian (\"You want coffee. Tell the waiter.\") + picture → say the English phrase. Hint shows only the first words.",
+      "ladder": "Recall"
+    },
+    {
+      "id": "E3",
+      "activity": "Picture Talk",
+      "title": "Match Rush",
+      "does": "4 sound buttons (🔊 1–4) ↔ 4 phrases against the clock. Silent mode: Uzbek/Russian ↔ English.",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E4",
+      "activity": "Build the Sentence",
+      "title": "Tile Builder",
+      "does": "Uzbek/Russian sentence → build English from tiles (with 2 distractors) → optional read-aloud.",
+      "ladder": "Rebuild"
+    },
+    {
+      "id": "E5",
+      "activity": "Build the Sentence",
+      "title": "Complete the Chunk",
+      "does": "Picture cue + phrase with a gap → pick from 3 (only one correct English form).",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E6",
+      "activity": "Overheard",
+      "title": "What Happened?",
+      "does": "Conversation plays with no text → one question with 3 picture answers → transcript appears.",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E7",
+      "activity": "Overheard",
+      "title": "Who Said It?",
+      "does": "Conversation plays → \"Who said '…'?\" → Waiter / Customer.",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E8",
+      "activity": "Overheard",
+      "title": "Missing Word",
+      "does": "Hear the sentence → type the 1 missing word (numbers accepted as digits too). Silent: choose from 3.",
+      "ladder": "Recall"
+    },
+    {
+      "id": "E9",
+      "activity": "Echo",
+      "title": "Echo Line",
+      "does": "Character says a line → repeat right after → each word green/orange; tap orange to hear it.",
+      "ladder": "Recall"
+    },
+    {
+      "id": "E10",
+      "activity": "Sound Duel",
+      "title": "Which One?",
+      "does": "Fast rounds: hear \"ship\" or \"sheep\" → tap it (8 rounds). Needs sound.",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E11",
+      "activity": "Sound Duel",
+      "title": "Say Both",
+      "does": "Say both words of a minimal pair so they sound different.",
+      "ladder": "Recall"
+    },
+    {
+      "id": "E12",
+      "activity": "Spot the Rule",
+      "title": "Find the Pattern",
+      "does": "4 examples → guess the rule → 2-line Uzbek/Russian confirmation.",
+      "ladder": "Notice"
+    },
+    {
+      "id": "E13",
+      "activity": "Fix It",
+      "title": "Tap the Mistake",
+      "does": "Context line (Uzbek/Russian) + sentence with one typical mistake → tap the wrong word. \"Tap the gap\" mode (added 2026-10-09): for missing words, tap the gap where a word is missing.",
+      "ladder": "Recognise"
+    },
+    {
+      "id": "E14",
+      "activity": "Fix It",
+      "title": "Fix & Say",
+      "does": "Context line + wrong sentence → say the corrected sentence.",
+      "ladder": "Recall"
+    },
+    {
+      "id": "E15",
+      "activity": "Quick Reply",
+      "title": "Guided Reply",
+      "does": "Waiter's question → choose a reply → say it → waiter reacts.",
+      "ladder": "Use"
+    },
+    {
+      "id": "E16",
+      "activity": "Quick Reply",
+      "title": "Free Reply",
+      "does": "Say anything to the waiter; AI reacts and corrects by recasting. Ends with 🙂 / 😄 / 🤩.",
+      "ladder": "Use"
+    }
+  ],
+  "lessons": [
+    {
+      "number": 1,
+      "skill": "GREET someone",
+      "uzbek": "Endi siz salomlasha olasiz",
+      "phrases": "Hello! · Hi! · Good morning!",
+      "reuses": "—",
+      "trap": "—"
+    },
+    {
+      "number": 2,
+      "skill": "SAY YOUR NAME",
+      "uzbek": "O'zingizni tanishtira olasiz",
+      "phrases": "I'm Aziz. · My name is Malika. · What's your name?",
+      "reuses": "Hello, Hi",
+      "trap": "\"I Aziz\" (missing am)"
+    },
+    {
+      "number": 3,
+      "skill": "SAY WHERE YOU'RE FROM",
+      "uzbek": "Qayerdan ekaningizni ayta olasiz",
+      "phrases": "I'm from Uzbekistan. · I'm from Tashkent. · Where are you from?",
+      "reuses": "I'm…, What's your name?",
+      "trap": "\"I from Tashkent\""
+    },
+    {
+      "number": 4,
+      "skill": "ASK HOW SOMEONE IS",
+      "uzbek": "Hol-ahvol so'ray olasiz",
+      "phrases": "How are you? · I'm fine, thank you. · I'm good. And you?",
+      "reuses": "Hello, I'm…",
+      "trap": "\"I fine\""
+    },
+    {
+      "number": 5,
+      "skill": "SAY GOODBYE",
+      "uzbek": "Xayrlasha olasiz",
+      "phrases": "Nice to meet you. · Goodbye! · See you!",
+      "reuses": "All of Unit 1",
+      "trap": "—"
+    },
+    {
+      "number": 6,
+      "skill": "ORDER A DRINK",
+      "uzbek": "Ichimlik buyurtma qila olasiz",
+      "phrases": "A coffee, please. · A tea, please. · An orange juice, please.",
+      "reuses": "Hello, thank you",
+      "trap": "a / an"
+    },
+    {
+      "number": 7,
+      "skill": "ORDER FOOD",
+      "uzbek": "Taom buyurtma qila olasiz",
+      "phrases": "Can I have a sandwich? · I'd like a samsa, please. · A salad, please.",
+      "reuses": "A … please",
+      "trap": "a / an"
+    },
+    {
+      "number": 8,
+      "skill": "ASK THE PRICE",
+      "uzbek": "Narxini so'ray olasiz",
+      "phrases": "How much is it? · It's ten thousand som. · numbers 1–20 + thousand",
+      "reuses": "coffee, tea, samsa",
+      "trap": "\"two coffee\" → two coffees"
+    },
+    {
+      "number": 9,
+      "skill": "SAY WHAT YOU DON'T WANT",
+      "uzbek": "Nimani xohlamasligingizni ayta olasiz",
+      "phrases": "No sugar, please. · No, thank you. · Just water, please.",
+      "reuses": "coffee, tea, please",
+      "trap": "\"I no want\""
+    },
+    {
+      "number": 10,
+      "skill": "PAY AND SAY THANKS",
+      "uzbek": "To'lab, rahmat ayta olasiz",
+      "phrases": "Can I pay by card? · Here you are. · Thank you! Goodbye!",
+      "reuses": "How much…, numbers, Goodbye",
+      "trap": "\"Thanks you\" → Thank you"
+    },
+    {
+      "number": 11,
+      "skill": "ASK IF THEY HAVE SOMETHING",
+      "uzbek": "Kerakli narsani so'ray olasiz",
+      "phrases": "Do you have water? · Yes, we do. · No, sorry.",
+      "reuses": "water, please",
+      "trap": "\"You have water?\" (question word order)"
+    },
+    {
+      "number": 12,
+      "skill": "ASK ABOUT THIS AND THAT",
+      "uzbek": "\"Bu\" va \"u\"ning narxini so'ray olasiz",
+      "phrases": "How much is this? · How much is that? · This one, please.",
+      "reuses": "How much is it?, numbers",
+      "trap": "\"How much this?\" (missing is)"
+    },
+    {
+      "number": 13,
+      "skill": "CHOOSE A COLOUR",
+      "uzbek": "Rang tanlay olasiz",
+      "phrases": "A red T-shirt, please. · Do you have it in blue? · I like this colour.",
+      "reuses": "Do you have…?, This one",
+      "trap": "a / an before colours"
+    },
+    {
+      "number": 14,
+      "skill": "ASK FOR A SIZE",
+      "uzbek": "O'lcham so'ray olasiz",
+      "phrases": "Small, medium or large? · It's too big. · Do you have a small one?",
+      "reuses": "Do you have…?, colours",
+      "trap": "\"very big\" vs too big"
+    },
+    {
+      "number": 15,
+      "skill": "BUY IT",
+      "uzbek": "Xarid qila olasiz",
+      "phrases": "I'll take it. · That's forty-five thousand. · numbers to 100",
+      "reuses": "How much…, Can I pay by card?, Thank you",
+      "trap": "fifteen vs fifty (listening)"
+    }
+  ],
+  "traps": [
+    {
+      "id": "T1",
+      "name": "Missing \"am\"",
+      "mistake": "I Aziz · I from Tashkent · I fine",
+      "correct": "I'm Aziz",
+      "lessons": "2, 3, 4",
+      "explanation": "O'zbek tilida «-man» qo'shimchasi bor: Men Azizman. Ingliz tilida u alohida so'z — am: I am Aziz → I'm Aziz."
+    },
+    {
+      "id": "T2",
+      "name": "a / an",
+      "mistake": "A orange juice · Coffee, please",
+      "correct": "An orange juice · A coffee",
+      "lessons": "6, 7, 13",
+      "explanation": "O'zbek tilida artikl yo'q. Bitta narsa oldidan a qo'yiladi: a coffee. So'z unli tovush bilan boshlansa — an: an orange juice."
+    },
+    {
+      "id": "T3",
+      "name": "Plural after numbers",
+      "mistake": "Two coffee",
+      "correct": "Two coffees",
+      "lessons": "8",
+      "explanation": "O'zbekchada «ikkita qahva» deymiz. Ingliz tilida birdan ko'p bo'lsa -s qo'shiladi: two coffees."
+    },
+    {
+      "id": "T4",
+      "name": "\"no\" for negation",
+      "mistake": "I no want sugar",
+      "correct": "I don't want sugar / No sugar, please",
+      "lessons": "9",
+      "explanation": "O'zbekchada inkor fe'lga qo'shiladi: xohlamayman. Ingliz tilida don't ishlatiladi: I don't want sugar. Qisqasi: No sugar, please."
+    },
+    {
+      "id": "T5",
+      "name": "Thanks you",
+      "mistake": "Thanks you!",
+      "correct": "Thank you! / Thanks!",
+      "lessons": "10",
+      "explanation": "Thank you yoki Thanks deymiz. Thanks you — ikkalasini aralashtirmang."
+    },
+    {
+      "id": "T6",
+      "name": "Question without \"Do\"",
+      "mistake": "You have water?",
+      "correct": "Do you have water?",
+      "lessons": "11",
+      "explanation": "O'zbekchada savol «-mi» bilan yasaladi: Sizda suv bormi? Ingliz tilida savol boshiga Do qo'yiladi: Do you have water?"
+    },
+    {
+      "id": "T7",
+      "name": "Missing \"is\"",
+      "mistake": "How much this?",
+      "correct": "How much is this?",
+      "lessons": "12",
+      "explanation": "O'zbekchada «Bu qancha?» deymiz — fe'lsiz. Ingliz tilida is kerak: How much is this?"
+    },
+    {
+      "id": "T8",
+      "name": "very vs too",
+      "mistake": "It's very big (\"doesn't fit\")",
+      "correct": "It's too big",
+      "lessons": "14",
+      "explanation": "O'zbekchada «juda katta» ikki ma'noda. Ingliz tilida: very big — juda katta; too big — haddan tashqari katta, to'g'ri kelmaydi."
+    },
+    {
+      "id": "T9",
+      "name": "fifteen vs fifty (listening)",
+      "mistake": "Hears 50 instead of 15",
+      "correct": "fifTEEN / FIFty",
+      "lessons": "15",
+      "explanation": "fifTEEN (15) — urg'u oxirida, cho'ziq «iː». FIFty (50) — urg'u boshida."
+    }
+  ],
+  "sounds": [
+    {
+      "title": "Right",
+      "file": "right.wav",
+      "choice": "simple celebration 1",
+      "source": "Google Material (credit)",
+      "length": "0.82 s"
+    },
+    {
+      "title": "Not right",
+      "file": "not-right.wav",
+      "choice": "two notes down, set 9",
+      "source": "JC Sounds (credit)",
+      "length": "0.56 s"
+    },
+    {
+      "title": "Pick",
+      "file": "pick.wav",
+      "choice": "hover tap",
+      "source": "Google Material (credit)",
+      "length": "0.24 s"
+    },
+    {
+      "title": "Tile lands",
+      "file": "tile.wav",
+      "choice": "drop 004",
+      "source": "Kenney (CC0)",
+      "length": "0.28 s"
+    },
+    {
+      "title": "Combo",
+      "file": "combo.wav",
+      "choice": "Item Pickup",
+      "source": "Joth (CC0)",
+      "length": "0.66 s"
+    },
+    {
+      "title": "Mic on / off",
+      "file": "mic-on.wav, mic-off.wav",
+      "choice": "low swell, set 18",
+      "source": "JC Sounds (credit)",
+      "length": "0.14 s / 0.29 s"
+    },
+    {
+      "title": "Lesson done",
+      "file": "lesson-done.wav",
+      "choice": "Completion of a level",
+      "source": "Mixkit (free)",
+      "length": "2.6 s"
+    },
+    {
+      "title": "Perfect lesson",
+      "file": "perfect.wav",
+      "choice": "Ethereal fairy win sound",
+      "source": "Mixkit (free)",
+      "length": "2.4 s"
+    },
+    {
+      "title": "New phrase",
+      "file": "new-phrase.wav",
+      "choice": "Twinkle/Sparkle",
+      "source": "Pixabay (free)",
+      "length": "1.6 s"
+    },
+    {
+      "title": "Count",
+      "file": "count.wav",
+      "choice": "gold pickup 1",
+      "source": "Little Robot Sound Factory (credit)",
+      "length": "0.26 s"
+    },
+    {
+      "title": "Level up",
+      "file": "level-up.wav",
+      "choice": "Cute Level Up 1",
+      "source": "Pixabay (free)",
+      "length": "1.7 s"
+    },
+    {
+      "title": "Trophy",
+      "file": "trophy.wav",
+      "choice": "Achievement Unlock",
+      "source": "Pixabay (free)",
+      "length": "4.2 s"
+    },
+    {
+      "title": "Award",
+      "file": "award.wav",
+      "choice": "item 2A (the pick was changed from Enharpment after the first build)",
+      "source": "ViRiX (credit)",
+      "length": "2.3 s"
+    },
+    {
+      "title": "Streak",
+      "file": "streak.wav",
+      "choice": "Match Ignite (No Strike)",
+      "source": "Freesound (CC0)",
+      "length": "0.85 s"
+    },
+    {
+      "title": "Streak freeze",
+      "file": "freeze.wav",
+      "choice": "Chime",
+      "source": "Freesound (CC0)",
+      "length": "1.3 s"
+    },
+    {
+      "title": "Button",
+      "file": "button.wav",
+      "choice": "sine tap",
+      "source": "SND 01 (free)",
+      "length": "0.01 s"
+    },
+    {
+      "title": "Pop",
+      "file": "pop.wav",
+      "choice": "Pop Sound",
+      "source": "Freesound (CC0)",
+      "length": "0.07 s"
+    },
+    {
+      "title": "Whoosh",
+      "file": "whoosh.wav",
+      "choice": "swosh 02",
+      "source": "OpenGameArt, qubodup (CC0)",
+      "length": "0.20 s"
+    },
+    {
+      "title": "Switch",
+      "file": "switch-on.wav, switch-off.wav",
+      "choice": "sine toggle",
+      "source": "SND 01 (free)",
+      "length": "0.10 s each"
+    },
+    {
+      "title": "Reminder",
+      "file": "reminder.wav",
+      "choice": "Notification Sound, Soft and Pleasant",
+      "source": "Pixabay (free)",
+      "length": "0.80 s"
+    }
+  ],
+  "touch": [
+    {
+      "gesture": "Hold ~300 ms → hop on",
+      "response": "moves him to the finger",
+      "animation": "hop, then play = held (lounging, half-lidded, both hands gripping)"
+    },
+    {
+      "gesture": "Carried",
+      "response": "spring-follows the finger; sets swing, squish, lookX/Y from the motion",
+      "animation": "jelly swing around his feet, eyes look where he's going"
+    },
+    {
+      "gesture": "Shaken while held",
+      "response": "counts fast direction changes",
+      "animation": "dizzy"
+    },
+    {
+      "gesture": "Let go",
+      "response": "gravity, lands on floor / card / by the flame",
+      "animation": "land (80 ms hit-stop, shakes it off), then play = walk home"
+    },
+    {
+      "gesture": "Thrown (finger speed > 900 px/s)",
+      "response": "ballistic, tumbles (rotation), bounces off edges, lands upright",
+      "animation": "land, then smug"
+    },
+    {
+      "gesture": "Drop on a lesson card / by the flame",
+      "response": "snaps to the spot",
+      "animation": "play = peek / warm"
+    },
+    {
+      "gesture": "Dragged or swiped off the screen",
+      "response": "hides, slides back in from another edge, hops home",
+      "animation": "eyes look in"
+    },
+    {
+      "gesture": "Tap (poke)",
+      "response": "counts pokes within 4 s",
+      "animation": "poke1 → poke2 → poke3 (hand pushes you away) → play = back for 3 s"
+    },
+    {
+      "gesture": "Double-tap",
+      "response": "picks a trick, never the same twice",
+      "animation": "trickSpin / trickFlick / trickShades"
+    },
+    {
+      "gesture": "Rub (press and move at once)",
+      "response": "—",
+      "animation": "play = pet, then ahem on release"
+    },
+    {
+      "gesture": "Feed a word (drag a word chip onto him)",
+      "response": "shows the word on his body, haptic chews",
+      "animation": "eat"
+    },
+    {
+      "gesture": "High-five after a correct answer",
+      "response": "offers for 2.8 s; hit-tests the hand",
+      "animation": "play = highfive → clap (+ FX Pop) or playoff"
+    },
+    {
+      "gesture": "Idle 22 s → sleeps; tap to wake",
+      "response": "sets mood sleepy",
+      "animation": "play = sleep → wake (one eye first)"
+    },
+    {
+      "gesture": "Talk to it while held",
+      "response": "mic level → amp",
+      "animation": "body pulses with your voice"
+    },
+    {
+      "gesture": "Pinch (two fingers / wheel)",
+      "response": "sets stretch",
+      "animation": "gum stretch, snap on release"
+    },
+    {
+      "gesture": "Tilt the phone",
+      "response": "gyroscope → slides him, sets swing",
+      "animation": "leans to balance, walks home after"
+    },
+    {
+      "gesture": "Shake the phone",
+      "response": "impulse, bounces off the edges",
+      "animation": "shook (annoyed look)"
+    },
+    {
+      "gesture": "Blow into the mic",
+      "response": "loud and steady 0.25 s",
+      "animation": "play = wind"
+    },
+    {
+      "gesture": "Eye tracking",
+      "response": "pointer → looking + lookX/Y",
+      "animation": "eyes follow"
+    }
+  ],
+  "ai": [
+    {
+      "number": 1,
+      "feature": "Accent-tolerant speech recognition (provider chosen by real accuracy)",
+      "kind": "🎧"
+    },
+    {
+      "number": 2,
+      "feature": "Pronunciation scoring per sound (th, w/v, ship/sheep)",
+      "kind": "🎧"
+    },
+    {
+      "number": 3,
+      "feature": "Fluency metrics — speed, pauses (\"You speak 40% faster than Day 1\")",
+      "kind": "🎧"
+    },
+    {
+      "number": 4,
+      "feature": "Speaking confidence score",
+      "kind": "🎧"
+    },
+    {
+      "number": 5,
+      "feature": "Placement test scoring from a spoken answer",
+      "kind": "🎧"
+    },
+    {
+      "number": 6,
+      "feature": "FSRS memory engine",
+      "kind": "🧠"
+    },
+    {
+      "number": 7,
+      "feature": "Smart lesson builder — mistakes, weak skills, recycled words",
+      "kind": "🧠"
+    },
+    {
+      "number": 8,
+      "feature": "Uzbek mistake detection in speech/text (human-written rules, AI-assisted later)",
+      "kind": "🧠"
+    },
+    {
+      "number": 9,
+      "feature": "Weekly summary + \"most improved\"",
+      "kind": "🧠"
+    },
+    {
+      "number": 10,
+      "feature": "Best time for reminders",
+      "kind": "🧠"
+    },
+    {
+      "number": 11,
+      "feature": "🐾 Pet voice assistant (navigation, questions)",
+      "kind": "💬"
+    },
+    {
+      "number": 12,
+      "feature": "🐾 Free speaking practice with the pet, any topic (Premium unlimited)",
+      "kind": "💬"
+    },
+    {
+      "number": 13,
+      "feature": "🎬 Scene characters, limited by the scene script",
+      "kind": "💬"
+    },
+    {
+      "number": 14,
+      "feature": "Recasts in conversation",
+      "kind": "💬"
+    },
+    {
+      "number": 15,
+      "feature": "\"How do I say…?\" — say it in Uzbek, get the English phrase (depends on Uzbek recognition quality)",
+      "kind": "💬"
+    },
+    {
+      "number": 16,
+      "feature": "Personal phrasebook from conversations",
+      "kind": "💬"
+    },
+    {
+      "number": 17,
+      "feature": "Pet memory — name, goal, interests (privacy rules)",
+      "kind": "💬"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+export const sourceCoverage = [
+  ['product-definition.md','Purpose, audience, goals, long-term scope, freemium and family direction.',['product','first-session','curriculum','access','scope']],
+  ['teaching-programme.md','Human-owned curriculum, personal learning rules, bounded live AI and content approval.',['adaptation','scenes','reliability']],
+  ['teaching-methodology.md','Eight principles, lesson recipe, recycling, language support and private proof.',['lesson','curriculum','adaptation','proof']],
+  ['activities.md','Nine activity families, Scene, Quick Win, modes and ideas deliberately cut.',['exercises','navigation','adaptation']],
+  ['exercises.md','All 16 exercise types, inputs, selection/check behavior, skill ladder and fallback modes.',['exercises','speech']],
+  ['course-map.md','All 48 planned units, five stages and goal tracks.',['curriculum']],
+  ['mvp-lessons.md','All 15 current lesson outcomes, three checkpoints and phrase recycling.',['lesson','curriculum']],
+  ['lesson-template.md','Authored item mixes, lesson flow, checkpoint chains and existing content.',['lesson','curriculum','reliability']],
+  ['mistake-engine.md','All nine authored Uzbek-speaker traps, corrections and repeated practice.',['adaptation','lesson']],
+  ['scene-simulation-concept.md','Town, camera flow, preparation, help, recasts, twists, outcomes and scope history.',['scenes','scope']],
+  ['companion-pet.md','Dombi’s identity, persistent presence, voice assistant and practice partner.',['dombi','feel']],
+  ['ai-plan.md','All 17 learner-facing proposals, team-facing assistance, boundaries, cost and dependencies.',['speech','adaptation','scenes','dombi','proof','retention','reliability']],
+  ['progress-system.md','Can-say collection, levels, statistics, private playback, comparison, summaries and awards.',['proof','rewards']],
+  ['gamification.md','Streaks, freezes, combos, trophies, Apples, shop, quests, leagues and removed mechanics.',['rewards','social','access']],
+  ['extra-features.md','Reminders, recordings, consent, confidence, feedback, analytics and later channel/language ideas.',['first-session','retention','personal','reliability']],
+  ['pages.md','Three-tab MVP history, updated four-tab full app, Path H, profile states, settings and Charcoal theme.',['navigation','ai-speaking','personal','social','feel']],
+  ['motion-plan.md','Component motion, transitions, particles, haptics and all 19 touch-lab interactions.',['feel','dombi']],
+  ['sound-plan.md','All 20 selected sound categories, English voice sets, playback and character voice.',['speech','feel']],
+  ['tech-stack.md','Shared rules, local storage, future account/service responsibilities and earlier implementation choices.',['personal','access','reliability']],
+  ['speech-and-retention-research.md','Current speech corrections, streaming requirement, honest assessment and evidence-based retention.',['speech','lesson','retention','scope']],
+];
+
+export const aiTargets = ['speech','speech','speech','speech','first-session','adaptation','adaptation','adaptation','proof','retention','dombi','ai-speaking','scenes','scenes','dombi','ai-speaking','dombi'];
+export const featureTarget = node => ({
+  'placement':'first-session','course':'curriculum','goal-tracks':'curriculum','review':'adaptation','quick-win':'adaptation','sound-duel':'exercises','practice-modes':'navigation',
+  'speech-engine':'speech','ai-speaking':'ai-speaking','pronunciation':'speech','navigation':'navigation','motion':'feel','premium':'access','family-access':'personal','russian':'coverage',
+}[node.id]||({start:'first-session',learn:'lesson',progress:'proof',profile:'personal',practice:'scenes',dombi:'dombi',rewards:'rewards',social:'social',return:'retention',foundation:'reliability'}[node.area]));
+
+export const touchMeaning = [
+  'Hold briefly to pick him up outside an active exercise.',
+  'He follows the finger with a soft spring and looks in the direction of movement.',
+  'Rapid direction changes produce a dizzy reaction; interaction intensity should remain comfortable.',
+  'Let go and he lands, settles and returns home.',
+  'A quick release can produce a playful throw and upright landing outside a lesson.',
+  'Dropping him near a lesson or the streak flame lets him peek or warm up.',
+  'If dragged out of view, he can peek in from an edge and come home.',
+  'Repeated pokes escalate through a few gentle reactions, then a brief turn away.',
+  'The play lab uses a double-tap for a trick. The app’s help gesture takes precedence under the recommendation above.',
+  'A rub becomes a petting response, then he settles when released.',
+  'A word chip can become a playful feeding interaction outside an exercise.',
+  'After an appropriate success, offer an optional short high-five.',
+  'A quiet idle can become sleep; a tap wakes him without guilt.',
+  'An intentional microphone-enabled interaction can make him respond to the voice level.',
+  'A two-finger pinch stretches him playfully, then he returns to shape outside an exercise.',
+  'An optional device-tilt interaction can make him balance and return home.',
+  'An optional shake interaction gives a short surprised response.',
+  'An explicitly enabled mic interaction can make a blow feel like wind. No passive background listening.',
+  'He can glance toward a touch or pointer without covering the learner’s task.',
+];
