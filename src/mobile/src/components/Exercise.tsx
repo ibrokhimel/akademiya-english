@@ -423,7 +423,8 @@ export function Exercise({
             >
               {[...new Set(item.talk?.map(([who]) => who))].map((who) => (
                 <View key={who} style={{ alignItems: "center", gap: d(6) }}>
-                  <View style={{ width: d(checked ? 56 : 92), height: d(checked ? 56 : 92), transform: [{ scale: activeSpeaker === who ? 1.06 : 1 }] }}><View style={{ width: "100%", height: "100%", borderRadius: d(46), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={who} size={d(checked ? 56 : 92)} /></View>{activeSpeaker === who ? <View style={{ position: "absolute", top: d(-3), left: d(-3), right: d(-3), bottom: d(-3), borderWidth: d(3), borderColor: violet, borderRadius: d(50) }} /> : null}</View>
+                  {/* The Rive view keeps its first size, so the face is always drawn at 92 and shrunk with a transform. */}
+                  <View style={{ width: d(checked ? 56 : 92), height: d(checked ? 56 : 92) }}><View style={{ position: "absolute", left: d(checked ? -18 : 0), top: d(checked ? -18 : 0), width: d(92), height: d(92), transform: [{ scale: (checked ? 56 / 92 : 1) * (activeSpeaker === who ? 1.06 : 1) }] }}><View style={{ width: "100%", height: "100%", borderRadius: d(46), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={who} size={d(92)} /></View>{activeSpeaker === who ? <View style={{ position: "absolute", top: d(-3), left: d(-3), right: d(-3), bottom: d(-3), borderWidth: d(3), borderColor: violet, borderRadius: d(50) }} /> : null}</View></View>
                   <Txt style={{ color: activeSpeaker === who ? violet : c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>
                     {names[who]}
                   </Txt>
