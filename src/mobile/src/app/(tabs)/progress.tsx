@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { dayOf } from "../../../../core/progress.js";
 import { useAuditScroll } from "../../audit/layout";
 import { Arrive,Count,Fill } from "../../components/Motion";
+import { shared,type } from "../../components/system";
 import { Icon,Txt,useTheme,violet } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { P,units } from "../../data/content";
@@ -119,27 +120,24 @@ export default function Progress() {
               HAMMASINI KO&apos;RISH ({learned.length})
             </Txt>
           </Pressable> : null}
-          <Arrive index={news.length + 1}><Pressable onPress={() => router.navigate("/calendar")} style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: d(10),
-            padding: d(12),
-            borderRadius: d(16),
-            borderWidth: d(2),
-            borderColor: c.line,
+          {/* The one reward-yellow card on this screen (design system: fill whole cards for what matters most). */}
+          <Arrive index={news.length + 1} style={{ borderRadius: d(24), backgroundColor: shared.light.rewardLip, paddingBottom: d(4) }}><Pressable accessibilityRole="button" onPress={() => router.navigate("/calendar")} style={{
+            borderRadius: d(24),
+            backgroundColor: shared.light.reward,
+            padding: d(16),
+            gap: d(12),
         }}>
-            <Icon name="flame-streak" size={d(40)}/>
-            <Txt style={{
-            fontSize: d(28),
-            fontFamily: "Nunito_900Black",
-            minWidth: d(34),
-        }}>
-              {p.streak.count}
-            </Txt>
-            <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}>
+              <Icon name="flame-streak" size={d(44)}/>
+              <View style={{ flex: 1 }}>
+                <Txt style={{ ...type("label", d), color: shared.light.ink, opacity: 0.7 }}>SERIYA</Txt>
+                <Txt style={{ ...type("title", d), color: shared.light.ink }}>{p.streak.count} kun</Txt>
+              </View>
+              <Icon name="glyph-chevron-right-dark" size={d(23)}/>
+            </View>
+            <View style={{ borderRadius: d(16), backgroundColor: "#FFFFFF", paddingVertical: d(8) }}>
               <Week />
             </View>
-            <Icon name="glyph-chevron-right-grey" size={d(23)}/>
           </Pressable></Arrive>
           <Arrive index={news.length + 2}><View style={{
             padding: d(14),
