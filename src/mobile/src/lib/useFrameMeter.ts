@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect,useState } from "react";
 
 export type FrameStats = {
   /** Frames the JS thread produced in the last second. */
