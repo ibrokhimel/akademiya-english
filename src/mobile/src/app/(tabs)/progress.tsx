@@ -4,7 +4,7 @@ import { Pressable,ScrollView,useWindowDimensions,View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { dayOf } from "../../../../core/progress.js";
 import { useAuditScroll } from "../../audit/layout";
-import { Count } from "../../components/Motion";
+import { Arrive,Count,Fill } from "../../components/Motion";
 import { Icon,Txt,useTheme,violet } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { P,units } from "../../data/content";
@@ -74,7 +74,7 @@ export default function Progress() {
         }}>
             ENG YANGILARI
           </Txt>
-          {learned.length ? (news.map((id) => (<Pressable key={id} onPress={() => {
+          {learned.length ? (news.map((id, i) => (<Arrive key={id} index={i + 1}><Pressable onPress={() => {
                 void play(P[id].voice, P[id].en, settings.cast).catch(() => { });
             }} style={{
                 flexDirection: "row",
@@ -102,7 +102,7 @@ export default function Progress() {
                     {P[id].uz}
                   </Txt>
                 </View>
-              </Pressable>))) : (<Txt style={{
+              </Pressable></Arrive>))) : (<Txt style={{
                 fontSize: d(14),
                 color: c.muted,
                 paddingVertical: d(10),
@@ -119,7 +119,7 @@ export default function Progress() {
               HAMMASINI KO&apos;RISH ({learned.length})
             </Txt>
           </Pressable> : null}
-          <Pressable onPress={() => router.navigate("/calendar")} style={{
+          <Arrive index={news.length + 1}><Pressable onPress={() => router.navigate("/calendar")} style={{
             flexDirection: "row",
             alignItems: "center",
             gap: d(10),
@@ -140,8 +140,8 @@ export default function Progress() {
               <Week />
             </View>
             <Icon name="glyph-chevron-right-grey" size={d(23)}/>
-          </Pressable>
-          <View style={{
+          </Pressable></Arrive>
+          <Arrive index={news.length + 2}><View style={{
             padding: d(14),
             borderRadius: d(16),
             borderWidth: d(2),
@@ -171,15 +171,10 @@ export default function Progress() {
             backgroundColor: c.line,
             overflow: "hidden",
         }}>
-              <View style={{
-            height: "100%",
-            width: `${(p.level >= 1 ? 100 : Math.round(Object.keys(p.done).length / 18 * 100))}%`,
-            borderRadius: d(8),
-            backgroundColor: violet,
-        }}/>
+              <Fill value={p.level >= 1 ? 1 : Object.keys(p.done).length / 18} color={violet} style={{ borderRadius: d(8) }}/>
             </View>
-          </View>
-          <View style={{
+          </View></Arrive>
+          <Arrive index={news.length + 3} style={{
             flexDirection: "row",
             justifyContent: "space-between",
             paddingHorizontal: d(30),
@@ -207,7 +202,7 @@ export default function Progress() {
                   {label}
                 </Txt>
               </View>))}
-          </View>
+          </Arrive>
         </View>
       </ScrollView>
     </View>);

@@ -8,7 +8,7 @@ import { useActorFile } from "../../components/Actor";
 import { BottomSheet } from "../../components/BottomSheet";
 import { Effect } from "../../components/Effects";
 import { LessonStartSheet } from "../../components/LessonStartSheet";
-import { Bounce,Count,Pulse } from "../../components/Motion";
+import { Arrive,Bounce,Count,Pulse } from "../../components/Motion";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
@@ -106,7 +106,7 @@ export default function Learn() {
           </Pressable>
         ))}
       </View>
-      <View
+      <Arrive
         style={{
           marginHorizontal: d(24),
           marginTop: d(12),
@@ -164,7 +164,7 @@ export default function Learn() {
             <Icon name="book-phrase-list" size={d(34)} />
           </Pressable>
         </View>
-      </View>
+      </Arrive>
       <ScrollView
         ref={scroll}
         showsVerticalScrollIndicator={false}
@@ -215,8 +215,9 @@ export default function Learn() {
                   ? "glyph-v1-headphones-muted"
                   : `glyph-${SPOTS[k][2]}-${current ? "white" : "muted"}`;
               return (
-                <View
+                <Arrive
                   key={l.id}
+                  index={k + 1}
                   style={{
                     position: "absolute",
                     left: d(SPOTS[k][0]),
@@ -265,7 +266,7 @@ export default function Learn() {
                       }
                     />
                   </RaisedPressable>
-                </View>
+                </Arrive>
               );
             })}
             <View
@@ -295,7 +296,7 @@ export default function Learn() {
             >
               ★ ★ ★
             </Txt>
-            <RaisedPressable
+            <Arrive index={6} style={{ position: "absolute", left: d(206.2), top: d(425.4), width: d(69.4) }}><RaisedPressable
               accessibilityLabel={`Nazorat nuqtasi ${u.unit}`}
               disabled={!p.open(u.checkpoint.id)}
               onPress={() => setPick(u.checkpoint)}
@@ -303,12 +304,6 @@ export default function Learn() {
               depth={d(6)}
               backgroundColor={c.goldSoft}
               edgeColor="#E0A400"
-              style={{
-                position: "absolute",
-                left: d(206.2),
-                top: d(425.4),
-                width: d(69.4),
-              }}
               faceStyle={{
                 height: d(54.8),
                 overflow: "visible",
@@ -335,7 +330,7 @@ export default function Learn() {
                   <Icon name="glyph-check-white" size={d(16)} />
                 </View>
               ) : null}
-            </RaisedPressable>
+            </RaisedPressable></Arrive>
           </View>
         ))}
         <View style={{ width: d(390), height: d(160) }}><View style={{ position: "absolute", top: d(-74), left: d(24), right: d(24), height: d(40), flexDirection: "row", alignItems: "center", gap: d(12) }}><View style={{ flex: 1, height: d(2), backgroundColor: c.line }} /><Txt style={{ color: c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>Keyingi bo&apos;lim tez orada</Txt><View style={{ flex: 1, height: d(2), backgroundColor: c.line }} /></View><RaisedPressable accessibilityLabel="Keyingi bo'lim tez orada" radius={d(36)} depth={d(9)} backgroundColor={c.line} edgeColor={c.edge} style={{ position: "absolute", top: d(16), left: d(159.5), width: d(71) }} faceStyle={{ height: d(57), alignItems: "center", justifyContent: "center" }}><Icon name="glyph-lock-muted" size={d(32)} /></RaisedPressable></View>

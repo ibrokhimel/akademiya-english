@@ -9,6 +9,7 @@ useWindowDimensions
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
 import { GoalSheet } from "../../components/GoalSheet";
+import { Arrive } from "../../components/Motion";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
@@ -107,7 +108,7 @@ export default function Profile() {
         <View
           style={{ paddingHorizontal: d(20), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
         >
-          <View style={{ height: d(68) }}>
+          <Arrive style={{ height: d(68) }}>
             <View
               style={{
                 position: "absolute",
@@ -172,8 +173,8 @@ export default function Profile() {
                 {p.level}-daraja
               </Txt>
             </View>
-          </View>
-          <Pressable
+          </Arrive>
+          <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{
               flexDirection: "row",
@@ -211,9 +212,9 @@ export default function Profile() {
             >
               O&apos;ZGARTIRISH
             </Txt>
-          </Pressable>
+          </Pressable></Arrive>
           {testToolsEnabled ? <>
-          <View
+          <Arrive index={2}
             style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}
           >
             <View style={{ paddingLeft: d(2), paddingRight: d(6) }}>
@@ -278,8 +279,8 @@ export default function Profile() {
             >
               <Icon name="glyph-phone-violet" size={d(26)} />
             </RaisedPressable>
-          </View>
-          <View
+          </Arrive>
+          <Arrive index={3}
             style={{
               backgroundColor: settings.dark ? "#2E8FC8" : "#4FB6F0",
               borderRadius: d(20),
@@ -369,9 +370,9 @@ export default function Profile() {
                 KO&apos;RISH
               </Txt>
             </RaisedPressable>
-          </View>
+          </Arrive>
           </> : null}
-          <ProfileDetails />
+          <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
         </View>
       </ScrollView>
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
