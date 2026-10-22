@@ -252,4 +252,62 @@ illustrated icons, by `design/icons/build_lesson_pics.py` (SVG in `design/icons/
 - The lesson pictures are not imported into the Rive file yet (the icons' master copy).
 - Waiter C is now the seller of Unit 3 in the lesson files (voice "seller"); he is not placed in a Pencil screen yet.
 
-Not drawn yet: full screens for the 10 after-MVP exercises (their bodies are in "After-MVP components").
+## Exercise states — after MVP (started 2026-10-23, waiting for the owner's check)
+
+Storyboard **"Exercises — every state (after MVP)"** in the Pencil file, to the right of the MVP exercise
+storyboard (x 7600, y 13800), with a dark copy 13,000 px to the right. Built the same way as the MVP board, from
+the same components. 51 screens: all 10 after-MVP exercises.
+
+| Exercise | Screens |
+|---|---|
+| E3 Match Rush | Start · Sound picked · Pair matched · Wrong pair · All matched · Silent mode (Uzbek ↔ English) |
+| E5 Complete the Chunk | Start · Word picked · Correct · Not right → correct answer |
+| E7 Who Said It? | Listening · Picked · Correct (conversation text appears) · Not right → correct answer |
+| E8 Missing Word | Start · Typing · Correct · Correct with digits ("15" = fifteen) · Not right → correct answer · Silent mode (pick from 3) |
+| E10 Which One? | Round playing · Right · Not right · All rounds done (score) · Silent mode — skipped (next exercise + toast) |
+| E11 Say Both | Start · Word 2 listening · Correct · Too similar · Speaking off → Which One? |
+| E12 Find the Pattern | Start · Picked · Correct (ending lights up + Uzbek confirmation) · Not right → correct answer |
+| E14 Fix & Say | Start · Listening · Correct · Not right → correct answer · Can't speak now → word tiles |
+| E15 Guided Reply | Waiter asks · Reply picked · Now say it · Waiter reacts · Not right → correct answer · Speaking off — skipped |
+| E16 Free Reply | Start · Listening (live text) · Waiter thinking · Recast · Conversation done (🙂 / 😄 / 🤩) · Speaking off — skipped |
+
+Decisions made while drawing (to check):
+- **E3 has no TEKSHIRISH.** A tap on a sound plays and picks it; the second tap, on a phrase, checks the pair, as
+  in Duolingo's matching. Matched pairs flash green and fade; a wrong pair turns red, shakes and goes back.
+- **E5 and E8's Silent mode** work like Tile Builder: a picked word moves into the gap, the bank keeps an empty spot.
+- **E5 and E8's Silent mode get an Uzbek situation line** as the cue (rule 2); in E5 it sits above the picture.
+- **E7 uses Waiter A and Malika** as the two answers (the Lesson 9 café dialogue), not "Waiter / Customer".
+- New Uzbek copy: "O'zbekchani inglizchaga ulang", "Siz sendvich so'rayapsiz:", "Biror narsa so'raganda «Can I
+  have…?» deymiz.", "«Anything else?» — «Yana biror narsa?». Buni ofitsiant so'raydi.", "O'QING VA TANLANG",
+  "Tushib qolgan so'zni tanlang", "15 — fifteen. «five» emas, «fif-» deb yoziladi."
+
+- **E10 has no TEKSHIRISH either** (a speed game, like E3): the tap is the answer and the next round plays by itself.
+  Each card shows the Uzbek meaning under the word. Pairs change per round (ship/sheep, west/vest, live/leave).
+- **E10 in Silent mode never shows:** it is saved for later and the next exercise opens with a toast, the same way
+  Echo is skipped when speaking is off.
+- **E11 with speaking off becomes E10 Which One?** with the same pair (the Headphones-mode rule), with the
+  "Gapirish o'chiq · YOQISH" pill at the bottom. "Too similar" uses the correct-answer sheet titled "Farqi:".
+- **E12 options are full-width answer tiles** ("-s qo'shiladi", "-es qo'shiladi", "o'zgarmaydi") because three
+  phrases do not fit in one row. Examples use café words only (coffee, tea, samsa, salad), so only "-s" is right.
+- **E14 uses the plural trap** (*Two coffee* → *Two coffees*) with an Uzbek situation line, and a "BU GAPDA BITTA
+  XATO BOR:" label over the sentence.
+- More new Uzbek copy: "Tinglash mashqi keyinga qoldirildi", "Gapirish o'chiq: tinglab tanlang", "8 tadan 7 tasi
+  to'g'ri", "Ikki so'zni farqli qilib ayting", "Avval 1-so'zni ayting", "Endi 2-so'zni ayting", "Farqi aniq
+  eshitildi", "«sheep» da «ee» uzun: shiiip. «ship» da qisqa.", "Ikkita bo'lsa, so'zga nima bo'ladi?", "Bittadan
+  ko'p bo'lsa, so'z oxiriga -s qo'shiladi: two coffees.", "Gapni to'g'rilab ayting / tuzing".
+
+- **E15 is pick, check, then say:** three replies, only one fits the waiter's question; after TEKSHIRISH the right
+  reply moves into the chat as the learner's line and they say it; the waiter answers smiling with the gold
+  "Ofitsiant tushundi!" chip. A wrong pick shows the waiter's "hm" pose (never sad) and the correct-answer sheet.
+- **E16 gets a goal and a starter** so the learner is never stuck: an Uzbek situation line ("Siz kafedasiz. Nimadir
+  buyurtma qiling.") and a hint chip ("I'd like … / Can I have …"). There is no TEKSHIRISH: the mic sends each line.
+  Words appear live while speaking; while the AI answers the waiter shows "• • •" and the mic shows "Tekshiryapman…".
+- **E16 recast:** the waiter says the line back the natural way, "I want → I'd like" shows under the learner's line,
+  and one Uzbek tip explains. The end screen shows the waiter's face (smile / big grin / star eyes), how many times the
+  learner spoke, and the new phrase.
+- **E15 and E16 with speaking off** are skipped as a whole and saved for later (same screen as Echo); no typing.
+- The waiter in E15/E16 is Waiter A with his talk, grin and "hm" poses, in a chat built like Echo Line's character line.
+
+Open: what happens when the E3 clock runs out · E7 in Silent mode · the phone keyboard in E8 (not drawn) · the
+minimal pairs for E10/E11 are samples, not lesson content yet · how E16 decides the goal is reached and which face
+it gives (needs the AI plan).
