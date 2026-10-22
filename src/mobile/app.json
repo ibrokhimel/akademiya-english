@@ -3,10 +3,57 @@
     "name": "Akademiya English",
     "slug": "akademiya-english",
     "scheme": "akademiya",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "plugins": [
+      "./plugins/withAndroidNdk",
+      "./plugins/withAndroidBack",
+      "./plugins/withAndroidReleaseSigning",
+      "expo-router",
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
+      ],
+      "expo-sqlite",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-light.png",
+          "imageWidth": 293,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFFFFF",
+          "dark": {
+            "image": "./assets/splash-dark.png",
+            "backgroundColor": "#121214"
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-speech-recognition",
+        {
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.tts"
+          ],
+          "microphonePermission": "Gapirish mashqlari uchun mikrofon kerak."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "../../pendev/icons-r2/glyph-bell-white.png",
+          "color": "#7B5CFF"
+        }
+      ],
+      "expo-asset"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "ai.akademiya.english",
@@ -24,7 +71,13 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": true,
+      "versionCode": 2,
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
