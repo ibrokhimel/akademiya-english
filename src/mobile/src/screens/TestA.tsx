@@ -1,22 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 import {
-  Fit,
-  RiveView,
-  useRiveFile,
-  useViewModelInstance,
-  type RiveFile,
-  type ViewModelInstance,
+Fit,
+RiveView,
+useRiveFile,
+useViewModelInstance,
+type RiveFile,
+type ViewModelInstance,
 } from '@rive-app/react-native';
+import { useCallback,useEffect,useRef,useState } from 'react';
+import { Pressable,StyleSheet,Text,View,type ViewStyle } from 'react-native';
+import { Gesture,GestureDetector } from 'react-native-gesture-handler';
+import Animated,{ useAnimatedStyle,useSharedValue,withSpring } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { useFrameMeter } from '../lib/useFrameMeter';
 
 // Test A from docs/ideas/tech-stack.md: Dombi's real .riv with transparent effect
 // overlays, `viseme` and `amp` set every frame during a drag, a trigger fired back
 // from the file, and a tap listener inside the artboard.
 
+// Metro bundles native assets through a static require.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const DOMBI_FILE = require('../../assets/rive/dombi.riv');
 const FX_MACHINE = 'State Machine 1';
 const GOLD = 0xffffc800;
@@ -78,14 +80,10 @@ export default function TestA() {
   // What the file contains, so a missing artboard or property is visible on screen.
   useEffect(() => {
     if (!riveFile) return;
-    note(`file loaded, ${riveFile.artboardCount} artboards`);
+    console.log(`[TestA] file loaded, ${riveFile.artboardCount} artboards`);
     riveFile.getViewModelNamesAsync().then((names) => console.log('[TestA] view models:', names.join(', ')));
     console.log('[TestA] artboards:', riveFile.artboardNames.join(', '));
-  }, [riveFile, note]);
-
-  useEffect(() => {
-    if (fileError) note(`file error: ${fileError.message}`);
-  }, [fileError, note]);
+  }, [riveFile]);
 
   const onInstance = useCallback(
     (artboard: string, instance: ViewModelInstance) => {
@@ -237,7 +235,7 @@ export default function TestA() {
           <Button label="Embers" onPress={() => fire('FX Embers', 'fire')} />
           <Button label={driving ? 'Stop' : 'Talk 60/s'} onPress={() => setDriving((on) => !on)} />
         </View>
-        <Text style={styles.log}>{log.join('\n')}</Text>
+        <Text style={styles.log}>{[`file loaded, ${riveFile.artboardCount} artboards`, ...log].join('\n')}</Text>
       </View>
     </View>
   );
