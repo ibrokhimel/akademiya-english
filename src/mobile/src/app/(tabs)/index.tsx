@@ -9,11 +9,11 @@ import { BottomSheet } from "../../components/BottomSheet";
 import { Effect } from "../../components/Effects";
 import { LessonStartSheet } from "../../components/LessonStartSheet";
 import { Arrive,Bounce,Count,Pulse } from "../../components/Motion";
+import { brand,shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
 Txt,
-coral,
 gold,
 useTheme,
 violet
@@ -31,7 +31,7 @@ const SPOTS = [
   [158.8, 338.8, "message"],
 ] as const;
 export default function Learn() {
-  const { progress: p, settings, set } = useApp(),
+  const { progress: p, settings, set, resume } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -40,7 +40,9 @@ export default function Learn() {
     const panel = getVisualAudit()?.panel;
     return panel === "lesson" ? units[0].lessons[0] : panel === "checkpoint" ? units[0].checkpoint : null;
   }),
-    [unitIndex, setUnitIndex] = useState(p.unit - 1), [pathHeight, setPathHeight] = useState(500 * scale);
+    // The hero card is always the next lesson; the path below shows where it sits.
+    next = units.flatMap((u) => [...u.lessons, u.checkpoint]).find((l) => l.id === p.current),
+    nextUnit = units.find((u) => u.unit === next?.unit) ?? units[0];
   const scroll = useRef<ScrollView>(null),
     initial = useRef(false),
     currentLessonId = p.current;
@@ -66,7 +68,6 @@ export default function Learn() {
     }, 250);
     return () => clearTimeout(timer);
   }, [currentLessonId, scale]);
-  const unit = units[Math.min(2, Math.max(0, unitIndex))];
   return (
     <SafeAreaView
       edges={["top", "left", "right"]}
@@ -108,78 +109,59 @@ export default function Learn() {
       </View>
       <Arrive
         style={{
-          marginHorizontal: d(24),
+          marginHorizontal: d(20),
           marginTop: d(12),
-          height: d(78),
-          borderRadius: d(14),
-          backgroundColor: "#5A3FD9",
+          borderRadius: d(24),
+          backgroundColor: brand.lip,
           paddingBottom: d(4),
         }}
       >
         <View
           style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
             backgroundColor: violet,
-            borderRadius: d(14),
-            overflow: "hidden",
+            borderRadius: d(24),
+            padding: d(20),
+            gap: d(14),
           }}
         >
-          <View style={{ flex: 1, paddingLeft: d(16), gap: d(3) }}>
-            <Txt
-              style={{
-                fontSize: d(14),
-                lineHeight: d(17),
-                color: "#C9BDFF",
-                fontFamily: "Nunito_800ExtraBold",
-              }}
+          <View style={{ flexDirection: "row", alignItems: "flex-start", gap: d(12) }}>
+            <View style={{ flex: 1, gap: d(4) }}>
+              <Txt style={{ ...type("label", d), color: brand.washLine }}>
+                {nextUnit.unit}-BO&apos;LIM · {nextUnit.name.replace("!", "").toUpperCase()}
+              </Txt>
+              <Txt style={{ ...type("title", d), color: "#FFFFFF" }}>
+                {next?.title ?? nextUnit.checkpoint.title}
+              </Txt>
+            </View>
+            <Pressable
+              accessibilityLabel="Ayta oladiganlarim"
+              onPress={() => router.navigate("/phrases")}
+              style={{ width: d(48), height: d(48), borderRadius: d(14), backgroundColor: brand.lip, alignItems: "center", justifyContent: "center" }}
             >
-              {unit.unit}-BO&apos;LIM ·{" "}
-              {unit.name.replace("!", "").toUpperCase()}
-            </Txt>
-            <Txt
-              style={{
-                fontSize: d(17.3),
-                lineHeight: d(23),
-                fontFamily: "Nunito_800ExtraBold",
-                color: "#FFFFFF",
-              }}
-            >
-              {unit.checkpoint.title}
-            </Txt>
+              <Icon name="book-phrase-list" size={d(32)} />
+            </Pressable>
           </View>
-          <Pressable
-            accessibilityLabel="Ayta oladiganlarim"
-            onPress={() => router.navigate("/phrases")}
-            style={{
-              width: d(55),
-              height: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              borderLeftWidth: 2,
-              borderColor: "#5A3FD9",
-            }}
-          >
-            <Icon name="book-phrase-list" size={d(34)} />
-          </Pressable>
+          {next ? (
+            <RaisedPressable
+              accessibilityLabel={next.title}
+              onPress={() => setPick(next)}
+              radius={d(16)}
+              depth={d(4)}
+              backgroundColor="#FFFFFF"
+              edgeColor={brand.washLine}
+              faceStyle={{ height: d(48), alignItems: "center", justifyContent: "center" }}
+            >
+              <Txt style={{ ...type("button", d), color: violet }}>
+                {resume?.id === next.id ? "DAVOM ETISH" : "BOSHLASH"}
+              </Txt>
+            </RaisedPressable>
+          ) : null}
         </View>
       </Arrive>
       <ScrollView
         ref={scroll}
         showsVerticalScrollIndicator={false}
         style={{ marginTop: d(8) }}
-        onLayout={e => setPathHeight(e.nativeEvent.layout.height)}
-        onScroll={(e) => {
-          const n = Math.min(
-            2,
-            Math.floor(
-              (e.nativeEvent.contentOffset.y / scale + pathHeight / scale / 2 + 74) / 600,
-            ),
-          );
-          if (n !== unitIndex) setUnitIndex(n);
-        }}
-        scrollEventThrottle={100}
         contentContainerStyle={{ alignItems: "center", paddingBottom: d(0) }}
       >
         {units.map((u, i) => (
@@ -207,13 +189,13 @@ export default function Learn() {
               const state = p.state(l.id),
                 current = state === "cur",
                 done = state === "done",
-                face = current ? coral : done ? violet : c.line,
-                edge = current ? "#D9483A" : done ? "#5A3FD9" : c.edge;
+                face = current ? gold : done ? violet : c.line,
+                edge = current ? shared.light.rewardLip : done ? brand.lip : c.edge;
               const glyph = done
                 ? "glyph-check-white"
                 : SPOTS[k][2] === "headphones"
                   ? "glyph-v1-headphones-muted"
-                  : `glyph-${SPOTS[k][2]}-${current ? "white" : "muted"}`;
+                  : `glyph-${SPOTS[k][2]}-${current ? "dark" : "muted"}`;
               return (
                 <Arrive
                   key={l.id}
@@ -237,7 +219,7 @@ export default function Learn() {
                         height: d(75),
                         borderRadius: d(45),
                         borderWidth: d(4),
-                        borderColor: settings.dark ? "#6A3434" : "#FFD1CC",
+                        borderColor: settings.dark ? shared.dark.rewardWash : shared.light.rewardWash,
                       }}
                     />
                   ) : null}
@@ -261,7 +243,7 @@ export default function Learn() {
                       size={d(32)}
                       style={
                         current && k === 3
-                          ? { tintColor: "#FFFFFF" }
+                          ? { tintColor: shared.light.ink }
                           : undefined
                       }
                     />
