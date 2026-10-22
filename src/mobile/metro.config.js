@@ -29,6 +29,7 @@ config.watchFolders = [
     ...(config.watchFolders || []),
     path.resolve(__dirname, "../content"),
     path.resolve(__dirname, "../core"),
+    path.resolve(__dirname, "../../design/system"),
     path.resolve(__dirname, "../../pendev/icons-r2"),
     path.resolve(__dirname, "../../design/rive/out"),
     path.resolve(__dirname, "../../design/sound/final"),
