@@ -14,6 +14,8 @@ test('numbers a phone writes in digits are read as words', () => {
   assert.equal(numberWords(45000), 'forty five thousand'); assert.equal(numberWords(100), 'one hundred'); assert.equal(numberWords(17), 'seventeen');
   assert.deepEqual(plain("It's 10,000 som."), ['it', 'is', 'ten', 'thousand', 'som']);
   assert.deepEqual(plain('1 2 3 4 5'), ['one', 'two', 'three', 'four', 'five']);
+  assert.deepEqual(plain('90 100'), ['ninety', 'one', 'hundred']);
+  assert.deepEqual(plain('45 000 som'), ['forty', 'five', 'thousand', 'som']);
 });
 test('a phrase said right is right, however the phone spells it', () => {
   for (const [want, heard] of [['A coffee, please.', 'a coffee please'], ["I'm from Uzbekistan.", 'I am from Uzbekistan'], ["It's ten thousand som.", "it's 10000 sum"], ['A red T-shirt, please.', 'a red t shirt please'],
@@ -38,6 +40,19 @@ test('another right answer is accepted, and the words shown are that answer\'s',
   assert.equal(r.right, true); assert.equal(r.want, 'Can I have a coffee?');
   assert.equal(judgeAny(['A coffee, please.'], ['a tea please']).right, false);
 });
+test('short speech answers reject unrelated words and padded answers', () => {
+  for (const heard of ['banana', 'yellow', 'hello banana', 'banana hello spaceship', 'hello hello'])
+    assert.equal(judge('Hello!', heard).right, false, heard);
+  assert.equal(judge('Good morning!', 'good evening').right, false);
+  assert.equal(judge('Good morning!', 'morning').right, false);
+  assert.equal(judge('Good morning!', 'good morning banana').right, false);
+  assert.equal(judge('Hello!', 'HELLO.').right, true);
+});
+test('a lower-ranked speech hypothesis cannot override a different top result', () => {
+  assert.equal(judgeAny(['Hello!'], ['yellow', 'hello']).right, false);
+  assert.equal(judgeAny(['Hello!'], ['', 'hello']).right, false);
+  assert.equal(judgeAny(['Hello!', 'Hi!'], ['hi', 'hello']).right, true);
+});
 test('every taught phrase is judged right when said as written, and as tiles', () => {
   for (const p of Object.values(P)) { assert.equal(judge(p.en, p.en, p.loose).right, true, p.en); assert.equal(sameTiles(tilesOf(p.en), p.en), true, p.en); }
   assert.deepEqual(tilesOf('A coffee, please.'), ['a', 'coffee', 'please']); assert.deepEqual(tilesOf("I'm Aziz."), ["I'm", 'Aziz']);
@@ -56,6 +71,36 @@ test('a perfect lesson, and speaking off', () => {
   const q = makeSession(l, { speaking: false }); let skipped = 0, tiles = 0;
   for (let e; (e = q.next());) { const way = q.way(e.item); if (way === 'skip') { q.skip(); skipped++; } else { if (way === 'tiles' && e.item.ex !== 'tiles') tiles++; q.answer(true); } }
   assert.equal(skipped, 3); assert.equal(tiles, 5); assert.equal(q.stats().progress, 1); assert.equal(q.stats().answered, 9);
+});
+test('three unverified speech attempts add no mistakes or completion credit', () => {
+  const s = makeSession(units[0].lessons[0]);
+  const first = s.next();
+  for (let i = 0; i < 3; i++) s.retrySpeech();
+  assert.equal(s.next(), first);
+  assert.equal(s.stats().mistakes, 0);
+  assert.equal(s.stats().speechRetries, 3);
+  assert.equal(s.stats().answered, 0);
+  assert.equal(s.stats().progress, 0);
+  assert.equal(s.startMistakes(), false);
+  s.answer(true);
+  for (let item; (item = s.next());) s.answer(true);
+  assert.equal(s.stats().mistakes, 0);
+  assert.equal(s.stats().progress, 1);
+  assert.equal(s.stats().perfect, false); // no claim of first-attempt perfection
+});
+test('speech retries survive resume separately from a real choice mistake', () => {
+  const lesson = units[0].lessons[0], original = makeSession(lesson);
+  original.next(); original.retrySpeech(); original.retrySpeech(); original.answer(true);
+  original.next(); original.answer(false);
+  const restored = makeSession(lesson);
+  for (const op of ['v', 'v', 'r', 'w']) {
+    restored.startMistakes(); restored.next();
+    if (op === 'v') restored.retrySpeech(); else restored.answer(op === 'r');
+  }
+  assert.deepEqual(restored.stats(), original.stats());
+  assert.equal(restored.stats().mistakes, 1);
+  assert.equal(restored.stats().speechRetries, 2);
+  assert.equal(restored.next().n, 2);
 });
 test('every item of every lesson has an answer, a voice and a clip name', () => {
   for (const u of units) for (const l of [...u.lessons, u.checkpoint]) for (const it of l.items) { if (it.ex === 'heard') continue;
