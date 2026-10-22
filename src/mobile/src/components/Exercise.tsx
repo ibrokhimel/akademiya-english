@@ -44,6 +44,7 @@ import { RaisedPressable } from "./RaisedPressable";
 import { SpeechAnswer } from "./SpeechAnswer";
 import {
 Button,
+green,
 Icon,
 LinkButton,
 Picture,
@@ -337,8 +338,8 @@ export function Exercise({
           : item.ex === "gap"
             ? item.gap
             : item.bad;
-      if (i === correct) return { edge: "#3DCB6C", text: "#27A852", face: c.good };
-      if (i === choice) return { edge: "#FF4B5C", text: "#D63445", face: c.bad };
+      if (i === correct) return { edge: green, text: c.goodText, face: c.good };
+      if (i === choice) return { edge: c.notYet, text: c.notYetText, face: c.bad };
     }
     return {
       edge: choice === i ? violet : c.line,
@@ -352,7 +353,7 @@ export function Exercise({
         contentContainerStyle={{
           paddingHorizontal: d(16),
           paddingTop: d(12),
-          paddingBottom: checked ? d(150) : d(4),
+          paddingBottom: checked ? d(250) : d(4), // room for the answer panel
           gap: d(16),
           flexGrow: 1,
         }}
@@ -526,7 +527,7 @@ export function Exercise({
                       }}
                       style={{
                         borderWidth: d(2),
-                        borderColor: verdict === true ? "#3DCB6C" : verdict === false && choice === i ? "#FF4B5C" : violet,
+                        borderColor: verdict === true ? green : verdict === false && choice === i ? c.notYet : violet,
                         backgroundColor: verdict === true ? c.good : verdict === false && choice === i ? c.bad : choice === i ? violet : c.soft,
                         borderRadius: d(8),
                         width: verdict === true ? undefined : d(40), height: d(32), paddingHorizontal: verdict === true ? d(6) : 0, alignItems: "center", justifyContent: "center",
@@ -856,8 +857,8 @@ function Tile({
   const edge =
     active && verdict !== null
       ? verdict
-        ? "#3DCB6C"
-        : "#FF4B5C"
+        ? green
+        : c.notYet
       : c.line;
   return (
     <Animated.View
@@ -901,7 +902,7 @@ function Tile({
           style={{
             fontSize: d(17),
             fontFamily: "Nunito_800ExtraBold",
-            color: active && verdict !== null ? verdict ? "#27A852" : "#D63445" : c.text,
+            color: active && verdict !== null ? verdict ? c.goodText : c.notYetText : c.text,
             opacity: faded ? 0 : 1,
           }}
         >

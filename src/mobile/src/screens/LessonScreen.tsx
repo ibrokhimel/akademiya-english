@@ -16,6 +16,7 @@ import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
 import { ScreenTransition } from "../components/ScreenTransition";
 import { Button,gold,green,Icon,LinkButton,Page,Txt,useTheme,violet } from "../components/ui";
+import { type } from "../components/system";
 import { useDesignScale } from "../components/useDesignScale";
 import { lessons,P,T,units,type Item,type Lesson } from "../data/content";
 import { cutRewards,sound,stopAudio } from "../lib/audio";
@@ -332,15 +333,23 @@ export function Player({ lesson, onExit, quiet = false }: {
                 left: d(0),
                 right: d(0),
                 bottom: d(0),
-                padding: d(16),
+                paddingHorizontal: d(20),
+                paddingTop: d(20),
                 paddingBottom: d(28),
-                gap: d(14),
-                backgroundColor: feedback.right ? c.good : c.surface,
-                borderTopWidth: feedback.right ? 0 : d(2),
-                borderColor: c.line,
+                gap: d(16),
+                // Design system: green wash for correct, amber "not yet" wash for a miss (never grey, never red).
+                backgroundColor: feedback.right ? c.good : c.bad,
             }}>
-            {feedback.right ? <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><Animated.View entering={popIn.delay(120)} style={{ width: d(32), height: d(32), borderRadius: d(16), backgroundColor: green, alignItems: "center", justifyContent: "center" }}><Icon name="glyph-check-white" size={d(20)} /></Animated.View><Txt style={{ fontSize: d(22), color: "#27A852", fontFamily: "Nunito_900Black" }}>Zo&apos;r!</Txt></View> : <View><Txt style={{ fontSize: d(15), color: c.muted, fontFamily: "Nunito_900Black" }}>To&apos;g&apos;ri javob:</Txt><Txt style={{ fontSize: d(20), marginTop: d(4), fontFamily: "Nunito_900Black" }}>{feedback.answer}</Txt></View>}
-            {!feedback.right && feedback.tip ? <View style={{ flexDirection: "row", alignItems: "center", gap: d(8), padding: d(12), borderRadius: d(12), backgroundColor: c.card }}><Icon name="bulb-tip" size={d(17)} /><Txt style={{ flex: 1, fontSize: d(14) }}>{feedback.tip}</Txt></View> : null}
+            <View style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}>
+              <Animated.View entering={popIn.delay(120)} style={{ width: d(40), height: d(40), borderRadius: d(20), backgroundColor: feedback.right ? green : c.card, alignItems: "center", justifyContent: "center" }}>
+                <Icon name={feedback.right ? "glyph-check-white" : "bulb-tip"} size={d(feedback.right ? 24 : 26)} />
+              </Animated.View>
+              {feedback.right
+                ? <Txt style={{ ...type("title", d), color: c.goodText }}>Zo&apos;r!</Txt>
+                : <View style={{ flex: 1 }}><Txt style={{ ...type("label", d), color: c.notYetText }}>TO&apos;G&apos;RI JAVOB</Txt><Txt style={{ ...type("heading", d), color: c.text }}>{feedback.answer}</Txt></View>}
+            </View>
+            {/* The reason in one line; a trap's reason is already shown in the exercise after a right answer. */}
+            {feedback.tip && !(feedback.right && current?.item.trap) ? <Txt style={{ ...type("body", d), color: feedback.right ? c.goodText : c.notYetText }}>{feedback.tip}</Txt> : null}
             <Button label="DAVOM ETISH" kind={feedback.right ? "green" : "primary"} onPress={next} testID="lesson-next"/>
           </Animated.View>) : null}
         {leaveSheet}
