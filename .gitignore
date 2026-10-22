@@ -22,3 +22,6 @@ design/sound/*.zip
 
 # pictures the browser version's checks take of every step
 src/web/checks/shots*/
+
+# local check screenshots and logs at the repo root
+/.expo/
