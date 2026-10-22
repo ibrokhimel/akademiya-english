@@ -64,7 +64,7 @@ async function runLesson(lesson, resume = null) {
     keepVoice: S.saveVoice ? (id, blob) => Rec.save(id, blob) : null,
     onProgress: (st) => store.set('inLesson', st) });
   store.del('inLesson'); if (!out.done) return null;
-  push({ type: 'lesson', id: lesson.id, accuracy: out.stats.accuracy, mistakes: out.stats.mistakes, spokenMs: Math.round(out.spokenMs), skipped: out.stats.skipped });
+  push({ type: 'lesson', id: lesson.id, accuracy: out.stats.accuracy, mistakes: out.stats.mistakes, speechRetries: out.stats.speechRetries, spokenMs: Math.round(out.spokenMs), skipped: out.stats.skipped });
   const is = progress();
   if (lesson.checkpoint) { const unit = C.units.find((u) => u.checkpoint.id === lesson.id);
     await trophyScreen(phone, screen, lesson, unit, out.stats.mistakes);

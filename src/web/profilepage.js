@@ -22,7 +22,7 @@ function factsOf(ctx) {
   const days = [...new Set(lessons.map((e) => dayOf(e.at)))].sort();
   let best = 0, bestEnd = null, run = 0, prev = null;                       // the longest run of days in a row
   for (const d of days) { const p = prev && new Date(new Date(d + 'T12:00').getTime() - 864e5); run = prev && dayOf(p) === prev ? run + 1 : 1; prev = d; if (run >= best) { best = run; bestEnd = d; } }
-  const perfect = lessons.filter((e) => e.mistakes === 0 || e.accuracy === 100), early = lessons.filter((e) => new Date(e.at).getHours() < 8), fixed = lessons.filter((e) => e.mistakes > 0);
+  const perfect = lessons.filter((e) => !e.speechRetries && (e.mistakes === 0 || e.accuracy === 100)), early = lessons.filter((e) => new Date(e.at).getHours() < 8), fixed = lessons.filter((e) => e.mistakes > 0);
   let spoken = 0, minuteAt = null; for (const e of lessons) { spoken += e.spokenMs || 0; if (!minuteAt && spoken >= 60000) minuteAt = e.at; }
   const lvCps = new Set(ctx.C.units.map((u) => u.checkpoint).filter((c) => c.levelUp).map((c) => c.id)), lvAt = (lessons.find((e) => lvCps.has(e.id)) || {}).at;
   const p = ctx.progress(), last = lessons.length ? lessons[lessons.length - 1].at : null;
