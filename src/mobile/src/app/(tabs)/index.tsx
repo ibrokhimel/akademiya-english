@@ -1,0 +1,389 @@
+import { router,useScrollToTop } from "expo-router";
+import { useEffect,useRef,useState } from "react";
+import { Pressable,ScrollView,View,useWindowDimensions } from "react-native";
+import { useReducedMotion } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuditScroll } from "../../audit/layout";
+import { useActorFile } from "../../components/Actor";
+import { BottomSheet } from "../../components/BottomSheet";
+import { Effect } from "../../components/Effects";
+import { LessonStartSheet } from "../../components/LessonStartSheet";
+import { Bounce,Count,Pulse } from "../../components/Motion";
+import { RaisedPressable } from "../../components/RaisedPressable";
+import {
+Icon,
+Txt,
+coral,
+gold,
+useTheme,
+violet
+} from "../../components/ui";
+import { units,type Lesson } from "../../data/content";
+import { sound,stopAudio } from "../../lib/audio";
+import { useApp } from "../../lib/store";
+import { getVisualAudit } from "../../lib/visualAudit";
+
+const SPOTS = [
+  [159.5, 16.2, "star"],
+  [112.9, 91.5, "mic"],
+  [90.1, 177.5, "star"],
+  [112.6, 262.1, "headphones"],
+  [158.8, 338.8, "message"],
+] as const;
+export default function Learn() {
+  const { progress: p, settings, set } = useApp(),
+    c = useTheme(),
+    { width } = useWindowDimensions(),
+    scale = Math.min(width / 390, 1.2),
+    d = (n: number) => n * scale;
+  const [pick, setPick] = useState<Lesson | null>(() => {
+    const panel = getVisualAudit()?.panel;
+    return panel === "lesson" ? units[0].lessons[0] : panel === "checkpoint" ? units[0].checkpoint : null;
+  }),
+    [unitIndex, setUnitIndex] = useState(p.unit - 1), [pathHeight, setPathHeight] = useState(500 * scale);
+  const scroll = useRef<ScrollView>(null),
+    initial = useRef(false),
+    currentLessonId = p.current;
+  useScrollToTop(scroll);
+  useAuditScroll(scroll, scale);
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (pick || wasOpen.current)
+      sound(pick ? "whoosh" : "close", settings.sound);
+    wasOpen.current = !!pick;
+  }, [pick, settings.sound]);
+  useEffect(() => {
+    if (initial.current || getVisualAudit()?.panel) return;
+    initial.current = true;
+    const timer = setTimeout(() => {
+      const i = units
+        .flatMap((u) => [...u.lessons, u.checkpoint])
+        .findIndex((l) => l.id === currentLessonId);
+      scroll.current?.scrollTo({
+        y: Math.max(0, (Math.floor(i / 6) * 600 + (i % 6 === 5 ? 425.4 : SPOTS[Math.max(0, i % 6)][1]) - 230) * scale),
+        animated: false,
+      });
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [currentLessonId, scale]);
+  const unit = units[Math.min(2, Math.max(0, unitIndex))];
+  return (
+    <SafeAreaView
+      edges={["top", "left", "right"]}
+      style={{ flex: 1, backgroundColor: c.bg }}
+    >
+      <View
+        style={{
+          height: d(54),
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          paddingHorizontal: d(20),
+        }}
+      >
+        {[
+          ["level-badge", `A${p.level}`, c.muted],
+          ["flame-streak", String(p.streak.count), p.streak.today ? "#FF9F1C" : c.muted],
+          ["bubble-phrases", String(p.phrases), violet],
+        ].map(([icon, value, color], index) => (
+          <Pressable
+            key={icon}
+            onPress={() =>
+              router.navigate(
+                icon === "flame-streak" ? "/calendar" : "/(tabs)/progress",
+              )
+            }
+            style={{ position: "absolute", left: d([40,160,280][index]), top: d(26), height: d(28), flexDirection: "row", alignItems: "center", gap: d(7) }}
+          >
+            {icon === "flame-streak" ? <HeaderFlame lit={p.streak.today} scale={scale} /> : <Icon name={icon} size={d(26)} />}
+            <Bounce change={value}>
+              <Count
+                value={Number(value.replace("A", ""))}
+                prefix={icon === "level-badge" ? "A" : ""}
+                style={{ fontSize: d(16), color }}
+              />
+            </Bounce>
+          </Pressable>
+        ))}
+      </View>
+      <View
+        style={{
+          marginHorizontal: d(24),
+          marginTop: d(12),
+          height: d(78),
+          borderRadius: d(14),
+          backgroundColor: "#5A3FD9",
+          paddingBottom: d(4),
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: violet,
+            borderRadius: d(14),
+            overflow: "hidden",
+          }}
+        >
+          <View style={{ flex: 1, paddingLeft: d(16), gap: d(3) }}>
+            <Txt
+              style={{
+                fontSize: d(14),
+                lineHeight: d(17),
+                color: "#C9BDFF",
+                fontFamily: "Nunito_800ExtraBold",
+              }}
+            >
+              {unit.unit}-BO&apos;LIM ·{" "}
+              {unit.name.replace("!", "").toUpperCase()}
+            </Txt>
+            <Txt
+              style={{
+                fontSize: d(17.3),
+                lineHeight: d(23),
+                fontFamily: "Nunito_800ExtraBold",
+                color: "#FFFFFF",
+              }}
+            >
+              {unit.checkpoint.title}
+            </Txt>
+          </View>
+          <Pressable
+            accessibilityLabel="Ayta oladiganlarim"
+            onPress={() => router.navigate("/phrases")}
+            style={{
+              width: d(55),
+              height: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              borderLeftWidth: 2,
+              borderColor: "#5A3FD9",
+            }}
+          >
+            <Icon name="book-phrase-list" size={d(34)} />
+          </Pressable>
+        </View>
+      </View>
+      <ScrollView
+        ref={scroll}
+        showsVerticalScrollIndicator={false}
+        style={{ marginTop: d(8) }}
+        onLayout={e => setPathHeight(e.nativeEvent.layout.height)}
+        onScroll={(e) => {
+          const n = Math.min(
+            2,
+            Math.floor(
+              (e.nativeEvent.contentOffset.y / scale + pathHeight / scale / 2 + 74) / 600,
+            ),
+          );
+          if (n !== unitIndex) setUnitIndex(n);
+        }}
+        scrollEventThrottle={100}
+        contentContainerStyle={{ alignItems: "center", paddingBottom: d(0) }}
+      >
+        {units.map((u, i) => (
+          <View key={u.unit} style={{ width: d(390), height: d(600) }}>
+            {i > 0 ? (
+              <View
+                style={{
+                  position: "absolute",
+                  left: d(24),
+                  right: d(24),
+                  top: d(-74),
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: d(12),
+                }}
+              >
+                <View style={{ flex: 1, height: 2, backgroundColor: c.line }} />
+                <Txt style={{ fontSize: d(13), color: c.muted }}>
+                  {u.unit}-BO&apos;LIM · {u.name.toUpperCase()}
+                </Txt>
+                <View style={{ flex: 1, height: 2, backgroundColor: c.line }} />
+              </View>
+            ) : null}
+            {u.lessons.map((l, k) => {
+              const state = p.state(l.id),
+                current = state === "cur",
+                done = state === "done",
+                face = current ? coral : done ? violet : c.line,
+                edge = current ? "#D9483A" : done ? "#5A3FD9" : c.edge;
+              const glyph = done
+                ? "glyph-check-white"
+                : SPOTS[k][2] === "headphones"
+                  ? "glyph-v1-headphones-muted"
+                  : `glyph-${SPOTS[k][2]}-${current ? "white" : "muted"}`;
+              return (
+                <View
+                  key={l.id}
+                  style={{
+                    position: "absolute",
+                    left: d(SPOTS[k][0]),
+                    top: d(SPOTS[k][1]),
+                    width: d(71),
+                    height: d(66),
+                  }}
+                >
+                  {current ? (
+                    <Pulse
+                      halo
+                      style={{
+                        position: "absolute",
+                        left: d(-9),
+                        top: d(-9),
+                        width: d(89),
+                        height: d(75),
+                        borderRadius: d(45),
+                        borderWidth: d(4),
+                        borderColor: settings.dark ? "#6A3434" : "#FFD1CC",
+                      }}
+                    />
+                  ) : null}
+                  <RaisedPressable
+                    accessibilityRole="button"
+                    accessibilityLabel={`${l.n}-dars: ${l.title}`}
+                    disabled={!p.open(l.id)}
+                    onPress={() => setPick(l)}
+                    radius={d(36)}
+                    depth={d(9)}
+                    backgroundColor={face}
+                    edgeColor={edge}
+                    faceStyle={{
+                      height: d(57),
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Icon
+                      name={glyph}
+                      size={d(32)}
+                      style={
+                        current && k === 3
+                          ? { tintColor: "#FFFFFF" }
+                          : undefined
+                      }
+                    />
+                  </RaisedPressable>
+                </View>
+              );
+            })}
+            <View
+              style={{
+                position: "absolute",
+                left: d(253.9),
+                top: d(168.9),
+                width: d(76.7),
+                height: d(82.6),
+                borderRadius: d(38),
+                backgroundColor: c.soft,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name={u.icon} size={d(52)} />
+            </View>
+            <Txt
+              style={{
+                position: "absolute",
+                left: d(262),
+                top: d(267),
+                color: c.line,
+                fontSize: d(20),
+                fontFamily: "Nunito_900Black",
+              }}
+            >
+              ★ ★ ★
+            </Txt>
+            <RaisedPressable
+              accessibilityLabel={`Nazorat nuqtasi ${u.unit}`}
+              disabled={!p.open(u.checkpoint.id)}
+              onPress={() => setPick(u.checkpoint)}
+              radius={d(16)}
+              depth={d(6)}
+              backgroundColor={c.goldSoft}
+              edgeColor="#E0A400"
+              style={{
+                position: "absolute",
+                left: d(206.2),
+                top: d(425.4),
+                width: d(69.4),
+              }}
+              faceStyle={{
+                height: d(54.8),
+                overflow: "visible",
+                borderWidth: d(3),
+                borderColor: gold,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name="trophy-unit" size={d(38)} />
+              {p.done[u.checkpoint.id] ? (
+                <View
+                  style={{
+                    position: "absolute",
+                    right: d(-8),
+                    top: d(-8),
+                    borderRadius: 20,
+                    backgroundColor: "#3DCB6C",
+                    padding: 3,
+                    borderWidth: 3,
+                    borderColor: c.bg,
+                  }}
+                >
+                  <Icon name="glyph-check-white" size={d(16)} />
+                </View>
+              ) : null}
+            </RaisedPressable>
+          </View>
+        ))}
+        <View style={{ width: d(390), height: d(160) }}><View style={{ position: "absolute", top: d(-74), left: d(24), right: d(24), height: d(40), flexDirection: "row", alignItems: "center", gap: d(12) }}><View style={{ flex: 1, height: d(2), backgroundColor: c.line }} /><Txt style={{ color: c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>Keyingi bo&apos;lim tez orada</Txt><View style={{ flex: 1, height: d(2), backgroundColor: c.line }} /></View><RaisedPressable accessibilityLabel="Keyingi bo'lim tez orada" radius={d(36)} depth={d(9)} backgroundColor={c.line} edgeColor={c.edge} style={{ position: "absolute", top: d(16), left: d(159.5), width: d(71) }} faceStyle={{ height: d(57), alignItems: "center", justifyContent: "center" }}><Icon name="glyph-lock-muted" size={d(32)} /></RaisedPressable></View>
+      </ScrollView>
+      {!settings.speaking ? (
+        <Pressable
+          onPress={() => set({ speaking: true })}
+          style={{
+            position: "absolute",
+            bottom: d(14),
+            alignSelf: "center",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: d(6),
+            paddingVertical: d(9),
+            paddingHorizontal: d(16),
+            borderRadius: d(20),
+            backgroundColor: c.soft,
+            borderWidth: 2,
+            borderColor: c.softLine,
+          }}
+        >
+          <Icon name="glyph-mic-off-violet" size={d(16)} />
+          <Txt
+            style={{
+              fontSize: d(13),
+              color: violet,
+              fontFamily: "Nunito_900Black",
+            }}
+          >
+            GAPIRISH O&apos;CHIQ · YOQISH
+          </Txt>
+        </Pressable>
+      ) : null}
+      <BottomSheet
+        visible={!!pick}
+        onClose={() => {
+          stopAudio();
+          setPick(null);
+        }}
+      >
+        {pick ? <LessonStartSheet lesson={pick} onStart={() => { const id = pick.id; stopAudio(); setPick(null); router.navigate(`/lesson/${id}`); }} /> : null}
+      </BottomSheet>
+    </SafeAreaView>
+  );
+}
+
+function HeaderFlame({ lit, scale }: { lit: boolean; scale: number }) {
+ const file = useActorFile(), reduced = useReducedMotion();
+ return <View style={{ width: 26 * scale, height: 28 * scale }}>{file && !reduced ? <Effect board="Streak Flame" lit={lit} trigger={null} style={{ position: "absolute", left: 0, top: -6.5 * scale, width: 26 * scale, height: 33 * scale }} /> : <View style={{ filter: lit ? undefined : [{ grayscale: 1 }], opacity: lit ? 1 : .45 }}><Icon name="flame-streak" size={26 * scale} /></View>}</View>;
+}
