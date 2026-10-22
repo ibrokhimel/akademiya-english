@@ -1,5 +1,6 @@
 import { Pressable,View } from "react-native";
-import Animated,{ FadeInDown,ReduceMotion } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
+import { arriveIn } from "./Motion";
 import { Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
@@ -12,7 +13,7 @@ export function SpeechAnswer({ words, transcript, final, accepted, onReplay }: {
 }) {
   const d = useDesignScale(), c = useTheme();
   const label = { fontSize: d(11), letterSpacing: d(.6), color: c.muted, fontFamily: "Nunito_900Black" };
-  return <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} style={{ width: "100%", padding: d(16), borderRadius: d(16), backgroundColor: c.surface, gap: d(10) }}>
+  return <Animated.View entering={arriveIn} style={{ width: "100%", padding: d(16), borderRadius: d(16), backgroundColor: c.surface, gap: d(10) }}>
     <Txt style={label}>{final ? "ESHITILGAN MATN:" : "ESHITYAPMAN…"}</Txt>
     <Txt accessibilityLiveRegion="polite" style={{ minHeight: d(26), fontSize: d(18), fontFamily: "Nunito_800ExtraBold", color: c.text }}>{transcript || "…"}</Txt>
     {final ? <>

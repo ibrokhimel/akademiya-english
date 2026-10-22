@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import { Pressable,ScrollView,View } from "react-native";
-import Animated,{ FadeInDown,ReduceMotion,ZoomIn } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { P,units,type Lesson } from "../data/content";
 import { play } from "../lib/audio";
@@ -9,11 +9,11 @@ import { getVisualAudit } from "../lib/visualAudit";
 import { Actor } from "./Actor";
 import { Effect } from "./Effects";
 import { CheckpointResult,LevelReward,StreakReward } from "./MomentMilestones";
-import { Arrive,Count } from "./Motion";
+import { Arrive,Count,arriveIn,popIn } from "./Motion";
 import { Button,coral,gold,green,Icon,Txt,useTheme,violet } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 export type MomentPhase = "mistakes" | "canSay" | "result" | "streak" | "level";
-const arrive = FadeInDown.duration(220).reduceMotion(ReduceMotion.System), pop = ZoomIn.duration(260).reduceMotion(ReduceMotion.System);
+const arrive = arriveIn, pop = popIn;
 export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinue, }: {
     phase: MomentPhase;
     lesson: Lesson;

@@ -11,9 +11,11 @@ Easing,
 useAnimatedStyle,
 useReducedMotion,
 useSharedValue,
+withSpring,
 withTiming,
 } from "react-native-reanimated";
 import { useAuditBox } from "../audit/layout";
+import { spring } from "./Motion";
 import { sound } from "../lib/audio";
 import { useApp } from "../lib/store";
 
@@ -67,12 +69,8 @@ export function RaisedPressable({
         onPressIn?.(event);
       }}
       onPressOut={(event) => {
-        pressed.set(
-          withTiming(0, {
-            duration: reduced ? 0 : 140,
-            easing: Easing.bezier(0.34, 1.56, 0.64, 1),
-          }),
-        );
+        // Springs back up and settles, like the face is on a rubber base.
+        pressed.set(reduced ? 0 : withSpring(0, spring.snappy));
         onPressOut?.(event);
       }}
       style={[{ paddingBottom: depth }, style]}

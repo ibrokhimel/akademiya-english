@@ -20,6 +20,8 @@ FadeInDown,
 FadeOut,
 LinearTransition,
 ReduceMotion,
+SlideInDown,
+ZoomIn,
 cancelAnimation,
 useAnimatedStyle,
 useReducedMotion,
@@ -27,13 +29,35 @@ useSharedValue,
 withDelay,
 withRepeat,
 withSequence,
+withSpring,
 withTiming,
 } from "react-native-reanimated";
 import { useApp } from "../lib/store";
 
-export const closeGap = LinearTransition.duration(180).reduceMotion(
-  ReduceMotion.System,
-);
+// Three springs for everything that moves: things overshoot a little and settle,
+// instead of stopping dead at the end of a fixed timing.
+// gentle: cards and panels arriving · snappy: presses and small state changes · bouncy: pops and rewards
+export const spring = {
+  gentle: { mass: 1, stiffness: 170, damping: 18, reduceMotion: ReduceMotion.System },
+  snappy: { mass: 1, stiffness: 520, damping: 26, reduceMotion: ReduceMotion.System },
+  bouncy: { mass: 1, stiffness: 380, damping: 13, reduceMotion: ReduceMotion.System },
+} as const;
+// Gap between items in a staggered entrance.
+export const STAGGER = 45;
+
+export const closeGap = LinearTransition.springify()
+  .mass(1).stiffness(spring.gentle.stiffness).damping(spring.gentle.damping)
+  .reduceMotion(ReduceMotion.System);
+// Entrances for one-off views (feedback panels, badges, sheets content).
+export const arriveIn = FadeInDown.springify()
+  .mass(1).stiffness(spring.gentle.stiffness).damping(spring.gentle.damping)
+  .reduceMotion(ReduceMotion.System);
+export const popIn = ZoomIn.springify()
+  .mass(1).stiffness(spring.bouncy.stiffness).damping(spring.bouncy.damping)
+  .reduceMotion(ReduceMotion.System);
+export const panelIn = SlideInDown.springify()
+  .mass(1).stiffness(spring.gentle.stiffness).damping(spring.gentle.damping + 4)
+  .reduceMotion(ReduceMotion.System);
 export function AudioBars({
   color = "#FFFFFF",
   size = 30,
@@ -98,6 +122,9 @@ function AudioBar({
     />
   );
 }
+// A card that rises into place on a spring, one after another by index.
+// It plays again each time its screen comes into view (switching tabs, coming back),
+// without remounting, so scroll position and state are kept.
 export function Arrive({
   children,
   index = 0,
@@ -107,14 +134,31 @@ export function Arrive({
   index?: number;
   style?: StyleProp<ViewStyle>;
 }) {
+  const reduced = useReducedMotion();
+  const shown = useSharedValue(reduced ? 1 : 0);
+  useFocusEffect(
+    useCallback(() => {
+      if (reduced) {
+        shown.set(1);
+        return;
+      }
+      shown.set(0);
+      shown.set(withDelay(index * STAGGER, withSpring(1, spring.gentle)));
+      return () => cancelAnimation(shown);
+    }, [shown, reduced, index]),
+  );
+  const motion = useAnimatedStyle(() => ({
+    opacity: Math.min(1, shown.get() * 1.6),
+    transform: [
+      { translateY: (1 - shown.get()) * 18 },
+      { scale: 0.97 + shown.get() * 0.03 },
+    ],
+  }));
   return (
     <Animated.View
-      entering={FadeInDown.duration(220)
-        .delay(index * 40)
-        .reduceMotion(ReduceMotion.System)}
       exiting={FadeOut.duration(120)}
       layout={closeGap}
-      style={style}
+      style={[style, motion]}
     >
       {children}
     </Animated.View>
@@ -131,16 +175,10 @@ export function Fill({
 }) {
   const progress = useSharedValue(0);
   useEffect(() => {
-    progress.set(
-      withTiming(Math.max(0, Math.min(1, value)), {
-        duration: 320,
-        easing: Easing.bezier(0.2, 0, 0, 1),
-        reduceMotion: ReduceMotion.System,
-      }),
-    );
+    progress.set(withSpring(Math.max(0, Math.min(1, value)), spring.gentle));
   }, [value, progress]);
   const animated = useAnimatedStyle(() => ({
-    width: `${progress.get() * 100}%`,
+    width: `${Math.min(1, Math.max(0, progress.get())) * 100}%`, // the spring may overshoot
   }));
   return (
     <Animated.View
@@ -204,10 +242,7 @@ export function Bounce({
       scale.set(
         withSequence(
           withTiming(1.12, { duration: 90 }),
-          withTiming(1, {
-            duration: 150,
-            easing: Easing.bezier(0.34, 1.56, 0.64, 1),
-          }),
+          withSpring(1, spring.bouncy),
         ),
       );
   }, [change, scale, reduced]);
@@ -333,7 +368,7 @@ export function useAnswerMotion(verdict: boolean | null) {
       scale.set(
         withSequence(
           withTiming(1.08, { duration: 90 }),
-          withTiming(1, { duration: 110 }),
+          withSpring(1, spring.bouncy),
         ),
       );
     else

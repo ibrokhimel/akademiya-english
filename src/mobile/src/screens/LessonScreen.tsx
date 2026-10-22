@@ -2,7 +2,7 @@ import { router,useIsFocused } from "expo-router";
 import { usePreventRemove } from "expo-router/react-navigation";
 import { useCallback,useEffect,useEffectEvent,useRef,useState,} from "react";
 import { BackHandler,Modal,Pressable,View } from "react-native";
-import Animated,{ FadeInDown,FadeOutDown,ReduceMotion,} from "react-native-reanimated";
+import Animated,{ FadeOutDown,ReduceMotion,} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { progressOf } from "../../../core/progress.js";
 import { makeSession } from "../../../core/session.js";
@@ -12,7 +12,7 @@ import { BottomSheet,SheetHandle } from "../components/BottomSheet";
 import { Effect } from "../components/Effects";
 import { Exercise,type Answer } from "../components/Exercise";
 import { LessonMoment } from "../components/LessonMoment";
-import { Bounce,Fill } from "../components/Motion";
+import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
 import { ScreenTransition } from "../components/ScreenTransition";
 import { Button,gold,green,Icon,LinkButton,Page,Txt,useTheme,violet } from "../components/ui";
@@ -327,7 +327,7 @@ export function Player({ lesson, onExit, quiet = false }: {
                 setCurrent(nextItem());
             }}/>
           </ScreenTransition>) : null}
-        {feedback ? (<Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} exiting={FadeOutDown.duration(180).reduceMotion(ReduceMotion.System)} style={{
+        {feedback ? (<Animated.View entering={panelIn} exiting={FadeOutDown.duration(180).reduceMotion(ReduceMotion.System)} style={{
                 position: "absolute",
                 left: d(0),
                 right: d(0),
@@ -339,7 +339,7 @@ export function Player({ lesson, onExit, quiet = false }: {
                 borderTopWidth: feedback.right ? 0 : d(2),
                 borderColor: c.line,
             }}>
-            {feedback.right ? <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><View style={{ width: d(32), height: d(32), borderRadius: d(16), backgroundColor: green, alignItems: "center", justifyContent: "center" }}><Icon name="glyph-check-white" size={d(20)} /></View><Txt style={{ fontSize: d(22), color: "#27A852", fontFamily: "Nunito_900Black" }}>Zo&apos;r!</Txt></View> : <View><Txt style={{ fontSize: d(15), color: c.muted, fontFamily: "Nunito_900Black" }}>To&apos;g&apos;ri javob:</Txt><Txt style={{ fontSize: d(20), marginTop: d(4), fontFamily: "Nunito_900Black" }}>{feedback.answer}</Txt></View>}
+            {feedback.right ? <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><Animated.View entering={popIn.delay(120)} style={{ width: d(32), height: d(32), borderRadius: d(16), backgroundColor: green, alignItems: "center", justifyContent: "center" }}><Icon name="glyph-check-white" size={d(20)} /></Animated.View><Txt style={{ fontSize: d(22), color: "#27A852", fontFamily: "Nunito_900Black" }}>Zo&apos;r!</Txt></View> : <View><Txt style={{ fontSize: d(15), color: c.muted, fontFamily: "Nunito_900Black" }}>To&apos;g&apos;ri javob:</Txt><Txt style={{ fontSize: d(20), marginTop: d(4), fontFamily: "Nunito_900Black" }}>{feedback.answer}</Txt></View>}
             {!feedback.right && feedback.tip ? <View style={{ flexDirection: "row", alignItems: "center", gap: d(8), padding: d(12), borderRadius: d(12), backgroundColor: c.card }}><Icon name="bulb-tip" size={d(17)} /><Txt style={{ flex: 1, fontSize: d(14) }}>{feedback.tip}</Txt></View> : null}
             <Button label="DAVOM ETISH" kind={feedback.right ? "green" : "primary"} onPress={next} testID="lesson-next"/>
           </Animated.View>) : null}

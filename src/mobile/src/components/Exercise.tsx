@@ -39,7 +39,7 @@ import { keepRecording,useSpeech } from "../lib/useSpeech";
 import { getVisualAudit } from "../lib/visualAudit";
 import { Actor } from "./Actor";
 import { Effect } from "./Effects";
-import { AudioBars,Pulse,closeGap,useAnswerMotion } from "./Motion";
+import { AudioBars,Pulse,arriveIn,closeGap,useAnswerMotion } from "./Motion";
 import { RaisedPressable } from "./RaisedPressable";
 import { SpeechAnswer } from "./SpeechAnswer";
 import {
@@ -556,7 +556,7 @@ export function Exercise({
                 </Animated.View>
               ))}
             </View>
-            {verdict === true ? <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} style={{ flexDirection: "row", gap: d(12), padding: d(16), borderRadius: d(16), backgroundColor: c.cream, borderWidth: d(2), borderColor: "#FFC93C" }}><Icon name="bulb-tip" size={d(23)} /><View style={{ flex: 1 }}><Txt style={{ fontSize: d(11), letterSpacing: d(.6), color: c.goldText, fontFamily: "Nunito_900Black", marginBottom: d(4) }}>O&apos;ZBEKCHA IZOH</Txt><Txt style={{ fontSize: d(14) }}>{item.trap ? T[item.trap]?.why : ""}</Txt></View></Animated.View> : null}
+            {verdict === true ? <Animated.View entering={arriveIn} style={{ flexDirection: "row", gap: d(12), padding: d(16), borderRadius: d(16), backgroundColor: c.cream, borderWidth: d(2), borderColor: "#FFC93C" }}><Icon name="bulb-tip" size={d(23)} /><View style={{ flex: 1 }}><Txt style={{ fontSize: d(11), letterSpacing: d(.6), color: c.goldText, fontFamily: "Nunito_900Black", marginBottom: d(4) }}>O&apos;ZBEKCHA IZOH</Txt><Txt style={{ fontSize: d(14) }}>{item.trap ? T[item.trap]?.why : ""}</Txt></View></Animated.View> : null}
           </>
         ) : null}
         {item.ex === "meet" && (!speakingTurn || (!checked && !speech.listening && !speech.transcript)) ? (
