@@ -33,17 +33,19 @@ withSpring,
 withTiming,
 } from "react-native-reanimated";
 import { useApp } from "../lib/store";
+import { STAGGER_MS,shared,springs } from "./system";
 
 // Three springs for everything that moves: things overshoot a little and settle,
 // instead of stopping dead at the end of a fixed timing.
 // gentle: cards and panels arriving · snappy: presses and small state changes · bouncy: pops and rewards
+// The values are the shared design system's (design/system/tokens.json).
 export const spring = {
-  gentle: { mass: 1, stiffness: 170, damping: 18, reduceMotion: ReduceMotion.System },
-  snappy: { mass: 1, stiffness: 520, damping: 26, reduceMotion: ReduceMotion.System },
-  bouncy: { mass: 1, stiffness: 380, damping: 13, reduceMotion: ReduceMotion.System },
+  gentle: { ...springs.gentle, reduceMotion: ReduceMotion.System },
+  snappy: { ...springs.snappy, reduceMotion: ReduceMotion.System },
+  bouncy: { ...springs.bouncy, reduceMotion: ReduceMotion.System },
 } as const;
 // Gap between items in a staggered entrance.
-export const STAGGER = 45;
+export const STAGGER = STAGGER_MS;
 
 export const closeGap = LinearTransition.springify()
   .mass(1).stiffness(spring.gentle.stiffness).damping(spring.gentle.damping)
@@ -300,7 +302,7 @@ export function Count({
     <Text
       style={[
         {
-          color: settings.dark ? "#F4F4F6" : "#2B2B3C",
+          color: settings.dark ? shared.dark.ink : shared.light.ink,
           fontFamily: "Nunito_900Black",
           fontSize: 15,
           includeFontPadding: false,

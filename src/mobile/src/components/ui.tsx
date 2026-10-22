@@ -21,13 +21,16 @@ import { sound } from "../lib/audio";
 import { useApp } from "../lib/store";
 import { Shine } from "./Motion";
 import { RaisedPressable } from "./RaisedPressable";
+import { brand,shared,type } from "./system";
 import { ToggleControl } from "./ToggleControl";
 import { useDesignScale } from "./useDesignScale";
 
-export const violet = "#7B5CFF",
+// Interface colours come from the shared design system (design/system/tokens.json).
+export const violet = brand.main,
   coral = "#FF6B5B",
-  green = "#3DCB6C",
-  gold = "#FFC93C";
+  green = shared.light.correct,
+  gold = shared.light.reward;
+const L = shared.light, D = shared.dark;
 export function useTheme() {
   const { settings } = useApp();
   return settings.dark
@@ -36,11 +39,14 @@ export function useTheme() {
         card: "#1B1B1F",
         surface: "#242429",
         line: "#34343B",
-        text: "#F4F4F6",
-        muted: "#9C9CA6",
+        text: D.ink,
+        muted: D.muted,
         soft: "#26214A",
-        good: "#17352A",
-        bad: "#3A1D22",
+        good: D.correctWash,
+        bad: D.notYetWash,
+        goodText: D.correctText,
+        notYet: D.notYet,
+        notYetText: D.notYetText,
         edge: "#26262B",
         softLine: "#463C85",
         goldSoft: "#383014",
@@ -51,13 +57,16 @@ export function useTheme() {
     : {
         bg: "#FFFFFF",
         card: "#FFFFFF",
-        surface: "#F6F6FA",
-        line: "#E5E5E5",
-        text: "#2B2B3C",
-        muted: "#8A8AA0",
-        soft: "#EFEBFF",
-        good: "#E3F9EA",
-        bad: "#FFE8EA",
+        surface: L.paper,
+        line: L.line,
+        text: L.ink,
+        muted: L.muted,
+        soft: brand.wash,
+        good: L.correctWash,
+        bad: L.notYetWash,
+        goodText: L.correctText,
+        notYet: L.notYet,
+        notYetText: L.notYetText,
         edge: "#B7B7B7",
         softLine: "#C9BDFF",
         goldSoft: "#FFF4D1",
@@ -79,8 +88,8 @@ export function Txt({ style, ...props }: TextProps) {
         {
           color: c.text,
           fontFamily: "Nunito_700Bold",
-          fontSize: d(15),
-          lineHeight: textStyle?.lineHeight ?? (textStyle?.fontSize ?? d(15)) * 1.4,
+          fontSize: d(16),
+          lineHeight: textStyle?.lineHeight ?? (textStyle?.fontSize ?? d(16)) * 1.42,
           includeFontPadding: false,
         },
         style,
@@ -178,12 +187,12 @@ export function Button({
           : kind === "secondary"
             ? c.line
             : kind === "green"
-              ? "#27A852"
+              ? shared.light.correctLip
               : kind === "gold"
-                ? "#E0A400"
+                ? shared.light.rewardLip
                 : kind === "danger"
                   ? "#C02A3D"
-                  : "#5A3FD9"
+                  : brand.lip
       }
       radius={d(16)}
       depth={d(4)}
@@ -204,10 +213,7 @@ export function Button({
             : kind === "secondary"
               ? violet
               : "#FFFFFF",
-          fontFamily: "Nunito_900Black",
-          fontSize: d(15),
-          lineHeight: d(21),
-          letterSpacing: d(0.6),
+          ...type("button", d),
           textAlign: "center",
         }}
       >
@@ -300,11 +306,10 @@ export function Title({
   sub?: string;
 }) {
   const c = useTheme();
+  const d = useDesignScale();
   return (
     <View style={{ gap: 8 }}>
-      <Txt
-        style={{ fontSize: 27, lineHeight: 34, fontFamily: "Nunito_900Black" }}
-      >
+      <Txt style={type("title", d)}>
         {children}
       </Txt>
       {sub ? <Txt style={{ color: c.muted, lineHeight: 23 }}>{sub}</Txt> : null}
@@ -341,9 +346,7 @@ export function Section({ children, style }: { children: ReactNode; style?: Text
     <Txt
       style={[{
         color: c.muted,
-        fontSize: d(12),
-        letterSpacing: d(.6),
-        fontFamily: "Nunito_900Black",
+        ...type("label", d),
         marginTop: d(6),
       }, style]}
     >
@@ -355,7 +358,7 @@ export const s = StyleSheet.create({
   page: { padding: 20, gap: 16, paddingBottom: 28 },
   row: { flexDirection: "row", alignItems: "center", gap: 12 },
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 20 },
-  heading: { fontSize: 28, lineHeight: 35, fontFamily: "Nunito_900Black" },
+  heading: type("title"),
   input: {
     borderWidth: 2,
     borderRadius: 14,
