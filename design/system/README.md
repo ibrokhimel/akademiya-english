@@ -3,6 +3,7 @@
 One look for Akademiya English and Akademiya Math (decided 2026-10-23). The values live in
 [tokens.json](tokens.json); this page says how to use them. Both apps read the same file.
 English reads it in `src/mobile/src/components/system.ts`; Math should copy it into `lib/core/theme.dart`.
+The reasoning behind the rules, and how both apps apply them, is in [design-language.md](design-language.md).
 
 ## What is shared and what is not
 
