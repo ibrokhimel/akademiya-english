@@ -69,6 +69,24 @@ figcaption { font-size: 14px; color: var(--muted); }
     <p class="status" id="status">Connecting…</p>
   </header>
 
+  <section id="finished">
+    <span class="label">Finished from your picks</span><h2>Learn A · Speak B · Practice C</h2>
+    <p>The versions you chose, finished with their first-time screens and dark mode. Dombi's bubble is redone (compact, one pointed corner toward him) and the line you flagged now reads "Bugungi dars 4 daqiqa." Me is still open below: pick D, E or F.</p>
+    <div class="extra">
+      <figure><img src="final-learn.png" alt="Learn, final" loading="lazy"><figcaption>Learn</figcaption></figure>
+      <figure><img src="final-learn-first-time.png" alt="Learn, first time" loading="lazy"><figcaption>Learn · first time</figcaption></figure>
+      <figure><img src="final-learn-dark.png" alt="Learn, dark" loading="lazy"><figcaption>Learn · dark</figcaption></figure>
+      <figure><img src="final-speak.png" alt="Speak, final" loading="lazy"><figcaption>Speak</figcaption></figure>
+      <figure><img src="final-speak-first-time.png" alt="Speak, first time" loading="lazy"><figcaption>Speak · first time</figcaption></figure>
+      <figure><img src="final-speak-live-call.png" alt="Speak, conversation" loading="lazy"><figcaption>Speak · conversation</figcaption></figure>
+      <figure><img src="final-speak-dark.png" alt="Speak, dark" loading="lazy"><figcaption>Speak · dark</figcaption></figure>
+      <figure><img src="final-practice.png" alt="Practice, final" loading="lazy"><figcaption>Practice</figcaption></figure>
+      <figure><img src="final-practice-first-time.png" alt="Practice, first time" loading="lazy"><figcaption>Practice · first time</figcaption></figure>
+      <figure><img src="final-practice-done.png" alt="Practice, challenge done" loading="lazy"><figcaption>Practice · challenge done</figcaption></figure>
+      <figure><img src="final-practice-dark.png" alt="Practice, dark" loading="lazy"><figcaption>Practice · dark</figcaption></figure>
+    </div>
+  </section>
+
   <nav aria-label="Tabs"><ul id="nav"></ul></nav>
   <div id="tabs" style="display:flex;flex-direction:column;gap:56px"></div>
 
@@ -103,13 +121,13 @@ const TABS = [
     ["B", "practice-b.png", "Challenge plus squares", "The challenge, then the four activities as equal squares."],
     ["C", "practice-c.png", "Grouped by skill", "The challenge, then 'Tinglash' (listening) and 'So'zlar' (words) groups."]],
     extra: [["practice-first-time.png", "First time"], ["practice-challenge-done.png", "Challenge done"]] },
-  { key: "me", name: "Men (Me)", short: "Me", options: [
-    ["A", "me-a.png", "Violet header", "A violet header with your name and level, then streak, phrases, records, recordings, account."],
-    ["B", "me-b.png", "Your number first", "'18 phrases you can say' as the big number; then streak and records."],
-    ["C", "me-c.png", "Results and Profile", "A switch at the top between your results and your profile settings."]],
-    extra: [["me-first-time.png", "First time"]] },
+  { key: "me", name: "Men (Me)", short: "Me", intro: "New round, built on the app's current profile: the tinted band, the big letter avatar, name and level, the goal card and the record cards.", options: [
+    ["D", "me-d.png", "Today's profile, polished", "The current profile with a shorter band, an overview of four numbers, and your records."],
+    ["E", "me-e.png", "With this week", "The current profile plus a chart of how many minutes you spoke each day this week."],
+    ["F", "me-f.png", "With your voice", "The current profile plus your first and latest recording of a phrase, side by side."]],
+    extra: [] },
 ];
-const LINES = ["O'rganish","2-BO'LIM · KAFEDA · 2-DARS","Taom buyurtma qila olasiz","4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.","BOSHLASH","Keyingi dars shu yerda. 4 daqiqa.","KEYINGI DARS","Kafeda yana 3 dars qoldi. Boshlaymizmi?","DAVOM ETISH","Gapirish","Dombi bilan gaplashing","Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.","Bugungi kun · Ovqat · Sayohat · Ish","VAZIYATLAR","Ofitsiant bilan · 2 / 4","Aziz va Malika · 1 / 3","Qaysi birini eshitdingiz?","Mavzu tanlang yoki shunchaki gapiring.","Vaziyat · Tovush","Qanday gaplashamiz? Bittasini tanlang.","Erkin suhbat","Istalgan mavzuda Dombi bilan","Yordam bilan","Boshlash uchun tayyor gaplar va maslahat","Kafe, ko'cha, do'kon: rolni o'ynang","Inglizcha hali gapirmaganmisiz?","Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.","YORDAM BILAN BOSHLASH","1-darsdan keyin ochiladi · 2-bo'limda ochiladi","Yangi vaziyatlar darslar bilan ochiladi.","Taksi · Aeroport · Mehmonxona · Shifokor · Ish suhbati","Haydovchi bilan · Sotuvchi bilan","Mavzu: Ovqat","Tinglayapman…","Matn · Mikrofon · Yordam · Tugatish","Mashq","Bugun 2 daqiqa topsangiz bo'ldi.","KUNLIK SINOV","3 ta vazifa · 2 daqiqa","Bajarsangiz, seriya saqlanadi.","MASHQLAR","Juftini top","Inglizcha va o'zbekcha juftlar · rekord 12","Gapni tut","Eshiting, so'zlarni tartiblang","Eshitib qoldim","Darsdagi suhbatlar · 6 ta","Xatoni tuzat","Ko'p uchraydigan xatolar · 9 ta","Tinglash · So'zlar","Qaysi biri qiyin bo'lsa, o'shani mashq qiling.","Birinchi darsni tugatsangiz, bu yer to'ladi.","Birinchi darsdan keyin ochiladi.","Zo'r! Bugungi sinov bajarildi. Xohlasangiz yana mashq qiling.","Bajarildi!","Seriya saqlandi. Ertaga yangisi.","Men","0-DARAJA · OKTYABRDAN BERI","3 kun ketma-ket","Ayta oladiganlarim","REKORDLAR","Eng uzun seriya · Mukammal darslar · Daqiqa gapirdingiz","Ovozim · Hisob","ta gapni inglizcha ayta olasiz","Natijalar · Profil","0-DARAJA · BUGUN QO'SHILDINGIZ","Birinchi darsdan keyin bu yer to'la boshlaydi.","Zo'r! 3 kun ketma-ket. Ertaga ham kelasizmi?","Seriya hali yo'q","Salom! Bugun bitta suhbat yetarli."];
+const LINES = ["O'rganish","2-BO'LIM · KAFEDA · 2-DARS","Taom buyurtma qila olasiz","Bugungi dars 4 daqiqa. (new version of the line you flagged)","BOSHLASH","Keyingi dars shu yerda. 4 daqiqa.","KEYINGI DARS","Kafeda yana 3 dars qoldi. Boshlaymizmi?","DAVOM ETISH","Gapirish","Dombi bilan gaplashing","Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.","Bugungi kun · Ovqat · Sayohat · Ish","VAZIYATLAR","Ofitsiant bilan · 2 / 4","Aziz va Malika · 1 / 3","Qaysi birini eshitdingiz?","Mavzu tanlang yoki shunchaki gapiring.","Vaziyat · Tovush","Qanday gaplashamiz? Bittasini tanlang.","Erkin suhbat","Istalgan mavzuda Dombi bilan","Yordam bilan","Boshlash uchun tayyor gaplar va maslahat","Kafe, ko'cha, do'kon: rolni o'ynang","Inglizcha hali gapirmaganmisiz?","Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.","YORDAM BILAN BOSHLASH","1-darsdan keyin ochiladi · 2-bo'limda ochiladi","Yangi vaziyatlar darslar bilan ochiladi.","Taksi · Aeroport · Mehmonxona · Shifokor · Ish suhbati","Haydovchi bilan · Sotuvchi bilan","Mavzu: Ovqat","Tinglayapman…","Matn · Mikrofon · Yordam · Tugatish","Mashq","Bugun 2 daqiqa topsangiz bo'ldi.","KUNLIK SINOV","3 ta vazifa · 2 daqiqa","Bajarsangiz, seriya saqlanadi.","MASHQLAR","Juftini top","Inglizcha va o'zbekcha juftlar · rekord 12","Gapni tut","Eshiting, so'zlarni tartiblang","Eshitib qoldim","Darsdagi suhbatlar · 6 ta","Xatoni tuzat","Ko'p uchraydigan xatolar · 9 ta","Tinglash · So'zlar","Qaysi biri qiyin bo'lsa, o'shani mashq qiling.","Birinchi darsni tugatsangiz, bu yer to'ladi.","Birinchi darsdan keyin ochiladi.","Zo'r! Bugungi sinov bajarildi. Xohlasangiz yana mashq qiling.","Bajarildi!","Seriya saqlandi. Ertaga yangisi.","Men","0-DARAJA · OKTYABRDAN BERI","3 kun ketma-ket","Ayta oladiganlarim","REKORDLAR","Eng uzun seriya · Mukammal darslar · Daqiqa gapirdingiz","Ovozim · Hisob","ta gapni inglizcha ayta olasiz","Natijalar · Profil","0-DARAJA · BUGUN QO'SHILDINGIZ","Birinchi darsdan keyin bu yer to'la boshlaydi.","Zo'r! 3 kun ketma-ket. Ertaga ham kelasizmi?","Seriya hali yo'q","Salom! Bugun bitta suhbat yetarli.","3 kun ketma-ket. Ertaga ham kutaman.","Bu hafta 3 kun gapirdingiz.","Ovozingizni tinglab ko'ring: farq bor!","UMUMIY KO'RINISH · SHAXSIY REKORDLAR · BU HAFTA · OVOZIM","Seriya · Ayta olasiz · Gapirdingiz · Tugatdingiz","IELTS · Imtihonga tayyorlanish · O'ZGARTIRISH","1-KUN · BUGUN"];
 
 const $ = (s, r = document) => r.querySelector(s);
 const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v); } for (const k of kids) n.append(k); return n; };
