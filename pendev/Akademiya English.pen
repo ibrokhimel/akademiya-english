@@ -190630,17 +190630,17 @@
                   "name": "Items",
                   "width": "fill_container",
                   "padding": [
-                    8,
-                    8,
                     14,
-                    8
+                    40,
+                    30,
+                    40
                   ],
+                  "justifyContent": "space_between",
                   "children": [
                     {
                       "type": "frame",
                       "id": "w2Ur9s",
                       "name": "O'RGANISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190649,19 +190649,21 @@
                           "type": "frame",
                           "id": "FP7eB",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "$ds-main-wash",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "$ds-main-wash-line",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "RfJJQ",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190674,7 +190676,10 @@
                         {
                           "type": "text",
                           "id": "MP60S",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-main",
                           "content": "O'RGANISH",
                           "fontFamily": "Nunito",
@@ -190688,7 +190693,6 @@
                       "type": "frame",
                       "id": "WGe8B",
                       "name": "GAPIRISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190697,19 +190701,21 @@
                           "type": "frame",
                           "id": "F0oxe",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "aCUDg",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190722,7 +190728,10 @@
                         {
                           "type": "text",
                           "id": "H3KH0b",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "GAPIRISH",
                           "fontFamily": "Nunito",
@@ -190736,7 +190745,6 @@
                       "type": "frame",
                       "id": "QOy8y",
                       "name": "MASHQ",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190745,19 +190753,21 @@
                           "type": "frame",
                           "id": "TzUa1",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "bU0VW",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190770,7 +190780,10 @@
                         {
                           "type": "text",
                           "id": "NSXkG",
+                          "x": 7.5,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MASHQ",
                           "fontFamily": "Nunito",
@@ -190784,7 +190797,6 @@
                       "type": "frame",
                       "id": "eDRI6",
                       "name": "MEN",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190793,19 +190805,21 @@
                           "type": "frame",
                           "id": "l0bYKI",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "P5k9CC",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190818,7 +190832,10 @@
                         {
                           "type": "text",
                           "id": "toLuS",
+                          "x": 18,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MEN",
                           "fontFamily": "Nunito",
@@ -190855,17 +190872,17 @@
                   "name": "Items",
                   "width": "fill_container",
                   "padding": [
-                    8,
-                    8,
                     14,
-                    8
+                    40,
+                    30,
+                    40
                   ],
+                  "justifyContent": "space_between",
                   "children": [
                     {
                       "type": "frame",
                       "id": "t6CdqI",
                       "name": "O'RGANISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190874,19 +190891,21 @@
                           "type": "frame",
                           "id": "F5cJ3M",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "bnYPS",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190899,7 +190918,10 @@
                         {
                           "type": "text",
                           "id": "ogVT4",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "O'RGANISH",
                           "fontFamily": "Nunito",
@@ -190913,7 +190935,6 @@
                       "type": "frame",
                       "id": "osO5c",
                       "name": "GAPIRISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190922,19 +190943,21 @@
                           "type": "frame",
                           "id": "MuoAb",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "$ds-main-wash",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "$ds-main-wash-line",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "XBCti",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190947,7 +190970,10 @@
                         {
                           "type": "text",
                           "id": "n5IsZU",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-main",
                           "content": "GAPIRISH",
                           "fontFamily": "Nunito",
@@ -190961,7 +190987,6 @@
                       "type": "frame",
                       "id": "JcCTj",
                       "name": "MASHQ",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -190970,19 +190995,21 @@
                           "type": "frame",
                           "id": "b7MVhY",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "P83OaZ",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -190995,7 +191022,10 @@
                         {
                           "type": "text",
                           "id": "J1MjG",
+                          "x": 7.5,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MASHQ",
                           "fontFamily": "Nunito",
@@ -191009,7 +191039,6 @@
                       "type": "frame",
                       "id": "wV4Lc",
                       "name": "MEN",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191018,19 +191047,21 @@
                           "type": "frame",
                           "id": "NkhjM",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "Q9YAq",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191043,7 +191074,10 @@
                         {
                           "type": "text",
                           "id": "f7Py7",
+                          "x": 18,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MEN",
                           "fontFamily": "Nunito",
@@ -191080,17 +191114,17 @@
                   "name": "Items",
                   "width": "fill_container",
                   "padding": [
-                    8,
-                    8,
                     14,
-                    8
+                    40,
+                    30,
+                    40
                   ],
+                  "justifyContent": "space_between",
                   "children": [
                     {
                       "type": "frame",
                       "id": "zgRBD",
                       "name": "O'RGANISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191099,19 +191133,21 @@
                           "type": "frame",
                           "id": "KHWUn",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "LaRDC",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191124,7 +191160,10 @@
                         {
                           "type": "text",
                           "id": "XQvWb",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "O'RGANISH",
                           "fontFamily": "Nunito",
@@ -191138,7 +191177,6 @@
                       "type": "frame",
                       "id": "fap90",
                       "name": "GAPIRISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191147,19 +191185,21 @@
                           "type": "frame",
                           "id": "TrV9N",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "Wm1sn",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191172,7 +191212,10 @@
                         {
                           "type": "text",
                           "id": "bkdfS",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "GAPIRISH",
                           "fontFamily": "Nunito",
@@ -191186,7 +191229,6 @@
                       "type": "frame",
                       "id": "X4eUrH",
                       "name": "MASHQ",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191195,19 +191237,21 @@
                           "type": "frame",
                           "id": "lm1qM",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "$ds-main-wash",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "$ds-main-wash-line",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "pACWp",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191220,7 +191264,10 @@
                         {
                           "type": "text",
                           "id": "Sx0kB",
+                          "x": 7.5,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-main",
                           "content": "MASHQ",
                           "fontFamily": "Nunito",
@@ -191234,7 +191281,6 @@
                       "type": "frame",
                       "id": "w6Uiix",
                       "name": "MEN",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191243,19 +191289,21 @@
                           "type": "frame",
                           "id": "rfZn8",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "UFXvj",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191268,7 +191316,10 @@
                         {
                           "type": "text",
                           "id": "qJBXO",
+                          "x": 18,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MEN",
                           "fontFamily": "Nunito",
@@ -191305,17 +191356,17 @@
                   "name": "Items",
                   "width": "fill_container",
                   "padding": [
-                    8,
-                    8,
                     14,
-                    8
+                    40,
+                    30,
+                    40
                   ],
+                  "justifyContent": "space_between",
                   "children": [
                     {
                       "type": "frame",
                       "id": "r1FBk",
                       "name": "O'RGANISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191324,19 +191375,21 @@
                           "type": "frame",
                           "id": "I3hKoI",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "wpcGh",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191349,7 +191402,10 @@
                         {
                           "type": "text",
                           "id": "x3VpQE",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "O'RGANISH",
                           "fontFamily": "Nunito",
@@ -191363,7 +191419,6 @@
                       "type": "frame",
                       "id": "aWJdM",
                       "name": "GAPIRISH",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191372,19 +191427,21 @@
                           "type": "frame",
                           "id": "KHpO6",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "vUAT6",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191397,7 +191454,10 @@
                         {
                           "type": "text",
                           "id": "J2GRvw",
+                          "x": 0,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "GAPIRISH",
                           "fontFamily": "Nunito",
@@ -191411,7 +191471,6 @@
                       "type": "frame",
                       "id": "TUjiy",
                       "name": "MASHQ",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191420,19 +191479,21 @@
                           "type": "frame",
                           "id": "gBH5R",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "#FFFFFF00",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "#FFFFFF00",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "H5VDFV",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191445,7 +191506,10 @@
                         {
                           "type": "text",
                           "id": "v6BZN",
+                          "x": 7.5,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-muted",
                           "content": "MASHQ",
                           "fontFamily": "Nunito",
@@ -191459,7 +191523,6 @@
                       "type": "frame",
                       "id": "yX1ci",
                       "name": "MEN",
-                      "width": "fill_container",
                       "layout": "vertical",
                       "gap": 4,
                       "alignItems": "center",
@@ -191468,19 +191531,21 @@
                           "type": "frame",
                           "id": "jo9cH",
                           "name": "Icon pill",
+                          "width": 52,
+                          "height": 48,
                           "fill": "$ds-main-wash",
-                          "cornerRadius": 16,
-                          "padding": [
-                            4,
-                            18
-                          ],
+                          "cornerRadius": 14,
+                          "stroke": "$ds-main-wash-line",
+                          "strokeWidth": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
                               "id": "pBMTb",
                               "name": "Icon",
-                              "width": 30,
-                              "height": 30,
+                              "width": 32,
+                              "height": 32,
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
@@ -191493,7 +191558,10 @@
                         {
                           "type": "text",
                           "id": "H2UuxQ",
+                          "x": 18,
+                          "y": 42,
                           "name": "Label",
+                          "enabled": false,
                           "fill": "$ds-main",
                           "content": "MEN",
                           "fontFamily": "Nunito",
@@ -193929,6 +193997,3546 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "P2kGg",
+          "name": "Speak",
+          "gap": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "cxxbR",
+              "name": "Speak · A",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Ioedk",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Lees7",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "cvrpq",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "h4jwS8",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "w51AYs",
+                      "name": "Live talk",
+                      "width": "fill_container",
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 24,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 18,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "b1bfyD",
+                          "type": "ref",
+                          "ref": "No1S1",
+                          "name": "Dombi wave",
+                          "width": 120,
+                          "height": 120
+                        },
+                        {
+                          "type": "text",
+                          "id": "cZ91X",
+                          "name": "Dombi bilan gaplashi",
+                          "fill": "$ds-ink",
+                          "content": "Dombi bilan gaplashing",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "auEN5",
+                          "name": "Istalgan mavzuda, ov",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "PeK0s",
+                          "name": "Topics",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "j83Ub",
+                              "name": "Bugungi kun",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "nSd73",
+                                  "name": "Bugungi kun",
+                                  "fill": "$ds-ink",
+                                  "content": "Bugungi kun",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "MpCFQ",
+                              "name": "Ovqat",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "EVemw",
+                                  "name": "Ovqat",
+                                  "fill": "$ds-ink",
+                                  "content": "Ovqat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yiype",
+                              "name": "Sayohat",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "SUmhQ",
+                                  "name": "Sayohat",
+                                  "fill": "$ds-ink",
+                                  "content": "Sayohat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "P5YU7",
+                              "name": "+",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "LUpPg",
+                                  "name": "+",
+                                  "fill": "$ds-ink",
+                                  "content": "+",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zt1wX",
+                          "name": "Talk button",
+                          "width": 72,
+                          "height": 77,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 36,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Ulmmv",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$ds-main",
+                              "cornerRadius": 36,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "lmrdV",
+                                  "name": "Mic",
+                                  "width": 32.4,
+                                  "height": 32.4,
+                                  "icon": "mic",
+                                  "library": "lucide",
+                                  "fill": "$ds-on-main"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "TMhcM",
+                      "name": "VAZIYATLAR",
+                      "fill": "$ds-muted",
+                      "content": "VAZIYATLAR",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nclq7",
+                      "name": "Situation · Kafe",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "kwRey",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "IorZi",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I4pr0j",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ghX2w",
+                              "name": "Kafe",
+                              "fill": "$ds-ink",
+                              "content": "Kafe",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "g12R4U",
+                              "name": "Ofitsiant bilan · 2 ",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Ofitsiant bilan · 2 / 4",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "mmjIC",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zt2TN",
+                      "name": "Situation · Ko'cha",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "aVNt4",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "RQQGE",
+                              "type": "ref",
+                              "ref": "GsMhW",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bUAp1",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BrRsy",
+                              "name": "Ko'cha",
+                              "fill": "$ds-ink",
+                              "content": "Ko'cha",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Tx0sc",
+                              "name": "Aziz va Malika · 1 /",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Aziz va Malika · 1 / 3",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "y2MbH",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bFQis",
+                      "name": "Sounds row",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "CVsbF",
+                          "name": "Ear",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "ear",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        },
+                        {
+                          "type": "text",
+                          "id": "S01lUz",
+                          "name": "Qaysi birini eshitdi",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Qaysi birini eshitdingiz?",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "SSr5e",
+                          "name": "Go",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "LkrQY",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q80uEf",
+              "name": "Speak · B",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "jlCeu",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V7erM",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "b68Vh",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "dKWUa",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RfBUG",
+                      "name": "Talk stage",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "v2hZN",
+                          "name": "Halo",
+                          "width": 230,
+                          "height": 230,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 115,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "mJ2kB",
+                              "type": "ref",
+                              "ref": "nTIvj",
+                              "name": "Dombi listen",
+                              "width": 150,
+                              "height": 150
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ssyTE",
+                          "name": "Gapirish uchun tugma",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Gapirish uchun tugmani bosing",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z2Xq1l",
+                          "name": "Dombi ingliz tilida ",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Dombi ingliz tilida javob beradi. Tushunmasangiz, «yordam» deng.",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Y2keAV",
+                          "name": "Topics",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "BAzpJ",
+                              "name": "Bugungi kun",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "iRvBK",
+                                  "name": "Bugungi kun",
+                                  "fill": "$ds-ink",
+                                  "content": "Bugungi kun",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "edWDx",
+                              "name": "Ovqat",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "LZZT7",
+                                  "name": "Ovqat",
+                                  "fill": "$ds-ink",
+                                  "content": "Ovqat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yWHQ4",
+                              "name": "Sayohat",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "fXMra",
+                                  "name": "Sayohat",
+                                  "fill": "$ds-ink",
+                                  "content": "Sayohat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ltQHE",
+                              "name": "Ish",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "sPfNg",
+                                  "name": "Ish",
+                                  "fill": "$ds-ink",
+                                  "content": "Ish",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r9B6W",
+                          "name": "Talk button",
+                          "width": 84,
+                          "height": 89,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 42,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "UlCbb",
+                              "name": "Face",
+                              "width": 84,
+                              "height": 84,
+                              "fill": "$ds-main",
+                              "cornerRadius": 42,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "ujIXx",
+                                  "name": "Mic",
+                                  "width": 37.800000000000004,
+                                  "height": 37.800000000000004,
+                                  "icon": "mic",
+                                  "library": "lucide",
+                                  "fill": "$ds-on-main"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "duyOf",
+                      "name": "Situations peek",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 20,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bnw4c",
+                          "name": "Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ANrVK",
+                              "name": "VAZIYATLAR",
+                              "fill": "$ds-muted",
+                              "content": "VAZIYATLAR",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "F9NHw",
+                              "name": "HAMMASI",
+                              "fill": "$ds-main",
+                              "content": "HAMMASI",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "P86ti",
+                          "name": "Row",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "jl3L2",
+                              "name": "Kafe",
+                              "width": "fill_container",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "gap": 8,
+                              "padding": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "v6rQOM",
+                                  "type": "ref",
+                                  "ref": "YpKhS",
+                                  "name": "Character",
+                                  "width": 36,
+                                  "height": 36
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "FerbR",
+                                  "name": "Kafe",
+                                  "fill": "$ds-ink",
+                                  "content": "Kafe",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "vcfRV",
+                              "name": "Ko'cha",
+                              "width": "fill_container",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "gap": 8,
+                              "padding": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "tSUbg",
+                                  "type": "ref",
+                                  "ref": "GsMhW",
+                                  "name": "Character",
+                                  "width": 36,
+                                  "height": 36
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "spRqi",
+                                  "name": "Ko'cha",
+                                  "fill": "$ds-ink",
+                                  "content": "Ko'cha",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "aJwbq",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YMsHo",
+              "name": "Speak · C",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "t35lAP",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Duj8Q",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "y53BB",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Luk1z",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "id": "FQYJL",
+                      "type": "ref",
+                      "ref": "RYJY3",
+                      "name": "Dombi guide",
+                      "width": "fill_container",
+                      "descendants": {
+                        "EKz08": {
+                          "content": "Qanday gaplashamiz? Bittasini tanlang."
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h39Pa",
+                      "name": "Mode · Erkin suhbat",
+                      "width": "fill_container",
+                      "fill": "$ds-main",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-main-lip",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "YP3aJ",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "vgUx4",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "messages-square",
+                              "library": "lucide",
+                              "fill": "$ds-on-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "a76gK",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "s7qPM",
+                              "name": "Erkin suhbat",
+                              "fill": "$ds-on-main",
+                              "content": "Erkin suhbat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "sLhod",
+                              "name": "Istalgan mavzuda Dom",
+                              "fill": "$ds-main-wash",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Istalgan mavzuda Dombi bilan",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "gY6pt",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-on-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NcrzY",
+                      "name": "Mode · Yordam bilan",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NGqmQ",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "S7WG4F",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "life-buoy",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZZT05",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "j4tklL",
+                              "name": "Yordam bilan",
+                              "fill": "$ds-ink",
+                              "content": "Yordam bilan",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "z4waLQ",
+                              "name": "Boshlash uchun tayyo",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Boshlash uchun tayyor gaplar va maslahat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "aYHal",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t6Awv0",
+                      "name": "Mode · Vaziyat",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "zf10X",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "coVbn",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "drama",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MtPyf",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dsOXW",
+                              "name": "Vaziyat",
+                              "fill": "$ds-ink",
+                              "content": "Vaziyat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "i3T2p",
+                              "name": "Kafe, ko'cha, do'kon",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Kafe, ko'cha, do'kon: rolni o'ynang",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "p8CLiN",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H3oIqw",
+                      "name": "Sounds row",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Sd3zo",
+                          "name": "Ear",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "ear",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WjKnF",
+                          "name": "Qaysi birini eshitdi",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Qaysi birini eshitdingiz?",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "fzbCC",
+                          "name": "Go",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "Koa0v",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V4Uh5",
+              "name": "Speak · First time",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fY80b",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "C4N1T",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "b6yaTH",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "bqch5",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GiYiN",
+                      "name": "Welcome",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "KfIRD",
+                          "type": "ref",
+                          "ref": "No1S1",
+                          "name": "Dombi wave",
+                          "width": 150,
+                          "height": 150
+                        },
+                        {
+                          "type": "text",
+                          "id": "FrMqo",
+                          "name": "Inglizcha hali gapir",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Inglizcha hali gapirmaganmisiz?",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "wQEEo",
+                          "name": "Hechqisi yo'q. Men s",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LEhpm",
+                      "name": "Button",
+                      "width": "fill_container",
+                      "fill": "$ds-main-lip",
+                      "cornerRadius": 16,
+                      "padding": [
+                        0,
+                        0,
+                        4,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NwFkp",
+                          "name": "Face",
+                          "width": "fill_container",
+                          "height": 48,
+                          "fill": "$ds-main",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "phkkY",
+                              "name": "YORDAM BILAN BOSHLAS",
+                              "fill": "$ds-on-main",
+                              "content": "YORDAM BILAN BOSHLASH",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "YOkW4",
+                      "name": "VAZIYATLAR",
+                      "fill": "$ds-muted",
+                      "content": "VAZIYATLAR",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XXAO7",
+                      "name": "Situation · Ko'cha",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "IppFX",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "V9VjhR",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "map-pin",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Z5YkCF",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tpbQM",
+                              "name": "Ko'cha",
+                              "fill": "$ds-muted",
+                              "content": "Ko'cha",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "JjzEl",
+                              "name": "1-darsdan keyin ochi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "1-darsdan keyin ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "V69fQb",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GfAUi",
+                      "name": "Situation · Kafe",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "x42m6",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "WtPRh",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "coffee",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SiEPV",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "CSAKx",
+                              "name": "Kafe",
+                              "fill": "$ds-muted",
+                              "content": "Kafe",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rIEUQ",
+                              "name": "2-bo'limda ochiladi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "2-bo'limda ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Se9Wa",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "i4YQL0",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "H2rQI1",
+              "name": "Speak · Many situations",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uq51B",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lrUmP",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "s51BM",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Q61Gs",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "id": "f9lir",
+                      "type": "ref",
+                      "ref": "RYJY3",
+                      "name": "Dombi guide",
+                      "width": "fill_container",
+                      "descendants": {
+                        "EKz08": {
+                          "content": "Yangi vaziyatlar darslar bilan ochiladi."
+                        }
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "uTg5G",
+                      "name": "VAZIYATLAR · 8",
+                      "fill": "$ds-muted",
+                      "content": "VAZIYATLAR · 8",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTK3L",
+                      "name": "Situation · Kafe",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "wmpKi",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "Obf5y",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "R2CTUT",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ljfhM",
+                              "name": "Kafe",
+                              "fill": "$ds-ink",
+                              "content": "Kafe",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "mlTiv",
+                              "name": "Ofitsiant bilan · 4 ",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Ofitsiant bilan · 4 / 4",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "xTSKr",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jVLBn",
+                      "name": "Situation · Ko'cha",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "PHTKq",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "NiRBg",
+                              "type": "ref",
+                              "ref": "GsMhW",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "d133vF",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "gmeHM",
+                              "name": "Ko'cha",
+                              "fill": "$ds-ink",
+                              "content": "Ko'cha",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "MZqFE",
+                              "name": "Aziz va Malika · 3 /",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Aziz va Malika · 3 / 3",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "omnYr",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T1yHk5",
+                      "name": "Situation · Do'kon",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ldnn6",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "eoewM",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "shopping-cart",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yE0o5",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kxVOU",
+                              "name": "Do'kon",
+                              "fill": "$ds-ink",
+                              "content": "Do'kon",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "XePPi",
+                              "name": "Sotuvchi bilan · 2 /",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Sotuvchi bilan · 2 / 5",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "psmji",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Zhg61",
+                      "name": "Situation · Taksi",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "fxcHq",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "D8TgNv",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "car",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mm6vR",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W6hPd",
+                              "name": "Taksi",
+                              "fill": "$ds-ink",
+                              "content": "Taksi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "pjPzw",
+                              "name": "Haydovchi bilan · 0 ",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Haydovchi bilan · 0 / 4",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "XM63q",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AiLpE",
+                      "name": "Situation · Aeroport",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "o85JkD",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "P8E4OZ",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "plane",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g1Te9",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "m8keK3",
+                              "name": "Aeroport",
+                              "fill": "$ds-muted",
+                              "content": "Aeroport",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "WTUPn",
+                              "name": "5-bo'limda ochiladi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "5-bo'limda ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "YPOMd",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T5HeBE",
+                      "name": "Situation · Mehmonxona",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Z2vNPR",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "KJoCm",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "hotel",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hsd69",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Qzjh7",
+                              "name": "Mehmonxona",
+                              "fill": "$ds-muted",
+                              "content": "Mehmonxona",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "hibl8",
+                              "name": "6-bo'limda ochiladi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "6-bo'limda ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "A4K0uB",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H3fuIy",
+                      "name": "Situation · Shifokor",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h3AfM",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "TBBq3",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "stethoscope",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rOXs1",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cg4hb",
+                              "name": "Shifokor",
+                              "fill": "$ds-muted",
+                              "content": "Shifokor",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "I2FVRK",
+                              "name": "8-bo'limda ochiladi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "8-bo'limda ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "zzeFq",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vlcr2",
+                      "name": "Situation · Ish suhbati",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "beVOe",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-line",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "XdEFZ",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "briefcase",
+                              "library": "lucide",
+                              "fill": "$ds-faint"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RLOEv",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "SnEkj",
+                              "name": "Ish suhbati",
+                              "fill": "$ds-muted",
+                              "content": "Ish suhbati",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rAuMZ",
+                              "name": "12-bo'limda ochiladi",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "12-bo'limda ochiladi",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "m9D38",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$ds-faint"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "pmbhi",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J8EeNL",
+              "name": "Speak · A · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "M0QWBF",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nZoTr",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "MhZFB",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Ib7zF",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "EtBcn",
+                      "name": "Live talk",
+                      "width": "fill_container",
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 24,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 18,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "s5vkL",
+                          "type": "ref",
+                          "ref": "No1S1",
+                          "name": "Dombi wave",
+                          "width": 120,
+                          "height": 120
+                        },
+                        {
+                          "type": "text",
+                          "id": "vm3fX",
+                          "name": "Dombi bilan gaplashi",
+                          "fill": "$ds-ink",
+                          "content": "Dombi bilan gaplashing",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "djOC6",
+                          "name": "Istalgan mavzuda, ov",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "D47Yql",
+                          "name": "Topics",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "i31B5x",
+                              "name": "Bugungi kun",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "YMVGn",
+                                  "name": "Bugungi kun",
+                                  "fill": "$ds-ink",
+                                  "content": "Bugungi kun",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "i921UX",
+                              "name": "Ovqat",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "I58gw",
+                                  "name": "Ovqat",
+                                  "fill": "$ds-ink",
+                                  "content": "Ovqat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IzIvR",
+                              "name": "Sayohat",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "vWsI2",
+                                  "name": "Sayohat",
+                                  "fill": "$ds-ink",
+                                  "content": "Sayohat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "h1KLj",
+                              "x": 272,
+                              "y": 0,
+                              "name": "+",
+                              "enabled": false,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "qc655",
+                                  "name": "+",
+                                  "fill": "$ds-ink",
+                                  "content": "+",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "V39YZ",
+                          "name": "Talk button",
+                          "width": 72,
+                          "height": 77,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 36,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ND3L8",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$ds-main",
+                              "cornerRadius": 36,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "IzQHP",
+                                  "name": "Mic",
+                                  "width": 32.4,
+                                  "height": 32.4,
+                                  "icon": "mic",
+                                  "library": "lucide",
+                                  "fill": "$ds-on-main"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kUwuD",
+                      "name": "VAZIYATLAR",
+                      "fill": "$ds-muted",
+                      "content": "VAZIYATLAR",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cI6WN",
+                      "name": "Situation · Kafe",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "z4JFxF",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "M9RWPo",
+                              "type": "ref",
+                              "ref": "YpKhS",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "P5sCc",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "K34azS",
+                              "name": "Kafe",
+                              "fill": "$ds-ink",
+                              "content": "Kafe",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "NSqRk",
+                              "name": "Ofitsiant bilan · 2 ",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Ofitsiant bilan · 2 / 4",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "pbEN7",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iGv7j",
+                      "name": "Situation · Ko'cha",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 18,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 12,
+                      "padding": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "g7W9ym",
+                          "name": "Picture",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "g1ygJP",
+                              "type": "ref",
+                              "ref": "GsMhW",
+                              "name": "Character",
+                              "width": 46,
+                              "height": 46
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JOxQC",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "L7GiM",
+                              "name": "Ko'cha",
+                              "fill": "$ds-ink",
+                              "content": "Ko'cha",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "vAm8o",
+                              "name": "Aziz va Malika · 1 /",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Aziz va Malika · 1 / 3",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "znYVW",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a0L4xT",
+                      "name": "Sounds row",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "p2xxdd",
+                          "name": "Ear",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "ear",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bPwsH",
+                          "name": "Qaysi birini eshitdi",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Qaysi birini eshitdingiz?",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "w30kF",
+                          "name": "Go",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "P4GqT",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "D8DuI",
+              "name": "Speak · B · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "GD0QG",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e3eWjz",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "AONw3",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "I6z7u",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Fba7n",
+                      "name": "Talk stage",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WQAVR",
+                          "name": "Halo",
+                          "width": 230,
+                          "height": 230,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 115,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "id": "M9YofK",
+                              "type": "ref",
+                              "ref": "nTIvj",
+                              "name": "Dombi listen",
+                              "width": 150,
+                              "height": 150
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qo82b",
+                          "name": "Gapirish uchun tugma",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Gapirish uchun tugmani bosing",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SoYlr",
+                          "name": "Dombi ingliz tilida ",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Dombi ingliz tilida javob beradi. Tushunmasangiz, «yordam» deng.",
+                          "textAlign": "center",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "C8Uvt3",
+                          "name": "Topics",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "SDEkM",
+                              "name": "Bugungi kun",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TDHG2",
+                                  "name": "Bugungi kun",
+                                  "fill": "$ds-ink",
+                                  "content": "Bugungi kun",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "I89MB",
+                              "name": "Ovqat",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "AMWme",
+                                  "name": "Ovqat",
+                                  "fill": "$ds-ink",
+                                  "content": "Ovqat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "TvEBP",
+                              "name": "Sayohat",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "q4RQaw",
+                                  "name": "Sayohat",
+                                  "fill": "$ds-ink",
+                                  "content": "Sayohat",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "twAHT",
+                              "name": "Ish",
+                              "fill": "$ds-paper",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "fh7LT",
+                                  "name": "Ish",
+                                  "fill": "$ds-ink",
+                                  "content": "Ish",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wshCT",
+                          "name": "Talk button",
+                          "width": 84,
+                          "height": 89,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 42,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "foa2Q",
+                              "name": "Face",
+                              "width": 84,
+                              "height": 84,
+                              "fill": "$ds-main",
+                              "cornerRadius": 42,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "E3Evny",
+                                  "name": "Mic",
+                                  "width": 37.800000000000004,
+                                  "height": 37.800000000000004,
+                                  "icon": "mic",
+                                  "library": "lucide",
+                                  "fill": "$ds-on-main"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a3zYi9",
+                      "name": "Situations peek",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 20,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "M9FQp",
+                          "name": "Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W0Xpz",
+                              "name": "VAZIYATLAR",
+                              "fill": "$ds-muted",
+                              "content": "VAZIYATLAR",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "Jp88x",
+                              "name": "HAMMASI",
+                              "fill": "$ds-main",
+                              "content": "HAMMASI",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Qhh3W",
+                          "name": "Row",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "toDX0",
+                              "name": "Kafe",
+                              "width": "fill_container",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "gap": 8,
+                              "padding": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "aaC1a",
+                                  "type": "ref",
+                                  "ref": "YpKhS",
+                                  "name": "Character",
+                                  "width": 36,
+                                  "height": 36
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "pzPaK",
+                                  "name": "Kafe",
+                                  "fill": "$ds-ink",
+                                  "content": "Kafe",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "y6cfM",
+                              "name": "Ko'cha",
+                              "width": "fill_container",
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "gap": 8,
+                              "padding": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "CfhpU",
+                                  "type": "ref",
+                                  "ref": "GsMhW",
+                                  "name": "Character",
+                                  "width": 36,
+                                  "height": 36
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "I1al7",
+                                  "name": "Ko'cha",
+                                  "fill": "$ds-ink",
+                                  "content": "Ko'cha",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "GoMCt",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tv1lH",
+              "name": "Speak · C · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "B8Nun",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Y9aTW",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "FTxXm",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "Gapirish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Wpfjp",
+                  "name": "Body",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "id": "a9DE00",
+                      "type": "ref",
+                      "ref": "RYJY3",
+                      "name": "Dombi guide",
+                      "width": "fill_container",
+                      "descendants": {
+                        "EKz08": {
+                          "content": "Qanday gaplashamiz? Bittasini tanlang."
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C11CtC",
+                      "name": "Mode · Erkin suhbat",
+                      "width": "fill_container",
+                      "fill": "$ds-main",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-main-lip",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Nh1Py",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "kmgJ2",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "messages-square",
+                              "library": "lucide",
+                              "fill": "$ds-on-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xMT8A",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "g5tUXn",
+                              "name": "Erkin suhbat",
+                              "fill": "$ds-on-main",
+                              "content": "Erkin suhbat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "mhSw4",
+                              "name": "Istalgan mavzuda Dom",
+                              "fill": "$ds-main-wash",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Istalgan mavzuda Dombi bilan",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "IEmN1",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-on-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vke60",
+                      "name": "Mode · Yordam bilan",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Yv41l",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "OY98M",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "life-buoy",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Atium",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dv87N",
+                              "name": "Yordam bilan",
+                              "fill": "$ds-ink",
+                              "content": "Yordam bilan",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "RyZwp",
+                              "name": "Boshlash uchun tayyo",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Boshlash uchun tayyor gaplar va maslahat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "QkxnC",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "svAVU",
+                      "name": "Mode · Vaziyat",
+                      "width": "fill_container",
+                      "fill": "$ds-surface",
+                      "cornerRadius": 20,
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "gap": 14,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bjPkG",
+                          "name": "Icon box",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "EEVb6",
+                              "name": "Icon",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "drama",
+                              "library": "lucide",
+                              "fill": "$ds-main"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r1VsdE",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "gxZAh",
+                              "name": "Vaziyat",
+                              "fill": "$ds-ink",
+                              "content": "Vaziyat",
+                              "fontFamily": "Nunito",
+                              "fontSize": 20,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "b3YNHZ",
+                              "name": "Kafe, ko'cha, do'kon",
+                              "fill": "$ds-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Kafe, ko'cha, do'kon: rolni o'ynang",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "I3jtn",
+                          "name": "Go",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sXlhb",
+                      "name": "Sounds row",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Fuh5Y",
+                          "name": "Ear",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "ear",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        },
+                        {
+                          "type": "text",
+                          "id": "K6hso",
+                          "name": "Qaysi birini eshitdi",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Qaysi birini eshitdingiz?",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "syYIZ",
+                          "name": "Go",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "uwMXI",
+                  "type": "ref",
+                  "ref": "LeKzM",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "K5APn",
+          "fill": "#000000",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
         }
       ]
     }

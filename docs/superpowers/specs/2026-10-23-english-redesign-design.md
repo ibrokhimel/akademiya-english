@@ -27,7 +27,8 @@ https://claude.ai/artifact/52VkvTsYffsxPogHNufvjx.
 - New lesson content. The course stays at 3 units, 15 lessons, 3 checkpoints, 49 phrases. Growing the content is
   the next project after this one.
 - Accounts, payments, leagues, a shop or currency.
-- AI conversation (free talk with Dombi). It comes later, through the shared Akademiya server.
+- Building the live AI conversation. It is **designed now** (see the Speak tab below) and built later, through the
+  shared Akademiya server.
 - Russian interface.
 - The Bloub/Dombi "one family" mascot redesign. Dombi keeps his current look here; the family redesign is a
   separate project.
@@ -68,7 +69,7 @@ https://claude.ai/artifact/52VkvTsYffsxPogHNufvjx.
 | Tab | Contains |
 |---|---|
 | **Learn** | Next-lesson hero card (built 2026-10-23), the lesson path, unit checkpoints. |
-| **Speak** | Talk to a character; Which one did you hear? |
+| **Speak** | Live voice conversation with Dombi, like ChatGPT's voice mode (owner, 2026-10-23, as planned in `docs/blueprint/chapters-ai.js` and `companion-pet.md`): free conversation on any topic, guided conversation, and role-play situations (café, street, shop; the scripted "Talk to a character" is the offline first version of role-play). Which one did you hear? stays as a smaller entry. |
 | **Practice** | Daily challenge; Match rush; Catch the sentence; Overheard; Fix it. |
 | **Me** | Today's Progress and Profile merged: streak and week, things I can say, achievements, recordings, settings. |
 

@@ -69,7 +69,8 @@ One style: simple single-colour line icons, in ink, muted or the main colour. Fu
 content (lesson pictures, characters), not for interface controls.
 
 **Exception: the bottom tab bar** keeps the colourful icons drawn in Rive (owner decision, 2026-10-23). The
-selected tab shows its label in the main colour on a soft pill. (English still has colour interface icons;
+tab bar shows icons only, no labels; the selected icon sits in a rounded square (main-colour wash and outline),
+as in the current app. (English still has colour interface icons;
 replacing them is a separate step.)
 
 ## Copy
