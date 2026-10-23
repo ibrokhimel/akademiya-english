@@ -2,14 +2,15 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap">
 <style>
-/* Layout: one column; each tab is a band with its three versions side by side, extra screens below. */
+/* Layout: one column; each tab is a band with its three versions side by side, a pick row and a notes box under them. */
 :root {
   --bg: #F4F5F7; --surface: #FFFFFF; --ink: #14161B; --muted: #6B6F7B; --line: #E6E7EB;
-  --main: #7B5CFF; --wash: #EFEBFF; --reward: #FFCB2E;
+  --main: #7B5CFF; --main-lip: #5A3FD9; --wash: #EFEBFF; --on-main: #FFFFFF;
+  --good: #13813F; --good-wash: #E3F6EA; --amber: #A35F00; --amber-wash: #FFF1DC;
   --font: "Nunito", "Segoe UI", system-ui, sans-serif;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; color-scheme: dark; } }
-:root[data-theme="dark"] { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); font-weight: 700; font-size: 16px; line-height: 1.45; }
 .wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 56px; }
@@ -22,92 +23,195 @@ p { margin: 0; max-width: 70ch; color: var(--muted); }
 section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 70px; }
 nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 2px solid var(--line); overflow-x: auto; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; white-space: nowrap; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; white-space: nowrap; align-items: center; }
 nav a { display: block; padding: 6px 14px; border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 900; }
+nav a .pick { color: var(--main); }
 nav a:focus-visible, nav a:hover { outline: 2px solid var(--main); }
+.status { font-size: 14px; color: var(--muted); }
+.status.warn { color: var(--amber); }
 .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.opt { background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.opt { background: var(--surface); border: 3px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.opt.chosen { border-color: var(--main); background: var(--wash); }
 .opt img { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; }
 .opt .tag { font-size: 20px; font-weight: 900; color: var(--main); }
 .opt p { font-size: 15px; }
+button { font: inherit; font-weight: 900; cursor: pointer; border-radius: 14px; border: 0; }
+.choose { margin-top: auto; padding: 12px; background: var(--main); color: var(--on-main); box-shadow: 0 4px 0 var(--main-lip); letter-spacing: .04em; }
+.choose:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--main-lip); }
+.opt.chosen .choose { background: var(--surface); color: var(--main); box-shadow: 0 4px 0 var(--line); }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--main); outline-offset: 2px; }
+.notes { display: flex; flex-direction: column; gap: 8px; }
+textarea, input[type=text] { font: inherit; font-weight: 700; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px; width: 100%; }
+textarea { min-height: 84px; resize: vertical; }
 .extra { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px; }
 .extra figure { margin: 0; flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; }
 .extra img { width: 100%; border-radius: 14px; border: 1px solid var(--line); }
 figcaption { font-size: 14px; color: var(--muted); }
-.ask { background: var(--wash); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-.copy { columns: 3 220px; column-gap: 24px; background: var(--surface); border-radius: 20px; padding: 20px; border: 2px solid var(--line); }
-.copy li { break-inside: avoid; margin-bottom: 6px; }
-@media (max-width: 760px) { .options { grid-template-columns: 1fr; } }
+.lines { display: flex; flex-direction: column; gap: 8px; }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+.line.ok { border-color: var(--good); background: var(--good-wash); }
+.line.change { border-color: var(--amber); background: var(--amber-wash); }
+.line .text { min-width: 0; overflow-wrap: anywhere; }
+.line .btns { display: flex; gap: 6px; }
+.line .btns button { padding: 6px 12px; background: var(--bg); color: var(--ink); border: 2px solid var(--line); }
+.line.ok .btns .b-ok { background: var(--good); color: var(--on-main); border-color: var(--good); }
+.line.change .btns .b-change { background: var(--amber); color: var(--on-main); border-color: var(--amber); }
+.line input { grid-column: 1 / -1; }
+.line input[hidden] { display: none; }
+@media (max-width: 760px) { .options { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; } }
 </style>
 
 <div class="wrap">
   <header style="display:flex;flex-direction:column;gap:12px">
     <span class="label">Akademiya English · redesign · 23 October 2026</span>
     <h1>Pick one version of each tab</h1>
-    <p>Three versions of Learn, Speak, Practice and Me, drawn in Pencil with the shared design system and your own icon set. Dombi now floats over each screen (bottom right) with his line in a bubble; on Speak he sits in the middle because you talk to him. Pick one version per tab, or mix them ("B, with A's top card"). At the end, check the Uzbek lines.</p>
+    <p>Press <b>Choose</b> under the version you like for each tab, and write in the box anything to change or mix ("B, but with A's top card"). Then mark each Uzbek line OK or Change. Everything saves as you go, and Claude reads it from here. You can also leave comments on the page.</p>
+    <p class="status" id="status">Connecting…</p>
   </header>
 
-  <nav aria-label="Tabs"><ul>
-    <li><a href="#learn">O'rganish</a></li><li><a href="#speak">Gapirish</a></li><li><a href="#practice">Mashq</a></li><li><a href="#me">Men</a></li><li><a href="#copy">Uzbek lines</a></li>
-  </ul></nav>
-
-  <section id="learn">
-    <span class="label">Tab 1</span><h2>O'rganish (Learn)</h2>
-    <div class="options">
-      <div class="opt"><span class="tag">A</span><img src="learn-a.png" alt="Learn A: violet next-lesson card with Dombi, path below" loading="lazy"><h3>Lesson card on top</h3><p>A violet card for the next lesson with a start button; the path below. Close to today's app.</p></div>
-      <div class="opt"><span class="tag">B</span><img src="learn-b.png" alt="Learn B: Dombi on the path, slim start bar at the bottom" loading="lazy"><h3>Path first</h3><p>The path gets the most room; a slim start bar for the next lesson sits above the tabs.</p></div>
-      <div class="opt"><span class="tag">C</span><img src="learn-c.png" alt="Learn C: place banner for the café unit" loading="lazy"><h3>Place banner</h3><p>Each unit opens with its place (Kafeda), what you'll be able to do, and your progress.</p></div>
-    </div>
-  </section>
-
-  <section id="speak">
-    <span class="label">Tab 2</span><h2>Gapirish (Speak)</h2>
-    <p>Live voice conversation with Dombi, like ChatGPT's voice mode, plus role-play situations and sound practice.</p>
-    <div class="options">
-      <div class="opt"><span class="tag">A</span><img src="speak-a.png" alt="Speak A: talk card with Dombi, topics and mic, situations below" loading="lazy"><h3>Talk card plus situations</h3><p>A big "talk with Dombi" card with topics and a mic button; café and street situations below.</p></div>
-      <div class="opt"><span class="tag">B</span><img src="speak-b.png" alt="Speak B: calm screen with Dombi in a glow and round buttons" loading="lazy"><h3>Voice-mode screen</h3><p>Your reference: calm, Dombi in a soft glow, three round buttons (situation, talk, sounds). The conversation itself opens full screen (below).</p></div>
-      <div class="opt"><span class="tag">C</span><img src="speak-c.png" alt="Speak C: three conversation modes as cards" loading="lazy"><h3>Choose a mode</h3><p>Free talk, with help, or a situation, as three large choices.</p></div>
-    </div>
-    <div class="extra">
-      <figure><img src="speak-live-call.png" alt="Live conversation screen, dark, Dombi listening" loading="lazy"><figcaption>The conversation (all versions)</figcaption></figure>
-      <figure><img src="speak-first-time.png" alt="Speak first time" loading="lazy"><figcaption>First time</figcaption></figure>
-      <figure><img src="speak-many.png" alt="Speak with eight situations" loading="lazy"><figcaption>Later, with 8 situations</figcaption></figure>
-    </div>
-  </section>
-
-  <section id="practice">
-    <span class="label">Tab 3</span><h2>Mashq (Practice)</h2>
-    <div class="options">
-      <div class="opt"><span class="tag">A</span><img src="practice-a.png" alt="Practice A: daily challenge card and a list" loading="lazy"><h3>Challenge plus list</h3><p>The yellow daily challenge (keeps your streak), then four practice rows.</p></div>
-      <div class="opt"><span class="tag">B</span><img src="practice-b.png" alt="Practice B: daily challenge and a 2 by 2 grid" loading="lazy"><h3>Challenge plus squares</h3><p>The challenge, then the four activities as equal squares.</p></div>
-      <div class="opt"><span class="tag">C</span><img src="practice-c.png" alt="Practice C: grouped by listening and words" loading="lazy"><h3>Grouped by skill</h3><p>The challenge, then "Tinglash" (listening) and "So'zlar" (words) groups.</p></div>
-    </div>
-    <div class="extra">
-      <figure><img src="practice-first-time.png" alt="Practice first time" loading="lazy"><figcaption>First time</figcaption></figure>
-      <figure><img src="practice-challenge-done.png" alt="Practice with challenge done" loading="lazy"><figcaption>Challenge done</figcaption></figure>
-    </div>
-  </section>
-
-  <section id="me">
-    <span class="label">Tab 4</span><h2>Men (Me)</h2>
-    <div class="options">
-      <div class="opt"><span class="tag">A</span><img src="me-a.png" alt="Me A: violet header with Dombi" loading="lazy"><h3>Violet header</h3><p>A violet header with your name and level, then streak, phrases, records, recordings, account.</p></div>
-      <div class="opt"><span class="tag">B</span><img src="me-b.png" alt="Me B: big can-say number first" loading="lazy"><h3>Your number first</h3><p>"18 phrases you can say" as the big number; then streak and records.</p></div>
-      <div class="opt"><span class="tag">C</span><img src="me-c.png" alt="Me C: switch between results and profile" loading="lazy"><h3>Results and Profile</h3><p>A switch at the top between your results and your profile settings.</p></div>
-    </div>
-    <div class="extra">
-      <figure><img src="me-first-time.png" alt="Me first time" loading="lazy"><figcaption>First time</figcaption></figure>
-    </div>
-  </section>
+  <nav aria-label="Tabs"><ul id="nav"></ul></nav>
+  <div id="tabs" style="display:flex;flex-direction:column;gap:56px"></div>
 
   <section id="copy">
     <span class="label">Check</span><h2>New Uzbek lines</h2>
-    <p>Every new interface line in these designs. Mark any that sound wrong or unnatural, and write the better version.</p>
-    <ul class="copy">
-      <li>O'rganish</li><li>2-BO'LIM · KAFEDA · 2-DARS</li><li>Taom buyurtma qila olasiz</li><li>4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.</li><li>BOSHLASH</li><li>Keyingi dars shu yerda. 4 daqiqa.</li><li>KEYINGI DARS</li><li>Kafeda yana 3 dars qoldi. Boshlaymizmi?</li><li>DAVOM ETISH</li>
-      <li>Gapirish</li><li>Dombi bilan gaplashing</li><li>Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.</li><li>Bugungi kun · Ovqat · Sayohat · Ish</li><li>VAZIYATLAR</li><li>Ofitsiant bilan · 2 / 4</li><li>Aziz va Malika · 1 / 3</li><li>Qaysi birini eshitdingiz?</li><li>Mavzu tanlang yoki shunchaki gapiring.</li><li>Vaziyat · Tovush</li><li>Qanday gaplashamiz? Bittasini tanlang.</li><li>Erkin suhbat</li><li>Istalgan mavzuda Dombi bilan</li><li>Yordam bilan</li><li>Boshlash uchun tayyor gaplar va maslahat</li><li>Kafe, ko'cha, do'kon: rolni o'ynang</li><li>Inglizcha hali gapirmaganmisiz?</li><li>Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.</li><li>YORDAM BILAN BOSHLASH</li><li>1-darsdan keyin ochiladi · 2-bo'limda ochiladi</li><li>Yangi vaziyatlar darslar bilan ochiladi.</li><li>Taksi · Aeroport · Mehmonxona · Shifokor · Ish suhbati</li><li>Haydovchi bilan · Sotuvchi bilan</li><li>Mavzu: Ovqat</li><li>Tinglayapman…</li><li>Matn · Mikrofon · Yordam · Tugatish</li>
-      <li>Mashq</li><li>Bugun 2 daqiqa topsangiz bo'ldi.</li><li>KUNLIK SINOV</li><li>3 ta vazifa · 2 daqiqa</li><li>Bajarsangiz, seriya saqlanadi.</li><li>MASHQLAR</li><li>Juftini top</li><li>Inglizcha va o'zbekcha juftlar · rekord 12</li><li>Gapni tut</li><li>Eshiting, so'zlarni tartiblang</li><li>Eshitib qoldim</li><li>Darsdagi suhbatlar · 6 ta</li><li>Xatoni tuzat</li><li>Ko'p uchraydigan xatolar · 9 ta</li><li>Tinglash · So'zlar</li><li>Qaysi biri qiyin bo'lsa, o'shani mashq qiling.</li><li>Birinchi darsni tugatsangiz, bu yer to'ladi.</li><li>Birinchi darsdan keyin ochiladi.</li><li>Zo'r! Bugungi sinov bajarildi. Xohlasangiz yana mashq qiling.</li><li>Bajarildi!</li><li>Seriya saqlandi. Ertaga yangisi.</li>
-      <li>Men</li><li>0-DARAJA · OKTYABRDAN BERI</li><li>3 kun ketma-ket</li><li>Ayta oladiganlarim</li><li>REKORDLAR</li><li>Eng uzun seriya · Mukammal darslar · Daqiqa gapirdingiz</li><li>Ovozim · Hisob</li><li>ta gapni inglizcha ayta olasiz</li><li>Natijalar · Profil</li><li>0-DARAJA · BUGUN QO'SHILDINGIZ</li><li>Birinchi darsdan keyin bu yer to'la boshlaydi.</li><li>Zo'r! 3 kun ketma-ket. Ertaga ham kelasizmi?</li><li>Seriya hali yo'q</li><li>Salom! Bugun bitta suhbat yetarli.</li>
-    </ul>
+    <p>Mark each line OK, or Change and type the better version.</p>
+    <div class="lines" id="lines"></div>
+  </section>
+
+  <section id="general">
+    <span class="label">Anything else</span><h2>General notes</h2>
+    <div class="notes">
+      <textarea id="general-note" aria-label="General notes" placeholder="Anything about the whole redesign"></textarea>
+      <span class="status" id="general-status"></span>
+    </div>
   </section>
 </div>
+
+<script>
+const TABS = [
+  { key: "learn", name: "O'rganish (Learn)", short: "Learn", options: [
+    ["A", "learn-a.png", "Lesson card on top", "A violet card for the next lesson with a start button; the path below. Close to today's app."],
+    ["B", "learn-b.png", "Path first", "The path gets the most room; a slim start bar for the next lesson sits above the tabs."],
+    ["C", "learn-c.png", "Place banner", "Each unit opens with its place (Kafeda), what you'll be able to do, and your progress."]], extra: [] },
+  { key: "speak", name: "Gapirish (Speak)", short: "Speak", intro: "Live voice conversation with Dombi, like ChatGPT's voice mode, plus role-play situations and sound practice.", options: [
+    ["A", "speak-a.png", "Talk card plus situations", "A big 'talk with Dombi' card with topics and a mic button; café and street situations below."],
+    ["B", "speak-b.png", "Voice-mode screen", "Calm, Dombi in a soft glow, round buttons (situation, talk, sounds). The conversation opens full screen."],
+    ["C", "speak-c.png", "Choose a mode", "Free talk, with help, or a situation, as three large choices."]],
+    extra: [["speak-live-call.png", "The conversation (all versions)"], ["speak-first-time.png", "First time"], ["speak-many.png", "Later, with 8 situations"]] },
+  { key: "practice", name: "Mashq (Practice)", short: "Practice", options: [
+    ["A", "practice-a.png", "Challenge plus list", "The yellow daily challenge (keeps your streak), then four practice rows."],
+    ["B", "practice-b.png", "Challenge plus squares", "The challenge, then the four activities as equal squares."],
+    ["C", "practice-c.png", "Grouped by skill", "The challenge, then 'Tinglash' (listening) and 'So'zlar' (words) groups."]],
+    extra: [["practice-first-time.png", "First time"], ["practice-challenge-done.png", "Challenge done"]] },
+  { key: "me", name: "Men (Me)", short: "Me", options: [
+    ["A", "me-a.png", "Violet header", "A violet header with your name and level, then streak, phrases, records, recordings, account."],
+    ["B", "me-b.png", "Your number first", "'18 phrases you can say' as the big number; then streak and records."],
+    ["C", "me-c.png", "Results and Profile", "A switch at the top between your results and your profile settings."]],
+    extra: [["me-first-time.png", "First time"]] },
+];
+const LINES = ["O'rganish","2-BO'LIM · KAFEDA · 2-DARS","Taom buyurtma qila olasiz","4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.","BOSHLASH","Keyingi dars shu yerda. 4 daqiqa.","KEYINGI DARS","Kafeda yana 3 dars qoldi. Boshlaymizmi?","DAVOM ETISH","Gapirish","Dombi bilan gaplashing","Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.","Bugungi kun · Ovqat · Sayohat · Ish","VAZIYATLAR","Ofitsiant bilan · 2 / 4","Aziz va Malika · 1 / 3","Qaysi birini eshitdingiz?","Mavzu tanlang yoki shunchaki gapiring.","Vaziyat · Tovush","Qanday gaplashamiz? Bittasini tanlang.","Erkin suhbat","Istalgan mavzuda Dombi bilan","Yordam bilan","Boshlash uchun tayyor gaplar va maslahat","Kafe, ko'cha, do'kon: rolni o'ynang","Inglizcha hali gapirmaganmisiz?","Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.","YORDAM BILAN BOSHLASH","1-darsdan keyin ochiladi · 2-bo'limda ochiladi","Yangi vaziyatlar darslar bilan ochiladi.","Taksi · Aeroport · Mehmonxona · Shifokor · Ish suhbati","Haydovchi bilan · Sotuvchi bilan","Mavzu: Ovqat","Tinglayapman…","Matn · Mikrofon · Yordam · Tugatish","Mashq","Bugun 2 daqiqa topsangiz bo'ldi.","KUNLIK SINOV","3 ta vazifa · 2 daqiqa","Bajarsangiz, seriya saqlanadi.","MASHQLAR","Juftini top","Inglizcha va o'zbekcha juftlar · rekord 12","Gapni tut","Eshiting, so'zlarni tartiblang","Eshitib qoldim","Darsdagi suhbatlar · 6 ta","Xatoni tuzat","Ko'p uchraydigan xatolar · 9 ta","Tinglash · So'zlar","Qaysi biri qiyin bo'lsa, o'shani mashq qiling.","Birinchi darsni tugatsangiz, bu yer to'ladi.","Birinchi darsdan keyin ochiladi.","Zo'r! Bugungi sinov bajarildi. Xohlasangiz yana mashq qiling.","Bajarildi!","Seriya saqlandi. Ertaga yangisi.","Men","0-DARAJA · OKTYABRDAN BERI","3 kun ketma-ket","Ayta oladiganlarim","REKORDLAR","Eng uzun seriya · Mukammal darslar · Daqiqa gapirdingiz","Ovozim · Hisob","ta gapni inglizcha ayta olasiz","Natijalar · Profil","0-DARAJA · BUGUN QO'SHILDINGIZ","Birinchi darsdan keyin bu yer to'la boshlaydi.","Zo'r! 3 kun ketma-ket. Ertaga ham kelasizmi?","Seriya hali yo'q","Salom! Bugun bitta suhbat yetarli."];
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v); } for (const k of kids) n.append(k); return n; };
+
+const state = { picks: {}, lines: {}, general: "" };
+let db = null, canWrite = true;
+const queues = {};
+function write(path, body, statusEl) {
+  if (!db || !canWrite) return;
+  const prev = queues[path] || Promise.resolve();
+  queues[path] = prev.then(() => db.doc(path).set({ ...body, at: new Date().toISOString() }))
+    .then(() => { if (statusEl) statusEl.textContent = "Saved"; })
+    .catch((e) => { if (e && e.code === "invalid_argument") { canWrite = false; setStatus("You can look, but this view can't save. Tell Claude your picks in chat.", true); } else if (statusEl) statusEl.textContent = "Not saved, try again"; });
+}
+function setStatus(t, warn) { const s = $("#status"); s.textContent = t; s.classList.toggle("warn", !!warn); }
+
+function renderNav() {
+  const ul = $("#nav"); ul.textContent = "";
+  for (const t of TABS) { const p = state.picks[t.key]?.option; ul.append(el("li", {}, el("a", { href: "#" + t.key }, t.short + (p ? " · " : ""), p ? el("span", { class: "pick" }, p) : ""))); }
+  ul.append(el("li", {}, el("a", { href: "#copy" }, "Uzbek lines")), el("li", {}, el("a", { href: "#general" }, "Notes")));
+}
+
+function renderTabs() {
+  const host = $("#tabs");
+  for (const t of TABS) {
+    const sec = el("section", { id: t.key }, el("h2", {}, t.name));
+    if (t.intro) sec.append(el("p", {}, t.intro));
+    const grid = el("div", { class: "options" });
+    for (const [tag, img, title, desc] of t.options) {
+      const card = el("div", { class: "opt", "data-tab": t.key, "data-opt": tag },
+        el("span", { class: "tag" }, tag),
+        el("img", { src: img, alt: t.short + " version " + tag + ": " + title, loading: "lazy" }),
+        el("h3", {}, title), el("p", {}, desc),
+        el("button", { class: "choose", type: "button", onclick: () => choose(t.key, tag) }, "CHOOSE " + tag));
+      grid.append(card);
+    }
+    sec.append(grid);
+    const st = el("span", { class: "status" });
+    const ta = el("textarea", { id: "note-" + t.key, "aria-label": "Notes for " + t.short, placeholder: "What to change, or how to mix versions" });
+    let timer; ta.addEventListener("input", () => { clearTimeout(timer); st.textContent = "…"; timer = setTimeout(() => saveNote(t.key, ta.value, st), 800); });
+    sec.append(el("div", { class: "notes" }, el("label", { for: "note-" + t.key, class: "label" }, "Notes for " + t.short), ta, st));
+    if (t.extra.length) { const ex = el("div", { class: "extra" }); for (const [img, cap] of t.extra) ex.append(el("figure", {}, el("img", { src: img, alt: cap, loading: "lazy" }), el("figcaption", {}, cap))); sec.append(el("span", { class: "label" }, "Other screens"), ex); }
+    host.append(sec);
+  }
+}
+function choose(tab, opt) {
+  const note = state.picks[tab]?.note || "";
+  state.picks[tab] = { option: opt, note };
+  paintPicks(); write("picks/" + tab, { option: opt, note });
+}
+function saveNote(tab, note, st) {
+  const option = state.picks[tab]?.option || "";
+  state.picks[tab] = { option, note };
+  write("picks/" + tab, { option, note }, st);
+}
+function paintPicks() {
+  for (const card of document.querySelectorAll(".opt")) card.classList.toggle("chosen", state.picks[card.dataset.tab]?.option === card.dataset.opt);
+  for (const card of document.querySelectorAll(".opt")) card.querySelector(".choose").textContent = (state.picks[card.dataset.tab]?.option === card.dataset.opt ? "CHOSEN " : "CHOOSE ") + card.dataset.opt;
+  for (const t of TABS) { const ta = $("#note-" + t.key); if (ta && document.activeElement !== ta) ta.value = state.picks[t.key]?.note || ""; }
+  renderNav();
+}
+
+function renderLines() {
+  const host = $("#lines");
+  LINES.forEach((line, i) => {
+    const input = el("input", { type: "text", "aria-label": "Better version of: " + line, placeholder: "Better version", hidden: true });
+    const row = el("div", { class: "line", "data-i": i },
+      el("span", { class: "text" }, line),
+      el("div", { class: "btns" },
+        el("button", { type: "button", class: "b-ok", onclick: () => mark(i, "ok") }, "OK"),
+        el("button", { type: "button", class: "b-change", onclick: () => mark(i, "change") }, "Change")),
+      input);
+    let timer; input.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(() => { state.lines[i] = { line, status: "change", better: input.value }; saveLines(); }, 800); });
+    host.append(row);
+  });
+}
+function mark(i, status) {
+  const cur = state.lines[i];
+  state.lines[i] = { line: LINES[i], status: cur?.status === status ? "" : status, better: cur?.better || "" };
+  paintLines(); saveLines();
+  if (state.lines[i].status === "change") $(`.line[data-i="${i}"] input`).focus();
+}
+function saveLines() { write("copy/lines", { items: state.lines }); }
+function paintLines() {
+  for (const row of document.querySelectorAll(".line")) {
+    const s = state.lines[row.dataset.i] || {};
+    row.classList.toggle("ok", s.status === "ok"); row.classList.toggle("change", s.status === "change");
+    const input = row.querySelector("input"); input.hidden = s.status !== "change";
+    if (document.activeElement !== input) input.value = s.better || "";
+  }
+}
+
+renderTabs(); renderLines(); renderNav();
+const g = $("#general-note"); let gTimer;
+g.addEventListener("input", () => { clearTimeout(gTimer); $("#general-status").textContent = "…"; gTimer = setTimeout(() => { state.general = g.value; write("notes/general", { text: g.value }, $("#general-status")); }, 800); });
+
+(async () => {
+  try { db = await claude.use("db"); } catch { db = null; }
+  if (!db) { setStatus("Saving isn't available in this view. Tell Claude your picks in chat.", true); return; }
+  setStatus("Your picks save automatically.");
+  for (const t of TABS) db.doc("picks/" + t.key).onSnapshot((s) => { if (s.exists) { state.picks[t.key] = s.data(); paintPicks(); } }, () => {});
+  db.doc("copy/lines").onSnapshot((s) => { if (s.exists) { state.lines = { ...(s.data().items || {}) }; paintLines(); } }, () => {});
+  db.doc("notes/general").onSnapshot((s) => { if (s.exists && document.activeElement !== g) g.value = s.data().text || ""; }, () => {});
+})();
+</script>
