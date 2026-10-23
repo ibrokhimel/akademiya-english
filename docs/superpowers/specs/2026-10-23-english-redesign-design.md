@@ -96,6 +96,9 @@ Word rain, Memory flip, Spell it (need new content), The Scene (its own project)
 
 - Dombi appears on every main screen (Learn, Speak, Practice, Me), in lessons, in result moments, and on empty and
   error screens.
+- **In lessons he helps (owner, 2026-10-23):** he is the one who offers help when the learner is stuck, for example
+  a hint, a slower replay, or a short Uzbek explanation after a miss, building on the existing "Help ladder"
+  component in the design file. Designed in the lesson-screens plan, after the tabs.
 - He speaks in short Uzbek text bubbles when guiding (welcome back, a tip, "this one is new") and reacts with face
   and gestures, without words, to answers and celebrations (owner confirmed). He is sleepy late at night and glad
   when the learner returns after a break. He never guilt-trips. Every main screen design leaves room for a bubble;
