@@ -51,3 +51,5 @@ Read from the review page (https://claude.ai/artifact/RCVEWbfR6zXK3NnFjQxQfH) on
 | Fix it | not marked | |
 
 Uzbek lines: not checked yet.
+
+After round 2 (owner: "do what i asked you to do and dont add random stuff"): removed the daily challenge card from the Practice tab, the yellow streak and score cards, and the review-again list on end screens. End screens show the result as one plain line.
