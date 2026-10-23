@@ -7,7 +7,7 @@ Read from the review page (https://claude.ai/artifact/G26cgCj7RBRoGNLmkut6Gu) on
 | Learn | **A**: lesson card on top | none |
 | Speak | **B**: voice-mode screen (Dombi in a glow, round buttons; full-screen conversation) | none |
 | Practice | **C**: daily challenge, then groups by skill (Tinglash, So'zlar) | none |
-| Me | **none yet** | "i think the current profile is much better than these three so try to like show me more options again" |
+| Me | **the owner's own design #27** ("27 · Profile (own), designed by Ibrokhim", Pencil frame `yK5Cz`), copied as "Me · Final" with only the 4-tab bar and the Dombi overlay added | First: "the current profile is much better than these three". Then: "look at the label 27 in pendev". Options A–F and G (a redraw of it) are set aside. |
 
 General note: "dombi's chat bubble looks kinda weird".
 
