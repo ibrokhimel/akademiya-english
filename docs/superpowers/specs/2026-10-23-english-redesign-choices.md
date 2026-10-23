@@ -29,3 +29,25 @@ The other lines are not checked yet.
 - All icons come from the app's own Rive icon set (`pendev/icons-r2`).
 - Dombi floats over each screen as an overlay, except on Speak where he is the conversation partner.
 - Speak is a live voice conversation like ChatGPT's voice mode.
+
+# Round 2: lessons and activities
+
+Read from the review page (https://claude.ai/artifact/RCVEWbfR6zXK3NnFjQxQfH) on 2026-10-23.
+
+| Choice | Pick | Owner's note |
+|---|---|---|
+| Dombi helping in lessons | **A**: Dombi in the corner; tap him for the four help steps as a sheet; after two misses he offers help | none |
+| Daily challenge | **Neither** | "i dont think we need this"; asked again: "we dont that screen". The A and B flows are set aside. |
+
+| Activity | Verdict | Owner's note |
+|---|---|---|
+| Qaysi biri? (Which one did you hear?) | OK | |
+| Vaziyat (Talk to a character) | OK | |
+| Guided conversation | Change | "change the yordamli bc this is not uzbek word" → now "Yordam bilan" |
+| Free conversation | OK | |
+| Match rush | OK | |
+| Catch the sentence | OK | |
+| Overheard | not marked | |
+| Fix it | not marked | |
+
+Uzbek lines: not checked yet.
