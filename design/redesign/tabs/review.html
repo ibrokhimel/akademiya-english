@@ -1,0 +1,113 @@
+<title>English Tabs Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap">
+<style>
+/* Layout: one column; each tab is a band with its three versions side by side, extra screens below. */
+:root {
+  --bg: #F4F5F7; --surface: #FFFFFF; --ink: #14161B; --muted: #6B6F7B; --line: #E6E7EB;
+  --main: #7B5CFF; --wash: #EFEBFF; --reward: #FFCB2E;
+  --font: "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-weight: 700; font-size: 16px; line-height: 1.45; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { margin: 0; font-weight: 900; text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 28px; }
+h3 { font-size: 18px; }
+p { margin: 0; max-width: 70ch; color: var(--muted); }
+.label { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--main); }
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 70px; }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 2px solid var(--line); overflow-x: auto; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; white-space: nowrap; }
+nav a { display: block; padding: 6px 14px; border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 900; }
+nav a:focus-visible, nav a:hover { outline: 2px solid var(--main); }
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.opt { background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.opt img { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.opt .tag { font-size: 20px; font-weight: 900; color: var(--main); }
+.opt p { font-size: 15px; }
+.extra { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px; }
+.extra figure { margin: 0; flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; }
+.extra img { width: 100%; border-radius: 14px; border: 1px solid var(--line); }
+figcaption { font-size: 14px; color: var(--muted); }
+.ask { background: var(--wash); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.copy { columns: 3 220px; column-gap: 24px; background: var(--surface); border-radius: 20px; padding: 20px; border: 2px solid var(--line); }
+.copy li { break-inside: avoid; margin-bottom: 6px; }
+@media (max-width: 760px) { .options { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <span class="label">Akademiya English · redesign · 23 October 2026</span>
+    <h1>Pick one version of each tab</h1>
+    <p>Three versions of Learn, Speak, Practice and Me, drawn in Pencil with the shared design system and your own icon set. Dombi now floats over each screen (bottom right) with his line in a bubble; on Speak he sits in the middle because you talk to him. Pick one version per tab, or mix them ("B, with A's top card"). At the end, check the Uzbek lines.</p>
+  </header>
+
+  <nav aria-label="Tabs"><ul>
+    <li><a href="#learn">O'rganish</a></li><li><a href="#speak">Gapirish</a></li><li><a href="#practice">Mashq</a></li><li><a href="#me">Men</a></li><li><a href="#copy">Uzbek lines</a></li>
+  </ul></nav>
+
+  <section id="learn">
+    <span class="label">Tab 1</span><h2>O'rganish (Learn)</h2>
+    <div class="options">
+      <div class="opt"><span class="tag">A</span><img src="learn-a.png" alt="Learn A: violet next-lesson card with Dombi, path below" loading="lazy"><h3>Lesson card on top</h3><p>A violet card for the next lesson with a start button; the path below. Close to today's app.</p></div>
+      <div class="opt"><span class="tag">B</span><img src="learn-b.png" alt="Learn B: Dombi on the path, slim start bar at the bottom" loading="lazy"><h3>Path first</h3><p>The path gets the most room; a slim start bar for the next lesson sits above the tabs.</p></div>
+      <div class="opt"><span class="tag">C</span><img src="learn-c.png" alt="Learn C: place banner for the café unit" loading="lazy"><h3>Place banner</h3><p>Each unit opens with its place (Kafeda), what you'll be able to do, and your progress.</p></div>
+    </div>
+  </section>
+
+  <section id="speak">
+    <span class="label">Tab 2</span><h2>Gapirish (Speak)</h2>
+    <p>Live voice conversation with Dombi, like ChatGPT's voice mode, plus role-play situations and sound practice.</p>
+    <div class="options">
+      <div class="opt"><span class="tag">A</span><img src="speak-a.png" alt="Speak A: talk card with Dombi, topics and mic, situations below" loading="lazy"><h3>Talk card plus situations</h3><p>A big "talk with Dombi" card with topics and a mic button; café and street situations below.</p></div>
+      <div class="opt"><span class="tag">B</span><img src="speak-b.png" alt="Speak B: calm screen with Dombi in a glow and round buttons" loading="lazy"><h3>Voice-mode screen</h3><p>Your reference: calm, Dombi in a soft glow, three round buttons (situation, talk, sounds). The conversation itself opens full screen (below).</p></div>
+      <div class="opt"><span class="tag">C</span><img src="speak-c.png" alt="Speak C: three conversation modes as cards" loading="lazy"><h3>Choose a mode</h3><p>Free talk, with help, or a situation, as three large choices.</p></div>
+    </div>
+    <div class="extra">
+      <figure><img src="speak-live-call.png" alt="Live conversation screen, dark, Dombi listening" loading="lazy"><figcaption>The conversation (all versions)</figcaption></figure>
+      <figure><img src="speak-first-time.png" alt="Speak first time" loading="lazy"><figcaption>First time</figcaption></figure>
+      <figure><img src="speak-many.png" alt="Speak with eight situations" loading="lazy"><figcaption>Later, with 8 situations</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="practice">
+    <span class="label">Tab 3</span><h2>Mashq (Practice)</h2>
+    <div class="options">
+      <div class="opt"><span class="tag">A</span><img src="practice-a.png" alt="Practice A: daily challenge card and a list" loading="lazy"><h3>Challenge plus list</h3><p>The yellow daily challenge (keeps your streak), then four practice rows.</p></div>
+      <div class="opt"><span class="tag">B</span><img src="practice-b.png" alt="Practice B: daily challenge and a 2 by 2 grid" loading="lazy"><h3>Challenge plus squares</h3><p>The challenge, then the four activities as equal squares.</p></div>
+      <div class="opt"><span class="tag">C</span><img src="practice-c.png" alt="Practice C: grouped by listening and words" loading="lazy"><h3>Grouped by skill</h3><p>The challenge, then "Tinglash" (listening) and "So'zlar" (words) groups.</p></div>
+    </div>
+    <div class="extra">
+      <figure><img src="practice-first-time.png" alt="Practice first time" loading="lazy"><figcaption>First time</figcaption></figure>
+      <figure><img src="practice-challenge-done.png" alt="Practice with challenge done" loading="lazy"><figcaption>Challenge done</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="me">
+    <span class="label">Tab 4</span><h2>Men (Me)</h2>
+    <div class="options">
+      <div class="opt"><span class="tag">A</span><img src="me-a.png" alt="Me A: violet header with Dombi" loading="lazy"><h3>Violet header</h3><p>A violet header with your name and level, then streak, phrases, records, recordings, account.</p></div>
+      <div class="opt"><span class="tag">B</span><img src="me-b.png" alt="Me B: big can-say number first" loading="lazy"><h3>Your number first</h3><p>"18 phrases you can say" as the big number; then streak and records.</p></div>
+      <div class="opt"><span class="tag">C</span><img src="me-c.png" alt="Me C: switch between results and profile" loading="lazy"><h3>Results and Profile</h3><p>A switch at the top between your results and your profile settings.</p></div>
+    </div>
+    <div class="extra">
+      <figure><img src="me-first-time.png" alt="Me first time" loading="lazy"><figcaption>First time</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="copy">
+    <span class="label">Check</span><h2>New Uzbek lines</h2>
+    <p>Every new interface line in these designs. Mark any that sound wrong or unnatural, and write the better version.</p>
+    <ul class="copy">
+      <li>O'rganish</li><li>2-BO'LIM · KAFEDA · 2-DARS</li><li>Taom buyurtma qila olasiz</li><li>4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.</li><li>BOSHLASH</li><li>Keyingi dars shu yerda. 4 daqiqa.</li><li>KEYINGI DARS</li><li>Kafeda yana 3 dars qoldi. Boshlaymizmi?</li><li>DAVOM ETISH</li>
+      <li>Gapirish</li><li>Dombi bilan gaplashing</li><li>Istalgan mavzuda, ovoz bilan. Xato qilsangiz ham bemalol.</li><li>Bugungi kun · Ovqat · Sayohat · Ish</li><li>VAZIYATLAR</li><li>Ofitsiant bilan · 2 / 4</li><li>Aziz va Malika · 1 / 3</li><li>Qaysi birini eshitdingiz?</li><li>Mavzu tanlang yoki shunchaki gapiring.</li><li>Vaziyat · Tovush</li><li>Qanday gaplashamiz? Bittasini tanlang.</li><li>Erkin suhbat</li><li>Istalgan mavzuda Dombi bilan</li><li>Yordam bilan</li><li>Boshlash uchun tayyor gaplar va maslahat</li><li>Kafe, ko'cha, do'kon: rolni o'ynang</li><li>Inglizcha hali gapirmaganmisiz?</li><li>Hechqisi yo'q. Men savol beraman, siz tayyor gaplardan birini aytasiz.</li><li>YORDAM BILAN BOSHLASH</li><li>1-darsdan keyin ochiladi · 2-bo'limda ochiladi</li><li>Yangi vaziyatlar darslar bilan ochiladi.</li><li>Taksi · Aeroport · Mehmonxona · Shifokor · Ish suhbati</li><li>Haydovchi bilan · Sotuvchi bilan</li><li>Mavzu: Ovqat</li><li>Tinglayapman…</li><li>Matn · Mikrofon · Yordam · Tugatish</li>
+      <li>Mashq</li><li>Bugun 2 daqiqa topsangiz bo'ldi.</li><li>KUNLIK SINOV</li><li>3 ta vazifa · 2 daqiqa</li><li>Bajarsangiz, seriya saqlanadi.</li><li>MASHQLAR</li><li>Juftini top</li><li>Inglizcha va o'zbekcha juftlar · rekord 12</li><li>Gapni tut</li><li>Eshiting, so'zlarni tartiblang</li><li>Eshitib qoldim</li><li>Darsdagi suhbatlar · 6 ta</li><li>Xatoni tuzat</li><li>Ko'p uchraydigan xatolar · 9 ta</li><li>Tinglash · So'zlar</li><li>Qaysi biri qiyin bo'lsa, o'shani mashq qiling.</li><li>Birinchi darsni tugatsangiz, bu yer to'ladi.</li><li>Birinchi darsdan keyin ochiladi.</li><li>Zo'r! Bugungi sinov bajarildi. Xohlasangiz yana mashq qiling.</li><li>Bajarildi!</li><li>Seriya saqlandi. Ertaga yangisi.</li>
+      <li>Men</li><li>0-DARAJA · OKTYABRDAN BERI</li><li>3 kun ketma-ket</li><li>Ayta oladiganlarim</li><li>REKORDLAR</li><li>Eng uzun seriya · Mukammal darslar · Daqiqa gapirdingiz</li><li>Ovozim · Hisob</li><li>ta gapni inglizcha ayta olasiz</li><li>Natijalar · Profil</li><li>0-DARAJA · BUGUN QO'SHILDINGIZ</li><li>Birinchi darsdan keyin bu yer to'la boshlaydi.</li><li>Zo'r! 3 kun ketma-ket. Ertaga ham kelasizmi?</li><li>Seriya hali yo'q</li><li>Salom! Bugun bitta suhbat yetarli.</li>
+    </ul>
+  </section>
+</div>

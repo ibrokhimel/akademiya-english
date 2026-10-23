@@ -65,13 +65,19 @@ Coloured by result, never grey. Icon, a short title, then one line saying why:
 
 ## Icons
 
-One style: simple single-colour line icons, in ink, muted or the main colour. Full-colour pictures are for
-content (lesson pictures, characters), not for interface controls.
+Use the app's own icon set, drawn in Rive and exported to `pendev/icons-r2` (owner decision, 2026-10-23): the
+colourful icons (flame, phrase bubble, coffee, cart, trophy, bulb, studio mic…) for things, and the single-colour
+glyphs (`glyph-<name>-<dark|grey|violet|white>`) for small controls such as arrows, lock, settings and close.
+Don't draw new icons in another style; a missing icon is drawn in Rive in the same style.
 
-**Exception: the bottom tab bar** keeps the colourful icons drawn in Rive (owner decision, 2026-10-23). The
-tab bar shows icons only, no labels; the selected icon sits in a rounded square (main-colour wash and outline),
-as in the current app. (English still has colour interface icons;
-replacing them is a separate step.)
+The bottom tab bar shows icons only, no labels; the selected icon sits in a rounded square (main-colour wash and
+outline), as in the current app.
+
+## Dombi
+
+Dombi floats over the screen as an overlay, bottom right above the tab bar, not as part of the layout (owner
+decision, 2026-10-23). When he has something to say, a bubble opens beside him. Content scrolls underneath. The
+exception is the Speak tab, where he is the one you talk to and sits in the middle of the screen.
 
 ## Copy
 

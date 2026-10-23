@@ -21,7 +21,7 @@ const dsCheck = (FRAME) => {
       const k = Get(n.ref, { depth: 0 });
       const name = (k && k.name) || "";
       comp[n.id] = name;
-      if (/^Dombi( guide)? \//.test(name)) dombi++;
+      if (/^Dombi( guide| overlay)? \//.test(name)) dombi++;
     }
   });
   const owner = (id) => {
