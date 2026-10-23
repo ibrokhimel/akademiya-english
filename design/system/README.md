@@ -79,6 +79,16 @@ Dombi floats over the screen as an overlay, bottom right above the tab bar, not 
 decision, 2026-10-23). When he has something to say, a bubble opens beside him. Content scrolls underneath. The
 exception is the Speak tab, where he is the one you talk to and sits in the middle of the screen.
 
+- He is a fixed layer pinned above the tab bar, not part of the scrolling content. Scroll content ends with about
+  110 points of empty space so the last item can scroll clear of him.
+- His bubble opens for a moment (about 4 seconds, or until tapped) and then he stays quiet. A screen at rest shows
+  the quiet Dombi; the talking state is for greetings, tips and celebrations.
+
+## Exceptions
+
+- **Ending a live conversation** uses the danger red for the round "Tugatish" button, because red for hanging up
+  is what people expect from calls. The live conversation screen is always dark.
+
 ## Copy
 
 Short and literal. Name things by what people see. No slogans.
