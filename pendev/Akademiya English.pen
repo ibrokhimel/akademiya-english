@@ -190719,7 +190719,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/studio-mic.png",
+                                "url": "icons-r2/tab-speak.png",
                                 "mode": "contain"
                               }
                             }
@@ -190771,7 +190771,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/target.png",
+                                "url": "icons-r2/tab-practice.png",
                                 "mode": "contain"
                               }
                             }
@@ -190961,7 +190961,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/studio-mic.png",
+                                "url": "icons-r2/tab-speak.png",
                                 "mode": "contain"
                               }
                             }
@@ -191013,7 +191013,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/target.png",
+                                "url": "icons-r2/tab-practice.png",
                                 "mode": "contain"
                               }
                             }
@@ -191203,7 +191203,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/studio-mic.png",
+                                "url": "icons-r2/tab-speak.png",
                                 "mode": "contain"
                               }
                             }
@@ -191255,7 +191255,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/target.png",
+                                "url": "icons-r2/tab-practice.png",
                                 "mode": "contain"
                               }
                             }
@@ -191445,7 +191445,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/studio-mic.png",
+                                "url": "icons-r2/tab-speak.png",
                                 "mode": "contain"
                               }
                             }
@@ -191497,7 +191497,7 @@
                               "fill": {
                                 "type": "image",
                                 "enabled": true,
-                                "url": "icons-r2/target.png",
+                                "url": "icons-r2/tab-practice.png",
                                 "mode": "contain"
                               }
                             }
