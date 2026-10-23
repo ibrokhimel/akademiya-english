@@ -189713,6 +189713,4224 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "t3OOgd",
+      "x": 0,
+      "y": 28593,
+      "name": "Redesign · Tabs",
+      "fill": "$ds-paper",
+      "layout": "vertical",
+      "gap": 200,
+      "padding": 120,
+      "children": [
+        {
+          "type": "text",
+          "id": "euKUU",
+          "name": "Section title",
+          "fill": "$ds-ink",
+          "content": "Redesign · The four tabs (2026-10-23)",
+          "fontFamily": "Nunito",
+          "fontSize": 34,
+          "fontWeight": "900"
+        },
+        {
+          "type": "frame",
+          "id": "vP1dB",
+          "name": "References",
+          "fill": "$ds-surface",
+          "cornerRadius": 24,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 40,
+          "children": [
+            {
+              "type": "text",
+              "id": "UHvr1",
+              "name": "Title",
+              "fill": "$ds-ink",
+              "content": "Pattern references (notes only, no copied screens). Akademiya Math is a quality bar, not a source.",
+              "fontFamily": "Nunito",
+              "fontSize": 20,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "vtaYb",
+              "name": "Columns",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "u49p1",
+                  "name": "Learn",
+                  "width": 420,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JTBpB",
+                      "name": "Tab",
+                      "fill": "$ds-main",
+                      "content": "LEARN",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dPxwb",
+                      "name": "L1",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "m8ozNV",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "L1 · Pinned unit header with a guidebook button",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "saD15",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Duolingo",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dAxJ5",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Keeps the place goal in view; our phrase book fits the same slot.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lo9wZ",
+                      "name": "L2",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "I4iufA",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "L2 · Big 'continue where you left off' card on top",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Mgf4y",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Babbel",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TJKug",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "One tap back into the lesson; matches our next-lesson hero.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tW4yX",
+                      "name": "L3",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AwUqp",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "L3 · Units named by what you can do",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "HT3aJ",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Busuu",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zCD8f",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Our checkpoint titles already say this ('Kafeda buyurtma bera olasiz').",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zjGiu",
+                      "name": "L4",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K404k",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "L4 · Lesson card previews the exact phrase you will say",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JFhXZ",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Speak",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vHg1b",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Speaking first: the learner hears the goal before starting.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qyKUI",
+                  "name": "Speak",
+                  "width": 420,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rVHFe",
+                      "name": "Tab",
+                      "fill": "$ds-main",
+                      "content": "SPEAK",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i3lVPC",
+                      "name": "S1",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OWpM4",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "S1 · Role-play library: scenario cards with a character and a one-line situation",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BMjSf",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Speak",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jGYyB",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Direct fit for Talk to a character: café, shop, street.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Zj9l2",
+                      "name": "S2",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PIVrK",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "S2 · One tutor character front and centre with a single talk button",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WnYn5",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Praktika",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LQNuj",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Dombi takes this role, without AI for now.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jV1X7",
+                      "name": "S3",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FEFWw",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "S3 · Pronunciation grouped by sound, a score per sound",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SJ0eC",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Elsa",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "s2Nr0X",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Fits Which one did you hear? (v/w, ship/sheep).",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S86Kol",
+                      "name": "S4",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "k3JmQJ",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "S4 · A character-led speaking moment as the hub's hero",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fwFs7",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Duolingo",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "r7TAz9",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Gives Speak one clear thing to do today.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lBlYQ",
+                  "name": "Practice",
+                  "width": 420,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Rkdfh",
+                      "name": "Tab",
+                      "fill": "$ds-main",
+                      "content": "PRACTICE",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZFlWU",
+                      "name": "P1",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kmYQf",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "P1 · Hub: personal practice first, then groups (mistakes, words, listening)",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UfTof",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Duolingo",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "sfUu1",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Daily challenge first, then our four activities.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k0iRwq",
+                      "name": "P2",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "s6WNV6",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "P2 · Review count with one 'review now' button",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fhnH5",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Babbel",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Aaioz",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Short, clear reason to open the tab.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Uj6Ju",
+                      "name": "P3",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "TzQJC",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "P3 · Short sessions that fit a streak",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "F3Soe",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Busuu",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lYaIh",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Our daily challenge keeps the streak alive.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t2MmZz",
+                      "name": "P4",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "D7kXj",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "P4 · A daily plan card with a time estimate",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y0TYrg",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Elsa",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dQp3b",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "'3 tasks, about 2 minutes' on the challenge card.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Dm2rX",
+                  "name": "Me",
+                  "width": 420,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dfxrv",
+                      "name": "Tab",
+                      "fill": "$ds-main",
+                      "content": "ME",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tWY4O",
+                      "name": "M1",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mAswq",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "M1 · Header, then a stats block, then achievements with progress",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "tnLIb",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Duolingo",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XalCf",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Clear order: who you are, how you are doing, what you earned.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xtY7k",
+                      "name": "M2",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kFpcn",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "M2 · Speaking-based stats: minutes spoken, sentences said",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KKit1",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Speak",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fPgL5",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Our 'things I can say' number and minutes spoken.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kF8M0",
+                      "name": "M3",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "q1GPGd",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "M3 · A 'my vocabulary' entry from the profile",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "p50oo",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Busuu",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yGnWH",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Our phrase list and recordings.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eee6A",
+                      "name": "M4",
+                      "width": "fill_container",
+                      "fill": "$ds-paper",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K88FX2",
+                          "name": "Pattern",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "M4 · Settings and account as calm rows at the bottom",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "quJyJ",
+                          "name": "Source",
+                          "fill": "$ds-main",
+                          "content": "Babbel",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XzIQm",
+                          "name": "Why",
+                          "fill": "$ds-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Keeps Me about progress, not admin.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "w2rio",
+          "name": "Shared",
+          "gap": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "p8JpL",
+              "name": "Tab bar / 4 / learn",
+              "reusable": true,
+              "width": 390,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Sw0BZ",
+                  "name": "Top line",
+                  "width": "fill_container",
+                  "height": 2,
+                  "fill": "$ds-line"
+                },
+                {
+                  "type": "frame",
+                  "id": "gJA0t",
+                  "name": "Items",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    8,
+                    14,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "w2Ur9s",
+                      "name": "O'RGANISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FP7eB",
+                          "name": "Icon pill",
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "RfJJQ",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-home.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "MP60S",
+                          "name": "Label",
+                          "fill": "$ds-main",
+                          "content": "O'RGANISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WGe8B",
+                      "name": "GAPIRISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "F0oxe",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "aCUDg",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/studio-mic.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "H3KH0b",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "GAPIRISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QOy8y",
+                      "name": "MASHQ",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "TzUa1",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "bU0VW",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/target.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "NSXkG",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MASHQ",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eDRI6",
+                      "name": "MEN",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "l0bYKI",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "P5k9CC",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-profile.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "toLuS",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MEN",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LeKzM",
+              "name": "Tab bar / 4 / speak",
+              "reusable": true,
+              "width": 390,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wWgPK",
+                  "name": "Top line",
+                  "width": "fill_container",
+                  "height": 2,
+                  "fill": "$ds-line"
+                },
+                {
+                  "type": "frame",
+                  "id": "s4sU1T",
+                  "name": "Items",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    8,
+                    14,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "t6CdqI",
+                      "name": "O'RGANISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "F5cJ3M",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "bnYPS",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-home.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ogVT4",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "O'RGANISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "osO5c",
+                      "name": "GAPIRISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "MuoAb",
+                          "name": "Icon pill",
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "XBCti",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/studio-mic.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "n5IsZU",
+                          "name": "Label",
+                          "fill": "$ds-main",
+                          "content": "GAPIRISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JcCTj",
+                      "name": "MASHQ",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "b7MVhY",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "P83OaZ",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/target.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "J1MjG",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MASHQ",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wV4Lc",
+                      "name": "MEN",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NkhjM",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Q9YAq",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-profile.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "f7Py7",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MEN",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U7vvq",
+              "name": "Tab bar / 4 / practice",
+              "reusable": true,
+              "width": 390,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tVv5l",
+                  "name": "Top line",
+                  "width": "fill_container",
+                  "height": 2,
+                  "fill": "$ds-line"
+                },
+                {
+                  "type": "frame",
+                  "id": "c6Gwt",
+                  "name": "Items",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    8,
+                    14,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zgRBD",
+                      "name": "O'RGANISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KHWUn",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "LaRDC",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-home.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "XQvWb",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "O'RGANISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fap90",
+                      "name": "GAPIRISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "TrV9N",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Wm1sn",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/studio-mic.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "bkdfS",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "GAPIRISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X4eUrH",
+                      "name": "MASHQ",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "lm1qM",
+                          "name": "Icon pill",
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pACWp",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/target.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Sx0kB",
+                          "name": "Label",
+                          "fill": "$ds-main",
+                          "content": "MASHQ",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "w6Uiix",
+                      "name": "MEN",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "rfZn8",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "UFXvj",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-profile.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "qJBXO",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MEN",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GpKMb",
+              "name": "Tab bar / 4 / me",
+              "reusable": true,
+              "width": 390,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CcsOy",
+                  "name": "Top line",
+                  "width": "fill_container",
+                  "height": 2,
+                  "fill": "$ds-line"
+                },
+                {
+                  "type": "frame",
+                  "id": "t0yw3",
+                  "name": "Items",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    8,
+                    14,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "r1FBk",
+                      "name": "O'RGANISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "I3hKoI",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "wpcGh",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-home.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "x3VpQE",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "O'RGANISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aWJdM",
+                      "name": "GAPIRISH",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KHpO6",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "vUAT6",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/studio-mic.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "J2GRvw",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "GAPIRISH",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TUjiy",
+                      "name": "MASHQ",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gBH5R",
+                          "name": "Icon pill",
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "H5VDFV",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/target.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "v6BZN",
+                          "name": "Label",
+                          "fill": "$ds-muted",
+                          "content": "MASHQ",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yX1ci",
+                      "name": "MEN",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jo9cH",
+                          "name": "Icon pill",
+                          "fill": "$ds-main-wash",
+                          "cornerRadius": 16,
+                          "padding": [
+                            4,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pBMTb",
+                              "name": "Icon",
+                              "width": 30,
+                              "height": 30,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "icons-r2/tab-profile.png",
+                                "mode": "contain"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "H2UuxQ",
+                          "name": "Label",
+                          "fill": "$ds-main",
+                          "content": "MEN",
+                          "fontFamily": "Nunito",
+                          "fontSize": 12,
+                          "fontWeight": "900",
+                          "letterSpacing": 0.8
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DSTHb",
+              "name": "Stat pill / streak",
+              "reusable": true,
+              "fill": "$ds-paper",
+              "cornerRadius": 14,
+              "gap": 6,
+              "padding": [
+                6,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "cnSJ7",
+                  "name": "Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "flame",
+                  "library": "lucide",
+                  "fill": "$ds-reward-text"
+                },
+                {
+                  "type": "text",
+                  "id": "d6vW9",
+                  "name": "Value",
+                  "fill": "$ds-reward-text",
+                  "content": "3",
+                  "fontFamily": "Nunito",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kQhZk",
+              "name": "Stat pill / phrases",
+              "reusable": true,
+              "fill": "$ds-paper",
+              "cornerRadius": 14,
+              "gap": 6,
+              "padding": [
+                6,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "v3nUk",
+                  "name": "Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "message-circle",
+                  "library": "lucide",
+                  "fill": "$ds-main"
+                },
+                {
+                  "type": "text",
+                  "id": "PIHmT",
+                  "name": "Value",
+                  "fill": "$ds-main",
+                  "content": "18",
+                  "fontFamily": "Nunito",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RYJY3",
+              "name": "Dombi guide / small",
+              "reusable": true,
+              "width": 312,
+              "gap": 8,
+              "alignItems": "end",
+              "children": [
+                {
+                  "id": "vUghA",
+                  "type": "ref",
+                  "ref": "a9Evh",
+                  "name": "Dombi"
+                },
+                {
+                  "type": "frame",
+                  "id": "aOFvB",
+                  "name": "Bubble",
+                  "width": "fill_container",
+                  "fill": "$ds-surface",
+                  "cornerRadius": [
+                    16,
+                    16,
+                    16,
+                    4
+                  ],
+                  "stroke": "$ds-line",
+                  "strokeWidth": 2,
+                  "padding": [
+                    10,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EKz08",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Salom! Bugun bitta suhbat yetarli.",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "L10x6",
+              "name": "Tab header",
+              "reusable": true,
+              "width": 390,
+              "fill": "$ds-surface",
+              "padding": [
+                12,
+                20
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "V86Gi",
+                  "name": "Title",
+                  "fill": "$ds-ink",
+                  "content": "Gapirish",
+                  "fontFamily": "Nunito",
+                  "fontSize": 26,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "yNdrM",
+                  "name": "Pills",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "id": "R3RqR",
+                      "type": "ref",
+                      "ref": "DSTHb",
+                      "name": "Streak"
+                    },
+                    {
+                      "id": "Oce2D",
+                      "type": "ref",
+                      "ref": "kQhZk",
+                      "name": "Phrases"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rnCJl",
+              "name": "Path node / current",
+              "reusable": true,
+              "width": 71,
+              "height": 66,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "SifLY",
+                  "x": 0,
+                  "y": 9,
+                  "name": "Lip",
+                  "fill": "$ds-reward-lip",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "ellipse",
+                  "id": "V4vqc",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Face",
+                  "fill": "$ds-reward",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "frame",
+                  "id": "QTtlN",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Icon box",
+                  "width": 71,
+                  "height": 57,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "oUSrl",
+                      "name": "Icon",
+                      "width": 30,
+                      "height": 30,
+                      "icon": "star",
+                      "library": "lucide",
+                      "fill": "$ds-on-reward"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bDIwi",
+              "name": "Path node / done",
+              "reusable": true,
+              "width": 71,
+              "height": 66,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "OOx93",
+                  "x": 0,
+                  "y": 9,
+                  "name": "Lip",
+                  "fill": "$ds-main-lip",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "ellipse",
+                  "id": "hgnFR",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Face",
+                  "fill": "$ds-main",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "frame",
+                  "id": "Y4i0l",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Icon box",
+                  "width": 71,
+                  "height": 57,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "iRuRv",
+                      "name": "Icon",
+                      "width": 30,
+                      "height": 30,
+                      "icon": "check",
+                      "library": "lucide",
+                      "fill": "$ds-on-main"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tWRwx",
+              "name": "Path node / locked",
+              "reusable": true,
+              "width": 71,
+              "height": 66,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "usCl7",
+                  "x": 0,
+                  "y": 9,
+                  "name": "Lip",
+                  "fill": "$ds-line-lip",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "ellipse",
+                  "id": "ceIqi",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Face",
+                  "fill": "$ds-line",
+                  "width": 71,
+                  "height": 57
+                },
+                {
+                  "type": "frame",
+                  "id": "R1wBt",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Icon box",
+                  "width": 71,
+                  "height": 57,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "oAeZc",
+                      "name": "Icon",
+                      "width": 30,
+                      "height": 30,
+                      "icon": "star",
+                      "library": "lucide",
+                      "fill": "$ds-faint"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PBt81",
+              "name": "Path node / checkpoint",
+              "reusable": true,
+              "width": 69,
+              "height": 61,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 16,
+                  "id": "h3vAGT",
+                  "x": 0,
+                  "y": 6,
+                  "name": "Lip",
+                  "fill": "$ds-reward-lip",
+                  "width": 69,
+                  "height": 55
+                },
+                {
+                  "type": "frame",
+                  "id": "FlMzj",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Face",
+                  "width": 69,
+                  "height": 55,
+                  "fill": "$ds-reward-wash",
+                  "cornerRadius": 16,
+                  "stroke": "$ds-reward",
+                  "strokeWidth": 3,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fbgWA",
+                      "name": "Icon",
+                      "width": 30,
+                      "height": 30,
+                      "icon": "trophy",
+                      "library": "lucide",
+                      "fill": "$ds-reward-text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mY5g5",
+              "name": "Path nodes preview",
+              "fill": "$ds-surface",
+              "gap": 16,
+              "padding": 16,
+              "children": [
+                {
+                  "id": "cGe8l",
+                  "type": "ref",
+                  "ref": "rnCJl",
+                  "name": "current"
+                },
+                {
+                  "id": "jz1nG",
+                  "type": "ref",
+                  "ref": "bDIwi",
+                  "name": "done"
+                },
+                {
+                  "id": "cIVRN",
+                  "type": "ref",
+                  "ref": "tWRwx",
+                  "name": "locked"
+                },
+                {
+                  "id": "wCLjL",
+                  "type": "ref",
+                  "ref": "PBt81",
+                  "name": "checkpoint"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DpuSf",
+          "name": "Learn",
+          "gap": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "uBclP",
+              "name": "Learn · A",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zWPZn",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yS5pP",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "U37TZ",
+                  "name": "Stats",
+                  "width": "fill_container",
+                  "padding": [
+                    4,
+                    20,
+                    12,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jDmT4",
+                      "name": "O'rganish",
+                      "fill": "$ds-ink",
+                      "content": "O'rganish",
+                      "fontFamily": "Nunito",
+                      "fontSize": 26,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y1JFF",
+                      "name": "Pills",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "id": "OzsLa",
+                          "type": "ref",
+                          "ref": "DSTHb",
+                          "name": "Streak"
+                        },
+                        {
+                          "id": "fMshC",
+                          "type": "ref",
+                          "ref": "kQhZk",
+                          "name": "Phrases"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OiltJ",
+                  "name": "Hero wrap",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Y88tz",
+                      "name": "Hero",
+                      "width": "fill_container",
+                      "fill": "$ds-main-lip",
+                      "cornerRadius": 24,
+                      "padding": [
+                        0,
+                        0,
+                        5,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "uQwIP",
+                          "name": "Face",
+                          "width": "fill_container",
+                          "fill": "$ds-main",
+                          "cornerRadius": 24,
+                          "layout": "vertical",
+                          "gap": 14,
+                          "padding": 20,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FaP7h",
+                              "name": "2-BO'LIM · KAFEDA · ",
+                              "fill": "$ds-main-wash-line",
+                              "content": "2-BO'LIM · KAFEDA · 2-DARS",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "EZ34V",
+                              "name": "Taom buyurtma qila o",
+                              "fill": "$ds-on-main",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Taom buyurtma qila olasiz",
+                              "fontFamily": "Nunito",
+                              "fontSize": 26,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wHOVc",
+                              "name": "Dombi row",
+                              "width": "fill_container",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "HhpPn",
+                                  "type": "ref",
+                                  "ref": "a9Evh",
+                                  "name": "Dombi"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "xAp9V",
+                                  "name": "4 daqiqa. Bugun shu ",
+                                  "fill": "$ds-main-wash",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "iISI5",
+                              "name": "Button",
+                              "width": "fill_container",
+                              "fill": "$ds-main-wash-line",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                0,
+                                4,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "k8yVlC",
+                                  "name": "Face",
+                                  "width": "fill_container",
+                                  "height": 48,
+                                  "fill": "$ds-surface",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "f6JsJ",
+                                      "name": "BOSHLASH",
+                                      "fill": "$ds-main",
+                                      "content": "BOSHLASH",
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 16,
+                                      "fontWeight": "900",
+                                      "letterSpacing": 0.6
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Brmlo",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "QpLNO",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": 62
+                    },
+                    {
+                      "id": "XM4qS",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 138
+                    },
+                    {
+                      "id": "UOk4L",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 224,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "sR5yG",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 308,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "W1YU5s",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 385,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "pS1uQ",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 471
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jazYj",
+                      "x": 254,
+                      "y": 215,
+                      "name": "Place art",
+                      "width": 77,
+                      "height": 83,
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 38,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "kWG6R",
+                          "name": "Coffee",
+                          "width": 40,
+                          "height": 40,
+                          "icon": "coffee",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "JvHsV",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U2zelf",
+              "name": "Learn · B",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "T5vLBm",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LrRNm",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "Q14Bb",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "O'rganish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "K1pwfz",
+                  "name": "Unit label",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jAAza",
+                      "name": "Line",
+                      "width": "fill_container",
+                      "height": 2,
+                      "fill": "$ds-line"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cevc4",
+                      "name": "2-BO'LIM · KAFEDA",
+                      "fill": "$ds-muted",
+                      "content": "2-BO'LIM · KAFEDA",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V34vl",
+                      "name": "Line",
+                      "width": "fill_container",
+                      "height": 2,
+                      "fill": "$ds-line"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SX8fc",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "OBKas",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": 22
+                    },
+                    {
+                      "id": "aNp2w",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 98
+                    },
+                    {
+                      "id": "NRUmM",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 184,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "LVoSe",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 268,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "V7TS1q",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 345,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "sM42p",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 431
+                    },
+                    {
+                      "id": "AxOIH",
+                      "type": "ref",
+                      "ref": "o4yqv",
+                      "name": "Dombi",
+                      "x": 204,
+                      "y": 150
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZZ1h9",
+                      "x": 186,
+                      "y": 94,
+                      "name": "Bubble",
+                      "width": 180,
+                      "fill": "$ds-surface",
+                      "cornerRadius": [
+                        16,
+                        16,
+                        4,
+                        16
+                      ],
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "padding": [
+                        10,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a2cyq",
+                          "name": "Keyingi dars shu yer",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Keyingi dars shu yerda. 4 daqiqa.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cGohL",
+                  "name": "Start bar",
+                  "width": "fill_container",
+                  "padding": [
+                    10,
+                    20,
+                    12,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d8Djqh",
+                      "name": "Card",
+                      "width": "fill_container",
+                      "fill": "$ds-main",
+                      "cornerRadius": 20,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        12,
+                        12,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "q0EI9I",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "o8S4u9",
+                              "name": "KEYINGI DARS",
+                              "fill": "$ds-main-wash-line",
+                              "content": "KEYINGI DARS",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "IMIC8",
+                              "name": "Taom buyurtma qila o",
+                              "fill": "$ds-on-main",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Taom buyurtma qila olasiz",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I9hnNu",
+                          "name": "Button",
+                          "fill": "$ds-main-wash-line",
+                          "cornerRadius": 16,
+                          "padding": [
+                            0,
+                            0,
+                            4,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "D0oOd",
+                              "name": "Face",
+                              "height": 44,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "OTDt7",
+                                  "name": "BOSHLASH",
+                                  "fill": "$ds-main",
+                                  "content": "BOSHLASH",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "goyQ1",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ere6L",
+              "name": "Learn · C",
+              "clip": true,
+              "width": 390,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UFm46",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "actZh",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WIuX0",
+                  "name": "Stats",
+                  "width": "fill_container",
+                  "padding": [
+                    4,
+                    20,
+                    8,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "r5IV6",
+                      "name": "O'rganish",
+                      "fill": "$ds-ink",
+                      "content": "O'rganish",
+                      "fontFamily": "Nunito",
+                      "fontSize": 26,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m5BVs",
+                      "name": "Pills",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "id": "hhrSt",
+                          "type": "ref",
+                          "ref": "DSTHb",
+                          "name": "Streak"
+                        },
+                        {
+                          "id": "d6mfLA",
+                          "type": "ref",
+                          "ref": "kQhZk",
+                          "name": "Phrases"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s2KgL",
+                  "name": "Place banner wrap",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kQ4RW",
+                      "name": "Place banner",
+                      "width": "fill_container",
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 24,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "R0Dxjy",
+                          "name": "Row",
+                          "width": "fill_container",
+                          "gap": 14,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Gpx9t",
+                              "name": "Place icon",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 22,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "B0Bxg",
+                                  "name": "Coffee",
+                                  "width": 40,
+                                  "height": 40,
+                                  "icon": "coffee",
+                                  "library": "lucide",
+                                  "fill": "$ds-main"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "fKDCU",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "QEuf8",
+                                  "name": "2-BO'LIM",
+                                  "fill": "$ds-main",
+                                  "content": "2-BO'LIM",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bm7EP",
+                                  "name": "Kafeda",
+                                  "fill": "$ds-ink",
+                                  "content": "Kafeda",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 26,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "s5FXd",
+                                  "name": "Taom buyurtma qila o",
+                                  "fill": "$ds-muted",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Taom buyurtma qila olasiz",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vV4Qh",
+                          "name": "Progress",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "g8Xfes",
+                              "name": "Track",
+                              "width": "fill_container",
+                              "height": 10,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 5,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "URHTo",
+                                  "name": "Fill",
+                                  "width": 110,
+                                  "height": 10,
+                                  "fill": "$ds-main",
+                                  "cornerRadius": 5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "j52Khs",
+                              "name": "2 / 5",
+                              "fill": "$ds-main",
+                              "content": "2 / 5",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "GUwQp",
+                          "type": "ref",
+                          "ref": "RYJY3",
+                          "name": "Dombi guide",
+                          "width": "fill_container",
+                          "descendants": {
+                            "EKz08": {
+                              "content": "Kafeda yana 3 dars qoldi. Boshlaymizmi?"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vmXMV",
+                          "name": "Button",
+                          "width": "fill_container",
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 16,
+                          "padding": [
+                            0,
+                            0,
+                            4,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "PPVu8",
+                              "name": "Face",
+                              "width": "fill_container",
+                              "height": 48,
+                              "fill": "$ds-main",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Z2FOhR",
+                                  "name": "DAVOM ETISH",
+                                  "fill": "$ds-on-main",
+                                  "content": "DAVOM ETISH",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "v9npJ",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "FRWGr",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": -38
+                    },
+                    {
+                      "id": "DZpTP",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 38
+                    },
+                    {
+                      "id": "p3Gke6",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 124,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "DMiFq",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 208,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "pOba2",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 285,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "t3EzDw",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 371
+                    }
+                  ]
+                },
+                {
+                  "id": "U6EbB",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "btWFf",
+              "name": "Learn · A · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VOKqR",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qX2S4",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CUgTE",
+                  "name": "Stats",
+                  "width": "fill_container",
+                  "padding": [
+                    4,
+                    20,
+                    12,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Enxa7",
+                      "name": "O'rganish",
+                      "fill": "$ds-ink",
+                      "content": "O'rganish",
+                      "fontFamily": "Nunito",
+                      "fontSize": 26,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dYzzD",
+                      "name": "Pills",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "id": "F73t6",
+                          "type": "ref",
+                          "ref": "DSTHb",
+                          "name": "Streak"
+                        },
+                        {
+                          "id": "fxidD",
+                          "type": "ref",
+                          "ref": "kQhZk",
+                          "name": "Phrases"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x6M6p3",
+                  "name": "Hero wrap",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HNhs6",
+                      "name": "Hero",
+                      "width": "fill_container",
+                      "fill": "$ds-main-lip",
+                      "cornerRadius": 24,
+                      "padding": [
+                        0,
+                        0,
+                        5,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "PmgWT",
+                          "name": "Face",
+                          "width": "fill_container",
+                          "fill": "$ds-main",
+                          "cornerRadius": 24,
+                          "layout": "vertical",
+                          "gap": 14,
+                          "padding": 20,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "OErMR",
+                              "name": "2-BO'LIM · KAFEDA · ",
+                              "fill": "$ds-main-wash-line",
+                              "content": "2-BO'LIM · KAFEDA · 2-DARS",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "yPaae",
+                              "name": "Taom buyurtma qila o",
+                              "fill": "$ds-on-main",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Taom buyurtma qila olasiz",
+                              "fontFamily": "Nunito",
+                              "fontSize": 26,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "N3ZwYc",
+                              "name": "Dombi row",
+                              "width": "fill_container",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "id": "dUsXI",
+                                  "type": "ref",
+                                  "ref": "a9Evh",
+                                  "name": "Dombi"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bTwoE",
+                                  "name": "4 daqiqa. Bugun shu ",
+                                  "fill": "$ds-main-wash",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "4 daqiqa. Bugun shu dars bilan seriya 4 kun bo'ladi.",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "KCxxG",
+                              "name": "Button",
+                              "width": "fill_container",
+                              "fill": "$ds-main-wash-line",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                0,
+                                4,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "fJGF9",
+                                  "name": "Face",
+                                  "width": "fill_container",
+                                  "height": 48,
+                                  "fill": "$ds-surface",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "b0HQx0",
+                                      "name": "BOSHLASH",
+                                      "fill": "$ds-main",
+                                      "content": "BOSHLASH",
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 16,
+                                      "fontWeight": "900",
+                                      "letterSpacing": 0.6
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FayJ7",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "bK88j",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": 62
+                    },
+                    {
+                      "id": "UIM3b",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 138
+                    },
+                    {
+                      "id": "Cn6pw",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 224,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "e9BnIg",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 308,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "Nnpzd",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 385,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "ZQQok",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 471
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R7MWk",
+                      "x": 254,
+                      "y": 215,
+                      "name": "Place art",
+                      "width": 77,
+                      "height": 83,
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 38,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "byEx9",
+                          "name": "Coffee",
+                          "width": 40,
+                          "height": 40,
+                          "icon": "coffee",
+                          "library": "lucide",
+                          "fill": "$ds-main"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "v8IpD",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "q3v399",
+              "name": "Learn · B · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UlvF0",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yojBU",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "id": "PgRaB",
+                  "type": "ref",
+                  "ref": "L10x6",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "descendants": {
+                    "V86Gi": {
+                      "content": "O'rganish"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "osMGZ",
+                  "name": "Unit label",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "padding": [
+                    4,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "guMzO",
+                      "name": "Line",
+                      "width": "fill_container",
+                      "height": 2,
+                      "fill": "$ds-line"
+                    },
+                    {
+                      "type": "text",
+                      "id": "GyFvW",
+                      "name": "2-BO'LIM · KAFEDA",
+                      "fill": "$ds-muted",
+                      "content": "2-BO'LIM · KAFEDA",
+                      "fontFamily": "Nunito",
+                      "fontSize": 12,
+                      "fontWeight": "900",
+                      "letterSpacing": 0.8
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TDYIm",
+                      "name": "Line",
+                      "width": "fill_container",
+                      "height": 2,
+                      "fill": "$ds-line"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TzvO6",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "rKxBH",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": 22
+                    },
+                    {
+                      "id": "vdibj",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 98
+                    },
+                    {
+                      "id": "fVzr9",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 184,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "GAoub",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 268,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "x0MFhh",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 345,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "C5Ey50",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 431
+                    },
+                    {
+                      "id": "Fg1Bk",
+                      "type": "ref",
+                      "ref": "o4yqv",
+                      "name": "Dombi",
+                      "x": 196,
+                      "y": 150
+                    },
+                    {
+                      "type": "frame",
+                      "id": "if1pO",
+                      "x": 188,
+                      "y": 94,
+                      "name": "Bubble",
+                      "width": 160,
+                      "fill": "$ds-surface",
+                      "cornerRadius": [
+                        16,
+                        16,
+                        4,
+                        16
+                      ],
+                      "stroke": "$ds-line",
+                      "strokeWidth": 2,
+                      "padding": [
+                        10,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QDPhG",
+                          "name": "Keyingi dars shu yer",
+                          "fill": "$ds-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Keyingi dars shu yerda. 4 daqiqa.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zNAWl",
+                  "name": "Start bar",
+                  "width": "fill_container",
+                  "padding": [
+                    10,
+                    20,
+                    12,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GQok4",
+                      "name": "Card",
+                      "width": "fill_container",
+                      "fill": "$ds-main",
+                      "cornerRadius": 20,
+                      "gap": 12,
+                      "padding": [
+                        12,
+                        12,
+                        12,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ggOH7",
+                          "name": "Text",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kULIz",
+                              "name": "KEYINGI DARS",
+                              "fill": "$ds-main-wash-line",
+                              "content": "KEYINGI DARS",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "900",
+                              "letterSpacing": 0.8
+                            },
+                            {
+                              "type": "text",
+                              "id": "Mvc41",
+                              "name": "Taom buyurtma qila o",
+                              "fill": "$ds-on-main",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Taom buyurtma qila olasiz",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YXcFy",
+                          "name": "Button",
+                          "fill": "$ds-main-wash-line",
+                          "cornerRadius": 16,
+                          "padding": [
+                            0,
+                            0,
+                            4,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FHI5d",
+                              "name": "Face",
+                              "height": 44,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "zZKmP",
+                                  "name": "BOSHLASH",
+                                  "fill": "$ds-main",
+                                  "content": "BOSHLASH",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "UIiR0",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s4e70",
+              "name": "Learn · C · 360",
+              "clip": true,
+              "width": 360,
+              "height": 844,
+              "fill": "$ds-surface",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nunNS",
+                  "name": "Status bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "padding": [
+                    14,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qeE9X",
+                      "name": "9:41",
+                      "fill": "$ds-ink",
+                      "content": "9:41",
+                      "fontFamily": "Nunito",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kSxLt",
+                  "name": "Stats",
+                  "width": "fill_container",
+                  "padding": [
+                    4,
+                    20,
+                    8,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PAy6g",
+                      "name": "O'rganish",
+                      "fill": "$ds-ink",
+                      "content": "O'rganish",
+                      "fontFamily": "Nunito",
+                      "fontSize": 26,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i63M7",
+                      "name": "Pills",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "id": "f7AN1O",
+                          "type": "ref",
+                          "ref": "DSTHb",
+                          "name": "Streak"
+                        },
+                        {
+                          "id": "VTVD0",
+                          "type": "ref",
+                          "ref": "kQhZk",
+                          "name": "Phrases"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WhzlD",
+                  "name": "Place banner wrap",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "L5jLN",
+                      "name": "Place banner",
+                      "width": "fill_container",
+                      "fill": "$ds-main-wash",
+                      "cornerRadius": 24,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jzgie",
+                          "name": "Row",
+                          "width": "fill_container",
+                          "gap": 14,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "D780hB",
+                              "name": "Place icon",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 22,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Jcwlb",
+                                  "name": "Coffee",
+                                  "width": 40,
+                                  "height": 40,
+                                  "icon": "coffee",
+                                  "library": "lucide",
+                                  "fill": "$ds-main"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "c77YT",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "c5bDH",
+                                  "name": "2-BO'LIM",
+                                  "fill": "$ds-main",
+                                  "content": "2-BO'LIM",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 12,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "WkFdD",
+                                  "name": "Kafeda",
+                                  "fill": "$ds-ink",
+                                  "content": "Kafeda",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 26,
+                                  "fontWeight": "900"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "oEh06",
+                                  "name": "Taom buyurtma qila o",
+                                  "fill": "$ds-muted",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Taom buyurtma qila olasiz",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "BZ8YB",
+                          "name": "Progress",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IwCZS",
+                              "name": "Track",
+                              "width": "fill_container",
+                              "height": 10,
+                              "fill": "$ds-surface",
+                              "cornerRadius": 5,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "S2cKl",
+                                  "name": "Fill",
+                                  "width": 110,
+                                  "height": 10,
+                                  "fill": "$ds-main",
+                                  "cornerRadius": 5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "rmApe",
+                              "name": "2 / 5",
+                              "fill": "$ds-main",
+                              "content": "2 / 5",
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "q2q1yj",
+                          "type": "ref",
+                          "ref": "RYJY3",
+                          "name": "Dombi guide",
+                          "width": "fill_container",
+                          "descendants": {
+                            "EKz08": {
+                              "content": "Kafeda yana 3 dars qoldi. Boshlaymizmi?"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Etvg9",
+                          "name": "Button",
+                          "width": "fill_container",
+                          "fill": "$ds-main-lip",
+                          "cornerRadius": 16,
+                          "padding": [
+                            0,
+                            0,
+                            4,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "muzjk",
+                              "name": "Face",
+                              "width": "fill_container",
+                              "height": 48,
+                              "fill": "$ds-main",
+                              "cornerRadius": 16,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "e77ufk",
+                                  "name": "DAVOM ETISH",
+                                  "fill": "$ds-on-main",
+                                  "content": "DAVOM ETISH",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "900",
+                                  "letterSpacing": 0.6
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bo6kb",
+                  "name": "Path",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "id": "rMOMJ",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L1",
+                      "x": 160,
+                      "y": -38
+                    },
+                    {
+                      "id": "HB5JP",
+                      "type": "ref",
+                      "ref": "bDIwi",
+                      "name": "L2",
+                      "x": 113,
+                      "y": 38
+                    },
+                    {
+                      "id": "P1DLfy",
+                      "type": "ref",
+                      "ref": "rnCJl",
+                      "name": "L3",
+                      "x": 90,
+                      "y": 124,
+                      "descendants": {
+                        "oUSrl": {
+                          "icon": "star"
+                        }
+                      }
+                    },
+                    {
+                      "id": "FyGGN",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L4",
+                      "x": 113,
+                      "y": 208,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "headphones"
+                        }
+                      }
+                    },
+                    {
+                      "id": "mq958",
+                      "type": "ref",
+                      "ref": "tWRwx",
+                      "name": "L5",
+                      "x": 159,
+                      "y": 285,
+                      "descendants": {
+                        "oAeZc": {
+                          "icon": "message-circle"
+                        }
+                      }
+                    },
+                    {
+                      "id": "OnmqK",
+                      "type": "ref",
+                      "ref": "PBt81",
+                      "name": "Checkpoint",
+                      "x": 206,
+                      "y": 371
+                    }
+                  ]
+                },
+                {
+                  "id": "kS9j8",
+                  "type": "ref",
+                  "ref": "p8JpL",
+                  "name": "Tab bar",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
@@ -190673,6 +194891,431 @@
     "red-deep": {
       "type": "color",
       "value": "#C02A3D"
+    },
+    "ds-ink": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#14161B",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F4F4F6",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-muted": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#6B6F7B",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A3A5B2",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-faint": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#9A9DA8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#6A6C78",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-line": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E6E7EB",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2E2F37",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-line-lip": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CDD0D7",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#202127",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-paper": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F4F5F7",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1B1C22",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#121318",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-main": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#7B5CFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#7B5CFF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-main-lip": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#5A3FD9",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#5A3FD9",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-main-wash": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EFEBFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#26214A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-main-wash-line": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#C9BDFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#463C85",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-on-main": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-reward": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFCB2E",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFCB2E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-reward-lip": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E0A800",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#B88A00",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-reward-wash": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFF6D1",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2F2812",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-reward-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#9A6A00",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFCB2E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-on-reward": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#14161B",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#14161B",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-correct": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1DB45A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2BC56A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-correct-lip": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#14904A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#17904B",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-correct-wash": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E3F6EA",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#14321F",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-correct-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#13813F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#5BD98E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-notyet": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F29D0C",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F5A623",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-notyet-wash": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFF1DC",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#33240F",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-notyet-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#A35F00",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFC266",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds-danger": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E5394A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FF5A6A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     }
   },
   "fileToken": "f80e78e4-fdab-4036-9e62-78214392206a"

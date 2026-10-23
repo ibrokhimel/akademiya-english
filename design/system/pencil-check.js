@@ -9,7 +9,7 @@ const dsCheck = (FRAME) => {
     const l = [];
     const t = (f) => (Array.isArray(f) ? f.forEach(t) : typeof f === "string" ? l.push(f) : null);
     t(n.fill);
-    if (n.stroke) t(n.stroke.fill);
+    if (n.stroke) t(n.stroke.fill || n.stroke);
     return l;
   };
   const root = Get(FRAME, { depth: 0 });
