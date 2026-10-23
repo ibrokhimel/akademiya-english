@@ -221049,7 +221049,7 @@
                           "fill": "$ds-muted",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Shu paytgacha topganlaringiz saqlanadi.",
+                          "content": "Shu paytgacha qilganlaringiz saqlanadi.",
                           "fontFamily": "Nunito",
                           "fontSize": 16,
                           "fontWeight": "700"
@@ -224068,10 +224068,10 @@
                           "name": "Dombi overlay",
                           "layoutPosition": "absolute",
                           "x": 78,
-                          "y": 612,
+                          "y": 440,
                           "descendants": {
                             "sjglx": {
-                              "content": "Ikki marta bo'ldi. Yordam beraymi? Meni bosing."
+                              "content": "Qiyin bo'lyaptimi? Yordam beraymi?"
                             }
                           }
                         }
@@ -224970,10 +224970,10 @@
                           "name": "Dombi overlay",
                           "layoutPosition": "absolute",
                           "x": 78,
-                          "y": 612,
+                          "y": 440,
                           "descendants": {
                             "sjglx": {
-                              "content": "Ikki marta bo'ldi. Yordam beraymi? Meni bosing."
+                              "content": "Qiyin bo'lyaptimi? Yordam beraymi?"
                             }
                           }
                         }
@@ -228087,7 +228087,16 @@
                                       "descendants": {
                                         "kmPc8": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "R8LOq": {
                                           "type": "text",
@@ -228166,7 +228175,7 @@
                                       "type": "ellipse",
                                       "id": "F7Ls10",
                                       "name": "Round 4",
-                                      "fill": "$red",
+                                      "fill": "$ds-notyet",
                                       "width": 12,
                                       "height": 12
                                     },
@@ -229178,7 +229187,7 @@
                                       "type": "ellipse",
                                       "id": "Z8mggZ",
                                       "name": "Round 4",
-                                      "fill": "$red",
+                                      "fill": "$ds-notyet",
                                       "width": 12,
                                       "height": 12
                                     },
@@ -230506,7 +230515,16 @@
                                       "descendants": {
                                         "kmPc8": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "R8LOq": {
                                           "type": "text",
@@ -230585,7 +230603,7 @@
                                       "type": "ellipse",
                                       "id": "gYmiA",
                                       "name": "Round 4",
-                                      "fill": "$red",
+                                      "fill": "$ds-notyet",
                                       "width": 12,
                                       "height": 12
                                     },
@@ -231606,7 +231624,7 @@
                                       "type": "ellipse",
                                       "id": "qgyot",
                                       "name": "Round 4",
-                                      "fill": "$red",
+                                      "fill": "$ds-notyet",
                                       "width": 12,
                                       "height": 12
                                     },
@@ -232992,7 +233010,12 @@
                           "name": "Help sheet",
                           "layoutPosition": "absolute",
                           "x": 0,
-                          "y": 400
+                          "y": 400,
+                          "descendants": {
+                            "BVwVb": {
+                              "content": "\"A …\""
+                            }
+                          }
                         }
                       ]
                     },
@@ -233557,7 +233580,16 @@
                                       "descendants": {
                                         "XsPG3": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "EE9zx": {
                                           "stroke": "$ds-notyet"
@@ -233618,7 +233650,7 @@
                               "enabled": true
                             },
                             "P4WE4G": {
-                              "content": "QAYTA AYTISH"
+                              "content": "QAYTA TANLASH"
                             }
                           }
                         }
@@ -235147,7 +235179,12 @@
                           "name": "Help sheet",
                           "layoutPosition": "absolute",
                           "x": 0,
-                          "y": 400
+                          "y": 400,
+                          "descendants": {
+                            "BVwVb": {
+                              "content": "\"A …\""
+                            }
+                          }
                         }
                       ]
                     },
@@ -235718,7 +235755,16 @@
                                       "descendants": {
                                         "XsPG3": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "EE9zx": {
                                           "stroke": "$ds-notyet"
@@ -235779,7 +235825,7 @@
                               "enabled": true
                             },
                             "P4WE4G": {
-                              "content": "QAYTA AYTISH"
+                              "content": "QAYTA TANLASH"
                             }
                           }
                         }
@@ -242228,7 +242274,16 @@
                                           "descendants": {
                                             "XsPG3": {
                                               "fill": "$ds-notyet-wash",
-                                              "stroke": "$ds-notyet"
+                                              "stroke": "$ds-notyet",
+                                              "effect": {
+                                                "type": "shadow",
+                                                "shadowType": "outer",
+                                                "color": "$ds-notyet",
+                                                "offset": {
+                                                  "x": 0,
+                                                  "y": 4
+                                                }
+                                              }
                                             },
                                             "EE9zx": {
                                               "stroke": "$ds-notyet"
@@ -242301,7 +242356,16 @@
                                           "descendants": {
                                             "XsPG3": {
                                               "fill": "$ds-notyet-wash",
-                                              "stroke": "$ds-notyet"
+                                              "stroke": "$ds-notyet",
+                                              "effect": {
+                                                "type": "shadow",
+                                                "shadowType": "outer",
+                                                "color": "$ds-notyet",
+                                                "offset": {
+                                                  "x": 0,
+                                                  "y": 4
+                                                }
+                                              }
                                             },
                                             "EE9zx": {
                                               "enabled": false,
@@ -243624,7 +243688,16 @@
                                           "descendants": {
                                             "XsPG3": {
                                               "fill": "$ds-notyet-wash",
-                                              "stroke": "$ds-notyet"
+                                              "stroke": "$ds-notyet",
+                                              "effect": {
+                                                "type": "shadow",
+                                                "shadowType": "outer",
+                                                "color": "$ds-notyet",
+                                                "offset": {
+                                                  "x": 0,
+                                                  "y": 4
+                                                }
+                                              }
                                             },
                                             "EE9zx": {
                                               "stroke": "$ds-notyet"
@@ -243697,7 +243770,16 @@
                                           "descendants": {
                                             "XsPG3": {
                                               "fill": "$ds-notyet-wash",
-                                              "stroke": "$ds-notyet"
+                                              "stroke": "$ds-notyet",
+                                              "effect": {
+                                                "type": "shadow",
+                                                "shadowType": "outer",
+                                                "color": "$ds-notyet",
+                                                "offset": {
+                                                  "x": 0,
+                                                  "y": 4
+                                                }
+                                              }
                                             },
                                             "EE9zx": {
                                               "enabled": false,
@@ -249099,7 +249181,16 @@
                                       "descendants": {
                                         "kmPc8": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "R8LOq": {
                                           "id": "Jg5Ak",
@@ -250523,7 +250614,16 @@
                                       "descendants": {
                                         "kmPc8": {
                                           "fill": "$ds-notyet-wash",
-                                          "stroke": "$ds-notyet"
+                                          "stroke": "$ds-notyet",
+                                          "effect": {
+                                            "type": "shadow",
+                                            "shadowType": "outer",
+                                            "color": "$ds-notyet",
+                                            "offset": {
+                                              "x": 0,
+                                              "y": 4
+                                            }
+                                          }
                                         },
                                         "R8LOq": {
                                           "id": "eaesD",
