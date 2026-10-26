@@ -192,3 +192,60 @@ test('help: a right answer clears the offer for that item', () => {
   assert.equal(s.offered, true);
   s = helpReducer(s, { type: 'right' }); assert.deepEqual(s, helpStart());
 });
+
+import { touchStart, touchReducer } from './touch.js';
+
+const ENV = { w: 390, h: 800, homeX: 334, floorY: 700 };
+const run = (events, s = touchStart(0)) => { const fx = []; for (const e of events) { const r = touchReducer(s, { env: ENV, rule: 'all', ...e }); s = r.state; fx.push(...r.effects); } return { s, fx }; };
+const fires = (fx) => fx.filter((f) => f.fire).map((f) => f.fire);
+const plays = (fx) => fx.filter((f) => 'play' in f).map((f) => f.play);
+const ticks = (from, to, step = 16) => { const out = []; for (let t = from; t <= to; t += step) out.push({ type: 'tick', t, dt: step / 1000 }); return out; };
+
+test('touch: a quick tap pokes, pokes count up and the 4th turns his back for 3 s', () => {
+  const tap = (t) => [{ type: 'down', t, x: 334, y: 660 }, { type: 'up', t: t + 100, x: 334, y: 660 }];
+  const { s, fx } = run([...tap(0), ...tap(1000), ...tap(2000), ...tap(3000)]);
+  assert.deepEqual(fires(fx), ['poke1', 'poke2', 'poke3']);
+  assert.deepEqual(plays(fx), ['back']); assert.equal(s.mode, 'back');
+  const after = run(ticks(3100, 6200, 100), s);
+  assert.equal(after.s.mode, 'idle'); assert.deepEqual(plays(after.fx), ['none']);
+  assert.deepEqual(fires(run([...tap(0), ...tap(5000)]).fx), ['poke1', 'poke1'], 'pokes reset after 4 s');
+});
+test('touch: two taps within 300 ms do a trick, never the same one twice running', () => {
+  const dbl = (t, r) => [{ type: 'down', t, x: 334, y: 660 }, { type: 'up', t: t + 60, x: 334, y: 660 }, { type: 'down', t: t + 150, x: 334, y: 660 }, { type: 'up', t: t + 210, x: 334, y: 660, rand: r }];
+  const { fx } = run([...dbl(0, 0), ...dbl(5000, 0)]);
+  const tricks = fires(fx).filter((f) => f.startsWith('trick'));
+  assert.equal(tricks.length, 2); assert.notEqual(tricks[0], tricks[1]);
+});
+test('touch: hold 300 ms picks him up only where carrying is allowed', () => {
+  const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const a = run(hold);
+  assert.equal(a.s.mode, 'held'); assert.deepEqual(fires(a.fx), ['hop']); assert.deepEqual(plays(a.fx), ['held']);
+  const fx = []; let s = touchStart(0);
+  for (const e of hold) { const r = touchReducer(s, { env: ENV, rule: 'nocarry', ...e }); s = r.state; fx.push(...r.effects); }
+  assert.notEqual(s.mode, 'held'); assert.deepEqual(fires(fx), []);
+});
+test('touch: moving straight away pets him; letting go says "ahem"', () => {
+  const { s, fx } = run([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'move', t: 80, x: 350, y: 660 }, { type: 'up', t: 400, x: 352, y: 660 }]);
+  assert.deepEqual(plays(fx), ['pet', 'none']); assert.deepEqual(fires(fx), ['ahem']); assert.equal(s.mode, 'idle');
+});
+test('touch: a fast release throws him, a slow one drops him; he lands and walks home', () => {
+  const carry = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const thrown = run([...carry, { type: 'move', t: 330, x: 200, y: 500 }, { type: 'move', t: 380, x: 150, y: 450 }, { type: 'up', t: 400, x: 140, y: 440 }]);
+  assert.equal(thrown.s.mode, 'flying');
+  const dropped = run([...carry, { type: 'move', t: 330, x: 300, y: 500 }, ...ticks(331, 690), { type: 'move', t: 695, x: 300, y: 498 }, { type: 'up', t: 700, x: 300, y: 498 }]);
+  assert.equal(dropped.s.mode, 'falling');
+  const home = run(ticks(716, 6000), dropped.s);
+  assert.ok(fires(home.fx).includes('land')); assert.ok(plays(home.fx).includes('walk'));
+  assert.equal(home.s.mode, 'idle'); assert.ok(Math.abs(home.s.body.x - ENV.homeX) < 6); assert.equal(home.s.body.y, ENV.floorY);
+});
+test('touch: shaking him while held makes him dizzy, with a cooldown', () => {
+  const ev = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  let x = 334; for (let i = 0; i < 12; i++) { x += i % 2 ? -60 : 60; ev.push({ type: 'move', t: 330 + i * 60, x, y: 600 }); }
+  assert.deepEqual(fires(run(ev).fx).filter((f) => f === 'dizzy'), ['dizzy']);
+});
+test('touch: after 22 s alone he sleeps; a tap wakes him', () => {
+  const a = run(ticks(0, 22600, 500));
+  assert.equal(a.s.mode, 'asleep'); assert.deepEqual(plays(a.fx), ['sleep']);
+  const b = run([{ type: 'down', t: 23000, x: 334, y: 660 }, { type: 'up', t: 23080, x: 334, y: 660 }, ...ticks(23100, 24200, 100)], a.s);
+  assert.deepEqual(fires(b.fx), ['wake']); assert.equal(b.s.mode, 'idle');
+});
