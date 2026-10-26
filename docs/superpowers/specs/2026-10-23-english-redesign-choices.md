@@ -53,3 +53,20 @@ Read from the review page (https://claude.ai/artifact/RCVEWbfR6zXK3NnFjQxQfH) on
 Uzbek lines: not checked yet.
 
 After round 2 (owner: "do what i asked you to do and dont add random stuff"): removed the daily challenge card from the Practice tab, the yellow streak and score cards, and the review-again list on end screens. End screens show the result as one plain line.
+
+# Round 3: Dombi's states and the three phone levels
+
+Read from the review page (https://claude.ai/artifact/7rmv7ktyiAjDRMkjP2ppkh) on 2026-10-26.
+
+| Choice | Pick | Owner's note |
+|---|---|---|
+| Animation setting | **B**: one switch, "Kamroq harakat" (on = still pictures only) | none. Option A (three choices) is set aside. |
+
+| Item | Verdict |
+|---|---|
+| Moment map (20 rows, `2026-10-26-dombi-moment-map.md`) | not marked: kept as drawn |
+| Still pictures | not marked: kept as drawn |
+| The three levels on real screens | not marked: kept as drawn |
+| Setting in dark | not marked |
+
+Uzbek lines ("Kamroq harakat", "Telefoningizda harakat kamaytirilgan."): not checked yet.

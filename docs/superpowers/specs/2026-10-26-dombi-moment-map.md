@@ -30,3 +30,5 @@ Which Dombi the learner sees at each moment of the redesigned app, at each phone
 | Waiting for the server | Any wait (never a spinner) | mood think + gesture thinking | Still pose | Dombi / 80 / think |
 
 Rules: sleepy shows only on the Learn tab late at night. After a miss Dombi is never sad (oops face, wrong reaction). Every row has a still pose.
+
+Setting (owner pick, round 3): one switch "Kamroq harakat" in Settings → Umumiy; on means Still. With Reduce Motion on, the switch is on and shows "Telefoningizda harakat kamaytirilgan."
