@@ -260,3 +260,71 @@ test('touch: a cancelled touch is not a tap', () => {
   const { fx } = run([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'up', t: 80, x: 334, y: 660, cancel: true }]);
   assert.deepEqual(fires(fx), []);
 });
+
+import { practiceItems, practiceCounts, matchPool } from './practice.js';
+import { matchStart, matchReducer } from './match.js';
+const doneOf = (...ids) => new Set(ids);
+const lessonsOf = (ids) => units.flatMap((u) => [...u.lessons, u.checkpoint]).filter((l) => ids.includes(l.id));
+
+test('practice: items come only from finished lessons', () => {
+  const done = doneOf('l1', 'l2'), mine = lessonsOf(['l1', 'l2']).flatMap((l) => l.items);
+  for (const kind of ['catch', 'overheard']) for (const it of practiceItems(kind, units, done, { rand: () => 0.3 }))
+    assert.ok(mine.some((m) => m.talk ? m.talk === it.talk : m.p === it.p), kind);
+  assert.deepEqual(practiceItems('fixit', units, done), []);
+});
+test('practice: Catch items are tiles items heard first, at most 5', () => {
+  const items = practiceItems('catch', units, doneOf('l1', 'l2', 'l3', 'l4', 'l5'), { rand: () => 0.5 });
+  assert.equal(items.length, 5); assert.ok(items.every((i) => i.ex === 'tiles' && i.listen === true));
+});
+test('practice: Overheard is the lessons\' conversations, at most 5', () => {
+  const items = practiceItems('overheard', units, doneOf('l1', 'l2', 'l3', 'l4', 'l5', 'c1', 'l6'), { rand: () => 0.1 });
+  assert.equal(items.length, 5); assert.ok(items.every((i) => i.ex === 'heard'));
+});
+test('practice: Fix it alternates find the mistake and say it fixed, on different sentences', () => {
+  const items = practiceItems('fixit', units, doneOf(...['l1', 'l2', 'l3', 'l4', 'l5', 'c1', 'l6', 'l7', 'l8', 'l9']), { rand: () => 0.2 });
+  assert.deepEqual(items.map((i) => i.ex), ['fix', 'say', 'fix']);
+  const say = items[1]; assert.equal(say.fix, true); assert.ok(say.wrong && say.right && say.ctx);
+  assert.notEqual(say.right, items[0].right); assert.notEqual(say.right, items[2].right);
+  const src = units.flatMap((u) => [...u.lessons, u.checkpoint]).flatMap((l) => l.items).find((i) => i.ex === 'fix' && i.right === say.right);
+  assert.equal(say.wrong, src.words.join(' '));   // the sentence as written, mistake and all
+});
+test('practice: counts with one lesson done', () => {
+  assert.deepEqual(practiceCounts(units, doneOf('l1')), { catch: 1, overheard: 1, fixit: 0, match: 3 });
+  assert.deepEqual(practiceCounts(units, doneOf()), { catch: 0, overheard: 0, fixit: 0, match: 0 });
+});
+test('practice: the Match pool is the phrases of finished lessons', () => {
+  const pool = matchPool(units, doneOf('l1', 'l2'), P);
+  assert.equal(pool.length, 6); assert.ok(pool.every((p) => p.en && p.uz && p.id));
+});
+
+const pool6 = ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => ({ id, en: id.toUpperCase() }));
+const at = (s, side, id) => s[side].indexOf(id);
+test('match: 60 s, 4 audio cards and the same 4 phrases', () => {
+  const s = matchStart(pool6, { rand: () => 0.4, now: 1000 });
+  assert.equal(s.end, 61000); assert.equal(s.audio.length, 4); assert.deepEqual([...s.audio].sort(), [...s.phrase].sort());
+  assert.equal(s.found, 0); assert.equal(s.done, false);
+});
+test('match: a right pair counts 1 and fades; a wrong pair flashes and counts nothing', () => {
+  let s = matchStart(pool6, { rand: () => 0.4, now: 0 }); const id = s.audio[0], other = s.audio[1];
+  s = matchReducer(s, { type: 'audio', i: 0, t: 100 });
+  s = matchReducer(s, { type: 'phrase', i: at(s, 'phrase', other), t: 200 });
+  assert.equal(s.found, 0); assert.deepEqual(s.flash, { audio: 0, phrase: at(s, 'phrase', other), until: 800 }); assert.equal(s.combo, 0);
+  s = matchReducer(s, { type: 'phrase', i: at(s, 'phrase', id), t: 300 });
+  s = matchReducer(s, { type: 'audio', i: 0, t: 400 });
+  assert.equal(s.found, 1); assert.equal(s.combo, 1); assert.ok(s.matched.includes(id));
+  const again = matchReducer(matchReducer(s, { type: 'audio', i: 0, t: 500 }), { type: 'phrase', i: at(s, 'phrase', id), t: 600 });
+  assert.equal(again.found, 1);   // a faded card does nothing
+});
+test('match: when all 4 are found a new board of 4 comes', () => {
+  let s = matchStart(pool6, { rand: () => 0.7, now: 0 }); const first = [...s.audio];
+  for (const id of first) { s = matchReducer(s, { type: 'audio', i: at(s, 'audio', id), t: 1000 }); s = matchReducer(s, { type: 'phrase', i: at(s, 'phrase', id), t: 1100 }); }
+  assert.equal(s.found, 4); assert.equal(s.matched.length, 0); assert.equal(s.audio.length, 4);
+  assert.ok(s.audio.some((id) => !first.includes(id)));   // the 2 phrases not on the last board come first
+});
+test('match: time up at 60 s; a tap after the end does not count', () => {
+  let s = matchStart(pool6, { rand: () => 0.4, now: 0 }); const id = s.audio[0];
+  s = matchReducer(s, { type: 'audio', i: 0, t: 59000 });
+  s = matchReducer(s, { type: 'phrase', i: at(s, 'phrase', id), t: 60100 });
+  assert.equal(s.found, 0); assert.equal(s.done, true);
+  assert.equal(matchReducer(matchStart(pool6, { now: 0 }), { type: 'tick', t: 60000 }).done, true);
+});
