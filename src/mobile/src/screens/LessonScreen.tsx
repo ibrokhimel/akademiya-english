@@ -6,11 +6,14 @@ import Animated,{ FadeOutDown,ReduceMotion,} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { progressOf } from "../../../core/progress.js";
 import { makeSession } from "../../../core/session.js";
-import { answerOf } from "../../../core/text.js";
-import { Actor } from "../components/Actor";
+import { answerOf,voiceOf } from "../../../core/text.js";
+import { helpReducer,helpStart } from "../../../core/help.js";
 import { BottomSheet,SheetHandle } from "../components/BottomSheet";
 import { Effect } from "../components/Effects";
 import { Exercise,type Answer } from "../components/Exercise";
+import { HelpSheet,useScrim } from "../components/HelpSheet";
+import { Dombi } from "../components/Dombi";
+import { DombiOverlay,useDs } from "../components/TabChrome";
 import { LessonMoment } from "../components/LessonMoment";
 import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
@@ -19,7 +22,7 @@ import { Button,gold,green,Icon,LinkButton,Page,Txt,useTheme,violet } from "../c
 import { type } from "../components/system";
 import { useDesignScale } from "../components/useDesignScale";
 import { lessons,P,T,units,type Item,type Lesson } from "../data/content";
-import { cutRewards,sound,stopAudio } from "../lib/audio";
+import { cutRewards,play,sound,stopAudio } from "../lib/audio";
 import { goHome } from "../lib/navigation";
 import { read,write } from "../lib/storage";
 import type { Resume } from "../lib/store";
@@ -102,6 +105,13 @@ export function Player({ lesson, onExit, quiet = false }: {
             setLeaving("complete");
     });
     const didLeave = useRef(false), completed = useRef(false), alive = useRef(true), counted = useRef(false);
+    // Dombi helps (owner pick A): misses are counted per item; after the second he offers help.
+    const [help, setHelp] = useState<Record<string, ReturnType<typeof helpStart>>>({}), [helpUi, setHelpUi] = useState({ at: "", step: 0, open: false });
+    const itemKey = current ? `${current.item.ex}:${current.item.p ?? current.item.en ?? current.n}` : "";
+    const helpHere = help[itemKey] ?? helpStart();
+    const ds = useDs(), scrim = useScrim();
+    // The sheet's step belongs to this appearance of the item; a new item or turn starts at 0.
+    const uiKey = `${itemKey}#${turn}`, helpOpen = helpUi.at === uiKey && helpUi.open, helpStep = helpUi.at === uiKey ? helpUi.step : 0;
     const hadQuit = useRef(false);
     useEffect(() => {
         if (quitting || hadQuit.current)
@@ -148,6 +158,7 @@ export function Player({ lesson, onExit, quiet = false }: {
             return;
         counted.current = true;
         session.answer(result.right);
+        if (!result.right && itemKey) setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: "miss" }) }));
         ops.push(result.right ? "r" : "w");
         if (!quiet) app.saveResume(snapshot());
         setFeedback(result);
@@ -254,14 +265,19 @@ export function Player({ lesson, onExit, quiet = false }: {
         });
         return () => sub.remove();
     }, [focused]);
-    const leaveSheet = <BottomSheet visible={quitting} onClose={() => setQuitting(false)}>
-    <SafeAreaView edges={["bottom"]} style={{ backgroundColor: c.bg, borderTopLeftRadius: d(28), borderTopRightRadius: d(28), paddingHorizontal: d(20), paddingTop: d(24), paddingBottom: d(28), gap: d(12) }}>
+    // "Leave sheet" (Pencil Y6CcM): Dombi, the question, what is kept; stay is the main button.
+    const leaveSheet = <BottomSheet visible={quitting} onClose={() => setQuitting(false)} scrimColor={scrim}>
+    <SafeAreaView edges={["bottom"]} style={{ backgroundColor: ds.surface, borderTopLeftRadius: d(24), borderTopRightRadius: d(24), paddingHorizontal: d(20), paddingTop: d(12), paddingBottom: d(28), gap: d(16) }}>
       <SheetHandle />
-      <View style={{ alignItems: "center" }}><Actor size={d(80)}/></View>
-      <Txt style={{ fontSize: d(22), fontFamily: "Nunito_900Black", textAlign: "center" }}>Darsni to&apos;xtatib turamizmi?</Txt>
-      <Txt style={{ textAlign: "center", color: c.muted }}>Javoblaringiz saqlanadi. Keyin shu joydan davom etasiz.</Txt>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}>
+        <Dombi moment="idle" size={d(80)} />
+        <View style={{ flex: 1, gap: d(4) }}>
+          <Txt style={{ ...type("heading", d), color: ds.ink }}>Chiqasizmi?</Txt>
+          <Txt style={{ ...type("body", d), color: ds.muted }}>Shu paytgacha qilganlaringiz saqlanadi.</Txt>
+        </View>
+      </View>
       <Button label="DAVOM ETISH" onPress={() => setQuitting(false)}/>
-      <LinkButton color="#FF4B5C" label="SAQLASH VA CHIQISH" onPress={() => { setQuitting(false); setLeaving("save"); }}/>
+      <LinkButton color={ds.muted} label="CHIQISH" onPress={() => { setQuitting(false); setLeaving("save"); }}/>
     </SafeAreaView>
   </BottomSheet>;
     if (phase !== "exercise") {
@@ -328,6 +344,12 @@ export function Player({ lesson, onExit, quiet = false }: {
                 setCurrent(nextItem());
             }}/>
           </ScreenTransition>) : null}
+        {current && !feedback && !quiet ? <DombiOverlay bottom={204} moment={helpHere.offered ? "helpOffer" : "idle"} line={helpHere.offered ? "Qiyin bo'lyaptimi? Yordam beraymi?" : undefined} onPress={() => setHelpUi({ at: uiKey, step: Math.max(1, helpStep), open: true })} /> : null}
+        {current ? <HelpSheet visible={helpOpen} step={helpStep} onClose={() => setHelpUi({ at: uiKey, step: helpStep, open: false })} onStep={(n) => setHelpUi({ at: uiKey, step: Math.max(helpStep, n), open: true })}
+          firstWord={String(answerOf(current.item, P)).split(" ")[0] ?? ""}
+          uzbek={current.item.trap ? T[current.item.trap]?.why ?? "" : current.item.p ? P[current.item.p]?.uz ?? "" : current.item.uz ?? ""}
+          answer={String(answerOf(current.item, P))}
+          onSlow={() => { void play(voiceOf(current.item, P) as never, String(answerOf(current.item, P)), settings.cast, true); }} /> : null}
         {feedback ? (<Animated.View entering={panelIn} exiting={FadeOutDown.duration(180).reduceMotion(ReduceMotion.System)} style={{
                 position: "absolute",
                 left: d(0),
@@ -349,7 +371,7 @@ export function Player({ lesson, onExit, quiet = false }: {
                 : <View style={{ flex: 1 }}><Txt style={{ ...type("label", d), color: c.notYetText }}>TO&apos;G&apos;RI JAVOB</Txt><Txt style={{ ...type("heading", d), color: c.text }}>{feedback.answer}</Txt></View>}
             </View>
             {/* The reason in one line; a trap's reason is already shown in the exercise after a right answer. */}
-            {feedback.tip && !(feedback.right && current?.item.trap) ? <Txt style={{ ...type("body", d), color: feedback.right ? c.goodText : c.notYetText }}>{feedback.tip}</Txt> : null}
+            <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><Dombi moment={feedback.right ? "correct" : "notYet"} size={d(48)} />{feedback.tip && !(feedback.right && current?.item.trap) ? <Txt style={{ ...type("body", d), flex: 1, color: feedback.right ? c.goodText : c.notYetText }}>{feedback.tip}</Txt> : null}</View>
             <Button label="DAVOM ETISH" kind={feedback.right ? "green" : "primary"} onPress={next} testID="lesson-next"/>
           </Animated.View>) : null}
         {leaveSheet}
