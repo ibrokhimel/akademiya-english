@@ -5,11 +5,20 @@ useRiveFile,
 useViewModelInstance,
 type RiveFile,
 } from "@rive-app/react-native";
-import { createContext,useContext,useEffect,type ReactNode } from "react";
+import { createContext,useContext,useEffect,type ReactNode,type RefObject } from "react";
 import { View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { watchMotion } from "../lib/audio";
 import { useApp } from "../lib/store";
+
+/** Direct control of the rig, for touch play: triggers, the `play` enum, mood, numbers and booleans. */
+export type Rig = {
+  fire: (trigger: string) => void;
+  play: (value: string) => void;
+  mood: (value: string) => void;
+  num: (name: string, value: number) => void;
+  bool: (name: string, value: boolean) => void;
+};
 
 const FileContext = createContext<RiveFile | null>(null);
 export function useActorFile() {
@@ -33,6 +42,7 @@ export function Actor({
   trigger,
   talking,
   listening,
+  rigRef,
 }: {
   who?: string;
   size?: number;
@@ -42,6 +52,7 @@ export function Actor({
   trigger?: string;
   talking?: boolean;
   listening?: boolean;
+  rigRef?: RefObject<Rig | null>;
 }) {
   const file = useContext(FileContext);
   return (
@@ -60,7 +71,7 @@ export function Actor({
               : { flex: 1 }
           }
         >
-          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} />
+          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} rigRef={rigRef} />
         </View>
       ) : null}
     </View>
@@ -74,6 +85,7 @@ function LoadedActor({
   trigger,
   talking,
   listening,
+  rigRef,
 }: {
   file: RiveFile;
   who: string;
@@ -82,6 +94,7 @@ function LoadedActor({
   trigger?: string;
   talking?: boolean;
   listening?: boolean;
+  rigRef?: RefObject<Rig | null>;
 }) {
   const { settings } = useApp(),
     reduce = useReducedMotion();
@@ -99,6 +112,17 @@ function LoadedActor({
     artboardName: board,
     async: true,
   });
+  useEffect(() => {
+    if (!instance || !rigRef) return;
+    rigRef.current = {
+      fire: (name) => instance.triggerProperty(name)?.trigger(),
+      play: (value) => instance.enumProperty("play")?.set(value),
+      mood: (value) => instance.enumProperty("mood")?.set(value),
+      num: (name, value) => instance.numberProperty(name)?.set(value),
+      bool: (name, value) => instance.booleanProperty(name)?.set(value),
+    };
+    return () => { rigRef.current = null; };
+  }, [instance, rigRef]);
   useEffect(() => {
     if (!instance) return;
     instance.booleanProperty("dark")?.set(settings.dark);
