@@ -9,6 +9,7 @@ useWindowDimensions
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
 import { GoalSheet } from "../../components/GoalSheet";
+import { DombiOverlay } from "../../components/TabChrome";
 import { Arrive } from "../../components/Motion";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { RaisedPressable } from "../../components/RaisedPressable";
@@ -375,6 +376,7 @@ export default function Profile() {
           <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
         </View>
       </ScrollView>
+      <DombiOverlay moment={Object.keys(p.done).length ? "idle" : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} />
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
     </SafeAreaView>
   );
