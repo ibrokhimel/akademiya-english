@@ -140,3 +140,48 @@ test('the streak counts days in a row, today stays alive until it is over, one f
   s = streakOf(on('2026-10-11', '2026-10-13', '2026-10-15'), new Date('2026-10-16T18:00:00'));                         // the freeze went on Monday, so missing Wednesday too starts again
   assert.equal(s.count, 1); assert.equal(s.frozen.size, 0);
 });
+
+import { MOMENTS, stillPoseFor, rigFor, animates, idleMoment, levelForFps, levelFrom } from './dombi.js';
+import { helpStart, helpReducer, HELP_STEPS } from './help.js';
+
+test('every moment in the moment map has a still pose and a rig state', () => {
+  assert.equal(MOMENTS.length, 21);
+  for (const m of MOMENTS) { assert.match(stillPoseFor(m), /^(48|80|150)-[a-z-]+$/, m); assert.ok(rigFor(m).mood, m); }
+  assert.equal(stillPoseFor('correct'), '48-laugh'); assert.equal(stillPoseFor('notYet'), '48-oops'); assert.equal(stillPoseFor('waiting'), '80-think');
+  assert.deepEqual(rigFor('lessonResult'), { mood: 'laugh', gesture: 'celebrate' });
+  assert.equal(rigFor('notYet').trigger, 'wrong');
+  assert.throws(() => stillPoseFor('nope'));
+});
+test('Light animates only onboarding, answers and celebrations; Still never', () => {
+  for (const m of MOMENTS) { assert.equal(animates(m, 'full'), true); assert.equal(animates(m, 'still'), false); }
+  assert.deepEqual(MOMENTS.filter((m) => animates(m, 'light')).sort(), ['activityEnd', 'correct', 'lessonResult', 'levelUp', 'notYet', 'onboarding']);
+  assert.equal(animates('talking', 'light'), false);
+});
+test('back after a break wins over late at night', () => {
+  const at = (d, h) => new Date(2026, 9, d, h, 30).getTime();
+  assert.equal(idleMoment({ now: at(27, 23), lastOpen: at(25, 10) }), 'glad');
+  assert.equal(idleMoment({ now: at(27, 23), lastOpen: at(27, 9) }), 'night');
+  assert.equal(idleMoment({ now: at(27, 3), lastOpen: at(26, 20) }), 'night');
+  assert.equal(idleMoment({ now: at(27, 14), lastOpen: at(27, 9) }), 'idle');
+  assert.equal(idleMoment({ now: at(27, 14) }), 'idle');
+});
+test('phone level: fps measure, Reduce Motion and the switch', () => {
+  assert.equal(levelForFps(58), 'full'); assert.equal(levelForFps(40), 'light'); assert.equal(levelForFps(20), 'still');
+  assert.equal(levelFrom({ measured: 'full', reduceMotion: true }), 'still');
+  assert.equal(levelFrom({ measured: 'full', lessMotion: true }), 'still');
+  assert.equal(levelFrom({ measured: 'light' }), 'light');
+  assert.equal(levelFrom({ measured: 'still' }), 'still');
+  assert.equal(levelFrom({ measured: 'still', lessMotion: false }), 'light');
+  assert.equal(levelFrom({ measured: 'still', lessMotion: false, reduceMotion: true }), 'still');
+  assert.equal(levelFrom({}), 'full');
+});
+test('help: offered once on the second miss, steps go 1 to 4, a new item resets', () => {
+  let s = helpStart();
+  assert.deepEqual(s, { misses: 0, step: 0, offered: false });
+  s = helpReducer(s, { type: 'miss' }); assert.equal(s.offered, false);
+  s = helpReducer(s, { type: 'miss' }); assert.equal(s.offered, true);
+  s = helpReducer(s, { type: 'open' }); assert.equal(s.step, 1);
+  for (let i = 0; i < 6; i++) s = helpReducer(s, { type: 'next' });
+  assert.equal(s.step, HELP_STEPS.length); assert.equal(HELP_STEPS.length, 4);
+  s = helpReducer(s, { type: 'item' }); assert.deepEqual(s, helpStart());
+});
