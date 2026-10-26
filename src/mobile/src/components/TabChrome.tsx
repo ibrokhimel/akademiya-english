@@ -5,7 +5,8 @@ import { useDombiLevel } from "../lib/dombiLevel";
 import { useApp } from "../lib/store";
 import { useActorFile } from "./Actor";
 import { Effect } from "./Effects";
-import { Dombi, type DombiMoment } from "./Dombi";
+import { type DombiMoment } from "./Dombi";
+import { DombiPlay } from "./DombiPlay";
 import { Bounce, Count } from "./Motion";
 import { shared, type } from "./system";
 import { Icon, Txt } from "./ui";
@@ -49,7 +50,7 @@ export function TabHeader({ title }: { title: string }) {
 }
 
 /** "Dombi overlay" (Pencil IdIvY / S9cqrF): Dombi at 80 in the bottom-right corner, with an optional bubble. */
-export function DombiOverlay({ moment, line, bottom = 8, onPress }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void }) {
+export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all" }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void; rule?: "all" | "nocarry" }) {
   const d = useScale(), ds = useDs();
   return (
     <View pointerEvents="box-none" style={{ position: "absolute", right: d(16), bottom: d(bottom), flexDirection: "row", alignItems: "flex-end", gap: d(4) }}>
@@ -60,9 +61,7 @@ export function DombiOverlay({ moment, line, bottom = 8, onPress }: { moment: Do
           </View>
         </View>
       ) : null}
-      <Pressable disabled={!onPress} onPress={onPress} accessibilityRole={onPress ? "button" : undefined} accessibilityLabel={onPress ? "Dombi" : undefined}>
-        <Dombi moment={moment} size={d(80)} />
-      </Pressable>
+      <DombiPlay moment={moment} size={d(80)} rule={rule} onTap={onPress} />
     </View>
   );
 }
