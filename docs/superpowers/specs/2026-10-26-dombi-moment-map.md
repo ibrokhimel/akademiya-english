@@ -15,7 +15,8 @@ Which Dombi the learner sees at each moment of the redesigned app, at each phone
 | Onboarding, first time on a screen | Onboarding screens | hidden → enter, gesture wave | Animated | Dombi / 150 / wave · happy face |
 | Empty tab before lesson 1 | Speak, Practice, Me first-time states | gesture point toward lesson 1 | Still pose | Dombi / 150 / point |
 | Your turn to speak | Lesson mic, activity mic (overlay) | listening + amp | Still pose | Dombi / 80 / listen |
-| Correct | Answer panel / correct | correct trigger | Animated | Dombi / 48 / happy |
+| Explaining or reading a phrase | Lesson: new phrase, Dombi reads it (overlay) | talking + amp; looks at the phrase | Still pose | Dombi / 80 / talk |
+| Correct | Answer panel / correct | correct trigger | Animated | Dombi / 48 / laugh |
 | Not yet | Answer panel / not yet | wrong trigger (blink, tilt, "hm"), never sad | Animated | Dombi / 48 / oops |
 | Help offered after two misses | Lesson overlay with bubble | talking, then smile | Still pose | Dombi / 80 / talk |
 | Help sheet open | Help sheet | mood smile; talking when a step is read aloud | Still pose | Dombi / 48 / default |
@@ -32,3 +33,5 @@ Which Dombi the learner sees at each moment of the redesigned app, at each phone
 Rules: sleepy shows only on the Learn tab late at night. After a miss Dombi is never sad (oops face, wrong reaction). Every row has a still pose.
 
 Setting (owner pick, round 3): one switch "Kamroq harakat" in Settings → Umumiy; on means Still. With Reduce Motion on, the switch is on and shows "Telefoningizda harakat kamaytirilgan."
+
+After the final review (2026-10-26): Correct uses 48 / laugh (48 / happy could not be told from the idle face at that size); "Explaining or reading a phrase" added from motion-plan §5; with Reduce Motion on, the switch is shown on and faded (locked).
