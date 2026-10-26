@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router/js-tabs";
-import { Easing } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { AppTabBar } from "../../components/AppTabBar";
+import { springs } from "../../components/system";
 import { useTheme } from "../../components/ui";
 import { sound } from "../../lib/audio";
 import { useApp } from "../../lib/store";
@@ -17,9 +17,10 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         animation: reduced ? "fade" : "shift",
+        // The page pushes sideways on the same gentle spring as the tab bar's square.
         transitionSpec: {
-          animation: "timing",
-          config: { duration: 250, easing: Easing.bezier(0.2, 0, 0, 1) },
+          animation: "spring",
+          config: { stiffness: springs.gentle.stiffness, damping: springs.gentle.damping, mass: springs.gentle.mass },
         },
         sceneStyle: { backgroundColor: c.bg },
       }}
