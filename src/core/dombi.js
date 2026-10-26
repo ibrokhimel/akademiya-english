@@ -29,11 +29,15 @@ const MAP = {
   speakTab:     ['150-happy',    { mood: 'happy' }],
   offline:      ['150-thinking', { mood: 'think', gesture: 'thinking' }],
   error:        ['150-confused', { mood: 'confused' }],
+  welcome:      ['150-happy',    { mood: 'happy' }],
+  onboardingIdle: ['150-default', { mood: 'smirk' }],
+  thanks:       ['48-happy',     { mood: 'happy' }],
+  confidenceUp: ['150-happy',    { mood: 'happy', gesture: 'celebrate' }],
 };
 export const MOMENTS = Object.keys(MAP);
 
 // The spec's Light level: animated only at onboarding, answers and celebrations.
-const LIGHT = new Set(['onboarding', 'correct', 'notYet', 'lessonResult', 'levelUp', 'activityEnd']);
+const LIGHT = new Set(['onboarding', 'onboardingIdle', 'welcome', 'correct', 'notYet', 'lessonResult', 'levelUp', 'activityEnd', 'confidenceUp']);
 
 const entry = (m) => { const e = MAP[m]; if (!e) throw new Error('unknown Dombi moment: ' + m); return e; };
 export const stillPoseFor = (m) => entry(m)[0];

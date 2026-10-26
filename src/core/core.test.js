@@ -145,7 +145,8 @@ import { MOMENTS, stillPoseFor, rigFor, animates, idleMoment, levelForFps, level
 import { helpStart, helpReducer, HELP_STEPS } from './help.js';
 
 test('every moment in the moment map has a still pose and a rig state', () => {
-  assert.equal(MOMENTS.length, 24);
+  assert.equal(MOMENTS.length, 28);
+  assert.equal(stillPoseFor("welcome"), "150-happy"); assert.equal(stillPoseFor("onboardingIdle"), "150-default"); assert.equal(stillPoseFor("thanks"), "48-happy"); assert.deepEqual(rigFor("confidenceUp"), { mood: "happy", gesture: "celebrate" });
   assert.equal(stillPoseFor("error"), "150-confused"); assert.equal(stillPoseFor("offline"), "150-thinking");
   for (const m of MOMENTS) { assert.match(stillPoseFor(m), /^(48|80|150)-[a-z-]+$/, m); assert.ok(rigFor(m).mood, m); }
   assert.equal(stillPoseFor('correct'), '48-laugh'); assert.equal(stillPoseFor('notYet'), '48-oops'); assert.equal(stillPoseFor('waiting'), '80-think');
@@ -155,7 +156,7 @@ test('every moment in the moment map has a still pose and a rig state', () => {
 });
 test('Light animates only onboarding, answers and celebrations; Still never', () => {
   for (const m of MOMENTS) { assert.equal(animates(m, 'full'), true); assert.equal(animates(m, 'still'), false); }
-  assert.deepEqual(MOMENTS.filter((m) => animates(m, 'light')).sort(), ['activityEnd', 'correct', 'lessonResult', 'levelUp', 'notYet', 'onboarding']);
+  assert.deepEqual(MOMENTS.filter((m) => animates(m, 'light')).sort(), ['activityEnd', 'confidenceUp', 'correct', 'lessonResult', 'levelUp', 'notYet', 'onboarding', 'onboardingIdle', 'welcome']);
   assert.equal(animates('talking', 'light'), false);
 });
 test('back after a break wins over late at night', () => {

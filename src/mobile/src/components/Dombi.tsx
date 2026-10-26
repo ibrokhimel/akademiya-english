@@ -10,19 +10,20 @@ import { Actor, type Rig } from "./Actor";
 export type DombiMoment =
   | "idle" | "guide" | "glad" | "night" | "onboarding" | "emptyTab" | "yourTurn" | "explaining"
   | "correct" | "notYet" | "helpOffer" | "helpSheet" | "mistakes" | "lessonResult" | "levelUp"
-  | "activityEnd" | "talking" | "listening" | "sceneGuide" | "micOff" | "waiting" | "speakTab" | "offline" | "error";
+  | "activityEnd" | "talking" | "listening" | "sceneGuide" | "micOff" | "waiting" | "speakTab" | "offline" | "error"
+  | "welcome" | "onboardingIdle" | "thanks" | "confidenceUp";
 
 /**
  * Dombi at one moment of the app (docs/superpowers/specs/2026-10-26-dombi-moment-map.md).
  * Plays the Rive rig when this phone's level animates the moment, otherwise shows the still pose.
  */
-export function Dombi({ moment, size, awake = false, rigRef }: { moment: DombiMoment; size: number; awake?: boolean; rigRef?: RefObject<Rig | null> }) {
+export function Dombi({ moment, size, awake = false, rigRef, mood }: { moment: DombiMoment; size: number; awake?: boolean; rigRef?: RefObject<Rig | null>; /** a screen-specific face for the rig, e.g. the confidence survey */ mood?: string }) {
   const level = useDombiLevel();
   const reduce = useReducedMotion();
   const { settings } = useApp();
   // awake: the learner is touching him, so a still-picture phone shows the rig while he plays (owner, 2026-10-27).
   if (animates(moment, level) || (awake && !reduce)) {
-    const rig = rigFor(moment) as { mood: string; gesture?: string; trigger?: string; talking?: boolean; listening?: boolean };
+    const rig = { ...rigFor(moment), ...(mood ? { mood } : null) } as { mood: string; gesture?: string; trigger?: string; talking?: boolean; listening?: boolean };
     return <Actor size={size} mood={rig.mood} gesture={rig.gesture} trigger={rig.trigger} talking={rig.talking} listening={rig.listening} rigRef={rigRef} />;
   }
   const pose = stillPoseFor(moment);

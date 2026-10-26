@@ -39,3 +39,4 @@ After the final review (2026-10-26): Correct uses 48 / laugh (48 / happy could n
 Round 4 (owner): when "glad after a break" and "late at night" happen together, glad wins. On a phone measured as Still, "Kamroq harakat" is on but can be turned off; only Reduce Motion locks it.
 
 Build v1 (2026-10-27) added three moments the screens needed: speakTab (Speak tab, Dombi / 150 / happy, still on Light), offline (31a, Dombi / 150 / thinking), error (31e, Dombi / 150 / confused).
+Build v1.2 (2026-10-27) added welcome (onboarding, 150 / happy), onboardingIdle (onboarding, 150 / default), thanks (feedback toast, 48 / happy) and confidenceUp (30b, 150 / happy + celebrate); onboarding and confidence-up animate on Light.

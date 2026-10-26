@@ -4,7 +4,8 @@ import { Share,TextInput,View } from "react-native";
 import Animated,{ FadeInDown,FadeOutUp,ReduceMotion } from "react-native-reanimated";
 import { SafeAreaView,useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureScreen } from "react-native-view-shot";
-import { Actor } from "../components/Actor";
+import { Dombi } from "../components/Dombi";
+import { useScrim } from "../components/HelpSheet";
 import { BottomSheet,SheetHandle } from "../components/BottomSheet";
 import { RaisedPressable } from "../components/RaisedPressable";
 import { SettingToggle } from "../components/SettingsControls";
@@ -20,7 +21,7 @@ import { getVisualAudit } from "../lib/visualAudit";
 
 export default function Feedback() {
   const audit = getVisualAudit(), d = useDesignScale(), c = useTheme(), insets = useSafeAreaInsets();
-  const back = useBack("/(tabs)/profile"), { add, settings } = useApp();
+  const back = useBack("/(tabs)/profile"), { add, settings } = useApp(), scrim = useScrim();
   const [text, setText] = useState(() => read<string>("draft.feedback", ""));
   const [chips, setChips] = useState(() => read<string[]>("draft.feedback.chips", []));
   const [screenshot, setScreenshot] = useState(() => read<boolean>("draft.feedback.shot", true));
@@ -68,7 +69,7 @@ export default function Feedback() {
     finally { setBusy(false); }
   };
   return <View style={{ flex: 1 }}>
-    <BottomSheet visible={visible} onClose={close} scrimColor="#2B2B3C66"><SafeAreaView edges={["bottom"]} style={{ backgroundColor: c.bg, borderTopLeftRadius: d(28), borderTopRightRadius: d(28) }}><View style={{ paddingHorizontal: d(20), paddingTop: d(10), paddingBottom: d(30), gap: d(12), alignItems: "center" }}><SheetHandle /><Actor size={d(80)} mood={chips.length ? "happy" : "smirk"} />
+    <BottomSheet visible={visible} onClose={close} scrimColor={scrim}><SafeAreaView edges={["bottom"]} style={{ backgroundColor: c.bg, borderTopLeftRadius: d(28), borderTopRightRadius: d(28) }}><View style={{ paddingHorizontal: d(20), paddingTop: d(10), paddingBottom: d(30), gap: d(12), alignItems: "center" }}><SheetHandle /><Dombi moment={chips.length ? "activityEnd" : "idle"} size={d(80)} />
       <Txt style={{ width: "100%", textAlign: "center", fontSize: d(22), lineHeight: d(27.5), fontFamily: "Nunito_900Black" }}>Nimadir xato ketdimi?</Txt><Txt style={{ width: "100%", textAlign: "center", fontSize: d(14), lineHeight: d(20), color: c.muted }}>Ayting — tuzatamiz. Sizning fikringiz ilovani yaxshilaydi.</Txt>
       <View style={{ width: "100%", flexDirection: "row", flexWrap: "wrap", gap: d(8) }}>{["Javob xato", "Ovoz ishlamadi", "Tushunarsiz", "Boshqa"].map(label => <RaisedPressable key={label} accessibilityLabel={label} accessibilityState={{ selected: chips.includes(label) }} onPress={() => { const next = chips.includes(label) ? chips.filter(c => c !== label) : [...chips, label]; setChips(next); write("draft.feedback.chips", next); }} radius={d(14)} depth={0} soundName="seg" backgroundColor={chips.includes(label) ? c.soft : c.bg} edgeColor={c.line} style={{ width: d(171) }} faceStyle={{ paddingVertical: d(10), paddingHorizontal: d(12), borderWidth: d(2), borderColor: chips.includes(label) ? violet : c.line, alignItems: "center" }}><Txt numberOfLines={1} style={{ width: "100%", textAlign: "center", fontSize: d(13), fontFamily: "Nunito_900Black", color: chips.includes(label) ? violet : c.text }}>{label}</Txt></RaisedPressable>)}</View>
       <TextInput accessibilityLabel="Fikringiz" multiline textAlignVertical="top" maxLength={4800} value={text} onChangeText={value => { setText(value); write("draft.feedback", value); }} placeholder="Mikrofonni bosdim, lekin hech narsa bo'lmadi…" placeholderTextColor={c.muted} style={{ width: "100%", height: d(76), borderWidth: d(2), borderColor: text ? violet : c.line, borderRadius: d(14), padding: d(12), fontFamily: "Nunito_700Bold", fontSize: d(13), lineHeight: d(18.2), color: c.text }} />
@@ -76,6 +77,6 @@ export default function Feedback() {
       {error ? <Txt accessibilityRole="alert" style={{ color: "#D9483A", fontSize: d(13) }}>{error}</Txt> : null}
       <View style={{ width: "100%", marginTop: d(4) }}><Button label={busy ? "KUTILMOQDA..." : canDeliver ? "YUBORISH" : "ULASHISH"} disabled={busy || (!text.trim() && !chips.length)} onPress={() => { void send(); }} /></View>
     </View></SafeAreaView></BottomSheet>
-    {sent ? <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} exiting={FadeOutUp.duration(180).reduceMotion(ReduceMotion.System)} style={{ position: "absolute", left: d(16), top: insets.top + d(16), width: d(358), borderRadius: d(18), backgroundColor: settings.dark ? "#3A3A4E" : "#2B2B3C", flexDirection: "row", alignItems: "center", gap: d(12), paddingLeft: d(12), paddingRight: d(14), paddingVertical: d(12), boxShadow: "0 6px 16px rgba(0,0,0,.2)" }}><View style={{ width: d(52), height: d(52), borderRadius: d(12), backgroundColor: "#8A8A9C", alignItems: "center", justifyContent: "center" }}><Actor size={d(52)} mood="happy" /></View><View style={{ flex: 1 }}><Txt style={{ fontSize: d(14), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>{canDeliver ? "Rahmat! Xabaringiz yetib keldi" : "Ulashish oynasi ochildi"}</Txt><Txt style={{ fontSize: d(12), color: "#FFFFFFB3" }}>{canDeliver ? "Tez orada tuzatamiz." : "Qoralama shu telefonda saqlanadi."}</Txt></View></Animated.View> : null}
+    {sent ? <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} exiting={FadeOutUp.duration(180).reduceMotion(ReduceMotion.System)} style={{ position: "absolute", left: d(16), top: insets.top + d(16), width: d(358), borderRadius: d(18), backgroundColor: settings.dark ? "#3A3A4E" : "#2B2B3C", flexDirection: "row", alignItems: "center", gap: d(12), paddingLeft: d(12), paddingRight: d(14), paddingVertical: d(12), boxShadow: "0 6px 16px rgba(0,0,0,.2)" }}><View style={{ width: d(52), height: d(52), borderRadius: d(12), backgroundColor: "#8A8A9C", alignItems: "center", justifyContent: "center" }}><Dombi moment="thanks" size={d(52)} /></View><View style={{ flex: 1 }}><Txt style={{ fontSize: d(14), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>{canDeliver ? "Rahmat! Xabaringiz yetib keldi" : "Ulashish oynasi ochildi"}</Txt><Txt style={{ fontSize: d(12), color: "#FFFFFFB3" }}>{canDeliver ? "Tez orada tuzatamiz." : "Qoralama shu telefonda saqlanadi."}</Txt></View></Animated.View> : null}
   </View>;
 }

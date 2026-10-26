@@ -5,7 +5,7 @@ import { useCallback,useEffect,useState } from "react";
 import { BackHandler,Pressable,ScrollView,useWindowDimensions,View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Actor } from "../components/Actor";
+import { Dombi } from "../components/Dombi";
 import { useMeasureDombiLevel } from "../lib/dombiLevel";
 import { RaisedPressable } from "../components/RaisedPressable";
 import { ScreenTransition } from "../components/ScreenTransition";
@@ -186,7 +186,7 @@ export default function Onboarding() {
                 gap: d(12),
               }}
             >
-              <Actor size={d(80)} />
+              <Dombi moment="idle" size={d(80)} />
               <View
                 style={{
                   flex: 1,
@@ -213,7 +213,7 @@ export default function Onboarding() {
           ) : null}
           {step === 0 ? (
             <>
-              <Actor size={d(213)} gesture="wave" />
+              <Dombi moment="onboarding" size={d(213)} />
               <Txt
                 style={{
                   fontSize: d(30),
@@ -252,7 +252,7 @@ export default function Onboarding() {
               >
                 {title("Salom! Men Dombiman.", 18)}
               </View>
-              <Actor size={d(238)} mood="happy" />
+              <Dombi moment="welcome" size={d(238)} />
             </>
           ) : null}
           {step === 2 ? (
@@ -368,7 +368,7 @@ export default function Onboarding() {
           {step === 6 ? (
             <>
               <View>
-                <Actor size={d(190)} />
+                <Dombi moment="onboardingIdle" size={d(190)} />
                 <View
                   style={{
                     position: "absolute",
@@ -404,7 +404,7 @@ export default function Onboarding() {
           {step === 7 ? (
             <>
               {title("Menga “Hello!” deng", 26)}
-              <Actor size={d(190)} />
+              <Dombi moment="onboardingIdle" size={d(190)} />
               <View
                 style={{
                   flexDirection: "row",
@@ -445,7 +445,7 @@ export default function Onboarding() {
           ) : null}
           {step === 8 ? (
             <>
-              <Actor size={d(170)} mood="laugh" gesture="celebrate" />
+              <Dombi moment="lessonResult" size={d(170)} />
               {title("Zo'r! Sizni eshitdim", 26)}
               <View
                 style={{
