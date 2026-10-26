@@ -15,14 +15,14 @@ Which Dombi the learner sees at each moment of the redesigned app, at each phone
 | Onboarding, first time on a screen | Onboarding screens | hidden → enter, gesture wave | Animated | Dombi / 150 / wave · happy face |
 | Empty tab before lesson 1 | Speak, Practice, Me first-time states | gesture point toward lesson 1 | Still pose | Dombi / 150 / point |
 | Your turn to speak | Lesson mic, activity mic (overlay) | listening + amp | Still pose | Dombi / 80 / listen |
-| Correct | Answer panel / correct | correct trigger | Animated | Dombi / 80 / happy |
-| Not yet | Answer panel / not yet | wrong trigger (blink, tilt, "hm"), never sad | Animated | Dombi / 80 / oops |
+| Correct | Answer panel / correct | correct trigger | Animated | Dombi / 48 / happy |
+| Not yet | Answer panel / not yet | wrong trigger (blink, tilt, "hm"), never sad | Animated | Dombi / 48 / oops |
 | Help offered after two misses | Lesson overlay with bubble | talking, then smile | Still pose | Dombi / 80 / talk |
 | Help sheet open | Help sheet | mood smile; talking when a step is read aloud | Still pose | Dombi / 48 / default |
 | Mistakes round | Mistakes round divider | mood think + gesture thinking | Still pose | Dombi / 150 / thinking · think face |
 | Lesson result, new thing you can say | Lesson result | mood laugh + gesture celebrate | Animated | Dombi / 150 / celebrate · laugh face |
 | Level up, perfect lesson | Level up, perfect badge | mood proud, then celebrate | Animated | Dombi / 150 / proud |
-| Activity end | Match rush, Catch, Overheard, Fix it, Situation, Which one end screens | mood happy | Animated | Dombi / 150 / happy |
+| Activity end | Activity end screens (overlay) | mood happy | Animated | Dombi / 80 / happy |
 | Dombi talking in a conversation | Guided and free conversation | talking + visemes + amp | Still pose | Dombi / 150 / talk |
 | Dombi listening in a conversation | Guided and free conversation | listening + amp | Still pose | Dombi / 150 / listen |
 | Guide in a situation scene | Situation screens (overlay, quiet) | mood smile; looks at the character who speaks | Still pose | Dombi / 80 / default |
