@@ -42,6 +42,7 @@ import { Effect } from "./Effects";
 import { AudioBars,Pulse,arriveIn,closeGap,useAnswerMotion } from "./Motion";
 import { RaisedPressable } from "./RaisedPressable";
 import { SpeechAnswer } from "./SpeechAnswer";
+import { type } from "./system";
 import {
 Button,
 green,
@@ -53,6 +54,8 @@ useTheme,
 violet
 } from "./ui";
 
+// The still waveform on Catch's audio bar (C1).
+const WAVE = [8, 14, 22, 12, 28, 18, 32, 20, 10, 24, 16, 8];
 export type Answer = { right: boolean; answer: string; tip?: string };
 type Point = { x: number; y: number };
 type Props = {
@@ -110,6 +113,8 @@ export function Exercise({
           ...tilesOf(text),
           ...(item.ex === "tiles"
             ? item.extra || []
+            : item.fix && item.wrong
+            ? [...tilesOf(item.wrong).filter((w: string) => !tilesOf(text).some((t: string) => t.toLowerCase() === w.toLowerCase())), ...spareTiles(tilesOf(text), lesson.items.map((it) => answerOf(it, P)).filter(Boolean)).slice(0, 1)]
             : spareTiles(
                 tilesOf(text),
                 lesson.items.map((it) => answerOf(it, P)).filter(Boolean),
@@ -184,14 +189,14 @@ export function Exercise({
     alive.current = focused;
     if (!focused) return;
     const timer = setTimeout(() => {
-      if (["meet", "echo", "heard"].includes(item.ex)) void replay();
+      if (["meet", "echo", "heard"].includes(item.ex) || item.listen) void replay();
     }, 450);
     return () => {
       alive.current = false;
       clearTimeout(timer);
       stopAudio();
     };
-  }, [item.ex, replay, focused]);
+  }, [item.ex, item.listen, replay, focused]);
   useEffect(() => {
     if (paused || !focused) {
       abort();
@@ -300,6 +305,10 @@ export function Exercise({
   };
   const heading = readAloud
     ? "Endi ovoz chiqarib ayting"
+    : item.listen
+    ? "Eshitgan gapingizni yig'ing"
+    : item.fix
+    ? way === "tiles" ? "Gapni to'g'rilab tuzing" : "Gapni to'g'rilab ayting"
     : item.ex === "meet"
       ? way === "tiles"
         ? "Tinglang va gap tuzing"
@@ -316,7 +325,7 @@ export function Exercise({
                 ? "So'z tushib qolgan joyni bosing"
                 : "Noto'g'ri so'zni bosing";
   const eyebrow =
-    item.ex === "meet"
+    item.listen ? "TUTIB OLING" : item.fix ? "TUZATIB AYTING" : item.ex === "meet"
       ? "YANGI IBORA"
       : item.ex === "say"
         ? way === "tiles" ? "GAP TUZING" : "AYTING"
@@ -381,7 +390,24 @@ export function Exercise({
           {heading || p?.uz || item.uz}
         </Txt>
         </View>
-        {item.ex === "meet" || (item.ex === "say" && way !== "tiles") ? (
+        {item.fix ? (
+          // X4/X5: the situation, then the sentence with its one mistake.
+          <View style={{ gap: d(12) }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: d(8) }}><Icon name="speak-bubble" size={d(18)} /><Txt style={{ flex: 1, color: c.muted, fontSize: d(15), fontFamily: "Nunito_800ExtraBold" }}>{item.ctx}</Txt></View>
+            <View style={{ backgroundColor: c.card, borderRadius: d(18), borderWidth: d(2), borderColor: c.line, padding: d(16), gap: d(6) }}>
+              <Txt style={{ ...type("label", d), color: c.muted }}>BU GAPDA BITTA XATO BOR:</Txt>
+              <Txt style={{ fontSize: d(22), fontFamily: "Nunito_900Black" }}>{item.wrong}</Txt>
+            </View>
+          </View>
+        ) : null}
+        {item.listen ? (
+          // C1: the sentence is only heard; the bar plays it again, the button beside it slowly.
+          <View style={{ flexDirection: "row", alignItems: "center", gap: d(12), backgroundColor: c.card, borderRadius: d(18), borderWidth: d(2), borderColor: c.line, padding: d(12) }}>
+            <RaisedPressable soundName={false} disabled={busy} accessibilityLabel="Sekin tinglash" onPress={() => { void replay(true); }} radius={d(12)} depth={d(3)} backgroundColor={c.card} edgeColor={c.line} faceStyle={{ width: d(40), height: d(40), borderWidth: d(2), borderColor: c.line, alignItems: "center", justifyContent: "center" }}><Icon name="glyph-slow-violet" size={d(18)} /></RaisedPressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Tinglash" disabled={busy} onPress={() => { void replay(); }} style={{ flex: 1, height: d(40), flexDirection: "row", alignItems: "center", gap: d(3) }}>{busy ? <AudioBars color={violet} size={d(30)} count={4} /> : WAVE.map((h, i) => <View key={i} style={{ width: d(3), height: d(h), borderRadius: d(2), backgroundColor: violet }} />)}</Pressable>
+          </View>
+        ) : null}
+        {!item.fix && (item.ex === "meet" || (item.ex === "say" && way !== "tiles")) ? (
           <View style={{ gap: d(16) }}>
             <View
               style={{

@@ -36,16 +36,21 @@ export default function LessonScreen({ id, onExit, }: {
     if (!lesson) return <ProblemContent kind="not-found" onChoice={onExit} onHome={goHome} onReport={() => router.navigate("/feedback")} />;
     return <Player lesson={lesson} onExit={onExit}/>;
 }
-export function Player({ lesson, onExit, quiet = false }: {
+export type Stats = ReturnType<ReturnType<typeof makeSession>["stats"]>;
+// quiet: one phrase practised from the phrase list (no resume, no leave sheet, no Dombi).
+// activity: a Practice activity (no resume, no lesson event, no mistakes round); its own leave line, and onFinish when the items are done.
+export function Player({ lesson, onExit, quiet = false, activity }: {
     lesson: Lesson;
     onExit: () => void;
     quiet?: boolean;
+    activity?: { leaveText: (s: Stats) => string; onFinish: (s: Stats) => void };
 }) {
+    const keep = !quiet && !activity;
     const d = useDesignScale();
     const audit = getVisualAudit();
     const app = useApp(), { settings } = app, c = useTheme();
     const [engine] = useState(() => {
-        const resume = quiet ? null : read<Resume | null>("resume", null), session = makeSession(lesson, {
+        const resume = !keep ? null : read<Resume | null>("resume", null), session = makeSession(lesson, {
             speaking: resume?.id === lesson.id ? resume.speaking : settings.speaking,
         });
         const ops = resume?.id === lesson.id ? [...resume.ops] : [];
@@ -128,17 +133,19 @@ export function Player({ lesson, onExit, quiet = false }: {
     }), [lesson.id, ops, engine, session]);
     useEffect(() => {
         alive.current = true;
-        if (!quiet) write("resume", snapshot());
+        if (keep) write("resume", snapshot());
         return () => {
             alive.current = false;
             stopAudio();
         };
-    }, [snapshot, quiet]);
+    }, [snapshot, keep]);
     const advance = () => {
         stopAudio();
         setFeedback(null);
         counted.current = false;
         setTurn((n) => n + 1);
+        const st = session.stats();
+        if (activity && st.answered + st.skipped >= lesson.items.length) { activity.onFinish(st); return; }
         if (session.startMistakes()) {
             setPhase("mistakes");
             sound("whoosh", settings.sound);
@@ -146,7 +153,7 @@ export function Player({ lesson, onExit, quiet = false }: {
         }
         const next = nextItem();
         setCurrent(next);
-        if (!quiet) app.saveResume(snapshot());
+        if (keep) app.saveResume(snapshot());
         if (!next) {
             if (quiet) { onExit(); return; }
             setPhase(lesson.checkpoint ? "result" : "canSay");
@@ -160,7 +167,7 @@ export function Player({ lesson, onExit, quiet = false }: {
         session.answer(result.right);
         if (itemKey) setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: result.right ? "right" : "miss" }) }));
         ops.push(result.right ? "r" : "w");
-        if (!quiet) app.saveResume(snapshot());
+        if (keep) app.saveResume(snapshot());
         setFeedback(result);
         sound(result.right ? "right" : "not-right", settings.sound);
     };
@@ -235,7 +242,7 @@ export function Player({ lesson, onExit, quiet = false }: {
         if (leaving === "complete")
             finish(true);
         else {
-            if (!quiet) app.saveResume(snapshot());
+            if (keep) app.saveResume(snapshot());
             onExit();
         }
     });
@@ -273,7 +280,7 @@ export function Player({ lesson, onExit, quiet = false }: {
         <Dombi moment="idle" size={d(80)} />
         <View style={{ flex: 1, gap: d(4) }}>
           <Txt style={{ ...type("heading", d), color: ds.ink }}>Chiqasizmi?</Txt>
-          <Txt style={{ ...type("body", d), color: ds.muted }}>Shu paytgacha qilganlaringiz saqlanadi.</Txt>
+          <Txt style={{ ...type("body", d), color: ds.muted }}>{activity ? activity.leaveText(session.stats()) : "Shu paytgacha qilganlaringiz saqlanadi."}</Txt>
         </View>
       </View>
       <Button label="DAVOM ETISH" onPress={() => setQuitting(false)}/>
@@ -337,10 +344,10 @@ export function Player({ lesson, onExit, quiet = false }: {
           </Bounce></View>
         </View>
         {current ? (<ScreenTransition transitionKey={`${current.n}-${current.round}-${speaking}-${turn}`}>
-            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (!quiet) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : violet, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (!quiet) app.saveResume(snapshot()); }} onSpeakingOff={() => {
+            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (keep) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : violet, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (keep) app.saveResume(snapshot()); }} onSpeakingOff={() => {
                 engine.setSpeaking(false);
                 setSpeaking(false);
-                if (!quiet) app.saveResume(snapshot());
+                if (keep) app.saveResume(snapshot());
                 setCurrent(nextItem());
             }}/>
           </ScreenTransition>) : null}

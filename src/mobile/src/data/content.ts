@@ -33,6 +33,9 @@ export type Item = {
   q?: string;
   opts?: [string, string][];
   step?: number;
+  listen?: boolean;   // Catch the sentence (C1): tiles heard first, no text
+  fix?: boolean;      // Fix it (X4/X5): say the sentence fixed
+  wrong?: string;
 };
 export type Lesson = {
   id: string;
