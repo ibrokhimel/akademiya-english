@@ -328,3 +328,11 @@ test('match: time up at 60 s; a tap after the end does not count', () => {
   assert.equal(s.found, 0); assert.equal(s.done, true);
   assert.equal(matchReducer(matchStart(pool6, { now: 0 }), { type: 'tick', t: 60000 }).done, true);
 });
+test('practice: a checkpoint\'s repeats of lesson items are played and counted once', () => {
+  const done = doneOf(...units.slice(0, 2).flatMap((u) => [...u.lessons, u.checkpoint].map((l) => l.id)));
+  const fix = practiceItems('fixit', units, done, { rand: () => 0.3 });
+  assert.equal(new Set(fix.map((i) => i.right)).size, fix.length);
+  assert.equal(practiceCounts(units, done).fixit, fix.length);
+  const all = practiceItems('catch', units, doneOf(...[...units[0].lessons, units[0].checkpoint].map((l) => l.id)), { n: 99 });
+  assert.equal(new Set(all.map((i) => i.p ?? i.en)).size, all.length);
+});

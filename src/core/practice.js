@@ -7,7 +7,10 @@
 
 const isDone = (done, id) => (done instanceof Set ? done.has(id) : !!done[id]);
 const finished = (units, done) => units.flatMap((u) => [...u.lessons, u.checkpoint]).filter((l) => isDone(done, l.id));
-const itemsOf = (units, done, ex) => finished(units, done).flatMap((l) => l.items).filter((i) => i.ex === ex);
+// A checkpoint repeats some of its unit's lesson items: each item is kept once.
+const keyOf = (i) => i.ex + ':' + (i.p ?? i.en ?? (i.talk ? JSON.stringify(i.talk) : i.right));
+const itemsOf = (units, done, ex) => { const seen = new Set();
+  return finished(units, done).flatMap((l) => l.items).filter((i) => i.ex === ex && !seen.has(keyOf(i)) && seen.add(keyOf(i))); };
 export function shuffle(list, rand = Math.random) { const a = [...list];
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a; }
