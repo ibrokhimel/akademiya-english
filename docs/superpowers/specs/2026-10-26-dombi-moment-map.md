@@ -37,3 +37,5 @@ Setting (owner pick, round 3): one switch "Kamroq harakat" in Settings → Umumi
 After the final review (2026-10-26): Correct uses 48 / laugh (48 / happy could not be told from the idle face at that size); "Explaining or reading a phrase" added from motion-plan §5; with Reduce Motion on, the switch is shown on and faded (locked).
 
 Round 4 (owner): when "glad after a break" and "late at night" happen together, glad wins. On a phone measured as Still, "Kamroq harakat" is on but can be turned off; only Reduce Motion locks it.
+
+Build v1 (2026-10-27) added three moments the screens needed: speakTab (Speak tab, Dombi / 150 / happy, still on Light), offline (31a, Dombi / 150 / thinking), error (31e, Dombi / 150 / confused).

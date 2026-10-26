@@ -8,7 +8,7 @@ import { Actor } from "./Actor";
 export type DombiMoment =
   | "idle" | "guide" | "glad" | "night" | "onboarding" | "emptyTab" | "yourTurn" | "explaining"
   | "correct" | "notYet" | "helpOffer" | "helpSheet" | "mistakes" | "lessonResult" | "levelUp"
-  | "activityEnd" | "talking" | "listening" | "sceneGuide" | "micOff" | "waiting" | "speakTab";
+  | "activityEnd" | "talking" | "listening" | "sceneGuide" | "micOff" | "waiting" | "speakTab" | "offline" | "error";
 
 /**
  * Dombi at one moment of the app (docs/superpowers/specs/2026-10-26-dombi-moment-map.md).

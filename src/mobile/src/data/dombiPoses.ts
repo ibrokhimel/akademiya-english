@@ -2,6 +2,8 @@
 export const dombiPoses: Record<string, number> = {
   "150-celebrate": require("../../assets/dombi/150-celebrate.png"),
   "150-celebrate-dark": require("../../assets/dombi/150-celebrate-dark.png"),
+  "150-confused": require("../../assets/dombi/150-confused.png"),
+  "150-confused-dark": require("../../assets/dombi/150-confused-dark.png"),
   "150-happy": require("../../assets/dombi/150-happy.png"),
   "150-happy-dark": require("../../assets/dombi/150-happy-dark.png"),
   "150-listen": require("../../assets/dombi/150-listen.png"),

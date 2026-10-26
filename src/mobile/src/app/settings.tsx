@@ -21,6 +21,8 @@ import { clearPrivateFiles } from "../lib/privateFiles";
 import { longDate } from "../lib/progressExtras";
 import { clearLocalData,read,remove,write } from "../lib/storage";
 import { useApp } from "../lib/store";
+import { useReducedMotion } from "react-native-reanimated";
+import { useDombiLevel } from "../lib/dombiLevel";
 import { getVisualAudit } from "../lib/visualAudit";
 export default function SettingsScreen() {
     const d = useDesignScale();
@@ -71,6 +73,8 @@ export default function SettingsScreen() {
         wasOpen.current = !!panel;
     }, [panel, settings.sound]);
     const goal = goals.find((g) => g[0] === settings.goal) || goals[4];
+    // "Kamroq harakat" (owner pick B): on = Dombi as still pictures. Reduce Motion keeps it on and locked.
+    const reduceMotion = useReducedMotion(), dombiLevel = useDombiLevel();
     const toggle = (label: string, value: boolean, onChange: (on: boolean) => void) => <SettingToggle label={label} value={value} onChange={onChange}/>;
     return (<Page style={{ padding: d(0), gap: d(0) }}>
       <ScreenHeader title="Sozlamalar" onBack={() => back()}/>
@@ -84,6 +88,7 @@ export default function SettingsScreen() {
         <SettingGroup>
           <SettingRow icon="glyph-speaker-grey" label="Ovozli effektlar" right={toggle("Ovozli effektlar", settings.sound, (sound) => set({ sound }))}/>
           <SettingRow icon="glyph-moon-grey" label="Tungi rejim" right={toggle("Tungi rejim", settings.dark, (dark) => set({ dark }))}/>
+          <SettingRow icon="glyph-sparkles-grey" label="Kamroq harakat" detail={reduceMotion ? "Telefoningizda harakat kamaytirilgan." : undefined} right={<View pointerEvents={reduceMotion ? "none" : "auto"} style={{ opacity: reduceMotion ? 0.4 : 1 }}>{toggle("Kamroq harakat", dombiLevel === "still", (lessMotion) => set({ lessMotion }))}</View>}/>
           <SettingRow icon="glyph-bell-grey" label="Eslatma vaqti" value={settings.reminder || "O'chiq"} onPress={openReminder}/>
           <SettingRow icon={goal[1]} label="Maqsad" value={goal[2]} onPress={() => setPanel("goal")}/>
         </SettingGroup>

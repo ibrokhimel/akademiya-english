@@ -27,6 +27,8 @@ const MAP = {
   micOff:       ['80-confused',  { mood: 'confused' }],
   waiting:      ['80-think',     { mood: 'think', gesture: 'thinking' }],
   speakTab:     ['150-happy',    { mood: 'happy' }],
+  offline:      ['150-thinking', { mood: 'think', gesture: 'thinking' }],
+  error:        ['150-confused', { mood: 'confused' }],
 };
 export const MOMENTS = Object.keys(MAP);
 
