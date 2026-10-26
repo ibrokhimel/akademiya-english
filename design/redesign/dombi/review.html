@@ -1,0 +1,211 @@
+<title>Dombi States Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap">
+<style>
+/* Layout: one column; each tab is a band with its three versions side by side, a pick row and a notes box under them. */
+:root {
+  --bg: #F4F5F7; --surface: #FFFFFF; --ink: #14161B; --muted: #6B6F7B; --line: #E6E7EB;
+  --main: #7B5CFF; --main-lip: #5A3FD9; --wash: #EFEBFF; --on-main: #FFFFFF;
+  --good: #13813F; --good-wash: #E3F6EA; --amber: #A35F00; --amber-wash: #FFF1DC;
+  --font: "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-weight: 700; font-size: 16px; line-height: 1.45; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { margin: 0; font-weight: 900; text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 28px; }
+h3 { font-size: 18px; }
+p { margin: 0; max-width: 70ch; color: var(--muted); }
+.label { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--main); }
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 70px; }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 2px solid var(--line); overflow-x: auto; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; white-space: nowrap; align-items: center; }
+nav a { display: block; padding: 6px 14px; border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 900; }
+nav a .pick { color: var(--main); }
+nav a:focus-visible, nav a:hover { outline: 2px solid var(--main); }
+.status { font-size: 14px; color: var(--muted); }
+.status.warn { color: var(--amber); }
+.options { display: flex; flex-direction: column; gap: 18px; }
+.shot { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); }
+.opt .shot img, .shot img { height: 520px; width: auto; max-width: none; display: block; border: 0; border-radius: 0; }
+@media (max-width: 760px) { .opt .shot img, .shot img { height: 380px; } }
+.verdict { display: flex; gap: 8px; }
+.verdict button { padding: 8px 16px; background: var(--bg); color: var(--ink); border: 2px solid var(--line); }
+.verdict button.on.ok { background: var(--good); border-color: var(--good); color: var(--on-main); }
+.verdict button.on.change { background: var(--amber); border-color: var(--amber); color: var(--on-main); }
+.opt { background: var(--surface); border: 3px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.opt.chosen { border-color: var(--main); background: var(--wash); }
+.opt img { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.opt .tag { font-size: 20px; font-weight: 900; color: var(--main); }
+.opt p { font-size: 15px; }
+button { font: inherit; font-weight: 900; cursor: pointer; border-radius: 14px; border: 0; }
+.choose { margin-top: auto; padding: 12px; background: var(--main); color: var(--on-main); box-shadow: 0 4px 0 var(--main-lip); letter-spacing: .04em; }
+.choose:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--main-lip); }
+.opt.chosen .choose { background: var(--surface); color: var(--main); box-shadow: 0 4px 0 var(--line); }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--main); outline-offset: 2px; }
+.notes { display: flex; flex-direction: column; gap: 8px; }
+textarea, input[type=text] { font: inherit; font-weight: 700; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px; width: 100%; }
+textarea { min-height: 84px; resize: vertical; }
+.extra { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px; }
+.extra figure { margin: 0; flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; }
+.extra img { width: 100%; border-radius: 14px; border: 1px solid var(--line); }
+figcaption { font-size: 14px; color: var(--muted); }
+.lines { display: flex; flex-direction: column; gap: 8px; }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+.line.ok { border-color: var(--good); background: var(--good-wash); }
+.line.change { border-color: var(--amber); background: var(--amber-wash); }
+.line .text { min-width: 0; overflow-wrap: anywhere; }
+.line .btns { display: flex; gap: 6px; }
+.line .btns button { padding: 6px 12px; background: var(--bg); color: var(--ink); border: 2px solid var(--line); }
+.line.ok .btns .b-ok { background: var(--good); color: var(--on-main); border-color: var(--good); }
+.line.change .btns .b-change { background: var(--amber); color: var(--on-main); border-color: var(--amber); }
+.line input { grid-column: 1 / -1; }
+.line input[hidden] { display: none; }
+@media (max-width: 760px) { .options { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; } }
+.mrow .text b { color: var(--ink); }
+.mrow .meta { display: block; font-size: 14px; color: var(--muted); }
+.mrow .still { color: var(--main); }
+.mrow .anim { color: var(--good); }
+.pair { display: flex; }
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <span class="label">Akademiya English · redesign round 3 · 26 October 2026</span>
+    <h1>Dombi's states and the three phone levels</h1>
+    <p>Dombi's look doesn't change. This round decides which Dombi shows at each moment, and what weaker phones show instead of animation. <b>Full</b>: animated everywhere. <b>Light</b>: animated only at onboarding, answers and celebrations; a still picture elsewhere. <b>Still</b>, and whenever the phone's Reduce Motion is on: still pictures only.</p>
+    <p>Mark each moment OK or Change. Pick one of the two animation settings. Mark the new Uzbek lines. Everything saves as you go.</p>
+    <p class="status" id="status">Connecting…</p>
+  </header>
+
+  <nav aria-label="Sections"><ul id="nav"></ul></nav>
+
+  <section id="map">
+    <span class="label">Check each row</span><h2>Moment map</h2>
+    <p>Each row: the moment, where it happens, what plays at Full, whether Light animates it, and the still picture. At Light, conversations show still pictures, because the spec lists only onboarding, answers and celebrations. Say so if you want them animated.</p>
+    <div class="lines" id="maprows"></div>
+  </section>
+
+  <div id="acts" style="display:flex;flex-direction:column;gap:56px"></div>
+  <div id="picks" style="display:flex;flex-direction:column;gap:56px"></div>
+
+  <section id="copy">
+    <span class="label">Check</span><h2>New Uzbek lines</h2>
+    <p>Mark each line OK, or Change and type the better version.</p>
+    <div class="lines" id="lines"></div>
+  </section>
+
+  <section id="general">
+    <span class="label">Anything else</span><h2>General notes</h2>
+    <div class="notes">
+      <textarea id="general-note" aria-label="General notes" placeholder="Anything about Dombi"></textarea>
+      <span class="status" id="general-status"></span>
+    </div>
+  </section>
+</div>
+
+<script>
+const MAP = [["Idle on a tab","Learn, Speak, Practice, Me (overlay, quiet)","mood smile; breathing, blinks, glances","still","Dombi / 80 / default"],["Guide bubble (welcome back, a tip, \"this one is new\")","Tab headers (Dombi guide / small)","talking while the bubble appears, then smile","still","Dombi / 48 / talk"],["Glad after a break","Learn tab, first open after a break","mood happy + gesture wave","still","Dombi / 80 / wave"],["Late at night","Learn tab only","mood sleepy (Z's)","still","Dombi / 80 / sleepy"],["Onboarding, first time on a screen","Onboarding screens","hidden → enter, gesture wave","animated","Dombi / 150 / wave · happy face"],["Empty tab before lesson 1","Speak, Practice, Me first-time states","gesture point toward lesson 1","still","Dombi / 150 / point"],["Your turn to speak","Lesson mic, activity mic (overlay)","listening + amp","still","Dombi / 80 / listen"],["Correct","Answer panel / correct","correct trigger","animated","Dombi / 48 / happy"],["Not yet","Answer panel / not yet","wrong trigger (blink, tilt, \"hm\"), never sad","animated","Dombi / 48 / oops"],["Help offered after two misses","Lesson overlay with bubble","talking, then smile","still","Dombi / 80 / talk"],["Help sheet open","Help sheet","mood smile; talking when a step is read aloud","still","Dombi / 48 / default"],["Mistakes round","Mistakes round divider","mood think + gesture thinking","still","Dombi / 150 / thinking · think face"],["Lesson result, new thing you can say","Lesson result","mood laugh + gesture celebrate","animated","Dombi / 150 / celebrate · laugh face"],["Level up, perfect lesson","Level up, perfect badge","mood proud, then celebrate","animated","Dombi / 150 / proud"],["Activity end","Activity end screens (overlay)","mood happy","animated","Dombi / 80 / happy"],["Dombi talking in a conversation","Guided and free conversation","talking + visemes + amp","still","Dombi / 150 / talk"],["Dombi listening in a conversation","Guided and free conversation","listening + amp","still","Dombi / 150 / listen"],["Guide in a situation scene","Situation screens (overlay, quiet)","mood smile; looks at the character who speaks","still","Dombi / 80 / default"],["Mic off, speech unavailable","Mic-off states in lessons and activities","mood confused, then talking","still","Dombi / 80 / confused"],["Waiting for the server","Any wait (never a spinner)","mood think + gesture thinking","still","Dombi / 80 / think"]];
+const PICKS = [
+  { key: "setting", name: "Animation setting", short: "Setting", intro: "One new row on the settings screen you designed, so a learner can turn Dombi's animation down. Each version is shown normally, and with the phone's Reduce Motion on (then Dombi is always still). The phone's level is measured during onboarding with no screen and no waiting.", options: [
+    ["A", ["setting-a.png", "setting-a-reduce-motion.png"], "Three choices", "\"Dombi harakati\": To'liq · Yengil · Rasm. The phone's level is selected; the learner can pick a lower one."],
+    ["B", ["setting-b.png", "setting-b-reduce-motion.png"], "One switch", "\"Kamroq harakat\": on means still pictures only."]] },
+];
+const ACTS = [
+  ["poses", "Still pictures", ["still-poses.png", "still-poses-dark.png"], "The still picture for each moment, at the size the screen uses, light and dark. The 80 and 48 sizes of sleepy, listen, talk, confused, think, happy and oops are scaled copies of the existing 150 drawings."],
+  ["levels", "The three levels on real screens", ["levels.png"], "The Learn tab, a \"not yet\" answer and an activity end, each at Full, Light and Still. Full and Light name the animation that plays."],
+  ["settingdark", "Animation setting · dark", ["setting-dark.png"], "Both versions in dark mode."],
+];
+const LINES = ["Dombi harakati", "To'liq · Yengil · Rasm", "Kamroq harakat", "Telefoningizda harakat kamaytirilgan."];
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v); } for (const k of kids) n.append(k); return n; };
+
+const state = { picks: {}, acts: {}, lines: {}, map: {} };
+let db = null, canWrite = true;
+const queues = {};
+function write(path, body, statusEl) {
+  if (!db || !canWrite) return;
+  const prev = queues[path] || Promise.resolve();
+  queues[path] = prev.then(() => db.doc(path).set({ ...body, at: new Date().toISOString() }))
+    .then(() => { if (statusEl) statusEl.textContent = "Saved"; })
+    .catch((e) => { if (e && e.code === "invalid_argument") { canWrite = false; setStatus("You can look, but this view can't save. Tell Claude your picks in chat.", true); } else if (statusEl) statusEl.textContent = "Not saved, try again"; });
+}
+function setStatus(t, warn) { const s = $("#status"); s.textContent = t; s.classList.toggle("warn", !!warn); }
+const noteBox = (id, label, onSave) => { const st = el("span", { class: "status" }); const ta = el("textarea", { id, "aria-label": label, placeholder: "What to change" }); let t; ta.addEventListener("input", () => { clearTimeout(t); st.textContent = "…"; t = setTimeout(() => onSave(ta.value, st), 800); }); return el("div", { class: "notes" }, el("label", { for: id, class: "label" }, label), ta, st); };
+const shots = (imgs, alt) => el("div", { class: "shot" }, el("div", { class: "pair" }, ...imgs.map((src) => el("img", { src, alt, loading: "lazy" }))));
+
+function renderNav() {
+  const ul = $("#nav"); ul.textContent = "";
+  ul.append(el("li", {}, el("a", { href: "#map" }, "Moment map")));
+  for (const [key, name] of ACTS) ul.append(el("li", {}, el("a", { href: "#" + key }, name)));
+  for (const p of PICKS) { const o = state.picks[p.key]?.option; ul.append(el("li", {}, el("a", { href: "#" + p.key }, p.short + (o ? " · " : ""), o ? el("span", { class: "pick" }, o) : ""))); }
+  ul.append(el("li", {}, el("a", { href: "#copy" }, "Uzbek lines")), el("li", {}, el("a", { href: "#general" }, "Notes")));
+}
+function renderPicks() {
+  const host = $("#picks");
+  for (const p of PICKS) {
+    const sec = el("section", { id: p.key }, el("span", { class: "label" }, "Choose one"), el("h2", {}, p.name), el("p", {}, p.intro));
+    const list = el("div", { class: "options" });
+    for (const [tag, imgs, title, desc] of p.options) list.append(el("div", { class: "opt", "data-tab": p.key, "data-opt": tag },
+      el("span", { class: "tag" }, tag + " · " + title), shots(imgs, p.short + " version " + tag + ": " + title),
+      el("p", {}, desc), el("button", { class: "choose", type: "button", onclick: () => choose(p.key, tag) }, "CHOOSE " + tag)));
+    sec.append(list, noteBox("note-" + p.key, "Notes for " + p.short, (v, st) => { const option = state.picks[p.key]?.option || ""; state.picks[p.key] = { option, note: v }; write("picks/" + p.key, { option, note: v }, st); }));
+    host.append(sec);
+  }
+}
+function choose(key, opt) { const note = state.picks[key]?.note || ""; state.picks[key] = { option: opt, note }; paint(); write("picks/" + key, { option: opt, note }); }
+function renderActs() {
+  const host = $("#acts");
+  for (const [key, name, imgs, desc] of ACTS) {
+    const sec = el("section", { id: key }, el("span", { class: "label" }, "OK or Change"), el("h2", {}, name), el("p", {}, desc), shots(imgs, name),
+      el("div", { class: "verdict" }, el("button", { type: "button", class: "ok", "data-k": key, onclick: () => verdict(key, "ok") }, "OK"), el("button", { type: "button", class: "change", "data-k": key, onclick: () => verdict(key, "change") }, "Change")),
+      noteBox("act-" + key, "Notes for " + name, (v, st) => { state.acts[key] = { status: state.acts[key]?.status || "", note: v }; write("acts/" + key, state.acts[key], st); }));
+    host.append(sec);
+  }
+}
+function verdict(key, s) { const cur = state.acts[key] || {}; state.acts[key] = { status: cur.status === s ? "" : s, note: cur.note || "" }; paint(); write("acts/" + key, state.acts[key]); }
+function paint() {
+  for (const card of document.querySelectorAll(".opt")) { const on = state.picks[card.dataset.tab]?.option === card.dataset.opt; card.classList.toggle("chosen", on); card.querySelector(".choose").textContent = (on ? "CHOSEN " : "CHOOSE ") + card.dataset.opt; }
+  for (const p of PICKS) { const ta = $("#note-" + p.key); if (ta && document.activeElement !== ta) ta.value = state.picks[p.key]?.note || ""; }
+  for (const b of document.querySelectorAll(".verdict button")) b.classList.toggle("on", state.acts[b.dataset.k]?.status === (b.classList.contains("ok") ? "ok" : "change"));
+  for (const [key] of ACTS) { const ta = $("#act-" + key); if (ta && document.activeElement !== ta) ta.value = state.acts[key]?.note || ""; }
+  renderNav();
+}
+function rowList(hostId, items, render, store, save) {
+  const host = $(hostId);
+  items.forEach((item, i) => {
+    const input = el("input", { type: "text", "aria-label": "What to change", placeholder: "What to change", hidden: true });
+    host.append(el("div", { class: "line" + (store === "map" ? " mrow" : ""), "data-i": i }, render(item),
+      el("div", { class: "btns" }, el("button", { type: "button", class: "b-ok", onclick: () => mark(store, save, hostId, i, "ok") }, "OK"), el("button", { type: "button", class: "b-change", onclick: () => mark(store, save, hostId, i, "change") }, "Change")), input));
+    let t; input.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { state[store][i] = { status: "change", better: input.value }; save(); }, 800); });
+  });
+}
+function mark(store, save, hostId, i, status) { const cur = state[store][i]; state[store][i] = { status: cur?.status === status ? "" : status, better: cur?.better || "" }; paintRows(store, hostId); save(); if (state[store][i].status === "change") $(hostId + ' .line[data-i="' + i + '"] input').focus(); }
+function paintRows(store, hostId) { for (const row of document.querySelectorAll(hostId + " .line")) { const s = state[store][row.dataset.i] || {}; row.classList.toggle("ok", s.status === "ok"); row.classList.toggle("change", s.status === "change"); const input = row.querySelector("input"); input.hidden = s.status !== "change"; if (document.activeElement !== input) input.value = s.better || ""; } }
+const tag = (store, list, i) => store === "map" ? { moment: list[i][0] } : { line: list[i] };
+const saveMap = () => write("map/rows", { items: Object.fromEntries(Object.entries(state.map).map(([i, v]) => [i, { ...v, ...tag("map", MAP, i) }])) });
+const saveLines = () => write("copy/lines", { items: Object.fromEntries(Object.entries(state.lines).map(([i, v]) => [i, { ...v, ...tag("lines", LINES, i) }])) });
+
+rowList("#maprows", MAP, ([m, where, full, light, still]) => el("span", { class: "text" }, el("b", {}, m), el("span", { class: "meta" }, where),
+  el("span", { class: "meta" }, "Full: " + full + " · Light: ", el("span", { class: light === "animated" ? "anim" : "still" }, light === "animated" ? "animated" : "still picture"), " · Still: " + still.replace("Dombi / ", ""))), "map", saveMap);
+rowList("#lines", LINES, (line) => el("span", { class: "text" }, line), "lines", saveLines);
+renderActs(); renderPicks(); renderNav();
+const g = $("#general-note"); let gTimer;
+g.addEventListener("input", () => { clearTimeout(gTimer); $("#general-status").textContent = "…"; gTimer = setTimeout(() => write("notes/general", { text: g.value }, $("#general-status")), 800); });
+
+(async () => {
+  try { db = await claude.use("db"); } catch { db = null; }
+  if (!db) { setStatus("Saving isn't available in this view. Tell Claude your picks in chat.", true); return; }
+  setStatus("Your answers save automatically.");
+  for (const p of PICKS) db.doc("picks/" + p.key).onSnapshot((s) => { if (s.exists) { state.picks[p.key] = s.data(); paint(); } }, () => {});
+  for (const [key] of ACTS) db.doc("acts/" + key).onSnapshot((s) => { if (s.exists) { state.acts[key] = s.data(); paint(); } }, () => {});
+  db.doc("map/rows").onSnapshot((s) => { if (s.exists) { state.map = { ...(s.data().items || {}) }; paintRows("map", "#maprows"); } }, () => {});
+  db.doc("copy/lines").onSnapshot((s) => { if (s.exists) { state.lines = { ...(s.data().items || {}) }; paintRows("lines", "#lines"); } }, () => {});
+  db.doc("notes/general").onSnapshot((s) => { if (s.exists && document.activeElement !== g) g.value = s.data().text || ""; }, () => {});
+})();
+</script>
