@@ -81,7 +81,7 @@ export function AppTabBar({ selected, onPress }: { selected: number; onPress: (i
     <View style={{ paddingHorizontal: 24 * scale, paddingTop: 10 * scale, paddingBottom: 22 * scale }}>
       <GestureDetector gesture={pan}>
         <View accessibilityRole="tablist" style={{ flexDirection: "row" }} onLayout={event => itemWidth.set(event.nativeEvent.layout.width / count)}>
-          <Animated.View pointerEvents="none" style={[{ position: "absolute", left: 0, top: 0, width: SQUARE_W * scale, height: SQUARE_H * scale, borderRadius: 14 * scale, borderWidth: 2 * scale, borderColor: c.softLine, backgroundColor: c.soft }, square]} />
+          <Animated.View pointerEvents="none" style={[{ position: "absolute", left: 0, top: -LIFT * scale, width: SQUARE_W * scale, height: SQUARE_H * scale, borderRadius: 14 * scale, borderWidth: 2 * scale, borderColor: c.softLine, backgroundColor: c.soft }, square]} />
           {labels.map((label, index) => <TabItem key={label} index={index} label={label} icon={icons[index]} position={position} scale={scale}
             shown={shown === index} selected={selected === index} onPress={() => onPress(index)} />)}
         </View>
@@ -103,7 +103,7 @@ function TabItem({ index, label, icon, position, scale, shown, selected, onPress
       <View style={{ height: SQUARE_H * scale, justifyContent: "center", opacity: shown ? 1 : 0.5 }}>
         <Icon name={icon} size={30 * scale} />
       </View>
-      <Txt numberOfLines={1} style={{ marginTop: (LIFT + 4) * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: violet, opacity: shown ? 1 : 0 }}>{label}</Txt>
+      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: violet, opacity: shown ? 1 : 0 }}>{label}</Txt>
     </Animated.View>
   </Pressable>;
 }
