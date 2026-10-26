@@ -145,7 +145,7 @@ import { MOMENTS, stillPoseFor, rigFor, animates, idleMoment, levelForFps, level
 import { helpStart, helpReducer, HELP_STEPS } from './help.js';
 
 test('every moment in the moment map has a still pose and a rig state', () => {
-  assert.equal(MOMENTS.length, 21);
+  assert.equal(MOMENTS.length, 22);
   for (const m of MOMENTS) { assert.match(stillPoseFor(m), /^(48|80|150)-[a-z-]+$/, m); assert.ok(rigFor(m).mood, m); }
   assert.equal(stillPoseFor('correct'), '48-laugh'); assert.equal(stillPoseFor('notYet'), '48-oops'); assert.equal(stillPoseFor('waiting'), '80-think');
   assert.deepEqual(rigFor('lessonResult'), { mood: 'laugh', gesture: 'celebrate' });

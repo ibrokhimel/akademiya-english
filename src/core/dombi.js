@@ -26,6 +26,7 @@ const MAP = {
   sceneGuide:   ['80-default',   { mood: 'smirk' }],
   micOff:       ['80-confused',  { mood: 'confused' }],
   waiting:      ['80-think',     { mood: 'think', gesture: 'thinking' }],
+  speakTab:     ['150-happy',    { mood: 'happy' }],
 };
 export const MOMENTS = Object.keys(MAP);
 
