@@ -98,6 +98,7 @@ function Navigation() {
           <Stack.Screen name="confidence" />
           <Stack.Screen name="lesson/[id]" />
           <Stack.Screen name="practice/[id]" />
+          <Stack.Screen name="activity/[kind]" />
         </Stack.Protected>
       </Stack>
     </>

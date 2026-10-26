@@ -57,3 +57,10 @@ test('a cold calendar link opens under the Me tab', () => {
   assert.equal(result.routes[0].name, '(tabs)');
   assert.equal(result.routes[0].state.routes[0].name, 'profile');
 });
+test('a cold activity link backs to the Practice tab', () => {
+  const activity = route('activity/[kind]', { kind: 'catch' });
+  const result = withNavigationParents(stack([activity], [...names, 'activity/[kind]']));
+  assert.deepEqual(chain(result), ['(tabs)', 'activity/[kind]']);
+  assert.equal(result.routes[0].state.routes[0].name, 'practice');
+  assert.equal(result.routes[result.index], activity);
+});
