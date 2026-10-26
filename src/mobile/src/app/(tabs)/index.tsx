@@ -1,16 +1,15 @@
 import { router,useScrollToTop } from "expo-router";
 import { useEffect,useRef,useState } from "react";
 import { Pressable,ScrollView,View,useWindowDimensions } from "react-native";
-import { useReducedMotion } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
-import { useActorFile } from "../../components/Actor";
 import { BottomSheet } from "../../components/BottomSheet";
-import { Effect } from "../../components/Effects";
 import { LessonStartSheet } from "../../components/LessonStartSheet";
-import { Arrive,Bounce,Count,Pulse } from "../../components/Motion";
+import { Arrive,Pulse } from "../../components/Motion";
 import { brand,shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
+import { DombiOverlay,TabHeader } from "../../components/TabChrome";
+import { idleMoment } from "../../../../core/dombi.js";
 import {
 Icon,
 Txt,
@@ -48,6 +47,10 @@ export default function Learn() {
     currentLessonId = p.current;
   useScrollToTop(scroll);
   useAuditScroll(scroll, scale);
+  // Dombi: glad after a break wins over late at night; the first time, he introduces himself.
+  const [moment] = useState(() => idleMoment({ now: Date.now(), lastOpen: settings.lastOpen ? Date.parse(settings.lastOpen) : undefined }) as "glad" | "night" | "idle");
+  useEffect(() => { set({ lastOpen: new Date().toISOString() }); }, [set]);
+  const firstTime = Object.keys(p.done).length === 0;
   const wasOpen = useRef(false);
   useEffect(() => {
     if (pick || wasOpen.current)
@@ -73,40 +76,7 @@ export default function Learn() {
       edges={["top", "left", "right"]}
       style={{ flex: 1, backgroundColor: c.bg }}
     >
-      <View
-        style={{
-          height: d(54),
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          paddingHorizontal: d(20),
-        }}
-      >
-        {[
-          ["level-badge", `A${p.level}`, c.muted],
-          ["flame-streak", String(p.streak.count), p.streak.today ? "#FF9F1C" : c.muted],
-          ["bubble-phrases", String(p.phrases), violet],
-        ].map(([icon, value, color], index) => (
-          <Pressable
-            key={icon}
-            onPress={() =>
-              router.navigate(
-                icon === "flame-streak" ? "/calendar" : "/phrases",
-              )
-            }
-            style={{ position: "absolute", left: d([40,160,280][index]), top: d(26), height: d(28), flexDirection: "row", alignItems: "center", gap: d(7) }}
-          >
-            {icon === "flame-streak" ? <HeaderFlame lit={p.streak.today} scale={scale} /> : <Icon name={icon} size={d(26)} />}
-            <Bounce change={value}>
-              <Count
-                value={Number(value.replace("A", ""))}
-                prefix={icon === "level-badge" ? "A" : ""}
-                style={{ fontSize: d(16), color }}
-              />
-            </Bounce>
-          </Pressable>
-        ))}
-      </View>
+      <TabHeader title="O'rganish" />
       <Arrive
         style={{
           marginHorizontal: d(20),
@@ -347,6 +317,7 @@ export default function Learn() {
           </Txt>
         </Pressable>
       ) : null}
+      <DombiOverlay moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
       <BottomSheet
         visible={!!pick}
         onClose={() => {
@@ -360,7 +331,3 @@ export default function Learn() {
   );
 }
 
-function HeaderFlame({ lit, scale }: { lit: boolean; scale: number }) {
- const file = useActorFile(), reduced = useReducedMotion();
- return <View style={{ width: 26 * scale, height: 28 * scale }}>{file && !reduced ? <Effect board="Streak Flame" lit={lit} trigger={null} style={{ position: "absolute", left: 0, top: -6.5 * scale, width: 26 * scale, height: 33 * scale }} /> : <View style={{ filter: lit ? undefined : [{ grayscale: 1 }], opacity: lit ? 1 : .45 }}><Icon name="flame-streak" size={26 * scale} /></View>}</View>;
-}
