@@ -181,8 +181,14 @@ test('help: offered once on the second miss, steps go 1 to 4, a new item resets'
   assert.deepEqual(s, { misses: 0, step: 0, offered: false });
   s = helpReducer(s, { type: 'miss' }); assert.equal(s.offered, false);
   s = helpReducer(s, { type: 'miss' }); assert.equal(s.offered, true);
-  s = helpReducer(s, { type: 'open' }); assert.equal(s.step, 1);
+  s = helpReducer(s, { type: 'open' }); assert.equal(s.step, 1); assert.equal(s.offered, false, 'opening help answers the offer'); assert.equal(s.misses, 0);
+  s = helpReducer(s, { type: 'miss' }); assert.equal(s.offered, false, 'one more miss after help does not offer again');
   for (let i = 0; i < 6; i++) s = helpReducer(s, { type: 'next' });
   assert.equal(s.step, HELP_STEPS.length); assert.equal(HELP_STEPS.length, 4);
   s = helpReducer(s, { type: 'item' }); assert.deepEqual(s, helpStart());
+});
+test('help: a right answer clears the offer for that item', () => {
+  let s = helpReducer(helpReducer(helpStart(), { type: 'miss' }), { type: 'miss' });
+  assert.equal(s.offered, true);
+  s = helpReducer(s, { type: 'right' }); assert.deepEqual(s, helpStart());
 });

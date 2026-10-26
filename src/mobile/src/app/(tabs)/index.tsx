@@ -10,6 +10,7 @@ import { brand,shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import { DombiOverlay,TabHeader } from "../../components/TabChrome";
 import { idleMoment } from "../../../../core/dombi.js";
+import { useMeasureDombiLevel } from "../../lib/dombiLevel";
 import {
 Icon,
 Txt,
@@ -30,6 +31,7 @@ const SPOTS = [
   [158.8, 338.8, "message"],
 ] as const;
 export default function Learn() {
+  useMeasureDombiLevel(true);
   const { progress: p, settings, set, resume } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),

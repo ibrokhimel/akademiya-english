@@ -33,6 +33,8 @@ export type Settings = {
   lessMotion?: boolean;
   /** measured during onboarding: how smoothly this phone draws Dombi */
   dombiLevel: "full" | "light" | "still";
+  /** true once the level above has been measured on this phone */
+  dombiMeasured?: boolean;
   /** last time the app was opened (ISO), for "glad after a break" */
   lastOpen?: string;
 };

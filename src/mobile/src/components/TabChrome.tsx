@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
+import { useDombiLevel } from "../lib/dombiLevel";
 import { useApp } from "../lib/store";
 import { useActorFile } from "./Actor";
 import { Effect } from "./Effects";
@@ -68,10 +69,10 @@ export function DombiOverlay({ moment, line, bottom = 8, onPress }: { moment: Do
 
 /** The streak flame burns (Rive "Streak Flame") once today's lesson is done; grey until then. */
 function StreakFlame({ lit, size }: { lit: boolean; size: number }) {
-  const file = useActorFile(), reduced = useReducedMotion();
+  const file = useActorFile(), reduced = useReducedMotion(), still = useDombiLevel() === "still";
   return (
     <View style={{ width: size, height: size }}>
-      {file && !reduced
+      {file && !reduced && !still
         ? <Effect board="Streak Flame" lit={lit} trigger={null} style={{ position: "absolute", left: 0, top: -size * 0.25, width: size, height: size * 1.27 }} />
         : <View style={{ filter: lit ? undefined : [{ grayscale: 1 }], opacity: lit ? 1 : 0.45 }}><Icon name="flame-streak" size={size} /></View>}
     </View>

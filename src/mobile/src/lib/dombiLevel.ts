@@ -13,18 +13,20 @@ export function useDombiLevel(): DombiLevel {
   return levelFrom({ measured: settings.dombiLevel, lessMotion: settings.lessMotion, reduceMotion }) as DombiLevel;
 }
 
-/** Runs quietly while onboarding shows Dombi: after a few seconds of frames, stores the phone's level. No screen, no waiting. */
+/**
+ * Runs quietly while a screen with Dombi is open (onboarding, or the Learn tab for people who updated the app):
+ * five one-second frame samples, then the phone's level is stored once. No screen, no waiting.
+ */
 export function useMeasureDombiLevel(active: boolean) {
-  const { set } = useApp();
-  const { fps } = useFrameMeter();
+  const { settings, set } = useApp();
+  const measuring = active && !settings.dombiMeasured;
+  const stats = useFrameMeter(measuring);
   const samples = useRef<number[]>([]);
-  const done = useRef(false);
   useEffect(() => {
-    if (!active || done.current || fps <= 0) return;
-    samples.current.push(fps);
+    if (!measuring || stats.fps <= 0) return;
+    samples.current.push(stats.fps);
     if (samples.current.length < 5) return;
-    done.current = true;
     const sorted = [...samples.current].sort((a, b) => a - b);
-    set({ dombiLevel: levelForFps(sorted[Math.floor(sorted.length / 2)]) as DombiLevel });
-  }, [active, fps, set]);
+    set({ dombiLevel: levelForFps(sorted[Math.floor(sorted.length / 2)]) as DombiLevel, dombiMeasured: true });
+  }, [measuring, stats, set]);
 }

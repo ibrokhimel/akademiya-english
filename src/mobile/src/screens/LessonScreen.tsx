@@ -158,7 +158,7 @@ export function Player({ lesson, onExit, quiet = false }: {
             return;
         counted.current = true;
         session.answer(result.right);
-        if (!result.right && itemKey) setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: "miss" }) }));
+        if (itemKey) setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: result.right ? "right" : "miss" }) }));
         ops.push(result.right ? "r" : "w");
         if (!quiet) app.saveResume(snapshot());
         setFeedback(result);
@@ -344,7 +344,7 @@ export function Player({ lesson, onExit, quiet = false }: {
                 setCurrent(nextItem());
             }}/>
           </ScreenTransition>) : null}
-        {current && !feedback && !quiet ? <DombiOverlay bottom={204} moment={helpHere.offered ? "helpOffer" : "idle"} line={helpHere.offered ? "Qiyin bo'lyaptimi? Yordam beraymi?" : undefined} onPress={() => setHelpUi({ at: uiKey, step: Math.max(1, helpStep), open: true })} /> : null}
+        {current && !feedback && !quiet ? <DombiOverlay bottom={204} moment={helpHere.offered ? "helpOffer" : "idle"} line={helpHere.offered ? "Qiyin bo'lyaptimi? Yordam beraymi?" : undefined} onPress={() => { setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: "open" }) })); setHelpUi({ at: uiKey, step: Math.max(1, helpStep), open: true }); }} /> : null}
         {current ? <HelpSheet visible={helpOpen} step={helpStep} onClose={() => setHelpUi({ at: uiKey, step: helpStep, open: false })} onStep={(n) => setHelpUi({ at: uiKey, step: Math.max(helpStep, n), open: true })}
           firstWord={String(answerOf(current.item, P)).split(" ")[0] ?? ""}
           uzbek={current.item.trap ? T[current.item.trap]?.why ?? "" : current.item.p ? P[current.item.p]?.uz ?? "" : current.item.uz ?? ""}

@@ -6,7 +6,7 @@ import { P,units,type Lesson } from "../data/content";
 import { play } from "../lib/audio";
 import { useApp } from "../lib/store";
 import { getVisualAudit } from "../lib/visualAudit";
-import { Actor } from "./Actor";
+import { Dombi } from "./Dombi";
 import { Effect } from "./Effects";
 import { CheckpointResult,LevelReward,StreakReward } from "./MomentMilestones";
 import { Arrive,Count,arriveIn,popIn } from "./Motion";
@@ -58,7 +58,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
             gap: phase === "result" ? d(14) : d(20),
         }}>
         {phase === "mistakes" ? (<>
-            <Actor size={d(150)} mood="think" gesture="thinking"/>
+            <Dombi moment="mistakes" size={d(150)}/>
             <Animated.View entering={arrive} style={{
                 width: "100%",
                 padding: d(20),
@@ -82,7 +82,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
             </Animated.View>
           </>) : null}
         {phase === "canSay" ? (<>
-            <View style={{ height: d(40) }} /><Actor size={d(130)} mood="laugh" gesture="celebrate"/>
+            <View style={{ height: d(40) }} /><Dombi moment="lessonResult" size={d(130)}/>
             <Animated.View entering={pop} style={{
                 width: "100%",
                 borderRadius: d(20),
@@ -157,7 +157,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                     justifyContent: "center",
                 }}>
                 <Icon name="trophy-unit" size={d(92)}/>
-              </Animated.View>) : (<View style={{ marginVertical: d(5) }}><Actor size={d(150)} mood="happy" gesture={celebrating ? "celebrate" : "none"}/></View>)}
+              </Animated.View>) : (<View style={{ marginVertical: d(5) }}><Dombi moment={celebrating ? "lessonResult" : "activityEnd"} size={d(150)}/></View>)}
             <Txt style={{
                 fontSize: checkpoint ? d(26) : d(28),
                 fontFamily: "Nunito_900Black",
