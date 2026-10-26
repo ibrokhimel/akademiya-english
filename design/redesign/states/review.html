@@ -80,6 +80,7 @@ figcaption { font-size: 14px; color: var(--muted); }
     <h1>The remaining states</h1>
     <p>The last design round: first time in dark, an empty list, loading, no internet, errors and the fallback pages. Most screens are your own locked ones (31a–31e, 31d, 29, 30). They keep your wording and buttons; only Dombi has his current faces now. The lesson result needs nothing: you chose it on 13 October (screen 18) and it already has Dombi celebrating.</p>
     <p>Pick one layout for the Catch end screen, answer the two questions, mark each set of screens OK or Change, and check the new Uzbek lines. Everything saves as you go.</p>
+    <p><b>Update:</b> your answers are applied: Catch end B (now on the real screen), glad wins over sleepy, and on a weak phone "Kamroq harakat" can be turned off. "Dombi o'ylayapti…" is now "O'ylayapman…". After a final review: losing internet in a call now shows your last line as saved; 31a got your own DARSLARGA QAYTISH button from 31d, since lessons work offline; waiting and 31a use Dombi with his hand at his chin, so his face doesn't read as sad; the inventory now matches the screens and lists three more states. Two lines you marked Change still need your wording: "Hali yozuv yo'q…" and "Suhbat uchun internet kerak…".</p>
     <p class="status" id="status">Connecting…</p>
   </header>
 
@@ -120,9 +121,9 @@ const ACTS = [
   ["firsttime", "First time · dark", ["first-time-dark.png"], "Dark versions of the four first-time tabs (the light ones were done in round 1)."],
   ["empty", "Empty voice recordings", ["empty.png"], "The recordings screen with nothing saved yet: Dombi and one line, light and dark."],
   ["problems", "Loading, no internet, errors, fallback, feedback", ["problems.png", "problems-dark.png"], "Learn loading; 31a no internet on Speak (its text now says conversations need internet, since lessons work offline); waiting for Dombi's reply; internet lost during a call (what was said stays); 31b, 31e, 31d A and B, 29 and 30 with Dombi's current faces. 31d keeps your own art. If two problems happen at once, no internet is shown first."],
-  ["catchdark", "Catch end · dark", ["catch-end-dark.png"], "The three Catch end layouts in dark."],
+  ["catchdark", "Catch end · final", ["catch-end-final.png", "catch-end-final-dark.png"], "Your pick B, applied to the real Catch end screen, light and dark."],
 ];
-const LINES = ["Hali yozuv yo'q. Darsda gapirsangiz, shu yerda saqlanadi.", "Suhbat uchun internet kerak. Ulanish qaytishi bilan avtomatik davom etamiz.", "Dombi o'ylayapti…", "Internet yo'q. Qaytishi bilan davom etamiz.", "Internet yo'q — suhbat saqlanadi"];
+const LINES = ["Hali yozuv yo'q. Darsda gapirsangiz, shu yerda saqlanadi.", "Suhbat uchun internet kerak. Ulanish qaytishi bilan avtomatik davom etamiz.", "O'ylayapman…", "Internet yo'q. Qaytishi bilan davom etamiz.", "Internet yo'q — suhbat saqlanadi"];
 
 const $ = (s, r = document) => r.querySelector(s);
 const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v); } for (const k of kids) n.append(k); return n; };

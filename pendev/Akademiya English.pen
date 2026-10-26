@@ -247564,13 +247564,28 @@
                             32,
                             20
                           ],
+                          "alignItems": "center",
                           "children": [
+                            {
+                              "type": "frame",
+                              "id": "nIEot",
+                              "name": "Spacer top",
+                              "width": "fill_container",
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "Jh6my",
+                              "type": "ref",
+                              "ref": "HCZ5a",
+                              "name": "Dombi"
+                            },
                             {
                               "type": "text",
                               "id": "ooPab",
                               "name": "Kicker",
                               "fill": "$ds-main",
                               "content": "MASHQ TUGADI",
+                              "textAlign": "center",
                               "fontFamily": "Nunito",
                               "fontSize": 12,
                               "fontWeight": "900",
@@ -247584,6 +247599,7 @@
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "5 tadan 4 tasi to'g'ri",
+                              "textAlign": "center",
                               "fontFamily": "Nunito",
                               "fontSize": 26,
                               "fontWeight": "900"
@@ -247732,7 +247748,8 @@
                           "name": "Dombi overlay",
                           "layoutPosition": "absolute",
                           "x": 294,
-                          "y": 600
+                          "y": 600,
+                          "enabled": false
                         }
                       ]
                     },
@@ -249842,13 +249859,28 @@
                             32,
                             20
                           ],
+                          "alignItems": "center",
                           "children": [
+                            {
+                              "type": "frame",
+                              "id": "m6Ifi",
+                              "name": "Spacer top",
+                              "width": "fill_container",
+                              "height": "fill_container"
+                            },
+                            {
+                              "id": "sosNm",
+                              "type": "ref",
+                              "ref": "HCZ5a",
+                              "name": "Dombi"
+                            },
                             {
                               "type": "text",
                               "id": "Cwu7M",
                               "name": "Kicker",
                               "fill": "$ds-main",
                               "content": "MASHQ TUGADI",
+                              "textAlign": "center",
                               "fontFamily": "Nunito",
                               "fontSize": 12,
                               "fontWeight": "900",
@@ -249862,6 +249894,7 @@
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "5 tadan 4 tasi to'g'ri",
+                              "textAlign": "center",
                               "fontFamily": "Nunito",
                               "fontSize": 26,
                               "fontWeight": "900"
@@ -250010,7 +250043,8 @@
                           "name": "Dombi overlay",
                           "layoutPosition": "absolute",
                           "x": 294,
-                          "y": 600
+                          "y": 600,
+                          "enabled": false
                         }
                       ]
                     },
@@ -276686,10 +276720,10 @@
                       "type": "text",
                       "id": "vj2J8",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -276918,10 +276952,10 @@
                       "type": "text",
                       "id": "E9RZjE",
                       "name": "Text",
-                      "fill": "$ds-notyet-text",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Missing",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -276942,7 +276976,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Copy WzRRs with no recordings: Dombi 150 / point at the save switch, one line",
+                      "content": "Copy of WzRRs with no recordings: Dombi 150 / point and one line",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277150,10 +277184,10 @@
                       "type": "text",
                       "id": "kTeLi",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277174,7 +277208,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Skeleton in the Learn shell, Dombi 80 / think",
+                      "content": "Skeleton in the Learn shell; Dombi 80 / think",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277266,10 +277300,10 @@
                       "type": "text",
                       "id": "sqGyh",
                       "name": "Text",
-                      "fill": "$ds-notyet-text",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Missing",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277290,7 +277324,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Call screen with Dombi 150 / think in place of his reply",
+                      "content": "Call screen; Dombi 150 / thinking (hand at chin); \"O'ylayapman…\"",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277382,10 +277416,10 @@
                       "type": "text",
                       "id": "nmLHX",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277406,7 +277440,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Dombi 150 / think; text now \"Suhbat uchun internet kerak…\" (lessons work offline); auto-retry kept",
+                      "content": "Full-screen as your design; Dombi 150 / thinking; text \"Suhbat uchun internet kerak…\"; added your 31d button DARSLARGA QAYTISH (lessons work offline)",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277498,10 +277532,10 @@
                       "type": "text",
                       "id": "O7dgx",
                       "name": "Text",
-                      "fill": "$ds-notyet-text",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Missing",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277522,7 +277556,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Call screen, toast, what you said stays",
+                      "content": "Call screen with the offline toast; your last line stays on screen, \"Siz aytdingiz · saqlandi\"",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277614,10 +277648,10 @@
                       "type": "text",
                       "id": "Byqzz",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277638,7 +277672,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Lesson top bar shell; Dombi 80 / confused; 3 steps kept",
+                      "content": "Kept as your design (sheet over the lesson); Dombi 80 / confused",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277846,10 +277880,10 @@
                       "type": "text",
                       "id": "p4eUK",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277870,7 +277904,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Into the Learn shell; Dombi 80 / think; retry / report kept",
+                      "content": "Kept full-screen as your design; Dombi 150 / confused; retry / report kept",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -277962,10 +277996,10 @@
                       "type": "text",
                       "id": "N0ybA",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278078,10 +278112,10 @@
                       "type": "text",
                       "id": "yCthq",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278194,10 +278228,10 @@
                       "type": "text",
                       "id": "U59K0s",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278218,7 +278252,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Over the Learn final; dark scrim rule",
+                      "content": "Kept over a lesson screen as your design; Dombi 80 / default and 48 / happy",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278310,10 +278344,10 @@
                       "type": "text",
                       "id": "kfF1X",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278334,7 +278368,7 @@
                       "fill": "$ds-ink",
                       "textGrowth": "fixed-width",
                       "width": 396,
-                      "content": "Design-system colours only; owner's faces kept",
+                      "content": "Kept as your design; Dombi 80 / default and 150 / happy",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278426,10 +278460,10 @@
                       "type": "text",
                       "id": "BWuWh",
                       "name": "Text",
-                      "fill": "$ds-ink",
+                      "fill": "$ds-correct-text",
                       "textGrowth": "fixed-width",
                       "width": 126,
-                      "content": "Copy into shell",
+                      "content": "Done",
                       "fontFamily": "Nunito",
                       "fontSize": 16,
                       "fontWeight": "700"
@@ -278458,6 +278492,366 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "EZaZ1",
+              "name": "Row · Mic blocked during a call",
+              "stroke": "$ds-line",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BFb9l",
+                  "name": "State",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pA7oV",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "Mic blocked during a call",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oGQgR",
+                  "name": "Where",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "l0SCzL",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "Guided and free conversation",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z2Dxu",
+                  "name": "Exists",
+                  "width": 380,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "egtna",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 356,
+                      "content": "Round 2 G4 / F4 mic-off screens (type instead), then 31b",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "h4hPzC",
+                  "name": "Status",
+                  "width": 150,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RVWUA",
+                      "name": "Text",
+                      "fill": "$ds-correct-text",
+                      "textGrowth": "fixed-width",
+                      "width": 126,
+                      "content": "Done",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PpNI6",
+                  "name": "Change",
+                  "width": 420,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JBkcY",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 396,
+                      "content": "Nothing",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LSPVd",
+              "name": "Row · Friends with no internet",
+              "stroke": "$ds-line",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DxOdo",
+                  "name": "State",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "H3KfIa",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "Friends with no internet",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ypNrw",
+                  "name": "Where",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "m8EpZu",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "Me → friends, friend requests",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "F9NoB3",
+                  "name": "Exists",
+                  "width": 380,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rYFrW",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 356,
+                      "content": "Toast / Offline KGfpr",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "i71ZS",
+                  "name": "Status",
+                  "width": 150,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fNXCs",
+                      "name": "Text",
+                      "fill": "$ds-correct-text",
+                      "textGrowth": "fixed-width",
+                      "width": 126,
+                      "content": "Done",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z0Mu57",
+                  "name": "Change",
+                  "width": 420,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gBhCi",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 396,
+                      "content": "Existing toast; nothing new",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jHDD3",
+              "name": "Row · Sending feedback with no internet",
+              "stroke": "$ds-line",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TlD58",
+                  "name": "State",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "HLHXT",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "Sending feedback with no internet",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oNIw1",
+                  "name": "Where",
+                  "width": 300,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Xoame",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 276,
+                      "content": "29 feedback sheet",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iMuqz",
+                  "name": "Exists",
+                  "width": 380,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "kRJVP",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 356,
+                      "content": "Toast / Offline KGfpr",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "n7asWR",
+                  "name": "Status",
+                  "width": 150,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zkk0s",
+                      "name": "Text",
+                      "fill": "$ds-correct-text",
+                      "textGrowth": "fixed-width",
+                      "width": 126,
+                      "content": "Done",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Maxx6",
+                  "name": "Change",
+                  "width": 420,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "X4qhxf",
+                      "name": "Text",
+                      "fill": "$ds-ink",
+                      "textGrowth": "fixed-width",
+                      "width": 396,
+                      "content": "Existing toast; the text stays in the sheet",
+                      "fontFamily": "Nunito",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "OEe1J",
+              "name": "Rule",
+              "fill": "$ds-muted",
+              "textGrowth": "fixed-width",
+              "width": 1490,
+              "content": "Two problems at once: the one whose fix comes first is shown. No internet comes before mic blocked.",
+              "fontFamily": "Nunito",
+              "fontSize": 16,
+              "fontWeight": "700"
             }
           ]
         },
@@ -282037,9 +282431,9 @@
                                   "strokeLinecap": "round"
                                 },
                                 {
-                                  "id": "pVmMR",
+                                  "id": "NTVqn",
                                   "type": "ref",
-                                  "ref": "HGfkx",
+                                  "ref": "ATRo8",
                                   "name": "Dombi pose",
                                   "layoutPosition": "absolute",
                                   "x": 10,
@@ -282118,6 +282512,18 @@
                           "descendants": {
                             "ocMTG": {
                               "content": "QAYTA URINISH"
+                            }
+                          }
+                        },
+                        {
+                          "id": "Fjv6q",
+                          "type": "ref",
+                          "ref": "ZXnnI",
+                          "name": "Back to lessons",
+                          "width": "fill_container",
+                          "descendants": {
+                            "PR9s8": {
+                              "content": "DARSLARGA QAYTISH"
                             }
                           }
                         }
@@ -282272,9 +282678,9 @@
                               "height": 173.6
                             },
                             {
-                              "id": "p1kgnx",
+                              "id": "poQak",
                               "type": "ref",
-                              "ref": "HGfkx",
+                              "ref": "ATRo8",
                               "name": "Dombi",
                               "layoutPosition": "absolute",
                               "x": 65,
@@ -282287,7 +282693,7 @@
                           "id": "WNfhB",
                           "name": "Tinglayapman…",
                           "fill": "$ds-muted",
-                          "content": "Dombi o'ylayapti…",
+                          "content": "O'ylayapman…",
                           "fontFamily": "Nunito",
                           "fontSize": 14,
                           "fontWeight": "700"
@@ -282658,9 +283064,9 @@
                               "height": 173.6
                             },
                             {
-                              "id": "QTIDl",
+                              "id": "TLWQy",
                               "type": "ref",
-                              "ref": "HGfkx",
+                              "ref": "nTIvj",
                               "name": "Dombi",
                               "layoutPosition": "absolute",
                               "x": 65,
@@ -282685,7 +283091,7 @@
                           "fill": "$ds-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Sure! Anything to eat?",
+                          "content": "I'd like a tea, please.",
                           "textAlign": "center",
                           "fontFamily": "Nunito",
                           "fontSize": 20,
@@ -282698,7 +283104,7 @@
                           "fill": "$ds-muted",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Albatta! Biror narsa yeysizmi?",
+                          "content": "Siz aytdingiz · saqlandi",
                           "textAlign": "center",
                           "fontFamily": "Nunito",
                           "fontSize": 16,
@@ -286504,9 +286910,9 @@
                                   "strokeLinecap": "round"
                                 },
                                 {
-                                  "id": "aC0Tn",
+                                  "id": "yikVK",
                                   "type": "ref",
-                                  "ref": "HGfkx",
+                                  "ref": "ATRo8",
                                   "name": "Dombi pose",
                                   "layoutPosition": "absolute",
                                   "x": 10,
@@ -286585,6 +286991,18 @@
                           "descendants": {
                             "ocMTG": {
                               "content": "QAYTA URINISH"
+                            }
+                          }
+                        },
+                        {
+                          "id": "H55IX2",
+                          "type": "ref",
+                          "ref": "ZXnnI",
+                          "name": "Back to lessons",
+                          "width": "fill_container",
+                          "descendants": {
+                            "PR9s8": {
+                              "content": "DARSLARGA QAYTISH"
                             }
                           }
                         }
@@ -286739,9 +287157,9 @@
                               "height": 173.6
                             },
                             {
-                              "id": "QlFnx",
+                              "id": "g7bap",
                               "type": "ref",
-                              "ref": "HGfkx",
+                              "ref": "ATRo8",
                               "name": "Dombi",
                               "layoutPosition": "absolute",
                               "x": 65,
@@ -286754,7 +287172,7 @@
                           "id": "ldhWS",
                           "name": "Tinglayapman…",
                           "fill": "$ds-muted",
-                          "content": "Dombi o'ylayapti…",
+                          "content": "O'ylayapman…",
                           "fontFamily": "Nunito",
                           "fontSize": 14,
                           "fontWeight": "700"
@@ -287125,9 +287543,9 @@
                               "height": 173.6
                             },
                             {
-                              "id": "TvMhq",
+                              "id": "rBBfM",
                               "type": "ref",
-                              "ref": "HGfkx",
+                              "ref": "nTIvj",
                               "name": "Dombi",
                               "layoutPosition": "absolute",
                               "x": 65,
@@ -287152,7 +287570,7 @@
                           "fill": "$ds-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Sure! Anything to eat?",
+                          "content": "I'd like a tea, please.",
                           "textAlign": "center",
                           "fontFamily": "Nunito",
                           "fontSize": 20,
@@ -287165,7 +287583,7 @@
                           "fill": "$ds-muted",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Albatta! Biror narsa yeysizmi?",
+                          "content": "Siz aytdingiz · saqlandi",
                           "textAlign": "center",
                           "fontFamily": "Nunito",
                           "fontSize": 16,
@@ -290490,6 +290908,7 @@
                   "type": "frame",
                   "id": "s30VtJ",
                   "name": "Current",
+                  "opacity": 0.45,
                   "layout": "vertical",
                   "gap": 12,
                   "children": [
@@ -290498,7 +290917,7 @@
                       "id": "d5hH2",
                       "name": "Label",
                       "fill": "$ds-ink",
-                      "content": "Current",
+                      "content": "Current · set aside",
                       "fontFamily": "Nunito",
                       "fontSize": 20,
                       "fontWeight": "900"
@@ -290728,6 +291147,7 @@
                   "type": "frame",
                   "id": "l5MxEK",
                   "name": "A · Dombi under the result",
+                  "opacity": 0.45,
                   "layout": "vertical",
                   "gap": 12,
                   "children": [
@@ -290736,7 +291156,7 @@
                       "id": "dbWRW",
                       "name": "Label",
                       "fill": "$ds-ink",
-                      "content": "A · Dombi under the result",
+                      "content": "A · Dombi under the result · set aside",
                       "fontFamily": "Nunito",
                       "fontSize": 20,
                       "fontWeight": "900"
@@ -290981,7 +291401,7 @@
                       "id": "ggFjl",
                       "name": "Label",
                       "fill": "$ds-ink",
-                      "content": "B · Centred, Dombi above",
+                      "content": "B · Centred, Dombi above · picked",
                       "fontFamily": "Nunito",
                       "fontSize": 20,
                       "fontWeight": "900"
