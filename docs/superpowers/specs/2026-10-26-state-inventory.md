@@ -6,7 +6,7 @@ Lessons and scripted activities have their content on the phone, so they work wi
 
 | State | Where | Exists | Status | What changes |
 |---|---|---|---|---|
-| First time on Learn, Speak, Practice, Me | The four tabs before lesson 1 | SlFQT, V4Uh5, lut7s, uezjU (light only) | Copy into shell | Dark copies |
+| First time on Learn, Speak, Practice, Me | The four tabs before lesson 1 | SlFQT, V4Uh5, MpuCW, uezjU (light only) | Copy into shell | Dark copies |
 | Empty friends row | Me tab | Me final ygNRX ("+" slots, owner's design) | Done | Nothing |
 | Empty voice recordings | Me → Ovoz yozuvlari | WzRRs has a full list; no empty version | Missing | Copy WzRRs with no recordings: Dombi 150 / point at the save switch, one line |
 | Empty phrases list | Me → phrases | After lesson 1 there is always a phrase; before it, Me first time covers it | Done | Nothing |
