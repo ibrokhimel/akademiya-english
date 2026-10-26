@@ -1,7 +1,7 @@
 // Dombi's touch play, ported from the playground (design/rive/play.html, locked 2026-10-11). No screens here.
 // The app feeds finger events and frame ticks in; out come the rig effects (triggers, the `play` enum, mood, haptics)
 // and his body (position, swing, squish) for the screen to draw.
-//   touchStart(t) -> state     touchReducer(state, { type: 'down'|'move'|'up'|'tick', t, x?, y?, dt?, rand?, rule, env })
+//   touchStart(t) -> state     touchReducer(state, { type: 'down'|'move'|'up'|'tick', t, x?, y?, dt?, rand?, cancel?, rule, env })
 // rule: 'all' (tabs) or 'nocarry' (a lesson with an exercise active). env: { w, h, homeX, floorY } in screen points.
 
 const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 300, POKE_RESET_MS = 4000,
@@ -65,7 +65,7 @@ export function touchReducer(state, ev) {
 
   if (ev.type === 'down') {
     s.lastAct = t;
-    s.press = { t, start: { x: ev.x, y: ev.y }, last: { x: ev.x, y: ev.y }, moved: 0, mode: 'press' };
+    s.press = { t, start: { x: ev.x, y: ev.y }, last: { x: ev.x, y: ev.y }, moved: 0, mode: 'press', holdChecked: false };
   } else if (ev.type === 'move' && s.press) {
     const p = { x: ev.x, y: ev.y };
     s.press.moved += Math.hypot(p.x - s.press.last.x, p.y - s.press.last.y); s.press.last = p; s.lastAct = t;
@@ -83,12 +83,16 @@ export function touchReducer(state, ev) {
     }
   } else if (ev.type === 'up' && s.press) {
     const pr = s.press; s.press = null; s.lastAct = t;
-    if (pr.mode === 'carry') { s.trail.push({ x: ev.x, y: ev.y, t }); release(); }
+    if (pr.mode === 'carry') release();
     else if (pr.mode === 'pet') { play('none'); fire('ahem'); }
-    else if (t - pr.t < TAP_MS && pr.moved < TAP_PX) tap();
+    else if (!ev.cancel && t - pr.t < TAP_MS && pr.moved < TAP_PX) tap();
   } else if (ev.type === 'tick') {
     const dt = ev.dt ?? 0.016, b = s.body;
-    if (s.press && s.press.mode === 'press' && ev.rule === 'all' && t - s.press.t >= HOLD_MS && s.press.moved < HOLD_PX && !['asleep', 'waking', 'back', 'flying', 'falling'].includes(s.mode)) startCarry();
+    // The hold is checked once, at 300 ms, as the playground's timer does: a press made mid-flight never turns into a carry later.
+    if (s.press && s.press.mode === 'press' && !s.press.holdChecked && t - s.press.t >= HOLD_MS) {
+      s.press.holdChecked = true;
+      if (ev.rule === 'all' && s.press.moved < HOLD_PX && !['asleep', 'waking', 'back', 'flying', 'falling'].includes(s.mode)) startCarry();
+    }
     if (s.at.back && t >= s.at.back) { delete s.at.back; if (s.mode === 'back') { s.mode = 'idle'; play('none'); s.lastAct = t; } }
     if (s.at.wake && t >= s.at.wake) { delete s.at.wake; mood('smirk'); play('none'); s.mode = 'idle'; s.lastAct = t; }
     if (s.at.unwink && t >= s.at.unwink) { delete s.at.unwink; mood('smirk'); }

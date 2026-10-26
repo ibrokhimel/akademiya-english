@@ -1,3 +1,4 @@
+import { useIsFocused } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
@@ -32,7 +33,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const rig = useRef<Rig | null>(null);
   const state = useRef<ReturnType<typeof touchStart> | null>(null);
   const current = () => (state.current ??= touchStart(Date.now()));
-  const pending = useRef<Effect[]>([]);
+  // Effects waiting for the rig to mount on a still-picture phone (dropped after 1 s, or when he is a picture again).
+  const pending = useRef<{ e: Effect; at: number }[]>([]);
+  const awakeRef = useRef(false);
   const home = useRef<{ x: number; y: number } | null>(null);
   const box = useRef<View>(null);
   const loop = useRef<{ raf: number; timer: ReturnType<typeof setTimeout> | null; last: number }>({ raf: 0, timer: null, last: 0 });
@@ -46,10 +49,13 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   }, [width, height]);
 
   const apply = useCallback((effects: Effect[]) => {
-    for (const e of [...pending.current.splice(0), ...effects]) {
-      if (e.haptic !== undefined) { buzz(e.haptic); continue; }
+    const now = Date.now();
+    const queue = [...pending.current.filter((p) => now - p.at < 1000), ...effects.map((e) => ({ e, at: now }))];
+    pending.current = [];
+    for (const { e, at } of queue) {
+      if (e.haptic !== undefined) { if (at === now) buzz(e.haptic); continue; }
       const r = rig.current;
-      if (!r) { pending.current.push(e); continue; }   // still-picture phone: the rig is mounting, play it in a moment
+      if (!r) { if (awakeRef.current) pending.current.push({ e, at }); continue; }   // still-picture phone: the rig is mounting
       if (e.fire) r.fire(e.fire); else if (e.play !== undefined) r.play(e.play); else if (e.mood) r.mood(e.mood);
     }
   }, []);
@@ -65,7 +71,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     r.num("lookX", held ? Math.max(-100, Math.min(100, b.vx / 6)) : 0); r.num("lookY", held ? Math.max(-100, Math.min(100, b.vy / 6)) : 0);
   }, [env, dx, dy, rot]);
 
-  const send = useCallback((ev: { type: "down" | "move" | "up" | "tick"; t: number; x?: number; y?: number; dt?: number }) => {
+  const send = useCallback((ev: { type: "down" | "move" | "up" | "tick"; t: number; x?: number; y?: number; dt?: number; cancel?: boolean }) => {
     const r = touchReducer(current(), { ...ev, rule, env: env() });
     state.current = r.state; apply(r.effects as Effect[]); draw();
   }, [rule, env, apply, draw]);
@@ -74,7 +80,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const schedule = useRef<() => void>(() => {});
   useEffect(() => {
     const L = loop.current;
-    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0; };
+    // Keep ticking while effects wait for the rig, so they play as soon as it mounts.
+    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0 || pending.current.length > 0; };
     const frame = (now: number) => {
       L.raf = 0;
       const dt = Math.min(0.033, L.last ? (now - L.last) / 1000 : 0.016); L.last = now;
@@ -92,12 +99,21 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     return () => { cancelAnimationFrame(L.raf); if (L.timer) clearTimeout(L.timer); L.raf = 0; L.timer = null; };
   }, [send]);
 
+  // Leaving the screen sends him home, calm (a throw or a walk never plays out unseen).
+  const focused = useIsFocused();
+  useEffect(() => {
+    if (focused) return;
+    state.current = touchStart(Date.now()); pending.current = [];
+    dx.set(0); dy.set(0); rot.set(0);
+    rig.current?.play("none"); rig.current?.mood("smirk");
+  }, [focused, dx, dy, rot]);
+
   // On a still-picture phone the rig is only mounted while he plays; he goes back to the picture 2 s after settling.
   useEffect(() => {
     if (!awake) return;
     const check = setInterval(() => {
       const s = current();
-      if (!s.press && ["idle", "asleep"].includes(s.mode) && Date.now() - s.lastAct > 2000) setAwake(false);
+      if (!s.press && ["idle", "asleep"].includes(s.mode) && Date.now() - s.lastAct > 2000) { awakeRef.current = false; pending.current = []; setAwake(false); }
     }, 500);
     return () => clearInterval(check);
   }, [awake]);
@@ -107,16 +123,16 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const pressAt = useRef(0), pressMoved = useRef(0), last = useRef({ x: 0, y: 0 });
   const restart = useCallback(() => { const L = loop.current; if (L.timer) { clearTimeout(L.timer); L.timer = null; } schedule.current(); }, []);
   const down = useCallback((x: number, y: number) => {
-    setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };
+    awakeRef.current = true; setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };
     send({ type: "down", t: Date.now(), x, y }); restart();
   }, [send, restart]);
   const move = useCallback((x: number, y: number) => {
     pressMoved.current += Math.hypot(x - last.current.x, y - last.current.y); last.current = { x, y };
     send({ type: "move", t: Date.now(), x, y });
   }, [send]);
-  const up = useCallback((x: number, y: number) => {
-    const tapped = Date.now() - pressAt.current < 300 && pressMoved.current < 12;
-    send({ type: "up", t: Date.now(), x, y }); restart();
+  const up = useCallback((x: number, y: number, cancel: boolean) => {
+    const tapped = !cancel && Date.now() - pressAt.current < 300 && pressMoved.current < 12;
+    send({ type: "up", t: Date.now(), x, y, cancel }); restart();
     if (tapped) onTap?.();   // in a lesson a single tap also opens Dombi's help
   }, [send, restart, onTap]);
   // RNGH registers these callbacks now and invokes them only for later touch
@@ -127,7 +143,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     .runOnJS(true)
     .onBegin((e) => down(e.absoluteX, e.absoluteY))
     .onUpdate((e) => move(e.absoluteX, e.absoluteY))
-    .onFinalize((e) => up(e.absoluteX, e.absoluteY)), [down, move, up]);
+    .onFinalize((e, success) => up(e.absoluteX, e.absoluteY, !success)), [down, move, up]);
   /* eslint-enable react-hooks/refs */
 
   if (reduce) {
@@ -139,7 +155,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   }
   return (
     <GestureDetector gesture={pan}>
-      <Animated.View ref={box} onLayout={measureHome} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi">
+      <Animated.View ref={box} onLayout={measureHome} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
         <Dombi moment={moment} size={size} awake={awake} rigRef={rig} />
       </Animated.View>
     </GestureDetector>

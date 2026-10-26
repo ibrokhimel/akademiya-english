@@ -249,3 +249,13 @@ test('touch: after 22 s alone he sleeps; a tap wakes him', () => {
   const b = run([{ type: 'down', t: 23000, x: 334, y: 660 }, { type: 'up', t: 23080, x: 334, y: 660 }, ...ticks(23100, 24200, 100)], a.s);
   assert.deepEqual(fires(b.fx), ['wake']); assert.equal(b.s.mode, 'idle');
 });
+test('touch: a press that starts while he flies does not pick him up when he lands', () => {
+  const carry = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const thrown = run([...carry, { type: 'move', t: 330, x: 200, y: 500 }, { type: 'move', t: 380, x: 150, y: 450 }, { type: 'up', t: 400, x: 140, y: 440 }]);
+  const later = run([{ type: 'down', t: 420, x: 140, y: 440 }, ...ticks(436, 4000)], thrown.s);
+  assert.ok(!fires(later.fx).includes('hop'));
+});
+test('touch: a cancelled touch is not a tap', () => {
+  const { fx } = run([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'up', t: 80, x: 334, y: 660, cancel: true }]);
+  assert.deepEqual(fires(fx), []);
+});
