@@ -14,7 +14,7 @@ export function touchStart(t = 0) {
   return {
     mode: 'idle', press: null, pokes: 0, lastPoke: -1e9, lastTap: -1e9, lastTrick: -1, lastAct: t,
     shake: { hits: [], sign: 0, dizzyAt: -1e9 }, trail: [], at: {},
-    body: { x: null, y: null, vx: 0, vy: 0, rot: 0, spin: 0, tx: 0, ty: 0, swing: 0, swingV: 0, squish: 0 },
+    body: { x: /** @type {number | null} */ (null), y: /** @type {number | null} */ (null), vx: 0, vy: 0, rot: 0, spin: 0, tx: 0, ty: 0, swing: 0, swingV: 0, squish: 0 },
   };
 }
 

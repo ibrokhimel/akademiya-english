@@ -1,7 +1,7 @@
 import { useIsFocused } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Pressable, View, useWindowDimensions } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { touchReducer, touchStart } from "../../../core/touch.js";
@@ -37,7 +37,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const pending = useRef<{ e: Effect; at: number }[]>([]);
   const awakeRef = useRef(false);
   const home = useRef<{ x: number; y: number } | null>(null);
-  const box = useRef<View>(null);
+  const boxSize = useRef({ w: 0, h: 0 });
   const loop = useRef<{ raf: number; timer: ReturnType<typeof setTimeout> | null; last: number }>({ raf: 0, timer: null, last: 0 });
   const [awake, setAwake] = useState(false);
   const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0);
@@ -118,14 +118,22 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     return () => clearInterval(check);
   }, [awake]);
 
-  const measureHome = () => box.current?.measureInWindow((x, y, w, h) => { if (w) home.current = { x: x + w / 2 - dx.get(), y: y + h - dy.get() }; });
+  // His home spot comes from a touch that lands on him while he sits there: the finger's screen point minus its point inside him.
+  // (Measuring the view on layout read the tab mid-slide, up to a screen width off, so he was drawn away from the finger.)
+  const homeFrom = useCallback((x: number, y: number, lx: number, ly: number) => {
+    const s = current(), { w, h } = boxSize.current;
+    if (!w || !["idle", "asleep"].includes(s.mode) || Math.abs(dx.get()) > 0.5 || Math.abs(dy.get()) > 0.5) return;
+    home.current = { x: x - lx + w / 2, y: y - ly + h };
+    state.current = { ...s, body: { ...s.body, x: home.current.x, y: home.current.y } };
+  }, [dx, dy]);
 
-  const pressAt = useRef(0), pressMoved = useRef(0), last = useRef({ x: 0, y: 0 });
+  const pressAt = useRef(0), pressMoved = useRef(0), last = useRef({ x: 0, y: 0 }), lifted = useRef(false);
   const restart = useCallback(() => { const L = loop.current; if (L.timer) { clearTimeout(L.timer); L.timer = null; } schedule.current(); }, []);
-  const down = useCallback((x: number, y: number) => {
+  const down = useCallback((x: number, y: number, lx: number, ly: number) => {
+    homeFrom(x, y, lx, ly);
     awakeRef.current = true; setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };
     send({ type: "down", t: Date.now(), x, y }); restart();
-  }, [send, restart]);
+  }, [homeFrom, send, restart]);
   const move = useCallback((x: number, y: number) => {
     pressMoved.current += Math.hypot(x - last.current.x, y - last.current.y); last.current = { x, y };
     send({ type: "move", t: Date.now(), x, y });
@@ -141,9 +149,10 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const pan = useMemo(() => Gesture.Pan()
     .minDistance(0)
     .runOnJS(true)
-    .onBegin((e) => down(e.absoluteX, e.absoluteY))
+    .onBegin((e) => { lifted.current = false; down(e.absoluteX, e.absoluteY, e.x, e.y); })
+    .onTouchesUp(() => { lifted.current = true; })
     .onUpdate((e) => move(e.absoluteX, e.absoluteY))
-    .onFinalize((e, success) => up(e.absoluteX, e.absoluteY, !success)), [down, move, up]);
+    .onFinalize((e) => up(e.absoluteX, e.absoluteY, !lifted.current)), [down, move, up]);
   /* eslint-enable react-hooks/refs */
 
   if (reduce) {
@@ -155,7 +164,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   }
   return (
     <GestureDetector gesture={pan}>
-      <Animated.View ref={box} onLayout={measureHome} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
+      <Animated.View onLayout={(e) => { boxSize.current = { w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }; }} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
         <Dombi moment={moment} size={size} awake={awake} rigRef={rig} />
       </Animated.View>
     </GestureDetector>
