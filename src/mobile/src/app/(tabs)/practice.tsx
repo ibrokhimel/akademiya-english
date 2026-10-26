@@ -7,7 +7,6 @@ import { useHomeBack } from "../../lib/navigation";
 import { router } from "expo-router";
 import { MIN, practiceCounts } from "../../../../core/practice.js";
 import { units } from "../../data/content";
-import { showProblem } from "../../lib/problem";
 import { useApp } from "../../lib/store";
 
 // Practice tab: "Practice · Final" (R3rLh, the daily card is dropped) and "Practice · First time (C)" (MpuCW).
@@ -36,7 +35,7 @@ export default function Practice() {
                 accessibilityRole="button"
                 accessibilityState={{ disabled: locked }}
                 disabled={locked}
-                onPress={() => kind === "match" ? void showProblem("not-ready") : router.push(`/activity/${kind}`)}
+                onPress={() => router.push(`/activity/${kind}`)}
                 style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(18), borderWidth: 2, borderColor: ds.line, backgroundColor: locked ? ds.paper : ds.surface }}
               >
                 <View style={{ width: d(52), height: d(52), borderRadius: d(14), backgroundColor: locked ? ds.line : brand.wash, alignItems: "center", justifyContent: "center" }}>

@@ -37,6 +37,8 @@ export type Settings = {
   dombiMeasured?: boolean;
   /** last time the app was opened (ISO), for "glad after a break" */
   lastOpen?: string;
+  /** Match rush: the most pairs found in one minute */
+  matchBest?: number;
 };
 export type Event = {
   client_id: string;

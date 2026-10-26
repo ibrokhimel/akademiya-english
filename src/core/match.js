@@ -5,6 +5,9 @@
 import { shuffle } from './practice.js';
 
 export const MATCH_MS = 60000, BOARD = 4, FLASH_MS = 600;
+/** @typedef {{ pool: { id: string }[], rand: () => number, audio: string[], phrase: string[], matched: string[],
+ *   pick: null | { side: 'audio' | 'phrase', i: number }, flash: null | { audio: number, phrase: number, until: number },
+ *   found: number, combo: number, bestCombo: number, missed: string[], end: number, done: boolean }} MatchState */
 
 function board(pool, last, rand) {
   const fresh = shuffle(pool.filter((p) => !last.includes(p.id)), rand), old = shuffle(pool.filter((p) => last.includes(p.id)), rand);
@@ -12,10 +15,12 @@ function board(pool, last, rand) {
   return { audio: shuffle(ids, rand), phrase: shuffle(ids, rand), matched: [] };
 }
 
+/** @param {{ id: string }[]} pool @param {{ rand?: () => number, now?: number }} [opts] @returns {MatchState} */
 export function matchStart(pool, { rand = Math.random, now = Date.now() } = {}) {
   return { pool, rand, ...board(pool, [], rand), pick: null, flash: null, found: 0, combo: 0, bestCombo: 0, missed: [], end: now + MATCH_MS, done: false };
 }
 
+/** @param {MatchState} s @param {{ type: 'audio' | 'phrase' | 'tick', i?: number, t: number }} ev @returns {MatchState} */
 export function matchReducer(s, ev) {
   if (s.done) return s;
   if (ev.t >= s.end) return { ...s, done: true, pick: null };
