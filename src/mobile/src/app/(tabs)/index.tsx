@@ -91,7 +91,7 @@ export default function Learn() {
             key={icon}
             onPress={() =>
               router.navigate(
-                icon === "flame-streak" ? "/calendar" : "/(tabs)/progress",
+                icon === "flame-streak" ? "/calendar" : "/phrases",
               )
             }
             style={{ position: "absolute", left: d([40,160,280][index]), top: d(26), height: d(28), flexDirection: "row", alignItems: "center", gap: d(7) }}

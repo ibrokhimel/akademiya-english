@@ -34,7 +34,8 @@ export default function TabLayout() {
       }} />}
     >
       <Tabs.Screen name="index" />
-      <Tabs.Screen name="progress" />
+      <Tabs.Screen name="speak" />
+      <Tabs.Screen name="practice" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );

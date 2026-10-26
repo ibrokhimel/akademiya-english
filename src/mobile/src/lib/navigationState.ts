@@ -19,7 +19,7 @@ export function withNavigationParents(state: StackNavigationState<ParamListBase>
   }
   const destination = state.routes[state.index].name;
   const tab = ["settings", "recordings", "device-settings", "account", "feedback", "test-a", "speech-test"].includes(destination)
-    ? "profile" : ["phrases", "practice/[id]", "calendar"].includes(destination) ? "progress" : null;
+    || ["phrases", "practice/[id]", "calendar"].includes(destination) ? "profile" : null;
   // An anchor has no mounted child navigator yet on a cold link. Supply its
   // selected tab explicitly instead of relying on the child's scoped pathname.
   const homeIndex = routes.findIndex(route => route.name === "(tabs)");

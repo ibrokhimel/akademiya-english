@@ -11,7 +11,7 @@ import { useBack } from "../lib/navigation";
 import { useApp } from "../lib/store";
 import { playVoice,voicePlaybackError } from "../lib/voicePlayback";
 export default function Phrases() {
-  const d = useDesignScale(), back = useBack("/(tabs)/progress"), { progress: p, settings, recordings } = useApp(), c = useTheme();
+  const d = useDesignScale(), back = useBack("/(tabs)/profile"), { progress: p, settings, recordings } = useApp(), c = useTheme();
   const groups = units.map(unit => ({ unit, phrases: unit.lessons.filter(l => p.done[l.id]).flatMap(l => l.new || []) })).filter(g => g.phrases.length), [playing, setPlaying] = useState(""), [playError, setPlayError] = useState<{id: string; text: string} | null>(null), playingRef = useRef(""), generation = useRef(0);
   useFocusEffect(useCallback(() => () => { generation.current++; playingRef.current = ""; setPlaying(""); stopAudio(); }, []));
   const listen = async (id: string, own = false) => {

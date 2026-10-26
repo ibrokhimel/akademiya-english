@@ -20,7 +20,7 @@ test('a cold Practice link keeps the phrase ID and supplies its list', () => {
   const result = withNavigationParents(stack([route('(tabs)'), practice]));
   assert.deepEqual(chain(result), ['(tabs)', 'phrases', 'practice/[id]']);
   assert.equal(result.routes[result.index], practice);
-  assert.equal(result.routes[0].state.routes[0].name, 'progress');
+  assert.equal(result.routes[0].state.routes[0].name, 'profile');
 });
 
 test('normal return paths retain mounted tab and screen state', () => {
@@ -50,4 +50,10 @@ test('unauthenticated onboarding never receives protected pages', () => {
 test('normalizing a restored child stack twice does not duplicate its parents', () => {
   const first = withNavigationParents(stack([route('recordings')]));
   assert.equal(withNavigationParents(first), first);
+});
+
+test('a cold calendar link opens under the Me tab', () => {
+  const result = withNavigationParents(stack([route('calendar')]));
+  assert.equal(result.routes[0].name, '(tabs)');
+  assert.equal(result.routes[0].state.routes[0].name, 'profile');
 });

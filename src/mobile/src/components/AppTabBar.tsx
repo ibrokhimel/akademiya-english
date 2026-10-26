@@ -8,8 +8,8 @@ import { scheduleOnRN } from "react-native-worklets";
 import { spring } from "./Motion";
 import { Icon,Txt,useTheme,violet } from "./ui";
 
-const labels = ["O'rganish", "Natijalar", "Profil"];
-const icons = ["tab-home", "tab-progress", "tab-profile"];
+const labels = ["O'rganish", "Gapirish", "Mashq", "Men"];
+const icons = ["tab-home", "studio-mic", "tab-practice", "tab-profile"];
 const SQUARE_W = 60, SQUARE_H = 46, LIFT = 6;
 
 // One highlight square rides over the row. Its place is one number, `position`:

@@ -9,7 +9,7 @@ import { useBack } from "../lib/navigation";
 import { frozenDays,MONTHS } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 export default function Calendar() {
-  const d = useDesignScale(), back = useBack("/(tabs)/progress"), app = useApp(), c = useTheme(), { events, progress: p } = app, now = app.now();
+  const d = useDesignScale(), back = useBack("/(tabs)/profile"), app = useApp(), c = useTheme(), { events, progress: p } = app, now = app.now();
   const [month, setMonth] = useState(() => new Date(now.getFullYear(), now.getMonth(), 1));
   const today = dayOf(now), days = new Set(events.filter(e => e.type === "lesson").map(e => dayOf(e.at))), freezes = frozenDays(events), count = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate(), monthKey = dayOf(month).slice(0, 7), key = (n: number) => dayOf(new Date(month.getFullYear(), month.getMonth(), n));
   const practiced = [...days].filter(day => day.startsWith(monthKey)).length, frozen = [...freezes].filter(day => day.startsWith(monthKey)).length, streak = p.streak.count, goal = Math.max(7, Math.ceil((streak + (streak % 7 === 0 && streak ? 1 : 0)) / 7) * 7), left = goal - streak, first = [...days, ...freezes].sort()[0];

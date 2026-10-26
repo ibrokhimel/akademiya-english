@@ -21,7 +21,7 @@ import { Player } from "../screens/LessonScreen";
 import PracticeScreen from "../screens/PracticeScreen";
 import Learn from "./(tabs)/index";
 import Profile from "./(tabs)/profile";
-import Progress from "./(tabs)/progress";
+import Progress from "../screens/ProgressScreen";
 import Account from "./account";
 import Calendar from "./calendar";
 import Confidence from "./confidence";
