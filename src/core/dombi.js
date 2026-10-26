@@ -49,6 +49,7 @@ export const levelForFps = (fps) => (fps >= 50 ? 'full' : fps >= 30 ? 'light' : 
 
 // lessMotion: undefined = follow the measured level; true = still; false on a phone measured as Still = Light
 // (the owner let learners turn the switch off there, round 4). Reduce Motion always means Still.
+/** @param {{ measured?: string, lessMotion?: boolean, reduceMotion?: boolean }} [opts] */
 export function levelFrom({ measured = 'full', lessMotion, reduceMotion } = {}) {
   if (reduceMotion || lessMotion === true) return 'still';
   if (lessMotion === false && measured === 'still') return 'light';

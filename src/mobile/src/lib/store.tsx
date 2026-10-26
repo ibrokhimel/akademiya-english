@@ -29,6 +29,12 @@ export type Settings = {
   needAccount: boolean;
   confidence: number;
   joined: string;
+  /** unset: follow the measured level; true: still pictures; false: animate even on a phone measured as Still */
+  lessMotion?: boolean;
+  /** measured during onboarding: how smoothly this phone draws Dombi */
+  dombiLevel: "full" | "light" | "still";
+  /** last time the app was opened (ISO), for "glad after a break" */
+  lastOpen?: string;
 };
 export type Event = {
   client_id: string;
@@ -74,6 +80,7 @@ const defaults: Settings = {
   needAccount: false,
   confidence: 3,
   joined: "",
+  dombiLevel: "full",
 };
 
 function useStore() {

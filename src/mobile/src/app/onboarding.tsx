@@ -6,6 +6,7 @@ import { BackHandler,Pressable,ScrollView,useWindowDimensions,View } from "react
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Actor } from "../components/Actor";
+import { useMeasureDombiLevel } from "../lib/dombiLevel";
 import { RaisedPressable } from "../components/RaisedPressable";
 import { ScreenTransition } from "../components/ScreenTransition";
 import { TimeWheel } from "../components/TimeWheel";
@@ -26,6 +27,7 @@ import { useSpeech } from "../lib/useSpeech";
 import { getVisualAudit } from "../lib/visualAudit";
 
 export default function Onboarding() {
+  useMeasureDombiLevel(true);
   const app = useApp(),
     c = useTheme(),
     speech = useSpeech(),

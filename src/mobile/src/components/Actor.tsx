@@ -30,11 +30,18 @@ export function Actor({
   size = 155,
   mood = "smirk",
   gesture = "none",
+  trigger,
+  talking,
+  listening,
 }: {
   who?: string;
   size?: number;
   mood?: string;
   gesture?: string;
+  /** fired once when the moment starts: correct, wrong or celebrate */
+  trigger?: string;
+  talking?: boolean;
+  listening?: boolean;
 }) {
   const file = useContext(FileContext);
   return (
@@ -53,7 +60,7 @@ export function Actor({
               : { flex: 1 }
           }
         >
-          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} />
+          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} />
         </View>
       ) : null}
     </View>
@@ -64,11 +71,17 @@ function LoadedActor({
   who,
   mood,
   gesture,
+  trigger,
+  talking,
+  listening,
 }: {
   file: RiveFile;
   who: string;
   mood: string;
   gesture: string;
+  trigger?: string;
+  talking?: boolean;
+  listening?: boolean;
 }) {
   const { settings } = useApp(),
     reduce = useReducedMotion();
@@ -92,6 +105,9 @@ function LoadedActor({
     if (who === "dombi") {
       instance.enumProperty("mood")?.set(mood);
       if (!reduce) instance.enumProperty("gesture")?.set(gesture);
+      if (talking !== undefined) instance.booleanProperty("talking")?.set(talking);
+      if (listening !== undefined) instance.booleanProperty("listening")?.set(listening);
+      if (trigger && !reduce) instance.triggerProperty(trigger)?.trigger();
     }
     return watchMotion((event) => {
       if (event.who !== who) return;
@@ -103,7 +119,7 @@ function LoadedActor({
         instance.numberProperty("amp")?.set(event.amp ?? 0);
       }
     });
-  }, [instance, who, mood, gesture, settings.dark, reduce]);
+  }, [instance, who, mood, gesture, trigger, talking, listening, settings.dark, reduce]);
   return instance ? (
     <RiveView
       file={file}
