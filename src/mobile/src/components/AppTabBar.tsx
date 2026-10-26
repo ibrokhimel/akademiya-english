@@ -10,7 +10,7 @@ import { Icon,Txt,useTheme,violet } from "./ui";
 
 const labels = ["O'rganish", "Natijalar", "Profil"];
 const icons = ["tab-home", "tab-progress", "tab-profile"];
-const SQUARE_W = 52, SQUARE_H = 40, LIFT = 6;
+const SQUARE_W = 60, SQUARE_H = 46, LIFT = 6;
 
 // One highlight square rides over the row. Its place is one number, `position`:
 // 0, 1, 2 sit on a tab, fractions sit between tabs. Tapping a tab springs it over;
@@ -101,7 +101,7 @@ function TabItem({ index, label, icon, position, scale, shown, selected, onPress
   return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} onPress={onPress} style={{ flex: 1, alignItems: "center" }}>
     <Animated.View style={[{ alignItems: "center" }, lift]}>
       <View style={{ height: SQUARE_H * scale, justifyContent: "center", opacity: shown ? 1 : 0.5 }}>
-        <Icon name={icon} size={28 * scale} />
+        <Icon name={icon} size={30 * scale} />
       </View>
       <Txt numberOfLines={1} style={{ marginTop: (LIFT + 4) * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: violet, opacity: shown ? 1 : 0 }}>{label}</Txt>
     </Animated.View>
