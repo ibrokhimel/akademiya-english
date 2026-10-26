@@ -70,7 +70,7 @@ https://claude.ai/artifact/52VkvTsYffsxPogHNufvjx.
 |---|---|
 | **Learn** | Next-lesson hero card (built 2026-10-23), the lesson path, unit checkpoints. |
 | **Speak** | Live voice conversation with Dombi, like ChatGPT's voice mode (owner, 2026-10-23, as planned in `docs/blueprint/chapters-ai.js` and `companion-pet.md`): free conversation on any topic, guided conversation, and role-play situations (café, street, shop; the scripted "Talk to a character" is the offline first version of role-play). Which one did you hear? stays as a smaller entry. |
-| **Practice** | Daily challenge; Match rush; Catch the sentence; Overheard; Fix it. |
+| **Practice** | Match rush; Catch the sentence; Overheard; Fix it. |
 | **Me** | Today's Progress and Profile merged: streak and week, things I can say, achievements, recordings, settings. |
 
 (The four-tab set and the merged Me tab were proposed by Claude; the owner accepted them.)
@@ -83,7 +83,7 @@ https://claude.ai/artifact/52VkvTsYffsxPogHNufvjx.
    accepted answers). Tiles are the fallback when speaking is off or fails.
 2. **Which one did you hear?** (Speak). Pairs of sounds that are hard for Uzbek speakers (v/w, ship/sheep,
    fifteen/fifty, th/t). Hear one, tap which; then optionally say both.
-3. **Daily challenge** (Practice). Three mixed tasks, about 2 minutes, a new set each day, drawn from what the
+3. ~~**Daily challenge**~~ (dropped by the owner, 2026-10-23). Three mixed tasks, about 2 minutes, a new set each day, drawn from what the
    learner has already learned.
 4. **Match rush** (Practice). Match English and Uzbek (or picture) pairs against the clock.
 5. **Catch the sentence** (Practice). Hear a sentence, tap its words in order (the existing tile mechanics).
@@ -107,9 +107,9 @@ Word rain, Memory flip, Spell it (need new content), The Scene (its own project)
 
 ### What keeps the streak
 
-- Finishing a lesson or the day's **Daily challenge** keeps the streak alive. Other activities are extra practice and
-  do not count toward the streak (owner decision). The streak logic in `core/progress.js` and the Me tab must reflect
-  this.
+- Finishing a lesson keeps the streak alive. Other activities are extra practice and do not count toward the streak
+  (owner decision). The Daily challenge was dropped in round 2 (owner, 2026-10-23), so it no longer counts. The streak
+  logic in `core/progress.js` and the Me tab must reflect this.
 
 ### Dombi adapts to the phone
 
@@ -160,7 +160,7 @@ These were settled without the owner; the owner can overturn any of them.
 ## Left to the builder
 
 - How activities store progress (extend the existing event list in `lib/storage.ts`, following its pattern).
-- How the Daily challenge picks tasks, and how often a sound pair or match set repeats.
+- How often a sound pair or match set repeats.
 - The exact frame-rate thresholds for the three Dombi levels, and how long the onboarding measurement runs, as long
   as it is invisible to the learner and adds no waiting.
 - The still images of Dombi's poses (exported from the Rive rig or drawn in Pencil).
