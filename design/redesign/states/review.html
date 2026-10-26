@@ -1,0 +1,206 @@
+<title>Remaining States Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap">
+<style>
+/* Layout: one column; each tab is a band with its three versions side by side, a pick row and a notes box under them. */
+:root {
+  --bg: #F4F5F7; --surface: #FFFFFF; --ink: #14161B; --muted: #6B6F7B; --line: #E6E7EB;
+  --main: #7B5CFF; --main-lip: #5A3FD9; --wash: #EFEBFF; --on-main: #FFFFFF;
+  --good: #13813F; --good-wash: #E3F6EA; --amber: #A35F00; --amber-wash: #FFF1DC;
+  --font: "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #121318; --surface: #1B1C22; --ink: #F4F4F6; --muted: #A3A5B2; --line: #2E2F37; --wash: #26214A; --good: #5BD98E; --good-wash: #14321F; --amber: #FFC266; --amber-wash: #33240F; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-weight: 700; font-size: 16px; line-height: 1.45; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { margin: 0; font-weight: 900; text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 28px; }
+h3 { font-size: 18px; }
+p { margin: 0; max-width: 70ch; color: var(--muted); }
+.label { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--main); }
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 70px; }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 2px solid var(--line); overflow-x: auto; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; white-space: nowrap; align-items: center; }
+nav a { display: block; padding: 6px 14px; border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 900; }
+nav a .pick { color: var(--main); }
+nav a:focus-visible, nav a:hover { outline: 2px solid var(--main); }
+.status { font-size: 14px; color: var(--muted); }
+.status.warn { color: var(--amber); }
+.options { display: flex; flex-direction: column; gap: 18px; }
+.shot { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); }
+.opt .shot img, .shot img { height: 520px; width: auto; max-width: none; display: block; border: 0; border-radius: 0; }
+@media (max-width: 760px) { .opt .shot img, .shot img { height: 380px; } }
+.verdict { display: flex; gap: 8px; }
+.verdict button { padding: 8px 16px; background: var(--bg); color: var(--ink); border: 2px solid var(--line); }
+.verdict button.on.ok { background: var(--good); border-color: var(--good); color: var(--on-main); }
+.verdict button.on.change { background: var(--amber); border-color: var(--amber); color: var(--on-main); }
+.opt { background: var(--surface); border: 3px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.opt.chosen { border-color: var(--main); background: var(--wash); }
+.opt img { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.opt .tag { font-size: 20px; font-weight: 900; color: var(--main); }
+.opt p { font-size: 15px; }
+button { font: inherit; font-weight: 900; cursor: pointer; border-radius: 14px; border: 0; }
+.choose { margin-top: auto; padding: 12px; background: var(--main); color: var(--on-main); box-shadow: 0 4px 0 var(--main-lip); letter-spacing: .04em; }
+.choose:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--main-lip); }
+.opt.chosen .choose { background: var(--surface); color: var(--main); box-shadow: 0 4px 0 var(--line); }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--main); outline-offset: 2px; }
+.notes { display: flex; flex-direction: column; gap: 8px; }
+textarea, input[type=text] { font: inherit; font-weight: 700; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px; width: 100%; }
+textarea { min-height: 84px; resize: vertical; }
+.extra { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px; }
+.extra figure { margin: 0; flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; }
+.extra img { width: 100%; border-radius: 14px; border: 1px solid var(--line); }
+figcaption { font-size: 14px; color: var(--muted); }
+.lines { display: flex; flex-direction: column; gap: 8px; }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+.line.ok { border-color: var(--good); background: var(--good-wash); }
+.line.change { border-color: var(--amber); background: var(--amber-wash); }
+.line .text { min-width: 0; overflow-wrap: anywhere; }
+.line .btns { display: flex; gap: 6px; }
+.line .btns button { padding: 6px 12px; background: var(--bg); color: var(--ink); border: 2px solid var(--line); }
+.line.ok .btns .b-ok { background: var(--good); color: var(--on-main); border-color: var(--good); }
+.line.change .btns .b-change { background: var(--amber); color: var(--on-main); border-color: var(--amber); }
+.line input { grid-column: 1 / -1; }
+.line input[hidden] { display: none; }
+@media (max-width: 760px) { .options { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; } }
+.mrow .text b { color: var(--ink); }
+.mrow .meta { display: block; font-size: 14px; color: var(--muted); }
+.mrow .still { color: var(--main); }
+.mrow .anim { color: var(--good); }
+.pair { display: flex; }
+.opt .text-only { font-size: 18px; color: var(--ink); }
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <span class="label">Akademiya English · redesign round 4 · 26 October 2026</span>
+    <h1>The remaining states</h1>
+    <p>The last design round: first time in dark, an empty list, loading, no internet, errors and the fallback pages. Most screens are your own locked ones (31a–31e, 31d, 29, 30). They keep your wording and buttons; only Dombi has his current faces now. The lesson result needs nothing: you chose it on 13 October (screen 18) and it already has Dombi celebrating.</p>
+    <p>Pick one layout for the Catch end screen, answer the two questions, mark each set of screens OK or Change, and check the new Uzbek lines. Everything saves as you go.</p>
+    <p class="status" id="status">Connecting…</p>
+  </header>
+
+  <nav aria-label="Sections"><ul id="nav"></ul></nav>
+  <div id="picks" style="display:flex;flex-direction:column;gap:56px"></div>
+  <div id="acts" style="display:flex;flex-direction:column;gap:56px"></div>
+
+  <section id="copy">
+    <span class="label">Check</span><h2>New Uzbek lines</h2>
+    <p>Mark each line OK, or Change and type the better version.</p>
+    <div class="lines" id="lines"></div>
+  </section>
+
+  <section id="general">
+    <span class="label">Anything else</span><h2>General notes</h2>
+    <div class="notes">
+      <textarea id="general-note" aria-label="General notes" placeholder="Anything about these screens"></textarea>
+      <span class="status" id="general-status"></span>
+    </div>
+  </section>
+</div>
+
+<script>
+const PICKS = [
+  { key: "catchend", name: "Catch end screen", short: "Catch end", intro: "The middle has been empty since the score card and list were removed. Same content in each version, nothing added. Dark versions are under the activities further down.", options: [
+    ["Current", ["catch-end-current.png"], "Keep it as it is", "Result at the top, Dombi in the corner."],
+    ["A", ["catch-end-a.png"], "Dombi under the result", "Dombi moves from the corner to right under the result line."],
+    ["B", ["catch-end-b.png"], "Centred, Dombi above", "Dombi and the result sit in the middle of the screen, like the lesson result."]] },
+  { key: "gladnight", name: "\"Back after a break\" and \"late at night\" at the same time", short: "Break or night", intro: "Both can happen when someone opens the Learn tab late at night after days away. Which Dombi shows?", options: [
+    ["Glad", [], "Glad wins", "He waves, happy to see you back. Sleepy waits for the next late-night open."],
+    ["Sleepy", [], "Late at night wins", "He is sleepy, as at any late hour."]] },
+  { key: "stillswitch", name: "\"Kamroq harakat\" on a phone measured as weak", short: "Weak phone", intro: "If the phone is measured as only able to show still pictures, the switch is on. Can the learner turn it off?", options: [
+    ["Locked", [], "On and locked", "Like Reduce Motion: faded, it can't be turned off."],
+    ["Free", [], "On, can be changed", "The learner can turn it off and get animation, even if it runs slowly."]] },
+];
+const ACTS = [
+  ["inventory", "State inventory", ["inventory.png"], "Every state the new app can reach, where it appears and where it comes from. Lessons work without internet; only the live conversations need it."],
+  ["firsttime", "First time · dark", ["first-time-dark.png"], "Dark versions of the four first-time tabs (the light ones were done in round 1)."],
+  ["empty", "Empty voice recordings", ["empty.png"], "The recordings screen with nothing saved yet: Dombi and one line, light and dark."],
+  ["problems", "Loading, no internet, errors, fallback, feedback", ["problems.png", "problems-dark.png"], "Learn loading; 31a no internet on Speak (its text now says conversations need internet, since lessons work offline); waiting for Dombi's reply; internet lost during a call (what was said stays); 31b, 31e, 31d A and B, 29 and 30 with Dombi's current faces. 31d keeps your own art. If two problems happen at once, no internet is shown first."],
+  ["catchdark", "Catch end · dark", ["catch-end-dark.png"], "The three Catch end layouts in dark."],
+];
+const LINES = ["Hali yozuv yo'q. Darsda gapirsangiz, shu yerda saqlanadi.", "Suhbat uchun internet kerak. Ulanish qaytishi bilan avtomatik davom etamiz.", "Dombi o'ylayapti…", "Internet yo'q. Qaytishi bilan davom etamiz.", "Internet yo'q — suhbat saqlanadi"];
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v); } for (const k of kids) n.append(k); return n; };
+
+const state = { picks: {}, acts: {}, lines: {} };
+let db = null, canWrite = true;
+const queues = {};
+function write(path, body, statusEl) {
+  if (!db || !canWrite) return;
+  const prev = queues[path] || Promise.resolve();
+  queues[path] = prev.then(() => db.doc(path).set({ ...body, at: new Date().toISOString() }))
+    .then(() => { if (statusEl) statusEl.textContent = "Saved"; })
+    .catch((e) => { if (e && e.code === "invalid_argument") { canWrite = false; setStatus("You can look, but this view can't save. Tell Claude your picks in chat.", true); } else if (statusEl) statusEl.textContent = "Not saved, try again"; });
+}
+function setStatus(t, warn) { const s = $("#status"); s.textContent = t; s.classList.toggle("warn", !!warn); }
+const noteBox = (id, label, onSave) => { const st = el("span", { class: "status" }); const ta = el("textarea", { id, "aria-label": label, placeholder: "What to change" }); let t; ta.addEventListener("input", () => { clearTimeout(t); st.textContent = "…"; t = setTimeout(() => onSave(ta.value, st), 800); }); return el("div", { class: "notes" }, el("label", { for: id, class: "label" }, label), ta, st); };
+const shots = (imgs, alt) => imgs.length ? el("div", { class: "shot" }, el("div", { class: "pair" }, ...imgs.map((src) => el("img", { src, alt, loading: "lazy" })))) : "";
+
+function renderNav() {
+  const ul = $("#nav"); ul.textContent = "";
+  for (const p of PICKS) { const o = state.picks[p.key]?.option; ul.append(el("li", {}, el("a", { href: "#" + p.key }, p.short + (o ? " · " : ""), o ? el("span", { class: "pick" }, o) : ""))); }
+  for (const [key, name] of ACTS) ul.append(el("li", {}, el("a", { href: "#" + key }, name)));
+  ul.append(el("li", {}, el("a", { href: "#copy" }, "Uzbek lines")), el("li", {}, el("a", { href: "#general" }, "Notes")));
+}
+function renderPicks() {
+  const host = $("#picks");
+  for (const p of PICKS) {
+    const sec = el("section", { id: p.key }, el("span", { class: "label" }, "Choose one"), el("h2", {}, p.name), el("p", {}, p.intro));
+    const list = el("div", { class: "options" });
+    for (const [tag, imgs, title, desc] of p.options) list.append(el("div", { class: "opt", "data-tab": p.key, "data-opt": tag },
+      el("span", { class: "tag" }, (tag.length <= 1 ? tag + " · " : "") + title), shots(imgs, p.short + ": " + title),
+      el("p", { class: imgs.length ? "" : "text-only" }, desc), el("button", { class: "choose", type: "button", onclick: () => choose(p.key, tag) }, "CHOOSE")));
+    sec.append(list, noteBox("note-" + p.key, "Notes for " + p.short, (v, st) => { const option = state.picks[p.key]?.option || ""; state.picks[p.key] = { option, note: v }; write("picks/" + p.key, { option, note: v }, st); }));
+    host.append(sec);
+  }
+}
+function choose(key, opt) { const note = state.picks[key]?.note || ""; state.picks[key] = { option: opt, note }; paint(); write("picks/" + key, { option: opt, note }); }
+function renderActs() {
+  const host = $("#acts");
+  for (const [key, name, imgs, desc] of ACTS) {
+    const sec = el("section", { id: key }, el("span", { class: "label" }, "OK or Change"), el("h2", {}, name), el("p", {}, desc), shots(imgs, name),
+      el("div", { class: "verdict" }, el("button", { type: "button", class: "ok", "data-k": key, onclick: () => verdict(key, "ok") }, "OK"), el("button", { type: "button", class: "change", "data-k": key, onclick: () => verdict(key, "change") }, "Change")),
+      noteBox("act-" + key, "Notes for " + name, (v, st) => { state.acts[key] = { status: state.acts[key]?.status || "", note: v }; write("acts/" + key, state.acts[key], st); }));
+    host.append(sec);
+  }
+}
+function verdict(key, s) { const cur = state.acts[key] || {}; state.acts[key] = { status: cur.status === s ? "" : s, note: cur.note || "" }; paint(); write("acts/" + key, state.acts[key]); }
+function paint() {
+  for (const card of document.querySelectorAll(".opt")) { const on = state.picks[card.dataset.tab]?.option === card.dataset.opt; card.classList.toggle("chosen", on); card.querySelector(".choose").textContent = on ? "CHOSEN" : "CHOOSE"; }
+  for (const p of PICKS) { const ta = $("#note-" + p.key); if (ta && document.activeElement !== ta) ta.value = state.picks[p.key]?.note || ""; }
+  for (const b of document.querySelectorAll(".verdict button")) b.classList.toggle("on", state.acts[b.dataset.k]?.status === (b.classList.contains("ok") ? "ok" : "change"));
+  for (const [key] of ACTS) { const ta = $("#act-" + key); if (ta && document.activeElement !== ta) ta.value = state.acts[key]?.note || ""; }
+  renderNav();
+}
+function renderLines() {
+  const host = $("#lines");
+  LINES.forEach((line, i) => {
+    const input = el("input", { type: "text", "aria-label": "Better version of: " + line, placeholder: "Better version", hidden: true });
+    host.append(el("div", { class: "line", "data-i": i }, el("span", { class: "text" }, line),
+      el("div", { class: "btns" }, el("button", { type: "button", class: "b-ok", onclick: () => mark(i, "ok") }, "OK"), el("button", { type: "button", class: "b-change", onclick: () => mark(i, "change") }, "Change")), input));
+    let t; input.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { state.lines[i] = { line, status: "change", better: input.value }; saveLines(); }, 800); });
+  });
+}
+function mark(i, status) { const cur = state.lines[i]; state.lines[i] = { line: LINES[i], status: cur?.status === status ? "" : status, better: cur?.better || "" }; paintLines(); saveLines(); if (state.lines[i].status === "change") $('.line[data-i="' + i + '"] input').focus(); }
+function saveLines() { write("copy/lines", { items: state.lines }); }
+function paintLines() { for (const row of document.querySelectorAll(".line")) { const s = state.lines[row.dataset.i] || {}; row.classList.toggle("ok", s.status === "ok"); row.classList.toggle("change", s.status === "change"); const input = row.querySelector("input"); input.hidden = s.status !== "change"; if (document.activeElement !== input) input.value = s.better || ""; } }
+
+renderPicks(); renderActs(); renderLines(); renderNav();
+const g = $("#general-note"); let gTimer;
+g.addEventListener("input", () => { clearTimeout(gTimer); $("#general-status").textContent = "…"; gTimer = setTimeout(() => write("notes/general", { text: g.value }, $("#general-status")), 800); });
+
+(async () => {
+  try { db = await claude.use("db"); } catch { db = null; }
+  if (!db) { setStatus("Saving isn't available in this view. Tell Claude your picks in chat.", true); return; }
+  setStatus("Your answers save automatically.");
+  for (const p of PICKS) db.doc("picks/" + p.key).onSnapshot((s) => { if (s.exists) { state.picks[p.key] = s.data(); paint(); } }, () => {});
+  for (const [key] of ACTS) db.doc("acts/" + key).onSnapshot((s) => { if (s.exists) { state.acts[key] = s.data(); paint(); } }, () => {});
+  db.doc("copy/lines").onSnapshot((s) => { if (s.exists) { state.lines = { ...(s.data().items || {}) }; paintLines(); } }, () => {});
+  db.doc("notes/general").onSnapshot((s) => { if (s.exists && document.activeElement !== g) g.value = s.data().text || ""; }, () => {});
+})();
+</script>
