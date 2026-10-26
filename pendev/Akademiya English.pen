@@ -276478,6 +276478,286 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "OHwbf",
+          "name": "App exports",
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "SlDdI",
+              "name": "Light",
+              "gap": 20,
+              "children": [
+                {
+                  "id": "HxMRi",
+                  "type": "ref",
+                  "ref": "ke2Ag",
+                  "name": "80-default"
+                },
+                {
+                  "id": "T4zC4s",
+                  "type": "ref",
+                  "ref": "QGIWk",
+                  "name": "48-talk"
+                },
+                {
+                  "id": "CRA6y",
+                  "type": "ref",
+                  "ref": "o4yqv",
+                  "name": "80-wave"
+                },
+                {
+                  "id": "Asp18",
+                  "type": "ref",
+                  "ref": "be9vQ",
+                  "name": "80-sleepy"
+                },
+                {
+                  "id": "X8I5N",
+                  "type": "ref",
+                  "ref": "No1S1",
+                  "name": "150-wave"
+                },
+                {
+                  "id": "ttS3V",
+                  "type": "ref",
+                  "ref": "MleU1",
+                  "name": "150-point"
+                },
+                {
+                  "id": "COt2Y",
+                  "type": "ref",
+                  "ref": "AeA4n",
+                  "name": "80-listen"
+                },
+                {
+                  "id": "shMGc",
+                  "type": "ref",
+                  "ref": "HexsW",
+                  "name": "80-talk"
+                },
+                {
+                  "id": "KehNA",
+                  "type": "ref",
+                  "ref": "r0AKE8",
+                  "name": "48-laugh"
+                },
+                {
+                  "id": "I9XznU",
+                  "type": "ref",
+                  "ref": "gQiwb",
+                  "name": "48-oops"
+                },
+                {
+                  "id": "spgjm",
+                  "type": "ref",
+                  "ref": "a9Evh",
+                  "name": "48-default"
+                },
+                {
+                  "id": "T407Aa",
+                  "type": "ref",
+                  "ref": "ATRo8",
+                  "name": "150-thinking"
+                },
+                {
+                  "id": "CZ1V6",
+                  "type": "ref",
+                  "ref": "RsI0U",
+                  "name": "150-celebrate"
+                },
+                {
+                  "id": "D75Dk9",
+                  "type": "ref",
+                  "ref": "Mqypi",
+                  "name": "150-proud"
+                },
+                {
+                  "id": "pvzqL",
+                  "type": "ref",
+                  "ref": "HCZ5a",
+                  "name": "80-happy"
+                },
+                {
+                  "id": "spcTy",
+                  "type": "ref",
+                  "ref": "yFC3A",
+                  "name": "150-talk"
+                },
+                {
+                  "id": "I7Lwh",
+                  "type": "ref",
+                  "ref": "nTIvj",
+                  "name": "150-listen"
+                },
+                {
+                  "id": "bM5w4",
+                  "type": "ref",
+                  "ref": "E7SJZa",
+                  "name": "80-confused"
+                },
+                {
+                  "id": "F0Hv4",
+                  "type": "ref",
+                  "ref": "k1GkNs",
+                  "name": "80-think"
+                },
+                {
+                  "id": "T3QUe",
+                  "type": "ref",
+                  "ref": "P3bo4A",
+                  "name": "150-happy"
+                },
+                {
+                  "id": "kx8cF",
+                  "type": "ref",
+                  "ref": "elE0K",
+                  "name": "150-confused"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VGeyJ",
+              "name": "Dark",
+              "theme": {
+                "mode": "dark"
+              },
+              "gap": 20,
+              "children": [
+                {
+                  "id": "ICLOx",
+                  "type": "ref",
+                  "ref": "ke2Ag",
+                  "name": "80-default-dark"
+                },
+                {
+                  "id": "VZc6c",
+                  "type": "ref",
+                  "ref": "QGIWk",
+                  "name": "48-talk-dark"
+                },
+                {
+                  "id": "tUTU0",
+                  "type": "ref",
+                  "ref": "o4yqv",
+                  "name": "80-wave-dark"
+                },
+                {
+                  "id": "nPPlR",
+                  "type": "ref",
+                  "ref": "be9vQ",
+                  "name": "80-sleepy-dark"
+                },
+                {
+                  "id": "kpzax",
+                  "type": "ref",
+                  "ref": "No1S1",
+                  "name": "150-wave-dark"
+                },
+                {
+                  "id": "ajV5k",
+                  "type": "ref",
+                  "ref": "MleU1",
+                  "name": "150-point-dark"
+                },
+                {
+                  "id": "rd2FQ",
+                  "type": "ref",
+                  "ref": "AeA4n",
+                  "name": "80-listen-dark"
+                },
+                {
+                  "id": "MIslt",
+                  "type": "ref",
+                  "ref": "HexsW",
+                  "name": "80-talk-dark"
+                },
+                {
+                  "id": "y2Vdl",
+                  "type": "ref",
+                  "ref": "r0AKE8",
+                  "name": "48-laugh-dark"
+                },
+                {
+                  "id": "kV1pv",
+                  "type": "ref",
+                  "ref": "gQiwb",
+                  "name": "48-oops-dark"
+                },
+                {
+                  "id": "DsJhv",
+                  "type": "ref",
+                  "ref": "a9Evh",
+                  "name": "48-default-dark"
+                },
+                {
+                  "id": "O40TPa",
+                  "type": "ref",
+                  "ref": "ATRo8",
+                  "name": "150-thinking-dark"
+                },
+                {
+                  "id": "UEBm9",
+                  "type": "ref",
+                  "ref": "RsI0U",
+                  "name": "150-celebrate-dark"
+                },
+                {
+                  "id": "bGWM6",
+                  "type": "ref",
+                  "ref": "Mqypi",
+                  "name": "150-proud-dark"
+                },
+                {
+                  "id": "cV1HH",
+                  "type": "ref",
+                  "ref": "HCZ5a",
+                  "name": "80-happy-dark"
+                },
+                {
+                  "id": "X9Vr9",
+                  "type": "ref",
+                  "ref": "yFC3A",
+                  "name": "150-talk-dark"
+                },
+                {
+                  "id": "yMVmd",
+                  "type": "ref",
+                  "ref": "nTIvj",
+                  "name": "150-listen-dark"
+                },
+                {
+                  "id": "sGgO0",
+                  "type": "ref",
+                  "ref": "E7SJZa",
+                  "name": "80-confused-dark"
+                },
+                {
+                  "id": "CdZAC",
+                  "type": "ref",
+                  "ref": "k1GkNs",
+                  "name": "80-think-dark"
+                },
+                {
+                  "id": "XKAiH",
+                  "type": "ref",
+                  "ref": "P3bo4A",
+                  "name": "150-happy-dark"
+                },
+                {
+                  "id": "lSkss",
+                  "type": "ref",
+                  "ref": "elE0K",
+                  "name": "150-confused-dark"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
