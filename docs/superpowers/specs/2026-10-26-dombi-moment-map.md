@@ -35,3 +35,5 @@ Rules: sleepy shows only on the Learn tab late at night. After a miss Dombi is n
 Setting (owner pick, round 3): one switch "Kamroq harakat" in Settings → Umumiy; on means Still. With Reduce Motion on, the switch is on and shows "Telefoningizda harakat kamaytirilgan."
 
 After the final review (2026-10-26): Correct uses 48 / laugh (48 / happy could not be told from the idle face at that size); "Explaining or reading a phrase" added from motion-plan §5; with Reduce Motion on, the switch is shown on and faded (locked).
+
+Round 4 (owner): when "glad after a break" and "late at night" happen together, glad wins. On a phone measured as Still, "Kamroq harakat" is on but can be turned off; only Reduce Motion locks it.

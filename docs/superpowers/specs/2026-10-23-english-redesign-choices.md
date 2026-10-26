@@ -70,3 +70,29 @@ Read from the review page (https://claude.ai/artifact/7rmv7ktyiAjDRMkjP2ppkh) on
 | Setting in dark | not marked |
 
 Uzbek lines ("Kamroq harakat", "Telefoningizda harakat kamaytirilgan."): not checked yet.
+
+# Round 4: remaining states
+
+Read from the owner's capture of the review page (local copy, 2026-10-26; the published page https://claude.ai/artifact/W1VtkvYKhPpyzV4b6U6iEE had nothing saved).
+
+| Choice | Pick |
+|---|---|
+| Catch end screen | **B**: centred, Dombi above the result (applied to C4 · End and its dark copy). Current and A set aside. |
+| "Back after a break" and "late at night" together | **Glad wins** (he waves; sleepy waits for the next late-night open) |
+| "Kamroq harakat" on a phone measured as weak | **Free**: on, but the learner can turn it off (unlike Reduce Motion, which stays locked) |
+
+| Item | Verdict |
+|---|---|
+| State inventory | not marked |
+| First time · dark | OK |
+| Empty voice recordings | OK |
+| Loading, no internet, errors, fallback, feedback | OK |
+| Catch end · dark | OK |
+
+| Uzbek line | Verdict |
+|---|---|
+| Hali yozuv yo'q. Darsda gapirsangiz, shu yerda saqlanadi. | Change (no better version given) |
+| Suhbat uchun internet kerak. Ulanish qaytishi bilan avtomatik davom etamiz. | Change (no better version given) |
+| Dombi o'ylayapti… | Change → "O'ylayapman…" (applied) |
+| Internet yo'q. Qaytishi bilan davom etamiz. | OK |
+| Internet yo'q — suhbat saqlanadi | OK |
