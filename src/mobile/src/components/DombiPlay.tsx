@@ -38,7 +38,7 @@ function buzz(pattern: number | number[]) {
  * let go at a side edge he hides and peeks back in.
  * Reduce Motion: no touch play; a tap still does onTap.
  */
-export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => void) | null> }) {
+export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef, onPop }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => void) | null>; /** a high-five landed: the screen shows its pop */ onPop?: () => void }) {
   const reduce = useReducedMotion();
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
@@ -56,8 +56,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   const asleepRef = useRef(false);
   const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0), shown = useSharedValue(1), wasHeld = useRef(false);
   const style = useAnimatedStyle(() => ({ opacity: shown.value, transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }, { scale }], transformOrigin: "50% 100%" }));
-  const dropTo = useRef(onDrop);
-  useEffect(() => { dropTo.current = onDrop; }, [onDrop]);
+  const dropTo = useRef(onDrop), popTo = useRef(onPop);
+  useEffect(() => { dropTo.current = onDrop; popTo.current = onPop; }, [onDrop, onPop]);
   const scaleRef = useRef(scale);
   useEffect(() => { scaleRef.current = scale; }, [scale]);
 
@@ -75,7 +75,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
       // The screen takes him from where he was let go; his own offset goes back to his spot in the same frame.
       if (e.drop) { dropTo.current?.(dx.get(), dy.get()); dx.set(0); dy.set(0); rot.set(0); continue; }
       if (e.hidden !== undefined) { shown.set(e.hidden ? 0 : 1); continue; }
-      if (e.pop) continue;
+      if (e.pop) { popTo.current?.(); continue; }
       const r = rig.current;
       if (!r) { if (awakeRef.current) pending.current.push({ e, at }); continue; }   // still-picture phone: the rig is mounting
       if (e.fire) r.fire(e.fire); else if (e.play !== undefined) r.play(e.play); else if (e.mood) r.mood(e.mood);

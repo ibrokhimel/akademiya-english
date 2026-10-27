@@ -458,3 +458,7 @@ test('touch: his eyes follow a finger on the screen and let go 2.5 s later', () 
   assert.ok(a.fx.some((f) => f.looking === true)); assert.deepEqual(NUMS(a.fx, 'lookX'), [50]); assert.deepEqual(NUMS(a.fx, 'lookY'), [0]);
   const b = runR(ticks(16, 2600, 100), 'all', a.s, env); assert.ok(b.fx.some((f) => f.looking === false));
 });
+test('touch: while his hand is up, a tap on him is the high-five', () => {
+  const a = runR([{ type: 'highfive', t: 0 }, ...ticks(16, 1100, 50), { type: 'down', t: 1200, x: 334, y: 660 }, { type: 'up', t: 1260, x: 334, y: 660 }], 'nocarry');
+  assert.ok(fires(a.fx).includes('clap')); assert.ok(!fires(a.fx).includes('poke1'));
+});

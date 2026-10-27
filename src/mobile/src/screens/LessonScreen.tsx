@@ -17,6 +17,7 @@ import { useDs } from "../components/TabChrome";
 import { FeedContext,LessonDombi,type Feed,type Spot } from "../components/LessonDombi";
 import type { Space } from "../components/Blocks";
 import { LessonMoment } from "../components/LessonMoment";
+import { PanelDombi } from "../components/PanelDombi";
 import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
 import { ScreenTransition } from "../components/ScreenTransition";
@@ -384,7 +385,7 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
                 : <View style={{ flex: 1 }}><Txt style={{ ...type("label", d), color: c.notYetText }}>TO&apos;G&apos;RI JAVOB</Txt><Txt style={{ ...type("heading", d), color: c.text }}>{feedback.answer}</Txt></View>}
             </View>
             {/* The reason in one line; a trap's reason is already shown in the exercise after a right answer. */}
-            <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><Dombi moment={feedback.right ? "correct" : "notYet"} size={d(48)} />{feedback.tip && !(feedback.right && current?.item.trap) ? <Txt style={{ ...type("body", d), flex: 1, color: feedback.right ? c.goodText : c.notYetText }}>{feedback.tip}</Txt> : null}</View>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: d(10) }}><PanelDombi right={feedback.right} size={d(48)} />{feedback.tip && !(feedback.right && current?.item.trap) ? <Txt style={{ ...type("body", d), flex: 1, color: feedback.right ? c.goodText : c.notYetText }}>{feedback.tip}</Txt> : null}</View>
             <Button label="DAVOM ETISH" kind={feedback.right ? "green" : "primary"} onPress={next} testID="lesson-next"/>
           </Animated.View>) : null}
         {leaveSheet}

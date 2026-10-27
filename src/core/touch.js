@@ -63,7 +63,9 @@ export function touchReducer(state, ev) {
     if (sp > THROW) { s.mode = 'flying'; b.spin = clamp(b.vx * 0.9, -900, 900); }
     else { s.mode = 'falling'; b.vx *= 0.3; }
   };
+  const clap = () => { s.hf = 0; fire('clap'); fx.push({ pop: true }); buzz([15, 20, 25]); mood('happy'); s.at.clapped = t + CLAP_MS; s.lastAct = t; };
   const tap = () => {
+    if (s.hf) return clap();   // his hand is up: a tap on him is the high-five
     if (s.mode === 'asleep') { fire('wake'); buzz(10); s.mode = 'waking'; s.at.wake = t + WAKE_MS; return; }
     if (['back', 'waking', 'hidden', 'peeking', 'exit'].includes(s.mode)) return;
     if (t - s.lastTap < DOUBLE_MS) {
@@ -143,7 +145,7 @@ export function touchReducer(state, ev) {
   } else if (ev.type === 'highfive') {
     s.at.hf = t + HF_DELAY;
   } else if (ev.type === 'hand') {
-    if (s.hf) { s.hf = 0; fire('clap'); fx.push({ pop: true }); buzz([15, 20, 25]); mood('happy'); s.at.clapped = t + CLAP_MS; s.lastAct = t; }
+    if (s.hf) clap();
   } else if (ev.type === 'pinch') {
     if (ev.rule === 'all' && !['hidden', 'peeking', 'exit', 'asleep'].includes(s.mode)) {
       // The second finger turns the press into a pinch: no carry, no poke.
