@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { StyleSheet,View } from "react-native";
 import { backgrounds } from "../data/cosmetics";
 import type { Profile } from "../lib/store";
@@ -29,8 +30,8 @@ export function ProfileBackground({ background, dim }: { background: Profile["lo
   );
 }
 
-/** The stand-in pattern: a short symbol repeated in rows, a name written large and pale. */
-function Pattern({ symbol }: { symbol: string }) {
+/** The stand-in pattern: a short symbol repeated in rows, a name written large and pale. Memoised: the dim slider redraws the veil only. */
+const Pattern = memo(function Pattern({ symbol }: { symbol: string }) {
   if (symbol.length > 3)
     return <Txt numberOfLines={1} style={{ position: "absolute", top: "18%", alignSelf: "center", fontSize: 64, color: violet, opacity: 0.18, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>;
   return (
@@ -38,4 +39,4 @@ function Pattern({ symbol }: { symbol: string }) {
       {Array.from({ length: 120 }, (_, i) => <Txt key={i} style={{ fontSize: 20, color: violet, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>)}
     </View>
   );
-}
+});

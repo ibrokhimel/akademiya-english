@@ -26,7 +26,7 @@ function Grip() {
  * One row. While a row is dragged (`from` is its index), it follows the finger and the rows between its old and new place
  * slide one row up or down to make room; on release the list takes the new order (moveSection).
  */
-function SectionRow({ section, label, index, count, rowH, from, dy, onToggle, onMove, onDrag }: {
+function SectionRow({ section, label, index, count, rowH, from, dy, onToggle, onMove, onDrag, onMeasure }: {
   section: Section;
   label: string;
   index: number;
@@ -37,6 +37,8 @@ function SectionRow({ section, label, index, count, rowH, from, dy, onToggle, on
   onToggle: (on: boolean) => void;
   onMove: (from: number, to: number) => void;
   onDrag: (dragging: boolean) => void;
+  /** the row's natural height (bigger text makes it taller); every row takes the tallest, so a drag moves by whole rows */
+  onMeasure: (height: number) => void;
 }) {
   const c = useTheme(), d = useDesignScale();
   const style = useAnimatedStyle(() => {
@@ -70,7 +72,9 @@ function SectionRow({ section, label, index, count, rowH, from, dy, onToggle, on
   );
   return (
     <Animated.View style={[{ height: rowH, justifyContent: "center", backgroundColor: c.card }, style]}>
-      <ToggleRow label={label} value={section.shown} onChange={onToggle} dimWhenOff left={handle} />
+      <View onLayout={(e) => onMeasure(e.nativeEvent.layout.height)}>
+        <ToggleRow label={label} value={section.shown} onChange={onToggle} dimWhenOff left={handle} />
+      </View>
     </Animated.View>
   );
 }
@@ -83,7 +87,8 @@ export default function SectionsEditor() {
   const d = useDesignScale(), c = useTheme(), { profile, setProfile } = useProfile();
   const [sections, setSections] = useState<Section[]>(profile.look.sections);
   const [dragging, setDragging] = useState(false);
-  const rowH = d(52);
+  const [rowH, setRowH] = useState(d(52));
+  const measure = useCallback((h: number) => setRowH((r) => (h > r + 0.5 ? h : r)), []);
   const from = useSharedValue(-1), dy = useSharedValue(0);
   // the rows stop sliding once the new order is drawn, so nothing jumps back for a frame
   useLayoutEffect(() => { from.set(-1); dy.set(0); }, [sections, from, dy]);
@@ -108,6 +113,7 @@ export default function SectionsEditor() {
             onToggle={(on) => setSections((list) => toggleSection(list, s.id, on))}
             onMove={move}
             onDrag={setDragging}
+            onMeasure={measure}
           />
         ))}
       </RowGroup>

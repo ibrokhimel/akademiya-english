@@ -45,16 +45,28 @@ test('every seasonal frame is in the catalogue and shown in the holidays section
   assert.deepEqual(cos.shown(cos.frames).filter((f) => SEASONAL_FRAMES.includes(f.id)).map((f) => f.id), ['navruz', 'newyear', 'independence', 'ramadan']);
 });
 test('profile colour and card colour read in light and dark: the name colour on the page and on every card, body text on every card', async () => {
-  const { lookPalette } = await import('../src/data/profileLook.ts');
+  // the same palettes and the same lookColors() the app draws with
+  const { lookColors } = await import('../src/data/profileLook.ts');
+  const { makeThemes, brandColors, colourOf } = await import('../src/components/themeColors.ts');
   const { contrastRatio } = await import('../../core/showcase.js');
-  for (const theme of ['light', 'dark']) {
-    const t = lookPalette[theme];
-    for (const x of cos.profileColors) {
-      for (const bg of [t.page, ...cos.cardColors.map((k) => t.cards[k.id])]) assert.ok(contrastRatio(t.text[x.id], bg) >= 3, `${theme} ${x.id} on ${bg}`);
-      assert.ok(t.fill[x.id], `${theme} ${x.id} fill`);
+  const tokens = JSON.parse(fs.readFileSync(new URL('../../../design/system/tokens.json', import.meta.url), 'utf8'));
+  const themes = makeThemes(tokens.color, tokens.color.app.english), named = brandColors(tokens.color, tokens.color.app.english);
+  for (const dark of [false, true]) {
+    const t = dark ? themes.dark : themes.light, colour = (name) => colourOf(name, t, named);
+    for (const p of cos.profileColors) for (const k of cos.cardColors) {
+      const look = lookColors({ color: p.id, cardColor: k.id }, dark, colour, cos);
+      for (const bg of [t.bg, look.card]) assert.ok(contrastRatio(look.text, bg) >= 3, `${dark ? 'dark' : 'light'} ${p.id} on ${bg}`);
+      assert.ok(contrastRatio(t.text, look.card) >= 4.5, `${dark ? 'dark' : 'light'} ink on ${k.id}`);
+      assert.equal(look.fill, colour(p.color));
     }
-    for (const k of cos.cardColors) assert.ok(contrastRatio(t.ink, t.cards[k.id]) >= 4.5, `${theme} ink on ${k.id}`);
   }
+});
+test("a new install keeps today's look: the name in the text ink and the cards as they were", async () => {
+  const { lookColors } = await import('../src/data/profileLook.ts');
+  const look = lookColors({ color: 'violet', cardColor: 'white' }, false, (n) => n ?? '', cos);
+  assert.equal(look.name, undefined);
+  assert.equal(look.custom, false);
+  assert.ok(lookColors({ color: 'coral', cardColor: 'sky' }, false, (n) => n ?? '', cos).name && lookColors({ color: 'violet', cardColor: 'sky' }, false, (n) => n ?? '', cos).custom);
 });
 test('every part of the profile has its row in "Nimalar ko\'rinsin", in the default order', async () => {
   const { SECTION_IDS } = await import('../../core/profile.js');

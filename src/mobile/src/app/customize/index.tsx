@@ -34,7 +34,7 @@ export default function Customize() {
     <SafeAreaView edges={["top", "bottom", "left", "right"]} style={{ flex: 1, backgroundColor: c.bg }}>
       <ScreenHeader title="Profilni bezash" onBack={back} />
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: d(20), paddingTop: d(4), paddingBottom: d(24), gap: d(10) }}>
-        <ProfileHeader compact name={settings.name.trim() || "Siz"} nameColor={p.nameColor} accent={look.text} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} frame={(size, avatar) => <AvatarFrame id={p.frame} size={size}>{avatar}</AvatarFrame>} banner={<ProfileBanner banner={p.banner} height={d(84)} />} />
+        <ProfileHeader compact name={settings.name.trim() || "Siz"} nameColor={p.nameColor} accent={look.name} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} frame={(size, avatar) => <AvatarFrame id={p.frame} size={size}>{avatar}</AvatarFrame>} banner={<ProfileBanner banner={p.banner} height={d(84)} />} />
         <SectionLabel first>PROFIL</SectionLabel>
         <RowGroup>
           <SettingRow icon="glyph-user-grey" label="Avatar" value={avatarKinds[p.avatar.kind]} onPress={go("/customize/avatar")} />

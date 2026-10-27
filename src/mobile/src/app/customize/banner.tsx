@@ -44,7 +44,7 @@ export default function BannerEditor() {
         compact
         name={name}
         nameColor={profile.nameColor}
-        accent={look.text}
+        accent={look.name}
         caption={caption}
         banner={<ProfileBanner banner={draft} height={d(84)} />}
         avatar={(size) => <Avatar avatar={profile.avatar} name={name} size={size} dombiOutfit={profile.dombi.outfit} />}

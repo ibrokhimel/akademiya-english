@@ -591,7 +591,7 @@ test('a new profile starts with the defaults', () => {
   assert.equal(p.v, 1); assert.equal(p.avatar.kind, 'letter'); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
   assert.deepEqual(p.stats.shown, ['streak', 'phrases']);   // the Profile tab's 2 x 2 as before: streak, then phrases
   assert.deepEqual(p.look.sections.map((s) => s.id), SECTION_IDS);
-  assert.equal(p.look.sections.filter((s) => !s.shown).map((s) => s.id).join(), 'joined,trophyShelf');
+  assert.equal(p.look.sections.filter((s) => !s.shown).map((s) => s.id).join(), 'trophyShelf');
   assert.deepEqual(STAT_IDS, ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction']);
   assert.deepEqual(normalizeProfile(p), p);
   assert.notEqual(defaultProfile().look.sections, p.look.sections);
@@ -622,7 +622,8 @@ test('sections: unknown dropped, missing added at their place, always all of the
   assert.equal(new Set(p.look.sections.map((s) => s.id)).size, SECTION_IDS.length);
   assert.equal(p.look.sections[0].shown, false);
   assert.equal(p.look.sections.find((s) => s.id === 'title').shown, true);
-  assert.equal(p.look.sections.find((s) => s.id === 'joined').shown, false);
+  assert.equal(p.look.sections.find((s) => s.id === 'joined').shown, true);
+  assert.equal(p.look.sections.find((s) => s.id === 'trophyShelf').shown, false);
   const none = normalizeProfile({ look: { sections: SECTION_IDS.map((id) => ({ id, shown: false })) } });
   assert.equal(none.look.sections.length, SECTION_IDS.length);
 });
@@ -933,15 +934,14 @@ test('what shows: dragging a row moves it to the new place and keeps the rest in
   assert.deepEqual(moveSection(s, 99, 0), s);
   assert.equal(moveSection(s, 3, 1).length, SECTION_IDS.length);
 });
-test('reset: the default order with joined and the trophy shelf hidden, a fresh list each time', () => {
+test('reset: the default order with the trophy shelf hidden, a fresh list each time', () => {
   assert.deepEqual(defaultSections(), defaultProfile().look.sections);
   assert.notEqual(defaultSections(), defaultSections());
 });
 test('the Profile tab draws its parts from the sections: header parts by switch, the rest in the learner\'s order', () => {
   const d = profileLayout(defaultProfile());
   assert.equal(d.name, true);
-  assert.equal(d.banner && d.title && d.level && d.dombi, true);
-  assert.equal(d.joined, false);
+  assert.equal(d.banner && d.title && d.level && d.joined && d.dombi, true);
   assert.deepEqual(d.body, ['bio', 'tags', 'pinnedBadges', 'goal', 'stats', 'records', 'awards', 'favouritePhrase']);
   const sections = toggleSection(moveSection(defaultSections(), SECTION_IDS.indexOf('awards'), 0), 'bio', false);
   const moved = normalizeProfile({ look: { sections } });

@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
-import { KeyboardAvoidingView,Platform,ScrollView,View } from "react-native";
+import { KeyboardAvoidingView,Platform,View } from "react-native";
+// the gesture-handler ScrollView, so a drag that starts on a handle inside it (Nimalar ko'rinsin) wins over the page scroll
+import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useBack } from "../../lib/navigation";
 import { ScreenHeader } from "../SettingsControls";

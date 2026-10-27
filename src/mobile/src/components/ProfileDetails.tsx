@@ -23,6 +23,7 @@ export const detailParts: readonly string[] = ["stats", "records", "awards", "tr
 export function ProfileDetail({ part }: { part: DetailPart }) {
   const d = useDesignScale(), c = useTheme(), { facts: f, progress: p, settings } = useApp();
   const profile = settings.profile, { awards, badges } = useBadges(), look = useLookColors(profile.look);
+  // the default card colour keeps each card as it was (transparent records, the phrase row on the card colour)
   const section = (title: string) => <Txt style={{ fontSize: d(13), letterSpacing: d(.8), color: c.muted, fontFamily: "Nunito_900Black" }}>{title}</Txt>;
   const later = () => router.navigate("/problem?kind=not-ready");
   // private mode: no number anywhere on the profile
@@ -31,7 +32,7 @@ export function ProfileDetail({ part }: { part: DetailPart }) {
     <StatsBlock label={section("UMUMIY KO'RINISH")} extra={testToolsEnabled && !hidden ? [["medal-silver", null, "Liga yo'q"], ["apple-currency", 0, " olma"]].map(([icon, value, suffix]) => <Pressable key={String(icon)} onPress={value === null ? later : undefined} style={{ width: d(170), flexDirection: "row", alignItems: "center", gap: d(10) }}><Icon name={String(icon)} size={d(30)} />{value === null ? <Txt style={{ fontSize: d(18), color: c.muted, fontFamily: "Nunito_900Black" }}>{suffix}</Txt> : <Count value={Number(value)} suffix={String(suffix)} style={{ fontSize: d(18) }} />}</Pressable>) : null} />
     {profile.stats.wordOfWeek ? <>
     {section("HAFTA SO'ZI")}
-    <Txt style={{ paddingHorizontal: d(16), paddingVertical: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: c.line, backgroundColor: look.card, fontSize: d(17), fontFamily: "Nunito_800ExtraBold" }}>{profile.stats.wordOfWeek}</Txt>
+    <Txt style={{ paddingHorizontal: d(16), paddingVertical: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: c.line, backgroundColor: look.custom ? look.card : undefined, fontSize: d(17), fontFamily: "Nunito_800ExtraBold" }}>{profile.stats.wordOfWeek}</Txt>
     </> : null}
     {testToolsEnabled ? <>
     {section("DO'STLAR BILAN SERIYA")}
@@ -40,7 +41,7 @@ export function ProfileDetail({ part }: { part: DetailPart }) {
   </>;
   if (part === "favouritePhrase") return profile.stats.favouritePhrase ? <>
     {section("SEVIMLI IBORA")}
-    <FavouritePhraseRow phraseId={profile.stats.favouritePhrase} background={look.card} />
+    <FavouritePhraseRow phraseId={profile.stats.favouritePhrase} background={look.custom ? look.card : undefined} />
   </> : null;
   if (part === "records") {
     if (hidden) return null;
@@ -51,7 +52,7 @@ export function ProfileDetail({ part }: { part: DetailPart }) {
     ];
     return <>
       {section("SHAXSIY REKORDLAR")}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: d(-20) }} contentContainerStyle={{ paddingHorizontal: d(20), gap: d(12) }}>{records.map(r => <View key={r.title} style={{ width: d(150), paddingVertical: d(14), paddingHorizontal: d(10), borderWidth: d(2), borderColor: c.line, borderRadius: d(20), backgroundColor: look.card, alignItems: "center", gap: d(4) }}><View style={{ width: d(96), height: d(96) }}><View style={{ position: "absolute", left: d(-3), top: d(-7), width: d(102), height: d(102), borderRadius: d(26), backgroundColor: r.bg }} /><Icon name={r.icon} size={d(52)} style={{ position: "absolute", left: d(22), top: d(2) }} /><Txt style={{ position: "absolute", left: 0, right: 0, top: d(58), textAlign: "center", fontSize: d(24), fontFamily: "Nunito_900Black" }}>{r.value}</Txt></View><Txt style={{ textAlign: "center", fontSize: d(14), fontFamily: "Nunito_900Black" }}>{r.title}</Txt><Txt style={{ fontSize: d(12), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>{r.date}</Txt></View>)}</ScrollView>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: d(-20) }} contentContainerStyle={{ paddingHorizontal: d(20), gap: d(12) }}>{records.map(r => <View key={r.title} style={{ width: d(150), paddingVertical: d(14), paddingHorizontal: d(10), borderWidth: d(2), borderColor: c.line, borderRadius: d(20), backgroundColor: look.custom ? look.card : undefined, alignItems: "center", gap: d(4) }}><View style={{ width: d(96), height: d(96) }}><View style={{ position: "absolute", left: d(-3), top: d(-7), width: d(102), height: d(102), borderRadius: d(26), backgroundColor: r.bg }} /><Icon name={r.icon} size={d(52)} style={{ position: "absolute", left: d(22), top: d(2) }} /><Txt style={{ position: "absolute", left: 0, right: 0, top: d(58), textAlign: "center", fontSize: d(24), fontFamily: "Nunito_900Black" }}>{r.value}</Txt></View><Txt style={{ textAlign: "center", fontSize: d(14), fontFamily: "Nunito_900Black" }}>{r.title}</Txt><Txt style={{ fontSize: d(12), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>{r.date}</Txt></View>)}</ScrollView>
     </>;
   }
   if (part === "awards") {

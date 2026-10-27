@@ -1,31 +1,27 @@
-// "Ranglar va fon" (screen OPgwZ): profile-only colour tokens for the Profile tab, one set per theme.
-// `fill` is the profile colour as a surface (the swatch, the letter avatar of the preview); `text` is the same colour as
-// text, darkened in light mode where the brand colour is too pale to read (gold, green, coral) and lightened in dark mode
-// for violet. `cards` are the card colours. scripts/cosmetics.test.mjs checks every pair: the name colour reads on the page
-// and on every card at 3:1 (large bold text) and body text on every card at 4.5:1, in both themes.
-// The card hexes are the soft washes of components/ui.tsx useTheme() (card, coralSoft, blueSoft, cream).
+// "Ranglar va fon" (screen OPgwZ). The swatches, the cards and the page come from the app's own palettes
+// (components/themeColors.ts via the catalogue colour names in data/cosmetics.ts); the only profile-only values are the
+// profile colours as text where the brand colour does not read on the page or the cards: darker coral, gold and green in
+// light mode, lighter violet in dark mode. scripts/cosmetics.test.mjs runs lookColors() on the same palettes and checks the
+// name colour on the page and every card at 3:1 (large bold text) and body text on every card at 4.5:1, in both themes.
+// No imports: node tests load this file as it is.
 
-export type LookTokens = {
-  page: string;
-  ink: string;
-  fill: Record<string, string>;
-  text: Record<string, string>;
-  cards: Record<string, string>;
+export const profileText: { light: Record<string, string>; dark: Record<string, string> } = {
+  light: { coral: "#E5483A", gold: "#9A6A00", green: "#15934A" },
+  dark: { violet: "#9F87FF" },
 };
+/** The look a new install starts with (src/core/profile.js defaultProfile). */
+export const DEFAULT_LOOK = { color: "violet", cardColor: "white" };
 
-export const lookPalette: { light: LookTokens; dark: LookTokens } = {
-  light: {
-    page: "#FFFFFF",
-    ink: "#14161B",
-    fill: { violet: "#7B5CFF", coral: "#FF6B5B", gold: "#FFCB2E", green: "#1DB45A" },
-    text: { violet: "#7B5CFF", coral: "#E5483A", gold: "#9A6A00", green: "#15934A" },
-    cards: { white: "#FFFFFF", coral: "#FFEDEA", sky: "#E8F6FD", gold: "#FFFDF3" },
-  },
-  dark: {
-    page: "#121214",
-    ink: "#F4F4F6",
-    fill: { violet: "#7B5CFF", coral: "#FF6B5B", gold: "#FFCB2E", green: "#1DB45A" },
-    text: { violet: "#9F87FF", coral: "#FF6B5B", gold: "#FFCB2E", green: "#1DB45A" },
-    cards: { white: "#1B1B1F", coral: "#3A1F1B", sky: "#12303F", gold: "#24211A" },
-  },
-};
+type Entry = { id: string; color?: string };
+/**
+ * A look's colours for one theme. `colour` resolves a catalogue colour name for that theme (colourOf / useCosmeticColor).
+ * fill: the profile colour as a surface; text: the same as text; card: the card colour; custom: a card colour was picked
+ * (the default keeps each card's own look); name: the name's colour while the name colour is "Oddiy", undefined for the
+ * default profile colour (the name stays in the text ink).
+ */
+export function lookColors(look: { color: string; cardColor: string }, dark: boolean, colour: (name?: string) => string, lists: { profileColors: Entry[]; cardColors: Entry[] }) {
+  const p = lists.profileColors.find((x) => x.id === look.color) ?? lists.profileColors[0];
+  const k = lists.cardColors.find((x) => x.id === look.cardColor) ?? lists.cardColors[0];
+  const fill = colour(p.color), text = profileText[dark ? "dark" : "light"][p.id] ?? fill;
+  return { fill, text, card: colour(k.color), custom: k.id !== DEFAULT_LOOK.cardColor, name: p.id === DEFAULT_LOOK.color ? undefined : text };
+}

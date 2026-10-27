@@ -268,7 +268,7 @@ export default function Profile() {
         <ProfileHeader
           name={name}
           nameColor={profile.nameColor}
-          accent={look.text}
+          accent={look.name}
           caption={title}
           level={profile.stats.private || !layout.level ? undefined : p.level}
           date={layout.joined ? date : undefined}

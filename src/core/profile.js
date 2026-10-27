@@ -2,7 +2,7 @@
 export const SECTION_IDS = ['banner', 'title', 'bio', 'tags', 'level', 'joined', 'pinnedBadges', 'goal', 'stats', 'records', 'awards', 'trophyShelf', 'favouritePhrase', 'dombi'];
 export const STAT_IDS = ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction'];
 
-const HIDDEN_BY_DEFAULT = ['joined', 'trophyShelf'];
+const HIDDEN_BY_DEFAULT = ['trophyShelf'];
 // The Profile tab's numbers as before the customization: streak, then phrases. The rest are picked in the Stats editor.
 const STATS_SHOWN = ['streak', 'phrases'];
 const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built', 'moving'];
@@ -25,7 +25,7 @@ export function dombiName(text) {
 /** The username rule (the server's users.username field has the same pattern). */
 export const USERNAME = /^[a-z0-9_]{3,20}$/;
 
-/** "Nimalar ko'rinsin" as it starts, and as ASLIGA QAYTARISH puts it back: every part in its place, joined and the trophy shelf hidden. */
+/** "Nimalar ko'rinsin" as it starts, and as ASLIGA QAYTARISH puts it back: every part in its place, the trophy shelf hidden. */
 export function defaultSections() {
   return SECTION_IDS.map((id) => ({ id, shown: !HIDDEN_BY_DEFAULT.includes(id) }));
 }

@@ -151,10 +151,10 @@ function LoadedActor({
     if (!instance || who !== "dombi") return;
     const before = worn.current?.instance === instance ? worn.current.hat : null;
     if (before === hat) return;
-    worn.current = { instance, hat };
-    if (before === null || reduce) { instance.enumProperty("hat")?.set(hat); return; }
+    // worn records a hat only once it is on, so a run cut short inside the 90 ms (Reduce Motion flipping) tries again
+    if (before === null || reduce) { instance.enumProperty("hat")?.set(hat); worn.current = { instance, hat }; return; }
     instance.triggerProperty("dress")?.trigger();
-    const t = setTimeout(() => instance.enumProperty("hat")?.set(hat), 90);
+    const t = setTimeout(() => { instance.enumProperty("hat")?.set(hat); worn.current = { instance, hat }; }, 90);
     return () => clearTimeout(t);
   }, [instance, who, hat, reduce]);
   useEffect(() => {

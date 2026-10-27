@@ -16,7 +16,7 @@ export function ProfileHeader({ name, nameColor = "default", accent, level, capt
   name: string;
   /** id from nameColors (data/cosmetics.ts) */
   nameColor?: string;
-  /** the profile colour as text (useLookColors): the name's colour while the name colour is "Oddiy" */
+  /** the profile colour as text (useLookColors().name): the name's colour while the name colour is "Oddiy"; undefined keeps the text ink */
   accent?: string;
   /** shows the "N-daraja" pill */
   level?: number;
