@@ -133,8 +133,8 @@ export function Button({
         : kind === "gold"
           ? gold
           : kind === "danger"
-            ? "#FF4B5C"
-            : violet;
+            ? c.dangerFill
+            : c.accent;
   return (
     <RaisedPressable
       accessibilityRole="button"
@@ -157,8 +157,8 @@ export function Button({
               : kind === "gold"
                 ? shared.light.rewardLip
                 : kind === "danger"
-                  ? "#C02A3D"
-                  : brand.lip
+                  ? c.dangerLip
+                  : c.accentLip
       }
       radius={d(16)}
       depth={d(4)}
@@ -177,8 +177,10 @@ export function Button({
           color: disabled
             ? c.muted
             : kind === "secondary"
-              ? violet
-              : "#FFFFFF",
+              ? c.accent
+              : kind === "primary"
+                ? c.onAccent
+                : c.onFill,
           ...type("button", d),
           textAlign: "center",
         }}
