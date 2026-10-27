@@ -56,8 +56,8 @@ export function HelpSheet({ visible, step, onClose, onStep, firstWord, uzbek, an
               onPress={() => { if (key === "slow") onSlow(); onStep(i + 1); }}
               style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(16), borderWidth: 2, borderColor: step > i ? c.accent : ds.line }}
             >
-              <View style={{ width: d(28), height: d(28), borderRadius: d(14), backgroundColor: c.accentWash, alignItems: "center", justifyContent: "center" }}>
-                <Txt style={{ ...type("small", d), color: c.accent }}>{i + 1}</Txt>
+              <View style={{ width: d(28), height: d(28), borderRadius: d(14), backgroundColor: c.accentPale, alignItems: "center", justifyContent: "center" }}>
+                <Txt style={{ ...type("small", d), color: c.accentPaleText }}>{i + 1}</Txt>
               </View>
               <Icon name={icon} size={d(28)} />
               <View style={{ flex: 1 }}>

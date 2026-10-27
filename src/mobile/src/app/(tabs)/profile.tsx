@@ -295,7 +295,7 @@ export default function Profile() {
               radius={d(19)}
               depth={d(3)}
               backgroundColor={c.card}
-              edgeColor={c.softLine}
+              edgeColor={c.menuEdge}
               faceStyle={{
                 width: d(38),
                 height: d(38),

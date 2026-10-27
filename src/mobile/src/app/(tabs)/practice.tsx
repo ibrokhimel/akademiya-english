@@ -38,7 +38,7 @@ export default function Practice() {
                 onPress={() => router.push(`/activity/${kind}`)}
                 style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(18), borderWidth: 2, borderColor: ds.line, backgroundColor: locked ? ds.paper : ds.surface }}
               >
-                <View style={{ width: d(52), height: d(52), borderRadius: d(14), backgroundColor: locked ? ds.line : c.accentWash, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ width: d(52), height: d(52), borderRadius: d(14), backgroundColor: locked ? ds.line : c.accentPale, alignItems: "center", justifyContent: "center" }}>
                   <Icon name={icon} size={d(28)} />
                 </View>
                 <View style={{ flex: 1, gap: d(2) }}>

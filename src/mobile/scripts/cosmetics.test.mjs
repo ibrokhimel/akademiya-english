@@ -110,6 +110,7 @@ test('Binafsha in light and dark is today\'s palette, key for key', async () => 
     const t = all[mode].violet;
     assert.equal(t.accent, '#7B5CFF'); assert.equal(t.accentText, '#7B5CFF'); assert.equal(t.accentLip, '#5A3FD9');
     assert.equal(t.onAccent, '#FFFFFF'); assert.equal(t.accentPale, '#EFEBFF'); assert.equal(t.accentPaleLine, '#C9BDFF');
+    assert.equal(t.accentPaleText, '#7B5CFF'); assert.equal(t.onAccentLabel, '#C9BDFF');
   }
   assert.equal(all.light.violet.menuEdge, '#D9CFFF'); assert.equal(all.dark.violet.menuEdge, '#16132E');
 });
@@ -121,7 +122,7 @@ test('text on an accent fill reads on the fill and on its lip, in every theme an
     const body = id === 'violet' ? 3 : 4.5;
     assert.ok(contrastRatio(t.onAccent, t.accent) >= body, `${name} on accent`);
     assert.ok(contrastRatio(t.onAccent, t.accentLip) >= 4.5, `${name} on lip`);
-    if (id !== 'violet') for (const k of ['onAccentSoft', 'onAccentFaint']) assert.ok(contrastRatio(t[k], t.accent) >= 3, `${name} ${k}`);
+    if (id !== 'violet') for (const k of ['onAccentSoft', 'onAccentFaint', 'onAccentLabel']) assert.ok(contrastRatio(t[k], t.accent) >= 3, `${name} ${k}`);
   });
 });
 
@@ -130,6 +131,8 @@ test('the accent as text reads on the page, the cards and the wash (Binafsha kee
   each(all, (t, name, mode, id) => {
     if (id === 'violet') return assert.equal(t.accentText, '#7B5CFF');
     for (const bg of [t.bg, t.card, t.accentWash]) assert.ok(contrastRatio(t.accentText, bg) >= 4.5, `${name} on ${bg}`);
+    // on the pale wash and on white buttons, which stay light in dark mode
+    for (const bg of [t.accentPale, '#FFFFFF']) assert.ok(contrastRatio(t.accentPaleText, bg) >= 4.5, `${name} pale text on ${bg}`);
   });
 });
 

@@ -131,10 +131,10 @@ export default function Learn() {
         >
           <View style={{ flexDirection: "row", alignItems: "flex-start", gap: d(12) }}>
             <View style={{ flex: 1, gap: d(4) }}>
-              <Txt style={{ ...type("label", d), color: c.accentWashLine }}>
+              <Txt style={{ ...type("label", d), color: c.onAccentLabel }}>
                 {nextUnit.unit}-BO&apos;LIM · {nextUnit.name.replace("!", "").toUpperCase()}
               </Txt>
-              <Txt style={{ ...type("title", d), color: "#FFFFFF" }}>
+              <Txt style={{ ...type("title", d), color: c.onAccent }}>
                 {next?.title ?? nextUnit.checkpoint.title}
               </Txt>
             </View>
@@ -153,10 +153,10 @@ export default function Learn() {
               radius={d(16)}
               depth={d(4)}
               backgroundColor="#FFFFFF"
-              edgeColor={c.accentWashLine}
+              edgeColor={c.accentPaleLine}
               faceStyle={{ height: d(48), alignItems: "center", justifyContent: "center" }}
             >
-              <Txt style={{ ...type("button", d), color: c.accent }}>
+              <Txt style={{ ...type("button", d), color: c.accentPaleText }}>
                 {resume?.id === next.id ? "DAVOM ETISH" : "BOSHLASH"}
               </Txt>
             </RaisedPressable>
