@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { StyleSheet,View } from "react-native";
-import { backgrounds } from "../data/cosmetics";
+import { backgrounds,type Cosmetic } from "../data/cosmetics";
 import type { Profile } from "../lib/store";
 import { useCosmeticColor } from "./customize/colors";
 import { ProfileMedia } from "./ProfileMedia";
@@ -11,13 +11,13 @@ import { Txt,useTheme,violet } from "./ui";
  * background (no art yet: its colour with the symbol as a pattern stand-in, Ruling 2) or the learner's own picture, GIF or
  * video (a still phone shows the first frame, as everywhere ProfileMedia is used). `dim` (FON XIRALIGI, 0 to 0.8) lays a
  * veil in the page colour over it, so the tab's text keeps reading on any picture in light and dark.
- * It fills its parent and takes no touches.
+ * It fills its parent and takes no touches. `items` is the catalogue the id comes from (the lesson backgrounds use it too).
  */
-export function ProfileBackground({ background, dim }: { background: Profile["look"]["background"]; dim: number }) {
+export function ProfileBackground({ background, dim, items = backgrounds }: { background: Profile["look"]["background"]; dim: number; items?: Cosmetic[] }) {
   const c = useTheme(), colour = useCosmeticColor();
   const media = background.kind === "media" && background.uri && background.mediaType ? background : null;
   if (!media && background.id === "plain") return null;
-  const item = backgrounds.find((b) => b.id === background.id) ?? backgrounds[0];
+  const item = items.find((b) => b.id === background.id) ?? items[0];
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       {media ? <ProfileMedia uri={media.uri!} mediaType={media.mediaType} /> : (

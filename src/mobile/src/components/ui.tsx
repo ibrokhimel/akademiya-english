@@ -259,7 +259,8 @@ export function Page({
   children,
   scroll = false,
   style,
-}: ViewProps & { scroll?: boolean }) {
+  backdrop,
+}: ViewProps & { scroll?: boolean; /** drawn behind the content, filling the page (the lesson background) */ backdrop?: ReactNode }) {
   const c = useTheme(),
     segments = useSegments();
   const d = useDesignScale();
@@ -274,6 +275,7 @@ export function Page({
       }
       style={{ flex: 1, backgroundColor: c.bg }}
     >
+      {backdrop}
       {scroll ? (
         <ScrollView contentContainerStyle={[s.page, spacing, style]}>
           {children}

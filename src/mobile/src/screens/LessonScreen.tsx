@@ -16,6 +16,7 @@ import { Dombi } from "../components/Dombi";
 import { useDs } from "../components/TabChrome";
 import { FeedContext,LessonDombi,type Feed,type Spot } from "../components/LessonDombi";
 import type { Space } from "../components/Blocks";
+import { LessonBackground } from "../components/LessonBackground";
 import { LessonMoment } from "../components/LessonMoment";
 import { PanelDombi } from "../components/PanelDombi";
 import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
@@ -317,7 +318,7 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
       </ScreenTransition>{leaveSheet}</View>);
     }
     return (<ScreenTransition transitionKey={phase}>
-      <Page style={{ padding: d(0), gap: d(0) }}>
+      <Page style={{ padding: d(0), gap: d(0) }} backdrop={<LessonBackground />}>
         <View style={{
             flexDirection: "row",
             alignItems: "center",
