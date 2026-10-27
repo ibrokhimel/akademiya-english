@@ -2,14 +2,14 @@ import { useEffect,useState } from "react";
 import { Pressable,View,useWindowDimensions } from "react-native";
 import { Avatar } from "../../components/Avatar";
 import { Chips } from "../../components/customize/Chips";
-import { ChoiceTiles,choicesFrom } from "../../components/customize/ChoiceTiles";
+import { ChoiceTiles,CosmeticFace,choicesFrom,type Choice } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
 import { MediaRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileMedia } from "../../components/ProfileMedia";
 import { Button,Txt,useTheme,violet } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
-import { avatarBackgrounds,avatarColors,expressions } from "../../data/cosmetics";
+import { avatarBackgrounds,avatarColors,builtPartTabs,builtParts,expressions,movingAvatars,skinTones } from "../../data/cosmetics";
 import { onCropped,pickMedia,remember,removeUnusedProfileFiles,useRecentMedia,type PickedMedia } from "../../lib/media";
 import { useApp,useProfile,type Profile } from "../../lib/store";
 
@@ -22,12 +22,17 @@ const tabs: { id: Tab; label: string }[] = [
   { id: "built", label: "Yasash" },
 ];
 const tabOf = (kind: Profile["avatar"]["kind"]): Tab => (kind === "moving" ? "letter" : kind);
+type Built = Profile["avatar"]["built"];
+type Part = Exclude<keyof Built, "skin">;
+// every part but the eyes can be left off
+const noPart: Choice = { id: "none", label: "Yo'q", content: <CosmeticFace item={{ id: "none", label: "Yo'q", symbol: "—" }} /> };
 
 /** Avatar (screens cIJCI, poYrz, ZpeR2): the chips switch the body; every change goes to a draft that SAQLASH writes. */
 export default function AvatarEditor() {
   const d = useDesignScale(), c = useTheme(), { width } = useWindowDimensions(), { settings } = useApp(), { profile, setProfile, earned } = useProfile();
   const [draft, setDraft] = useState(profile.avatar);
   const [tab, setTab] = useState<Tab>(tabOf(profile.avatar.kind));
+  const [part, setPart] = useState<keyof Built>("skin");
   const recent = useRecentMedia();
   // the GIF or video that was too long or too big, and which pick to open again from the sheet
   const [refused, setRefused] = useState<null | "avatar.photo" | "avatar.bg">(null);
@@ -61,6 +66,8 @@ export default function AvatarEditor() {
     removeUnusedProfileFiles([draft.uri, profile.banner.uri, profile.look.background.uri]);
   };
   const tile = Math.floor((width - d(40) - d(30)) / 4);
+  const skin = Math.floor((width - d(40) - d(50)) / 6);
+  const build = (patch: Partial<Built>) => setDraft((a) => ({ ...a, kind: "built", built: { ...a.built, ...patch } }));
   const chooseTab = (id: Tab) => {
     setTab(id);
     if (id === "letter" || id === "dombi" || id === "built") edit({ kind: id });
@@ -83,6 +90,43 @@ export default function AvatarEditor() {
           />
           <SectionLabel>IFODA</SectionLabel>
           <Chips options={expressions} value={draft.expression} onChange={(id) => edit({ expression: id })} />
+          <SectionLabel>HARAKATLI AVATAR</SectionLabel>
+          {/* a Rive loop later; until then it opens at level 2 and shows its still stand-in (Ruling 6) */}
+          <ChoiceTiles items={choicesFrom(movingAvatars, earned)} value={draft.kind === "moving" ? movingAvatars[0].id : null} onSelect={() => edit({ kind: "moving" })} />
+        </>
+      ) : null}
+      {tab === "built" ? (
+        <>
+          <Chips solid options={builtPartTabs} value={part} onChange={(id) => setPart(id as keyof Built)} />
+          {part === "skin" ? (
+            <>
+              <SectionLabel>TERI RANGI</SectionLabel>
+              <View style={{ flexDirection: "row", gap: d(10) }}>
+                {skinTones.map((t, i) => {
+                  const on = draft.built.skin === i;
+                  return (
+                    <Pressable
+                      key={t.id}
+                      accessibilityRole="radio"
+                      accessibilityLabel={t.label}
+                      accessibilityState={{ selected: on }}
+                      onPress={() => build({ skin: i })}
+                      style={{ width: skin, height: skin, borderRadius: skin / 2, borderWidth: d(on ? 3 : 2), borderColor: on ? violet : c.line, backgroundColor: t.color }}
+                    />
+                  );
+                })}
+              </View>
+            </>
+          ) : (
+            <>
+              <SectionLabel>{(builtPartTabs.find((t) => t.id === part)?.label ?? "").toUpperCase()}</SectionLabel>
+              <ChoiceTiles
+                items={[...(part === "eyes" ? [] : [noPart]), ...choicesFrom(builtParts.filter((x) => x.group === part), earned)]}
+                value={draft.built[part as Part] ?? "none"}
+                onSelect={(id) => build({ [part]: id === "none" ? null : id })}
+              />
+            </>
+          )}
         </>
       ) : null}
       {tab === "photo" || tab === "media" ? (
