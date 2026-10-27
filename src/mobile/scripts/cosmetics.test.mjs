@@ -44,3 +44,15 @@ test('every seasonal frame is in the catalogue and shown in the holidays section
   for (const id of SEASONAL_FRAMES) assert.ok(cos.frames.some((f) => f.id === id && f.group === 'special'), id);
   assert.deepEqual(cos.shown(cos.frames).filter((f) => SEASONAL_FRAMES.includes(f.id)).map((f) => f.id), ['navruz', 'newyear', 'independence', 'ramadan']);
 });
+test('profile colour and card colour read in light and dark: the name colour on the page and on every card, body text on every card', async () => {
+  const { lookPalette } = await import('../src/data/profileLook.ts');
+  const { contrastRatio } = await import('../../core/showcase.js');
+  for (const theme of ['light', 'dark']) {
+    const t = lookPalette[theme];
+    for (const x of cos.profileColors) {
+      for (const bg of [t.page, ...cos.cardColors.map((k) => t.cards[k.id])]) assert.ok(contrastRatio(t.text[x.id], bg) >= 3, `${theme} ${x.id} on ${bg}`);
+      assert.ok(t.fill[x.id], `${theme} ${x.id} fill`);
+    }
+    for (const k of cos.cardColors) assert.ok(contrastRatio(t.ink, t.cards[k.id]) >= 4.5, `${theme} ink on ${k.id}`);
+  }
+});

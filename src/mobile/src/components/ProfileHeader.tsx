@@ -12,10 +12,12 @@ import { useDesignScale } from "./useDesignScale";
  *  - `avatar(size)` replaces the letter inside the avatar circle
  *  - `frame(size, avatar)` wraps the avatar; the default is a ring in the card colour
  */
-export function ProfileHeader({ name, nameColor = "default", level, caption, date, dateOnImage = false, actions, banner, avatar, frame, compact = false, animate = false }: {
+export function ProfileHeader({ name, nameColor = "default", accent, level, caption, date, dateOnImage = false, actions, banner, avatar, frame, compact = false, animate = false }: {
   name: string;
   /** id from nameColors (data/cosmetics.ts) */
   nameColor?: string;
+  /** the profile colour as text (useLookColors): the name's colour while the name colour is "Oddiy" */
+  accent?: string;
   /** shows the "N-daraja" pill */
   level?: number;
   /** small grey line under the name: the hub preview's hint, the learner's title on the Profile tab */
@@ -51,6 +53,7 @@ export function ProfileHeader({ name, nameColor = "default", level, caption, dat
         <NameText
           name={name}
           color={nameColor}
+          plain={accent}
           numberOfLines={1}
           style={{ fontSize: d(compact ? 20 : 26), lineHeight: d(compact ? 24 : 29), fontFamily: "Nunito_900Black" }}
         />

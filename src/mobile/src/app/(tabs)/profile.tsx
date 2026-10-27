@@ -18,6 +18,7 @@ import { ProfileAbout } from "../../components/ProfileAbout";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
+import { useLookColors } from "../../components/customize/colors";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
@@ -48,6 +49,7 @@ export default function Profile() {
       router.navigate("/problem?kind=not-ready");
   const [goalOpen, setGoalOpen] = useState(false);
   const profile = settings.profile,
+    look = useLookColors(profile.look),
     title = shows(profile, "title") ? titles.find((t) => t.id === profile.title)?.label : undefined;
   const joined = settings.joined ? new Date(settings.joined) : new Date();
   const date = `${["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"][joined.getMonth()]} ${joined.getFullYear()}`;
@@ -60,6 +62,7 @@ export default function Profile() {
         <ProfileHeader
           name={name}
           nameColor={profile.nameColor}
+          accent={look.text}
           caption={title}
           level={profile.stats.private ? undefined : p.level}
           date={date}

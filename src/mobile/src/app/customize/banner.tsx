@@ -5,6 +5,7 @@ import { AvatarFrame } from "../../components/AvatarFrame";
 import { ChoiceTiles,choicesFrom } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
+import { useLookColors } from "../../components/customize/colors";
 import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileHeader } from "../../components/ProfileHeader";
@@ -21,7 +22,7 @@ import { useApp,useProfile,type Profile } from "../../lib/store";
 export default function BannerEditor() {
   const d = useDesignScale(), c = useTheme(), { settings } = useApp(), { profile, setProfile, earned } = useProfile();
   const [draft, setDraft] = useState(profile.banner);
-  const name = settings.name.trim() || "Siz";
+  const name = settings.name.trim() || "Siz", look = useLookColors(profile.look);
   const applyMedia = (m: PickedMedia) => setDraft((b) => ({ ...b, kind: "media", uri: m.uri, mediaType: m.mediaType }));
   useEffect(() => onCropped("banner", applyMedia), []);
   const { refuse, sheet } = useRefusedSheet(() => void upload());
@@ -42,6 +43,8 @@ export default function BannerEditor() {
       <ProfileHeader
         compact
         name={name}
+        nameColor={profile.nameColor}
+        accent={look.text}
         caption={caption}
         banner={<ProfileBanner banner={draft} height={d(84)} />}
         avatar={(size) => <Avatar avatar={profile.avatar} name={name} size={size} dombiOutfit={profile.dombi.outfit} />}

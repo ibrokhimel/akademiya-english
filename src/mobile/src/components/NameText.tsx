@@ -9,8 +9,11 @@ function mix(a: string, b: string, t: number) {
   return "#" + [0, 1, 2].map((i) => Math.round(n(a, i) + (n(b, i) - n(a, i)) * t).toString(16).padStart(2, "0")).join("");
 }
 
-/** The learner's name in the colour they picked (nameColors). The earned gradient runs violet to coral, letter by letter. */
-export function NameText({ name, color, style, numberOfLines }: { name: string; color: string; style?: StyleProp<TextStyle>; numberOfLines?: number }) {
+/**
+ * The learner's name in the colour they picked (nameColors). The earned gradient runs violet to coral, letter by letter.
+ * `plain` is the colour of "Oddiy" (the profile colour on the Profile tab); without it "Oddiy" is the text colour.
+ */
+export function NameText({ name, color, style, numberOfLines, plain }: { name: string; color: string; style?: StyleProp<TextStyle>; numberOfLines?: number; plain?: string }) {
   const colour = useCosmeticColor();
   if (color === "gradient") {
     const letters = [...name];
@@ -21,5 +24,5 @@ export function NameText({ name, color, style, numberOfLines }: { name: string; 
     );
   }
   const item = nameColors.find((x) => x.id === color) ?? nameColors[0];
-  return <Txt numberOfLines={numberOfLines} style={[style, { color: colour(item.color) }]}>{name}</Txt>;
+  return <Txt numberOfLines={numberOfLines} style={[style, { color: item.id === "default" && plain ? plain : colour(item.color) }]}>{name}</Txt>;
 }

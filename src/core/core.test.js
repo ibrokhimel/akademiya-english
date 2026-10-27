@@ -885,3 +885,13 @@ test('Dombi\'s name: trimmed, 16 letters at most, empty is Dombi again', () => {
   assert.equal(normalizeProfile({ dombi: { name: 'a'.repeat(30) } }).dombi.name.length, 16);
   assert.equal(normalizeProfile({ dombi: { name: '  ' } }).dombi.name, 'Dombi');
 });
+
+// ---- profile look: colours, background, what shows (showcase.js) ----
+import { contrastRatio } from './showcase.js';
+test('contrast ratio: black on white is 21, a colour on itself is 1, the order does not matter', () => {
+  assert.equal(Math.round(contrastRatio('#000000', '#FFFFFF')), 21);
+  assert.equal(contrastRatio('#7B5CFF', '#7B5CFF'), 1);
+  assert.equal(contrastRatio('#7B5CFF', '#FFFFFF'), contrastRatio('#FFFFFF', '#7B5CFF'));
+  assert.ok(Math.abs(contrastRatio('#7B5CFF', '#FFFFFF') - 4.36) < 0.01);
+  assert.ok(Number.isNaN(contrastRatio('violet', '#FFFFFF')));
+});

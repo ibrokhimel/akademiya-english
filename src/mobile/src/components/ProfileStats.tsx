@@ -91,7 +91,7 @@ export function usePhrasePlayer() {
 }
 
 /** The favourite phrase: a speaker tile, the phrase and whose voice plays. In the editor a chevron opens the phrase list. */
-export function FavouritePhraseRow({ phraseId, onPress, empty }: { phraseId: string | null; onPress?: () => void; /** the line when no phrase is picked */ empty?: string }) {
+export function FavouritePhraseRow({ phraseId, onPress, empty, background }: { phraseId: string | null; onPress?: () => void; /** the line when no phrase is picked */ empty?: string; /** the card colour (Profile tab) */ background?: string }) {
   const d = useDesignScale(), c = useTheme(), player = usePhrasePlayer(), ph = phraseId ? P[phraseId] : undefined;
   return (
     <Pressable
@@ -99,7 +99,7 @@ export function FavouritePhraseRow({ phraseId, onPress, empty }: { phraseId: str
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityLabel={onPress ? ph?.en ?? empty : undefined}
       onPress={onPress}
-      style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(18), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card }}
+      style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(18), borderWidth: d(2), borderColor: c.line, backgroundColor: background ?? c.card }}
     >
       <Pressable
         disabled={!ph}

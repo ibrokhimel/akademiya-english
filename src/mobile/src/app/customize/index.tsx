@@ -9,6 +9,7 @@ import { Avatar } from "../../components/Avatar";
 import { AvatarFrame } from "../../components/AvatarFrame";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileHeader } from "../../components/ProfileHeader";
+import { useLookColors } from "../../components/customize/colors";
 import { ScreenHeader,SettingRow } from "../../components/SettingsControls";
 import { useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
@@ -26,14 +27,14 @@ export default function Customize() {
   const scroll = useRef<ScrollView>(null);
   useAuditScroll(scroll);
   const back = useBack("/(tabs)/profile");
-  const { settings } = useApp(), p = settings.profile;
+  const { settings } = useApp(), p = settings.profile, look = useLookColors(p.look);
   const go = (path: string) => () => router.navigate(path as Href);
   const bannerValue = p.banner.kind === "color" ? "Rang" : p.banner.kind === "item" ? labelOf(banners, p.banner.id, "Rang") : p.banner.mediaType === "image" ? "Rasm" : "GIF / video";
   return (
     <SafeAreaView edges={["top", "bottom", "left", "right"]} style={{ flex: 1, backgroundColor: c.bg }}>
       <ScreenHeader title="Profilni bezash" onBack={back} />
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: d(20), paddingTop: d(4), paddingBottom: d(24), gap: d(10) }}>
-        <ProfileHeader compact name={settings.name.trim() || "Siz"} nameColor={p.nameColor} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} frame={(size, avatar) => <AvatarFrame id={p.frame} size={size}>{avatar}</AvatarFrame>} banner={<ProfileBanner banner={p.banner} height={d(84)} />} />
+        <ProfileHeader compact name={settings.name.trim() || "Siz"} nameColor={p.nameColor} accent={look.text} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} frame={(size, avatar) => <AvatarFrame id={p.frame} size={size}>{avatar}</AvatarFrame>} banner={<ProfileBanner banner={p.banner} height={d(84)} />} />
         <SectionLabel first>PROFIL</SectionLabel>
         <RowGroup>
           <SettingRow icon="glyph-user-grey" label="Avatar" value={avatarKinds[p.avatar.kind]} onPress={go("/customize/avatar")} />
