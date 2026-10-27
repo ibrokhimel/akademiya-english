@@ -1,6 +1,6 @@
 // The app's light and dark palettes and the brand colour names, with no app imports, so node tests read the very
 // values the app draws with. components/ui.tsx builds useTheme() from appThemes(); colours.ts resolves catalogue names.
-import { accentInk,THEME_IDS } from "../../../core/look.js";
+import { accentInk,blend,THEME_IDS } from "../../../core/look.js";
 
 type Mode = Record<string, string>;
 /** `shared` is design/system/tokens.json `color`, `brand` its `app.english`. */
@@ -27,6 +27,8 @@ export function makeThemes(shared: { light: Mode; dark: Mode }, brand: Mode) {
       ice: "#DDF4FF",
       orangeWash: "#FFF1DC", iceText: "#1491C9", cream: "#FFFDF3", coralSoft: "#FFEDEA", orangeBand: "#FFE2B8", faint: "#B7B7B7", tileOrange: "#FFF1E0", tileGold: "#FFF8E0", tileGrey: "#F1F3F7", tilePink: "#FFE8F3", goldText: "#C98A00",
       dangerFill: "#FF4B5C", dangerLip: "#C02A3D", onFill: "#FFFFFF",
+      // the lesson result: the gold pill's edge, the green and coral number tiles' edges, the twinkle
+      goldLip: "#E0A400", greenLip: "#27A852", coralLip: "#D9483A", sparkle: "#FFC93C",
       // the blue Dombi-wardrobe card on the Profile tab (test builds)
       promo: "#4FB6F0", promoEdge: "#2E95D0", promoTag: "#FFE27A", promoButton: "#FFFFFF", promoButtonEdge: "#D7ECF8", promoText: "#2E95D0",
     },
@@ -50,6 +52,8 @@ export function makeThemes(shared: { light: Mode; dark: Mode }, brand: Mode) {
       ice: "#11323F",
       orangeWash: "#33240F", iceText: "#5BC8F5", cream: "#24211A", coralSoft: "#3A1F1B", orangeBand: "#4A3212", faint: "#5F5F69", tileOrange: "#33240F", tileGold: "#2E2812", tileGrey: "#24262B", tilePink: "#3A1C2B", goldText: "#FFC93C",
       dangerFill: "#FF4B5C", dangerLip: "#C02A3D", onFill: "#FFFFFF",
+      // the lesson result: the gold pill's edge, the green and coral number tiles' edges, the twinkle
+      goldLip: "#E0A400", greenLip: "#27A852", coralLip: "#D9483A", sparkle: "#FFC93C",
       promo: "#2E8FC8", promoEdge: "#2E95D0", promoTag: "#FFE27A", promoButton: "#E8F6FD", promoButtonEdge: "#9CCBE6", promoText: "#2E95D0",
     },
   };
@@ -59,9 +63,10 @@ type Base = ReturnType<typeof makeThemes>["light"];
 /**
  * A base palette with a colour theme (MAVZU) laid on: `accent` is what `violet` was for buttons, picks and progress,
  * `accentLip` its button edge, `accentWash`/`accentWashLine` (also `soft`/`softLine`) its pale fill and border, and
- * `onAccent` the text on an accent fill. Binafsha gives back today's palette.
+ * `onAccent` the text on an accent fill (onAccentSoft/Faint paler). Binafsha gives back today's palette.
  */
 export function withTheme(base: Base, palette: Mode, ink: string) {
+  const onAccent = accentInk(palette.main, ink);
   return {
     ...base,
     soft: palette.wash,
@@ -70,7 +75,10 @@ export function withTheme(base: Base, palette: Mode, ink: string) {
     accentLip: palette.lip,
     accentWash: palette.wash,
     accentWashLine: palette.washLine,
-    onAccent: accentInk(palette.main, ink),
+    onAccent,
+    /** smaller and second lines on an accent fill */
+    onAccentSoft: blend(onAccent, palette.main, 0.32),
+    onAccentFaint: blend(onAccent, palette.main, 0.26),
   };
 }
 export type Theme = ReturnType<typeof withTheme>;

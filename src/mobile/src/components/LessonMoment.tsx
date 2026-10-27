@@ -10,7 +10,7 @@ import { Dombi } from "./Dombi";
 import { Effect } from "./Effects";
 import { CheckpointResult,LevelReward,StreakReward } from "./MomentMilestones";
 import { Arrive,Count,arriveIn,popIn } from "./Motion";
-import { Button,coral,gold,green,Icon,Txt,useTheme,violet } from "./ui";
+import { Button,coral,gold,green,Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 export type MomentPhase = "mistakes" | "canSay" | "result" | "streak" | "level";
 const arrive = arriveIn, pop = popIn;
@@ -35,11 +35,9 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
     const celebrating = settledPhase !== phase;
     useEffect(() => { const timer = setTimeout(() => setSettledPhase(phase), 1800); return () => clearTimeout(timer); }, [phase]);
     const app = useApp(), c = useTheme(), level = phase === "level", checkpoint = phase === "result" && lesson.checkpoint, bg = level
-        ? violet
+        ? c.accent
         : checkpoint
-            ? app.isDark
-                ? "#24211A"
-                : "#FFFDF3"
+            ? c.cream
             : c.bg;
     const main = P[lesson.items[lesson.items.length - 1].p || "hello"], news = (lesson.new || []).map((id) => P[id]), phraseCount = lesson.checkpoint
         ? units
@@ -71,7 +69,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
               <Txt style={{
                 fontSize: d(18),
                 fontFamily: "Nunito_900Black",
-                color: violet,
+                color: c.accent,
                 textAlign: "center",
             }}>
                 Xatolar ustida ishlaymiz
@@ -86,9 +84,9 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
             <Animated.View entering={pop} style={{
                 width: "100%",
                 borderRadius: d(20),
-                backgroundColor: violet,
+                backgroundColor: c.accent,
                 borderBottomWidth: d(5),
-                borderColor: "#5A3FD9",
+                borderColor: c.accentLip,
                 padding: d(20),
                 alignItems: "center",
                 gap: d(12),
@@ -97,7 +95,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
               <Txt style={{
                 fontSize: d(12),
                 letterSpacing: d(0.8),
-                color: "#D5CAFF",
+                color: c.onAccentSoft,
                 fontFamily: "Nunito_900Black",
             }}>
                 ENDI AYTA OLASIZ:
@@ -106,12 +104,12 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                 fontSize: d(28),
                 lineHeight: d(33),
                 fontFamily: "Nunito_900Black",
-                color: "#FFFFFF",
+                color: c.onAccent,
                 textAlign: "center",
             }}>
                 {main.en}
               </Txt>
-              <Txt style={{ fontSize: d(15), color: "#DDD5FF", textAlign: "center" }}>
+              <Txt style={{ fontSize: d(15), color: c.onAccentFaint, textAlign: "center" }}>
                 {main.uz}
               </Txt>
               <Pressable onPress={() => {
@@ -122,13 +120,13 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                 paddingVertical: d(8),
                 paddingHorizontal: d(14),
                 borderRadius: d(12),
-                backgroundColor: "#FFFFFF22",
+                backgroundColor: c.onAccent + "22",
                 alignItems: "center",
             }}>
                 <Icon name="glyph-speaker-white" size={d(18)}/>
                 <Txt style={{
                 fontSize: d(13),
-                color: "#FFFFFF",
+                color: c.onAccent,
                 fontFamily: "Nunito_900Black",
             }}>
                   TINGLASH
@@ -176,12 +174,12 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                     borderRadius: d(20),
                     backgroundColor: gold,
                     borderBottomWidth: d(4),
-                    borderColor: "#E0A400",
+                    borderColor: c.goldLip,
                 }}>
                 <Icon name="glyph-sparkles-white" size={d(17)}/>
                 <Txt style={{
                     fontSize: d(15),
-                    color: "#FFFFFF",
+                    color: c.onFill,
                     fontFamily: "Nunito_900Black",
                     letterSpacing: d(0.6),
                 }}>
@@ -200,7 +198,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                 [
                     "IBORALAR",
                     `${checkpoint ? "" : "+"}${phraseCount}`,
-                    violet,
+                    c.accent,
                     "glyph-message-violet",
                 ],
             ].map(([label, value, color, icon], i) => (<Arrive key={label} index={i + 2} style={{
@@ -208,11 +206,11 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
                     borderRadius: d(16),
                     backgroundColor: color,
                     marginBottom: d(4),
-                    boxShadow: `0 ${d(4)}px 0 ${["#27A852", "#D9483A", "#5A3FD9"][i]}`,
+                    boxShadow: `0 ${d(4)}px 0 ${[c.greenLip, c.coralLip, c.accentLip][i]}`,
                 }}>
                   <Txt style={{
                     fontSize: d(11),
-                    color: "#FFFFFF",
+                    color: i === 2 ? c.onAccent : c.onFill,
                     fontFamily: "Nunito_900Black",
                     letterSpacing: d(0.6),
                     textAlign: "center",
@@ -298,7 +296,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
       </ScrollView>
       {phase === "result" ? (<Effect board="Confetti" trigger={stats.perfect ? "large" : "medium"} delay={300} style={{ position: "absolute", top: d(0), left: d(0), right: d(0), bottom: d(0) }}/>) : null}
       
-      {phase === "canSay" ? (<Effect board="Twinkle" color="#FFC93C" delay={280} repeat={2700} style={{
+      {phase === "canSay" ? (<Effect board="Twinkle" color={c.sparkle} delay={280} repeat={2700} style={{
                 position: "absolute",
                 top: "25%",
                 width: "100%",
