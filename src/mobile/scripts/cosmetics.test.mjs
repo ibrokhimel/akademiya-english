@@ -122,15 +122,17 @@ test('text on an accent fill reads on the fill and on its lip, in every theme an
     const body = id === 'violet' ? 3 : 4.5;
     assert.ok(contrastRatio(t.onAccent, t.accent) >= body, `${name} on accent`);
     assert.ok(contrastRatio(t.onAccent, t.accentLip) >= 4.5, `${name} on lip`);
+    // the combo page's second line sits on the lip
+    assert.ok(contrastRatio(t.onAccentSoft, t.accentLip) >= 3, `${name} soft on lip`);
     if (id !== 'violet') for (const k of ['onAccentSoft', 'onAccentFaint', 'onAccentLabel']) assert.ok(contrastRatio(t[k], t.accent) >= 3, `${name} ${k}`);
   });
 });
 
-test('the accent as text reads on the page, the cards and the wash (Binafsha keeps today\'s violet)', async () => {
+test('the accent as text reads on the page, the cards, the surface and the wash (Binafsha keeps today\'s violet)', async () => {
   const { all, contrastRatio } = await themeSetup();
   each(all, (t, name, mode, id) => {
     if (id === 'violet') return assert.equal(t.accentText, '#7B5CFF');
-    for (const bg of [t.bg, t.card, t.accentWash]) assert.ok(contrastRatio(t.accentText, bg) >= 4.5, `${name} on ${bg}`);
+    for (const bg of [t.bg, t.card, t.surface, t.accentWash]) assert.ok(contrastRatio(t.accentText, bg) >= 4.5, `${name} on ${bg}`);
     // on the pale wash and on white buttons, which stay light in dark mode
     for (const bg of [t.accentPale, '#FFFFFF']) assert.ok(contrastRatio(t.accentPaleText, bg) >= 4.5, `${name} pale text on ${bg}`);
   });
@@ -147,4 +149,18 @@ test('picks show in every theme: the accent is not the ink, the wash is not the 
     assert.ok(deltaE(t.accent, t.dangerFill) >= 20, `${mode} Anor vs danger`);
     assert.ok(deltaE(t.accent, t.notYet) >= 20, `${mode} Anor vs notYet`);
   }
+});
+
+test('a symbol on a coloured catalogue tile reads on that colour (white or ink, by contrast), in every theme and mode', async () => {
+  const { all, contrastRatio, tokens } = await themeSetup();
+  const { brandColors, colourOf } = await import('../src/components/themeColors.ts');
+  const { accentInk } = await import('../../core/look.js');
+  const named = brandColors(tokens.color, tokens.color.app.english);
+  each(all, (t, name) => {
+    for (const [list, items] of lists) for (const x of items) {
+      if (!x.symbol || !x.color) continue;
+      const fill = colourOf(x.color, t, named);
+      assert.ok(contrastRatio(accentInk(fill, tokens.color.light.ink), fill) >= 3, `${name} ${list} ${x.id} on ${fill}`);
+    }
+  });
 });

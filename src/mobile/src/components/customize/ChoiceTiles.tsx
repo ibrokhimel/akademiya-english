@@ -22,13 +22,12 @@ export type Choice = {
 /** The stand-in picture of a catalogue entry: its colour, a picture from assets.ts or a short symbol. */
 export function CosmeticFace({ item, locked = false }: { item: Cosmetic; locked?: boolean }) {
   const d = useDesignScale(), c = useTheme(), colour = useCosmeticColor();
-  const solid = !!item.color && !item.symbol && !item.picture;
-  // a symbol on a coloured tile: white, or the ink where white would not read on that colour
-  const onFill = accentInk(item.color ? colour(item.color) : c.soft, shared.light.ink);
+  // a symbol on a coloured tile: white, or the ink where white would not read on that colour (scripts/cosmetics.test.mjs)
+  const onFill = item.color ? accentInk(colour(item.color), shared.light.ink) : null;
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: item.color ? colour(item.color) : undefined, opacity: locked ? 0.5 : 1 }}>
       {item.picture ? <View style={locked ? { filter: [{ grayscale: 1 }] } : undefined}><Icon name={item.picture} size={d(40)} /></View> : null}
-      {item.symbol && !item.picture ? <Txt numberOfLines={1} style={{ fontSize: d(item.symbol.length > 3 ? 12 : 18), fontFamily: "Nunito_900Black", color: solid ? onFill : locked ? c.muted : c.accentText }}>{item.symbol}</Txt> : null}
+      {item.symbol && !item.picture ? <Txt numberOfLines={1} style={{ fontSize: d(item.symbol.length > 3 ? 12 : 18), fontFamily: "Nunito_900Black", color: locked ? c.muted : onFill ?? c.accentText }}>{item.symbol}</Txt> : null}
     </View>
   );
 }
