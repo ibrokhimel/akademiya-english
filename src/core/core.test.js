@@ -583,3 +583,19 @@ test('held: his eyes look toward the finger in his own turned frame', () => {
   assert.ok(NUMS(look.fx, 'lookY')[0] < -20, 'lying on the left wall, the screen right is his up: ' + NUMS(look.fx, 'lookY')[0]);
   assert.ok(Math.abs(NUMS(look.fx, 'lookX')[0]) < 5);
 });
+// Shaken (owner 2026-10-28: "it should say voooy or scream, wake up if it's sleeping and make a scared face").
+const moods = (fx) => fx.filter((f) => f.mood).map((f) => f.mood);
+test('shake: asleep, he wakes with a scream and a scared face and is thrown', () => {
+  const asleep = runR(ticks(0, 22600, 500));
+  const a = runR([{ type: 'phoneShake', t: 23000, rand: 0.3 }], 'all', asleep.s);
+  assert.ok(fires(a.fx).includes('wake')); assert.ok(a.fx.some((f) => f.scream)); assert.ok(moods(a.fx).includes('surprised'));
+  assert.equal(a.s.mode, 'flying');
+});
+test('shake: held, he screams and looks scared but stays in the hand', () => {
+  const a = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'phoneShake', t: 330, rand: 0.3 }]);
+  assert.ok(a.fx.some((f) => f.scream)); assert.ok(moods(a.fx).includes('surprised')); assert.equal(a.s.mode, 'held');
+});
+test('shake: after landing he looks annoyed, then his face calms down', () => {
+  const a = runR([{ type: 'phoneShake', t: 0, rand: 0.3 }, ...ticks(16, 6000)]);
+  assert.ok(fires(a.fx).includes('shook')); assert.equal(moods(a.fx).at(-1), 'smirk');
+});

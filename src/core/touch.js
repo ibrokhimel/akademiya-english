@@ -12,7 +12,7 @@
 // free spot; owner, 2026-10-27). env: { w, h, homeX, floorY, groundY?, eyeUp?, zones? } in screen points; groundY is
 // where he lands (default floorY, his home); top is where his feet rest when he falls upwards (default 60); eyeUp is his eyes' height above his feet; zones: { peek?: { l, r, top }
 // (the Learn card), warm?: { x, y } (the flame's left side and bottom) }.
-// Effects: { fire } { play } { mood } { haptic } { drop } and { num: [name, value] } { looking } { hidden } { pop }.
+// Effects: { fire } { play } { mood } { haptic } { drop } and { num: [name, value] } { looking } { hidden } { pop } { scream }.
 
 const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 400, POKE_RESET_MS = 4000,
   BACK_MS = 3000, THROW = 900, SLEEP_MS = 22000, WAKE_MS = 950, SHAKE_SPEED = 380, SHAKE_HITS = 5, SHAKE_MS = 900,
@@ -207,11 +207,16 @@ export function touchReducer(state, ev) {
   } else if (ev.type === 'pinchEnd') {
     if (s.pinch) { s.pinch = null; num('stretch', 0); fire('snap'); buzz(12); s.lastAct = t; }
   } else if (ev.type === 'phoneShake') {
-    if (!['held', 'hidden', 'peeking', 'exit'].includes(s.mode)) {
-      const b = s.body, r = rand();
-      s.perch = null; s.mode = 'flying'; s.shook = true; s.lastAct = t;
-      b.vx = (r < 0.5 ? -1 : 1) * (700 + r * 500); b.vy = -900 - r * 300; b.spin = b.vx * 0.7;
-      play('none');
+    // Shaken (owner 2026-10-28): he screams "Voy!", wakes if asleep and looks scared; held, he stays in the hand.
+    if (!['hidden', 'peeking', 'exit'].includes(s.mode)) {
+      if (s.mode === 'asleep' || s.mode === 'waking') { fire('wake'); delete s.at.wake; }
+      fx.push({ scream: true }); mood('surprised'); s.lastAct = t; s.shook = true;
+      if (s.mode !== 'held') {
+        const b = s.body, r = rand();
+        s.perch = null; s.edge = null; s.mode = 'flying';
+        b.vx = (r < 0.5 ? -1 : 1) * (700 + r * 500); b.vy = -900 - r * 300; b.spin = b.vx * 0.7;
+        play('none');
+      }
     }
   } else if (ev.type === 'gravity') {
     // A phone lying flat has no clear down across the screen: the screen's bottom stays down.
@@ -245,7 +250,8 @@ export function touchReducer(state, ev) {
     if (s.at.wake && t >= s.at.wake) { delete s.at.wake; mood('smirk'); rest(); s.lastAct = t; }
     if (s.at.unwink && t >= s.at.unwink) { delete s.at.unwink; mood('smirk'); }
     if (s.at.smug && t >= s.at.smug) { delete s.at.smug; fire('smug'); }
-    if (s.at.shook && t >= s.at.shook) { delete s.at.shook; fire('shook'); }
+    if (s.at.shook && t >= s.at.shook) { delete s.at.shook; fire('shook'); s.at.calm = t + 1200; }
+    if (s.at.calm && t >= s.at.calm) { delete s.at.calm; if (s.mode !== 'asleep') mood('smirk'); }
     if (s.at.perchPlay && t >= s.at.perchPlay) { delete s.at.perchPlay; if (s.mode === 'perched' && s.perch) play(s.perch); }
     if (s.at.unlook && t >= s.at.unlook) { delete s.at.unlook; if (s.mode !== 'held') { fx.push({ looking: false }); num('lookX', 0); num('lookY', 0); } }
     if (s.at.hf && t >= s.at.hf) { delete s.at.hf; if (resting()) { s.hf = t + HF_MS; s.lastAct = t; play('highfive'); } }

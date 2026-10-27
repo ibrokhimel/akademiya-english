@@ -8,11 +8,14 @@ import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "re
 import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
 import { useFinger } from "./DombiWatch";
+import { playDombi } from "../lib/audio";
 import { useMicLevel } from "../lib/micLevel";
 import { useApp } from "../lib/store";
 import { Dombi, type DombiMoment } from "./Dombi";
 
-type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean };
+type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean; scream?: boolean };
+/** What Dombi cries when the phone is shaken (owner 2026-10-28: "it should say voooy"); a recorded line in his voice. */
+export const SCREAM = "Voooy!";
 /** Learn-tab perches in screen points: the card's top edge and the flame's left side and bottom. */
 export type Zones = { peek?: { l: number; r: number; top: number }; warm?: { x: number; y: number } };
 type Event = { type: string; t: number; x?: number; y?: number; dt?: number; cancel?: boolean; d?: number; gx?: number; gy?: number; level?: number };
@@ -42,7 +45,9 @@ function buzz(pattern: number | number[]) {
 export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef, onPop, phone = false }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => boolean) | null>; /** a high-five landed: the screen shows its pop */ onPop?: () => void; /** a tab: the phone's sensors and the mic (while held) may move him */ phone?: boolean }) {
   const reduce = useReducedMotion();
   // Settings → "Telefon harakati" (owner 2026-10-28: off unless the learner turns it on).
-  const motion = useApp().settings.phoneMotion === true;
+  const { phoneMotion, sound: soundOn } = useApp().settings, motion = phoneMotion === true;
+  const soundRef = useRef(soundOn);
+  useEffect(() => { soundRef.current = soundOn; }, [soundOn]);
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
   const state = useRef<ReturnType<typeof touchStart> | null>(null);
@@ -81,6 +86,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
       if (e.drop) { dropTo.current?.(dx.get(), dy.get()); dx.set(0); dy.set(0); rot.set(0); continue; }
       if (e.hidden !== undefined) { shown.set(e.hidden ? 0 : 1); continue; }
       if (e.pop) { popTo.current?.(); continue; }
+      if (e.scream) { if (at === now) void playDombi(SCREAM, soundRef.current); continue; }
       const r = rig.current;
       if (!r) { if (awakeRef.current) pending.current.push({ e, at }); continue; }   // still-picture phone: the rig is mounting
       if (e.fire) r.fire(e.fire); else if (e.play !== undefined) r.play(e.play); else if (e.mood) r.mood(e.mood);
