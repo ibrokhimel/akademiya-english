@@ -85,6 +85,7 @@ function Navigation() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="settings" />
           <Stack.Screen name="customize/index" />
+          <Stack.Screen name="customize/avatar" />
           <Stack.Screen name="speech-settings" />
           <Stack.Protected guard={testToolsEnabled}>
             <Stack.Screen name="device-settings" />

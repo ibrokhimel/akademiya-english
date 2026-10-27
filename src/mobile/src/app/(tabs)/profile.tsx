@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
 import { GoalSheet } from "../../components/GoalSheet";
 import { DombiOverlay } from "../../components/TabChrome";
+import { Avatar } from "../../components/Avatar";
 import { Arrive } from "../../components/Motion";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
@@ -52,6 +53,7 @@ export default function Profile() {
           level={p.level}
           date={date}
           animate
+          avatar={(size) => <Avatar avatar={settings.profile.avatar} name={name} size={size} dombiOutfit={settings.profile.dombi.outfit} />}
           actions={[
             [
               "glyph-more-violet",

@@ -15,8 +15,8 @@ export type ChipOption = {
 type Single = { multi?: false; value: string | null; onChange: (id: string) => void };
 type Multi = { multi: true; value: string[]; onChange: (ids: string[]) => void; max?: number };
 
-/** Pill chips in a wrapping row. Single select calls onChange(id); multi select toggles ids in an array. */
-export function Chips({ options, ...pick }: { options: ChipOption[] } & (Single | Multi)) {
+/** Pill chips in a wrapping row. Single select calls onChange(id); multi select toggles ids in an array. `solid` draws the picked chip filled dark (the builder's part tabs). */
+export function Chips({ options, solid = false, ...pick }: { options: ChipOption[]; solid?: boolean } & (Single | Multi)) {
   const d = useDesignScale(), c = useTheme(), { settings } = useApp();
   const on = (id: string) => (pick.multi ? pick.value.includes(id) : pick.value === id);
   const press = (id: string) => {
@@ -50,12 +50,12 @@ export function Chips({ options, ...pick }: { options: ChipOption[] } & (Single 
               paddingHorizontal: d(14),
               borderRadius: d(20),
               borderWidth: d(2),
-              borderColor: selected ? violet : c.line,
-              backgroundColor: selected ? c.soft : o.locked ? c.surface : c.card,
+              borderColor: selected ? (solid ? c.text : violet) : c.line,
+              backgroundColor: selected ? (solid ? c.text : c.soft) : o.locked ? c.surface : c.card,
             }}
           >
             {o.locked ? <Icon name="glyph-lock-grey" size={d(16)} /> : null}
-            <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? violet : c.text) }}>{o.label}</Txt>
+            <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : violet) : c.text) }}>{o.label}</Txt>
           </Pressable>
         );
       })}
