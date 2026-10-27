@@ -369,11 +369,20 @@ test('spots: with no room for 80 he shrinks to 48, and with no room at all there
   assert.equal(s.size, 48); assert.ok(!tight.some((b) => hits(s, b)));
   assert.equal(pickSpot({ area: AREA, blocks: [{ x: 0, y: 0, w: 360, h: 440 }], target: { x: 0, y: 0 } }), null);
 });
-test('touch: in a lesson he can be carried, and letting go hands the drop to the screen instead of falling', () => {
-  const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
-  const fx = []; let s = touchStart(0);
-  const ev = [...hold, { type: 'move', t: 340, x: 200, y: 400 }, ...ticks(356, 700), { type: 'move', t: 710, x: 200, y: 401 }, { type: 'up', t: 720, x: 200, y: 401 }];
-  for (const e of ev) { const r = touchReducer(s, { env: ENV, rule: 'perch', ...e }); s = r.state; fx.push(...r.effects); }
-  assert.ok(fires(fx).includes('hop')); assert.equal(fx.filter((f) => f.drop).length, 1);
-  assert.equal(s.mode, 'idle'); assert.equal(s.body.x, ENV.homeX); assert.equal(s.body.y, ENV.floorY);
+test('touch: in a lesson a throw plays out; he stays where he lands and goes to his spot only after 4 s untouched', () => {
+  const env = { ...ENV, groundY: 760 };
+  const go = (events, s = touchStart(0)) => { const fx = []; for (const e of events) { const r = touchReducer(s, { env, rule: 'perch', ...e }); s = r.state; fx.push(...r.effects); } return { s, fx }; };
+  const carry = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const thrown = go([...carry, { type: 'move', t: 330, x: 200, y: 500 }, { type: 'move', t: 380, x: 150, y: 450 }, { type: 'up', t: 400, x: 140, y: 440 }]);
+  assert.equal(thrown.s.mode, 'flying'); assert.ok(fires(thrown.fx).includes('hop'));
+  const landed = go(ticks(416, 3900), thrown.s);
+  assert.ok(fires(landed.fx).includes('land')); assert.equal(landed.s.body.y, 760);
+  assert.equal(landed.s.mode, 'idle'); assert.notEqual(landed.s.body.x, ENV.homeX, 'he stays where he landed');
+  assert.ok(!landed.fx.some((f) => f.drop) && !plays(landed.fx).includes('walk'));
+  // A poke while he is away starts the wait again.
+  const poked = go([{ type: 'down', t: 3950, x: 100, y: 700 }, { type: 'up', t: 4030, x: 100, y: 700 }, ...ticks(4100, 7900, 100)], landed.s);
+  assert.ok(!poked.fx.some((f) => f.drop));
+  const back = go(ticks(8000, 8300, 100), poked.s);
+  assert.equal(back.fx.filter((f) => f.drop).length, 1);
+  assert.equal(back.s.body.x, ENV.homeX); assert.equal(back.s.body.y, ENV.floorY);
 });

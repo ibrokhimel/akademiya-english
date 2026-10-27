@@ -2,13 +2,15 @@
 // The app feeds finger events and frame ticks in; out come the rig effects (triggers, the `play` enum, mood, haptics)
 // and his body (position, swing, squish) for the screen to draw.
 //   touchStart(t) -> state     touchReducer(state, { type: 'down'|'move'|'up'|'tick', t, x?, y?, dt?, rand?, cancel?, rule, env })
-// rule: 'all' (tabs), 'nocarry' (no carrying) or 'perch' (a lesson: he can be carried, and on letting go the screen
-// moves him to the nearest free spot; owner, 2026-10-27). env: { w, h, homeX, floorY } in screen points.
+// rule: 'all' (tabs), 'nocarry' (no carrying) or 'perch' (a lesson: carried, dropped and thrown as on the tabs, but he
+// stays where he lands; after 4 s untouched the effect `drop` hands him to the screen, which moves him to the nearest
+// free spot; owner, 2026-10-27). env: { w, h, homeX, floorY, groundY? } in screen points; groundY is where he lands
+// (default floorY, his home).
 
 const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 400, POKE_RESET_MS = 4000,
   BACK_MS = 3000, THROW = 900, SLEEP_MS = 22000, WAKE_MS = 950, SHAKE_SPEED = 380, SHAKE_HITS = 5, SHAKE_MS = 900,
   DIZZY_COOLDOWN = 2600, GRAVITY = 2600, BOUNCE_SPEED = 700, WALK = 95,
-  RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24;
+  RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24, AWAY_MS = 4000;
 const TRICKS = ['trickSpin', 'trickFlick', 'trickShades'];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
@@ -22,7 +24,7 @@ export function touchStart(t = 0) {
 
 export function touchReducer(state, ev) {
   const s = { ...state, body: { ...state.body }, shake: { ...state.shake, hits: [...state.shake.hits] }, trail: [...state.trail], at: { ...state.at }, press: state.press && { ...state.press } };
-  const fx = [], env = ev.env, t = ev.t;
+  const fx = [], env = ev.env, t = ev.t, ground = env.groundY ?? env.floorY;
   if (s.body.x === null) { s.body.x = env.homeX; s.body.y = env.floorY; }
   const fire = (name) => fx.push({ fire: name }), play = (v) => fx.push({ play: v }), mood = (m) => fx.push({ mood: m }), buzz = (h) => fx.push({ haptic: h });
 
@@ -32,8 +34,6 @@ export function touchReducer(state, ev) {
   };
   const release = () => {
     const b = s.body; b.swing = 0; b.squish = 0;
-    // In a lesson the screen takes him from where he was let go (effect `drop`, before he is put back home here).
-    if (ev.rule === 'perch') { fx.push({ drop: true }); s.mode = 'idle'; Object.assign(b, { x: env.homeX, y: env.floorY, vx: 0, vy: 0, rot: 0, spin: 0, swingV: 0 }); play('none'); return; }
     let tr = s.trail.filter((q) => t - q.t < 130); if (tr.length < 2) tr = s.trail.slice(-3).filter((q) => t - q.t < 260);
     if (tr.length >= 2 && tr[tr.length - 1].t > tr[0].t) { const dts = (tr[tr.length - 1].t - tr[0].t) / 1000; b.vx = (tr[tr.length - 1].x - tr[0].x) / dts; b.vy = (tr[tr.length - 1].y - tr[0].y) / dts; }
     else { b.vx *= 0.4; b.vy *= 0.4; }
@@ -62,7 +62,7 @@ export function touchReducer(state, ev) {
     else { s.mode = 'walking'; play('walk'); }
   };
   const landed = (hard) => {
-    const b = s.body; b.vy = 0; b.vx = 0; b.rot = 0; b.spin = 0; b.y = env.floorY;
+    const b = s.body; b.vy = 0; b.vx = 0; b.rot = 0; b.spin = 0; b.y = ground;
     fire('land'); buzz(hard ? [20, 30, 10] : 18);
     s.mode = 'recover'; s.at.recover = t + (hard ? 1500 : 700); if (hard) s.at.smug = t + 520;
   };
@@ -108,7 +108,14 @@ export function touchReducer(state, ev) {
     if (s.at.wake && t >= s.at.wake) { delete s.at.wake; mood('smirk'); play('none'); s.mode = 'idle'; s.lastAct = t; }
     if (s.at.unwink && t >= s.at.unwink) { delete s.at.unwink; mood('smirk'); }
     if (s.at.smug && t >= s.at.smug) { delete s.at.smug; fire('smug'); }
-    if (s.at.recover && t >= s.at.recover) { delete s.at.recover; if (s.mode === 'recover') walkHome(); }
+    if (s.at.recover && t >= s.at.recover) {
+      delete s.at.recover;
+      if (s.mode === 'recover') { if (ev.rule === 'perch') { s.mode = 'idle'; play('none'); s.lastAct = t; } else walkHome(); }
+    }
+    // In a lesson he waits where he landed; 4 s untouched, the screen takes him to his spot.
+    if (ev.rule === 'perch' && s.mode === 'idle' && !s.press && t - s.lastAct >= AWAY_MS && Math.hypot(b.x - env.homeX, b.y - env.floorY) > 6) {
+      fx.push({ drop: true }); Object.assign(b, { x: env.homeX, y: env.floorY, vx: 0, vy: 0, rot: 0, spin: 0 }); s.lastAct = t;
+    }
     if (s.mode === 'held') {
       const ox = b.vx, oy = b.vy;
       b.vx += ((b.tx - b.x) * 130 - b.vx * 15) * dt; b.vy += ((b.ty - b.y) * 130 - b.vy * 15) * dt; b.x += b.vx * dt; b.y += b.vy * dt;
@@ -120,8 +127,8 @@ export function touchReducer(state, ev) {
       if (b.x < 50) { b.x = 50; b.vx = Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
       if (b.x > env.w - 50) { b.x = env.w - 50; b.vx = -Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
       if (b.y < 110 && b.vy < 0) { b.y = 110; b.vy = Math.abs(b.vy) * 0.5; }
-      if (b.y >= env.floorY && b.vy > 0) {
-        if (s.mode === 'flying' && b.vy > BOUNCE_SPEED) { b.y = env.floorY; b.vy = -b.vy * 0.42; b.vx *= 0.7; b.spin *= 0.5; buzz(10); }
+      if (b.y >= ground && b.vy > 0) {
+        if (s.mode === 'flying' && b.vy > BOUNCE_SPEED) { b.y = ground; b.vy = -b.vy * 0.42; b.vx *= 0.7; b.spin *= 0.5; buzz(10); }
         else landed(s.mode === 'flying');
       }
     } else if (s.mode === 'walking') {
