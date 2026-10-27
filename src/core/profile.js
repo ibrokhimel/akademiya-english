@@ -4,7 +4,7 @@ export const STAT_IDS = ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level
 
 const HIDDEN_BY_DEFAULT = ['joined', 'trophyShelf'];
 const STATS_SHOWN = ['phrases', 'streak', 'lessons', 'level'];
-const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built'];
+const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built', 'moving'];
 const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];
 const BADGE_STYLES = ['grid', 'row', 'shelf'];
@@ -116,7 +116,8 @@ export function profileForSync(profile) {
 // The pictures, GIFs and videos the profile uses right now: which users field each goes to, and where it is on the phone.
 function mediaInUse(profile) {
   const p = normalizeProfile(profile), out = [];
-  if ((p.avatar.kind === 'photo' || p.avatar.kind === 'media') && p.avatar.uri) out.push({ field: 'avatar', uri: p.avatar.uri, mediaType: p.avatar.mediaType });
+  const ownPicture = p.avatar.kind === 'photo' || p.avatar.kind === 'media' || (p.avatar.kind === 'letter' && p.avatar.bg === 'own');
+  if (ownPicture && p.avatar.uri) out.push({ field: 'avatar', uri: p.avatar.uri, mediaType: p.avatar.mediaType });
   if (p.banner.kind === 'media' && p.banner.uri) out.push({ field: 'banner', uri: p.banner.uri, mediaType: p.banner.mediaType });
   if (p.look.background.kind === 'media' && p.look.background.uri) out.push({ field: 'background', uri: p.look.background.uri, mediaType: p.look.background.mediaType });
   return out;

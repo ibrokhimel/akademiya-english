@@ -15,7 +15,7 @@ import { useApp } from "../../lib/store";
 
 const labelOf = (list: { id: string; label: string }[], id: string | null | undefined, fallback: string) =>
   list.find((x) => x.id === id)?.label ?? fallback;
-const avatarKinds = { letter: "Harf", photo: "Rasm", media: "GIF / video", dombi: "Dombi", built: "Yasash" } as const;
+const avatarKinds = { letter: "Harf", photo: "Rasm", media: "GIF / video", dombi: "Dombi", built: "Yasash", moving: "Harf" } as const;
 
 /** Profilni bezash: the preview card and one row per editor. The editors are separate routes under /customize. */
 export default function Customize() {

@@ -6,6 +6,7 @@ import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
 import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -684,4 +685,90 @@ test('a letter avatar or a colour banner uploads nothing, and a changed picture 
 test('the early bird title needs five early lessons', () => {
   assert.ok(!earnedItems({ earlyLessons: 4 }).has('title.earlyBird') && earnedItems({ earlyLessons: 5 }).has('title.earlyBird'));
   assert.equal(earnedItems({}).has('title.earlyBird'), false);
+});
+
+// ---- profile customization: media limits, recent pictures, crop, seasonal frames (customize.js) ----
+const gif = (...delays) => {   // a tiny GIF89a: header, screen, no colour table, one image per delay (centiseconds)
+  const out = [...'GIF89a'].map((ch) => ch.charCodeAt(0)).concat([1, 0, 1, 0, 0, 0, 0]);
+  out.push(0x21, 0xff, 11, ...[...'NETSCAPE2.0'].map((ch) => ch.charCodeAt(0)), 3, 1, 0, 0, 0);   // loop extension, skipped
+  for (const cs of delays) out.push(0x21, 0xf9, 4, 0, cs & 0xff, cs >> 8, 0, 0, 0x2c, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 0x44, 0x01, 0);
+  out.push(0x3b);
+  return Uint8Array.from(out);
+};
+test('picked media is an image, a GIF or a video', () => {
+  assert.equal(pickedMediaType({ type: 'image', mimeType: 'image/jpeg', fileName: 'a.jpg' }), 'image');
+  assert.equal(pickedMediaType({ type: 'image', mimeType: 'image/gif' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'image', fileName: 'Fun.GIF' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'image', uri: 'file:///x/y.gif' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'video', mimeType: 'video/mp4' }), 'video');
+  assert.equal(pickedMediaType({ type: 'pairedVideo' }), 'video');
+  assert.equal(pickedMediaType({ type: null, mimeType: 'video/quicktime' }), 'video');
+  assert.equal(pickedMediaType({ type: 'livePhoto' }), 'image');
+  assert.equal(pickedMediaType({}), 'image');
+});
+test('GIF and video over 8 MB or 6 seconds are refused, pictures are never refused', () => {
+  const MB = 1024 * 1024;
+  assert.equal(MEDIA_LIMITS.bytes, 8 * MB); assert.equal(MEDIA_LIMITS.ms, 6000);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 5900 }), null);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 8 * MB, ms: 6000 }), null);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 6040 }), null, 'a 6 s clip the container rounds up still passes');
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 6200 }), 'tooLong');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 8 * MB + 1, ms: 1000 }), 'tooBig');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 9 * MB, ms: 9000 }), 'tooBig');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 100, ms: null }), null, 'unknown length is not a reason to refuse');
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: null, ms: 2000 }), null);
+  assert.equal(mediaProblem({ mediaType: 'image', bytes: 40 * MB, ms: null }), null);
+});
+test('a GIF is as long as its frame delays, short delays play at 100 ms like browsers do', () => {
+  assert.equal(gifDurationMs(gif(50, 50, 100)), 2000);
+  assert.equal(gifDurationMs(gif(0, 1, 2)), 220);
+  assert.equal(gifDurationMs(gif(700)), 7000);
+  assert.equal(gifDurationMs(Uint8Array.from([1, 2, 3])), null);
+  assert.equal(gifDurationMs(gif(50).slice(0, 30)), null, 'a cut file has no length');
+});
+test('recent pictures keep the last 4, newest first, without repeats', () => {
+  let list = [];
+  for (const n of [1, 2, 3, 4, 5]) list = rememberMedia(list, { uri: `file:///${n}.jpg`, mediaType: 'image' }).list;
+  assert.deepEqual(list.map((m) => m.uri), ['file:///5.jpg', 'file:///4.jpg', 'file:///3.jpg', 'file:///2.jpg']);
+  const again = rememberMedia(list, { uri: 'file:///3.jpg', mediaType: 'image' });
+  assert.deepEqual(again.list.map((m) => m.uri), ['file:///3.jpg', 'file:///5.jpg', 'file:///4.jpg', 'file:///2.jpg']);
+  assert.deepEqual(again.dropped, []);
+  const next = rememberMedia(again.list, { uri: 'file:///6.mp4', mediaType: 'video' });
+  assert.deepEqual(next.dropped.map((m) => m.uri), ['file:///2.jpg']);
+  assert.deepEqual(rememberMedia('junk', { uri: 'file:///a.gif', mediaType: 'gif' }).list, [{ uri: 'file:///a.gif', mediaType: 'gif' }]);
+  assert.deepEqual(rememberMedia([{ uri: 5 }, null, { uri: 'file:///b.png', mediaType: 'nope' }], { uri: 'file:///a.gif', mediaType: 'gif' }).list.map((m) => m.uri), ['file:///a.gif']);
+});
+test('the crop window covers the mask, pans only as far as the picture reaches and maps to picture pixels', () => {
+  const g = { imageW: 3000, imageH: 4000, viewW: 390, maskW: 300, maskH: 300 };
+  assert.equal(cropBase(g), 0.13);   // fits the screen width
+  assert.equal(cropBase({ imageW: 4000, imageH: 1000, viewW: 390, maskW: 350, maskH: 178 }), 0.178);   // a wide strip still covers the mask height
+  const mid = cropRect({ ...g, scale: 1, x: 0, y: 0 });
+  assert.deepEqual(mid, { originX: 346, originY: 846, width: 2308, height: 2308 });
+  const far = cropRect({ ...g, scale: 1, x: 9999, y: -9999 });
+  assert.equal(far.originX, 0); assert.equal(far.originY, 4000 - far.height);
+  const zoom = cropRect({ ...g, scale: 2, x: 0, y: 0 });
+  assert.equal(zoom.width, 1154); assert.equal(zoom.originX, 923);
+  assert.deepEqual(clampPan({ ...g, scale: 1, x: 9999, y: 9999 }), { x: 45, y: 110 });
+  const tiny = cropRect({ imageW: 100, imageH: 100, viewW: 390, maskW: 350, maskH: 178, scale: 0.2, x: 0, y: 0 });
+  assert.ok(tiny.originX >= 0 && tiny.originY >= 0 && tiny.originX + tiny.width <= 100 && tiny.originY + tiny.height <= 100, JSON.stringify(tiny));
+});
+test('seasonal frames open only in their window, year-end windows wrap, Ramadan is always open', () => {
+  const on = (id, iso) => seasonOpen(id, new Date(iso + 'T12:00:00'));
+  assert.ok(on('navruz', '2027-03-01') && on('navruz', '2027-03-31') && !on('navruz', '2027-02-28') && !on('navruz', '2027-04-01'));
+  assert.ok(on('independence', '2027-08-25') && on('independence', '2027-09-05') && !on('independence', '2027-08-24') && !on('independence', '2027-09-06'));
+  assert.ok(on('newyear', '2026-12-15') && on('newyear', '2026-12-31') && on('newyear', '2027-01-15') && !on('newyear', '2027-01-16') && !on('newyear', '2026-12-14'));
+  assert.ok(on('ramadan', '2027-06-10') && on('violet', '2027-06-10') && on('streak7', '2027-06-10'));
+  assert.deepEqual(SEASONAL_FRAMES, ['navruz', 'independence', 'newyear', 'ramadan']);
+});
+test('a seasonal frame chosen in its window is drawn as none after it', () => {
+  assert.equal(frameShown('navruz', new Date('2027-03-10T12:00:00')), 'navruz');
+  assert.equal(frameShown('navruz', new Date('2027-04-10T12:00:00')), 'none');
+  assert.equal(frameShown('gold', new Date('2027-04-10T12:00:00')), 'gold');
+  assert.equal(frameShown('ramadan', new Date('2027-04-10T12:00:00')), 'ramadan');
+});
+test('the moving avatar is a kind of its own, and a letter on your own picture uploads that picture', () => {
+  assert.equal(normalizeProfile({ avatar: { kind: 'moving' } }).avatar.kind, 'moving');
+  const own = normalizeProfile({ avatar: { kind: 'letter', bg: 'own', uri: 'file:///bg.jpg', mediaType: 'image' } });
+  assert.deepEqual(mediaToUpload(own, {}).map((m) => [m.field, m.uri]), [['avatar', 'file:///bg.jpg']]);
+  assert.deepEqual(mediaToUpload(normalizeProfile({ avatar: { kind: 'letter', bg: 'plain', uri: 'file:///bg.jpg', mediaType: 'image' } }), {}), []);
 });

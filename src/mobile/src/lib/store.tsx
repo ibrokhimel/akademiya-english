@@ -20,7 +20,7 @@ type Media = { uri: string | null; mediaType: "image" | "gif" | "video" | null }
 export type Profile = {
   v: 1;
   avatar: Media & {
-    kind: "letter" | "photo" | "media" | "dombi" | "built";
+    kind: "letter" | "photo" | "media" | "dombi" | "built" | "moving";
     color: string; bg: string; expression: string;
     built: { skin: number; hair: string | null; eyes: string; brows: string | null; beard: string | null; glasses: string | null; hijab: string | null; doppi: string | null; clothes: string | null };
   };
