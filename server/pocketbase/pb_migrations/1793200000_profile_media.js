@@ -23,6 +23,7 @@ migrate((app) => {
   app.save(users);
 }, (app) => {
   const users = app.findCollectionByNameOrId("users");
+  // The widened built-in `avatar` field is left as it is: it was there before this migration, and narrowing it again could reject files already stored.
   users.removeIndex("idx_users_username");
   for (const name of ["banner", "background", "username"]) users.fields.removeByName(name);
   app.save(users);

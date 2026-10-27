@@ -91,9 +91,9 @@ export function normalizeProfile(raw) {
   };
 }
 
-// facts = { bestStreak, perfectLessons, minutesSpoken, level, unitsDone: [unitId] }. "Earned" means ever reached.
+// facts = { bestStreak, perfectLessons, minutesSpoken, level, unitsDone: [unitId], earlyLessons }. "Earned" means ever reached.
 export function earnedItems(facts = {}) {
-  const { bestStreak = 0, perfectLessons = 0, minutesSpoken = 0, level = 0, unitsDone = [] } = facts || {};
+  const { bestStreak = 0, perfectLessons = 0, minutesSpoken = 0, level = 0, unitsDone = [], earlyLessons = 0 } = facts || {};
   const out = new Set();
   for (const n of [7, 30, 100, 365]) if (bestStreak >= n) out.add(`frame.streak${n}`);
   if (bestStreak >= 30) out.add('nameColor.gradient');
@@ -101,6 +101,7 @@ export function earnedItems(facts = {}) {
   if (minutesSpoken >= 60) out.add('frame.speaker');
   ['a1', 'a2', 'b1', 'b2', 'c1'].forEach((c, i) => { if (level >= i + 1) out.add(`frame.level.${c}`); });
   if (level >= 2) out.add('avatar.moving');
+  if (earlyLessons >= 5) out.add('title.earlyBird');
   for (const id of Array.isArray(unitsDone) ? unitsDone.filter((u) => typeof u === 'string' && u !== '') : []) { out.add(`frame.unit.${id}`); out.add(`title.unit.${id}`); }
   return out;
 }

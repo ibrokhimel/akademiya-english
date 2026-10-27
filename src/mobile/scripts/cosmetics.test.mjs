@@ -6,7 +6,7 @@ import { earnedItems } from '../../core/profile.js';
 
 const lists = Object.entries(cos).filter(([, v]) => Array.isArray(v));
 const assetKeys = new Set([...fs.readFileSync(new URL('../src/data/assets.ts', import.meta.url), 'utf8').split('export const pictures')[1].split('export const')[0].matchAll(/^ {2}"([^"]+)":/gm)].map((m) => m[1]));
-const allEarned = earnedItems({ bestStreak: 365, perfectLessons: 10, minutesSpoken: 60, level: 5, unitsDone: Object.values(cos.unitSlugs) });
+const allEarned = earnedItems({ bestStreak: 365, perfectLessons: 10, minutesSpoken: 60, level: 5, unitsDone: Object.values(cos.unitSlugs), earlyLessons: 5 });
 
 test('every list has unique ids and a label', () => {
   assert.ok(lists.length >= 19);

@@ -133,11 +133,11 @@ export const nameColors: Cosmetic[] = [
   c("coral", "Marjon", { color: "coral" }),
   c("gradient", "30 kun", { color: "violet", symbol: "▲", earnedBy: "nameColor.gradient" }),
 ];
-// Titles under the name. Voice of the week has no way to be earned yet, so it waits (ready: false).
+// Titles under the name, all earned. Voice of the week has no way to be earned yet, so it waits (ready: false).
 export const titles: Cosmetic[] = [
   c("none", "Yo'q"),
   c("unit.cafe", "Kafe muxlisi", { earnedBy: "title.unit.cafe" }),
-  c("earlyBird", "Erta turuvchi"),
+  c("earlyBird", "Erta turuvchi", { earnedBy: "title.earlyBird" }),
   c("unit.shop", "Do'kon ustasi", { earnedBy: "title.unit.shop" }),
   c("voiceOfWeek", "Haftaning ovozi", { ready: false }),
   c("streak100", "100 kunlik seriya", { earnedBy: "frame.streak100" }),

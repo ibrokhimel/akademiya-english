@@ -681,3 +681,7 @@ test('a letter avatar or a colour banner uploads nothing, and a changed picture 
   assert.deepEqual(mediaToUpload(p, { avatar: 'file:///old.jpg' }).map((m) => m.field), ['avatar']);
   assert.deepEqual(mediaToUpload(null, null), []);
 });
+test('the early bird title needs five early lessons', () => {
+  assert.ok(!earnedItems({ earlyLessons: 4 }).has('title.earlyBird') && earnedItems({ earlyLessons: 5 }).has('title.earlyBird'));
+  assert.equal(earnedItems({}).has('title.earlyBird'), false);
+});

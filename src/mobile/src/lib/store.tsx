@@ -245,6 +245,7 @@ export function useProfile() {
       bestStreak: facts.best,
       perfectLessons: facts.perfect.length,
       minutesSpoken: facts.minutes,
+      earlyLessons: facts.early.length,
       level: progress.level,
       unitsDone: units.filter((u) => progress.done[u.checkpoint.id]).map((u) => unitSlugs[u.unit]).filter(Boolean),
     }) as Set<string>;

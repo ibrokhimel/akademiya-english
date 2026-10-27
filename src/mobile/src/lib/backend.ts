@@ -190,25 +190,72 @@ async function synchronize() {
   return { events: next, recordings: read<Recording[]>("recordings", []) };
 }
 const MEDIA_LIMIT = 8 * 1024 * 1024;
+const FALLBACK_MIME = { image: "image/jpeg", gif: "image/gif", video: "video/mp4" } as const;
+const FALLBACK_EXT = { image: "jpg", gif: "gif", video: "mp4" } as const;
+/** What the last sync could not do for the profile, for the editors to show. Read it with profileSyncStatus(). */
+export type ProfileSyncStatus = {
+  /** the username last accepted by the server */
+  username: string | null;
+  /** set when the server refused the username (taken or not allowed); cleared when the learner changes it */
+  usernameError: { value: string } | null;
+  /** media the server cannot take: "large" is over 8 MB (the type is worked out from the extension, or from the picked media type) */
+  media: Record<string, { uri: string; error: "large" }>;
+};
+const STATUS_KEY = "profileSync";
+export function profileSyncStatus(user = pb.authStore.record?.id || ""): ProfileSyncStatus {
+  return { username: null, usernameError: null, media: {}, ...read<Record<string, Partial<ProfileSyncStatus>>>(STATUS_KEY, {})[user] };
+}
+function saveStatus(user: string, status: ProfileSyncStatus) {
+  write(STATUS_KEY, { ...read<Record<string, ProfileSyncStatus>>(STATUS_KEY, {}), [user]: status });
+}
 const MIME: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", mp4: "video/mp4", mov: "video/quicktime" };
 // The username and the learner's own picture, GIF or video. Neither may stop the rest of the sync: a taken username or a failed
 // upload is tried again next time, and a picture is sent once (we remember which file went up for which account).
 async function syncProfileExtras(user: string, profile: ReturnType<typeof normalizeProfile>, ensureOwner: () => void) {
-  try {
-    await pb.collection("users").update(user, { username: profile.username });
-  } catch {}
+  let status = profileSyncStatus(user);
+  // The username goes up only when it changed. A refusal (400) is remembered and not retried until the learner changes it; other failures retry next sync.
+  if (profile.username !== (status.username ?? "") && status.usernameError?.value !== profile.username) {
+    try {
+      await pb.collection("users").update(user, { username: profile.username });
+      ensureOwner();
+      status = { ...profileSyncStatus(user), username: profile.username, usernameError: null };
+      saveStatus(user, status);
+    } catch (e) {
+      if ((e as { status?: number })?.status === 400) {
+        ensureOwner();
+        status = { ...profileSyncStatus(user), usernameError: { value: profile.username } };
+        saveStatus(user, status);
+      }
+    }
+  } else if (profile.username === (status.username ?? "") && status.usernameError) {
+    status = { ...status, usernameError: null };
+    saveStatus(user, status);
+  }
   ensureOwner();
   for (const media of mediaToUpload(profile, read<Record<string, Record<string, string>>>("profileMedia", {})[user])) {
+    const known = profileSyncStatus(user).media[media.field];
+    if (known?.uri === media.uri) continue; // refused for good: wait for a different file
+    const refuse = (error: "large") => {
+      ensureOwner();
+      const now = profileSyncStatus(user);
+      saveStatus(user, { ...now, media: { ...now.media, [media.field]: { uri: media.uri, error } } });
+    };
     try {
-      const file = new File(media.uri), ext = media.uri.split("?")[0].split(".").pop()?.toLowerCase() || "";
-      if (!file.exists || file.size > MEDIA_LIMIT || !MIME[ext]) continue;
+      const file = new File(media.uri);
+      if (!file.exists) continue;
+      const ext = media.uri.split("?")[0].split(".").pop()?.toLowerCase() || "";
+      const kind = (media.mediaType || "image") as keyof typeof FALLBACK_MIME;
+      const type = MIME[ext] || FALLBACK_MIME[kind], name = MIME[ext] ? ext : FALLBACK_EXT[kind];
+      if (file.size > MEDIA_LIMIT) { refuse("large"); continue; }
       const form = new FormData();
-      form.append(media.field, { uri: media.uri, name: `${media.field}.${ext}`, type: MIME[ext] } as unknown as Blob);
+      form.append(media.field, { uri: media.uri, name: `${media.field}.${name}`, type } as unknown as Blob);
       await pb.collection("users").update(user, form);
     } catch {
       continue;
     }
     ensureOwner();
+    const now = profileSyncStatus(user);
+    if (now.media[media.field]) { const rest = { ...now.media }; delete rest[media.field]; saveStatus(user, { ...now, media: rest }); }
     const all = read<Record<string, Record<string, string>>>("profileMedia", {});
     write("profileMedia", { ...all, [user]: { ...all[user], [media.field]: media.uri } });
   }
