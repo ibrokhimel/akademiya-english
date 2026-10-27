@@ -80,7 +80,7 @@ export function Choice({ label, icon, selected, dimmed, onPress, detail, number,
         <Txt style={{ fontSize: d(14), color: c.muted, fontFamily: "Nunito_900Black" }}>{number}</Txt>
       ) : !detail ? (
         <View style={{ width: d(24), height: d(24), borderRadius: 12, backgroundColor: c.accent, alignItems: "center", justifyContent: "center", opacity: selected ? 1 : 0 }}>
-          <Icon name="glyph-check-white" size={d(14)} />
+          <Icon name="glyph-check-white" size={d(14)} style={{ tintColor: c.onAccent }} />
         </View>
       ) : null}
     </RaisedPressable>

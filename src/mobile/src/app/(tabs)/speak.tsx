@@ -42,7 +42,7 @@ export default function Speak() {
           </View>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end", paddingTop: d(8), paddingBottom: d(20), paddingHorizontal: d(36) }}>
             <CallButton d={d} label="Vaziyat" icon="speak-bubble" size={60} fill={ds.paper} />
-            <CallButton d={d} label="Gapirish" icon="glyph-mic-white" size={84} fill={c.accent} />
+            <CallButton d={d} label="Gapirish" icon="glyph-mic-white" size={84} fill={c.accent} tint={c.onAccent} />
             <CallButton d={d} label="Tovush" icon="glyph-speaker-violet" size={60} fill={ds.paper} />
           </View>
         </View>
@@ -51,12 +51,12 @@ export default function Speak() {
   );
 }
 
-function CallButton({ d, label, icon, size, fill }: { d: (n: number) => number; label: string; icon: string; size: number; fill: string }) {
+function CallButton({ d, label, icon, size, fill, tint }: { d: (n: number) => number; label: string; icon: string; size: number; fill: string; /** recolours a white glyph for the text-on-accent ink */ tint?: string }) {
   const ds = useDs();
   return (
     <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={notReady} style={{ alignItems: "center", gap: d(6) }}>
       <View style={{ width: d(size), height: d(size), borderRadius: d(size / 2), backgroundColor: fill, alignItems: "center", justifyContent: "center" }}>
-        <Icon name={icon} size={d(size > 60 ? 36 : 28)} />
+        <Icon name={icon} size={d(size > 60 ? 36 : 28)} style={tint ? { tintColor: tint } : undefined} />
       </View>
       <Txt style={{ ...type("label", d), color: ds.muted }}>{label}</Txt>
     </Pressable>
@@ -83,7 +83,7 @@ function FirstTime({ d }: { d: (n: number) => number }) {
         <Txt style={{ ...type("body", d), color: ds.muted, textAlign: "center" }}>Hechqisi yo&apos;q. Men savol beraman, siz tayyor gaplardan birini aytasiz.</Txt>
       </View>
       <RaisedPressable accessibilityRole="button" onPress={notReady} radius={d(16)} depth={d(4)} backgroundColor={c.accent} edgeColor={c.accentLip} faceStyle={{ height: d(52), alignItems: "center", justifyContent: "center" }}>
-        <Txt style={{ ...type("button", d), color: "#FFFFFF" }}>YORDAM BILAN BOSHLASH</Txt>
+        <Txt style={{ ...type("button", d), color: c.onAccent }}>YORDAM BILAN BOSHLASH</Txt>
       </RaisedPressable>
       <Txt style={{ ...type("label", d), color: ds.muted }}>VAZIYATLAR</Txt>
       {row("hand-wave", "Ko'cha", "1-darsdan keyin ochiladi")}

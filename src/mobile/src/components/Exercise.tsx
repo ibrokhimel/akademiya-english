@@ -631,7 +631,7 @@ export function Exercise({
               {busy && !slowPlayback ? (
                 <AudioBars color={c.muted} size={d(34)} count={4} />
               ) : (
-                <Icon name="glyph-speaker-white" size={d(34)} style={busy || speech.listening ? { tintColor: c.muted } : undefined} />
+                <Icon name="glyph-speaker-white" size={d(34)} style={{ tintColor: busy || speech.listening ? c.muted : c.onAccent }} />
               )}
             </RaisedPressable>
             <RaisedPressable
@@ -778,7 +778,7 @@ export function Exercise({
                       alignItems: "center",
                     }}
                   >
-                    {checked ? <Icon name="glyph-check-white" size={d(38)} /> : speech.listening ? <AudioBars color="#FFFFFF" size={d(30)} count={4} /> : <Icon name="glyph-mic-white" size={d(38)} style={busy ? { tintColor: c.muted } : undefined} />}
+                    {checked ? <Icon name="glyph-check-white" size={d(38)} /> : speech.listening ? <AudioBars color="#FFFFFF" size={d(30)} count={4} /> : <Icon name="glyph-mic-white" size={d(38)} style={{ tintColor: busy ? c.muted : c.onAccent }} />}
                   </RaisedPressable>
                 </View>
                 <Txt style={{ color: c.muted, fontSize: d(13), fontFamily: "Nunito_800ExtraBold" }}>

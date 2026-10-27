@@ -37,7 +37,7 @@ export default function Progress() {
             <Txt style={{
             fontSize: d(12),
             letterSpacing: d(0.8),
-            color: "#D5CAFF",
+            color: c.onAccentSoft,
             fontFamily: "Nunito_900Black",
         }}>
               NATIJALAR
@@ -47,13 +47,13 @@ export default function Progress() {
             fontSize: d(64),
             lineHeight: d(71),
             fontFamily: "Nunito_900Black",
-            color: "#FFFFFF",
+            color: c.onAccent,
         }}/>
               <Txt style={{
             fontSize: d(18),
             lineHeight: d(24),
             fontFamily: "Nunito_900Black",
-            color: "#FFFFFF",
+            color: c.onAccent,
             flex: 1,
         }}>
                 ta narsani ingliz{"\n"}tilida ayta olasiz

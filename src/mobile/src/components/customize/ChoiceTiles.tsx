@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import { Pressable,View,useWindowDimensions } from "react-native";
+import { accentInk } from "../../../../core/look.js";
 import { isOpen,shown,type Cosmetic } from "../../data/cosmetics";
 import { sound } from "../../lib/audio";
 import { useApp } from "../../lib/store";
 import { Icon,Txt,useTheme } from "../ui";
+import { shared } from "../system";
 import { useDesignScale } from "../useDesignScale";
 import { useCosmeticColor } from "./colors";
 
@@ -21,10 +23,12 @@ export type Choice = {
 export function CosmeticFace({ item, locked = false }: { item: Cosmetic; locked?: boolean }) {
   const d = useDesignScale(), c = useTheme(), colour = useCosmeticColor();
   const solid = !!item.color && !item.symbol && !item.picture;
+  // a symbol on a coloured tile: white, or the ink where white would not read on that colour
+  const onFill = accentInk(item.color ? colour(item.color) : c.soft, shared.light.ink);
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: item.color ? colour(item.color) : undefined, opacity: locked ? 0.5 : 1 }}>
       {item.picture ? <View style={locked ? { filter: [{ grayscale: 1 }] } : undefined}><Icon name={item.picture} size={d(40)} /></View> : null}
-      {item.symbol && !item.picture ? <Txt numberOfLines={1} style={{ fontSize: d(item.symbol.length > 3 ? 12 : 18), fontFamily: "Nunito_900Black", color: solid ? "#FFFFFF" : locked ? c.muted : c.accent }}>{item.symbol}</Txt> : null}
+      {item.symbol && !item.picture ? <Txt numberOfLines={1} style={{ fontSize: d(item.symbol.length > 3 ? 12 : 18), fontFamily: "Nunito_900Black", color: solid ? onFill : locked ? c.muted : c.accentText }}>{item.symbol}</Txt> : null}
     </View>
   );
 }
@@ -83,7 +87,7 @@ export function ChoiceTiles({ items, value, onSelect, columns = 4, tileHeight, r
             </View>
             {selected ? (
               <View style={{ position: "absolute", top: d(8), right: d(8), width: d(20), height: d(20), borderRadius: d(10), backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-                <Icon name="glyph-check-white" size={d(14)} />
+                <Icon name="glyph-check-white" size={d(14)} style={{ tintColor: c.onAccent }} />
               </View>
             ) : null}
             {o.locked ? <Icon name="glyph-lock-grey" size={d(18)} style={{ position: "absolute", top: d(8), right: d(8) }} /> : null}

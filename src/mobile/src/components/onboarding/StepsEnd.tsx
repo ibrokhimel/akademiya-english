@@ -169,7 +169,7 @@ export function Done({ d, name, minutes, reminder }: { d: Scale; name: string; m
       </View>
       <View style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: d(12), padding: d(14), borderRadius: d(18), borderWidth: d(2), borderColor: c.line }}>
         <View style={{ width: d(44), height: d(44), borderRadius: d(22), backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-          <Txt style={{ fontSize: d(18), color: "#FFFFFF", fontFamily: "Nunito_900Black" }}>1</Txt>
+          <Txt style={{ fontSize: d(18), color: c.onAccent, fontFamily: "Nunito_900Black" }}>1</Txt>
         </View>
         <View style={{ flex: 1, gap: d(2) }}>
           <Label text="NAVBATDAGI DARS" d={d} color={c.accent} />

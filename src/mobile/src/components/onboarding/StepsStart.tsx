@@ -188,7 +188,7 @@ export function VoicePromise({ d }: { d: Scale }) {
         {[["1-kun", new Date()], ["30-kun", later]].map(([label, date]) => (
           <View key={label as string} style={{ flexDirection: "row", alignItems: "center", gap: d(10), padding: d(10), borderRadius: d(14), backgroundColor: c.surface }}>
             <View style={{ width: d(34), height: d(34), borderRadius: d(17), backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-              <Icon name="glyph-play-white" size={d(16)} />
+              <Icon name="glyph-play-white" size={d(16)} style={{ tintColor: c.onAccent }} />
             </View>
             <View style={{ flex: 1 }}>
               <Txt style={{ fontSize: d(15), fontFamily: "Nunito_900Black" }}>{label as string}</Txt>
