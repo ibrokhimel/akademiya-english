@@ -25,11 +25,12 @@ function buzz(pattern: number | number[]) {
  * Dombi you can touch (motion-plan §8, locked 2026-10-11; owner 2026-10-27): hold to pick him up, carry, drop, throw,
  * tap to poke, double-tap for a trick, rub to pet, he sleeps after 22 s and a tap wakes him.
  * rule "nocarry" (a lesson): taps, pokes, tricks and petting only. On still-picture phones he comes alive while touched.
- * rule "perch" (a lesson): he can be carried; letting go calls onDrop with how far from his spot he was let go, and
- * the screen moves him to the nearest free spot (owner, 2026-10-27). scale shrinks him with his feet in place.
+ * rule "perch" (a lesson): carried, dropped and thrown as on the tabs, landing `ground` points below his spot; after
+ * 4 s untouched where he landed, onDrop gets how far from his spot he is and the screen moves him to the nearest free
+ * spot (owner, 2026-10-27). scale shrinks him with his feet in place.
  * Reduce Motion: no touch play; a tap still does onTap.
  */
-export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1 }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number }) {
+export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0 }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number }) {
   const reduce = useReducedMotion();
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
@@ -54,8 +55,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
 
   const env = useCallback(() => {
     const h = home.current ?? { x: width - 56, y: height - 120 };
-    return { w: width, h: height, homeX: h.x, floorY: h.y };
-  }, [width, height]);
+    return { w: width, h: height, homeX: h.x, floorY: h.y, groundY: h.y + ground };
+  }, [width, height, ground]);
 
   const apply = useCallback((effects: Effect[]) => {
     const now = Date.now();
@@ -107,7 +108,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     if (!focused) { schedule.current = () => {}; return; }
     const L = loop.current;
     // Keep ticking while effects wait for the rig, so they play as soon as it mounts.
-    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0 || pending.current.length > 0; };
+    // In a lesson, frames also run while he waits away from his spot, so the 4 s wait ends on time.
+    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0 || pending.current.length > 0 || (rule === "perch" && (Math.abs(dx.get()) > 1 || Math.abs(dy.get()) > 1)); };
     const frame = (now: number) => {
       L.raf = 0;
       const dt = Math.min(0.033, L.last ? (now - L.last) / 1000 : 0.016); L.last = now;
@@ -123,7 +125,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     };
     schedule.current();
     return () => { cancelAnimationFrame(L.raf); if (L.timer) clearTimeout(L.timer); L.raf = 0; L.timer = null; };
-  }, [send, focused]);
+  }, [send, focused, rule, dx, dy]);
 
   // On a still-picture phone the rig is only mounted while he plays; he goes back to the picture 2 s after settling.
   useEffect(() => {

@@ -14,8 +14,9 @@ export type Spot = { x: number; y: number; size: number };
 
 /**
  * Dombi in a lesson (owner, 2026-10-27): he sits where the exercise shows nothing, nearest to where he was.
- * He starts by the title (top right) and keeps his place from exercise to exercise while it stays free; carried and
- * let go, he hops to the free place nearest the drop. A tap opens help, as before.
+ * He starts by the title (top right) and keeps his place from exercise to exercise while it stays free. Thrown or
+ * dropped, he lands on the floor of the exercise and stays there; 4 s untouched, he hops to the free place nearest
+ * him. A tap opens help, as before.
  * space: the exercise's scroll view and blocks, in lesson coordinates. start/onSpot keep his place while he is hidden
  * behind the answer panel.
  */
@@ -46,7 +47,7 @@ export function LessonDombi({ space, start, onSpot, moment, line, onPress }: { s
   }, [spot, big, reduce, onSpot, ox, oy, lift]);
   const box = useAnimatedStyle(() => ({ transform: [{ translateX: ox.value }, { translateY: oy.value + lift.value }] }));
 
-  // Let go: he is drawn where the finger left him, then hops to the nearest free place.
+  // Back from where he landed: he is drawn where he is, then hops to the nearest free place.
   const drop = (dx: number, dy: number) => {
     if (!spot) return;
     ox.set(ox.get() + dx); oy.set(oy.get() + dy);
@@ -55,6 +56,7 @@ export function LessonDombi({ space, start, onSpot, moment, line, onPress }: { s
 
   if (!spot) return null;
   const size = spot.size, left = spot.x + size / 2 > width / 2;
+  const ground = space ? Math.max(0, space.view.y + space.view.h - (spot.y + size)) : 0;
   return (
     <Animated.View pointerEvents="box-none" style={[{ position: "absolute", left: 0, top: 0, width: big, height: big }, box]}>
       {line ? (
@@ -62,7 +64,7 @@ export function LessonDombi({ space, start, onSpot, moment, line, onPress }: { s
           <Txt style={{ ...type("small", d), color: ds.ink }}>{line}</Txt>
         </View>
       ) : null}
-      <DombiPlay moment={moment} size={big} rule="perch" onTap={onPress} onDrop={drop} scale={size / big} />
+      <DombiPlay moment={moment} size={big} rule="perch" onTap={onPress} onDrop={drop} scale={size / big} ground={ground} />
     </Animated.View>
   );
 }
