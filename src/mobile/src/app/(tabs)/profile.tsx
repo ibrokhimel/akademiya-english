@@ -15,6 +15,7 @@ import { AvatarFrame } from "../../components/AvatarFrame";
 import { Arrive } from "../../components/Motion";
 import { ProfilePinned } from "../../components/Badges";
 import { ProfileAbout } from "../../components/ProfileAbout";
+import { ProfileBackground } from "../../components/ProfileBackground";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
@@ -58,6 +59,7 @@ export default function Profile() {
       edges={["top", "left", "right"]}
       style={{ flex: 1, backgroundColor: c.bg }}
     >
+      <ProfileBackground background={profile.look.background} dim={profile.look.dim} />
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
         <ProfileHeader
           name={name}
@@ -103,7 +105,7 @@ export default function Profile() {
           ))}
         />
         <View
-          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
+          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18) }}
         >
           <ProfileAbout profile={profile} />
           <ProfilePinned />

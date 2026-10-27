@@ -10,6 +10,13 @@ const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];
 const BADGE_STYLES = ['grid', 'row', 'shelf'];
 const STAT_LAYOUTS = ['grid', 'big'];
+/** How dark the veil over the profile background may get (FON XIRALIGI). */
+export const DIM_MAX = 0.8;
+const DIM_DEFAULT = 0.3;
+/** The background veil kept between 0 and DIM_MAX; anything that is not a number is the default. */
+export function clampDim(x) {
+  return typeof x === 'number' && Number.isFinite(x) ? Math.min(DIM_MAX, Math.max(0, x)) : DIM_DEFAULT;
+}
 /** Dombi's name as the learner typed it: trimmed, 16 letters at most; empty is "Dombi" again. */
 export function dombiName(text) {
   const t = typeof text === 'string' ? text.trim().slice(0, 16).trim() : '';
@@ -33,7 +40,7 @@ export function defaultProfile() {
     stats: { layout: 'grid', shown: [...STATS_SHOWN], favouritePhrase: null, wordOfWeek: '', private: false },
     dombi: { outfit: 'none', pose: 'sit', tint: 'black', name: 'Dombi', visitorReaction: 'wave' },
     look: {
-      color: 'violet', cardColor: 'white', background: { kind: 'color', id: 'plain', uri: null, mediaType: null }, dim: 0.3,
+      color: 'violet', cardColor: 'white', background: { kind: 'color', id: 'plain', uri: null, mediaType: null }, dim: DIM_DEFAULT,
       sections: SECTION_IDS.map((id) => ({ id, shown: !HIDDEN_BY_DEFAULT.includes(id) })),
     },
   };
@@ -70,7 +77,7 @@ export function normalizeProfile(raw) {
   const nullableStr = (x) => (typeof x === 'string' && x !== '' ? x : null);
   const username = typeof r.username === 'string' ? r.username.toLowerCase() : '';
   const shown = Array.isArray(st.shown) ? [...new Set(st.shown.filter((s) => STAT_IDS.includes(s)))] : d.stats.shown;
-  const dim = typeof lk.dim === 'number' && Number.isFinite(lk.dim) ? Math.min(0.8, Math.max(0, lk.dim)) : d.look.dim;
+  const dim = clampDim(lk.dim);
   return {
     v: 1,
     avatar: {

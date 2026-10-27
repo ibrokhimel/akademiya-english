@@ -895,3 +895,19 @@ test('contrast ratio: black on white is 21, a colour on itself is 1, the order d
   assert.ok(Math.abs(contrastRatio('#7B5CFF', '#FFFFFF') - 4.36) < 0.01);
   assert.ok(Number.isNaN(contrastRatio('violet', '#FFFFFF')));
 });
+import { DIM_MAX, clampDim, dimAt } from './showcase.js';
+test('background dim: 0 to 0.8, anything else is clamped or the default; the slider moves in steps of 0.05', () => {
+  assert.equal(DIM_MAX, 0.8);
+  assert.equal(clampDim(0.5), 0.5);
+  assert.equal(clampDim(2), 0.8);
+  assert.equal(clampDim(-1), 0);
+  assert.equal(clampDim(NaN), 0.3);
+  assert.equal(clampDim('x'), 0.3);
+  assert.equal(dimAt(0), 0);
+  assert.equal(dimAt(1), 0.8);
+  assert.equal(dimAt(0.5), 0.4);
+  assert.equal(dimAt(0.33), 0.25);
+  assert.equal(dimAt(1.4), 0.8);
+  assert.equal(dimAt(-0.2), 0);
+  assert.equal(normalizeProfile({ look: { dim: 0.45 } }).look.dim, 0.45);
+});

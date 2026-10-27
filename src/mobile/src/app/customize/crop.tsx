@@ -17,7 +17,7 @@ const MAX_ZOOM = 5;
 
 /**
  * Crop (screens cK8ON, AsDjx without its trim bar — Ruling 7): a dark screen, the picture under a fixed mask
- * (a circle for the avatar, a wide strip for the banner and background). Pan and pinch; TAYYOR crops, shrinks and saves it,
+ * (a circle for the avatar, a wide strip for the banner, a tall box for the background). Pan and pinch; TAYYOR crops, shrinks and saves it,
  * then hands it back to the editor that opened this route.
  */
 export default function Crop() {

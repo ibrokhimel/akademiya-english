@@ -13,12 +13,12 @@ import { read,write } from "./storage";
 
 export type MediaType = "image" | "gif" | "video";
 export type PickedMedia = { uri: string; mediaType: MediaType };
-/** which mask the crop route uses: a circle for the avatar, a wide strip for the banner and the profile background */
+/** which mask the crop route uses: a circle for the avatar, a wide strip for the banner, a tall phone-shaped box for the profile background (it fills the Profile tab) */
 export type CropTarget = "avatar" | "banner" | "background";
 export const cropMasks: Record<CropTarget, { w: number; h: number; out: { width: number; height: number }; hint: string; round: boolean }> = {
   avatar: { w: 300, h: 300, out: { width: 512, height: 512 }, hint: "Siljiting va kattalashtiring", round: true },
   banner: { w: 350, h: 178, out: { width: 1170, height: 596 }, hint: "Banner uchun joyni tanlang", round: false },
-  background: { w: 350, h: 178, out: { width: 1170, height: 596 }, hint: "Banner uchun joyni tanlang", round: false },
+  background: { w: 230, h: 460, out: { width: 720, height: 1440 }, hint: "Siljiting va kattalashtiring", round: false },
 };
 
 /** What a pick came to: nothing (cancelled or no permission), refused by the limits, sent to the crop route, or ready to use. */

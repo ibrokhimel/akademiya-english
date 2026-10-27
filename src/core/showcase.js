@@ -1,5 +1,5 @@
 // What the profile shows about the learner: name and about me, badges, stats. Pure logic, no app code.
-import { STAT_IDS, USERNAME, normalizeProfile } from './profile.js';
+import { DIM_MAX, STAT_IDS, USERNAME, clampDim, normalizeProfile } from './profile.js';
 
 // ---- Name and about me ----
 /** What the username field keeps while the learner types: no @, lower case, only a-z 0-9 _, 20 at most. */
@@ -84,6 +84,12 @@ export function toggleStat(shown, id, on) {
 }
 
 // ---- Look: colours, background, what shows ----
+export { DIM_MAX, clampDim } from './profile.js';
+/** The veil for a slider position (0 at the left, 1 at the right), in steps of 0.05. */
+export function dimAt(fraction) {
+  const f = typeof fraction === 'number' && Number.isFinite(fraction) ? Math.min(1, Math.max(0, fraction)) : 0;
+  return clampDim(Math.round(f * DIM_MAX * 20) / 20);
+}
 const luminance = (hex) => {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
