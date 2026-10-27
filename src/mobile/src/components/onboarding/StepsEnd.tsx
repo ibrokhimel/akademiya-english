@@ -37,7 +37,7 @@ export function Level({ d, level, setLevel }: { d: Scale; level: string; setLeve
         {LEVELS.map(([key, icon, label, detail]) => <Choice key={key} selected={level === key} dimmed={!!level && level !== key} icon={icon} label={label} detail={detail} onPress={() => setLevel(key)} d={d} />)}
       </View>
       <Panel d={d}>
-        <Label text={`1-BO'LIM · ${unit.name.toUpperCase()}`} d={d} color={c.accent} />
+        <Label text={`1-BO'LIM · ${unit.name.toUpperCase()}`} d={d} color={c.accentText} />
         {unit.lessons.map((lesson, i) => <LessonRow key={lesson.id} n={i + 1} title={lesson.title} d={d} />)}
       </Panel>
     </>
@@ -81,7 +81,7 @@ export function Plan({ d, name, minutes, setMinutes }: { d: Scale; name: string;
     <>
       <DombiSays text={say} d={d} />
       <Panel d={d} tint={c.soft}>
-        <Label text={`${units.length} BO'LIMDAN KEYIN`} d={d} color={c.accent} />
+        <Label text={`${units.length} BO'LIMDAN KEYIN`} d={d} color={c.accentText} />
         <InfoRow icon="coffee-kafeda" title="Kafeda buyurtma bera olasiz" d={d} />
         <InfoRow icon="bubble-phrases" title="40+ iborani ovoz chiqarib ayta olasiz" d={d} />
         <InfoRow icon="flame-streak" title="Har kungi odat hosil qilasiz" d={d} />
@@ -100,7 +100,7 @@ export function Plan({ d, name, minutes, setMinutes }: { d: Scale; name: string;
           const days = planFor(m).allDays, on = m === minutes;
           return (
             <View key={m} style={{ flex: 1, alignItems: "center", gap: d(6) }}>
-              <Txt style={{ fontSize: d(13), fontFamily: "Nunito_900Black", color: on ? c.accent : c.muted }}>{days} kun</Txt>
+              <Txt style={{ fontSize: d(13), fontFamily: "Nunito_900Black", color: on ? c.accentText : c.muted }}>{days} kun</Txt>
               <View style={{ alignSelf: "stretch", height: d(90) * (days / most), borderTopLeftRadius: d(10), borderTopRightRadius: d(10), borderBottomLeftRadius: d(4), borderBottomRightRadius: d(4), backgroundColor: on ? c.accent : c.line }} />
             </View>
           );
@@ -172,7 +172,7 @@ export function Done({ d, name, minutes, reminder }: { d: Scale; name: string; m
           <Txt style={{ fontSize: d(18), color: c.onAccent, fontFamily: "Nunito_900Black" }}>1</Txt>
         </View>
         <View style={{ flex: 1, gap: d(2) }}>
-          <Label text="NAVBATDAGI DARS" d={d} color={c.accent} />
+          <Label text="NAVBATDAGI DARS" d={d} color={c.accentText} />
           <Txt style={{ fontSize: d(15), fontFamily: "Nunito_900Black" }}>{first.title}</Txt>
         </View>
       </View>

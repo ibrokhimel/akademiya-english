@@ -58,7 +58,7 @@ export function Chips({ options, solid = false, ...pick }: { options: ChipOption
             }}
           >
             {o.locked ? <Icon name="glyph-lock-grey" size={d(16)} /> : null}
-            {o.content && !o.locked ? o.content : <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : c.accent) : c.text) }}>{o.label}</Txt>}
+            {o.content && !o.locked ? o.content : <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : c.accentText) : c.text) }}>{o.label}</Txt>}
           </Pressable>
         );
       })}

@@ -118,7 +118,7 @@ export default function SectionsEditor() {
         ))}
       </RowGroup>
       <Pressable accessibilityRole="button" onPress={() => setSections(defaultSections())} style={{ alignSelf: "center", paddingVertical: d(10), paddingHorizontal: d(16) }}>
-        <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: c.accent, fontFamily: "Nunito_900Black" }}>ASLIGA QAYTARISH</Txt>
+        <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: c.accentText, fontFamily: "Nunito_900Black" }}>ASLIGA QAYTARISH</Txt>
       </Pressable>
     </EditorScreen>
   );

@@ -91,7 +91,7 @@ export function ChoiceTiles({ items, value, onSelect, columns = 4, tileHeight, r
               </View>
             ) : null}
             {o.locked ? <Icon name="glyph-lock-grey" size={d(18)} style={{ position: "absolute", top: d(8), right: d(8) }} /> : null}
-            <Txt numberOfLines={2} style={{ fontSize: d(12), lineHeight: d(15), textAlign: "center", fontFamily: "Nunito_900Black", color: o.locked ? c.muted : selected ? c.accent : c.text }}>
+            <Txt numberOfLines={2} style={{ fontSize: d(12), lineHeight: d(15), textAlign: "center", fontFamily: "Nunito_900Black", color: o.locked ? c.muted : selected ? c.accentText : c.text }}>
               {o.locked && o.caption ? o.caption : o.label}
             </Txt>
           </Pressable>

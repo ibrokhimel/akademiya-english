@@ -73,7 +73,7 @@ export function SettingRow({ icon, label, detail, value, right, onPress, danger 
         </Txt>
         {detail ? typeof detail === "string" ? <Txt style={{ fontSize: d(12), lineHeight: d(15.6), color: c.muted }}>{detail}</Txt> : detail : null}
       </View>
-      {value ? (<Txt style={{ fontSize: d(14), color: c.accent, fontFamily: "Nunito_900Black" }}>
+      {value ? (<Txt style={{ fontSize: d(14), color: c.accentText, fontFamily: "Nunito_900Black" }}>
           {value}
         </Txt>) : null}
       {right || (onPress && !danger) ? (<>{right || <Icon name="glyph-chevron-right-grey" size={d(22)}/>}</>) : null}

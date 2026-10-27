@@ -12,7 +12,7 @@ export function ActivityEnd({ of, right, onDone }: { of: number; right: number; 
     <Page>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: d(10) }}>
         <Dombi moment="activityEnd" size={d(80)} />
-        <Txt style={{ ...type("label", d), color: c.accent }}>MASHQ TUGADI</Txt>
+        <Txt style={{ ...type("label", d), color: c.accentText }}>MASHQ TUGADI</Txt>
         <Txt style={{ ...type("title", d), color: ds.ink, textAlign: "center" }}>{of} tadan {right} tasi to&apos;g&apos;ri</Txt>
       </View>
       <Button label="DAVOM ETISH" onPress={onDone} />

@@ -17,7 +17,7 @@ export function Welcome({ d }: { d: Scale }) {
   return (
     <>
       <Dombi moment="onboardingIdle" size={d(150)} />
-      <Txt style={{ fontSize: d(30), color: c.accent, fontFamily: "Nunito_900Black", textAlign: "center" }}>Akademiya English</Txt>
+      <Txt style={{ fontSize: d(30), color: c.accentText, fontFamily: "Nunito_900Black", textAlign: "center" }}>Akademiya English</Txt>
       <Txt style={{ maxWidth: d(300), fontSize: d(17), lineHeight: d(24), fontFamily: "Nunito_800ExtraBold", color: c.muted, textAlign: "center" }}>
         Ingliz tilida gapirishni birinchi kundanoq boshlang.
       </Txt>
@@ -114,7 +114,7 @@ export function Task({ d, speech, error, retry }: { d: Scale; speech: ReturnType
     <>
       <DombiSays text={lines.task} d={d} />
       <View style={{ gap: d(4) }}>
-        <Label text="AYTING" d={d} color={c.accent} />
+        <Label text="AYTING" d={d} color={c.accentText} />
         <Txt style={{ fontSize: d(21), lineHeight: d(27), fontFamily: "Nunito_900Black" }}>Do&apos;stingizni uchratdingiz. Unga salom bering.</Txt>
       </View>
       <View style={{ height: d(170), alignItems: "center", justifyContent: "center", borderRadius: d(20), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card }}>

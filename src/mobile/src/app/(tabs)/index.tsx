@@ -344,7 +344,7 @@ export default function Learn() {
           <Txt
             style={{
               fontSize: d(13),
-              color: c.accent,
+              color: c.accentText,
               fontFamily: "Nunito_900Black",
             }}
           >

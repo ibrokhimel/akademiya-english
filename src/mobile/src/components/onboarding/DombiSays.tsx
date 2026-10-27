@@ -68,7 +68,7 @@ export function DombiSays({ text, moment = "idle", size = 80, d }: { text: strin
             <View onLayout={(e) => setHeight(e.nativeEvent.layout.height)} style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -d(3) }}>
               {words.map((w, i) => (
                 <View key={i} onLayout={(e) => { tops.current[i] = e.nativeEvent.layout.y; }} style={{ paddingHorizontal: d(3), borderRadius: d(6), backgroundColor: i === now ? c.soft : "transparent" }}>
-                  <Txt importantForAccessibility="no" style={{ fontSize: d(16), lineHeight: lh, fontFamily: "Nunito_900Black", color: i === now ? c.accent : c.text }}>{w}</Txt>
+                  <Txt importantForAccessibility="no" style={{ fontSize: d(16), lineHeight: lh, fontFamily: "Nunito_900Black", color: i === now ? c.accentText : c.text }}>{w}</Txt>
                 </View>
               ))}
             </View>

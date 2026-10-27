@@ -114,7 +114,7 @@ export default function Progress() {
             <Txt style={{
             fontSize: d(14),
             letterSpacing: d(0.5),
-            color: c.accent,
+            color: c.accentText,
             fontFamily: "Nunito_900Black",
         }}>
               HAMMASINI KO&apos;RISH ({learned.length})

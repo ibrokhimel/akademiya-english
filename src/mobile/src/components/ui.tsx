@@ -195,7 +195,7 @@ export function Button({
           color: disabled
             ? c.muted
             : kind === "secondary"
-              ? c.accent
+              ? c.accentText
               : kind === "primary"
                 ? c.onAccent
                 : c.onFill,

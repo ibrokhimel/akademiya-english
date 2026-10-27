@@ -71,7 +71,7 @@ export function PinnedTiles({ badges, empty = 0, onPress }: { badges: Badge[]; /
       {badges.map((b) => (
         <Pressable key={b.id} disabled={!onPress} accessibilityRole={onPress ? "button" : undefined} accessibilityLabel={b.title} onPress={() => onPress?.(b.id)} style={{ ...tile, backgroundColor: c.soft, borderWidth: d(onPress ? 2 : 0), borderColor: c.accent }}>
           <Icon name={b.icon} size={d(36)} />
-          <Txt numberOfLines={1} style={{ fontSize: d(12), fontFamily: "Nunito_900Black", color: c.accent }}>{b.title}</Txt>
+          <Txt numberOfLines={1} style={{ fontSize: d(12), fontFamily: "Nunito_900Black", color: c.accentText }}>{b.title}</Txt>
         </Pressable>
       ))}
       {Array.from({ length: empty }, (_, i) => (

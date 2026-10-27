@@ -69,7 +69,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
               <Txt style={{
                 fontSize: d(18),
                 fontFamily: "Nunito_900Black",
-                color: c.accent,
+                color: c.accentText,
                 textAlign: "center",
             }}>
                 Xatolar ustida ishlaymiz

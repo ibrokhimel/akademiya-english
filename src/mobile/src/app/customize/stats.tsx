@@ -38,7 +38,7 @@ function PhraseSheet({ visible, value, onPick, onClose }: { visible: boolean; va
               onPress={() => { onPick(id); onClose(); }}
               style={{ padding: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: value === id ? c.accent : c.line, backgroundColor: value === id ? c.soft : c.card, gap: d(2) }}
             >
-              <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black", color: value === id ? c.accent : c.text }}>{P[id].en}</Txt>
+              <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black", color: value === id ? c.accentText : c.text }}>{P[id].en}</Txt>
               <Txt style={{ fontSize: d(12), color: c.muted }}>{P[id].uz}</Txt>
             </Pressable>
           ))}

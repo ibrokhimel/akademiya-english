@@ -74,7 +74,7 @@ export default function BannerEditor() {
         style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(10), height: d(72), borderRadius: d(18), borderWidth: d(2), borderColor: c.accent, backgroundColor: c.soft, opacity: pressed ? 0.7 : 1 })}
       >
         <Icon name="glyph-play-violet" size={d(18)} />
-        <Txt style={{ fontSize: d(15), color: c.accent, fontFamily: "Nunito_900Black" }}>Rasm, GIF yoki video yuklash</Txt>
+        <Txt style={{ fontSize: d(15), color: c.accentText, fontFamily: "Nunito_900Black" }}>Rasm, GIF yoki video yuklash</Txt>
       </Pressable>
       <Txt style={{ fontSize: d(12), lineHeight: d(17), color: c.muted }}>GIF va video: 6 soniyagacha, 8 MB gacha. Ovozsiz, takrorlanib turadi.</Txt>
       {sheet}

@@ -59,7 +59,7 @@ export default function LookEditor() {
     if (r.kind === "refused") refuse("background");
     if (r.kind === "media") applyMedia(r.media);
   }
-  const own: Choice = { id: "own", label: "O'z rasmim, GIF yoki video", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
+  const own: Choice = { id: "own", label: "O'z rasmim, GIF yoki video", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accentText, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
   const pickBackground = (id: string) => {
     if (id === "own") { void upload(); return; }
     // colours are kind "color"; the pattern and city stand-ins are catalogue items

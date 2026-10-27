@@ -362,7 +362,7 @@ export function Exercise({
     }
     return {
       edge: choice === i ? c.accent : c.line,
-      text: choice === i ? c.accent : c.text,
+      text: choice === i ? c.accentText : c.text,
       face: choice === i ? c.soft : c.card,
     };
   };
@@ -382,7 +382,7 @@ export function Exercise({
         <View style={{ gap: d(6), alignSelf: "flex-start" }}>
         <Txt
           style={{
-            color: c.accent,
+            color: c.accentText,
             fontFamily: "Nunito_900Black",
             fontSize: d(12),
             letterSpacing: d(.8),
@@ -465,13 +465,13 @@ export function Exercise({
                 <View key={who} style={{ alignItems: "center", gap: d(6) }}>
                   {/* The Rive view keeps its first size, so the face is always drawn at 92 and shrunk with a transform. */}
                   <View style={{ width: d(checked ? 56 : 92), height: d(checked ? 56 : 92) }}><View style={{ position: "absolute", left: d(checked ? -18 : 0), top: d(checked ? -18 : 0), width: d(92), height: d(92), transform: [{ scale: (checked ? 56 / 92 : 1) * (activeSpeaker === who ? 1.06 : 1) }] }}><View style={{ width: "100%", height: "100%", borderRadius: d(46), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={who} size={d(92)} /></View>{activeSpeaker === who ? <View style={{ position: "absolute", top: d(-3), left: d(-3), right: d(-3), bottom: d(-3), borderWidth: d(3), borderColor: c.accent, borderRadius: d(50) }} /> : null}</View></View>
-                  <Txt style={{ color: activeSpeaker === who ? c.accent : c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>
+                  <Txt style={{ color: activeSpeaker === who ? c.accentText : c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>
                     {names[who]}
                   </Txt>
                 </View>
               ))}
             </View>
-            {!checked && heardOnce ? <RaisedPressable onPress={() => { if (!busy) void replay(); }} accessibilityLabel="YANA TINGLASH" disabled={busy} radius={d(16)} depth={d(4)} backgroundColor={busy ? c.line : c.card} edgeColor={busy ? c.edge : c.line} style={{ alignSelf: "center", width: "100%" }} faceStyle={{ height: d(44), paddingHorizontal: d(18), borderWidth: d(2), borderColor: c.line, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(8) }}><Icon name="glyph-replay-violet" size={d(16)} style={busy ? { tintColor: c.muted } : undefined} /><Txt style={{ fontSize: d(13), color: busy ? c.muted : c.accent, fontFamily: "Nunito_900Black" }}>YANA TINGLASH</Txt></RaisedPressable> : null}
+            {!checked && heardOnce ? <RaisedPressable onPress={() => { if (!busy) void replay(); }} accessibilityLabel="YANA TINGLASH" disabled={busy} radius={d(16)} depth={d(4)} backgroundColor={busy ? c.line : c.card} edgeColor={busy ? c.edge : c.line} style={{ alignSelf: "center", width: "100%" }} faceStyle={{ height: d(44), paddingHorizontal: d(18), borderWidth: d(2), borderColor: c.line, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(8) }}><Icon name="glyph-replay-violet" size={d(16)} style={busy ? { tintColor: c.muted } : undefined} /><Txt style={{ fontSize: d(13), color: busy ? c.muted : c.accentText, fontFamily: "Nunito_900Black" }}>YANA TINGLASH</Txt></RaisedPressable> : null}
             {heardOnce ? (
               <View style={{ flexDirection: "row", gap: d(8) }}>
                 {choices.map((k) => (
@@ -572,7 +572,7 @@ export function Exercise({
                         width: verdict === true ? undefined : d(40), height: d(32), paddingHorizontal: verdict === true ? d(6) : 0, alignItems: "center", justifyContent: "center",
                       }}
                     >
-                      <Txt style={{ color: verdict === true ? "#27A852" : choice === i ? c.onAccent : c.accent, fontSize: d(verdict === true ? 22 : 18), fontFamily: verdict === true ? "Nunito_800ExtraBold" : "Nunito_900Black" }}>{verdict === true ? item.put || text.split(" ")[item.gap || 0]?.replace(/[.,!?]/g, "") : "+"}</Txt>
+                      <Txt style={{ color: verdict === true ? "#27A852" : choice === i ? c.onAccent : c.accentText, fontSize: d(verdict === true ? 22 : 18), fontFamily: verdict === true ? "Nunito_800ExtraBold" : "Nunito_900Black" }}>{verdict === true ? item.put || text.split(" ")[item.gap || 0]?.replace(/[.,!?]/g, "") : "+"}</Txt>
                     </Pressable>
                   ) : null}
                   <Pressable
@@ -592,7 +592,7 @@ export function Exercise({
                       borderRadius: d(8),
                     }}
                   >
-                    <Txt style={{ fontSize: d(22), fontFamily: "Nunito_800ExtraBold", color: item.ex !== "gap" && verdict !== null && (choice === i || i === item.bad) ? choiceColor(i).text : item.ex !== "gap" && choice === i ? c.accent : c.text }}>{verdict === true && item.ex === "fix" && choice === i ? text.split(" ")[i] : word}</Txt>
+                    <Txt style={{ fontSize: d(22), fontFamily: "Nunito_800ExtraBold", color: item.ex !== "gap" && verdict !== null && (choice === i || i === item.bad) ? choiceColor(i).text : item.ex !== "gap" && choice === i ? c.accentText : c.text }}>{verdict === true && item.ex === "fix" && choice === i ? text.split(" ")[i] : word}</Txt>
                   </Pressable>
                 </Animated.View>
               ))}
@@ -800,7 +800,7 @@ export function Exercise({
           </Txt>
         ) : null}
         {item.ex === "meet" && way !== "tiles" && !checked && !speech.transcript ? (
-          <Pressable accessibilityLabel={showText ? "Matnni yashirish" : "Matnni ko'rsatish"} onPress={() => setShowText(!showText)} style={{ alignSelf: "center", paddingVertical: d(6), paddingHorizontal: d(8) }}><Txt style={{ color: c.accent, fontSize: d(14), fontFamily: "Nunito_800ExtraBold" }}>{showText ? "Matnni yashirish" : "Matnni ko'rsatish"}</Txt></Pressable>
+          <Pressable accessibilityLabel={showText ? "Matnni yashirish" : "Matnni ko'rsatish"} onPress={() => setShowText(!showText)} style={{ alignSelf: "center", paddingVertical: d(6), paddingHorizontal: d(8) }}><Txt style={{ color: c.accentText, fontSize: d(14), fontFamily: "Nunito_800ExtraBold" }}>{showText ? "Matnni yashirish" : "Matnni ko'rsatish"}</Txt></Pressable>
         ) : null}
         {readAloud && !checked ? (
           <LinkButton

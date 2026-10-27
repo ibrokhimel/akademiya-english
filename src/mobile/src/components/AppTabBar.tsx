@@ -105,7 +105,7 @@ function TabItem({ index, label, icon, position, scale, shown, selected, onPress
       <View style={{ height: SQUARE_H * scale, justifyContent: "center", opacity: shown ? 1 : 0.5 }}>
         <Icon name={icon} size={30 * scale} />
       </View>
-      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: shown ? c.accent : c.muted, opacity: shown || tabLabels ? 1 : 0 }}>{label}</Txt>
+      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: shown ? c.accentText : c.muted, opacity: shown || tabLabels ? 1 : 0 }}>{label}</Txt>
     </Animated.View>
   </Pressable>;
 }

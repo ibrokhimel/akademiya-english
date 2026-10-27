@@ -171,7 +171,7 @@ function OwnPictureFace({ media }: { media: PickedMedia | null }) {
   const d = useDesignScale(), c = useTheme();
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      {media ? <ProfileMedia uri={media.uri} mediaType={media.mediaType} still /> : <Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt>}
+      {media ? <ProfileMedia uri={media.uri} mediaType={media.mediaType} still /> : <Txt style={{ fontSize: d(24), color: c.accentText, fontFamily: "Nunito_900Black" }}>+</Txt>}
     </View>
   );
 }

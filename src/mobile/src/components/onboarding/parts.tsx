@@ -73,7 +73,7 @@ export function Choice({ label, icon, selected, dimmed, onPress, detail, number,
     >
       <Icon name={icon} size={d(detail ? 37 : number ? 34 : 28)} />
       <View style={{ flex: 1, gap: 3 }}>
-        <Txt style={{ fontSize: d(number ? 16 : 17), fontFamily: "Nunito_900Black", color: selected ? c.accent : c.text }}>{label}</Txt>
+        <Txt style={{ fontSize: d(number ? 16 : 17), fontFamily: "Nunito_900Black", color: selected ? c.accentText : c.text }}>{label}</Txt>
         {detail ? <Txt style={{ fontSize: d(13), color: c.muted }}>{detail}</Txt> : null}
       </View>
       {number ? (

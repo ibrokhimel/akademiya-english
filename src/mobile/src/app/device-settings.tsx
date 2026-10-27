@@ -48,6 +48,6 @@ export default function DeviceSettings() {
             })
                 .catch(() => setMessage("Serverga ulanib bo'lmadi"));
         }}/>
-        {message ? (<Txt style={{ color: c.accent, textAlign: "center" }}>{message}</Txt>) : null}
+        {message ? (<Txt style={{ color: c.accentText, textAlign: "center" }}>{message}</Txt>) : null}
 </Page>;
 }

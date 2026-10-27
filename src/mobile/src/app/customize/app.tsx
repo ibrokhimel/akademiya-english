@@ -49,7 +49,7 @@ export default function AppLookEditor() {
     patch({ lessonBackground: { kind: "item", id, uri: null } });
   };
   const tiles = (list: Cosmetic[]): Choice[] => list.map((x) => ({ id: x.id, label: x.label, content: <Swatch item={x} /> }));
-  const own: Choice = { id: "own", label: "O'z rasmim", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
+  const own: Choice = { id: "own", label: "O'z rasmim", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accentText, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
   const save = () => {
     set({ mode, appLook: look });
     if (look.icon !== settings.appLook.icon) void applyAppIcon(look.icon);

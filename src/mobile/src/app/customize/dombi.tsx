@@ -70,7 +70,7 @@ export default function DombiEditor() {
           faceStyle={{ flexDirection: "row", alignItems: "center", gap: d(8), height: d(40), paddingHorizontal: d(16), borderWidth: d(2), borderColor: c.line }}
         >
           <Icon name="glyph-replay-violet" size={d(16)} />
-          <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: c.accent, fontFamily: "Nunito_900Black" }}>KO&apos;RISH</Txt>
+          <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: c.accentText, fontFamily: "Nunito_900Black" }}>KO&apos;RISH</Txt>
         </RaisedPressable>
       </View>
     </EditorScreen>

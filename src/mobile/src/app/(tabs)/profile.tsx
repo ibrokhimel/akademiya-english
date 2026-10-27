@@ -88,7 +88,7 @@ export default function Profile() {
               style={{
                 fontSize: d(12),
                 letterSpacing: d(.3),
-                color: c.accent,
+                color: c.accentText,
                 fontFamily: "Nunito_900Black",
               }}
             >
@@ -137,7 +137,7 @@ export default function Profile() {
               <Txt
                 style={{
                   fontSize: d(14),
-                  color: c.accent,
+                  color: c.accentText,
                   letterSpacing: 0.6,
                   fontFamily: "Nunito_900Black",
                 }}
