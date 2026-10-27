@@ -89,7 +89,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     dx.set(b.x - e.homeX); dy.set(b.y - e.floorY); rot.set(b.rot);
     const r = rig.current; if (!r) return;
     const held = s.mode === "held";
-    r.num("swing", b.swing); r.num("squish", held ? b.squish : 0);
+    r.num("swing", b.swing); r.num("squish", b.squish);
     // Carried, his eyes look where he is going; at rest they belong to the finger watcher (effects `looking`, lookX/Y).
     if (held) { r.bool("looking", true); r.num("lookX", Math.max(-100, Math.min(100, b.vx / 6))); r.num("lookY", Math.max(-100, Math.min(100, b.vy / 6))); }
     else if (wasHeld.current) { r.bool("looking", false); r.num("lookX", 0); r.num("lookY", 0); }
@@ -189,7 +189,12 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
       const all = m.accelerationIncludingGravity, own = m.acceleration ?? { x: 0, y: 0, z: 0 };
       if (all) {
         gx += ((all.x - 2 * own.x) / 9.81 - gx) * 0.35; gy += (-(all.y - 2 * own.y) / 9.81 - gy) * 0.35;
-        if (Math.abs(gx - sentX) > 0.04 || Math.abs(gy - sentY) > 0.04) { sentX = gx; sentY = gy; send({ type: "gravity", t: now, gx, gy }); restart(); }
+        if (Math.abs(gx - sentX) > 0.04 || Math.abs(gy - sentY) > 0.04) {
+          sentX = gx; sentY = gy; send({ type: "gravity", t: now, gx, gy });
+          // Tipped into a fall: a still-picture phone loads the rig so the bounces and squashes show.
+          if (["falling", "flying"].includes(current().mode) && !awakeRef.current) { awakeRef.current = true; setAwake(true); }
+          restart();
+        }
       }
     });
     return () => sub.remove();

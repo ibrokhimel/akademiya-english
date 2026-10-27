@@ -20,6 +20,9 @@ const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBL
   RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24, AWAY_MS = 4000,
   EDGE_PX = 8, SWIPE_OFF = 2100, HIDE_MS = 700, PEEK_IN_MS = 500, PEEK_MS = 1900, PERCH_PLAY_MS = 420, WARM_DY = 20, WARM_SIT = 44,
   TOP_Y = 60, SIDE_PX = 6, FLAT = 0.35, FALL_OFF = 0.35, UPRIGHT_MS = 3000, SLIDE = 0.35,
+  // Weight (owner 2026-10-27: "bounce, not just stick"): every landing faster than BOUNCE_MIN bounces back at REST of
+  // its speed and squashes him; on a surface he slides on with FRICTION per frame.
+  BOUNCE_MIN = 180, REST = 0.4, FRICTION = 0.94,
   LOOK_MS = 2500, HF_DELAY = 1000, HF_MS = 2800, CLAP_MS = 520, SHOOK_MS = 450, BLOW_LOUD = 78, BLOW_QUIET = 45, BLOW_S = 0.25;
 const TRICKS = ['trickSpin', 'trickFlick', 'trickShades'];
 // Lying against an edge: his turn (feet to the edge) and the edge's outward direction.
@@ -106,6 +109,8 @@ export function touchReducer(state, ev) {
     s.mode = 'lying'; s.edge = edge; s.lastAct = t; fire('land'); buzz(hard ? [20, 30, 10] : 18);
     if (s.shook) { s.shook = false; s.at.shook = t + SHOOK_MS; }
   };
+  // A landing squashes him in proportion to its speed; it springs back over the next frames.
+  const squash = (speed) => { s.body.squish = Math.min(s.body.squish, -clamp(speed * 0.05, 0, 70)); };
   const walkHome = () => {
     if (Math.abs(s.body.x - env.homeX) < 6) { s.mode = 'idle'; s.body.x = env.homeX; play('none'); s.lastAct = t; }
     else { s.mode = 'walking'; play('walk'); }
@@ -219,6 +224,7 @@ export function touchReducer(state, ev) {
     const dt = ev.dt ?? 0.016, b = s.body;
     s.moving = false;
     surfaceCheck();
+    if (s.mode !== 'held' && b.squish !== 0) { b.squish *= Math.pow(0.8, dt * 60); if (Math.abs(b.squish) < 0.5) b.squish = 0; else s.moving = true; }
     // The hold is checked once, at 300 ms, as the playground's timer does: a press made mid-flight never turns into a carry later.
     if (s.press && s.press.mode === 'press' && !s.press.holdChecked && t - s.press.t >= HOLD_MS) {
       s.press.holdChecked = true;
@@ -268,21 +274,23 @@ export function touchReducer(state, ev) {
         const ge = gEdge();
         if (ge !== 'left' && b.x < 50) { b.x = 50; b.vx = Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
         if (ge !== 'right' && b.x > env.w - 50) { b.x = env.w - 50; b.vx = -Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
-        if (ge !== 'top' && b.y < 110 && b.vy < 0) { b.y = 110; b.vy = Math.abs(b.vy) * 0.5; }
+        if (ge !== 'top' && b.y < top && b.vy < 0) { b.y = top; b.vy = Math.abs(b.vy) * 0.5; }
         if (ge !== 'bottom' && b.y > ground && b.vy > 0) { b.y = ground; b.vy = -Math.abs(b.vy) * 0.5; buzz(8); }
         if (ge === 'bottom') {
           const zone = s.mode === 'falling' ? zoneAt() : { kind: 'floor', y: ground };
           if (b.y >= zone.y && b.vy > 0) {
-            if (s.mode === 'flying' && b.vy > BOUNCE_SPEED) { b.y = zone.y; b.vy = -b.vy * 0.42; b.vx *= 0.7; b.spin *= 0.5; buzz(10); }
+            squash(b.vy);
+            if (b.vy > BOUNCE_MIN) { b.y = zone.y; b.vy = -b.vy * REST; b.vx *= 0.75; b.spin *= 0.5; buzz(b.vy < -BOUNCE_SPEED * REST ? 14 : 8); }
             else landed(zone, s.mode === 'flying');
           }
         } else {
           const past = ge === 'top' ? b.y <= top : ge === 'left' ? b.x <= SIDE_PX : b.x >= env.w - SIDE_PX;
           const into = ge === 'top' ? -b.vy : ge === 'left' ? -b.vx : b.vx;
           if (past && into > 0) {
-            if (s.mode === 'flying' && into > BOUNCE_SPEED) {
-              if (ge === 'top') { b.y = top; b.vy = -b.vy * 0.42; b.vx *= 0.7; } else { b.x = ge === 'left' ? SIDE_PX : env.w - SIDE_PX; b.vx = -b.vx * 0.42; b.vy *= 0.7; }
-              b.spin *= 0.5; buzz(10);
+            squash(into);
+            if (into > BOUNCE_MIN) {
+              if (ge === 'top') { b.y = top; b.vy = -b.vy * REST; b.vx *= 0.75; } else { b.x = ge === 'left' ? SIDE_PX : env.w - SIDE_PX; b.vx = -b.vx * REST; b.vy *= 0.75; }
+              b.spin *= 0.5; buzz(into > BOUNCE_SPEED ? 14 : 8);
             } else lie(ge, s.mode === 'flying');
           }
         }
@@ -303,7 +311,7 @@ export function touchReducer(state, ev) {
       const along = flat ? s.g.x : s.g.y;
       let v = flat ? b.vx : b.vy;
       if (Math.abs(along) > 0.12) v += along * GRAVITY * SLIDE * dt;
-      v *= Math.pow(0.9, dt * 60); if (Math.abs(v) < 1) v = 0;
+      v *= Math.pow(FRICTION, dt * 60); if (Math.abs(v) < 1) v = 0;
       if (v !== 0 && flat) { const x = clamp(b.x + v * dt, 60, env.w - 60); if (x !== b.x + v * dt) v = 0; b.x = x; }
       else if (v !== 0) { const y = clamp(b.y + v * dt, top + 60, ground - 20); if (y !== b.y + v * dt) v = 0; b.y = y; }
       if (flat) b.vx = v; else b.vy = v;
@@ -311,7 +319,7 @@ export function touchReducer(state, ev) {
       b.swing += (lean - b.swing) * 0.12; if (Math.abs(lean - b.swing) < 0.5) b.swing = lean;
       if (s.mode === 'idle' && Math.abs(b.x - env.homeX) > 6) { s.mode = 'lying'; s.edge = 'bottom'; }
       const homeward = s.mode === 'lying' && s.edge === 'bottom' && upright();
-      s.moving = v !== 0 || b.swing !== lean || homeward;
+      s.moving = s.moving || v !== 0 || b.swing !== lean || homeward;
       if (homeward && v === 0 && s.uprightSince !== null && t - s.uprightSince >= UPRIGHT_MS) { s.edge = null; walkHome(); }
     }
     if (resting() && !s.moving && t - s.lastAct > SLEEP_MS) {

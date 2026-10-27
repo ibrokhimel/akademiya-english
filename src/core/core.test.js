@@ -408,12 +408,12 @@ test('touch: a fast sideways swipe throws him off the screen', () => {
 const ZONES = { peek: { l: 20, r: 370, top: 300 }, warm: { x: 330, y: 60 } };
 test('touch: dropped over the top of the Learn card he sits on it and peeks', () => {
   const env = { ...ENV, zones: ZONES };
-  const a = runR([...carryTo(150, 260), ...ticks(716, 1400)], 'all', touchStart(0), env);
+  const a = runR([...carryTo(150, 260), ...ticks(716, 2400)], 'all', touchStart(0), env);
   assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.y, 304); assert.ok(fires(a.fx).includes('land')); assert.ok(plays(a.fx).includes('peek'));
 });
 test('touch: dropped beside the flame he warms his hands', () => {
   const env = { ...ENV, zones: ZONES };
-  const a = runR([...carryTo(290, 70), ...ticks(716, 1400)], 'all', touchStart(0), env);
+  const a = runR([...carryTo(290, 70), ...ticks(716, 2400)], 'all', touchStart(0), env);
   assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.x, 286); assert.ok(plays(a.fx).includes('warm')); assert.ok(a.fx.some((f) => f.mood === 'happy'));
 });
 test('touch: fed a word he eats it, but not while carried', () => {
@@ -522,4 +522,26 @@ test('gravity: while carried, gravity changes nothing; let go, he falls the new 
 test('gravity: lying still against an edge needs no frames, and he can still fall asleep there', () => {
   const a = runR([grav(0, -1, 0), ...ticks(16, 30000, 50)], 'all', touchStart(0), GENV);
   assert.equal(a.s.mode, 'asleep'); assert.equal(a.s.moving, false);
+});
+// Weight (owner 2026-10-27: "make it bounce not just stick, it should have some weight").
+const trace = (events, s, env = GENV) => { const ys = []; for (const e of events) { const r = touchReducer(s, { env, rule: 'all', ...e }); s = r.state; ys.push({ y: s.body.y, x: s.body.x, sq: s.body.squish, mode: s.mode }); } return { s, ys }; };
+test('weight: a plain drop bounces a few times before he settles, with a squash on impact', () => {
+  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x: 200, y: 300 }, ...ticks(331, 1500), { type: 'up', t: 1510, x: 200, y: 300 }], 'all', touchStart(0), GENV);
+  assert.equal(held.s.mode, 'falling');
+  const { s, ys } = trace(ticks(1516, 5000), held.s);
+  const firstHit = ys.findIndex((p) => p.y >= ENV.floorY);
+  assert.ok(firstHit > 0); assert.ok(ys.slice(firstHit).some((p) => p.y < ENV.floorY - 10), 'he bounces back up');
+  assert.ok(ys.some((p) => p.sq < -10), 'squashed on impact');
+  assert.equal(s.body.y, ENV.floorY); assert.notEqual(s.mode, 'falling');
+});
+test('weight: falling onto a side edge, he bounces off it before lying there', () => {
+  const { s, ys } = trace([grav(0, -1, 0), ...ticks(16, 4000)], touchStart(0));
+  const firstHit = ys.findIndex((p) => p.x <= 6);
+  assert.ok(firstHit > 0); assert.ok(ys.slice(firstHit).some((p) => p.x > 20), 'bounces off the wall');
+  assert.equal(s.mode, 'lying'); assert.equal(s.body.x, 6);
+});
+test('weight: tipped along the floor he keeps sliding a little after the tilt stops', () => {
+  const a = runR([grav(0, -0.6, 0.8), ...ticks(16, 800), grav(810, 0, 1)], 'all', touchStart(0), GENV);
+  const x0 = a.s.body.x, b = runR(ticks(826, 1000), 'all', a.s, GENV);
+  assert.ok(b.s.body.x < x0 - 1, 'momentum carries him on');
 });

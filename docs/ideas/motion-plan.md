@@ -386,7 +386,7 @@ carried / tilt), `squish` (−100…100), `stretch` (0…100, pinch), and one-sh
 | Idle 22 s → sleeps; tap to wake | sets mood sleepy | `play` = sleep → `wake` (one eye first) |
 | Talk to it while held | mic level → `amp` | body pulses with your voice |
 | Pinch (two fingers / wheel) | sets `stretch` | gum stretch, `snap` on release |
-| Phone gravity (owner 2026-10-27, replaces "tilt the phone"; tabs only) | the phone's pull, minus its own movement, is his gravity: he falls to whichever edge is down (sides, top), bounces, lies there, slides along it; a phone lying flat keeps the screen bottom as down; held upright and still 3 s, he walks home | `land`; turned with his feet to the edge; leans while sliding on the floor |
+| Phone gravity (owner 2026-10-27, replaces "tilt the phone"; tabs only) | the phone's pull, minus its own movement, is his gravity: he falls to whichever edge is down (sides, top), bounces, lies there, slides along it; a phone lying flat keeps the screen bottom as down; held upright and still 3 s, he walks home; he has weight (owner, same day): every landing faster than 180 pt/s bounces back at 40 % with a squash, and he slides on with momentum | `land`; turned with his feet to the edge; leans while sliding on the floor |
 | Shake the phone | impulse, bounces off the edges | `shook` (annoyed look) |
 | Blow into the mic | loud and steady 0.25 s | `play` = wind |
 | Eye tracking | pointer → `looking` + `lookX/Y` | eyes follow |
