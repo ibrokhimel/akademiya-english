@@ -55,7 +55,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   const [asleep, setAsleep] = useState(false);
   const asleepRef = useRef(false);
   const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0), shown = useSharedValue(1), wasHeld = useRef(false);
-  const style = useAnimatedStyle(() => ({ opacity: shown.value, transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }, { scale }], transformOrigin: "50% 100%" }));
+  // He turns around his middle, like a ball (owner 2026-10-27); his feet stay the point the rules move and scale from.
+  const half = (size * scale) / 2;
+  const style = useAnimatedStyle(() => ({ opacity: shown.value, transform: [{ translateX: dx.value }, { translateY: dy.value }, { translateY: -half }, { rotate: `${rot.value}deg` }, { translateY: half }, { scale }], transformOrigin: "50% 100%" }));
   const dropTo = useRef(onDrop), popTo = useRef(onPop);
   useEffect(() => { dropTo.current = onDrop; popTo.current = onPop; }, [onDrop, onPop]);
   const scaleRef = useRef(scale);
@@ -63,8 +65,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
 
   const env = useCallback(() => {
     const h = home.current ?? { x: width - 56, y: height - 120 };
-    return { w: width, h: height, homeX: h.x, floorY: h.y, groundY: h.y + ground, eyeUp: size * 0.55, zones: zones?.() };
-  }, [width, height, ground, size, zones]);
+    return { w: width, h: height, homeX: h.x, floorY: h.y, groundY: h.y + ground, eyeUp: size * 0.55, radius: size * scale * 0.4, zones: zones?.() };
+  }, [width, height, ground, size, scale, zones]);
 
   const apply = useCallback((effects: Effect[]) => {
     const now = Date.now();

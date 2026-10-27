@@ -490,13 +490,13 @@ const GENV = { ...ENV, top: 60 };
 const grav = (t, gx, gy) => ({ type: 'gravity', t, gx, gy });
 test('gravity: phone turned on its left side, he falls to the left edge and lies there', () => {
   const a = runR([grav(0, -1, 0), ...ticks(16, 3000)], 'all', touchStart(0), GENV);
-  assert.equal(a.s.mode, 'lying'); assert.equal(a.s.edge, 'left'); assert.equal(a.s.body.x, 6); assert.equal(a.s.body.rot, 90);
+  assert.equal(a.s.mode, 'lying'); assert.equal(a.s.edge, 'left'); assert.equal(a.s.body.x, 34); assert.equal(a.s.body.rot, 90);
   assert.ok(fires(a.fx).includes('land'));
   assert.equal(runR(ticks(3016, 9000, 100), 'all', a.s, GENV).s.mode, 'lying', 'he stays where he landed');
 });
 test('gravity: upside down, he falls to the top edge, head down', () => {
   const a = runR([grav(0, 0, -1), ...ticks(16, 3000)], 'all', touchStart(0), GENV);
-  assert.equal(a.s.edge, 'top'); assert.equal(a.s.body.y, 60); assert.equal(a.s.body.rot, 180);
+  assert.equal(a.s.edge, 'top'); assert.equal(a.s.body.y, 124); assert.equal(Math.abs(a.s.body.rot), 180);
 });
 test('gravity: a phone lying flat keeps the screen bottom as down', () => {
   const a = runR([grav(0, 0.05, 0.02), ...ticks(16, 2000)], 'all', touchStart(0), GENV);
@@ -517,7 +517,7 @@ test('gravity: while carried, gravity changes nothing; let go, he falls the new 
   const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), grav(330, 1, 0), ...ticks(346, 600)], 'all', touchStart(0), GENV);
   assert.equal(held.s.mode, 'held');
   const out = runR([{ type: 'up', t: 610, x: 200, y: 400 }, ...ticks(626, 3000)], 'all', held.s, GENV);
-  assert.equal(out.s.edge, 'right'); assert.equal(out.s.body.x, ENV.w - 6);
+  assert.equal(out.s.edge, 'right'); assert.equal(out.s.body.x, ENV.w - 34);
 });
 test('gravity: lying still against an edge needs no frames, and he can still fall asleep there', () => {
   const a = runR([grav(0, -1, 0), ...ticks(16, 30000, 50)], 'all', touchStart(0), GENV);
@@ -536,12 +536,31 @@ test('weight: a plain drop bounces a few times before he settles, with a squash 
 });
 test('weight: falling onto a side edge, he bounces off it before lying there', () => {
   const { s, ys } = trace([grav(0, -1, 0), ...ticks(16, 4000)], touchStart(0));
-  const firstHit = ys.findIndex((p) => p.x <= 6);
-  assert.ok(firstHit > 0); assert.ok(ys.slice(firstHit).some((p) => p.x > 20), 'bounces off the wall');
-  assert.equal(s.mode, 'lying'); assert.equal(s.body.x, 6);
+  const firstHit = ys.findIndex((p) => p.x <= 34);
+  assert.ok(firstHit > 0); assert.ok(ys.slice(firstHit).some((p) => p.x > 48), 'bounces off the wall');
+  assert.equal(s.mode, 'lying'); assert.equal(s.body.x, 34);
 });
 test('weight: tipped along the floor he keeps sliding a little after the tilt stops', () => {
   const a = runR([grav(0, -0.6, 0.8), ...ticks(16, 800), grav(810, 0, 1)], 'all', touchStart(0), GENV);
   const x0 = a.s.body.x, b = runR(ticks(826, 1000), 'all', a.s, GENV);
   assert.ok(b.s.body.x < x0 - 1, 'momentum carries him on');
+});
+// Like a bouncing ball (owner 2026-10-27: "it should rotate too based on the gravity, make it act like a bouncing ball").
+const near = (a, b, tol = 1) => Math.abs(a - b) <= tol;
+test('ball: sliding along the floor he rolls the way he moves', () => {
+  const a = runR([grav(0, -0.6, 0.8), ...ticks(16, 300)], 'all', touchStart(0), GENV);
+  assert.ok(a.s.body.vx < 0); assert.ok(a.s.body.rot < -5, 'rolling left turns him anticlockwise');
+});
+test('ball: at rest on a tilted phone he stands upright to real gravity', () => {
+  const a = runR([grav(0, -0.5, 0.866), ...ticks(16, 8000)], 'all', touchStart(0), GENV);
+  assert.ok(near(a.s.body.rot, 30, 1.5), 'leans 30 degrees, feet toward the pull: ' + a.s.body.rot);
+});
+test('ball: a sideways landing sets him spinning, and he settles feet-down again', () => {
+  const ev = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x: 330, y: 400 }, ...ticks(331, 1500), { type: 'move', t: 1510, x: 250, y: 380 }, { type: 'move', t: 1540, x: 200, y: 370 }, { type: 'up', t: 1550, x: 190, y: 368 }];
+  const thrown = runR(ev, 'all', touchStart(0), GENV);
+  let s = thrown.s, spunAfterHit = false, hit = false;
+  for (const e of ticks(1566, 3500)) { s = touchReducer(s, { env: GENV, rule: 'all', ...e }).state; if (s.body.y >= ENV.floorY) hit = true; else if (hit && Math.abs(s.body.spin) > 50) spunAfterHit = true; }
+  assert.ok(spunAfterHit, 'the floor turns his slide into spin');
+  const later = runR(ticks(3516, 12000), 'all', s, GENV);
+  assert.ok(near(((later.s.body.rot % 360) + 360) % 360, 0, 1) || near(((later.s.body.rot % 360) + 360) % 360, 360, 1), 'feet down again: ' + later.s.body.rot);
 });
