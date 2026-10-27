@@ -25,7 +25,7 @@ export function touchStart(t = 0) {
   return {
     mode: 'idle', press: null, pokes: 0, lastPoke: -1e9, lastTap: -1e9, lastTrick: -1, lastAct: t,
     shake: { hits: [], sign: 0, dizzyAt: -1e9 }, trail: [], at: {},
-    perch: /** @type {string | null} */ (null), hf: 0, pinch: /** @type {{ d0: number } | null} */ (null), tilt: 0, slid: false, shook: false,
+    perch: /** @type {string | null} */ (null), hf: 0, pinch: /** @type {{ d0: number } | null} */ (null), tilt: 0, tiltMoving: false, slid: false, shook: false,
     peek: { to: 0, t0: 0 }, mic: { level: 0, loud: 0, wind: false },
     body: { x: /** @type {number | null} */ (null), y: /** @type {number | null} */ (null), vx: 0, vy: 0, rot: 0, spin: 0, tx: 0, ty: 0, swing: 0, swingV: 0, squish: 0 },
   };
@@ -133,6 +133,8 @@ export function touchReducer(state, ev) {
     if (pr.mode === 'carry') release();
     else if (pr.mode === 'pet') { play(s.perch || 'none'); fire('ahem'); }
     else if (!ev.cancel && t - pr.t < TAP_MS && pr.moved < TAP_PX) tap();
+  } else if (ev.type === 'up' && s.mode === 'held') {
+    s.lastAct = t; release();   // held with no press left: never leave him hanging
   } else if (ev.type === 'look') {
     // His eyes follow a finger anywhere on the screen while he is at rest; they let go 2.5 s after it stops.
     if (resting()) {
@@ -143,13 +145,18 @@ export function touchReducer(state, ev) {
   } else if (ev.type === 'feed') {
     if (resting()) { fire('eat'); buzz([8, 60, 8, 60, 14]); s.lastAct = t; }
   } else if (ev.type === 'highfive') {
-    s.at.hf = t + HF_DELAY;
+    s.at.hf = t + HF_DELAY; s.lastAct = t;
   } else if (ev.type === 'hand') {
     if (s.hf) clap();
   } else if (ev.type === 'pinch') {
     if (ev.rule === 'all' && !['hidden', 'peeking', 'exit', 'asleep'].includes(s.mode)) {
-      // The second finger turns the press into a pinch: no carry, no poke.
-      if (!s.pinch) { s.pinch = { d0: ev.d }; s.press = null; }
+      // The second finger turns the press into a pinch: no carry, no poke. Already carried, he is let go; mid-rub, the
+      // petting pose ends (review 2026-10-27: a pinch after the hold left him held, with the mic on).
+      if (!s.pinch) {
+        const pr = s.press; s.pinch = { d0: ev.d }; s.press = null;
+        if (pr?.mode === 'carry' || s.mode === 'held') release();
+        else if (pr?.mode === 'pet') play(s.perch || 'none');
+      }
       num('stretch', clamp((ev.d - s.pinch.d0) * 0.6, 0, 100)); s.lastAct = t;
     }
   } else if (ev.type === 'pinchEnd') {
@@ -175,6 +182,7 @@ export function touchReducer(state, ev) {
     }
   } else if (ev.type === 'tick') {
     const dt = ev.dt ?? 0.016, b = s.body;
+    s.tiltMoving = false;
     // The hold is checked once, at 300 ms, as the playground's timer does: a press made mid-flight never turns into a carry later.
     if (s.press && s.press.mode === 'press' && !s.press.holdChecked && t - s.press.t >= HOLD_MS) {
       s.press.holdChecked = true;
@@ -187,7 +195,7 @@ export function touchReducer(state, ev) {
     if (s.at.shook && t >= s.at.shook) { delete s.at.shook; fire('shook'); }
     if (s.at.perchPlay && t >= s.at.perchPlay) { delete s.at.perchPlay; if (s.mode === 'perched' && s.perch) play(s.perch); }
     if (s.at.unlook && t >= s.at.unlook) { delete s.at.unlook; if (s.mode !== 'held') { fx.push({ looking: false }); num('lookX', 0); num('lookY', 0); } }
-    if (s.at.hf && t >= s.at.hf) { delete s.at.hf; if (resting()) { s.hf = t + HF_MS; play('highfive'); } }
+    if (s.at.hf && t >= s.at.hf) { delete s.at.hf; if (resting()) { s.hf = t + HF_MS; s.lastAct = t; play('highfive'); } }
     if (s.hf && t >= s.hf) { s.hf = 0; fire('playoff'); play(s.perch || 'none'); }
     if (s.at.clapped && t >= s.at.clapped) { delete s.at.clapped; play(s.perch || 'none'); mood('smirk'); }
     if (s.at.recover && t >= s.at.recover) {
@@ -238,11 +246,14 @@ export function touchReducer(state, ev) {
     } else if (s.mode === 'idle' && Math.abs(s.tilt) > 2) {
       // Tilting the phone slides him and leans him to keep his balance; level again, he walks home.
       b.vx += s.tilt * 26 * dt; b.vx *= 0.96; b.x = clamp(b.x + b.vx * dt, 60, env.w - 60); if (b.x === 60 || b.x === env.w - 60) b.vx = 0;
-      b.swing += (-s.tilt * 0.45 - b.swing) * 0.12; s.slid = true;
+      const lean = -s.tilt * 0.45;
+      s.tiltMoving = Math.abs(b.vx) > 1 || Math.abs(lean - b.swing) > 0.5;   // pinned at the edge and settled, he needs no frames
+      b.swing += (lean - b.swing) * 0.12; s.slid = true;
     } else if (s.mode === 'idle' && s.slid) {
       b.swing += (0 - b.swing) * 0.12; b.vx = 0;
       if (Math.abs(b.swing) < 0.5) { b.swing = 0; s.slid = false; walkHome(); }
-    } else if (resting() && t - s.lastAct > SLEEP_MS) {
+    }
+    if (resting() && !s.tiltMoving && !(s.slid && s.tilt === 0) && t - s.lastAct > SLEEP_MS) {
       s.mode = 'asleep'; mood('sleepy'); play('sleep');
     }
   }

@@ -376,7 +376,7 @@ export default function Profile() {
           <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
         </View>
       </ScrollView>
-      <DombiOverlay moment={Object.keys(p.done).length ? "idle" : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} />
+      <DombiOverlay phone moment={Object.keys(p.done).length ? "idle" : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} />
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
     </SafeAreaView>
   );

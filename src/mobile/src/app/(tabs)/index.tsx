@@ -336,7 +336,7 @@ export default function Learn() {
           </Txt>
         </Pressable>
       ) : null}
-      <DombiOverlay zones={zones} moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
+      <DombiOverlay phone zones={zones} moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
       <BottomSheet
         visible={!!pick}
         onClose={() => {

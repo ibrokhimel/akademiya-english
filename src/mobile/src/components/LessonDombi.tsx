@@ -60,7 +60,7 @@ export function LessonDombi({ space, start, onSpot, moment, line, onPress, feedR
   };
 
   // A tile let go on him: he eats it, and the word shows on him for a moment.
-  const bodyRef = useRef<View>(null), eventsRef = useRef<((type: string) => void) | null>(null);
+  const bodyRef = useRef<View>(null), eventsRef = useRef<((type: string) => boolean) | null>(null);
   const [eaten, setEaten] = useState<{ word: string; n: number } | null>(null);
   const size = spot?.size ?? big;
   useEffect(() => {
@@ -70,8 +70,9 @@ export function LessonDombi({ space, start, onSpot, moment, line, onPress, feedR
       bodyRef.current.measureInWindow((bx, by, w, h) => {
         const half = (size / big) * (w / 2), cx = bx + w / 2, bottom = by + h, pad = 10 * k;
         const hit = x > cx - half - pad && x < cx + half + pad && y > bottom - (size / big) * h - pad && y < bottom + pad;
-        if (hit) { eventsRef.current?.("feed"); setEaten((e) => ({ word, n: (e?.n ?? 0) + 1 })); }
-        done(hit);
+        const ate = hit && !!eventsRef.current?.("feed");
+        if (ate) setEaten((e) => ({ word, n: (e?.n ?? 0) + 1 }));
+        done(ate);
       });
     });
     return () => { feedRef.current = null; };

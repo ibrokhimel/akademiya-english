@@ -51,7 +51,7 @@ export default function Practice() {
           </View>
         ))}
       </ScrollView>
-      <DombiOverlay moment={first ? "guide" : "idle"} line={first ? "Birinchi darsni tugatsangiz, bu yer to'ladi." : undefined} />
+      <DombiOverlay phone moment={first ? "guide" : "idle"} line={first ? "Birinchi darsni tugatsangiz, bu yer to'ladi." : undefined} />
     </SafeAreaView>
   );
 }

@@ -22,7 +22,8 @@ export function useMicLevel() {
         await recorder.stop();
         if (recorder.uri) new File(recorder.uri).delete();
       } catch { /* nothing was recording */ }
-      await setAudioModeAsync({ allowsRecording: false }).catch(() => {});
+      // The whole mode, as audio.ts sets it: a partial one would turn iOS silent-mode playback off for the app's sounds.
+      await setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: false, allowsRecording: false }).catch(() => {});
     })();
   }, [recorder]);
 

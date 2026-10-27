@@ -8,7 +8,7 @@ import { Effect } from "./Effects";
  * owner, 2026-10-27: here, at 48): a tap on him claps, with a pop; ignored for 2.8 s, he plays it off.
  */
 export function PanelDombi({ right, size }: { right: boolean; size: number }) {
-  const eventsRef = useRef<((type: string) => void) | null>(null), [pops, setPops] = useState(0);
+  const eventsRef = useRef<((type: string) => boolean) | null>(null), [pops, setPops] = useState(0);
   useEffect(() => { if (right) eventsRef.current?.("highfive"); }, [right]);
   return (
     <View style={{ width: size, height: size }}>

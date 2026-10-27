@@ -462,3 +462,24 @@ test('touch: while his hand is up, a tap on him is the high-five', () => {
   const a = runR([{ type: 'highfive', t: 0 }, ...ticks(16, 1100, 50), { type: 'down', t: 1200, x: 334, y: 660 }, { type: 'up', t: 1260, x: 334, y: 660 }], 'nocarry');
   assert.ok(fires(a.fx).includes('clap')); assert.ok(!fires(a.fx).includes('poke1'));
 });
+test('touch: a pinch that starts after he was picked up drops him; nothing stays held', () => {
+  const a = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 400), { type: 'pinch', t: 410, d: 100 }, { type: 'pinchEnd', t: 600 }, { type: 'up', t: 620, x: 334, y: 660 }, ...ticks(636, 6000)]);
+  assert.notEqual(a.s.mode, 'held'); assert.equal(a.s.mode, 'idle');
+});
+test('touch: a pinch that starts as a rub ends the petting pose', () => {
+  const a = runR([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'move', t: 60, x: 360, y: 660 }, { type: 'pinch', t: 80, d: 100 }, { type: 'pinchEnd', t: 300 }, { type: 'up', t: 320, x: 334, y: 660 }]);
+  assert.equal(plays(a.fx).at(-1), 'none');
+});
+test('touch: a let-go with no press left still releases him if he is held', () => {
+  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)]);
+  const s = { ...held.s, press: null };
+  assert.notEqual(runR([{ type: 'up', t: 400, x: 334, y: 660 }], 'all', s).s.mode, 'held');
+});
+test('touch: offering a high-five counts as activity', () => {
+  const a = runR([{ type: 'highfive', t: 5000 }]); assert.equal(a.s.lastAct, 5000);
+  const b = runR(ticks(5016, 6100, 50), 'all', a.s); assert.ok(b.s.lastAct >= 6000);
+});
+test('touch: tilted against the edge he settles, stops needing frames and still falls asleep', () => {
+  const a = runR([{ type: 'tilt', t: 0, g: 20 }, ...ticks(16, 30000, 50)]);
+  assert.equal(a.s.mode, 'asleep'); assert.equal(a.s.tiltMoving, false);
+});

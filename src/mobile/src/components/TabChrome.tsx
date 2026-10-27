@@ -51,7 +51,7 @@ export function TabHeader({ title, flameRef }: { title: string; /** the streak p
 }
 
 /** "Dombi overlay" (Pencil IdIvY / S9cqrF): Dombi at 80 in the bottom-right corner, with an optional bubble. */
-export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all", zones }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void; rule?: "all" | "nocarry"; zones?: () => Zones | undefined }) {
+export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all", zones, phone = false }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void; rule?: "all" | "nocarry"; zones?: () => Zones | undefined; /** on a tab: shake, tilt and the mic may move him */ phone?: boolean }) {
   const d = useScale(), ds = useDs();
   return (
     <View pointerEvents="box-none" style={{ position: "absolute", right: d(16), bottom: d(bottom), flexDirection: "row", alignItems: "flex-end", gap: d(4) }}>
@@ -62,7 +62,7 @@ export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all", 
           </View>
         </View>
       ) : null}
-      <DombiPlay moment={moment} size={d(80)} rule={rule} onTap={onPress} zones={zones} />
+      <DombiPlay moment={moment} size={d(80)} rule={rule} onTap={onPress} zones={zones} phone={phone} />
     </View>
   );
 }
