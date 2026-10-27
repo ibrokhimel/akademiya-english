@@ -59,6 +59,26 @@
           "photosPermission": "Profil rasmi uchun galereyadan rasm, GIF yoki video tanlaysiz.",
           "cameraPermission": "Profil rasmi uchun suratga olasiz."
         }
+      ],
+      [
+        "expo-alternate-app-icons",
+        [
+          {
+            "name": "Doppi",
+            "ios": "./assets/icons/doppi.png",
+            "android": { "foregroundImage": "./assets/icons/doppi-foreground.png", "backgroundColor": "#7B5CFF" }
+          },
+          {
+            "name": "Gold",
+            "ios": "./assets/icons/gold.png",
+            "android": { "foregroundImage": "./assets/icons/gold-foreground.png", "backgroundColor": "#7B5CFF" }
+          },
+          {
+            "name": "Night",
+            "ios": "./assets/icons/night.png",
+            "android": { "foregroundImage": "./assets/icons/night-foreground.png", "backgroundColor": "#7B5CFF" }
+          }
+        ]
       ]
     ],
     "ios": {

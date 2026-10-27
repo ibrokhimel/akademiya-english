@@ -6,6 +6,7 @@
     "@expo-google-fonts/nunito": "^0.4.2",
     "@rive-app/react-native": "0.5.4",
     "expo": "~57.0.30",
+    "expo-alternate-app-icons": "^8.0.0",
     "expo-asset": "~57.0.20",
     "expo-audio": "~57.0.5",
     "expo-constants": "~57.0.22",

@@ -11,6 +11,7 @@ import { ToggleRow } from "../../components/customize/ToggleRow";
 import { Icon,Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { appIcons,lessonBackgrounds,pathSkins,themes,type Cosmetic } from "../../data/cosmetics";
+import { applyAppIcon } from "../../lib/appIcon";
 import { onCropped,pickMedia,removeUnusedProfileFiles,type PickedMedia } from "../../lib/media";
 import { useApp,useProfile,type AppLook,type Settings } from "../../lib/store";
 
@@ -51,6 +52,7 @@ export default function AppLookEditor() {
   const own: Choice = { id: "own", label: "O'z rasmim", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
   const save = () => {
     set({ mode, appLook: look });
+    if (look.icon !== settings.appLook.icon) void applyAppIcon(look.icon);
     removeUnusedProfileFiles([profile.avatar.uri, profile.banner.uri, profile.look.background.uri, look.lessonBackground.uri]);
   };
   return (
