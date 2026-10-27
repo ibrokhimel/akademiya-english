@@ -1,6 +1,7 @@
 import { File } from "expo-file-system";
 import { useIsFocused } from "expo-router";
 import { useCallback,useEffect,useMemo,useRef,useState,type ReactNode } from "react";
+import { useSpace, type Space } from "./Blocks";
 import {
 Pressable,
 ScrollView,
@@ -70,6 +71,8 @@ type Props = {
   onSpeechRetry: () => void;
   onSpeakingOff: () => void;
   bottomControl?: ReactNode;
+  /** where the exercise's blocks are, so Dombi can sit where nothing is */
+  onSpace?: (space: Space) => void;
 };
 export function Exercise({
   item,
@@ -83,7 +86,9 @@ export function Exercise({
   onSpeechRetry,
   onSpeakingOff,
   bottomControl,
+  onSpace,
 }: Props) {
+  const { scrollProps, blocks } = useSpace(onSpace);
   const audit = getVisualAudit();
   const { width: viewportWidth } = useWindowDimensions();
   const focused = useIsFocused();
@@ -359,6 +364,7 @@ export function Exercise({
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
+        {...scrollProps}
         contentContainerStyle={{
           paddingHorizontal: d(16),
           paddingTop: d(12),
@@ -367,7 +373,8 @@ export function Exercise({
           flexGrow: 1,
         }}
       >
-        <View style={{ gap: d(6) }}>
+        {blocks(<>
+        <View style={{ gap: d(6), alignSelf: "flex-start" }}>
         <Txt
           style={{
             color: violet,
@@ -445,6 +452,7 @@ export function Exercise({
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
+                alignSelf: "center",
                 gap: d(28),
               }}
             >
@@ -593,6 +601,7 @@ export function Exercise({
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
+              alignSelf: "center",
               gap: d(16),
             }}
           >
@@ -718,7 +727,7 @@ export function Exercise({
         ) : null}
         {speakingTurn && (speech.listening || speech.transcript || words.length > 0) ? <SpeechAnswer words={words} transcript={speech.transcript} final={words.length > 0} accepted={verdict === true} onReplay={() => { void replay(); }} /> : null}
         {speakingTurn ? (
-          <View style={{ alignItems: "center", gap: d(10), marginTop: "auto" }}>
+          <View style={{ alignItems: "center", alignSelf: "center", gap: d(10), marginTop: "auto" }}>
             <>
                 <View
                   style={{
@@ -796,6 +805,7 @@ export function Exercise({
             }}
           />
         ) : null}
+        </>)}
       </ScrollView>
       {!checked ? (
         <View
