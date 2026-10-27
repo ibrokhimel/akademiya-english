@@ -74,6 +74,8 @@ type Props = {
   bottomControl?: ReactNode;
   /** where the exercise's blocks are, so Dombi can sit where nothing is */
   onSpace?: (space: Space) => void;
+  /** Dombi's moment for this exercise: listening while the mic is on, talking while a new phrase plays (moment map) */
+  onDombi?: (moment: "yourTurn" | "explaining" | null) => void;
 };
 export function Exercise({
   item,
@@ -88,6 +90,7 @@ export function Exercise({
   onSpeakingOff,
   bottomControl,
   onSpace,
+  onDombi,
 }: Props) {
   const { scrollProps, blocks } = useSpace(onSpace);
   const audit = getVisualAudit();
@@ -163,6 +166,8 @@ export function Exercise({
   useEffect(() => {
     listeningRef.current = speech.listening;
   }, [speech.listening]);
+  const dombiNow = speech.listening ? "yourTurn" : busy && item.ex === "meet" ? "explaining" : null;
+  useEffect(() => { onDombi?.(dombiNow); }, [dombiNow, onDombi]);
   const replay = useCallback(
     async (slow = false) => {
       if (listeningRef.current) return;
