@@ -27,6 +27,8 @@ export function makeThemes(shared: { light: Mode; dark: Mode }, brand: Mode) {
       ice: "#DDF4FF",
       orangeWash: "#FFF1DC", iceText: "#1491C9", cream: "#FFFDF3", coralSoft: "#FFEDEA", orangeBand: "#FFE2B8", faint: "#B7B7B7", tileOrange: "#FFF1E0", tileGold: "#FFF8E0", tileGrey: "#F1F3F7", tilePink: "#FFE8F3", goldText: "#C98A00",
       dangerFill: "#FF4B5C", dangerLip: "#C02A3D", onFill: "#FFFFFF",
+      // the blue Dombi-wardrobe card on the Profile tab (test builds)
+      promo: "#4FB6F0", promoEdge: "#2E95D0", promoTag: "#FFE27A", promoButton: "#FFFFFF", promoButtonEdge: "#D7ECF8", promoText: "#2E95D0",
     },
     dark: {
       bg: "#121214",
@@ -48,6 +50,7 @@ export function makeThemes(shared: { light: Mode; dark: Mode }, brand: Mode) {
       ice: "#11323F",
       orangeWash: "#33240F", iceText: "#5BC8F5", cream: "#24211A", coralSoft: "#3A1F1B", orangeBand: "#4A3212", faint: "#5F5F69", tileOrange: "#33240F", tileGold: "#2E2812", tileGrey: "#24262B", tilePink: "#3A1C2B", goldText: "#FFC93C",
       dangerFill: "#FF4B5C", dangerLip: "#C02A3D", onFill: "#FFFFFF",
+      promo: "#2E8FC8", promoEdge: "#2E95D0", promoTag: "#FFE27A", promoButton: "#E8F6FD", promoButtonEdge: "#9CCBE6", promoText: "#2E95D0",
     },
   };
 }

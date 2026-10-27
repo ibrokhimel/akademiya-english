@@ -24,8 +24,7 @@ import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
 Txt,
-useTheme,
-violet
+useTheme
 } from "../../components/ui";
 import { titles } from "../../data/cosmetics";
 import { goals } from "../../data/content";
@@ -38,7 +37,7 @@ export default function Profile() {
   useHomeBack();
   const scroll = useRef<ScrollView>(null);
   useScrollToTop(scroll);
-  const { settings, isDark, progress: p } = useApp(),
+  const { settings, progress: p } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -89,7 +88,7 @@ export default function Profile() {
               style={{
                 fontSize: d(12),
                 letterSpacing: d(.3),
-                color: violet,
+                color: c.accent,
                 fontFamily: "Nunito_900Black",
               }}
             >
@@ -138,7 +137,7 @@ export default function Profile() {
               <Txt
                 style={{
                   fontSize: d(14),
-                  color: violet,
+                  color: c.accent,
                   letterSpacing: 0.6,
                   fontFamily: "Nunito_900Black",
                 }}
@@ -167,10 +166,10 @@ export default function Profile() {
           </Arrive>
           <Arrive index={3}
             style={{
-              backgroundColor: isDark ? "#2E8FC8" : "#4FB6F0",
+              backgroundColor: c.promo,
               borderRadius: d(20),
               borderBottomWidth: 4,
-              borderColor: "#2E95D0",
+              borderColor: c.promoEdge,
               padding: d(18),
               gap: d(8),
             }}
@@ -183,7 +182,7 @@ export default function Profile() {
                   style={{
                     fontSize: d(18),
                     lineHeight: d(23),
-                    color: "#FFFFFF",
+                    color: c.onFill,
                     fontFamily: "Nunito_900Black",
                   }}
                 >
@@ -201,7 +200,7 @@ export default function Profile() {
                   <Txt
                     style={{
                       fontSize: d(13),
-                      color: "#FFE27A",
+                      color: c.promoTag,
                       fontFamily: "Nunito_900Black",
                     }}
                   >
@@ -237,8 +236,8 @@ export default function Profile() {
               accessibilityLabel="KO'RISH"
               radius={d(14)}
               depth={d(4)}
-              backgroundColor={isDark ? "#E8F6FD" : "#FFFFFF"}
-              edgeColor={isDark ? "#9CCBE6" : "#D7ECF8"}
+              backgroundColor={c.promoButton}
+              edgeColor={c.promoButtonEdge}
               faceStyle={{
                 minHeight: d(48),
                 alignItems: "center",
@@ -248,7 +247,7 @@ export default function Profile() {
               <Txt
                 style={{
                   fontSize: d(14),
-                  color: "#2E95D0",
+                  color: c.promoText,
                   fontFamily: "Nunito_900Black",
                 }}
               >
@@ -296,7 +295,7 @@ export default function Profile() {
               radius={d(19)}
               depth={d(3)}
               backgroundColor={c.card}
-              edgeColor={isDark ? "#16132E" : "#D9CFFF"}
+              edgeColor={c.softLine}
               faceStyle={{
                 width: d(38),
                 height: d(38),
