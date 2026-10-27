@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import { View } from "react-native";
-import { TEXT_SIZES } from "../../../../core/look.js";
+import { MODES,TEXT_SIZES } from "../../../../core/look.js";
 import { Chips } from "../../components/customize/Chips";
 import { ChoiceTiles,choicesFrom,type Choice } from "../../components/customize/ChoiceTiles";
 import { swatchColor } from "../../components/customize/colors";
@@ -15,11 +15,7 @@ import { applyAppIcon } from "../../lib/appIcon";
 import { onCropped,pickMedia,removeUnusedProfileFiles,type PickedMedia } from "../../lib/media";
 import { useApp,useProfile,type AppLook,type Settings } from "../../lib/store";
 
-const MODES: { id: Settings["mode"]; label: string }[] = [
-  { id: "light", label: "Yorug'" },
-  { id: "dark", label: "Qorong'i" },
-  { id: "system", label: "Telefondagidek" },
-];
+const MODE_LABELS: Record<Settings["mode"], string> = { light: "Yorug'", dark: "Qorong'i", system: "Telefondagidek" };
 const SIZE_LABELS: Record<AppLook["textSize"], string> = { small: "Kichik", medium: "O'rta", large: "Katta", huge: "Juda katta" };
 
 /** A theme or icon tile: its swatch as on the screen (the same in light and dark), with the icon's picture on it. */
@@ -60,7 +56,7 @@ export default function AppLookEditor() {
       <SectionLabel first>MAVZU</SectionLabel>
       <ChoiceTiles items={tiles(themes)} value={look.theme} onSelect={(theme) => patch({ theme })} columns={6} />
       <SectionLabel>REJIM</SectionLabel>
-      <Chips options={MODES} value={mode} onChange={(id) => setMode(id as Settings["mode"])} />
+      <Chips options={MODES.map((id) => ({ id, label: MODE_LABELS[id as Settings["mode"]] }))} value={mode} onChange={(id) => setMode(id as Settings["mode"])} />
       <SectionLabel>ILOVA BELGISI</SectionLabel>
       <ChoiceTiles items={tiles(appIcons)} value={look.icon} onSelect={(icon) => patch({ icon })} />
       <SectionLabel>DARS FONI</SectionLabel>
