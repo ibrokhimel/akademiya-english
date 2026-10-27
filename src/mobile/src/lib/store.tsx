@@ -7,10 +7,35 @@ useState,
 type ReactNode,
 } from "react";
 import { progressOf } from "../../../core/progress.js";
+import { defaultProfile,earnedItems,normalizeProfile } from "../../../core/profile.js";
+import { unitSlugs } from "../data/cosmetics";
 import { units,type Cast } from "../data/content";
 import { backendURL,internalBuild,speechURL } from "./config";
 import { releaseSettings } from "./releasePolicy";
+import { profileFacts } from "./progressExtras";
 import { clientId,read,remove,write } from "./storage";
+
+type Media = { uri: string | null; mediaType: "image" | "gif" | "video" | null };
+/** What a learner chose for their profile (src/core/profile.js owns the shape and the rules). */
+export type Profile = {
+  v: 1;
+  avatar: Media & {
+    kind: "letter" | "photo" | "media" | "dombi" | "built";
+    color: string; bg: string; expression: string;
+    built: { skin: number; hair: string | null; eyes: string; brows: string | null; beard: string | null; glasses: string | null; hijab: string | null; doppi: string | null; clothes: string | null };
+  };
+  frame: string;
+  banner: Media & { kind: "color" | "item" | "media"; id: string };
+  username: string; bio: string; why: string | null; destination: string | null; nativeLanguage: string;
+  city: string; showCity: boolean; birthday: string | null; title: string | null; nameColor: string;
+  badges: { pinned: string[]; style: "grid" | "row" | "shelf"; shelfOrder: string[]; spotlightRarest: boolean };
+  stats: { layout: string; shown: string[]; favouritePhrase: string | null; wordOfWeek: string; private: boolean };
+  dombi: { outfit: string; pose: string; tint: string; name: string; visitorReaction: string };
+  look: {
+    color: string; cardColor: string; background: Media & { kind: "color" | "item" | "media"; id: string }; dim: number;
+    sections: { id: string; shown: boolean }[];
+  };
+};
 
 export type Settings = {
   dayShift?: number;
@@ -43,6 +68,8 @@ export type Settings = {
   phoneMotion?: boolean;
   /** minutes a day picked in onboarding's plan */
   minutes?: number;
+  /** the profile the learner builds (the display name stays in `name`) */
+  profile: Profile;
 };
 export type Event = {
   client_id: string;
@@ -89,13 +116,19 @@ const defaults: Settings = {
   confidence: 3,
   joined: "",
   dombiLevel: "full",
+  profile: defaultProfile() as Profile,
 };
 
 function useStore() {
-  const [settings, updateSettings] = useState<Settings>(() => releaseSettings({
-    ...defaults,
-    ...read("settings", {}),
-  }, backendURL, speechURL, internalBuild));
+  const [settings, updateSettings] = useState<Settings>(() => {
+    const saved = read<Partial<Settings>>("settings", {});
+    return releaseSettings({
+      ...defaults,
+      ...saved,
+      // installs from before the profile existed have none: they get the defaults
+      profile: normalizeProfile(saved.profile) as Profile,
+    }, backendURL, speechURL, internalBuild);
+  });
   const [events, updateEvents] = useState<Event[]>(() => read("events", []));
   const [recordings, updateRecordings] = useState<Recording[]>(() =>
     read("recordings", []),
@@ -106,6 +139,14 @@ function useStore() {
   const set = useCallback((patch: Partial<Settings>) => {
     updateSettings((s) => {
       const next = { ...s, ...patch };
+      write("settings", next);
+      return next;
+    });
+  }, []);
+  const setProfile = useCallback((patch: Partial<Profile> | ((p: Profile) => Profile)) => {
+    updateSettings((s) => {
+      const profile = normalizeProfile(typeof patch === "function" ? patch(s.profile) : { ...s.profile, ...patch }) as Profile;
+      const next = { ...s, profile };
       write("settings", next);
       return next;
     });
@@ -155,6 +196,7 @@ function useStore() {
       "resume",
       "recordings",
       "deletedRecordings",
+      "profileMedia",
     ])
       remove(key);
     updateEvents([]);
@@ -170,6 +212,7 @@ function useStore() {
     settings,
     now: () => new Date(new Date().getTime() + (settings.dayShift || 0) * 86400000),
     set,
+    setProfile,
     events,
     add,
     replaceEvents,
@@ -192,4 +235,19 @@ export function useApp() {
   const value = useContext(Context);
   if (!value) throw new Error("AppProvider is missing");
   return value;
+}
+/** The profile, a way to change it, and the ids of everything real progress has earned so far ("ever reached", not "right now"). */
+export function useProfile() {
+  const { settings, setProfile, events, progress } = useApp();
+  const earned = useMemo(() => {
+    const facts = profileFacts(events);
+    return earnedItems({
+      bestStreak: facts.best,
+      perfectLessons: facts.perfect.length,
+      minutesSpoken: facts.minutes,
+      level: progress.level,
+      unitsDone: units.filter((u) => progress.done[u.checkpoint.id]).map((u) => unitSlugs[u.unit]).filter(Boolean),
+    }) as Set<string>;
+  }, [events, progress]);
+  return { profile: settings.profile, setProfile, earned };
 }
