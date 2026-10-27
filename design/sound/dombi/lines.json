@@ -220,6 +220,12 @@
      "ms": 1562,
      "volume": 0.193,
      "act": "playful"
+    },
+    "Voooy!": {
+     "file": "scream.wav",
+     "ms": 1139,
+     "volume": 0.201,
+     "act": "scared"
     }
    },
    "kind": "acts"
