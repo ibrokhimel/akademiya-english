@@ -5,8 +5,6 @@ import { brand,shared } from "../system";
 import { brandColors,colourOf } from "../themeColors";
 import { useTheme } from "../ui";
 
-/** Text on the brand violet (a picked pill): the light surface, the same in both themes since violet does not change. */
-export const onAccent = shared.light.surface;
 const NAMED = brandColors(shared, brand);
 
 /** Turns a catalogue colour name (data/cosmetics.ts) into a colour for the current theme. */
