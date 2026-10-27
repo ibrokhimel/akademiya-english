@@ -72,3 +72,11 @@ test('every part of the profile has its row in "Nimalar ko\'rinsin", in the defa
   const { SECTION_IDS } = await import('../../core/profile.js');
   assert.deepEqual(cos.profileSections.map((x) => x.id), SECTION_IDS);
 });
+test('the app look picks are the ids src/core/look.js checks a stored look against', async () => {
+  const look = await import('../../core/look.js');
+  const ids = (list) => list.map((x) => x.id);
+  assert.deepEqual(ids(cos.themes), look.THEME_IDS);
+  assert.deepEqual(ids(cos.appIcons), look.APP_ICON_IDS);
+  assert.deepEqual(ids(cos.lessonBackgrounds), look.LESSON_BACKGROUND_IDS);
+  assert.deepEqual(ids(cos.pathSkins), look.PATH_SKIN_IDS);
+});
