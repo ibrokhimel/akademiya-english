@@ -5,725 +5,169 @@ import { useCallback,useEffect,useState } from "react";
 import { BackHandler,Pressable,ScrollView,useWindowDimensions,View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Dombi } from "../components/Dombi";
-import { useMeasureDombiLevel } from "../lib/dombiLevel";
-import { RaisedPressable } from "../components/RaisedPressable";
+import { Confidence,Done,Goal,Level,PermissionSheet,Plan,Reminder } from "../components/onboarding/StepsEnd";
+import { Heard,Meet,Mic,Name,Task,VoicePromise,Welcome } from "../components/onboarding/StepsStart";
 import { ScreenTransition } from "../components/ScreenTransition";
-import { TimeWheel } from "../components/TimeWheel";
-import {
-Button,
-Icon,
-LinkButton,
-Txt,
-useTheme,
-violet,
-} from "../components/ui";
-import { goals } from "../data/content";
-import { playDombi,sound,stopAudio } from "../lib/audio";
+import { Button,Icon,LinkButton,useTheme,violet } from "../components/ui";
+import { useMeasureDombiLevel } from "../lib/dombiLevel";
 import { cloudEnabled } from "../lib/config";
 import { notificationPermission,reminders } from "../lib/notifications";
 import { useApp } from "../lib/store";
+import { sound,stopAudio } from "../lib/audio";
 import { useSpeech } from "../lib/useSpeech";
 import { getVisualAudit } from "../lib/visualAudit";
 
+// The steps in order. Name, the first task and the plan follow Akademiya Math's onboarding (2026-10-27).
+const STEP = { welcome: 0, meet: 1, name: 2, mic: 3, task: 4, heard: 5, promise: 6, goal: 7, level: 8, confidence: 9, plan: 10, reminder: 11, done: 12 };
+// How far the bar is on each step; the first two steps have no bar.
+const BAR = [0, 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9, 10];
+const SEGMENTS = 10;
+const CENTERED = new Set([STEP.welcome, STEP.meet, STEP.mic, STEP.heard, STEP.done]);
+
 export default function Onboarding() {
   useMeasureDombiLevel(true);
-  const app = useApp(),
-    c = useTheme(),
-    speech = useSpeech(),
-    { listen } = speech,
-    { width } = useWindowDimensions(),
-    scale = Math.min(width / 390, 1.2),
-    d = (n: number) => n * scale;
+  const app = useApp(), c = useTheme(), speech = useSpeech(), { listen } = speech, { width } = useWindowDimensions();
+  const scale = Math.min(width / 390, 1.2), d = (n: number) => n * scale;
   const { start } = useLocalSearchParams<{ start?: string }>();
   const direction = useSharedValue(1);
   const audit = getVisualAudit();
-  const [step, updateStep] = useState(audit?.step ?? (start === "meet" ? 1 : 0)),
+  const [step, updateStep] = useState(audit?.step ?? (start === "meet" ? STEP.meet : STEP.welcome)),
+    [name, setName] = useState(app.settings.name),
     [goal, setGoal] = useState(audit?.selected ? "ielts" : ""),
     [level, setLevel] = useState(audit?.selected ? "new" : ""),
     [confidence, setConfidence] = useState(audit?.selected ?? 0),
+    [minutes, setMinutes] = useState(app.settings.minutes ?? 10),
     [micOk, setMicOk] = useState(false),
     [time, setTime] = useState("19:00"),
+    [reminder, setReminder] = useState<string | null>(null),
+    [sheet, setSheet] = useState(false),
     [error, setError] = useState("");
-  const setStep = useCallback(
-    (next: number) => {
-      sound(next < step ? "back" : "next", app.settings.sound);
-      direction.set(next < step ? -1 : 1);
-      updateStep(next);
-    },
-    [direction, step, app.settings.sound],
-  );
+  const setStep = useCallback((next: number) => {
+    sound(next < step ? "back" : "next", app.settings.sound);
+    direction.set(next < step ? -1 : 1);
+    updateStep(next);
+  }, [direction, step, app.settings.sound]);
   const hello = useCallback(async () => {
+    setError("");
     const result = await listen();
-    if (result.uri) {
-      try {
-        new File(result.uri).delete();
-      } catch {}
-    }
-    if (result.alts.some((s) => s.trim())) setStep(8);
+    if (result.uri) { try { new File(result.uri).delete(); } catch {} }
+    if (result.alts.some((s) => s.trim())) setStep(STEP.heard);
     else if (result.error !== "aborted") setError("Yana bir bor ayting.");
   }, [listen, setStep]);
+  // The first task listens by itself once its screen and Dombi's line have settled.
   useEffect(() => {
-    if (step !== 7 || audit) return;
-    const timer = setTimeout(() => {
-      void hello();
-    }, 450);
+    if (step !== STEP.task || audit) return;
+    const timer = setTimeout(() => { void hello(); }, 450);
     return () => clearTimeout(timer);
   }, [step, hello, audit]);
-  const finish = async (reminder: string | null) => {
-    const enabled = reminder ? await notificationPermission() : false;
+  const finish = () => {
     const patch = {
-      onboarded: true,
-      needAccount: false,
-      goal: goal || "self",
-      confidence: confidence || 3,
-      speaking: micOk,
-      reminder: enabled ? reminder : null,
-      joined: new Date().toISOString(),
+      onboarded: true, needAccount: false, name: name.trim(), goal: goal || "self", confidence: confidence || 3,
+      speaking: micOk, reminder, minutes, joined: new Date().toISOString(),
     };
     app.set(patch);
     app.add({ type: "onboarding", confidence: confidence || 3 });
     void reminders({ ...app.settings, ...patch }, app.events).catch(() => {});
     router.replace("/lesson/l1");
   };
-  const guides: Record<number, string> = {
-    2: "Ingliz tili sizga nima uchun kerak?",
-    3: "Ingliz tilini qanchalik bilasiz?",
-    4: "30 kunda mana shularga erishasiz!",
-    5: "Ingliz tilida gapirganda o'zingizga qanchalik ishonasiz?",
-    9: "Ovozingiz faqat sizniki. Va'da beraman:",
-    10: "Har kuni soat nechada eslatay? Kuniga bir martagina eslataman.",
+  const allowReminder = async () => {
+    setSheet(false);
+    setReminder((await notificationPermission()) ? time : null);
+    setStep(STEP.done);
   };
-  const spokenLine = step === 1 ? "Salom! Men Dombiman." : guides[step] || "";
-  useFocusEffect(
-    useCallback(() => {
-      const timer = setTimeout(() => {
-        void playDombi(spokenLine, app.settings.sound).catch(() => {});
-      }, 380);
-      return () => {
-        clearTimeout(timer);
-        stopAudio();
-      };
-    }, [spokenLine, app.settings.sound]),
-  );
-  const bar =
-      step >= 2 ? step - 2 : -1,
-    centered = [0, 1, 6, 7, 8].includes(step);
+  const skipSpeaking = () => { speech.abort(); setMicOk(false); setStep(STEP.promise); };
   const back = useCallback(() => {
     speech.abort();
-    setStep(step === 9 || step === 8 ? 6 : Math.max(0, step - 1));
-  }, [speech, setStep, step]);
+    stopAudio();
+    if (sheet) return setSheet(false);
+    setStep(step === STEP.heard || step === STEP.promise ? STEP.mic : Math.max(0, step - 1));
+  }, [speech, setStep, step, sheet]);
   useFocusEffect(useCallback(() => {
     const listener = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (step === 0) return false;
+      if (step === STEP.welcome) return false;
       back();
       return true;
     });
     return () => listener.remove();
   }, [step, back]));
-  const title = (text: string, size = 24) => (
-    <Txt
-      style={{
-        fontSize: d(size),
-        lineHeight: d(size * 1.3),
-        textAlign: "center",
-        fontFamily: "Nunito_900Black",
-      }}
-    >
-      {text}
-    </Txt>
-  );
+  const bar = BAR[step], centered = CENTERED.has(step);
+  const body = [
+    <Welcome key="welcome" d={d} />,
+    <Meet key="meet" d={d} />,
+    <Name key="name" d={d} name={name} setName={setName} onDone={() => setStep(STEP.mic)} />,
+    <Mic key="mic" d={d} />,
+    <Task key="task" d={d} speech={speech} error={error} retry={() => { if (speech.listening) void speech.stop(); else void hello(); }} />,
+    <Heard key="heard" d={d} name={name.trim()} />,
+    <VoicePromise key="promise" d={d} />,
+    <Goal key="goal" d={d} goal={goal} setGoal={setGoal} />,
+    <Level key="level" d={d} level={level} setLevel={setLevel} />,
+    <Confidence key="confidence" d={d} confidence={confidence} setConfidence={setConfidence} />,
+    <Plan key="plan" d={d} name={name.trim()} minutes={minutes} setMinutes={setMinutes} />,
+    <Reminder key="reminder" d={d} time={time} setTime={setTime} />,
+    <Done key="done" d={d} name={name.trim()} minutes={minutes} reminder={reminder} />,
+  ][step];
+  const next = (to: number, disabled = false) => <Button label="DAVOM ETISH" disabled={disabled} onPress={() => setStep(to)} />;
+  const buttons = step === STEP.welcome ? (
+    <>
+      <Button label="BOSHLASH" onPress={() => setStep(STEP.meet)} />
+      {cloudEnabled ? <Button label="KIRISH" kind="secondary" onPress={() => router.navigate("/account?mode=login")} /> : null}
+      <LinkButton compact label="MAXFIYLIK" color={c.muted} onPress={() => router.navigate("/privacy")} />
+    </>
+  ) : step === STEP.name ? (
+    <>
+      {next(STEP.mic, !name.trim())}
+      <LinkButton compact label="KEYINROQ" color={c.muted} onPress={() => { setName(""); setStep(STEP.mic); }} />
+    </>
+  ) : step === STEP.mic ? (
+    <>
+      <Button label="MIKROFONNI YOQISH" onPress={() => {
+        void ExpoSpeechRecognitionModule.requestPermissionsAsync().then((p) => { setMicOk(p.granted); setStep(p.granted ? STEP.task : STEP.promise); });
+      }} />
+      <LinkButton compact label="HOZIR EMAS" color={c.muted} onPress={skipSpeaking} />
+    </>
+  ) : step === STEP.task ? (
+    <>
+      <Button label="DAVOM ETISH" disabled onPress={() => {}} />
+      <LinkButton compact label="HOZIR GAPIRA OLMAYMAN" color={c.muted} onPress={skipSpeaking} />
+    </>
+  ) : step === STEP.promise ? (
+    <>
+      <Button label="OVOZIMNI SAQLASH" onPress={() => { app.set({ saveVoice: true }); setStep(STEP.goal); }} />
+      <Button label="SAQLAMASDAN DAVOM ETISH" kind="secondary" onPress={() => { app.set({ saveVoice: false }); setStep(STEP.goal); }} />
+    </>
+  ) : step === STEP.reminder ? (
+    <>
+      <Button label="ESLATMANI YOQISH" onPress={() => setSheet(true)} />
+      <LinkButton compact label="HOZIR EMAS" color={c.muted} onPress={() => { setReminder(null); setStep(STEP.done); }} />
+    </>
+  ) : step === STEP.done ? (
+    <Button label="1-DARSNI BOSHLASH" onPress={finish} />
+  ) : next(step + 1, (step === STEP.goal && !goal) || (step === STEP.level && !level) || (step === STEP.confidence && !confidence));
   return (
-    <SafeAreaView
-      edges={["top", "bottom", "left", "right"]}
-      style={{ flex: 1, backgroundColor: c.bg }}
-    >
+    <SafeAreaView edges={["top", "bottom", "left", "right"]} style={{ flex: 1, backgroundColor: c.bg }}>
       <ScreenTransition transitionKey={step} direction={direction}>
-        {bar >= 0 ? (
-          <View
-            style={{
-              height: d(42),
-              paddingHorizontal: d(10),
-              flexDirection: "row",
-              alignItems: "center",
-              gap: d(10),
-            }}
-          >
+        {bar > 0 ? (
+          <View style={{ height: d(42), paddingLeft: d(10), paddingRight: d(16), flexDirection: "row", alignItems: "center", gap: d(10) }}>
             <Pressable accessibilityLabel="Ortga" onPress={back}>
               <Icon name="glyph-chevron-left-grey" size={d(30)} />
             </Pressable>
-            <View style={{ flexDirection: "row", gap: d(6) }}>
-              {Array.from({ length: 9 }, (_, i) => (
-                <View
-                  key={i}
-                  style={{
-                    width: d(i === bar ? 40 : 24),
-                    height: d(8),
-                    borderRadius: 4,
-                    backgroundColor: i <= bar ? violet : c.line,
-                  }}
-                />
+            <View style={{ flex: 1, flexDirection: "row", gap: d(5) }}>
+              {Array.from({ length: SEGMENTS }, (_, i) => (
+                <View key={i} style={{ flex: 1, height: d(8), borderRadius: 4, backgroundColor: i < bar ? violet : c.line }} />
               ))}
             </View>
           </View>
         ) : null}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingHorizontal: d(20),
-            paddingVertical: d(12),
-            gap: d(step === 1 ? 10 : step === 7 ? 16 : centered ? 18 : 16),
-            alignItems: centered ? "center" : "stretch",
-            justifyContent: centered ? "center" : "flex-start",
-          }}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ flexGrow: 1, paddingHorizontal: d(20), paddingVertical: d(12), gap: d(centered ? 14 : 16), alignItems: centered ? "center" : "stretch", justifyContent: centered ? "center" : "flex-start" }}
         >
-          {guides[step] ? (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "flex-end",
-                gap: d(12),
-              }}
-            >
-              <Dombi moment="idle" size={d(80)} />
-              <View
-                style={{
-                  flex: 1,
-                  paddingVertical: d(12),
-                  paddingHorizontal: d(14),
-                  borderRadius: d(18),
-                  borderBottomLeftRadius: d(4),
-                  borderWidth: d(2),
-                  borderColor: c.line,
-                  backgroundColor: c.card,
-                }}
-              >
-                <Txt numberOfLines={step === 3 ? 1 : undefined} adjustsFontSizeToFit={step === 3} minimumFontScale={0.98}
-                  style={{
-                    fontSize: d(16),
-                    lineHeight: d(22.4),
-                    fontFamily: "Nunito_900Black",
-                  }}
-                >
-                  {guides[step]}
-                </Txt>
-              </View>
-            </View>
-          ) : null}
-          {step === 0 ? (
-            <>
-              <Dombi moment="onboarding" size={d(213)} />
-              <Txt
-                style={{
-                  fontSize: d(30),
-                  color: violet,
-                  fontFamily: "Nunito_900Black",
-                  textAlign: "center",
-                }}
-              >
-                Akademiya English
-              </Txt>
-              <Txt
-                style={{
-                  maxWidth: d(300),
-                  fontSize: d(17),
-                  lineHeight: d(24),
-                  fontFamily: "Nunito_800ExtraBold",
-                  color: c.muted,
-                  textAlign: "center",
-                }}
-              >
-                Ingliz tilida gapirishni birinchi kundanoq boshlang.
-              </Txt>
-            </>
-          ) : null}
-          {step === 1 ? (
-            <>
-              <View
-                style={{
-                  paddingVertical: d(12),
-                  paddingHorizontal: d(18),
-                  borderWidth: 2,
-                  borderColor: c.line,
-                  borderRadius: d(18),
-                  backgroundColor: c.card,
-                }}
-              >
-                {title("Salom! Men Dombiman.", 18)}
-              </View>
-              <Dombi moment="welcome" size={d(238)} />
-            </>
-          ) : null}
-          {step === 2 ? (
-            <View style={{ gap: d(10) }}>
-              {goals.map(([key, icon, label]) => (
-                <Choice
-                  key={key}
-                  selected={goal === key}
-                  dimmed={!!goal && goal !== key}
-                  icon={icon}
-                  label={label}
-                  onPress={() => setGoal(key)}
-                  scale={scale}
-                />
-              ))}
-            </View>
-          ) : null}
-          {step === 3 ? (
-            <View style={{ gap: d(12) }}>
-              {[
-                [
-                  "new",
-                  "sprout",
-                  "Men yangiman",
-                  "Ingliz tilini noldan boshlayman",
-                ],
-                [
-                  "some",
-                  "plant",
-                  "Biroz bilaman",
-                  "Baribir 1-bo'limdan — tez o'tasiz",
-                ],
-              ].map(([key, icon, label, detail]) => (
-                <Choice
-                  key={key}
-                  selected={level === key}
-                  dimmed={!!level && level !== key}
-                  icon={icon}
-                  label={label}
-                  detail={detail}
-                  onPress={() => setLevel(key)}
-                  scale={scale}
-                />
-              ))}
-            </View>
-          ) : null}
-          {step === 4 ? (
-            <View style={{ gap: d(16) }}>
-              {[
-                [
-                  "coffee-kafeda",
-                  "Kafeda buyurtma bera olasiz",
-                  "Salomlashish, buyurtma, narx so'rash",
-                ],
-                [
-                  "bubble-phrases",
-                  "40+ iborani ayta olasiz",
-                  "Ovoz chiqarib, o'z talaffuzingiz bilan",
-                ],
-                [
-                  "flame-streak",
-                  "Har kungi odat hosil qilasiz",
-                  "Kuniga 10 daqiqa, mehribon eslatmalar",
-                ],
-              ].map(([icon, label, detail]) => (
-                <View
-                  key={icon}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: d(14),
-                    paddingVertical: d(8),
-                    paddingHorizontal: d(4),
-                  }}
-                >
-                  <Icon name={icon} size={d(44)} />
-                  <View style={{ flex: 1, gap: 4 }}>
-                    <Txt
-                      style={{ fontSize: d(17), fontFamily: "Nunito_900Black" }}
-                    >
-                      {label}
-                    </Txt>
-                    <Txt style={{ fontSize: d(13), color: c.muted }}>
-                      {detail}
-                    </Txt>
-                  </View>
-                </View>
-              ))}
-            </View>
-          ) : null}
-          {step === 5 ? (
-            <View style={{ gap: d(10) }}>
-              {[
-                ["face-pleading", "Umuman ishonmayman"],
-                ["face-dizzy", "Biroz qo'rqaman"],
-                ["face-smile", "O'rtacha"],
-                ["face-grin", "Ancha ishonaman"],
-                ["face-starstruck", "Juda ishonaman"],
-              ].map(([icon, label], i) => (
-                <Choice
-                  key={icon}
-                  selected={confidence === i + 1}
-                  dimmed={!!confidence && confidence !== i + 1}
-                  icon={icon}
-                  label={label}
-                  number={i + 1}
-                  onPress={() => setConfidence(i + 1)}
-                  scale={scale}
-                />
-              ))}
-            </View>
-          ) : null}
-          {step === 6 ? (
-            <>
-              <View>
-                <Dombi moment="onboardingIdle" size={d(190)} />
-                <View
-                  style={{
-                    position: "absolute",
-                    right: d(2),
-                    bottom: d(14),
-                    width: d(54),
-                    height: d(54),
-                    borderRadius: 30,
-                    backgroundColor: app.settings.dark ? "#3A1F1B" : "#FFEDEA",
-                    borderWidth: 4,
-                    borderColor: c.bg,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Icon name="studio-mic" size={d(30)} />
-                </View>
-              </View>
-              {title("Mikrofonni yoqamiz")}
-              <Txt
-                style={{
-                  fontSize: d(15),
-                  lineHeight: d(21),
-                  color: c.muted,
-                  textAlign: "center",
-                }}
-              >
-                Mashqlarda ovoz chiqarib gapirasiz. Javobingizni eshitishim
-                uchun mikrofon kerak.
-              </Txt>
-            </>
-          ) : null}
-          {step === 7 ? (
-            <>
-              {title("Menga “Hello!” deng", 26)}
-              <Dombi moment="onboardingIdle" size={d(190)} />
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: d(6),
-                  height: d(40),
-                  alignItems: "center",
-                }}
-              >
-                {Array.from({ length: 7 }, (_, i) => (
-                  <View
-                    key={i}
-                    style={{
-                      width: d(8),
-                      height: d(
-                        8 +
-                          (speech.listening
-                            ? Math.abs(Math.sin(i + speech.volume * 4)) * 32
-                            : 0),
-                      ),
-                      borderRadius: 4,
-                      backgroundColor: violet,
-                    }}
-                  />
-                ))}
-              </View>
-              <Txt style={{ fontSize: d(14), color: c.muted }}>
-                {speech.transcript ||
-                  "Tinglayapman…"}
-              </Txt>
-              {error ? <LinkButton compact
-                label={speech.listening ? "TO'XTATISH" : "YANA URINISH"}
-                onPress={() => {
-                  if (speech.listening) void speech.stop();
-                  else void hello();
-                }}
-              /> : null}
-            </>
-          ) : null}
-          {step === 8 ? (
-            <>
-              <Dombi moment="lessonResult" size={d(170)} />
-              {title("Zo'r! Sizni eshitdim", 26)}
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 8,
-                  paddingVertical: d(10),
-                  paddingHorizontal: d(16),
-                  backgroundColor: c.good,
-                  borderRadius: 99,
-                }}
-              >
-                <Icon name="glyph-check-green" size={d(22)} />
-                <Txt
-                  style={{
-                    fontSize: d(18),
-                    color: "#27A852",
-                    fontFamily: "Nunito_900Black",
-                  }}
-                >
-                  “Hello!”
-                </Txt>
-              </View>
-              <Txt
-                style={{ fontSize: d(15), color: c.muted, textAlign: "center" }}
-              >
-                Mikrofon ishlayapti — endi gapirib o&apos;rganamiz.
-              </Txt>
-            </>
-          ) : null}
-          {step === 9 ? (
-            <View style={{ gap: d(16) }}>
-              {[
-                [
-                  "lock",
-                  "Faqat siz eshitasiz",
-                  "Yozuvlar shu telefonda saqlanadi",
-                ],
-                [
-                  "trash",
-                  "Istalgan vaqtda o'chirasiz",
-                  "Sozlamalar → Ovoz yozuvlari",
-                ],
-                [
-                  "sparkles",
-                  "Taraqqiyotingizni eshitasiz",
-                  "1-kun va 30-kun ovozingizni solishtiring",
-                ],
-              ].map(([icon, label, detail]) => (
-                <View
-                  key={icon}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: d(12),
-                    paddingVertical: d(8),
-                    paddingHorizontal: d(4),
-                  }}
-                >
-                  <View
-                    style={{
-                      width: d(44),
-                      height: d(44),
-                      borderRadius: d(14),
-                      backgroundColor: c.soft,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Icon name={`glyph-${icon}-violet`} size={d(26)} />
-                  </View>
-                  <View style={{ flex: 1, gap: 4 }}>
-                    <Txt
-                      style={{ fontSize: d(16), fontFamily: "Nunito_900Black" }}
-                    >
-                      {label}
-                    </Txt>
-                    <Txt style={{ fontSize: d(12), color: c.muted }}>
-                      {detail}
-                    </Txt>
-                  </View>
-                </View>
-              ))}
-            </View>
-          ) : null}
-          {step === 10 ? (
-            <View
-              style={{ flex: 1, justifyContent: "center", minHeight: d(280) }}
-            >
-              <TimeWheel initialValue={time} onChange={setTime} />
-            </View>
-          ) : null}
+          {body}
         </ScrollView>
-        <View
-          style={{
-            paddingHorizontal: d(16),
-            paddingTop: d(12),
-            paddingBottom: d(30),
-            gap: d(10),
-          }}
-        >
-          {step === 0 ? (
-            <>
-              <Button label="BOSHLASH" onPress={() => setStep(1)} />
-              <LinkButton compact label="MAXFIYLIK" onPress={() => router.navigate("/privacy")} />
-              {cloudEnabled ? <Button
-                label="KIRISH"
-                kind="secondary"
-                onPress={() => router.navigate("/account?mode=login")}
-              /> : null}
-            </>
-          ) : step === 6 ? (
-            <>
-              <Button
-                label="MIKROFONNI YOQISH"
-                onPress={() => {
-                  void ExpoSpeechRecognitionModule.requestPermissionsAsync().then(
-                    (p) => {
-                      setMicOk(p.granted);
-                      setStep(p.granted ? 7 : 9);
-                    },
-                  );
-                }}
-              />
-              <LinkButton compact
-                label="HOZIR EMAS"
-                color={c.muted}
-                onPress={() => {
-                  setMicOk(false);
-                  setStep(9);
-                }}
-              />
-            </>
-          ) : step === 7 ? (
-            <>
-              <Button label="DAVOM ETISH" disabled onPress={() => {}} />
-              <LinkButton compact
-                label="HOZIR GAPIRA OLMAYMAN"
-                color={c.muted}
-                onPress={() => {
-                  speech.abort();
-                  setMicOk(false);
-                  setStep(9);
-                }}
-              />
-            </>
-          ) : step === 9 ? (
-            <>
-              <Button
-                label="OVOZIMNI SAQLASH"
-                onPress={() => {
-                  app.set({ saveVoice: true });
-                  setStep(10);
-                }}
-              />
-              <Button
-                label="SAQLAMASDAN DAVOM ETISH"
-                kind="secondary"
-                onPress={() => {
-                  app.set({ saveVoice: false });
-                  setStep(10);
-                }}
-              />
-            </>
-          ) : step === 10 ? (
-            <>
-              <Button
-                label="ESLATMANI YOQISH"
-                onPress={() => {
-                  void finish(time);
-                }}
-              />
-              <LinkButton compact
-                label="HOZIR EMAS"
-                color={c.muted}
-                onPress={() => {
-                  void finish(null);
-                }}
-              />
-            </>
-          ) : (
-            <Button
-              label="DAVOM ETISH"
-              disabled={
-                (step === 2 && !goal) ||
-                (step === 3 && !level) ||
-                (step === 5 && !confidence)
-              }
-              onPress={() => setStep(step + 1)}
-            />
-          )}
-        </View>
+        <View style={{ paddingHorizontal: d(16), paddingTop: d(12), paddingBottom: d(30), gap: d(10) }}>{buttons}</View>
       </ScreenTransition>
+      {sheet ? <PermissionSheet d={d} onAllow={() => { void allowReminder(); }} onSkip={() => { setSheet(false); setReminder(null); setStep(STEP.done); }} /> : null}
     </SafeAreaView>
-  );
-}
-function Choice({
-  label,
-  icon,
-  selected,
-  dimmed,
-  onPress,
-  detail,
-  number,
-  scale,
-}: {
-  label: string;
-  icon: string;
-  selected: boolean;
-  dimmed?: boolean;
-  onPress: () => void;
-  detail?: string;
-  number?: number;
-  scale: number;
-}) {
-  const c = useTheme(),
-    d = (n: number) => n * scale;
-  return (
-    <RaisedPressable
-      accessibilityRole="button"
-      soundName="pick"
-      accessibilityLabel={label}
-      accessibilityState={{ selected }}
-      onPress={onPress}
-      backgroundColor={selected ? c.soft : c.card}
-      edgeColor={selected ? "#7A5CFF" : c.line}
-      radius={d(16)}
-      depth={d(number ? 3 : 4)}
-      style={{ opacity: dimmed ? 0.55 : 1 }}
-      faceStyle={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: d(number ? 12 : 14),
-        paddingVertical: d(number ? 10 : 14),
-        paddingHorizontal: d(number ? 14 : 16),
-        borderWidth: d(2),
-        borderColor: selected ? violet : c.line,
-      }}
-    >
-      <Icon name={icon} size={d(detail ? 37 : number ? 34 : 28)} />
-      <View style={{ flex: 1, gap: 3 }}>
-        <Txt
-          style={{
-            fontSize: d(number ? 16 : 17),
-            fontFamily: "Nunito_900Black",
-            color: selected ? violet : c.text,
-          }}
-        >
-          {label}
-        </Txt>
-        {detail ? (
-          <Txt style={{ fontSize: d(13), color: c.muted }}>{detail}</Txt>
-        ) : null}
-      </View>
-      {number ? (
-        <Txt
-          style={{
-            fontSize: d(14),
-            color: c.muted,
-            fontFamily: "Nunito_900Black",
-          }}
-        >
-          {number}
-        </Txt>
-      ) : !detail ? (
-        <View
-          style={{
-            width: d(24),
-            height: d(24),
-            borderRadius: 12,
-            backgroundColor: violet,
-            alignItems: "center",
-            justifyContent: "center",
-            opacity: selected ? 1 : 0,
-          }}
-        >
-          <Icon name="glyph-check-white" size={d(14)} />
-        </View>
-      ) : null}
-    </RaisedPressable>
   );
 }

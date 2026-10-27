@@ -18,12 +18,21 @@
     }
   },
   {
+    "id": "ob-name",
+    "group": "onboarding",
+    "title": "name",
+    "native": {
+      "kind": "onboarding",
+      "step": 2
+    }
+  },
+  {
     "id": "ob-goal",
     "group": "onboarding",
     "title": "goal",
     "native": {
       "kind": "onboarding",
-      "step": 2
+      "step": 7
     }
   },
   {
@@ -32,7 +41,7 @@
     "title": "goal selected",
     "native": {
       "kind": "onboarding",
-      "step": 2,
+      "step": 7,
       "selected": 2
     }
   },
@@ -42,7 +51,7 @@
     "title": "level",
     "native": {
       "kind": "onboarding",
-      "step": 3
+      "step": 8
     }
   },
   {
@@ -51,17 +60,17 @@
     "title": "level selected",
     "native": {
       "kind": "onboarding",
-      "step": 3,
+      "step": 8,
       "selected": 2
     }
   },
   {
-    "id": "ob-achieve",
+    "id": "ob-plan",
     "group": "onboarding",
-    "title": "achieve",
+    "title": "plan",
     "native": {
       "kind": "onboarding",
-      "step": 4
+      "step": 10
     }
   },
   {
@@ -70,7 +79,7 @@
     "title": "confidence",
     "native": {
       "kind": "onboarding",
-      "step": 5
+      "step": 9
     }
   },
   {
@@ -79,7 +88,7 @@
     "title": "confidence selected",
     "native": {
       "kind": "onboarding",
-      "step": 5,
+      "step": 9,
       "selected": 2
     }
   },
@@ -89,7 +98,7 @@
     "title": "mic",
     "native": {
       "kind": "onboarding",
-      "step": 6
+      "step": 3
     }
   },
   {
@@ -98,7 +107,7 @@
     "title": "listen",
     "native": {
       "kind": "onboarding",
-      "step": 7
+      "step": 4
     }
   },
   {
@@ -107,7 +116,7 @@
     "title": "heard",
     "native": {
       "kind": "onboarding",
-      "step": 8
+      "step": 5
     }
   },
   {
@@ -116,7 +125,7 @@
     "title": "promise",
     "native": {
       "kind": "onboarding",
-      "step": 9
+      "step": 6
     }
   },
   {
@@ -125,7 +134,7 @@
     "title": "reminder",
     "native": {
       "kind": "onboarding",
-      "step": 10
+      "step": 11
     }
   },
   {
@@ -134,8 +143,17 @@
     "title": "Mic check listening",
     "native": {
       "kind": "onboarding",
-      "step": 7,
+      "step": 4,
       "listening": true
+    }
+  },
+  {
+    "id": "ob-done",
+    "group": "onboarding",
+    "title": "done",
+    "native": {
+      "kind": "onboarding",
+      "step": 12
     }
   },
   {
