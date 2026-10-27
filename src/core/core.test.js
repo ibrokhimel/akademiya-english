@@ -780,7 +780,7 @@ test('a video keeps its first-frame picture next to it', () => {
 });
 
 // ---- profile showcase: name and about me, badges, stats (showcase.js) ----
-import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows } from './showcase.js';
+import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows, togglePin, rarestBadge, shelfOrder, moveTo } from './showcase.js';
 test('username typing: the @ and capitals go, only a-z 0-9 _ stay, 20 at most; the B1 rule decides', () => {
   assert.equal(cleanUsername('@Aziz.01 x'), 'aziz01x');
   assert.equal(cleanUsername('@@ibrokhim'), 'ibrokhim');
@@ -818,4 +818,30 @@ test('a part of the profile shows unless the learner hid it', () => {
   assert.ok(shows(defaultProfile(), 'bio') && shows(defaultProfile(), 'title') && !shows(defaultProfile(), 'trophyShelf'));
   assert.ok(!shows(normalizeProfile({ look: { sections: [{ id: 'bio', shown: false }] } }), 'bio'));
   assert.ok(shows(null, 'bio') && !shows(defaultProfile(), 'nope'));
+});
+test('pins: up to 3, a second press takes the pin off, a full row takes no more', () => {
+  assert.deepEqual(togglePin([], 'a'), ['a']);
+  assert.deepEqual(togglePin(['a', 'b'], 'a'), ['b']);
+  assert.deepEqual(togglePin(['a', 'b', 'c'], 'd'), ['a', 'b', 'c']);
+  assert.deepEqual(togglePin(['a', 'b', 'c'], 'b'), ['a', 'c']);
+  assert.deepEqual(togglePin(null, 'a'), ['a']);
+});
+test('the rarest badge is the earned one with the biggest goal; the first of equals wins', () => {
+  const list = [{ id: 'perfect', goal: 5, earned: true }, { id: 'early', goal: 10, earned: false }, { id: 'speaker', goal: 10, earned: true }, { id: 'fixer', goal: 10, earned: true }, { id: 'legend', goal: 1, earned: true }];
+  assert.equal(rarestBadge(list), 'speaker');
+  assert.equal(rarestBadge(list.map((b) => ({ ...b, earned: b.id === 'legend' }))), 'legend');
+  assert.equal(rarestBadge(list.map((b) => ({ ...b, earned: false }))), null);
+  assert.equal(rarestBadge([]), null);
+});
+test('trophy shelf: the learner order first, unknown ids dropped, new trophies added at the end', () => {
+  assert.deepEqual(shelfOrder(['c', 'x', 'a'], ['a', 'b', 'c']), ['c', 'a', 'b']);
+  assert.deepEqual(shelfOrder([], ['a', 'b']), ['a', 'b']);
+  assert.deepEqual(shelfOrder(['b', 'b'], ['a', 'b']), ['b', 'a']);
+});
+test('moving a trophy puts it at the new place and keeps the rest in order', () => {
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 2), ['b', 'c', 'a']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'c', 0), ['c', 'a', 'b']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'b', 1), ['a', 'b', 'c']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'z', 0), ['a', 'b', 'c']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 9), ['b', 'c', 'a']);
 });

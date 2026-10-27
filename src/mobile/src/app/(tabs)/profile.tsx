@@ -13,6 +13,7 @@ import { DombiOverlay } from "../../components/TabChrome";
 import { Avatar } from "../../components/Avatar";
 import { AvatarFrame } from "../../components/AvatarFrame";
 import { Arrive } from "../../components/Motion";
+import { ProfilePinned } from "../../components/Badges";
 import { ProfileAbout } from "../../components/ProfileAbout";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileDetails } from "../../components/ProfileDetails";
@@ -101,6 +102,7 @@ export default function Profile() {
           style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
         >
           <ProfileAbout profile={profile} />
+          <ProfilePinned />
           <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{

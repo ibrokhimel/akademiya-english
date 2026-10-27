@@ -32,3 +32,30 @@ export function shows(profile, id) {
   const p = normalizeProfile(profile);
   return p.look.sections.find((s) => s.id === id)?.shown ?? false;
 }
+
+// ---- Badges ----
+/** Pin or unpin a badge; 3 at most, so a fourth is refused. */
+export function togglePin(pinned, id, max = 3) {
+  const list = Array.isArray(pinned) ? pinned : [];
+  if (list.includes(id)) return list.filter((x) => x !== id);
+  return list.length >= max ? list : [...list, id];
+}
+/** badges = [{ id, goal, earned }]. The rarest is the earned one with the biggest goal (until there are numbers from all learners). */
+export function rarestBadge(badges) {
+  let best = null;
+  for (const b of Array.isArray(badges) ? badges : []) if (b.earned && (!best || b.goal > best.goal)) best = b;
+  return best ? best.id : null;
+}
+/** The trophy shelf in the learner's order: saved ids that still exist, then any others in their own order. */
+export function shelfOrder(saved, ids) {
+  const out = [];
+  for (const id of [...(Array.isArray(saved) ? saved : []), ...ids]) if (ids.includes(id) && !out.includes(id)) out.push(id);
+  return out;
+}
+/** The list with `id` moved to `index`. */
+export function moveTo(list, id, index) {
+  if (!list.includes(id)) return list;
+  const rest = list.filter((x) => x !== id);
+  rest.splice(Math.max(0, Math.min(index, rest.length)), 0, id);
+  return rest;
+}
