@@ -222,9 +222,39 @@
      "act": "playful"
     },
     "Voooy!": {
-     "file": "scream.wav",
-     "ms": 1139,
+     "file": "scream-1.wav",
+     "ms": 1112,
+     "volume": 0.741,
+     "act": "scared"
+    },
+    "Voy-voy, to'xtang!": {
+     "file": "scream-2.wav",
+     "ms": 1279,
+     "volume": 0.773,
+     "act": "scared"
+    },
+    "Voy, boshim aylanyapti!": {
+     "file": "scream-3.wav",
+     "ms": 1844,
+     "volume": 0.707,
+     "act": "scared"
+    },
+    "Voy, onajon!": {
+     "file": "scream-4.wav",
+     "ms": 970,
      "volume": 1.0,
+     "act": "scared"
+    },
+    "Voy-dod!": {
+     "file": "scream-5.wav",
+     "ms": 1566,
+     "volume": 0.836,
+     "act": "scared"
+    },
+    "Aaaa! Qo'ying!": {
+     "file": "scream-6.wav",
+     "ms": 1645,
+     "volume": 0.796,
      "act": "scared"
     }
    },
