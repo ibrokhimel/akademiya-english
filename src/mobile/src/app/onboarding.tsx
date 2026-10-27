@@ -2,7 +2,7 @@ import { File } from "expo-file-system";
 import { router,useFocusEffect,useLocalSearchParams } from "expo-router";
 import { ExpoSpeechRecognitionModule } from "expo-speech-recognition";
 import { useCallback,useEffect,useState } from "react";
-import { BackHandler,Pressable,ScrollView,useWindowDimensions,View } from "react-native";
+import { BackHandler,KeyboardAvoidingView,Pressable,ScrollView,useWindowDimensions,View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Confidence,Done,Goal,Level,PermissionSheet,Plan,Reminder } from "../components/onboarding/StepsEnd";
@@ -145,6 +145,8 @@ export default function Onboarding() {
   ) : next(step + 1, (step === STEP.goal && !goal) || (step === STEP.level && !level) || (step === STEP.confidence && !confidence));
   return (
     <SafeAreaView edges={["top", "bottom", "left", "right"]} style={{ flex: 1, backgroundColor: c.bg }}>
+      {/* Keeps the buttons above the keyboard on the name step. */}
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <ScreenTransition transitionKey={step} direction={direction}>
         {bar > 0 ? (
           <View style={{ height: d(42), paddingLeft: d(10), paddingRight: d(16), flexDirection: "row", alignItems: "center", gap: d(10) }}>
@@ -167,6 +169,7 @@ export default function Onboarding() {
         </ScrollView>
         <View style={{ paddingHorizontal: d(16), paddingTop: d(12), paddingBottom: d(30), gap: d(10) }}>{buttons}</View>
       </ScreenTransition>
+      </KeyboardAvoidingView>
       {sheet ? <PermissionSheet d={d} onAllow={() => { void allowReminder(); }} onSkip={() => { setSheet(false); setReminder(null); setStep(STEP.done); }} /> : null}
     </SafeAreaView>
   );
