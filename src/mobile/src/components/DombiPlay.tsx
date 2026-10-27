@@ -40,6 +40,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const boxSize = useRef({ w: 0, h: 0 });
   const loop = useRef<{ raf: number; timer: ReturnType<typeof setTimeout> | null; last: number }>({ raf: 0, timer: null, last: 0 });
   const [awake, setAwake] = useState(false);
+  // Asleep shows on every phone: a still-picture phone draws the sleeping pose (Redmi test, 2026-10-27: he looked awake).
+  const [asleep, setAsleep] = useState(false);
+  const asleepRef = useRef(false);
   const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0);
   const style = useAnimatedStyle(() => ({ transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }] }));
 
@@ -74,11 +77,26 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const send = useCallback((ev: { type: "down" | "move" | "up" | "tick"; t: number; x?: number; y?: number; dt?: number; cancel?: boolean }) => {
     const r = touchReducer(current(), { ...ev, rule, env: env() });
     state.current = r.state; apply(r.effects as Effect[]); draw();
+    const sleeping = r.state.mode === "asleep";
+    if (sleeping !== asleepRef.current) { asleepRef.current = sleeping; setAsleep(sleeping); }
   }, [rule, env, apply, draw]);
+
+  // Leaving the screen sends him home, calm (a throw or a walk never plays out unseen), and coming back starts his
+  // 22 s nap count afresh: the count runs only while his screen is in view.
+  const focused = useIsFocused();
+  useEffect(() => {
+    if (focused) return;
+    state.current = touchStart(Date.now()); pending.current = [];
+    dx.set(0); dy.set(0); rot.set(0);
+    rig.current?.play("none"); rig.current?.mood("smirk");
+    if (asleepRef.current) { asleepRef.current = false; setAsleep(false); }
+    return () => { state.current = touchStart(Date.now()); };
+  }, [focused, dx, dy, rot]);
 
   // Frames run only while something moves or a press is pending; otherwise one timer waits for his 22 s nap.
   const schedule = useRef<() => void>(() => {});
   useEffect(() => {
+    if (!focused) { schedule.current = () => {}; return; }
     const L = loop.current;
     // Keep ticking while effects wait for the rig, so they play as soon as it mounts.
     const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0 || pending.current.length > 0; };
@@ -97,16 +115,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     };
     schedule.current();
     return () => { cancelAnimationFrame(L.raf); if (L.timer) clearTimeout(L.timer); L.raf = 0; L.timer = null; };
-  }, [send]);
-
-  // Leaving the screen sends him home, calm (a throw or a walk never plays out unseen).
-  const focused = useIsFocused();
-  useEffect(() => {
-    if (focused) return;
-    state.current = touchStart(Date.now()); pending.current = [];
-    dx.set(0); dy.set(0); rot.set(0);
-    rig.current?.play("none"); rig.current?.mood("smirk");
-  }, [focused, dx, dy, rot]);
+  }, [send, focused]);
 
   // On a still-picture phone the rig is only mounted while he plays; he goes back to the picture 2 s after settling.
   useEffect(() => {
@@ -165,7 +174,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   return (
     <GestureDetector gesture={pan}>
       <Animated.View onLayout={(e) => { boxSize.current = { w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }; }} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
-        <Dombi moment={moment} size={size} awake={awake} rigRef={rig} />
+        <Dombi moment={asleep ? "night" : moment} size={size} awake={awake} rigRef={rig} />
       </Animated.View>
     </GestureDetector>
   );
