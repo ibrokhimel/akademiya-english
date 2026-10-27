@@ -347,3 +347,33 @@ test('practice: a checkpoint\'s repeats of lesson items are played and counted o
   const all = practiceItems('catch', units, doneOf(...[...units[0].lessons, units[0].checkpoint].map((l) => l.id)), { n: 99 });
   assert.equal(new Set(all.map((i) => i.p ?? i.en)).size, all.length);
 });
+
+import { pickSpot } from './spots.js';
+
+// A lesson screen 360 wide; the free area for Dombi is the exercise's scroll view, 0..360 x 0..440.
+const AREA = { x: 0, y: 0, w: 360, h: 440 };
+const hits = (s, b) => s.x < b.x + b.w && b.x < s.x + s.size && s.y < b.y + b.h && b.y < s.y + s.size;
+test('spots: he sits next to a centred row instead of on it, nearest to where he was dropped', () => {
+  const blocks = [{ x: 16, y: 12, w: 328, h: 50 }, { x: 110, y: 80, w: 140, h: 90 }, { x: 16, y: 190, w: 328, h: 250 }];
+  const s = pickSpot({ area: AREA, blocks, target: { x: 340, y: 120 } });
+  assert.equal(s.size, 80); assert.ok(!blocks.some((b) => hits(s, b)));
+  assert.ok(s.x >= 250 && s.y >= 62 && s.y + 80 <= 190, 'right of the centred row');
+});
+test('spots: when nothing is covered at the drop point he stays right there', () => {
+  const s = pickSpot({ area: AREA, blocks: [{ x: 16, y: 12, w: 328, h: 50 }], target: { x: 180, y: 300 } });
+  assert.deepEqual([s.x + 40, s.y + 40, s.size], [180, 300, 80]);
+});
+test('spots: with no room for 80 he shrinks to 48, and with no room at all there is no spot', () => {
+  const tight = [{ x: 16, y: 0, w: 328, h: 180 }, { x: 16, y: 250, w: 328, h: 190 }];
+  const s = pickSpot({ area: AREA, blocks: tight, target: { x: 300, y: 210 } });
+  assert.equal(s.size, 48); assert.ok(!tight.some((b) => hits(s, b)));
+  assert.equal(pickSpot({ area: AREA, blocks: [{ x: 0, y: 0, w: 360, h: 440 }], target: { x: 0, y: 0 } }), null);
+});
+test('touch: in a lesson he can be carried, and letting go hands the drop to the screen instead of falling', () => {
+  const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const fx = []; let s = touchStart(0);
+  const ev = [...hold, { type: 'move', t: 340, x: 200, y: 400 }, ...ticks(356, 700), { type: 'move', t: 710, x: 200, y: 401 }, { type: 'up', t: 720, x: 200, y: 401 }];
+  for (const e of ev) { const r = touchReducer(s, { env: ENV, rule: 'perch', ...e }); s = r.state; fx.push(...r.effects); }
+  assert.ok(fires(fx).includes('hop')); assert.equal(fx.filter((f) => f.drop).length, 1);
+  assert.equal(s.mode, 'idle'); assert.equal(s.body.x, ENV.homeX); assert.equal(s.body.y, ENV.floorY);
+});

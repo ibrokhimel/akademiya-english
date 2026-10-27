@@ -2,7 +2,8 @@
 // The app feeds finger events and frame ticks in; out come the rig effects (triggers, the `play` enum, mood, haptics)
 // and his body (position, swing, squish) for the screen to draw.
 //   touchStart(t) -> state     touchReducer(state, { type: 'down'|'move'|'up'|'tick', t, x?, y?, dt?, rand?, cancel?, rule, env })
-// rule: 'all' (tabs) or 'nocarry' (a lesson with an exercise active). env: { w, h, homeX, floorY } in screen points.
+// rule: 'all' (tabs), 'nocarry' (no carrying) or 'perch' (a lesson: he can be carried, and on letting go the screen
+// moves him to the nearest free spot; owner, 2026-10-27). env: { w, h, homeX, floorY } in screen points.
 
 const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 400, POKE_RESET_MS = 4000,
   BACK_MS = 3000, THROW = 900, SLEEP_MS = 22000, WAKE_MS = 950, SHAKE_SPEED = 380, SHAKE_HITS = 5, SHAKE_MS = 900,
@@ -31,6 +32,8 @@ export function touchReducer(state, ev) {
   };
   const release = () => {
     const b = s.body; b.swing = 0; b.squish = 0;
+    // In a lesson the screen takes him from where he was let go (effect `drop`, before he is put back home here).
+    if (ev.rule === 'perch') { fx.push({ drop: true }); s.mode = 'idle'; Object.assign(b, { x: env.homeX, y: env.floorY, vx: 0, vy: 0, rot: 0, spin: 0, swingV: 0 }); play('none'); return; }
     let tr = s.trail.filter((q) => t - q.t < 130); if (tr.length < 2) tr = s.trail.slice(-3).filter((q) => t - q.t < 260);
     if (tr.length >= 2 && tr[tr.length - 1].t > tr[0].t) { const dts = (tr[tr.length - 1].t - tr[0].t) / 1000; b.vx = (tr[tr.length - 1].x - tr[0].x) / dts; b.vy = (tr[tr.length - 1].y - tr[0].y) / dts; }
     else { b.vx *= 0.4; b.vy *= 0.4; }
@@ -99,7 +102,7 @@ export function touchReducer(state, ev) {
     // The hold is checked once, at 300 ms, as the playground's timer does: a press made mid-flight never turns into a carry later.
     if (s.press && s.press.mode === 'press' && !s.press.holdChecked && t - s.press.t >= HOLD_MS) {
       s.press.holdChecked = true;
-      if (ev.rule === 'all' && s.press.moved < HOLD_PX && !['asleep', 'waking', 'back', 'flying', 'falling'].includes(s.mode)) startCarry();
+      if (ev.rule !== 'nocarry' && s.press.moved < HOLD_PX && !['asleep', 'waking', 'back', 'flying', 'falling'].includes(s.mode)) startCarry();
     }
     if (s.at.back && t >= s.at.back) { delete s.at.back; if (s.mode === 'back') { s.mode = 'idle'; play('none'); s.lastAct = t; } }
     if (s.at.wake && t >= s.at.wake) { delete s.at.wake; mood('smirk'); play('none'); s.mode = 'idle'; s.lastAct = t; }
