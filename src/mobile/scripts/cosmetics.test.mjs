@@ -80,3 +80,68 @@ test('the app look picks are the ids src/core/look.js checks a stored look again
   assert.deepEqual(ids(cos.lessonBackgrounds), look.LESSON_BACKGROUND_IDS);
   assert.deepEqual(ids(cos.pathSkins), look.PATH_SKIN_IDS);
 });
+
+// ---- app themes (Ilova ko'rinishi MAVZU): what useTheme() returns for each theme in light and dark ----
+const themeSetup = async () => {
+  const { makeThemes, appThemes } = await import('../src/components/themeColors.ts');
+  const { contrastRatio } = await import('../../core/showcase.js');
+  const tokens = JSON.parse(fs.readFileSync(new URL('../../../design/system/tokens.json', import.meta.url), 'utf8'));
+  return { base: makeThemes(tokens.color, tokens.color.app.english), all: appThemes(tokens.color), contrastRatio, tokens };
+};
+const each = (all, fn) => { for (const mode of ['light', 'dark']) for (const [id, t] of Object.entries(all[mode])) fn(t, `${mode} ${id}`, mode, id); };
+// CIE76 colour difference in Lab: over ~20 two colours read as different colours, not shades of one
+function deltaE(a, b) {
+  const lab = (hex) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    const xyz = [(r * 0.4124 + g * 0.3576 + bl * 0.1805) / 0.95047, r * 0.2126 + g * 0.7152 + bl * 0.0722, (r * 0.0193 + g * 0.1192 + bl * 0.9505) / 1.08883];
+    const [x, y, z] = xyz.map((v) => (v > 0.008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116));
+    return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+  };
+  const [p, q] = [lab(a), lab(b)];
+  return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
+}
+
+test('Binafsha in light and dark is today\'s palette, key for key', async () => {
+  const { base, all } = await themeSetup();
+  for (const mode of ['light', 'dark'])
+    for (const [key, value] of Object.entries(base[mode])) assert.equal(all[mode].violet[key], value, `${mode} ${key}`);
+  // today's violet uses kept as they were: the accent fill and text, the light brand wash used in both modes, the menu edge
+  for (const mode of ['light', 'dark']) {
+    const t = all[mode].violet;
+    assert.equal(t.accent, '#7B5CFF'); assert.equal(t.accentText, '#7B5CFF'); assert.equal(t.accentLip, '#5A3FD9');
+    assert.equal(t.onAccent, '#FFFFFF'); assert.equal(t.accentPale, '#EFEBFF'); assert.equal(t.accentPaleLine, '#C9BDFF');
+  }
+  assert.equal(all.light.violet.menuEdge, '#D9CFFF'); assert.equal(all.dark.violet.menuEdge, '#16132E');
+});
+
+test('text on an accent fill reads on the fill and on its lip, in every theme and mode', async () => {
+  const { all, contrastRatio } = await themeSetup();
+  each(all, (t, name, mode, id) => {
+    // Binafsha keeps today's white on violet (4.36:1); every other theme reaches body-text contrast
+    const body = id === 'violet' ? 3 : 4.5;
+    assert.ok(contrastRatio(t.onAccent, t.accent) >= body, `${name} on accent`);
+    assert.ok(contrastRatio(t.onAccent, t.accentLip) >= 4.5, `${name} on lip`);
+    if (id !== 'violet') for (const k of ['onAccentSoft', 'onAccentFaint']) assert.ok(contrastRatio(t[k], t.accent) >= 3, `${name} ${k}`);
+  });
+});
+
+test('the accent as text reads on the page, the cards and the wash (Binafsha keeps today\'s violet)', async () => {
+  const { all, contrastRatio } = await themeSetup();
+  each(all, (t, name, mode, id) => {
+    if (id === 'violet') return assert.equal(t.accentText, '#7B5CFF');
+    for (const bg of [t.bg, t.card, t.accentWash]) assert.ok(contrastRatio(t.accentText, bg) >= 4.5, `${name} on ${bg}`);
+  });
+});
+
+test('picks show in every theme: the accent is not the ink, the wash is not the page, Anor is not the danger red', async () => {
+  const { all, contrastRatio } = await themeSetup();
+  each(all, (t, name) => {
+    assert.ok(contrastRatio(t.accent, t.text) >= 1.5, `${name} accent vs ink`);
+    assert.ok(contrastRatio(t.accentWash, t.bg) >= 1.08, `${name} wash vs page`);
+  });
+  for (const mode of ['light', 'dark']) {
+    const t = all[mode].pomegranate;
+    assert.ok(deltaE(t.accent, t.dangerFill) >= 20, `${mode} Anor vs danger`);
+    assert.ok(deltaE(t.accent, t.notYet) >= 20, `${mode} Anor vs notYet`);
+  }
+});

@@ -42,12 +42,14 @@ test('every theme has a light and a dark palette in tokens.json; Binafsha is tod
     for (const id of THEME_IDS) {
       const p = tokens.color.themes[mode][id];
       assert.ok(p, `${mode} ${id}`);
-      assert.deepEqual(Object.keys(p).sort(), Object.keys(tokens.color.app.english).sort(), `${mode} ${id}`);
+      // app.english's keys, plus the accent as text and the edge of the Profile tab's round menu buttons
+      assert.deepEqual(Object.keys(p).sort(), [...Object.keys(tokens.color.app.english), 'text', 'menuEdge'].sort(), `${mode} ${id}`);
       for (const v of Object.values(p)) assert.match(v, /^#[0-9A-F]{6}$/, `${mode} ${id}`);
     }
-  assert.deepEqual(tokens.color.themes.light.violet, tokens.color.app.english);
-  // today's dark wash and wash line (components/themeColors.ts before themes)
-  assert.deepEqual(tokens.color.themes.dark.violet, { ...tokens.color.app.english, wash: '#26214A', washLine: '#463C85' });
+  // Binafsha is today: the brand violet (also as text), today's dark wash and wash line, today's menu-button edges
+  const english = tokens.color.app.english;
+  assert.deepEqual(tokens.color.themes.light.violet, { ...english, text: english.main, menuEdge: '#D9CFFF' });
+  assert.deepEqual(tokens.color.themes.dark.violet, { ...english, wash: '#26214A', washLine: '#463C85', text: english.main, menuEdge: '#16132E' });
 });
 
 test('a theme id finds its palette; an unknown one falls back to Binafsha', () => {

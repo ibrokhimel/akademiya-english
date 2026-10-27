@@ -63,9 +63,11 @@ type Base = ReturnType<typeof makeThemes>["light"];
 /**
  * A base palette with a colour theme (MAVZU) laid on: `accent` is what `violet` was for buttons, picks and progress,
  * `accentLip` its button edge, `accentWash`/`accentWashLine` (also `soft`/`softLine`) its pale fill and border, and
- * `onAccent` the text on an accent fill (onAccentSoft/Faint paler). Binafsha gives back today's palette.
+ * `onAccent` the text on an accent fill (onAccentSoft/Faint paler), `accentText` the accent as text (darker or lighter
+ * where the fill colour would not read), `accentPale`/`accentPaleLine` the light wash in both modes (places that kept the
+ * light brand wash in dark too) and `menuEdge` the Profile tab's round menu buttons' edge. Binafsha gives back today's palette.
  */
-export function withTheme(base: Base, palette: Mode, ink: string) {
+export function withTheme(base: Base, palette: Mode, light: Mode, ink: string) {
   const onAccent = accentInk(palette.main, ink);
   return {
     ...base,
@@ -79,6 +81,10 @@ export function withTheme(base: Base, palette: Mode, ink: string) {
     /** smaller and second lines on an accent fill */
     onAccentSoft: blend(onAccent, palette.main, 0.32),
     onAccentFaint: blend(onAccent, palette.main, 0.26),
+    accentText: palette.text,
+    accentPale: light.wash,
+    accentPaleLine: light.washLine,
+    menuEdge: palette.menuEdge,
   };
 }
 export type Theme = ReturnType<typeof withTheme>;
@@ -87,7 +93,7 @@ export type Theme = ReturnType<typeof withTheme>;
 export function appThemes(color: { light: Mode; dark: Mode; app: { english: Mode }; themes: { light: Record<string, Mode>; dark: Record<string, Mode> } }) {
   const base = makeThemes(color, color.app.english);
   const build = (mode: "light" | "dark") =>
-    Object.fromEntries(THEME_IDS.map((id) => [id, withTheme(base[mode], color.themes[mode][id], color.light.ink)])) as Record<string, Theme>;
+    Object.fromEntries(THEME_IDS.map((id) => [id, withTheme(base[mode], color.themes[mode][id], color.themes.light[id], color.light.ink)])) as Record<string, Theme>;
   return { light: build("light"), dark: build("dark") };
 }
 
