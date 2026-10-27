@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Pressable,View,useWindowDimensions } from "react-native";
-import { isOpen,type Cosmetic } from "../../data/cosmetics";
+import { isOpen,shown,type Cosmetic } from "../../data/cosmetics";
 import { sound } from "../../lib/audio";
 import { useApp } from "../../lib/store";
 import { Icon,Txt,useTheme,violet } from "../ui";
@@ -29,9 +29,9 @@ export function CosmeticFace({ item, locked = false }: { item: Cosmetic; locked?
   );
 }
 
-/** Catalogue entries as tiles; entries the learner has not earned yet come out locked with their goal as caption. */
+/** Catalogue entries as tiles (entries without ready art are left out); entries the learner has not earned yet come out locked with their goal as caption. */
 export function choicesFrom(list: Cosmetic[], earned: ReadonlySet<string>): Choice[] {
-  return list.map((x) => {
+  return shown(list).map((x) => {
     const locked = !isOpen(x, earned);
     return { id: x.id, label: x.label, locked, caption: locked ? x.label : undefined, content: <CosmeticFace item={x} locked={locked} /> };
   });

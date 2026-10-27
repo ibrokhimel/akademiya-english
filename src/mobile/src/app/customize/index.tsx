@@ -31,11 +31,11 @@ export default function Customize() {
       <ScreenHeader title="Profilni bezash" onBack={back} />
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: d(20), paddingTop: d(4), paddingBottom: d(24), gap: d(10) }}>
         <ProfileHeader compact name={settings.name.trim() || "Siz"} caption="Ko'rinishini quyida o'zgartiring" />
-        <SectionLabel>PROFIL</SectionLabel>
+        <SectionLabel first>PROFIL</SectionLabel>
         <RowGroup>
           <SettingRow icon="glyph-user-grey" label="Avatar" value={avatarKinds[p.avatar.kind]} onPress={go("/customize/avatar")} />
           <SettingRow icon="crown" label="Ramka" value={labelOf(frames, p.frame, "Yo'q")} onPress={go("/customize/frame")} />
-          <SettingRow icon="plane" label="Banner" value={bannerValue} onPress={go("/customize/banner")} />
+          <SettingRow icon="lesson-tashkent" label="Banner" value={bannerValue} onPress={go("/customize/banner")} />
           <SettingRow icon="glyph-message-grey" label="Ism va men haqimda" onPress={go("/customize/about")} />
         </RowGroup>
         <SectionLabel>KO&apos;RINISH</SectionLabel>

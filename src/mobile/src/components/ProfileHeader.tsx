@@ -32,15 +32,13 @@ export function ProfileHeader({ name, level, caption, date, actions, banner, ava
   const d = useDesignScale(), c = useTheme();
   const size = d(compact ? 62 : 96), ring = d(compact ? 3 : 4), over = compact ? 30 : 26;
   const letter = (
-    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: violet, alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: violet, alignItems: "center", justifyContent: "center", overflow: "hidden", ...(frame ? null : { borderWidth: ring, borderColor: c.card }) }}>
       {avatar ? avatar(size) : (
         <Txt style={{ fontSize: d(compact ? 28 : 43), color: "#FFFFFF", fontFamily: "Nunito_900Black" }}>{(name[0] || "?").toUpperCase()}</Txt>
       )}
     </View>
   );
-  const framed = frame ? frame(size, letter) : (
-    <View style={{ width: size, height: size, borderRadius: size / 2, borderWidth: ring, borderColor: c.card, overflow: "hidden" }}>{letter}</View>
-  );
+  const framed = frame ? frame(size, letter) : letter;
   const row = (
     <>
       <View style={{ position: "absolute", left: 0, top: d(-over), width: size, height: size }}>{framed}</View>
