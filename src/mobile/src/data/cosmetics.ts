@@ -256,6 +256,24 @@ export const backgrounds: Cosmetic[] = [
   c("registon", "Registon", { color: "cream", symbol: "Registon" }),
 ];
 
+// ---- What shows (VgCJ2): one row per part of the Profile tab, ids from SECTION_IDS in src/core/profile.js ----
+export const profileSections: Cosmetic[] = [
+  c("banner", "Banner"),
+  c("title", "Unvon"),
+  c("bio", "Men haqimda"),
+  c("tags", "Teglar"),
+  c("level", "Daraja"),
+  c("joined", "Qo'shilgan sana"),
+  c("pinnedBadges", "Qadalgan nishonlar"),
+  c("goal", "Maqsad kartasi"),
+  c("stats", "Statistika"),
+  c("records", "Shaxsiy rekordlar"),
+  c("awards", "Barcha nishonlar"),
+  c("trophyShelf", "Kuboklar javoni"),
+  c("favouritePhrase", "Sevimli ibora"),
+  c("dombi", "Dombi"),
+];
+
 // ---- App look (lAk24). The theme ids are final; their palettes come with the theme work. ----
 export const themes: Cosmetic[] = [
   c("violet", "Binafsha", { color: "violet" }),

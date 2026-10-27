@@ -11,12 +11,14 @@ import { useDesignScale } from "../useDesignScale";
  * The page keeps its edits in a local draft; `onSave` writes it, then the page goes back.
  * Going back any other way drops the draft.
  */
-export function EditorScreen({ title, onSave, children, saveLabel = "SAQLASH", canSave = true }: {
+export function EditorScreen({ title, onSave, children, saveLabel = "SAQLASH", canSave = true, scrollEnabled = true }: {
   title: string;
   onSave: () => void;
   children: ReactNode;
   saveLabel?: string;
   canSave?: boolean;
+  /** off while a row is dragged, so the page holds still */
+  scrollEnabled?: boolean;
 }) {
   const d = useDesignScale(), c = useTheme();
   const back = useBack("/customize");
@@ -26,6 +28,7 @@ export function EditorScreen({ title, onSave, children, saveLabel = "SAQLASH", c
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          scrollEnabled={scrollEnabled}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: d(20), paddingTop: d(4), paddingBottom: d(16), gap: d(12) }}
         >

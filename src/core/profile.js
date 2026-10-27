@@ -25,6 +25,11 @@ export function dombiName(text) {
 /** The username rule (the server's users.username field has the same pattern). */
 export const USERNAME = /^[a-z0-9_]{3,20}$/;
 
+/** "Nimalar ko'rinsin" as it starts, and as ASLIGA QAYTARISH puts it back: every part in its place, joined and the trophy shelf hidden. */
+export function defaultSections() {
+  return SECTION_IDS.map((id) => ({ id, shown: !HIDDEN_BY_DEFAULT.includes(id) }));
+}
+
 export function defaultProfile() {
   return {
     v: 1,
@@ -41,7 +46,7 @@ export function defaultProfile() {
     dombi: { outfit: 'none', pose: 'sit', tint: 'black', name: 'Dombi', visitorReaction: 'wave' },
     look: {
       color: 'violet', cardColor: 'white', background: { kind: 'color', id: 'plain', uri: null, mediaType: null }, dim: DIM_DEFAULT,
-      sections: SECTION_IDS.map((id) => ({ id, shown: !HIDDEN_BY_DEFAULT.includes(id) })),
+      sections: defaultSections(),
     },
   };
 }

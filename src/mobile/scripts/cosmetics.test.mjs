@@ -56,3 +56,7 @@ test('profile colour and card colour read in light and dark: the name colour on 
     for (const k of cos.cardColors) assert.ok(contrastRatio(t.ink, t.cards[k.id]) >= 4.5, `${theme} ink on ${k.id}`);
   }
 });
+test('every part of the profile has its row in "Nimalar ko\'rinsin", in the default order', async () => {
+  const { SECTION_IDS } = await import('../../core/profile.js');
+  assert.deepEqual(cos.profileSections.map((x) => x.id), SECTION_IDS);
+});

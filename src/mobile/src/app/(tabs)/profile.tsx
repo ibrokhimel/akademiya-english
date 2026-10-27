@@ -1,5 +1,5 @@
 import { router,useScrollToTop } from "expo-router";
-import { useRef,useState } from "react";
+import { Fragment,useRef,useState } from "react";
 import {
 Pressable,
 ScrollView,
@@ -17,7 +17,7 @@ import { ProfilePinned } from "../../components/Badges";
 import { ProfileAbout } from "../../components/ProfileAbout";
 import { ProfileBackground } from "../../components/ProfileBackground";
 import { ProfileBanner } from "../../components/ProfileBanner";
-import { ProfileDetails } from "../../components/ProfileDetails";
+import { ProfileDetail,ProfileFooter,detailParts,type DetailPart } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { useLookColors } from "../../components/customize/colors";
 import { RaisedPressable } from "../../components/RaisedPressable";
@@ -32,7 +32,7 @@ import { goals } from "../../data/content";
 import { testToolsEnabled } from "../../lib/config";
 import { useHomeBack } from "../../lib/navigation";
 import { useApp } from "../../lib/store";
-import { poseMoment,shows } from "../../../../core/showcase.js";
+import { poseMoment,profileLayout } from "../../../../core/showcase.js";
 import type { DombiMoment } from "../../components/Dombi";
 export default function Profile() {
   useHomeBack();
@@ -49,66 +49,14 @@ export default function Profile() {
     later = () =>
       router.navigate("/problem?kind=not-ready");
   const [goalOpen, setGoalOpen] = useState(false);
+  // "Nimalar ko'rinsin": the header parts by their switch, the rest in the learner's order (the name always shows)
   const profile = settings.profile,
     look = useLookColors(profile.look),
-    title = shows(profile, "title") ? titles.find((t) => t.id === profile.title)?.label : undefined;
+    layout = profileLayout(profile),
+    title = layout.title ? titles.find((t) => t.id === profile.title)?.label : undefined;
   const joined = settings.joined ? new Date(settings.joined) : new Date();
   const date = `${["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"][joined.getMonth()]} ${joined.getFullYear()}`;
-  return (
-    <SafeAreaView
-      edges={["top", "left", "right"]}
-      style={{ flex: 1, backgroundColor: c.bg }}
-    >
-      <ProfileBackground background={profile.look.background} dim={profile.look.dim} />
-      <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
-        <ProfileHeader
-          name={name}
-          nameColor={profile.nameColor}
-          accent={look.text}
-          caption={title}
-          level={profile.stats.private ? undefined : p.level}
-          date={date}
-          dateOnImage={settings.profile.banner.kind === "media"}
-          animate
-          banner={<ProfileBanner banner={settings.profile.banner} height={d(199)} />}
-          avatar={(size) => <Avatar avatar={settings.profile.avatar} name={name} size={size} dombiOutfit={settings.profile.dombi.outfit} />}
-          frame={(size, avatar) => <AvatarFrame id={settings.profile.frame} size={size}>{avatar}</AvatarFrame>}
-          actions={[
-            [
-              "glyph-more-violet",
-              "Profil menyusi",
-              () => router.navigate("/customize"),
-            ],
-            [
-              "glyph-gear-violet",
-              "Sozlamalar",
-              () => router.navigate("/settings"),
-            ],
-          ].map(([icon, label, press]) => (
-            <RaisedPressable
-              key={String(icon)}
-              accessibilityLabel={String(label)}
-              onPress={press as () => void}
-              radius={d(19)}
-              depth={d(3)}
-              backgroundColor={c.card}
-              edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
-              faceStyle={{
-                width: d(38),
-                height: d(38),
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name={String(icon)} size={d(28)} />
-            </RaisedPressable>
-          ))}
-        />
-        <View
-          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18) }}
-        >
-          <ProfileAbout profile={profile} />
-          <ProfilePinned />
+  const goalCard = (
           <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{
@@ -148,7 +96,9 @@ export default function Profile() {
               O&apos;ZGARTIRISH
             </Txt>
           </Pressable></Arrive>
-          {testToolsEnabled ? <>
+  );
+  const testCards = (
+          testToolsEnabled ? <>
           <Arrive index={2}
             style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}
           >
@@ -306,12 +256,75 @@ export default function Profile() {
               </Txt>
             </RaisedPressable>
           </Arrive>
-          </> : null}
-          <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
+          </> : null
+  );
+  return (
+    <SafeAreaView
+      edges={["top", "left", "right"]}
+      style={{ flex: 1, backgroundColor: c.bg }}
+    >
+      <ProfileBackground background={profile.look.background} dim={profile.look.dim} />
+      <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
+        <ProfileHeader
+          name={name}
+          nameColor={profile.nameColor}
+          accent={look.text}
+          caption={title}
+          level={profile.stats.private || !layout.level ? undefined : p.level}
+          date={layout.joined ? date : undefined}
+          dateOnImage={layout.banner && settings.profile.banner.kind === "media"}
+          animate
+          banner={layout.banner ? <ProfileBanner banner={settings.profile.banner} height={d(199)} /> : undefined}
+          avatar={(size) => <Avatar avatar={settings.profile.avatar} name={name} size={size} dombiOutfit={settings.profile.dombi.outfit} />}
+          frame={(size, avatar) => <AvatarFrame id={settings.profile.frame} size={size}>{avatar}</AvatarFrame>}
+          actions={[
+            [
+              "glyph-more-violet",
+              "Profil menyusi",
+              () => router.navigate("/customize"),
+            ],
+            [
+              "glyph-gear-violet",
+              "Sozlamalar",
+              () => router.navigate("/settings"),
+            ],
+          ].map(([icon, label, press]) => (
+            <RaisedPressable
+              key={String(icon)}
+              accessibilityLabel={String(label)}
+              onPress={press as () => void}
+              radius={d(19)}
+              depth={d(3)}
+              backgroundColor={c.card}
+              edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
+              faceStyle={{
+                width: d(38),
+                height: d(38),
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name={String(icon)} size={d(28)} />
+            </RaisedPressable>
+          ))}
+        />
+        <View
+          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18) }}
+        >
+          {layout.body.map((id, i) => {
+            // a part with nothing in it takes no room: records in private mode, no favourite phrase picked
+            if ((id === "records" && profile.stats.private) || (id === "favouritePhrase" && !profile.stats.favouritePhrase)) return null;
+            if (id === "bio" || id === "tags") return <ProfileAbout key={id} profile={profile} part={id} />;
+            if (id === "pinnedBadges") return <ProfilePinned key={id} />;
+            if (id === "goal") return <Fragment key={id}>{goalCard}{testCards}</Fragment>;
+            if (detailParts.includes(id)) return <Arrive key={id} index={Math.min(i + 1, 4)} style={{ gap: d(14) }}><ProfileDetail part={id as DetailPart} /></Arrive>;
+            return null;
+          })}
+          <ProfileFooter />
         </View>
       </ScrollView>
       {/* his corner: the pose the learner picked (the first-lesson hint first); hidden in "Nimalar ko'rinsin" */}
-      {shows(profile, "dombi") ? <DombiOverlay phone moment={Object.keys(p.done).length ? poseMoment(profile.dombi.pose) as DombiMoment : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} /> : null}
+      {layout.dombi ? <DombiOverlay phone moment={Object.keys(p.done).length ? poseMoment(profile.dombi.pose) as DombiMoment : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} /> : null}
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
     </SafeAreaView>
   );

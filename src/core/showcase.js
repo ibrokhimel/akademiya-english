@@ -101,3 +101,30 @@ export function contrastRatio(a, b) {
   const x = luminance(a), y = luminance(b);
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 }
+
+export { defaultSections } from './profile.js';
+/** The sections with one part switched on or off; its place stays. An unknown id changes nothing. */
+export function toggleSection(sections, id, on) {
+  if (!sections.some((s) => s.id === id)) return sections;
+  return sections.map((s) => (s.id === id ? { ...s, shown: on } : s));
+}
+/** The sections with the row at `from` dragged to `to` (kept inside the list); the rest keep their order. */
+export function moveSection(sections, from, to) {
+  if (!Number.isInteger(from) || from < 0 || from >= sections.length) return sections;
+  const rest = sections.filter((_, i) => i !== from);
+  rest.splice(Math.max(0, Math.min(Math.round(to), rest.length)), 0, sections[from]);
+  return rest;
+}
+// Parts that live in the header (the banner, the title under the name, the level pill, the join date on the banner) and
+// Dombi's corner: they have a fixed place, so only their switch counts. The name is not a section: it always shows.
+const PLACED = ['banner', 'title', 'level', 'joined', 'dombi'];
+/** What the Profile tab draws: the name always, the placed parts by their switch, and the other parts shown, in the learner's order. */
+export function profileLayout(profile) {
+  const sections = normalizeProfile(profile).look.sections;
+  const on = (id) => sections.some((s) => s.id === id && s.shown);
+  return {
+    name: true, banner: on('banner'), title: on('title'), level: on('level'), joined: on('joined'), dombi: on('dombi'),
+    /** @type {string[]} */
+    body: sections.filter((s) => s.shown && !PLACED.includes(s.id)).map((s) => s.id),
+  };
+}

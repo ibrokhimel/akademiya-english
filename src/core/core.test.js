@@ -911,3 +911,55 @@ test('background dim: 0 to 0.8, anything else is clamped or the default; the sli
   assert.equal(dimAt(-0.2), 0);
   assert.equal(normalizeProfile({ look: { dim: 0.45 } }).look.dim, 0.45);
 });
+import { defaultSections, toggleSection, moveSection, profileLayout } from './showcase.js';
+test('what shows: the switch keeps the place, unknown ids change nothing', () => {
+  const s = defaultSections();
+  const off = toggleSection(s, 'bio', false);
+  assert.equal(off.find((x) => x.id === 'bio').shown, false);
+  assert.deepEqual(off.map((x) => x.id), s.map((x) => x.id));
+  assert.equal(toggleSection(off, 'bio', true).find((x) => x.id === 'bio').shown, true);
+  assert.deepEqual(toggleSection(s, 'nope', false), s);
+  assert.notEqual(off, s);
+  assert.equal(s.find((x) => x.id === 'bio').shown, true);   // the list given is not changed
+});
+test('what shows: dragging a row moves it to the new place and keeps the rest in order', () => {
+  const ids = (l) => l.map((x) => x.id);
+  const s = defaultSections();
+  assert.deepEqual(ids(moveSection(s, 0, 2)).slice(0, 3), ['title', 'bio', 'banner']);
+  assert.deepEqual(ids(moveSection(s, 13, 0))[0], 'dombi');
+  assert.deepEqual(ids(moveSection(s, 2, 2)), ids(s));
+  assert.deepEqual(ids(moveSection(s, 1, 99)).at(-1), 'title');
+  assert.deepEqual(ids(moveSection(s, 1, -5))[0], 'title');
+  assert.deepEqual(moveSection(s, 99, 0), s);
+  assert.equal(moveSection(s, 3, 1).length, SECTION_IDS.length);
+});
+test('reset: the default order with joined and the trophy shelf hidden, a fresh list each time', () => {
+  assert.deepEqual(defaultSections(), defaultProfile().look.sections);
+  assert.notEqual(defaultSections(), defaultSections());
+});
+test('the Profile tab draws its parts from the sections: header parts by switch, the rest in the learner\'s order', () => {
+  const d = profileLayout(defaultProfile());
+  assert.equal(d.name, true);
+  assert.equal(d.banner && d.title && d.level && d.dombi, true);
+  assert.equal(d.joined, false);
+  assert.deepEqual(d.body, ['bio', 'tags', 'pinnedBadges', 'goal', 'stats', 'records', 'awards', 'favouritePhrase']);
+  const sections = toggleSection(moveSection(defaultSections(), SECTION_IDS.indexOf('awards'), 0), 'bio', false);
+  const moved = normalizeProfile({ look: { sections } });
+  assert.deepEqual(profileLayout(moved).body.slice(0, 3), ['awards', 'tags', 'pinnedBadges']);
+  assert.ok(!profileLayout(moved).body.includes('bio'));
+});
+test('normalizeProfile never hides everything: with every section off the name still shows', () => {
+  const none = normalizeProfile({ look: { sections: SECTION_IDS.map((id) => ({ id, shown: false })) } });
+  const l = profileLayout(none);
+  assert.equal(l.name, true);
+  assert.deepEqual(l.body, []);
+  assert.equal(l.banner || l.title || l.level || l.joined || l.dombi, false);
+  assert.equal(profileLayout(null).name, true);
+});
+test('normalizeProfile: a section id it does not know stays out, a new one comes back at its default place', () => {
+  const saved = SECTION_IDS.filter((id) => id !== 'goal').map((id) => ({ id, shown: true }));
+  const p = normalizeProfile({ look: { sections: [{ id: 'friends', shown: true }, ...saved] } });
+  assert.ok(!p.look.sections.some((s) => s.id === 'friends'));
+  assert.equal(p.look.sections.findIndex((s) => s.id === 'goal'), SECTION_IDS.indexOf('goal'));
+  assert.equal(p.look.sections.find((s) => s.id === 'goal').shown, true);
+});
