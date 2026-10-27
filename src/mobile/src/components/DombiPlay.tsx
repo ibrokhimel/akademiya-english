@@ -8,8 +8,8 @@ import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
 import { Dombi, type DombiMoment } from "./Dombi";
 
-type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[] };
-type Rule = "all" | "nocarry";
+type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean };
+type Rule = "all" | "nocarry" | "perch";
 
 // Haptics as in the playground's buzz(): one number is one tap, an array alternates tap / pause.
 function buzz(pattern: number | number[]) {
@@ -25,9 +25,11 @@ function buzz(pattern: number | number[]) {
  * Dombi you can touch (motion-plan §8, locked 2026-10-11; owner 2026-10-27): hold to pick him up, carry, drop, throw,
  * tap to poke, double-tap for a trick, rub to pet, he sleeps after 22 s and a tap wakes him.
  * rule "nocarry" (a lesson): taps, pokes, tricks and petting only. On still-picture phones he comes alive while touched.
+ * rule "perch" (a lesson): he can be carried; letting go calls onDrop with how far from his spot he was let go, and
+ * the screen moves him to the nearest free spot (owner, 2026-10-27). scale shrinks him with his feet in place.
  * Reduce Motion: no touch play; a tap still does onTap.
  */
-export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void }) {
+export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1 }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number }) {
   const reduce = useReducedMotion();
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
@@ -44,7 +46,11 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   const [asleep, setAsleep] = useState(false);
   const asleepRef = useRef(false);
   const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0);
-  const style = useAnimatedStyle(() => ({ transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }] }));
+  const style = useAnimatedStyle(() => ({ transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }, { scale }], transformOrigin: "50% 100%" }));
+  const dropTo = useRef(onDrop);
+  useEffect(() => { dropTo.current = onDrop; }, [onDrop]);
+  const scaleRef = useRef(scale);
+  useEffect(() => { scaleRef.current = scale; }, [scale]);
 
   const env = useCallback(() => {
     const h = home.current ?? { x: width - 56, y: height - 120 };
@@ -57,11 +63,13 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
     pending.current = [];
     for (const { e, at } of queue) {
       if (e.haptic !== undefined) { if (at === now) buzz(e.haptic); continue; }
+      // The screen takes him from where he was let go; his own offset goes back to his spot in the same frame.
+      if (e.drop) { dropTo.current?.(dx.get(), dy.get()); dx.set(0); dy.set(0); rot.set(0); continue; }
       const r = rig.current;
       if (!r) { if (awakeRef.current) pending.current.push({ e, at }); continue; }   // still-picture phone: the rig is mounting
       if (e.fire) r.fire(e.fire); else if (e.play !== undefined) r.play(e.play); else if (e.mood) r.mood(e.mood);
     }
-  }, []);
+  }, [dx, dy, rot]);
 
   const draw = useCallback(() => {
     const s = current(), e = env(), b = s.body;
@@ -130,9 +138,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap }: { moment: Dombi
   // His home spot comes from a touch that lands on him while he sits there: the finger's screen point minus its point inside him.
   // (Measuring the view on layout read the tab mid-slide, up to a screen width off, so he was drawn away from the finger.)
   const homeFrom = useCallback((x: number, y: number, lx: number, ly: number) => {
-    const s = current(), { w, h } = boxSize.current;
+    const s = current(), { w, h } = boxSize.current, k = scaleRef.current;
     if (!w || !["idle", "asleep"].includes(s.mode) || Math.abs(dx.get()) > 0.5 || Math.abs(dy.get()) > 0.5) return;
-    home.current = { x: x - lx + w / 2, y: y - ly + h };
+    home.current = { x: x + (w / 2 - lx) * k, y: y + (h - ly) * k };
     state.current = { ...s, body: { ...s.body, x: home.current.x, y: home.current.y } };
   }, [dx, dy]);
 
