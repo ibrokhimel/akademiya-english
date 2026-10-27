@@ -2,6 +2,7 @@ import { useIsFocused } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
+import { DeviceMotion } from "expo-sensors";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { touchReducer, touchStart } from "../../../core/touch.js";
@@ -162,6 +163,23 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   // Eyes on a finger anywhere on the tab. They follow only while the rig is drawn (a still-picture phone: while he is awake), so a passing
   // finger never loads the rig.
   useFinger(focused && rule === "all" && !reduce, (x, y) => { if (!rig.current) return; send({ type: "look", t: Date.now(), x, y }); restart(); });
+
+  // The phone itself, only while his tab is in view: a hard shake throws him (1.5 s apart), a tilt past 8° slides him.
+  useEffect(() => {
+    if (!focused || rule !== "all" || reduce) return;
+    let lastShake = 0, lastG = 0;
+    DeviceMotion.setUpdateInterval(50);
+    const sub = DeviceMotion.addListener((m) => {
+      const now = Date.now(), a = m.acceleration;
+      if (a && Math.hypot(a.x, a.y, a.z) > 22 && now - lastShake > 1500) {
+        lastShake = now; awakeRef.current = true; setAwake(true);
+        send({ type: "phoneShake", t: now }); restart();
+      }
+      const deg = m.rotation ? (m.rotation.gamma * 180) / Math.PI : 0, g = Math.abs(deg) > 8 ? deg : 0;
+      if (Math.abs(g - lastG) > 1 || (g === 0) !== (lastG === 0)) { lastG = g; send({ type: "tilt", t: now, g }); restart(); }
+    });
+    return () => sub.remove();
+  }, [focused, rule, reduce, send, restart]);
   const down = useCallback((x: number, y: number, lx: number, ly: number) => {
     homeFrom(x, y, lx, ly);
     awakeRef.current = true; setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };
@@ -186,6 +204,17 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     .onTouchesUp(() => { lifted.current = true; })
     .onUpdate((e) => move(e.absoluteX, e.absoluteY))
     .onFinalize((e) => up(e.absoluteX, e.absoluteY, !lifted.current)), [down, move, up]);
+  // A second finger beside him (within 120 points) pinches: he stretches like gum and snaps back on release.
+  const pinchTo = useCallback((d: number | null, first = false) => {
+    const t = Date.now(); send(d === null ? { type: "pinchEnd", t } : { type: "pinch", t, d }); if (first || d === null) restart();
+  }, [send, restart]);
+  const pinch = useMemo(() => Gesture.Pinch()
+    .runOnJS(true)
+    .hitSlop(120)
+    .onStart(() => pinchTo(100, true))
+    .onUpdate((e) => pinchTo(100 * e.scale))
+    .onFinalize(() => pinchTo(null)), [pinchTo]);
+  const gesture = useMemo(() => Gesture.Simultaneous(pan, pinch), [pan, pinch]);
   /* eslint-enable react-hooks/refs */
 
   if (reduce) {
@@ -196,7 +225,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     );
   }
   return (
-    <GestureDetector gesture={pan}>
+    <GestureDetector gesture={gesture}>
       <Animated.View onLayout={(e) => { boxSize.current = { w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }; }} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
         <Dombi moment={asleep ? "night" : moment} size={size} awake={awake} rigRef={rig} />
       </Animated.View>
