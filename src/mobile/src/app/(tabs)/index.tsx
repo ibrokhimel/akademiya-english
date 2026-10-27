@@ -35,7 +35,7 @@ const SPOTS = [
 ] as const;
 export default function Learn() {
   useMeasureDombiLevel(true);
-  const { progress: p, settings, set, resume, now } = useApp(),
+  const { progress: p, settings, isDark, set, resume, now } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -225,7 +225,7 @@ export default function Learn() {
                         height: d(75),
                         borderRadius: d(45),
                         borderWidth: d(4),
-                        borderColor: settings.dark ? shared.dark.rewardWash : shared.light.rewardWash,
+                        borderColor: isDark ? shared.dark.rewardWash : shared.light.rewardWash,
                       }}
                     />
                   ) : null}

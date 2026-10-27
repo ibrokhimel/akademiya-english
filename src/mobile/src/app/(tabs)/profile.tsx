@@ -38,7 +38,7 @@ export default function Profile() {
   useHomeBack();
   const scroll = useRef<ScrollView>(null);
   useScrollToTop(scroll);
-  const { settings, progress: p } = useApp(),
+  const { settings, isDark, progress: p } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -167,7 +167,7 @@ export default function Profile() {
           </Arrive>
           <Arrive index={3}
             style={{
-              backgroundColor: settings.dark ? "#2E8FC8" : "#4FB6F0",
+              backgroundColor: isDark ? "#2E8FC8" : "#4FB6F0",
               borderRadius: d(20),
               borderBottomWidth: 4,
               borderColor: "#2E95D0",
@@ -237,8 +237,8 @@ export default function Profile() {
               accessibilityLabel="KO'RISH"
               radius={d(14)}
               depth={d(4)}
-              backgroundColor={settings.dark ? "#E8F6FD" : "#FFFFFF"}
-              edgeColor={settings.dark ? "#9CCBE6" : "#D7ECF8"}
+              backgroundColor={isDark ? "#E8F6FD" : "#FFFFFF"}
+              edgeColor={isDark ? "#9CCBE6" : "#D7ECF8"}
               faceStyle={{
                 minHeight: d(48),
                 alignItems: "center",
@@ -296,7 +296,7 @@ export default function Profile() {
               radius={d(19)}
               depth={d(3)}
               backgroundColor={c.card}
-              edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
+              edgeColor={isDark ? "#16132E" : "#D9CFFF"}
               faceStyle={{
                 width: d(38),
                 height: d(38),

@@ -6,6 +6,8 @@ useMemo,
 useState,
 type ReactNode,
 } from "react";
+import { useColorScheme } from "react-native";
+import { isDarkMode,modeOf,normalizeAppLook } from "../../../core/look.js";
 import { progressOf } from "../../../core/progress.js";
 import { defaultProfile,earnedItems,normalizeProfile } from "../../../core/profile.js";
 import { unitSlugs } from "../data/cosmetics";
@@ -37,9 +39,25 @@ export type Profile = {
   };
 };
 
+/** How the app looks (screen lAk24, src/core/look.js owns the shape and the defaults). */
+export type AppLook = {
+  theme: string;
+  icon: string;
+  /** behind the lesson screens: a catalogue item (data/cosmetics.ts lessonBackgrounds) or the learner's own picture */
+  lessonBackground: { kind: "item" | "media"; id: string; uri: string | null };
+  /** stored only: the course map has no style hook for it yet */
+  pathSkin: string;
+  textSize: "small" | "medium" | "large" | "huge";
+  dyslexiaFont: boolean;
+  /** true: every tab shows its name; false (today): only the open tab does */
+  tabLabels: boolean;
+};
+
 export type Settings = {
   dayShift?: number;
-  dark: boolean;
+  /** Yorug' / Qorong'i / Telefondagidek; replaced the old `dark` flag (migrated on load). Read useApp().isDark to draw. */
+  mode: "light" | "dark" | "system";
+  appLook: AppLook;
   sound: boolean;
   speaking: boolean;
   saveVoice: boolean;
@@ -102,7 +120,8 @@ export type Recording = {
   synced?: boolean;
 };
 const defaults: Settings = {
-  dark: false,
+  mode: "light",
+  appLook: normalizeAppLook(undefined) as AppLook,
   sound: true,
   speaking: true,
   saveVoice: false,
@@ -123,10 +142,13 @@ const defaults: Settings = {
 
 function useStore() {
   const [settings, updateSettings] = useState<Settings>(() => {
-    const saved = read<Partial<Settings>>("settings", {});
+    const { dark: _oldDark, ...saved } = read<Partial<Settings> & { dark?: boolean }>("settings", {});
     return releaseSettings({
       ...defaults,
       ...saved,
+      // installs from before the mode had `dark: true|false`
+      mode: modeOf({ ...saved, dark: _oldDark }) as Settings["mode"],
+      appLook: normalizeAppLook(saved.appLook) as AppLook,
       // installs from before the profile existed have none: they get the defaults
       profile: normalizeProfile(saved.profile) as Profile,
     }, backendURL, speechURL, internalBuild);
@@ -213,8 +235,12 @@ function useStore() {
   }, [events, settings.openAll, settings.dayShift]);
   // worked out once per change of the events, for the Profile tab, its awards and stats, and the earned items
   const facts = useMemo(() => profileFacts(events), [events]);
+  // "Telefondagidek" follows the phone, and changes with it while the app is open
+  const scheme = useColorScheme();
+  const isDark = isDarkMode(settings.mode, scheme);
   return {
     settings,
+    isDark,
     facts,
     now: () => new Date(new Date().getTime() + (settings.dayShift || 0) * 86400000),
     set,

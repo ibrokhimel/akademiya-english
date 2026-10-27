@@ -11,8 +11,8 @@ import { useApp } from "../lib/store";
 
 /** Scrim behind a sheet: ink in light mode, paper in dark mode (ink is light there). */
 export function useScrim() {
-  const { settings } = useApp(), ds = useDs();
-  return settings.dark ? ds.paper + "B3" : "#14141E73";
+  const { isDark } = useApp(), ds = useDs();
+  return isDark ? ds.paper + "B3" : "#14141E73";
 }
 
 /**

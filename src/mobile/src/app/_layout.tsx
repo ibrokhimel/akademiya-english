@@ -53,19 +53,19 @@ export default function RootLayout() {
   );
 }
 function Navigation() {
-  const { settings } = useApp();
+  const { settings, isDark } = useApp();
   const segments = useSegments();
   const reduced = useReducedMotion();
   return (
     <>
       {segments[0] !== "visual-audit" && !getVisualAudit() ? <Services /> : null}
-      <StatusBar style={settings.dark ? "light" : "dark"} />
+      <StatusBar style={isDark ? "light" : "dark"} />
       <Stack
         UNSTABLE_router={navigationRouter}
         screenOptions={{
           headerShown: false,
           cardStyle: {
-            backgroundColor: settings.dark ? "#121214" : "#FFFFFF",
+            backgroundColor: isDark ? "#121214" : "#FFFFFF",
           },
           animation: reduced ? "fade" : "slide_from_right",
           animationTypeForReplace: "push",
@@ -180,7 +180,7 @@ function Services() {
     app.settings.server,
     app.settings.name,
     app.settings.cast,
-    app.settings.dark,
+    app.settings.mode,
     app.settings.sound,
     app.settings.speaking,
     app.settings.saveVoice,

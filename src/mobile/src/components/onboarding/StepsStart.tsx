@@ -86,12 +86,12 @@ export function Name({ d, name, setName, onDone }: { d: Scale; name: string; set
 
 /** Why the microphone is needed, before the phone asks. */
 export function Mic({ d }: { d: Scale }) {
-  const c = useTheme(), { settings } = useApp();
+  const c = useTheme(), { isDark } = useApp();
   return (
     <>
       <View>
         <Dombi moment="onboardingIdle" size={d(170)} />
-        <View style={{ position: "absolute", right: d(2), bottom: d(14), width: d(54), height: d(54), borderRadius: 30, backgroundColor: settings.dark ? "#3A1F1B" : "#FFEDEA", borderWidth: 4, borderColor: c.bg, alignItems: "center", justifyContent: "center" }}>
+        <View style={{ position: "absolute", right: d(2), bottom: d(14), width: d(54), height: d(54), borderRadius: 30, backgroundColor: isDark ? "#3A1F1B" : "#FFEDEA", borderWidth: 4, borderColor: c.bg, alignItems: "center", justifyContent: "center" }}>
           <Icon name="studio-mic" size={d(30)} />
         </View>
       </View>

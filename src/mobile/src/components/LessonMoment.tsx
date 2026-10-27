@@ -37,7 +37,7 @@ export function LessonMoment({ phase, lesson, stats, spokenMs, streak, onContinu
     const app = useApp(), c = useTheme(), level = phase === "level", checkpoint = phase === "result" && lesson.checkpoint, bg = level
         ? violet
         : checkpoint
-            ? app.settings.dark
+            ? app.isDark
                 ? "#24211A"
                 : "#FFFDF3"
             : c.bg;

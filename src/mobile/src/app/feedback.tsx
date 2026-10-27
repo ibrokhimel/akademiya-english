@@ -21,7 +21,7 @@ import { getVisualAudit } from "../lib/visualAudit";
 
 export default function Feedback() {
   const audit = getVisualAudit(), d = useDesignScale(), c = useTheme(), insets = useSafeAreaInsets();
-  const back = useBack("/(tabs)/profile"), { add, settings } = useApp(), scrim = useScrim();
+  const back = useBack("/(tabs)/profile"), { add, settings, isDark } = useApp(), scrim = useScrim();
   const [text, setText] = useState(() => read<string>("draft.feedback", ""));
   const [chips, setChips] = useState(() => read<string[]>("draft.feedback.chips", []));
   const [screenshot, setScreenshot] = useState(() => read<boolean>("draft.feedback.shot", true));
@@ -77,6 +77,6 @@ export default function Feedback() {
       {error ? <Txt accessibilityRole="alert" style={{ color: "#D9483A", fontSize: d(13) }}>{error}</Txt> : null}
       <View style={{ width: "100%", marginTop: d(4) }}><Button label={busy ? "KUTILMOQDA..." : canDeliver ? "YUBORISH" : "ULASHISH"} disabled={busy || (!text.trim() && !chips.length)} onPress={() => { void send(); }} /></View>
     </View></SafeAreaView></BottomSheet>
-    {sent ? <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} exiting={FadeOutUp.duration(180).reduceMotion(ReduceMotion.System)} style={{ position: "absolute", left: d(16), top: insets.top + d(16), width: d(358), borderRadius: d(18), backgroundColor: settings.dark ? "#3A3A4E" : "#2B2B3C", flexDirection: "row", alignItems: "center", gap: d(12), paddingLeft: d(12), paddingRight: d(14), paddingVertical: d(12), boxShadow: "0 6px 16px rgba(0,0,0,.2)" }}><View style={{ width: d(52), height: d(52), borderRadius: d(12), backgroundColor: "#8A8A9C", alignItems: "center", justifyContent: "center" }}><Dombi moment="thanks" size={d(52)} /></View><View style={{ flex: 1 }}><Txt style={{ fontSize: d(14), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>{canDeliver ? "Rahmat! Xabaringiz yetib keldi" : "Ulashish oynasi ochildi"}</Txt><Txt style={{ fontSize: d(12), color: "#FFFFFFB3" }}>{canDeliver ? "Tez orada tuzatamiz." : "Qoralama shu telefonda saqlanadi."}</Txt></View></Animated.View> : null}
+    {sent ? <Animated.View entering={FadeInDown.duration(220).reduceMotion(ReduceMotion.System)} exiting={FadeOutUp.duration(180).reduceMotion(ReduceMotion.System)} style={{ position: "absolute", left: d(16), top: insets.top + d(16), width: d(358), borderRadius: d(18), backgroundColor: isDark ? "#3A3A4E" : "#2B2B3C", flexDirection: "row", alignItems: "center", gap: d(12), paddingLeft: d(12), paddingRight: d(14), paddingVertical: d(12), boxShadow: "0 6px 16px rgba(0,0,0,.2)" }}><View style={{ width: d(52), height: d(52), borderRadius: d(12), backgroundColor: "#8A8A9C", alignItems: "center", justifyContent: "center" }}><Dombi moment="thanks" size={d(52)} /></View><View style={{ flex: 1 }}><Txt style={{ fontSize: d(14), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>{canDeliver ? "Rahmat! Xabaringiz yetib keldi" : "Ulashish oynasi ochildi"}</Txt><Txt style={{ fontSize: d(12), color: "#FFFFFFB3" }}>{canDeliver ? "Tez orada tuzatamiz." : "Qoralama shu telefonda saqlanadi."}</Txt></View></Animated.View> : null}
   </View>;
 }

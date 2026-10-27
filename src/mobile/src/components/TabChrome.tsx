@@ -12,10 +12,10 @@ import { Bounce, Count } from "./Motion";
 import { shared, type } from "./system";
 import { Icon, Txt } from "./ui";
 
-/** Light or dark design-system colours, following the "Tungi rejim" setting. */
+/** Light or dark design-system colours, following REJIM (light, dark or like the phone). */
 export function useDs() {
-  const { settings } = useApp();
-  return settings.dark ? shared.dark : shared.light;
+  const { isDark } = useApp();
+  return isDark ? shared.dark : shared.light;
 }
 
 function useScale() {

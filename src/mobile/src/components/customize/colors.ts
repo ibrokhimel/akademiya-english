@@ -18,5 +18,5 @@ export function useCosmeticColor() {
 /** The profile colour (as text and as a surface) and the card colour of a look, for the current theme (data/profileLook.ts). */
 export function useLookColors(look: { color: string; cardColor: string }) {
   const colour = useCosmeticColor();
-  return lookColors(look, useApp().settings.dark, colour, { profileColors, cardColors });
+  return lookColors(look, useApp().isDark, colour, { profileColors, cardColors });
 }

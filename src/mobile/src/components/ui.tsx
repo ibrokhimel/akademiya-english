@@ -22,20 +22,24 @@ import { useApp } from "../lib/store";
 import { Shine } from "./Motion";
 import { RaisedPressable } from "./RaisedPressable";
 import { brand,shared,type } from "./system";
-import { brandColors,makeThemes } from "./themeColors";
+import { appThemes,brandColors } from "./themeColors";
 import { ToggleControl } from "./ToggleControl";
 import { useDesignScale } from "./useDesignScale";
 
 // Interface colours come from the shared design system (design/system/tokens.json).
+// App chrome (buttons, picks, progress) takes the theme's `c.accent`; `violet` stays the fixed brand violet for art
+// stand-ins and catalogue colours (an avatar or a name picked as "Binafsha" stays violet in every theme).
 const NAMED = brandColors(shared, brand);
 export const violet = NAMED.violet,
   coral = NAMED.coral,
   green = NAMED.green,
   gold = NAMED.gold;
-const THEMES = makeThemes(shared, brand);
+const THEMES = appThemes(shared);
+/** The palette for the picked theme (MAVZU) in light or dark (REJIM). */
 export function useTheme() {
-  const { settings } = useApp();
-  return settings.dark ? THEMES.dark : THEMES.light;
+  const { settings, isDark } = useApp();
+  const mode = isDark ? THEMES.dark : THEMES.light;
+  return mode[settings.appLook.theme] ?? mode.violet;
 }
 export function Txt({ style, ...props }: TextProps) {
   const d = useDesignScale();

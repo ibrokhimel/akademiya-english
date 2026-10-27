@@ -109,7 +109,7 @@ async function synchronize() {
   await pb.collection("users").update(user, {
     name: settings.name,
     settings: {
-      dark: settings.dark,
+      mode: settings.mode,
       sound: settings.sound,
       speaking: settings.speaking,
       saveVoice: settings.saveVoice,

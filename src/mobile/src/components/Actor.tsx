@@ -109,7 +109,7 @@ function LoadedActor({
   onReady?: () => void;
   outfit?: string;
 }) {
-  const { settings } = useApp(),
+  const { settings, isDark } = useApp(),
     reduce = useReducedMotion();
   const board =
     (
@@ -159,7 +159,7 @@ function LoadedActor({
   }, [instance, who, hat, reduce]);
   useEffect(() => {
     if (!instance) return;
-    instance.booleanProperty("dark")?.set(settings.dark);
+    instance.booleanProperty("dark")?.set(isDark);
     if (who === "dombi") {
       instance.enumProperty("mood")?.set(mood);
       if (!reduce) instance.enumProperty("gesture")?.set(gesture);
@@ -177,7 +177,7 @@ function LoadedActor({
         instance.numberProperty("amp")?.set(event.amp ?? 0);
       }
     });
-  }, [instance, who, mood, gesture, trigger, talking, listening, settings.dark, reduce]);
+  }, [instance, who, mood, gesture, trigger, talking, listening, isDark, reduce]);
   return instance ? (
     <RiveView
       file={file}
