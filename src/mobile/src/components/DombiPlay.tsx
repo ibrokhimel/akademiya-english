@@ -5,6 +5,7 @@ import { Platform, Pressable, useWindowDimensions } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
+import { shakeStart, shakeStep } from "../../../core/shake.js";
 import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
 import { useFinger } from "./DombiWatch";
@@ -197,12 +198,13 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     // is the pull he feels, including the phone's own movement. Android reports in the phone's axes (y up); iOS the
     // other way round.
     const flip = Platform.OS === "ios" ? -1 : 1;
-    let lastShake = 0, gx = 0, gy = 1, sentX = 0, sentY = 1;
+    let shake = shakeStart(), gx = 0, gy = 1, sentX = 0, sentY = 1;
     Accelerometer.setUpdateInterval(16);
     const sub = Accelerometer.addListener((r) => {
-      const now = Date.now();
-      if (Math.hypot(r.x, r.y, r.z) > 2.6 && now - lastShake > 1500) {
-        lastShake = now; awakeRef.current = true; setAwake(true);
+      const now = Date.now(), step = shakeStep(shake, now, Math.hypot(r.x, r.y, r.z));
+      shake = step.state;
+      if (step.shake) {
+        awakeRef.current = true; setAwake(true);
         send({ type: "phoneShake", t: now }); restart();
       }
       gx += (-flip * r.x - gx) * 0.5; gy += (flip * r.y - gy) * 0.5;

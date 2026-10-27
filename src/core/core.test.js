@@ -599,3 +599,20 @@ test('shake: after landing he looks annoyed, then his face calms down', () => {
   const a = runR([{ type: 'phoneShake', t: 0, rand: 0.3 }, ...ticks(16, 6000)]);
   assert.ok(fires(a.fx).includes('shook')); assert.equal(moods(a.fx).at(-1), 'smirk');
 });
+
+// Shake detector (owner 2026-10-28: "i dont hear anything" — one reading over 2.6 g was more than a hand shake gives).
+import { shakeStart, shakeStep } from './shake.js';
+const shaken = (readings) => { let s = shakeStart(), hits = []; for (const [t, g] of readings) { const r = shakeStep(s, t, g); s = r.state; if (r.shake) hits.push(t); } return hits; };
+test('shake: two jolts over 1.8 g within 0.6 s count as a shake', () => {
+  assert.deepEqual(shaken([[0, 1], [100, 2.0], [150, 1], [300, 2.1], [400, 1]]), [300]);
+});
+test('shake: one bump is not a shake, nor a tilt or a slow wave', () => {
+  assert.deepEqual(shaken([[0, 1], [100, 2.4], [200, 1], [1000, 1.3], [1100, 1.5], [1200, 0.6]]), []);
+});
+test('shake: jolts too far apart are not a shake', () => {
+  assert.deepEqual(shaken([[0, 2.0], [50, 1], [800, 2.0]]), []);
+});
+test('shake: one long jolt over the bar counts once, and after a shake there is a 1.5 s rest', () => {
+  assert.deepEqual(shaken([[0, 2.0], [10, 2.2], [20, 2.1], [30, 1]]), []);
+  assert.deepEqual(shaken([[0, 2], [50, 1], [200, 2], [250, 1], [400, 2], [450, 1], [600, 2], [650, 1], [1800, 2], [1850, 1], [1900, 2]]), [200, 1900]);
+});
