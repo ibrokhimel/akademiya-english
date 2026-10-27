@@ -154,7 +154,7 @@ export default function Learn() {
               depth={d(4)}
               backgroundColor="#FFFFFF"
               edgeColor={c.accentPaleLine}
-              faceStyle={{ height: d(48), alignItems: "center", justifyContent: "center" }}
+              faceStyle={{ minHeight: d(48), paddingVertical: d(10), alignItems: "center", justifyContent: "center" }}
             >
               <Txt style={{ ...type("button", d), color: c.accentPaleText }}>
                 {resume?.id === next.id ? "DAVOM ETISH" : "BOSHLASH"}

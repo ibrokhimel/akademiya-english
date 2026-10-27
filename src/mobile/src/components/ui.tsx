@@ -183,9 +183,10 @@ export function Button({
       faceStyle={{
         borderWidth: kind === "secondary" && !disabled ? d(2) : 0,
         borderColor: c.line,
+        // grows with MATN O'LCHAMI and the dyslexia font instead of clipping the label
         minHeight: d(48),
         paddingHorizontal: d(24),
-        height: d(48),
+        paddingVertical: d(10),
         justifyContent: "center",
         alignItems: "center",
       }}
