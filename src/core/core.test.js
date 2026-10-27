@@ -211,11 +211,22 @@ test('touch: a quick tap pokes, pokes count up and the 4th turns his back for 3 
   assert.equal(after.s.mode, 'idle'); assert.deepEqual(plays(after.fx), ['none']);
   assert.deepEqual(fires(run([...tap(0), ...tap(5000)]).fx), ['poke1', 'poke1'], 'pokes reset after 4 s');
 });
-test('touch: two taps within 300 ms do a trick, never the same one twice running', () => {
+test('touch: two taps within 400 ms do a trick, never the same one twice running', () => {
   const dbl = (t, r) => [{ type: 'down', t, x: 334, y: 660 }, { type: 'up', t: t + 60, x: 334, y: 660 }, { type: 'down', t: t + 150, x: 334, y: 660 }, { type: 'up', t: t + 210, x: 334, y: 660, rand: r }];
   const { fx } = run([...dbl(0, 0), ...dbl(5000, 0)]);
   const tricks = fires(fx).filter((f) => f.startsWith('trick'));
   assert.equal(tricks.length, 2); assert.notEqual(tricks[0], tricks[1]);
+});
+test('touch: a double-tap at a normal pace (0.33 s between taps) still does a trick', () => {
+  const { fx } = run([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'up', t: 90, x: 334, y: 660 }, { type: 'down', t: 330, x: 334, y: 660 }, { type: 'up', t: 420, x: 334, y: 660, rand: 0 }]);
+  assert.deepEqual(fires(fx), ['poke1', 'trickSpin']);
+});
+test('touch: a rub that starts slowly turns into petting instead of carrying him off', () => {
+  const ev = [{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'move', t: 150, x: 337, y: 660 }, { type: 'move', t: 280, x: 340, y: 660 }, ...ticks(296, 312)];
+  for (let i = 0; i < 6; i++) ev.push({ type: 'move', t: 330 + i * 70, x: i % 2 ? 320 : 350, y: 660 }, { type: 'tick', t: 331 + i * 70, dt: 0.016 });
+  const { s, fx } = run([...ev, { type: 'up', t: 800, x: 335, y: 660 }, ...ticks(816, 3000)]);
+  assert.deepEqual(plays(fx), ['held', 'pet', 'none']); assert.deepEqual(fires(fx), ['hop', 'ahem']);
+  assert.equal(s.mode, 'idle'); assert.equal(s.body.x, ENV.homeX); assert.equal(s.body.y, ENV.floorY);
 });
 test('touch: hold 300 ms picks him up only where carrying is allowed', () => {
   const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];

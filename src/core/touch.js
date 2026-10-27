@@ -4,9 +4,10 @@
 //   touchStart(t) -> state     touchReducer(state, { type: 'down'|'move'|'up'|'tick', t, x?, y?, dt?, rand?, cancel?, rule, env })
 // rule: 'all' (tabs) or 'nocarry' (a lesson with an exercise active). env: { w, h, homeX, floorY } in screen points.
 
-const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 300, POKE_RESET_MS = 4000,
+const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBLE_MS = 400, POKE_RESET_MS = 4000,
   BACK_MS = 3000, THROW = 900, SLEEP_MS = 22000, WAKE_MS = 950, SHAKE_SPEED = 380, SHAKE_HITS = 5, SHAKE_MS = 900,
-  DIZZY_COOLDOWN = 2600, GRAVITY = 2600, BOUNCE_SPEED = 700, WALK = 95;
+  DIZZY_COOLDOWN = 2600, GRAVITY = 2600, BOUNCE_SPEED = 700, WALK = 95,
+  RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24;
 const TRICKS = ['trickSpin', 'trickFlick', 'trickShades'];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
@@ -70,6 +71,13 @@ export function touchReducer(state, ev) {
     const p = { x: ev.x, y: ev.y };
     s.press.moved += Math.hypot(p.x - s.press.last.x, p.y - s.press.last.y); s.press.last = p; s.lastAct = t;
     if (s.press.mode === 'press' && s.press.moved > PET_PX && t - s.press.t < HOLD_MS && s.mode !== 'asleep') { s.press.mode = 'pet'; play('pet'); buzz(5); }
+    // A rub that started too slowly to count as petting picked him up; rubbing on the spot turns it back into petting
+    // (Redmi test, 2026-10-27: a real finger often moves less than 12 px in the first 300 ms).
+    if (s.press.mode === 'carry' && t - s.press.t < RUB_MS && s.press.moved > RUB_PATH && Math.hypot(p.x - s.press.start.x, p.y - s.press.start.y) < RUB_SPOT) {
+      s.press.mode = 'pet'; s.mode = 'idle'; s.trail = [];
+      Object.assign(s.body, { x: env.homeX, y: env.floorY, vx: 0, vy: 0, swing: 0, swingV: 0, squish: 0 });
+      play('pet'); buzz(5);
+    }
     if (s.press.mode === 'carry') {
       const prev = s.trail[s.trail.length - 1];
       s.body.tx = p.x; s.body.ty = p.y - 4; s.trail.push({ x: p.x, y: p.y, t }); if (s.trail.length > 16) s.trail.shift();
