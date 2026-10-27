@@ -13,6 +13,7 @@ import { DombiOverlay } from "../../components/TabChrome";
 import { Avatar } from "../../components/Avatar";
 import { AvatarFrame } from "../../components/AvatarFrame";
 import { Arrive } from "../../components/Motion";
+import { ProfileAbout } from "../../components/ProfileAbout";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
@@ -23,10 +24,12 @@ Txt,
 useTheme,
 violet
 } from "../../components/ui";
+import { titles } from "../../data/cosmetics";
 import { goals } from "../../data/content";
 import { testToolsEnabled } from "../../lib/config";
 import { useHomeBack } from "../../lib/navigation";
 import { useApp } from "../../lib/store";
+import { shows } from "../../../../core/showcase.js";
 export default function Profile() {
   useHomeBack();
   const scroll = useRef<ScrollView>(null);
@@ -42,6 +45,8 @@ export default function Profile() {
     later = () =>
       router.navigate("/problem?kind=not-ready");
   const [goalOpen, setGoalOpen] = useState(false);
+  const profile = settings.profile,
+    title = shows(profile, "title") ? titles.find((t) => t.id === profile.title)?.label : undefined;
   const joined = settings.joined ? new Date(settings.joined) : new Date();
   const date = `${["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"][joined.getMonth()]} ${joined.getFullYear()}`;
   return (
@@ -52,6 +57,8 @@ export default function Profile() {
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
         <ProfileHeader
           name={name}
+          nameColor={profile.nameColor}
+          caption={title}
           level={p.level}
           date={date}
           dateOnImage={settings.profile.banner.kind === "media"}
@@ -93,6 +100,7 @@ export default function Profile() {
         <View
           style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
         >
+          <ProfileAbout profile={profile} />
           <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{

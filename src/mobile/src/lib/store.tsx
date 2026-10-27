@@ -27,7 +27,7 @@ export type Profile = {
   frame: string;
   banner: Media & { kind: "color" | "item" | "media"; id: string };
   username: string; bio: string; why: string | null; destination: string | null; nativeLanguage: string;
-  city: string; showCity: boolean; birthday: string | null; title: string | null; nameColor: string;
+  city: string; showCity: boolean; birthday: string | null; birthdayGreet: boolean; title: string | null; nameColor: string;
   badges: { pinned: string[]; style: "grid" | "row" | "shelf"; shelfOrder: string[]; spotlightRarest: boolean };
   stats: { layout: string; shown: string[]; favouritePhrase: string | null; wordOfWeek: string; private: boolean };
   dombi: { outfit: string; pose: string; tint: string; name: string; visitorReaction: string };
@@ -66,6 +66,8 @@ export type Settings = {
   matchBest?: number;
   /** Dombi falls and rolls with the phone's tilt and movement on the tabs; off unless turned on (owner 2026-10-28) */
   phoneMotion?: boolean;
+  /** the year Dombi last greeted the learner on their birthday (once a year) */
+  birthdayGreeted?: number;
   /** minutes a day picked in onboarding's plan */
   minutes?: number;
   /** the profile the learner builds (the display name stays in `name`) */

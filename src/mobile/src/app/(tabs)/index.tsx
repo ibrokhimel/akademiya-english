@@ -11,6 +11,8 @@ import { RaisedPressable } from "../../components/RaisedPressable";
 import { DombiOverlay,TabHeader } from "../../components/TabChrome";
 import type { Zones } from "../../components/DombiPlay";
 import { idleMoment } from "../../../../core/dombi.js";
+import { shouldGreetBirthday } from "../../../../core/showcase.js";
+import { Effect } from "../../components/Effects";
 import { useMeasureDombiLevel } from "../../lib/dombiLevel";
 import {
 Icon,
@@ -33,7 +35,7 @@ const SPOTS = [
 ] as const;
 export default function Learn() {
   useMeasureDombiLevel(true);
-  const { progress: p, settings, set, resume } = useApp(),
+  const { progress: p, settings, set, resume, now } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -69,6 +71,13 @@ export default function Learn() {
   }, []));
   const moment = (opened === "glad" ? "glad" : idleMoment({ now: seenAt, lastOpen: undefined })) as "glad" | "night" | "idle";
   useEffect(() => { set({ lastOpen: new Date().toISOString() }); }, [set]);
+  // The learner's birthday: the lesson-end confetti on the first open that day, once a year (item 31).
+  // `birthday` is the year greeted now, 0 when not today.
+  const [birthday] = useState(() => {
+    const today = now();
+    return !getVisualAudit() && shouldGreetBirthday({ birthday: settings.profile.birthday, greet: settings.profile.birthdayGreet, now: today, greetedYear: settings.birthdayGreeted }) ? today.getFullYear() : 0;
+  });
+  useEffect(() => { if (birthday) set({ birthdayGreeted: birthday }); }, [birthday, set]);
   const firstTime = Object.keys(p.done).length === 0;
   const wasOpen = useRef(false);
   useEffect(() => {
@@ -336,6 +345,7 @@ export default function Learn() {
           </Txt>
         </Pressable>
       ) : null}
+      {birthday ? <Effect board="Confetti" trigger="large" delay={600} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} /> : null}
       <DombiOverlay phone zones={zones} moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
       <BottomSheet
         visible={!!pick}

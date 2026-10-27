@@ -111,7 +111,7 @@ export const banners: Cosmetic[] = [
 // ---- Name and about me (jEs9F) ----
 export const whyTags: Cosmetic[] = [
   c("work", "Ish"),
-  c("travel", "Sayohat"),
+  c("travel", "Sayohat", { picture: "plane" }),
   c("study", "O'qish"),
   c("ielts", "IELTS"),
   c("movies", "Kino"),

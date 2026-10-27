@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Pressable,View } from "react-native";
 import { sound } from "../../lib/audio";
 import { useApp } from "../../lib/store";
@@ -11,6 +12,8 @@ export type ChipOption = {
   locked?: boolean;
   /** colour of the label, for chips that preview a colour */
   textColor?: string;
+  /** drawn instead of the label text (a name in a gradient); the label stays the accessible name */
+  content?: ReactNode;
 };
 type Single = { multi?: false; value: string | null; onChange: (id: string) => void };
 type Multi = { multi: true; value: string[]; onChange: (ids: string[]) => void; max?: number };
@@ -55,7 +58,7 @@ export function Chips({ options, solid = false, ...pick }: { options: ChipOption
             }}
           >
             {o.locked ? <Icon name="glyph-lock-grey" size={d(16)} /> : null}
-            <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : violet) : c.text) }}>{o.label}</Txt>
+            {o.content && !o.locked ? o.content : <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : violet) : c.text) }}>{o.label}</Txt>}
           </Pressable>
         );
       })}

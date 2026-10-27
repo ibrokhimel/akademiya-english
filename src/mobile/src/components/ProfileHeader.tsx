@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import { Arrive } from "./Motion";
+import { NameText } from "./NameText";
 import { Icon,Txt,useTheme,violet } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
@@ -11,11 +12,13 @@ import { useDesignScale } from "./useDesignScale";
  *  - `avatar(size)` replaces the letter inside the avatar circle
  *  - `frame(size, avatar)` wraps the avatar; the default is a ring in the card colour
  */
-export function ProfileHeader({ name, level, caption, date, dateOnImage = false, actions, banner, avatar, frame, compact = false, animate = false }: {
+export function ProfileHeader({ name, nameColor = "default", level, caption, date, dateOnImage = false, actions, banner, avatar, frame, compact = false, animate = false }: {
   name: string;
+  /** id from nameColors (data/cosmetics.ts) */
+  nameColor?: string;
   /** shows the "N-daraja" pill */
   level?: number;
-  /** small grey line under the name (the hub preview) */
+  /** small grey line under the name: the hub preview's hint, the learner's title on the Profile tab */
   caption?: string;
   /** small text at the banner's bottom right (join month) */
   date?: string;
@@ -44,22 +47,16 @@ export function ProfileHeader({ name, level, caption, date, dateOnImage = false,
   const row = (
     <>
       <View style={{ position: "absolute", left: 0, top: d(-over), width: size, height: size }}>{framed}</View>
-      <Txt
-        numberOfLines={1}
-        style={{
-          position: "absolute",
-          left: d(compact ? 78 : 110),
-          right: level === undefined ? 0 : d(104),
-          top: d(compact ? 10 : 24),
-          fontSize: d(compact ? 20 : 26),
-          lineHeight: d(compact ? 24 : 29),
-          fontFamily: "Nunito_900Black",
-        }}
-      >
-        {name}
-      </Txt>
+      <View style={{ position: "absolute", left: d(compact ? 78 : 110), right: level === undefined ? 0 : d(104), top: d(compact ? 10 : caption ? 12 : 24) }}>
+        <NameText
+          name={name}
+          color={nameColor}
+          numberOfLines={1}
+          style={{ fontSize: d(compact ? 20 : 26), lineHeight: d(compact ? 24 : 29), fontFamily: "Nunito_900Black" }}
+        />
+      </View>
       {caption ? (
-        <Txt numberOfLines={1} style={{ position: "absolute", left: d(78), right: 0, top: d(38), fontSize: d(12), color: c.muted, fontFamily: "Nunito_700Bold" }}>
+        <Txt numberOfLines={1} style={{ position: "absolute", left: d(compact ? 78 : 110), right: compact || level === undefined ? 0 : d(104), top: d(compact ? 38 : 43), fontSize: d(compact ? 12 : 13), color: c.muted, fontFamily: compact ? "Nunito_700Bold" : "Nunito_800ExtraBold" }}>
           {caption}
         </Txt>
       ) : null}

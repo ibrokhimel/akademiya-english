@@ -8,6 +8,8 @@ const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built', 'moving'];
 const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];
 const BADGE_STYLES = ['grid', 'row', 'shelf'];
+/** The username rule (the server's users.username field has the same pattern). */
+export const USERNAME = /^[a-z0-9_]{3,20}$/;
 
 export function defaultProfile() {
   return {
@@ -19,7 +21,7 @@ export function defaultProfile() {
     frame: 'none',
     banner: { kind: 'color', id: 'violet', uri: null, mediaType: null },
     username: '', bio: '', why: null, destination: null, nativeLanguage: 'uz', city: '', showCity: false,
-    birthday: null, title: null, nameColor: 'default',
+    birthday: null, birthdayGreet: true, title: null, nameColor: 'default',
     badges: { pinned: [], style: 'grid', shelfOrder: [], spotlightRarest: true },
     stats: { layout: 'grid', shown: [...STATS_SHOWN], favouritePhrase: null, wordOfWeek: '', private: false },
     dombi: { outfit: 'none', pose: 'sit', tint: 'black', name: 'Dombi', visitorReaction: 'wave' },
@@ -74,11 +76,12 @@ export function normalizeProfile(raw) {
     },
     frame: str(r.frame, d.frame),
     banner: { kind: oneOf(bn.kind, BANNER_KINDS, d.banner.kind), id: str(bn.id, d.banner.id), ...media(bn, d.banner) },
-    username: /^[a-z0-9_]{3,20}$/.test(username) ? username : '',
+    username: USERNAME.test(username) ? username : '',
     bio: text(r.bio, '').slice(0, 60),
     why: nullableStr(r.why), destination: nullableStr(r.destination), nativeLanguage: str(r.nativeLanguage, d.nativeLanguage),
     city: text(r.city, ''), showCity: r.showCity === true,
     birthday: typeof r.birthday === 'string' && /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(r.birthday) ? r.birthday : null,
+    birthdayGreet: typeof r.birthdayGreet === 'boolean' ? r.birthdayGreet : d.birthdayGreet,
     title: nullableStr(r.title), nameColor: str(r.nameColor, d.nameColor),
     badges: { pinned: strList(bd.pinned).slice(0, 3), style: oneOf(bd.style, BADGE_STYLES, d.badges.style), shelfOrder: strList(bd.shelfOrder), spotlightRarest: typeof bd.spotlightRarest === 'boolean' ? bd.spotlightRarest : d.badges.spotlightRarest },
     stats: { layout: str(st.layout, d.stats.layout), shown, favouritePhrase: nullableStr(st.favouritePhrase), wordOfWeek: text(st.wordOfWeek, ''), private: st.private === true },

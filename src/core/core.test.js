@@ -778,3 +778,44 @@ test('a video keeps its first-frame picture next to it', () => {
   assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
 });
+
+// ---- profile showcase: name and about me, badges, stats (showcase.js) ----
+import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows } from './showcase.js';
+test('username typing: the @ and capitals go, only a-z 0-9 _ stay, 20 at most; the B1 rule decides', () => {
+  assert.equal(cleanUsername('@Aziz.01 x'), 'aziz01x');
+  assert.equal(cleanUsername('@@ibrokhim'), 'ibrokhim');
+  assert.equal(cleanUsername('a'.repeat(30)).length, 20);
+  assert.equal(cleanUsername(null), '');
+  assert.ok(isUsername('aziz_01') && !isUsername('ab') && !isUsername('') && !isUsername('Aziz'));
+  for (const u of ['abc', 'a_b_c', 'x'.repeat(20)]) assert.equal(normalizeProfile({ username: u }).username, u);
+});
+test('birthday: the same month and day; 29 February is kept on the 28th in other years', () => {
+  assert.ok(birthdayOn('03-12', new Date(2027, 2, 12, 9)));
+  assert.ok(!birthdayOn('03-12', new Date(2027, 2, 13)) && !birthdayOn(null, new Date(2027, 2, 12)) && !birthdayOn('3-12', new Date(2027, 2, 12)));
+  assert.ok(birthdayOn('02-29', new Date(2028, 1, 29)) && !birthdayOn('02-29', new Date(2028, 1, 28)));
+  assert.ok(birthdayOn('02-29', new Date(2027, 1, 28)) && !birthdayOn('02-28', new Date(2027, 2, 1)));
+});
+test('birthday greeting: on the day, switched on, once a year', () => {
+  const day = new Date(2027, 2, 12, 8);
+  assert.ok(shouldGreetBirthday({ birthday: '03-12', greet: true, now: day }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: false, now: day }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: true, now: day, greetedYear: 2027 }));
+  assert.ok(shouldGreetBirthday({ birthday: '03-12', greet: true, now: new Date(2028, 2, 12), greetedYear: 2027 }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: true, now: new Date(2027, 2, 11) }));
+});
+test('the birthday greeting is on by default and stays a yes or no', () => {
+  assert.equal(defaultProfile().birthdayGreet, true);
+  assert.equal(normalizeProfile({ birthdayGreet: false }).birthdayGreet, false);
+  assert.equal(normalizeProfile({ birthdayGreet: 'no' }).birthdayGreet, true);
+});
+test('a birthday reads as day and month in Uzbek', () => {
+  assert.equal(birthdayLabel('03-12'), '12-mart');
+  assert.equal(birthdayLabel('01-01'), '1-yanvar');
+  assert.equal(birthdayLabel('12-31'), '31-dekabr');
+  assert.equal(birthdayLabel('nope'), '');
+});
+test('a part of the profile shows unless the learner hid it', () => {
+  assert.ok(shows(defaultProfile(), 'bio') && shows(defaultProfile(), 'title') && !shows(defaultProfile(), 'trophyShelf'));
+  assert.ok(!shows(normalizeProfile({ look: { sections: [{ id: 'bio', shown: false }] } }), 'bio'));
+  assert.ok(shows(null, 'bio') && !shows(defaultProfile(), 'nope'));
+});

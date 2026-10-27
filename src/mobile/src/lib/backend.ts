@@ -189,6 +189,18 @@ async function synchronize() {
   }
   return { events: next, recordings: read<Recording[]>("recordings", []) };
 }
+/** True when the learner is signed in to the cloud, so the server can be asked things. */
+export const signedIn = () => (cloudEnabled || internalBuild) && pb.authStore.isValid && !!pb.authStore.record;
+/** Is this @username free on the server (server/pocketbase/pb_hooks/username.pb.js)? null when it cannot be asked: not signed in, offline, a failure. */
+export async function usernameFree(name: string): Promise<boolean | null> {
+  if (!signedIn()) return null;
+  try {
+    const answer = await pb.send<{ free?: unknown }>(`/api/akademiya/username/${encodeURIComponent(name)}`, { method: "GET" });
+    return typeof answer?.free === "boolean" ? answer.free : null;
+  } catch {
+    return null;
+  }
+}
 const MEDIA_LIMIT = 8 * 1024 * 1024;
 const FALLBACK_MIME = { image: "image/jpeg", gif: "image/gif", video: "video/mp4" } as const;
 const FALLBACK_EXT = { image: "jpg", gif: "gif", video: "mp4" } as const;
