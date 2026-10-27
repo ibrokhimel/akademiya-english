@@ -52,7 +52,7 @@
     "assets": "node scripts/generate-assets.js",
     "android:apk": "node scripts/build-android.js release arm64-v8a",
     "test:navigation": "node --test scripts/navigation.test.mjs",
-    "test": "node --test scripts/release.test.mjs scripts/navigation.test.mjs scripts/speech.test.mjs scripts/voice.test.mjs ../core/core.test.js",
+    "test": "node --test scripts/release.test.mjs scripts/navigation.test.mjs scripts/speech.test.mjs scripts/voice.test.mjs scripts/cosmetics.test.mjs ../core/core.test.js",
     "android:signing": "node scripts/init-android-signing.cjs",
     "android:release": "node scripts/build-android.js release arm64-v8a,x86_64 both",
     "android:test-apk": "node scripts/build-android.js release arm64-v8a,x86_64 test"
