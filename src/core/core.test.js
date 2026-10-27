@@ -589,7 +589,7 @@ test('held: his eyes look toward the finger in his own turned frame', () => {
 test('a new profile starts with the defaults', () => {
   const p = defaultProfile();
   assert.equal(p.v, 1); assert.equal(p.avatar.kind, 'letter'); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
-  assert.deepEqual(p.stats.shown, ['phrases', 'streak', 'lessons', 'level']);
+  assert.deepEqual(p.stats.shown, ['streak', 'phrases']);   // the Profile tab's 2 x 2 as before: streak, then phrases
   assert.deepEqual(p.look.sections.map((s) => s.id), SECTION_IDS);
   assert.equal(p.look.sections.filter((s) => !s.shown).map((s) => s.id).join(), 'joined,trophyShelf');
   assert.deepEqual(STAT_IDS, ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction']);
@@ -780,7 +780,7 @@ test('a video keeps its first-frame picture next to it', () => {
 });
 
 // ---- profile showcase: name and about me, badges, stats (showcase.js) ----
-import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows, togglePin, rarestBadge, shelfOrder, moveTo, statsToShow } from './showcase.js';
+import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, MONTHS, toggleStat, shows, togglePin, rarestBadge, shelfOrder, moveTo, statsToShow } from './showcase.js';
 test('username typing: the @ and capitals go, only a-z 0-9 _ stay, 20 at most; the B1 rule decides', () => {
   assert.equal(cleanUsername('@Aziz.01 x'), 'aziz01x');
   assert.equal(cleanUsername('@@ibrokhim'), 'ibrokhim');
@@ -845,10 +845,10 @@ test('moving a trophy puts it at the new place and keeps the rest in order', () 
   assert.deepEqual(moveTo(['a', 'b', 'c'], 'z', 0), ['a', 'b', 'c']);
   assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 9), ['b', 'c', 'a']);
 });
-test('stats on the profile: the picked ones in their fixed order, only those with a value; private mode shows none', () => {
+test('stats on the profile: the picked ones in the order they were picked, only those with a value; private mode shows none', () => {
   const all = new Set(STAT_IDS);
-  assert.deepEqual(statsToShow(defaultProfile(), all), ['phrases', 'streak', 'lessons', 'level']);
-  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['level', 'phrases'] } }), all), ['phrases', 'level']);
+  assert.deepEqual(statsToShow(defaultProfile(), all), ['streak', 'phrases']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['level', 'phrases'] } }), all), ['level', 'phrases']);
   assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['prediction', 'streak'] } }), new Set(['streak'])), ['streak']);
   assert.deepEqual(statsToShow(normalizeProfile({ stats: { private: true } }), all), []);
 });
@@ -856,4 +856,13 @@ test('stat layout is a 2 x 2 grid or one big number; anything else is the grid',
   assert.equal(defaultProfile().stats.layout, 'grid');
   assert.equal(normalizeProfile({ stats: { layout: 'big' } }).stats.layout, 'big');
   for (const bad of ['huge', 5, null]) assert.equal(normalizeProfile({ stats: { layout: bad } }).stats.layout, 'grid');
+});
+test('turning a stat on puts it last, turning it off takes it out', () => {
+  assert.deepEqual(toggleStat(['streak', 'phrases'], 'level', true), ['streak', 'phrases', 'level']);
+  assert.deepEqual(toggleStat(['streak', 'phrases'], 'streak', false), ['phrases']);
+  assert.deepEqual(toggleStat(['streak'], 'streak', true), ['streak']);
+  assert.deepEqual(toggleStat(['streak'], 'nope', true), ['streak']);
+});
+test('the month names are the Uzbek ones, January first', () => {
+  assert.equal(MONTHS.length, 12); assert.equal(MONTHS[0], 'yanvar'); assert.equal(MONTHS[11], 'dekabr');
 });

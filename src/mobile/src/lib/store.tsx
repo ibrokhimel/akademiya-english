@@ -211,8 +211,11 @@ function useStore() {
     const result = progressOf(units, events, { openAll: settings.openAll, now: new Date(new Date().getTime() + (settings.dayShift || 0) * 86400000) });
     return { ...result, done: result.done as Record<string, Event> };
   }, [events, settings.openAll, settings.dayShift]);
+  // worked out once per change of the events, for the Profile tab, its awards and stats, and the earned items
+  const facts = useMemo(() => profileFacts(events), [events]);
   return {
     settings,
+    facts,
     now: () => new Date(new Date().getTime() + (settings.dayShift || 0) * 86400000),
     set,
     setProfile,
@@ -241,9 +244,8 @@ export function useApp() {
 }
 /** The profile, a way to change it, and the ids of everything real progress has earned so far ("ever reached", not "right now"). */
 export function useProfile() {
-  const { settings, setProfile, events, progress } = useApp();
+  const { settings, setProfile, facts, progress } = useApp();
   const earned = useMemo(() => {
-    const facts = profileFacts(events);
     return earnedItems({
       bestStreak: facts.best,
       perfectLessons: facts.perfect.length,
@@ -252,6 +254,6 @@ export function useProfile() {
       level: progress.level,
       unitsDone: units.filter((u) => progress.done[u.checkpoint.id]).map((u) => unitSlugs[u.unit]).filter(Boolean),
     }) as Set<string>;
-  }, [events, progress]);
+  }, [facts, progress]);
   return { profile: settings.profile, setProfile, earned };
 }

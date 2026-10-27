@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable,ScrollView,View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { STAT_IDS } from "../../../../core/profile.js";
+import { toggleStat } from "../../../../core/showcase.js";
 import { BottomSheet,SheetHandle } from "../../components/BottomSheet";
 import { Chips } from "../../components/customize/Chips";
 import { EditorScreen } from "../../components/customize/EditorScreen";
@@ -58,7 +58,7 @@ export default function StatsEditor() {
   const [favouritePhrase, setFavouritePhrase] = useState(s.favouritePhrase), [wordOfWeek, setWordOfWeek] = useState(s.wordOfWeek);
   const [hidden, setHidden] = useState(s.private), [sheet, setSheet] = useState(false);
   const hasPhrases = newestPhrases(events, 1).length > 0;
-  const toggle = (id: string, on: boolean) => setShown((list) => STAT_IDS.filter((x) => (x === id ? on : list.includes(x))));
+  const toggle = (id: string, on: boolean) => setShown((list) => toggleStat(list, id, on));
   return (
     <EditorScreen title="Statistika" onSave={() => setProfile((p) => ({ ...p, stats: { layout, shown, favouritePhrase, wordOfWeek: wordOfWeek.trim(), private: hidden } }))}>
       <SectionLabel first>KO&apos;RINISHI</SectionLabel>

@@ -1,7 +1,7 @@
 import { useEffect,useState,type ReactNode } from "react";
 import { Pressable,TextInput,View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { birthdayLabel,cleanUsername,isUsername } from "../../../../core/showcase.js";
+import { birthdayLabel,cleanUsername,isUsername,MONTHS } from "../../../../core/showcase.js";
 import { BottomSheet,SheetHandle } from "../../components/BottomSheet";
 import { Chips,type ChipOption } from "../../components/customize/Chips";
 import { useCosmeticColor } from "../../components/customize/colors";
@@ -17,7 +17,6 @@ import { destinations,isOpen,nameColors,nativeLanguages,shown,titles,whyTags,typ
 import { profileSyncStatus,signedIn,usernameFree } from "../../lib/backend";
 import { useApp,useProfile } from "../../lib/store";
 
-const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentyabr", "oktyabr", "noyabr", "dekabr"];
 const MONTH_DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const chips = (list: Cosmetic[]): ChipOption[] => shown(list).map((x) => ({ id: x.id, label: x.label }));
 

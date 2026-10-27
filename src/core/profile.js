@@ -3,7 +3,8 @@ export const SECTION_IDS = ['banner', 'title', 'bio', 'tags', 'level', 'joined',
 export const STAT_IDS = ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction'];
 
 const HIDDEN_BY_DEFAULT = ['joined', 'trophyShelf'];
-const STATS_SHOWN = ['phrases', 'streak', 'lessons', 'level'];
+// The Profile tab's numbers as before the customization: streak, then phrases. The rest are picked in the Stats editor.
+const STATS_SHOWN = ['streak', 'phrases'];
 const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built', 'moving'];
 const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];

@@ -3,7 +3,6 @@ import { Pressable,ScrollView,View } from "react-native";
 import { shelfOrder,shows } from "../../../core/showcase.js";
 import { awardsOf,badgesOf,type Award,type Badge } from "../data/awards";
 import { testToolsEnabled } from "../lib/config";
-import { profileFacts } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { useCosmeticColor } from "./customize/colors";
 import { Effect } from "./Effects";
@@ -12,8 +11,8 @@ import { useDesignScale } from "./useDesignScale";
 
 /** The awards (MUKOFOTLAR) and every badge a learner can pin, with theme colours worked out. Friend awards stay in test builds. */
 export function useBadges() {
-  const { events, progress: p } = useApp(), colour = useCosmeticColor();
-  const awards = useMemo(() => awardsOf(profileFacts(events), p.level).filter((a) => testToolsEnabled || !a.testOnly), [events, p.level]);
+  const { facts, progress: p } = useApp(), colour = useCosmeticColor();
+  const awards = useMemo(() => awardsOf(facts, p.level).filter((a) => testToolsEnabled || !a.testOnly), [facts, p.level]);
   const badges = useMemo(() => badgesOf(awards, p.done), [awards, p.done]);
   const paint = <T extends Award>(a: T): T => ({ ...a, color: colour(a.color), soft: colour(a.soft) });
   return { awards: awards.map(paint), badges: badges.map(paint) };

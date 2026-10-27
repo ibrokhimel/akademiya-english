@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { Pressable,ScrollView,View } from "react-native";
 import { rarestBadge,shows } from "../../../core/showcase.js";
 import { testToolsEnabled } from "../lib/config";
-import { longDate,profileFacts } from "../lib/progressExtras";
+import { longDate } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { AwardsSection,TrophyShelf,useBadges } from "./Badges";
 import { Count } from "./Motion";
@@ -11,7 +11,7 @@ import { Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
 export function ProfileDetails() {
-  const d = useDesignScale(), c = useTheme(), { events, progress: p, settings } = useApp(), f = profileFacts(events);
+  const d = useDesignScale(), c = useTheme(), { facts: f, progress: p, settings } = useApp();
   const later = () => router.navigate("/problem?kind=not-ready");
   const section = (title: string) => <Txt style={{ fontSize: d(13), letterSpacing: d(.8), color: c.muted, fontFamily: "Nunito_900Black" }}>{title}</Txt>;
   const records = [

@@ -21,7 +21,7 @@ export function birthdayOn(birthday, date) {
 export function shouldGreetBirthday({ birthday, greet, now, greetedYear }) {
   return greet === true && birthdayOn(birthday, now) && greetedYear !== now.getFullYear();
 }
-const MONTHS = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentyabr', 'oktyabr', 'noyabr', 'dekabr'];
+export const MONTHS = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentyabr', 'oktyabr', 'noyabr', 'dekabr'];
 /** "03-12" -> "12-mart" ("" for anything that is not MM-DD). */
 export function birthdayLabel(birthday) {
   if (typeof birthday !== 'string' || !/^(0[1-9]|1[0-2])-\d\d$/.test(birthday)) return '';
@@ -61,9 +61,15 @@ export function moveTo(list, id, index) {
 }
 
 // ---- Stats ----
-/** The numbers the profile shows: the picked ones (in STAT_IDS order) that have a value now (`available`, a Set); none in private mode. */
+/** The numbers the profile shows: the picked ones (in the order picked) that have a value now (`available`, a Set); none in private mode. */
 export function statsToShow(profile, available) {
   const p = normalizeProfile(profile);
   if (p.stats.private) return [];
-  return STAT_IDS.filter((id) => p.stats.shown.includes(id) && available.has(id));
+  return p.stats.shown.filter((id) => available.has(id));
+}
+/** The picked stats after a switch: turned on goes last, turned off comes out (unknown ids are ignored). */
+export function toggleStat(shown, id, on) {
+  if (!STAT_IDS.includes(id)) return shown;
+  const rest = shown.filter((x) => x !== id);
+  return on ? [...rest, id] : rest;
 }

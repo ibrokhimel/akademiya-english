@@ -5,7 +5,7 @@ import { statsToShow } from "../../../core/showcase.js";
 import { P } from "../data/content";
 import { statRows } from "../data/stats";
 import { play,stopAudio } from "../lib/audio";
-import { prediction,profileFacts } from "../lib/progressExtras";
+import { prediction } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { playVoice } from "../lib/voicePlayback";
 import { AudioBars,Count } from "./Motion";
@@ -16,7 +16,7 @@ type Value = { value: number; suffix: string } | { text: string };
 
 /** Today's value of every stat; a stat with nothing to say (no prediction once level 1 is reached) is left out. */
 export function useStatValues() {
-  const { events, progress: p } = useApp(), f = profileFacts(events);
+  const { events, facts: f, progress: p } = useApp();
   const values = new Map<string, Value>([
     ["phrases", { value: p.phrases, suffix: " ibora" }],
     ["streak", { value: p.streak.count, suffix: " kun" }],
@@ -69,7 +69,8 @@ export function usePhrasePlayer() {
   const { settings, recordings } = useApp();
   const [playing, setPlaying] = useState(false), run = useRef(0);
   useFocusEffect(useCallback(() => () => { run.current++; setPlaying(false); stopAudio(); }, []));
-  const own = (id: string | null) => (settings.saveVoice && id ? recordings.find((r) => r.phraseId === id) : undefined);
+  // the newest recording of the phrase (the list is kept newest first, but older stores may hold more than one)
+  const own = (id: string | null) => (settings.saveVoice && id ? recordings.filter((r) => r.phraseId === id).sort((a, b) => b.at.localeCompare(a.at))[0] : undefined);
   const toggle = async (id: string) => {
     const n = ++run.current, ph = P[id];
     stopAudio();

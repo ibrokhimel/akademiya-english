@@ -60,24 +60,32 @@ export default function Learn() {
   // Dombi's perches (motion-plan §8): the card's top edge and the streak flame, measured once the tab has slid in.
   const cardRef = useRef<View>(null), flameRef = useRef<View>(null), zonesAt = useRef<Zones | undefined>(undefined);
   const zones = useCallback(() => zonesAt.current, []);
+  // The learner's birthday: the lesson-end confetti on the first open that day, from a cold start or back from the
+  // background, once a year (item 31). `birthday` is the year greeted, 0 when not today.
+  const greetYear = () => {
+    const today = now();
+    return !getVisualAudit() && shouldGreetBirthday({ birthday: settings.profile.birthday, greet: settings.profile.birthdayGreet, now: today, greetedYear: settings.birthdayGreeted }) ? today.getFullYear() : 0;
+  };
+  const [birthday, setBirthday] = useState(greetYear);
+  const greetRef = useRef(greetYear);
+  useEffect(() => { greetRef.current = greetYear; });
+  useEffect(() => { if (birthday) set({ birthdayGreeted: birthday }); }, [birthday, set]);
   useFocusEffect(useCallback(() => {
     const measure = setTimeout(() => {
       cardRef.current?.measureInWindow((x, y, w) => { zonesAt.current = { ...zonesAt.current, peek: { l: x, r: x + w, top: y } }; });
       flameRef.current?.measureInWindow((x, y, _w, h) => { zonesAt.current = { ...zonesAt.current, warm: { x, y: y + h } }; });
     }, 450);
     setSeenAt(Date.now());
-    const sub = AppState.addEventListener("change", (s) => { if (s === "active") setSeenAt(Date.now()); });
+    const sub = AppState.addEventListener("change", (s) => {
+      if (s !== "active") return;
+      setSeenAt(Date.now());
+      const year = greetRef.current();
+      if (year) setBirthday(year);
+    });
     return () => { sub.remove(); clearTimeout(measure); };
   }, []));
   const moment = (opened === "glad" ? "glad" : idleMoment({ now: seenAt, lastOpen: undefined })) as "glad" | "night" | "idle";
   useEffect(() => { set({ lastOpen: new Date().toISOString() }); }, [set]);
-  // The learner's birthday: the lesson-end confetti on the first open that day, once a year (item 31).
-  // `birthday` is the year greeted now, 0 when not today.
-  const [birthday] = useState(() => {
-    const today = now();
-    return !getVisualAudit() && shouldGreetBirthday({ birthday: settings.profile.birthday, greet: settings.profile.birthdayGreet, now: today, greetedYear: settings.birthdayGreeted }) ? today.getFullYear() : 0;
-  });
-  useEffect(() => { if (birthday) set({ birthdayGreeted: birthday }); }, [birthday, set]);
   const firstTime = Object.keys(p.done).length === 0;
   const wasOpen = useRef(false);
   useEffect(() => {
