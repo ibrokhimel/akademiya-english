@@ -43,6 +43,7 @@ export function Actor({
   talking,
   listening,
   rigRef,
+  onReady,
 }: {
   who?: string;
   size?: number;
@@ -53,6 +54,8 @@ export function Actor({
   talking?: boolean;
   listening?: boolean;
   rigRef?: RefObject<Rig | null>;
+  /** called once the rig is loaded and drawing */
+  onReady?: () => void;
 }) {
   const file = useContext(FileContext);
   return (
@@ -71,7 +74,7 @@ export function Actor({
               : { flex: 1 }
           }
         >
-          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} rigRef={rigRef} />
+          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} rigRef={rigRef} onReady={onReady} />
         </View>
       ) : null}
     </View>
@@ -86,6 +89,7 @@ function LoadedActor({
   talking,
   listening,
   rigRef,
+  onReady,
 }: {
   file: RiveFile;
   who: string;
@@ -95,6 +99,7 @@ function LoadedActor({
   talking?: boolean;
   listening?: boolean;
   rigRef?: RefObject<Rig | null>;
+  onReady?: () => void;
 }) {
   const { settings } = useApp(),
     reduce = useReducedMotion();
@@ -123,6 +128,12 @@ function LoadedActor({
     };
     return () => { rigRef.current = null; };
   }, [instance, rigRef]);
+  useEffect(() => {
+    if (!instance || !onReady) return;
+    // The view draws its first frame a moment after the instance exists.
+    const t = setTimeout(onReady, 120);
+    return () => clearTimeout(t);
+  }, [instance, onReady]);
   useEffect(() => {
     if (!instance) return;
     instance.booleanProperty("dark")?.set(settings.dark);
