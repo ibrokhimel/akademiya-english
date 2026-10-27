@@ -39,6 +39,8 @@ export type Settings = {
   lastOpen?: string;
   /** Match rush: the most pairs found in one minute */
   matchBest?: number;
+  /** minutes a day picked in onboarding's plan */
+  minutes?: number;
 };
 export type Event = {
   client_id: string;
