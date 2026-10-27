@@ -436,12 +436,6 @@ test('touch: shaking the phone throws him; he lands and looks annoyed', () => {
   const a = runR([{ type: 'phoneShake', t: 0, rand: 0.3 }]); assert.equal(a.s.mode, 'flying');
   const b = runR(ticks(16, 4000), 'all', a.s); assert.ok(fires(b.fx).includes('shook'));
 });
-test('touch: tilting the phone slides him and leans him; carried, he ignores it', () => {
-  const a = runR([{ type: 'tilt', t: 0, g: 20 }, ...ticks(16, 600)]);
-  assert.notEqual(a.s.body.x, ENV.homeX); assert.notEqual(a.s.body.swing, 0);
-  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'tilt', t: 330, g: 20 }, ...ticks(346, 600)]);
-  assert.equal(held.s.mode, 'held');
-});
 test('touch: while held, his body pulses with the mic and steady blowing leans him into the wind', () => {
   const base = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
   const talk = runR([...base, { type: 'mic', t: 330, level: 50, dt: 0.05 }]);
@@ -479,10 +473,6 @@ test('touch: offering a high-five counts as activity', () => {
   const a = runR([{ type: 'highfive', t: 5000 }]); assert.equal(a.s.lastAct, 5000);
   const b = runR(ticks(5016, 6100, 50), 'all', a.s); assert.ok(b.s.lastAct >= 6000);
 });
-test('touch: tilted against the edge he settles, stops needing frames and still falls asleep', () => {
-  const a = runR([{ type: 'tilt', t: 0, g: 20 }, ...ticks(16, 30000, 50)]);
-  assert.equal(a.s.mode, 'asleep'); assert.equal(a.s.tiltMoving, false);
-});
 test('touch: on the real Learn tab (flame just above the card) a drop just above the card lands on it', () => {
   const env = { ...ENV, zones: { peek: { l: 20, r: 340, top: 102 }, warm: { x: 226, y: 78 } } };
   const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x: 190, y: 119 }, ...ticks(331, 1500), { type: 'up', t: 1510, x: 190, y: 119 }];
@@ -494,4 +484,42 @@ test('touch: the lesson waking him: asleep, a nudge wakes him; awake, it does no
   const a = runR([{ type: 'nudge', t: 23000 }, ...ticks(23100, 24200, 100)], 'all', asleep.s);
   assert.deepEqual(fires(a.fx), ['wake']); assert.equal(a.s.mode, 'idle');
   assert.deepEqual(runR([{ type: 'nudge', t: 10 }]).fx, []);
+});
+// Phone gravity (owner 2026-10-27: "how I move the phone should change Dombi's gravity"; real fall to any edge, tabs only).
+const GENV = { ...ENV, top: 60 };
+const grav = (t, gx, gy) => ({ type: 'gravity', t, gx, gy });
+test('gravity: phone turned on its left side, he falls to the left edge and lies there', () => {
+  const a = runR([grav(0, -1, 0), ...ticks(16, 3000)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.mode, 'lying'); assert.equal(a.s.edge, 'left'); assert.equal(a.s.body.x, 6); assert.equal(a.s.body.rot, 90);
+  assert.ok(fires(a.fx).includes('land'));
+  assert.equal(runR(ticks(3016, 9000, 100), 'all', a.s, GENV).s.mode, 'lying', 'he stays where he landed');
+});
+test('gravity: upside down, he falls to the top edge, head down', () => {
+  const a = runR([grav(0, 0, -1), ...ticks(16, 3000)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.edge, 'top'); assert.equal(a.s.body.y, 60); assert.equal(a.s.body.rot, 180);
+});
+test('gravity: a phone lying flat keeps the screen bottom as down', () => {
+  const a = runR([grav(0, 0.05, 0.02), ...ticks(16, 2000)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.mode, 'idle'); assert.equal(a.s.body.x, ENV.homeX); assert.equal(a.s.body.y, ENV.floorY);
+});
+test('gravity: upright again, he falls to the bottom and walks home after 3 s upright', () => {
+  const left = runR([grav(0, -1, 0), ...ticks(16, 3000)], 'all', touchStart(0), GENV);
+  const b = runR([grav(3100, 0, 1), ...ticks(3116, 5000)], 'all', left.s, GENV);
+  assert.notEqual(b.s.mode, 'walking', 'not before 3 s upright'); assert.equal(b.s.body.y, ENV.floorY); assert.equal(b.s.body.rot, 0);
+  const c = runR(ticks(5016, 16000), 'all', b.s, GENV);
+  assert.equal(c.s.mode, 'idle'); assert.ok(Math.abs(c.s.body.x - ENV.homeX) < 6);
+});
+test('gravity: a sideways tilt slides him along the bottom without falling off it', () => {
+  const a = runR([grav(0, -0.5, 0.87), ...ticks(16, 1500)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.body.y, ENV.floorY); assert.notEqual(a.s.body.x, ENV.homeX); assert.equal(a.s.mode, 'lying'); assert.equal(a.s.edge, 'bottom');
+});
+test('gravity: while carried, gravity changes nothing; let go, he falls the new way', () => {
+  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), grav(330, 1, 0), ...ticks(346, 600)], 'all', touchStart(0), GENV);
+  assert.equal(held.s.mode, 'held');
+  const out = runR([{ type: 'up', t: 610, x: 200, y: 400 }, ...ticks(626, 3000)], 'all', held.s, GENV);
+  assert.equal(out.s.edge, 'right'); assert.equal(out.s.body.x, ENV.w - 6);
+});
+test('gravity: lying still against an edge needs no frames, and he can still fall asleep there', () => {
+  const a = runR([grav(0, -1, 0), ...ticks(16, 30000, 50)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.mode, 'asleep'); assert.equal(a.s.moving, false);
 });

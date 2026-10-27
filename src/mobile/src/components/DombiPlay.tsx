@@ -14,7 +14,7 @@ import { Dombi, type DombiMoment } from "./Dombi";
 type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean };
 /** Learn-tab perches in screen points: the card's top edge and the flame's left side and bottom. */
 export type Zones = { peek?: { l: number; r: number; top: number }; warm?: { x: number; y: number } };
-type Event = { type: string; t: number; x?: number; y?: number; dt?: number; cancel?: boolean; d?: number; g?: number; level?: number };
+type Event = { type: string; t: number; x?: number; y?: number; dt?: number; cancel?: boolean; d?: number; gx?: number; gy?: number; level?: number };
 type Rule = "all" | "nocarry" | "perch";
 
 // Haptics as in the playground's buzz(): one number is one tap, an array alternates tap / pause.
@@ -129,7 +129,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     const L = loop.current;
     // Keep ticking while effects wait for the rig, so they play as soon as it mounts.
     // In a lesson, frames also run while he waits away from his spot, so the 4 s wait ends on time.
-    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep", "perched"].includes(s.mode) || s.hf > 0 || s.tiltMoving || (s.slid && s.tilt === 0) || Object.keys(s.at).length > 0 || pending.current.length > 0 || (rule === "perch" && (Math.abs(dx.get()) > 1 || Math.abs(dy.get()) > 1)); };
+    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep", "perched"].includes(s.mode) || s.hf > 0 || s.moving || Object.keys(s.at).length > 0 || pending.current.length > 0 || (rule === "perch" && (Math.abs(dx.get()) > 1 || Math.abs(dy.get()) > 1)); };
     const frame = (now: number) => {
       L.raf = 0;
       const dt = Math.min(0.033, L.last ? (now - L.last) / 1000 : 0.016); L.last = now;
@@ -173,10 +173,11 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   // finger never loads the rig.
   useFinger(focused && rule === "all" && !reduce, (x, y) => { if (!rig.current) return; send({ type: "look", t: Date.now(), x, y }); restart(); });
 
-  // The phone itself, only while his tab is in view: a hard shake throws him (1.5 s apart), a tilt past 8° slides him.
+  // The phone itself, only while his tab is in view (owner 2026-10-27): its gravity is his gravity, and moving the phone
+  // pushes him the other way, as if he were inside it; a hard shake also throws him (1.5 s apart).
   useEffect(() => {
     if (!focused || rule !== "all" || reduce || !phone) return;
-    let lastShake = 0, lastG = 0;
+    let lastShake = 0, gx = 0, gy = 1, sentX = 0, sentY = 1;
     DeviceMotion.setUpdateInterval(50);
     const sub = DeviceMotion.addListener((m) => {
       const now = Date.now(), a = m.acceleration;
@@ -184,8 +185,12 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
         lastShake = now; awakeRef.current = true; setAwake(true);
         send({ type: "phoneShake", t: now }); restart();
       }
-      const deg = m.rotation ? (m.rotation.gamma * 180) / Math.PI : 0, g = Math.abs(deg) > 8 ? deg : 0;
-      if (Math.abs(g - lastG) > 1 || (g === 0) !== (lastG === 0)) { lastG = g; send({ type: "tilt", t: now, g }); restart(); }
+      // accelerationIncludingGravity is the pull in the phone's axes (y up); minus the phone's own push, in screen axes.
+      const all = m.accelerationIncludingGravity, own = m.acceleration ?? { x: 0, y: 0, z: 0 };
+      if (all) {
+        gx += ((all.x - 2 * own.x) / 9.81 - gx) * 0.35; gy += (-(all.y - 2 * own.y) / 9.81 - gy) * 0.35;
+        if (Math.abs(gx - sentX) > 0.04 || Math.abs(gy - sentY) > 0.04) { sentX = gx; sentY = gy; send({ type: "gravity", t: now, gx, gy }); restart(); }
+      }
     });
     return () => sub.remove();
   }, [focused, rule, reduce, phone, send, restart]);

@@ -4,11 +4,13 @@
 //   touchStart(t) -> state     touchReducer(state, { type, t, x?, y?, dt?, rand?, cancel?, rule, env })
 // types: 'down'|'move'|'up'|'tick' (finger and frames), 'look' (a finger anywhere on the screen), 'feed' (a word
 // dropped on him), 'nudge' (the screen needs him awake), 'highfive' (a right answer), 'hand' (a tap on his raised hand), 'pinch' {d} / 'pinchEnd',
-// 'phoneShake', 'tilt' {g: degrees}, 'mic' {level 0–100, dt} (only while held).
+// 'phoneShake', 'gravity' {gx, gy} (the phone's pull in screen axes, 1 = Earth's; owner 2026-10-27: he falls
+// whichever way the phone points, to any edge, and walks home once it is held upright for 3 s), 'mic' {level 0–100, dt}
+// (only while held).
 // rule: 'all' (tabs), 'nocarry' (no carrying) or 'perch' (a lesson: carried, dropped and thrown as on the tabs, but he
 // stays where he lands; after 4 s untouched the effect `drop` hands him to the screen, which moves him to the nearest
 // free spot; owner, 2026-10-27). env: { w, h, homeX, floorY, groundY?, eyeUp?, zones? } in screen points; groundY is
-// where he lands (default floorY, his home); eyeUp is his eyes' height above his feet; zones: { peek?: { l, r, top }
+// where he lands (default floorY, his home); top is where his feet rest when he falls upwards (default 60); eyeUp is his eyes' height above his feet; zones: { peek?: { l, r, top }
 // (the Learn card), warm?: { x, y } (the flame's left side and bottom) }.
 // Effects: { fire } { play } { mood } { haptic } { drop } and { num: [name, value] } { looking } { hidden } { pop }.
 
@@ -17,15 +19,19 @@ const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBL
   DIZZY_COOLDOWN = 2600, GRAVITY = 2600, BOUNCE_SPEED = 700, WALK = 95,
   RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24, AWAY_MS = 4000,
   EDGE_PX = 8, SWIPE_OFF = 2100, HIDE_MS = 700, PEEK_IN_MS = 500, PEEK_MS = 1900, PERCH_PLAY_MS = 420, WARM_DY = 20, WARM_SIT = 44,
+  TOP_Y = 60, SIDE_PX = 6, FLAT = 0.35, FALL_OFF = 0.35, UPRIGHT_MS = 3000, SLIDE = 0.35,
   LOOK_MS = 2500, HF_DELAY = 1000, HF_MS = 2800, CLAP_MS = 520, SHOOK_MS = 450, BLOW_LOUD = 78, BLOW_QUIET = 45, BLOW_S = 0.25;
 const TRICKS = ['trickSpin', 'trickFlick', 'trickShades'];
+// Lying against an edge: his turn (feet to the edge) and the edge's outward direction.
+const EDGE_ROT = { bottom: 0, top: 180, left: 90, right: -90 };
+const NORMAL = { bottom: [0, 1], top: [0, -1], left: [-1, 0], right: [1, 0] };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 export function touchStart(t = 0) {
   return {
     mode: 'idle', press: null, pokes: 0, lastPoke: -1e9, lastTap: -1e9, lastTrick: -1, lastAct: t,
     shake: { hits: [], sign: 0, dizzyAt: -1e9 }, trail: [], at: {},
-    perch: /** @type {string | null} */ (null), hf: 0, pinch: /** @type {{ d0: number } | null} */ (null), tilt: 0, tiltMoving: false, slid: false, shook: false,
+    perch: /** @type {string | null} */ (null), hf: 0, pinch: /** @type {{ d0: number } | null} */ (null), g: { x: 0, y: 1 }, edge: /** @type {string | null} */ (null), uprightSince: /** @type {number | null} */ (t), moving: false, shook: false,
     peek: { to: 0, t0: 0 }, mic: { level: 0, loud: 0, wind: false },
     body: { x: /** @type {number | null} */ (null), y: /** @type {number | null} */ (null), vx: 0, vy: 0, rot: 0, spin: 0, tx: 0, ty: 0, swing: 0, swingV: 0, squish: 0 },
   };
@@ -38,7 +44,7 @@ export function touchReducer(state, ev) {
   const fire = (name) => fx.push({ fire: name }), play = (v) => fx.push({ play: v }), mood = (m) => fx.push({ mood: m }), buzz = (h) => fx.push({ haptic: h });
   const num = (name, v) => fx.push({ num: [name, v] }), rand = () => ev.rand ?? Math.random();
   // At rest he is either at home (idle) or sitting on a perch; `rest` plays the matching pose.
-  const resting = () => s.mode === 'idle' || s.mode === 'perched';
+  const resting = () => s.mode === 'idle' || s.mode === 'perched' || s.mode === 'lying';
   const rest = () => { s.mode = s.perch ? 'perched' : 'idle'; play(s.perch || 'none'); };
 
   const startCarry = () => {
@@ -79,6 +85,26 @@ export function touchReducer(state, ev) {
     s.lastPoke = t; s.pokes++; buzz(8);
     if (s.pokes <= 3) { fire('poke' + s.pokes); if (s.pokes === 3) buzz([10, 40, 10]); }
     else { s.pokes = 0; s.mode = 'back'; s.at.back = t + BACK_MS; play('back'); }
+  };
+  const top = env.top ?? TOP_Y;
+  const upright = () => Math.abs(s.g.x) < 0.3 && s.g.y > 0.7;
+  const gEdge = () => (Math.abs(s.g.x) > Math.abs(s.g.y) ? (s.g.x < 0 ? 'left' : 'right') : s.g.y < 0 ? 'top' : 'bottom');
+  // Gravity turned away from the surface he is on: he falls the new way.
+  const fall = () => {
+    if (s.mode === 'asleep') { fire('wake'); mood('smirk'); }
+    s.mode = 'falling'; s.edge = null; s.perch = null; s.body.spin = 0; delete s.at.recover; play('none');
+  };
+  const surfaceCheck = () => {
+    if (!['idle', 'lying', 'walking', 'recover', 'perched', 'asleep', 'back', 'waking'].includes(s.mode)) return;
+    const [nx, ny] = NORMAL[s.edge ?? 'bottom'];
+    if (s.g.x * nx + s.g.y * ny < FALL_OFF) fall();
+  };
+  // Landed against an edge that is not the floor (the phone on its side or upside down): he lies there.
+  const lie = (edge, hard) => {
+    const b = s.body; b.vx = 0; b.vy = 0; b.spin = 0; b.rot = EDGE_ROT[edge];
+    if (edge === 'top') b.y = top; else if (edge === 'left') b.x = SIDE_PX; else if (edge === 'right') b.x = env.w - SIDE_PX;
+    s.mode = 'lying'; s.edge = edge; s.lastAct = t; fire('land'); buzz(hard ? [20, 30, 10] : 18);
+    if (s.shook) { s.shook = false; s.at.shook = t + SHOOK_MS; }
   };
   const walkHome = () => {
     if (Math.abs(s.body.x - env.homeX) < 6) { s.mode = 'idle'; s.body.x = env.homeX; play('none'); s.lastAct = t; }
@@ -172,8 +198,13 @@ export function touchReducer(state, ev) {
       b.vx = (r < 0.5 ? -1 : 1) * (700 + r * 500); b.vy = -900 - r * 300; b.spin = b.vx * 0.7;
       play('none');
     }
-  } else if (ev.type === 'tilt') {
-    s.tilt = Math.abs(ev.g) > 3 ? clamp(ev.g, -45, 45) : 0;
+  } else if (ev.type === 'gravity') {
+    // A phone lying flat has no clear down across the screen: the screen's bottom stays down.
+    const wasUp = upright();
+    s.g = Math.hypot(ev.gx, ev.gy) < FLAT ? { x: 0, y: 1 } : { x: ev.gx, y: ev.gy };
+    if (!upright()) s.uprightSince = null; else if (!wasUp) s.uprightSince = t;
+    s.moving = true;   // one frame to see whether the new pull slides him
+    surfaceCheck();
   } else if (ev.type === 'mic') {
     // While he is held: his body pulses with your voice; loud and steady for 0.25 s is blowing, and he leans into the wind.
     if (s.mode === 'held') {
@@ -186,7 +217,8 @@ export function touchReducer(state, ev) {
     }
   } else if (ev.type === 'tick') {
     const dt = ev.dt ?? 0.016, b = s.body;
-    s.tiltMoving = false;
+    s.moving = false;
+    surfaceCheck();
     // The hold is checked once, at 300 ms, as the playground's timer does: a press made mid-flight never turns into a carry later.
     if (s.press && s.press.mode === 'press' && !s.press.holdChecked && t - s.press.t >= HOLD_MS) {
       s.press.holdChecked = true;
@@ -204,7 +236,11 @@ export function touchReducer(state, ev) {
     if (s.at.clapped && t >= s.at.clapped) { delete s.at.clapped; play(s.perch || 'none'); mood('smirk'); }
     if (s.at.recover && t >= s.at.recover) {
       delete s.at.recover;
-      if (s.mode === 'recover') { if (ev.rule === 'perch') { s.mode = 'idle'; play('none'); s.lastAct = t; } else walkHome(); }
+      if (s.mode === 'recover') {
+        if (ev.rule === 'perch') { s.mode = 'idle'; play('none'); s.lastAct = t; }
+        else if (upright() && s.uprightSince !== null && t - s.uprightSince >= UPRIGHT_MS) walkHome();
+        else { s.mode = 'lying'; s.edge = 'bottom'; play('none'); s.lastAct = t; }
+      }
     }
     if (s.at.peek && t >= s.at.peek) {
       // Back from off the screen: he leans in from a side, eyes on the room, then hops home.
@@ -225,16 +261,30 @@ export function touchReducer(state, ev) {
       b.swingV += (-ax * 0.012 - b.swing * 70 - b.swingV * 7) * dt; b.swing = clamp(b.swing + b.swingV * dt, -38, 38);
       b.squish += (clamp(-ay * 0.012, -70, 70) - b.squish) * 0.25;
     } else if (s.mode === 'falling' || s.mode === 'flying' || s.mode === 'exit') {
-      b.vy += GRAVITY * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.rot += b.spin * dt;
-      if (s.mode === 'exit') { if (b.x < -140 || b.x > env.w + 140 || b.y > env.h + 200) hide(); }
+      b.vx += GRAVITY * s.g.x * dt; b.vy += GRAVITY * s.g.y * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.rot += b.spin * dt;
+      if (s.mode === 'exit') { if (b.x < -140 || b.x > env.w + 140 || b.y > env.h + 200 || b.y < -200) hide(); }
       else {
-        if (b.x < 50) { b.x = 50; b.vx = Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
-        if (b.x > env.w - 50) { b.x = env.w - 50; b.vx = -Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
-        if (b.y < 110 && b.vy < 0) { b.y = 110; b.vy = Math.abs(b.vy) * 0.5; }
-        const zone = s.mode === 'falling' ? zoneAt() : { kind: 'floor', y: ground };
-        if (b.y >= zone.y && b.vy > 0) {
-          if (s.mode === 'flying' && b.vy > BOUNCE_SPEED) { b.y = zone.y; b.vy = -b.vy * 0.42; b.vx *= 0.7; b.spin *= 0.5; buzz(10); }
-          else landed(zone, s.mode === 'flying');
+        // Edges he bounces off; the edge gravity points at is where he lands.
+        const ge = gEdge();
+        if (ge !== 'left' && b.x < 50) { b.x = 50; b.vx = Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
+        if (ge !== 'right' && b.x > env.w - 50) { b.x = env.w - 50; b.vx = -Math.abs(b.vx) * 0.55; b.spin *= -0.6; buzz(8); }
+        if (ge !== 'top' && b.y < 110 && b.vy < 0) { b.y = 110; b.vy = Math.abs(b.vy) * 0.5; }
+        if (ge !== 'bottom' && b.y > ground && b.vy > 0) { b.y = ground; b.vy = -Math.abs(b.vy) * 0.5; buzz(8); }
+        if (ge === 'bottom') {
+          const zone = s.mode === 'falling' ? zoneAt() : { kind: 'floor', y: ground };
+          if (b.y >= zone.y && b.vy > 0) {
+            if (s.mode === 'flying' && b.vy > BOUNCE_SPEED) { b.y = zone.y; b.vy = -b.vy * 0.42; b.vx *= 0.7; b.spin *= 0.5; buzz(10); }
+            else landed(zone, s.mode === 'flying');
+          }
+        } else {
+          const past = ge === 'top' ? b.y <= top : ge === 'left' ? b.x <= SIDE_PX : b.x >= env.w - SIDE_PX;
+          const into = ge === 'top' ? -b.vy : ge === 'left' ? -b.vx : b.vx;
+          if (past && into > 0) {
+            if (s.mode === 'flying' && into > BOUNCE_SPEED) {
+              if (ge === 'top') { b.y = top; b.vy = -b.vy * 0.42; b.vx *= 0.7; } else { b.x = ge === 'left' ? SIDE_PX : env.w - SIDE_PX; b.vx = -b.vx * 0.42; b.vy *= 0.7; }
+              b.spin *= 0.5; buzz(10);
+            } else lie(ge, s.mode === 'flying');
+          }
         }
       }
     } else if (s.mode === 'peeking') {
@@ -247,17 +297,24 @@ export function touchReducer(state, ev) {
     } else if (s.mode === 'walking') {
       b.x += Math.sign(env.homeX - b.x) * WALK * dt;
       if (Math.abs(b.x - env.homeX) < 4) { b.x = env.homeX; s.mode = 'idle'; play('none'); s.lastAct = t; }
-    } else if (s.mode === 'idle' && Math.abs(s.tilt) > 2) {
-      // Tilting the phone slides him and leans him to keep his balance; level again, he walks home.
-      b.vx += s.tilt * 26 * dt; b.vx *= 0.96; b.x = clamp(b.x + b.vx * dt, 60, env.w - 60); if (b.x === 60 || b.x === env.w - 60) b.vx = 0;
-      const lean = -s.tilt * 0.45;
-      s.tiltMoving = Math.abs(b.vx) > 1 || Math.abs(lean - b.swing) > 0.5;   // pinned at the edge and settled, he needs no frames
-      b.swing += (lean - b.swing) * 0.12; s.slid = true;
-    } else if (s.mode === 'idle' && s.slid) {
-      b.swing += (0 - b.swing) * 0.12; b.vx = 0;
-      if (Math.abs(b.swing) < 0.5) { b.swing = 0; s.slid = false; walkHome(); }
+    } else if (ev.rule === 'all' && (s.mode === 'idle' || s.mode === 'lying')) {
+      // On a surface (tabs only: lessons keep their free spot), the pull along it slides him (leaning on the floor); held upright 3 s, he walks home from the floor.
+      const edge = s.mode === 'idle' ? 'bottom' : s.edge, flat = edge === 'bottom' || edge === 'top';
+      const along = flat ? s.g.x : s.g.y;
+      let v = flat ? b.vx : b.vy;
+      if (Math.abs(along) > 0.12) v += along * GRAVITY * SLIDE * dt;
+      v *= Math.pow(0.9, dt * 60); if (Math.abs(v) < 1) v = 0;
+      if (v !== 0 && flat) { const x = clamp(b.x + v * dt, 60, env.w - 60); if (x !== b.x + v * dt) v = 0; b.x = x; }
+      else if (v !== 0) { const y = clamp(b.y + v * dt, top + 60, ground - 20); if (y !== b.y + v * dt) v = 0; b.y = y; }
+      if (flat) b.vx = v; else b.vy = v;
+      const lean = edge === 'bottom' ? -along * 20 : 0;
+      b.swing += (lean - b.swing) * 0.12; if (Math.abs(lean - b.swing) < 0.5) b.swing = lean;
+      if (s.mode === 'idle' && Math.abs(b.x - env.homeX) > 6) { s.mode = 'lying'; s.edge = 'bottom'; }
+      const homeward = s.mode === 'lying' && s.edge === 'bottom' && upright();
+      s.moving = v !== 0 || b.swing !== lean || homeward;
+      if (homeward && v === 0 && s.uprightSince !== null && t - s.uprightSince >= UPRIGHT_MS) { s.edge = null; walkHome(); }
     }
-    if (resting() && !s.tiltMoving && !(s.slid && s.tilt === 0) && t - s.lastAct > SLEEP_MS) {
+    if (resting() && !s.moving && t - s.lastAct > SLEEP_MS) {
       s.mode = 'asleep'; mood('sleepy'); play('sleep');
     }
   }
