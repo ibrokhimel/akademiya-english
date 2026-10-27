@@ -44,6 +44,12 @@ export function accentInk(main, ink) {
   return contrastRatio('#FFFFFF', main) >= 3 ? '#FFFFFF' : ink;
 }
 
+/** `a` moved toward `b` by `t` (0 to 1), as #RRGGBB: the pale text on an accent fill is the ink blended into the accent. */
+export function blend(a, b, t) {
+  const ch = (hex, i) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16);
+  return '#' + [0, 1, 2].map((i) => Math.round(ch(a, i) + (ch(b, i) - ch(a, i)) * t).toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
 /** A new install: today's look (Binafsha, the plain lesson page, today's tab bar with the name under the open tab only). */
 export function defaultAppLook() {
   return {

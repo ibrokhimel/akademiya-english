@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { MODES, modeOf, isDarkMode, TEXT_SIZES, textScale, THEME_IDS, themePalette, accentInk, defaultAppLook, normalizeAppLook } from './look.js';
+import { MODES, modeOf, isDarkMode, TEXT_SIZES, textScale, THEME_IDS, themePalette, accentInk, blend, defaultAppLook, normalizeAppLook } from './look.js';
 import { contrastRatio } from './showcase.js';
 
 const tokens = JSON.parse(fs.readFileSync(new URL('../../design/system/tokens.json', import.meta.url), 'utf8'));
@@ -83,4 +83,12 @@ test('a new install keeps today\'s look; a stored look is checked field by field
   assert.deepEqual(normalizeAppLook({ lessonBackground: { kind: 'item', id: 'moon' } }).lessonBackground, d.lessonBackground);
   // the default is a fresh object each time
   assert.notEqual(defaultAppLook().lessonBackground, defaultAppLook().lessonBackground);
+});
+
+test('blend mixes two colours: 0 is the first, 1 the second; the pale text on Binafsha comes out as before', () => {
+  assert.equal(blend('#FFFFFF', '#000000', 0), '#FFFFFF');
+  assert.equal(blend('#FFFFFF', '#000000', 1), '#000000');
+  assert.equal(blend('#FFFFFF', '#000000', 0.5), '#808080');
+  assert.equal(blend('#FFFFFF', '#7B5CFF', 0.26), '#DDD5FF');
+  assert.equal(blend('#ffffff', '#7b5cff', 0.32), '#D5CBFF');
 });
