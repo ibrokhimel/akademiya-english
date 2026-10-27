@@ -30,7 +30,8 @@ import { goals } from "../../data/content";
 import { testToolsEnabled } from "../../lib/config";
 import { useHomeBack } from "../../lib/navigation";
 import { useApp } from "../../lib/store";
-import { shows } from "../../../../core/showcase.js";
+import { poseMoment,shows } from "../../../../core/showcase.js";
+import type { DombiMoment } from "../../components/Dombi";
 export default function Profile() {
   useHomeBack();
   const scroll = useRef<ScrollView>(null);
@@ -304,7 +305,8 @@ export default function Profile() {
           <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
         </View>
       </ScrollView>
-      <DombiOverlay phone moment={Object.keys(p.done).length ? "idle" : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} />
+      {/* his corner: the pose the learner picked (the first-lesson hint first); hidden in "Nimalar ko'rinsin" */}
+      {shows(profile, "dombi") ? <DombiOverlay phone moment={Object.keys(p.done).length ? poseMoment(profile.dombi.pose) as DombiMoment : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} /> : null}
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
     </SafeAreaView>
   );

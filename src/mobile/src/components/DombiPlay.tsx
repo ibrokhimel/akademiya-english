@@ -42,7 +42,9 @@ function buzz(pattern: number | number[]) {
 export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef, onPop, phone = false }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => boolean) | null>; /** a high-five landed: the screen shows its pop */ onPop?: () => void; /** a tab: the phone's sensors and the mic (while held) may move him */ phone?: boolean }) {
   const reduce = useReducedMotion();
   // Settings → "Telefon harakati" (owner 2026-10-28: off unless the learner turns it on).
-  const motion = useApp().settings.phoneMotion === true;
+  const { settings } = useApp(), motion = settings.phoneMotion === true;
+  // the name the learner gave him (Dombi editor)
+  const name = settings.profile.dombi.name;
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
   const state = useRef<ReturnType<typeof touchStart> | null>(null);
@@ -262,14 +264,14 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
 
   if (reduce) {
     return (
-      <Pressable disabled={!onTap} onPress={onTap} accessibilityRole={onTap ? "button" : undefined} accessibilityLabel="Dombi">
+      <Pressable disabled={!onTap} onPress={onTap} accessibilityRole={onTap ? "button" : undefined} accessibilityLabel={name}>
         <Dombi moment={moment} size={size} />
       </Pressable>
     );
   }
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View onLayout={(e) => { boxSize.current = { w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }; }} style={style} accessible accessibilityRole="button" accessibilityLabel="Dombi" onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
+      <Animated.View onLayout={(e) => { boxSize.current = { w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }; }} style={style} accessible accessibilityRole="button" accessibilityLabel={name} onAccessibilityTap={onTap} accessibilityActions={onTap ? [{ name: "activate" }] : undefined} onAccessibilityAction={onTap ? () => onTap() : undefined}>
         <Dombi moment={asleep ? "night" : moment} size={size} awake={awake} rigRef={rig} />
       </Animated.View>
     </GestureDetector>

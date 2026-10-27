@@ -33,6 +33,15 @@ export function shows(profile, id) {
   return p.look.sections.find((s) => s.id === id)?.shown ?? false;
 }
 
+// ---- Dombi ----
+export { dombiName } from './profile.js';
+// Poses the rig can play, as the moments that already play them (src/core/dombi.js). "read" has no Rive art yet (Ruling 3).
+const POSE_MOMENTS = { sit: 'idle', wave: 'glad', sleep: 'night' };
+/** The Dombi moment for his pose on the Profile tab; an unknown pose sits. */
+export function poseMoment(pose) {
+  return POSE_MOMENTS[pose] ?? 'idle';
+}
+
 // ---- Badges ----
 /** Pin or unpin a badge; 3 at most, so a fourth is refused. */
 export function togglePin(pinned, id, max = 3) {

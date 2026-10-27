@@ -10,6 +10,11 @@ const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];
 const BADGE_STYLES = ['grid', 'row', 'shelf'];
 const STAT_LAYOUTS = ['grid', 'big'];
+/** Dombi's name as the learner typed it: trimmed, 16 letters at most; empty is "Dombi" again. */
+export function dombiName(text) {
+  const t = typeof text === 'string' ? text.trim().slice(0, 16).trim() : '';
+  return t || 'Dombi';
+}
 /** The username rule (the server's users.username field has the same pattern). */
 export const USERNAME = /^[a-z0-9_]{3,20}$/;
 
@@ -87,7 +92,7 @@ export function normalizeProfile(raw) {
     title: nullableStr(r.title), nameColor: str(r.nameColor, d.nameColor),
     badges: { pinned: strList(bd.pinned).slice(0, 3), style: oneOf(bd.style, BADGE_STYLES, d.badges.style), shelfOrder: strList(bd.shelfOrder), spotlightRarest: typeof bd.spotlightRarest === 'boolean' ? bd.spotlightRarest : d.badges.spotlightRarest },
     stats: { layout: oneOf(st.layout, STAT_LAYOUTS, d.stats.layout), shown, favouritePhrase: nullableStr(st.favouritePhrase), wordOfWeek: text(st.wordOfWeek, ''), private: st.private === true },
-    dombi: { outfit: str(dm.outfit, d.dombi.outfit), pose: str(dm.pose, d.dombi.pose), tint: str(dm.tint, d.dombi.tint), name: str(dm.name, d.dombi.name), visitorReaction: str(dm.visitorReaction, d.dombi.visitorReaction) },
+    dombi: { outfit: str(dm.outfit, d.dombi.outfit), pose: str(dm.pose, d.dombi.pose), tint: str(dm.tint, d.dombi.tint), name: dombiName(dm.name), visitorReaction: str(dm.visitorReaction, d.dombi.visitorReaction) },
     look: {
       color: str(lk.color, d.look.color), cardColor: str(lk.cardColor, d.look.cardColor),
       background: { kind: oneOf(bg.kind, BANNER_KINDS, d.look.background.kind), id: str(bg.id, d.look.background.id), ...media(bg, d.look.background) },

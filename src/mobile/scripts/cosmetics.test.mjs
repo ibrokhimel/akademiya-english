@@ -31,6 +31,9 @@ test('defaults of a new profile are in the catalogue', () => {
 });
 test('only none and doppi are ready for Dombi, and earned items need their id', () => {
   assert.deepEqual(cos.shown(cos.dombiItems).map((x) => x.id), ['none', 'doppi']);
+  // poses the rig plays (idle, the wave, asleep); no Rive input tints him yet, so only black
+  assert.deepEqual(cos.shown(cos.dombiPoses).map((x) => x.id), ['sit', 'wave', 'sleep']);
+  assert.deepEqual(cos.shown(cos.dombiTints).map((x) => x.id), ['black']);
   const frame = cos.frames.find((f) => f.id === 'streak30');
   assert.equal(cos.isOpen(frame, new Set()), false);
   assert.equal(cos.isOpen(frame, new Set(['frame.streak30'])), true);

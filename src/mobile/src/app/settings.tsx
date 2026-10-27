@@ -89,7 +89,7 @@ export default function SettingsScreen() {
           <SettingRow icon="glyph-speaker-grey" label="Ovozli effektlar" right={toggle("Ovozli effektlar", settings.sound, (sound) => set({ sound }))}/>
           <SettingRow icon="glyph-moon-grey" label="Tungi rejim" right={toggle("Tungi rejim", settings.dark, (dark) => set({ dark }))}/>
           <SettingRow icon="glyph-sparkles-grey" label="Kamroq harakat" detail={reduceMotion ? "Telefoningizda harakat kamaytirilgan." : undefined} right={<View pointerEvents={reduceMotion ? "none" : "auto"} style={{ opacity: reduceMotion ? 0.4 : 1 }}>{toggle("Kamroq harakat", dombiLevel === "still", (lessMotion) => set({ lessMotion }))}</View>}/>
-          <SettingRow icon="glyph-phone-grey" label="Telefon harakati" detail="Dombi telefon qiyshayganda o'sha tomonga yiqiladi." right={toggle("Telefon harakati", settings.phoneMotion === true, (phoneMotion) => set({ phoneMotion }))}/>
+          <SettingRow icon="glyph-phone-grey" label="Telefon harakati" detail={`${settings.profile.dombi.name} telefon qiyshayganda o'sha tomonga yiqiladi.`} right={toggle("Telefon harakati", settings.phoneMotion === true, (phoneMotion) => set({ phoneMotion }))}/>
           <SettingRow icon="glyph-bell-grey" label="Eslatma vaqti" value={settings.reminder || "O'chiq"} onPress={openReminder}/>
           <SettingRow icon={goal[1]} label="Maqsad" value={goal[2]} onPress={() => setPanel("goal")}/>
         </SettingGroup>

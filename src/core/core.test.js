@@ -866,3 +866,22 @@ test('turning a stat on puts it last, turning it off takes it out', () => {
 test('the month names are the Uzbek ones, January first', () => {
   assert.equal(MONTHS.length, 12); assert.equal(MONTHS[0], 'yanvar'); assert.equal(MONTHS[11], 'dekabr');
 });
+
+// ---- Dombi on the profile (showcase.js) ----
+import { poseMoment, dombiName } from './showcase.js';
+test('Dombi\'s pose on the profile is one of his rig moments: sitting is idle, waving is glad, sleeping is night', () => {
+  assert.equal(poseMoment('sit'), 'idle');
+  assert.equal(poseMoment('wave'), 'glad');
+  assert.equal(poseMoment('sleep'), 'night');
+  for (const p of ['read', 'nope', null]) assert.equal(poseMoment(p), 'idle');
+  for (const p of ['sit', 'wave', 'sleep']) assert.ok(MOMENTS.includes(poseMoment(p)), p);
+});
+test('Dombi\'s name: trimmed, 16 letters at most, empty is Dombi again', () => {
+  assert.equal(dombiName('  Bobur '), 'Bobur');
+  assert.equal(dombiName(''), 'Dombi');
+  assert.equal(dombiName('   '), 'Dombi');
+  assert.equal(dombiName(null), 'Dombi');
+  assert.equal(dombiName('a'.repeat(30)).length, 16);
+  assert.equal(normalizeProfile({ dombi: { name: 'a'.repeat(30) } }).dombi.name.length, 16);
+  assert.equal(normalizeProfile({ dombi: { name: '  ' } }).dombi.name, 'Dombi');
+});

@@ -221,18 +221,19 @@ export const dombiItems: Cosmetic[] = [
   soon("shelf", "Kitob javoni", "corner"),
   soon("nonBasket", "Non savati", "corner"),
 ];
+// The rig plays sitting (idle), the wave and sleeping (poseMoment in src/core/showcase.js); reading has no Rive art yet.
 export const dombiPoses: Cosmetic[] = [
   c("sit", "O'tiradi", { picture: "pet-black-happy" }),
-  c("wave", "Qo'l silkitadi", { picture: "hand-wave", ready: false }),
+  c("wave", "Qo'l silkitadi", { picture: "hand-wave" }),
   c("read", "Kitob o'qiydi", { picture: "book-phrase-list", ready: false }),
-  c("sleep", "Uxlaydi", { picture: "pet-black-sleepy", ready: false }),
+  c("sleep", "Uxlaydi", { picture: "pet-black-sleepy" }),
 ];
-// Dombi's tints stay black at heart: these are art values (hex).
+// Dombi's tints stay black at heart: these are art values (hex). The rig has no tint input yet, so only black is shown.
 export const dombiTints: Cosmetic[] = [
   c("black", "Qora", { color: "#2B2B3C" }),
-  c("navy", "To'q ko'k", { color: "#1B2340" }),
-  c("charcoal", "Ko'mir", { color: "#2E2E33" }),
-  c("plum", "Olxo'ri", { color: "#2B1A2E" }),
+  c("navy", "To'q ko'k", { color: "#1B2340", ready: false }),
+  c("charcoal", "Ko'mir", { color: "#2E2E33", ready: false }),
+  c("plum", "Olxo'ri", { color: "#2B1A2E", ready: false }),
 ];
 
 // ---- Colours and background (OPgwZ) ----

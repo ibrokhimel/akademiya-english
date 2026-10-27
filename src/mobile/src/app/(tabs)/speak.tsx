@@ -15,7 +15,7 @@ const notReady = () => void showProblem("not-ready");
 
 export default function Speak() {
   useHomeBack();
-  const { progress: p } = useApp(), ds = useDs(), { width } = useWindowDimensions();
+  const { progress: p, settings } = useApp(), ds = useDs(), { width } = useWindowDimensions();
   const scale = Math.min(width / 390, 1.2), d = (n: number) => n * scale;
   const firstTime = Object.keys(p.done).length === 0;
   return (
@@ -30,7 +30,7 @@ export default function Speak() {
               ))}
               <Dombi moment="speakTab" size={d(150)} />
             </View>
-            <Txt style={{ ...type("heading", d), color: ds.ink, textAlign: "center" }}>Dombi bilan gaplashing</Txt>
+            <Txt style={{ ...type("heading", d), color: ds.ink, textAlign: "center" }}>{settings.profile.dombi.name} bilan gaplashing</Txt>
             <Txt style={{ ...type("body", d), color: ds.muted, textAlign: "center" }}>Mavzu tanlang yoki shunchaki gapiring.</Txt>
             <View style={{ flexDirection: "row", gap: d(8), justifyContent: "center" }}>
               {["Bugungi kun", "Ovqat", "Sayohat"].map((topic) => (
