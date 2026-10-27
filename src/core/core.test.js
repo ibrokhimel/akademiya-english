@@ -652,3 +652,11 @@ test('a finished unit gives its frame and title', () => {
   assert.ok(!e.has('frame.unit.bank') && !e.has('title.earlyBird'));
   assert.equal(earnedItems({}).size, 0);
 });
+test('badge styles are grid, row and shelf; anything else is grid', () => {
+  for (const s of ['grid', 'row', 'shelf']) assert.equal(normalizeProfile({ badges: { style: s } }).badges.style, s);
+  for (const bad of ['list', 'nope', 5, null]) assert.equal(normalizeProfile({ badges: { style: bad } }).badges.style, 'grid');
+});
+test('earned units ignore entries that are not unit names', () => {
+  const e = earnedItems({ unitsDone: ['cafe', 5, null, '', {}] });
+  assert.deepEqual([...e].sort(), ['frame.unit.cafe', 'title.unit.cafe']);
+});

@@ -7,7 +7,7 @@ const STATS_SHOWN = ['phrases', 'streak', 'lessons', 'level'];
 const AVATAR_KINDS = ['letter', 'photo', 'media', 'dombi', 'built'];
 const MEDIA_TYPES = ['image', 'gif', 'video'];
 const BANNER_KINDS = ['color', 'item', 'media'];
-const BADGE_STYLES = ['grid', 'list', 'row'];
+const BADGE_STYLES = ['grid', 'row', 'shelf'];
 
 export function defaultProfile() {
   return {
@@ -101,6 +101,6 @@ export function earnedItems(facts = {}) {
   if (minutesSpoken >= 60) out.add('frame.speaker');
   ['a1', 'a2', 'b1', 'b2', 'c1'].forEach((c, i) => { if (level >= i + 1) out.add(`frame.level.${c}`); });
   if (level >= 2) out.add('avatar.moving');
-  for (const id of Array.isArray(unitsDone) ? unitsDone : []) { out.add(`frame.unit.${id}`); out.add(`title.unit.${id}`); }
+  for (const id of Array.isArray(unitsDone) ? unitsDone.filter((u) => typeof u === 'string' && u !== '') : []) { out.add(`frame.unit.${id}`); out.add(`title.unit.${id}`); }
   return out;
 }
