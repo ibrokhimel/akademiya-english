@@ -6,6 +6,7 @@ import { useAuditScroll } from "../../audit/layout";
 import { SectionLabel } from "../../components/customize/SectionLabel";
 import { RowGroup } from "../../components/customize/RowGroup";
 import { Avatar } from "../../components/Avatar";
+import { AvatarFrame } from "../../components/AvatarFrame";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { ScreenHeader,SettingRow } from "../../components/SettingsControls";
 import { useTheme } from "../../components/ui";
@@ -31,7 +32,7 @@ export default function Customize() {
     <SafeAreaView edges={["top", "bottom", "left", "right"]} style={{ flex: 1, backgroundColor: c.bg }}>
       <ScreenHeader title="Profilni bezash" onBack={back} />
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: d(20), paddingTop: d(4), paddingBottom: d(24), gap: d(10) }}>
-        <ProfileHeader compact name={settings.name.trim() || "Siz"} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} />
+        <ProfileHeader compact name={settings.name.trim() || "Siz"} caption="Ko'rinishini quyida o'zgartiring" avatar={(size) => <Avatar avatar={p.avatar} name={settings.name.trim() || "Siz"} size={size} dombiOutfit={p.dombi.outfit} />} frame={(size, avatar) => <AvatarFrame id={p.frame} size={size}>{avatar}</AvatarFrame>} />
         <SectionLabel first>PROFIL</SectionLabel>
         <RowGroup>
           <SettingRow icon="glyph-user-grey" label="Avatar" value={avatarKinds[p.avatar.kind]} onPress={go("/customize/avatar")} />

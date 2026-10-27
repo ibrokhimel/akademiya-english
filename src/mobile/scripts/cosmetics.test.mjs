@@ -36,3 +36,8 @@ test('only none and doppi are ready for Dombi, and earned items need their id', 
   assert.equal(cos.isOpen(frame, new Set(['frame.streak30'])), true);
   assert.equal(cos.isOpen(cos.frames.find((f) => f.id === 'gold'), new Set()), true);
 });
+test('every seasonal frame is in the catalogue; the ones without a screen wait (ready: false)', async () => {
+  const { SEASONAL_FRAMES } = await import('../../core/customize.js');
+  for (const id of SEASONAL_FRAMES) assert.ok(cos.frames.some((f) => f.id === id && f.group === 'special'), id);
+  assert.deepEqual(cos.shown(cos.frames).filter((f) => SEASONAL_FRAMES.includes(f.id)).map((f) => f.id), ['navruz', 'newyear']);
+});

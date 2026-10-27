@@ -1,6 +1,7 @@
 import { useEffect,useState } from "react";
 import { Pressable,View,useWindowDimensions } from "react-native";
 import { Avatar } from "../../components/Avatar";
+import { AvatarFrame } from "../../components/AvatarFrame";
 import { Chips } from "../../components/customize/Chips";
 import { ChoiceTiles,CosmeticFace,choicesFrom,type Choice } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
@@ -75,7 +76,9 @@ export default function AvatarEditor() {
   return (
     <EditorScreen title="Avatar" onSave={save}>
       <View style={{ alignItems: "center", paddingVertical: d(6) }}>
-        <Avatar avatar={draft} name={name} size={d(130)} dombiOutfit={profile.dombi.outfit} />
+        <AvatarFrame id={profile.frame} size={d(130)}>
+          <Avatar avatar={draft} name={name} size={d(130)} dombiOutfit={profile.dombi.outfit} />
+        </AvatarFrame>
       </View>
       <Chips options={tabs} value={tab} onChange={(id) => chooseTab(id as Tab)} />
       {tab === "letter" ? (
