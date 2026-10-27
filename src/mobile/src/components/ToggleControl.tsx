@@ -5,12 +5,13 @@ import { sound } from "../lib/audio";
 import { useApp } from "../lib/store";
 import { useDesignScale } from "./useDesignScale";
 
-export function ToggleControl({ label, value, onChange, offColor }: { label: string; value: boolean; onChange: (on: boolean) => void; offColor: string }) {
+/** `onColor` is the theme accent (ui.tsx cannot be imported here: it imports this file). */
+export function ToggleControl({ label, value, onChange, offColor, onColor }: { label: string; value: boolean; onChange: (on: boolean) => void; offColor: string; onColor: string }) {
   const d = useDesignScale(), reduced = useReducedMotion();
   const { settings } = useApp();
   const position = useSharedValue(value ? 1 : 0);
   useEffect(() => { position.set(withTiming(value ? 1 : 0, { duration: reduced ? 0 : 180 })); }, [value, position, reduced]);
-  const track = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(position.get(), [0, 1], [offColor, "#7B5CFF"]) }));
+  const track = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(position.get(), [0, 1], [offColor, onColor]) }));
   const travel = d(20);
   const knob = useAnimatedStyle(() => ({ transform: [{ translateX: position.get() * travel }, { scaleX: reduced ? 1 : 1 + Math.sin(position.get() * Math.PI) * .18 }, { scaleY: reduced ? 1 : 1 - Math.sin(position.get() * Math.PI) * .08 }] }));
   return <Pressable accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: value }} hitSlop={d(6)} onPress={() => { sound(value ? "switch-off" : "switch-on", settings.sound); onChange(!value); }}>

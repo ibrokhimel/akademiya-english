@@ -389,6 +389,7 @@ export function Toggle({
         value={value}
         onChange={onChange}
         offColor={c.line}
+        onColor={c.accent}
       />
     </View>
   );

@@ -620,7 +620,7 @@ export function Exercise({
               radius={d(22)}
               depth={d(6)}
               backgroundColor={busy || speech.listening ? c.line : c.accent}
-              edgeColor={busy || speech.listening ? c.edge : "#5A3FD9"}
+              edgeColor={busy || speech.listening ? c.edge : c.accentLip}
               faceStyle={{
                 width: d(80),
                 height: d(80),
@@ -770,7 +770,7 @@ export function Exercise({
                     radius={d(44)}
                     depth={d(6)}
                     backgroundColor={busy ? c.line : checked ? "#3DCB6C" : speech.listening ? "#FF6B5B" : c.accent}
-                    edgeColor={busy ? c.edge : checked ? "#27A852" : speech.listening ? "#D9483A" : "#5A3FD9"}
+                    edgeColor={busy ? c.edge : checked ? "#27A852" : speech.listening ? "#D9483A" : c.accentLip}
                     faceStyle={{
                       width: d(88),
                       height: d(88),

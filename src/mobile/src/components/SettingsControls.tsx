@@ -107,5 +107,5 @@ export function SettingToggle({ label, value, onChange, }: {
     onChange: (on: boolean) => void;
 }) {
     const c = useTheme();
-    return <ToggleControl label={label} value={value} onChange={onChange} offColor={c.line} />;
+    return <ToggleControl label={label} value={value} onChange={onChange} offColor={c.line} onColor={c.accent} />;
 }
