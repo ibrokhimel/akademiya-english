@@ -1,6 +1,7 @@
 import { Directory,File,Paths } from "expo-file-system";
 import * as SecureStore from "expo-secure-store";
 import PocketBase,{ AsyncAuthStore } from "pocketbase";
+import { mediaToUpload,normalizeProfile,profileForSync } from "../../../core/profile.js";
 import { backendURL,cloudEnabled,internalBuild } from "./config";
 import { read,write } from "./storage";
 import type { Event,Recording,Settings } from "./store";
@@ -115,8 +116,11 @@ async function synchronize() {
       reminder: settings.reminder,
       cast: settings.cast,
       goal: settings.goal,
+      // the shape without local file paths: the pictures go up as files below
+      profile: profileForSync(settings.profile),
     },
   });
+  await syncProfileExtras(user, normalizeProfile(settings.profile), ensureOwner);
   const deleted = read<string[]>("deletedRecordings", []);
   for (const phrase of deleted) {
     const rows = await pb
@@ -184,6 +188,30 @@ async function synchronize() {
     write("recordings", local);
   }
   return { events: next, recordings: read<Recording[]>("recordings", []) };
+}
+const MEDIA_LIMIT = 8 * 1024 * 1024;
+const MIME: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", mp4: "video/mp4", mov: "video/quicktime" };
+// The username and the learner's own picture, GIF or video. Neither may stop the rest of the sync: a taken username or a failed
+// upload is tried again next time, and a picture is sent once (we remember which file went up for which account).
+async function syncProfileExtras(user: string, profile: ReturnType<typeof normalizeProfile>, ensureOwner: () => void) {
+  try {
+    await pb.collection("users").update(user, { username: profile.username });
+  } catch {}
+  ensureOwner();
+  for (const media of mediaToUpload(profile, read<Record<string, Record<string, string>>>("profileMedia", {})[user])) {
+    try {
+      const file = new File(media.uri), ext = media.uri.split("?")[0].split(".").pop()?.toLowerCase() || "";
+      if (!file.exists || file.size > MEDIA_LIMIT || !MIME[ext]) continue;
+      const form = new FormData();
+      form.append(media.field, { uri: media.uri, name: `${media.field}.${ext}`, type: MIME[ext] } as unknown as Blob);
+      await pb.collection("users").update(user, form);
+    } catch {
+      continue;
+    }
+    ensureOwner();
+    const all = read<Record<string, Record<string, string>>>("profileMedia", {});
+    write("profileMedia", { ...all, [user]: { ...all[user], [media.field]: media.uri } });
+  }
 }
 export function queueRecordingDeletion(phrase: string) {
   write("deletedRecordings", [
