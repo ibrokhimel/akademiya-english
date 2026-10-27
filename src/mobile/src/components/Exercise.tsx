@@ -41,6 +41,7 @@ import { getVisualAudit } from "../lib/visualAudit";
 import { Actor } from "./Actor";
 import { Effect } from "./Effects";
 import { AudioBars,Pulse,arriveIn,closeGap,useAnswerMotion } from "./Motion";
+import { FeedDrag } from "./FeedDrag";
 import { RaisedPressable } from "./RaisedPressable";
 import { SpeechAnswer } from "./SpeechAnswer";
 import { type } from "./system";
@@ -708,6 +709,7 @@ export function Exercise({
                 {bank.map((word, k) => (
                   <Tile
                     key={`${k}-${returns[k] || 0}`}
+                    feedable
                     testID={`bank-${k}`}
                     word={word}
                     faded={selected.includes(k)}
@@ -843,7 +845,10 @@ function Tile({
   testID,
   from,
   verdict = null,
+  feedable = false,
 }: {
+  /** a bank tile: it can be dragged onto Dombi to feed him */
+  feedable?: boolean;
   testID?: string;
   word: string;
   onPress: (from?: Point) => void;
@@ -903,6 +908,7 @@ function Tile({
       entering={entering}
       layout={closeGap}
     >
+      <FeedDrag word={word} enabled={feedable && !faded}>
       <RaisedPressable
         testID={testID}
         soundName={false}
@@ -945,6 +951,7 @@ function Tile({
           {word}
         </Txt>
       </RaisedPressable>
+      </FeedDrag>
     </Animated.View>
   );
 }

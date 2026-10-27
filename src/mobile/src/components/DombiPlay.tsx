@@ -1,6 +1,6 @@
 import { useIsFocused } from "expo-router";
 import * as Haptics from "expo-haptics";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
 import { DeviceMotion } from "expo-sensors";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -38,7 +38,7 @@ function buzz(pattern: number | number[]) {
  * let go at a side edge he hides and peeks back in.
  * Reduce Motion: no touch play; a tap still does onTap.
  */
-export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined }) {
+export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => void) | null> }) {
   const reduce = useReducedMotion();
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
@@ -212,6 +212,12 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     .onUpdate((e) => move(e.absoluteX, e.absoluteY))
     .onFinalize((e) => up(e.absoluteX, e.absoluteY, !lifted.current)), [down, move, up]);
   // A second finger beside him (within 120 points) pinches: he stretches like gum and snaps back on release.
+  // Screen events (a word fed to him, a high-five): they wake a still-picture phone's rig like a touch does.
+  useEffect(() => {
+    if (!eventsRef) return;
+    eventsRef.current = (type) => { awakeRef.current = true; setAwake(true); send({ type, t: Date.now() }); restart(); };
+    return () => { eventsRef.current = null; };
+  }, [eventsRef, send, restart]);
   const pinchTo = useCallback((d: number | null, first = false) => {
     const t = Date.now(); send(d === null ? { type: "pinchEnd", t } : { type: "pinch", t, d }); if (first || d === null) restart();
   }, [send, restart]);
