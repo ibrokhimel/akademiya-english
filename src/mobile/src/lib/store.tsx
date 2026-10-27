@@ -197,6 +197,7 @@ function useStore() {
       "recordings",
       "deletedRecordings",
       "profileMedia",
+      "recentMedia",
     ])
       remove(key);
     updateEvents([]);

@@ -52,7 +52,14 @@
           "color": "#7B5CFF"
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Profil rasmi uchun galereyadan rasm, GIF yoki video tanlaysiz.",
+          "cameraPermission": "Profil rasmi uchun suratga olasiz."
+        }
+      ]
     ],
     "ios": {
       "supportsTablet": false,
