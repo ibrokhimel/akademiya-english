@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf, voiceOf } from './text.js';
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
+import { defaultProfile, normalizeProfile, earnedItems, SECTION_IDS, STAT_IDS } from './profile.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -582,4 +583,72 @@ test('held: his eyes look toward the finger in his own turned frame', () => {
   const b = lying.s.body, look = runR([{ type: 'look', t: 4100, x: b.x + 250, y: b.y }], 'all', lying.s, env);
   assert.ok(NUMS(look.fx, 'lookY')[0] < -20, 'lying on the left wall, the screen right is his up: ' + NUMS(look.fx, 'lookY')[0]);
   assert.ok(Math.abs(NUMS(look.fx, 'lookX')[0]) < 5);
+});
+
+test('a new profile starts with the defaults', () => {
+  const p = defaultProfile();
+  assert.equal(p.v, 1); assert.equal(p.avatar.kind, 'letter'); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
+  assert.deepEqual(p.stats.shown, ['phrases', 'streak', 'lessons', 'level']);
+  assert.deepEqual(p.look.sections.map((s) => s.id), SECTION_IDS);
+  assert.equal(p.look.sections.filter((s) => !s.shown).map((s) => s.id).join(), 'joined,trophyShelf');
+  assert.deepEqual(STAT_IDS, ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction']);
+  assert.deepEqual(normalizeProfile(p), p);
+  assert.notEqual(defaultProfile().look.sections, p.look.sections);
+});
+test('a stored profile is cleaned: unknown keys dropped, bad values reset', () => {
+  assert.deepEqual(normalizeProfile(null), defaultProfile());
+  assert.deepEqual(normalizeProfile('x'), defaultProfile());
+  const p = normalizeProfile({ junk: 1, frame: 7, nameColor: null, avatar: { kind: 'nope', color: 'red', extra: 1, built: { skin: 4, wat: 1 } }, dombi: { name: 'Bo', zzz: 1 } });
+  assert.equal(p.junk, undefined); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
+  assert.equal(p.avatar.kind, 'letter'); assert.equal(p.avatar.color, 'red'); assert.equal(p.avatar.extra, undefined);
+  assert.equal(p.avatar.built.skin, 4); assert.equal(p.avatar.built.wat, undefined); assert.equal(p.dombi.name, 'Bo'); assert.equal(p.dombi.pose, 'sit');
+});
+test('bio is cut at 60, username must be a-z 0-9 _ and 3 to 20 long', () => {
+  assert.equal(normalizeProfile({ bio: 'a'.repeat(80) }).bio.length, 60);
+  assert.equal(normalizeProfile({ username: 'Aziz_01' }).username, 'aziz_01');
+  for (const bad of ['ab', 'a'.repeat(21), 'has space', 'dot.dot', 5]) assert.equal(normalizeProfile({ username: bad }).username, '', String(bad));
+});
+test('pinned badges are 3 at most and unique; dim stays 0 to 0.8', () => {
+  assert.deepEqual(normalizeProfile({ badges: { pinned: ['a', 'b', 'a', 'c', 'd'] } }).badges.pinned, ['a', 'b', 'c']);
+  assert.equal(normalizeProfile({ look: { dim: 5 } }).look.dim, 0.8);
+  assert.equal(normalizeProfile({ look: { dim: -1 } }).look.dim, 0);
+  assert.equal(normalizeProfile({ look: { dim: 'x' } }).look.dim, 0.3);
+});
+test('sections: unknown dropped, missing added at their place, always all of them', () => {
+  const p = normalizeProfile({ look: { sections: [{ id: 'bio', shown: false }, { id: 'zzz', shown: true }, { id: 'banner', shown: true }, { id: 'bio', shown: true }] } });
+  assert.equal(p.look.sections.length, SECTION_IDS.length);
+  assert.deepEqual(p.look.sections.slice(0, 3).map((s) => s.id), ['bio', 'title', 'banner']);   // title lands at its default index 1
+  assert.equal(new Set(p.look.sections.map((s) => s.id)).size, SECTION_IDS.length);
+  assert.equal(p.look.sections[0].shown, false);
+  assert.equal(p.look.sections.find((s) => s.id === 'title').shown, true);
+  assert.equal(p.look.sections.find((s) => s.id === 'joined').shown, false);
+  const none = normalizeProfile({ look: { sections: SECTION_IDS.map((id) => ({ id, shown: false })) } });
+  assert.equal(none.look.sections.length, SECTION_IDS.length);
+});
+test('stats shown keeps only known ids', () => {
+  assert.deepEqual(normalizeProfile({ stats: { shown: ['streak', 'nope', 'streak', 'level'] } }).stats.shown, ['streak', 'level']);
+});
+test('streak frames come from the best streak ever', () => {
+  const e = earnedItems({ bestStreak: 31, perfectLessons: 0, minutesSpoken: 0, level: 0, unitsDone: [] });
+  assert.ok(e.has('frame.streak7') && e.has('frame.streak30') && !e.has('frame.streak100') && !e.has('frame.streak365'));
+  assert.ok(e.has('nameColor.gradient'));
+  const f = (n) => earnedItems({ bestStreak: n });
+  assert.ok(!f(6).has('frame.streak7') && f(7).has('frame.streak7') && !f(29).has('nameColor.gradient') && f(100).has('frame.streak100') && f(365).has('frame.streak365'));
+});
+test('perfect and speaker frames', () => {
+  assert.ok(!earnedItems({ perfectLessons: 9 }).has('frame.perfect') && earnedItems({ perfectLessons: 10 }).has('frame.perfect'));
+  assert.ok(!earnedItems({ minutesSpoken: 59 }).has('frame.speaker') && earnedItems({ minutesSpoken: 60 }).has('frame.speaker'));
+});
+test('level frames and the moving avatar follow the level', () => {
+  assert.equal(earnedItems({ level: 0 }).size, 0);
+  const l1 = earnedItems({ level: 1 }); assert.ok(l1.has('frame.level.a1') && !l1.has('frame.level.a2') && !l1.has('avatar.moving'));
+  const l5 = earnedItems({ level: 5 });
+  for (const k of ['a1', 'a2', 'b1', 'b2', 'c1']) assert.ok(l5.has('frame.level.' + k), k);
+  assert.ok(l5.has('avatar.moving') && earnedItems({ level: 2 }).has('avatar.moving'));
+});
+test('a finished unit gives its frame and title', () => {
+  const e = earnedItems({ unitsDone: ['cafe', 'shop'] });
+  for (const id of ['frame.unit.cafe', 'title.unit.cafe', 'frame.unit.shop', 'title.unit.shop']) assert.ok(e.has(id), id);
+  assert.ok(!e.has('frame.unit.bank') && !e.has('title.earlyBird'));
+  assert.equal(earnedItems({}).size, 0);
 });
