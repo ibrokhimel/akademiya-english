@@ -780,7 +780,7 @@ test('a video keeps its first-frame picture next to it', () => {
 });
 
 // ---- profile showcase: name and about me, badges, stats (showcase.js) ----
-import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows, togglePin, rarestBadge, shelfOrder, moveTo } from './showcase.js';
+import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, shows, togglePin, rarestBadge, shelfOrder, moveTo, statsToShow } from './showcase.js';
 test('username typing: the @ and capitals go, only a-z 0-9 _ stay, 20 at most; the B1 rule decides', () => {
   assert.equal(cleanUsername('@Aziz.01 x'), 'aziz01x');
   assert.equal(cleanUsername('@@ibrokhim'), 'ibrokhim');
@@ -844,4 +844,16 @@ test('moving a trophy puts it at the new place and keeps the rest in order', () 
   assert.deepEqual(moveTo(['a', 'b', 'c'], 'b', 1), ['a', 'b', 'c']);
   assert.deepEqual(moveTo(['a', 'b', 'c'], 'z', 0), ['a', 'b', 'c']);
   assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 9), ['b', 'c', 'a']);
+});
+test('stats on the profile: the picked ones in their fixed order, only those with a value; private mode shows none', () => {
+  const all = new Set(STAT_IDS);
+  assert.deepEqual(statsToShow(defaultProfile(), all), ['phrases', 'streak', 'lessons', 'level']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['level', 'phrases'] } }), all), ['phrases', 'level']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['prediction', 'streak'] } }), new Set(['streak'])), ['streak']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { private: true } }), all), []);
+});
+test('stat layout is a 2 x 2 grid or one big number; anything else is the grid', () => {
+  assert.equal(defaultProfile().stats.layout, 'grid');
+  assert.equal(normalizeProfile({ stats: { layout: 'big' } }).stats.layout, 'big');
+  for (const bad of ['huge', 5, null]) assert.equal(normalizeProfile({ stats: { layout: bad } }).stats.layout, 'grid');
 });

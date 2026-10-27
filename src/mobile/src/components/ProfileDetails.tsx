@@ -6,6 +6,7 @@ import { longDate,profileFacts } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { AwardsSection,TrophyShelf,useBadges } from "./Badges";
 import { Count } from "./Motion";
+import { FavouritePhraseRow,StatsBlock } from "./ProfileStats";
 import { Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
@@ -20,17 +21,26 @@ export function ProfileDetails() {
   ];
   const profile = settings.profile, { awards, badges } = useBadges();
   const spotlight = profile.badges.spotlightRarest ? rarestBadge(badges) : null;
+  // private mode: no number anywhere on the profile
+  const hidden = profile.stats.private;
   return <>
-    {section("UMUMIY KO'RINISH")}
-    <View style={{ flexDirection: "row", flexWrap: "wrap", rowGap: d(14), columnGap: d(10) }}>{[["flame-streak", p.streak.count, " kun"], ["bubble-phrases", p.phrases, " ibora"], ["medal-silver", null, "Liga yo'q"], ["apple-currency", 0, " olma"]].filter(([icon]) => testToolsEnabled || icon === "flame-streak" || icon === "bubble-phrases").map(([icon, value, suffix]) => <Pressable key={String(icon)} onPress={value === null ? later : undefined} style={{ width: d(170), flexDirection: "row", alignItems: "center", gap: d(10) }}><Icon name={String(icon)} size={d(30)} />{value === null ? <Txt style={{ fontSize: d(18), color: c.muted, fontFamily: "Nunito_900Black" }}>{suffix}</Txt> : <Count value={Number(value)} suffix={String(suffix)} style={{ fontSize: d(18) }} />}</Pressable>)}</View>
+    <StatsBlock label={section("UMUMIY KO'RINISH")} extra={testToolsEnabled && !hidden ? [["medal-silver", null, "Liga yo'q"], ["apple-currency", 0, " olma"]].map(([icon, value, suffix]) => <Pressable key={String(icon)} onPress={value === null ? later : undefined} style={{ width: d(170), flexDirection: "row", alignItems: "center", gap: d(10) }}><Icon name={String(icon)} size={d(30)} />{value === null ? <Txt style={{ fontSize: d(18), color: c.muted, fontFamily: "Nunito_900Black" }}>{suffix}</Txt> : <Count value={Number(value)} suffix={String(suffix)} style={{ fontSize: d(18) }} />}</Pressable>) : null} />
+    {profile.stats.favouritePhrase && shows(profile, "favouritePhrase") ? <>
+    {section("SEVIMLI IBORA")}
+    <FavouritePhraseRow phraseId={profile.stats.favouritePhrase} />
+    </> : null}
+    {profile.stats.wordOfWeek ? <>
+    {section("HAFTA SO'ZI")}
+    <Txt style={{ paddingHorizontal: d(16), paddingVertical: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: c.line, fontSize: d(17), fontFamily: "Nunito_800ExtraBold" }}>{profile.stats.wordOfWeek}</Txt>
+    </> : null}
     {testToolsEnabled ? <>
     {section("DO'STLAR BILAN SERIYA")}
     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>{[0, 1, 2, 3, 4].map(i => <Pressable key={i} onPress={later} accessibilityLabel="DO'ST QO'SHISH" style={{ width: d(58), height: d(58), borderRadius: d(29), borderWidth: d(2), borderColor: c.edge, justifyContent: "center", alignItems: "center" }}><Txt style={{ fontSize: d(28), color: c.edge }}>+</Txt></Pressable>)}</View>
     </> : null}
-    {section("SHAXSIY REKORDLAR")}
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: d(-20) }} contentContainerStyle={{ paddingHorizontal: d(20), gap: d(12) }}>{records.map(r => <View key={r.title} style={{ width: d(150), paddingVertical: d(14), paddingHorizontal: d(10), borderWidth: d(2), borderColor: c.line, borderRadius: d(20), alignItems: "center", gap: d(4) }}><View style={{ width: d(96), height: d(96) }}><View style={{ position: "absolute", left: d(-3), top: d(-7), width: d(102), height: d(102), borderRadius: d(26), backgroundColor: r.bg }} /><Icon name={r.icon} size={d(52)} style={{ position: "absolute", left: d(22), top: d(2) }} /><Txt style={{ position: "absolute", left: 0, right: 0, top: d(58), textAlign: "center", fontSize: d(24), fontFamily: "Nunito_900Black" }}>{r.value}</Txt></View><Txt style={{ textAlign: "center", fontSize: d(14), fontFamily: "Nunito_900Black" }}>{r.title}</Txt><Txt style={{ fontSize: d(12), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>{r.date}</Txt></View>)}</ScrollView>
+    {hidden ? null : section("SHAXSIY REKORDLAR")}
+    {hidden ? null :     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: d(-20) }} contentContainerStyle={{ paddingHorizontal: d(20), gap: d(12) }}>{records.map(r => <View key={r.title} style={{ width: d(150), paddingVertical: d(14), paddingHorizontal: d(10), borderWidth: d(2), borderColor: c.line, borderRadius: d(20), alignItems: "center", gap: d(4) }}><View style={{ width: d(96), height: d(96) }}><View style={{ position: "absolute", left: d(-3), top: d(-7), width: d(102), height: d(102), borderRadius: d(26), backgroundColor: r.bg }} /><Icon name={r.icon} size={d(52)} style={{ position: "absolute", left: d(22), top: d(2) }} /><Txt style={{ position: "absolute", left: 0, right: 0, top: d(58), textAlign: "center", fontSize: d(24), fontFamily: "Nunito_900Black" }}>{r.value}</Txt></View><Txt style={{ textAlign: "center", fontSize: d(14), fontFamily: "Nunito_900Black" }}>{r.title}</Txt><Txt style={{ fontSize: d(12), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>{r.date}</Txt></View>)}</ScrollView>}
     {section("MUKOFOTLAR")}
-    <AwardsSection awards={awards} style={profile.badges.style} spotlightId={spotlight} />
+    <AwardsSection awards={awards} style={profile.badges.style} spotlightId={spotlight} hideNumbers={hidden} />
     {shows(profile, "trophyShelf") ? <>
     {section("KUBOKLAR JAVONI")}
     <TrophyShelf trophies={badges.filter(b => b.trophy)} order={profile.badges.shelfOrder} />

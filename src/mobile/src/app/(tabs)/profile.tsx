@@ -60,7 +60,7 @@ export default function Profile() {
           name={name}
           nameColor={profile.nameColor}
           caption={title}
-          level={p.level}
+          level={profile.stats.private ? undefined : p.level}
           date={date}
           dateOnImage={settings.profile.banner.kind === "media"}
           animate

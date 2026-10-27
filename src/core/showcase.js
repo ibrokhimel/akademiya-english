@@ -1,5 +1,5 @@
 // What the profile shows about the learner: name and about me, badges, stats. Pure logic, no app code.
-import { USERNAME, normalizeProfile } from './profile.js';
+import { STAT_IDS, USERNAME, normalizeProfile } from './profile.js';
 
 // ---- Name and about me ----
 /** What the username field keeps while the learner types: no @, lower case, only a-z 0-9 _, 20 at most. */
@@ -58,4 +58,12 @@ export function moveTo(list, id, index) {
   const rest = list.filter((x) => x !== id);
   rest.splice(Math.max(0, Math.min(index, rest.length)), 0, id);
   return rest;
+}
+
+// ---- Stats ----
+/** The numbers the profile shows: the picked ones (in STAT_IDS order) that have a value now (`available`, a Set); none in private mode. */
+export function statsToShow(profile, available) {
+  const p = normalizeProfile(profile);
+  if (p.stats.private) return [];
+  return STAT_IDS.filter((id) => p.stats.shown.includes(id) && available.has(id));
 }

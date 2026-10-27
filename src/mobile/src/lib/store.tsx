@@ -29,7 +29,7 @@ export type Profile = {
   username: string; bio: string; why: string | null; destination: string | null; nativeLanguage: string;
   city: string; showCity: boolean; birthday: string | null; birthdayGreet: boolean; title: string | null; nameColor: string;
   badges: { pinned: string[]; style: "grid" | "row" | "shelf"; shelfOrder: string[]; spotlightRarest: boolean };
-  stats: { layout: string; shown: string[]; favouritePhrase: string | null; wordOfWeek: string; private: boolean };
+  stats: { layout: "grid" | "big"; shown: string[]; favouritePhrase: string | null; wordOfWeek: string; private: boolean };
   dombi: { outfit: string; pose: string; tint: string; name: string; visitorReaction: string };
   look: {
     color: string; cardColor: string; background: Media & { kind: "color" | "item" | "media"; id: string }; dim: number;
