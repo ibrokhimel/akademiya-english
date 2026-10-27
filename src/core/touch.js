@@ -3,7 +3,7 @@
 // and his body (position, swing, squish) for the screen to draw.
 //   touchStart(t) -> state     touchReducer(state, { type, t, x?, y?, dt?, rand?, cancel?, rule, env })
 // types: 'down'|'move'|'up'|'tick' (finger and frames), 'look' (a finger anywhere on the screen), 'feed' (a word
-// dropped on him), 'highfive' (a right answer), 'hand' (a tap on his raised hand), 'pinch' {d} / 'pinchEnd',
+// dropped on him), 'nudge' (the screen needs him awake), 'highfive' (a right answer), 'hand' (a tap on his raised hand), 'pinch' {d} / 'pinchEnd',
 // 'phoneShake', 'tilt' {g: degrees}, 'mic' {level 0–100, dt} (only while held).
 // rule: 'all' (tabs), 'nocarry' (no carrying) or 'perch' (a lesson: carried, dropped and thrown as on the tabs, but he
 // stays where he lands; after 4 s untouched the effect `drop` hands him to the screen, which moves him to the nearest
@@ -16,7 +16,7 @@ const HOLD_MS = 300, TAP_MS = 300, TAP_PX = 12, HOLD_PX = 10, PET_PX = 12, DOUBL
   BACK_MS = 3000, THROW = 900, SLEEP_MS = 22000, WAKE_MS = 950, SHAKE_SPEED = 380, SHAKE_HITS = 5, SHAKE_MS = 900,
   DIZZY_COOLDOWN = 2600, GRAVITY = 2600, BOUNCE_SPEED = 700, WALK = 95,
   RUB_MS = 1000, RUB_PATH = 40, RUB_SPOT = 24, AWAY_MS = 4000,
-  EDGE_PX = 8, SWIPE_OFF = 2100, HIDE_MS = 700, PEEK_IN_MS = 500, PEEK_MS = 1900, PERCH_PLAY_MS = 420, WARM_DY = 60,
+  EDGE_PX = 8, SWIPE_OFF = 2100, HIDE_MS = 700, PEEK_IN_MS = 500, PEEK_MS = 1900, PERCH_PLAY_MS = 420, WARM_DY = 20, WARM_SIT = 44,
   LOOK_MS = 2500, HF_DELAY = 1000, HF_MS = 2800, CLAP_MS = 520, SHOOK_MS = 450, BLOW_LOUD = 78, BLOW_QUIET = 45, BLOW_S = 0.25;
 const TRICKS = ['trickSpin', 'trickFlick', 'trickShades'];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -87,7 +87,8 @@ export function touchReducer(state, ev) {
   // Where a drop lands: beside the flame (warm), on top of the Learn card (peek), else the floor.
   const zoneAt = () => {
     const b = s.body, w = zones.warm, c = zones.peek;
-    if (w && b.x > w.x - 80 && b.x < w.x + 12 && Math.abs(b.y - w.y) <= WARM_DY) return { kind: 'warm', y: w.y, x: w.x - 62 };
+    // The flame sits just above the Learn card on the phone, so its band is narrow (Redmi test: ±60 took the card's middle).
+    if (w && b.x > w.x - 80 && b.x < w.x + 12 && Math.abs(b.y - w.y) <= WARM_DY) return { kind: 'warm', y: w.y, x: w.x - WARM_SIT };
     if (c && b.x > c.l + 20 && b.x < c.r - 20 && b.y <= c.top + 30) return { kind: 'peek', y: c.top + 4 };
     return { kind: 'floor', y: ground };
   };
@@ -142,6 +143,9 @@ export function touchReducer(state, ev) {
       fx.push({ looking: true }); num('lookX', Math.round(clamp((ev.x - b.x) / 2.2, -100, 100))); num('lookY', Math.round(clamp((ev.y - eye) / 2.2, -100, 100)));
       s.at.unlook = t + LOOK_MS;
     }
+  } else if (ev.type === 'nudge') {
+    // The screen needs him (your turn, a new phrase, help offered): asleep, he wakes as if tapped.
+    if (s.mode === 'asleep') { fire('wake'); s.mode = 'waking'; s.at.wake = t + WAKE_MS; s.lastAct = t; }
   } else if (ev.type === 'feed') {
     if (resting()) { fire('eat'); buzz([8, 60, 8, 60, 14]); s.lastAct = t; }
   } else if (ev.type === 'highfive') {

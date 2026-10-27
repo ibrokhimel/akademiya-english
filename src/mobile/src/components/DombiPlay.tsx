@@ -147,12 +147,13 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     return () => { cancelAnimationFrame(L.raf); if (L.timer) clearTimeout(L.timer); L.raf = 0; L.timer = null; };
   }, [send, focused, rule, dx, dy]);
 
-  // On a still-picture phone the rig is only mounted while he plays; he goes back to the picture 2 s after settling.
+  // On a still-picture phone the rig is only mounted while he plays; he goes back to the picture 2 s after settling
+  // (sitting on a perch counts as playing, so the peek and warm poses stay until he naps; Redmi test 2026-10-27).
   useEffect(() => {
     if (!awake) return;
     const check = setInterval(() => {
       const s = current();
-      if (!s.press && !s.hf && Object.keys(s.at).length === 0 && ["idle", "asleep", "perched"].includes(s.mode) && Date.now() - s.lastAct > 2000) { awakeRef.current = false; pending.current = []; setAwake(false); }
+      if (!s.press && !s.hf && Object.keys(s.at).length === 0 && ["idle", "asleep"].includes(s.mode) && Date.now() - s.lastAct > 2000) { awakeRef.current = false; pending.current = []; setAwake(false); }
     }, 500);
     return () => clearInterval(check);
   }, [awake]);
@@ -214,6 +215,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     .onUpdate((e) => move(e.absoluteX, e.absoluteY))
     .onFinalize((e) => up(e.absoluteX, e.absoluteY, !lifted.current)), [down, move, up]);
   // A second finger beside him (within 120 points) pinches: he stretches like gum and snaps back on release.
+  // A moment that needs him (your turn, a new phrase, help offered) wakes him; asleep he would hide it (Redmi test).
+  useEffect(() => { if (moment !== "idle") send({ type: "nudge", t: Date.now() }); }, [moment, send]);
   // Screen events (a word fed to him, a high-five): they wake a still-picture phone's rig like a touch does.
   useEffect(() => {
     if (!eventsRef) return;

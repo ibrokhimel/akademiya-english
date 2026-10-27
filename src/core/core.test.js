@@ -414,7 +414,7 @@ test('touch: dropped over the top of the Learn card he sits on it and peeks', ()
 test('touch: dropped beside the flame he warms his hands', () => {
   const env = { ...ENV, zones: ZONES };
   const a = runR([...carryTo(290, 70), ...ticks(716, 1400)], 'all', touchStart(0), env);
-  assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.x, 268); assert.ok(plays(a.fx).includes('warm')); assert.ok(a.fx.some((f) => f.mood === 'happy'));
+  assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.x, 286); assert.ok(plays(a.fx).includes('warm')); assert.ok(a.fx.some((f) => f.mood === 'happy'));
 });
 test('touch: fed a word he eats it, but not while carried', () => {
   assert.deepEqual(fires(runR([{ type: 'feed', t: 100 }]).fx), ['eat']);
@@ -482,4 +482,16 @@ test('touch: offering a high-five counts as activity', () => {
 test('touch: tilted against the edge he settles, stops needing frames and still falls asleep', () => {
   const a = runR([{ type: 'tilt', t: 0, g: 20 }, ...ticks(16, 30000, 50)]);
   assert.equal(a.s.mode, 'asleep'); assert.equal(a.s.tiltMoving, false);
+});
+test('touch: on the real Learn tab (flame just above the card) a drop just above the card lands on it', () => {
+  const env = { ...ENV, zones: { peek: { l: 20, r: 340, top: 102 }, warm: { x: 226, y: 78 } } };
+  const hold = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x: 190, y: 119 }, ...ticks(331, 1500), { type: 'up', t: 1510, x: 190, y: 119 }];
+  const a = runR([...hold, ...ticks(1516, 2400)], 'all', touchStart(0), env);
+  assert.equal(a.s.mode, 'perched'); assert.equal(a.s.perch, 'peek');
+});
+test('touch: the lesson waking him: asleep, a nudge wakes him; awake, it does nothing', () => {
+  const asleep = runR(ticks(0, 22600, 500));
+  const a = runR([{ type: 'nudge', t: 23000 }, ...ticks(23100, 24200, 100)], 'all', asleep.s);
+  assert.deepEqual(fires(a.fx), ['wake']); assert.equal(a.s.mode, 'idle');
+  assert.deepEqual(runR([{ type: 'nudge', t: 10 }]).fx, []);
 });
