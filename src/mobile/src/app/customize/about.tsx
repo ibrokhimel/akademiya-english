@@ -142,7 +142,6 @@ export default function AboutEditor() {
             />
           </View>
         </InfoRow>
-        <View style={{ height: d(2), backgroundColor: c.line }} />
         <InfoRow icon="calendar" label="Tug'ilgan kun" value={birthdayGreet} onChange={(on) => { if (on && !birthday) setSheet(true); else setBirthdayGreet(on); }} detail="O'sha kuni Dombi tabriklaydi">
           <Pressable accessibilityRole="button" accessibilityLabel={birthday ? `Tug'ilgan kun: ${birthdayLabel(birthday)}` : "Tug'ilgan kun"} onPress={() => setSheet(true)}>
             <Txt style={{ fontSize: d(15), fontFamily: "Nunito_800ExtraBold" }}>{birthday ? `Tug'ilgan kun: ${birthdayLabel(birthday)}` : "Tug'ilgan kun"}</Txt>
