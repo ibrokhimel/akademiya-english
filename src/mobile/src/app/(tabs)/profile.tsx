@@ -12,6 +12,7 @@ import { GoalSheet } from "../../components/GoalSheet";
 import { DombiOverlay } from "../../components/TabChrome";
 import { Arrive } from "../../components/Motion";
 import { ProfileDetails } from "../../components/ProfileDetails";
+import { ProfileHeader } from "../../components/ProfileHeader";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
@@ -46,135 +47,45 @@ export default function Profile() {
       style={{ flex: 1, backgroundColor: c.bg }}
     >
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            height: d(199),
-            backgroundColor: c.soft,
-            position: "relative",
-          }}
-        >
-          <View
-            style={{
-              position: "absolute",
-              right: d(14),
-              top: d(8),
-              flexDirection: "row",
-              gap: d(8),
-            }}
-          >
-            {[
-              [
-                "glyph-more-violet",
-                "Profil menyusi",
-                () => router.navigate("/account"),
-              ],
-              [
-                "glyph-gear-violet",
-                "Sozlamalar",
-                () => router.navigate("/settings"),
-              ],
-            ].map(([icon, label, press]) => (
-              <RaisedPressable
-                key={String(icon)}
-                accessibilityLabel={String(label)}
-                onPress={press as () => void}
-                radius={d(19)}
-                depth={d(3)}
-                backgroundColor={c.card}
-                edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
-                faceStyle={{
-                  width: d(38),
-                  height: d(38),
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Icon name={String(icon)} size={d(28)} />
-              </RaisedPressable>
-            ))}
-          </View>
-          <Txt
-            style={{
-              position: "absolute",
-              right: d(14),
-              bottom: d(6),
-              fontSize: d(11),
-              color: c.muted,
-              fontFamily: "Nunito_800ExtraBold",
-            }}
-          >
-            {date}
-          </Txt>
-        </View>
-        <View
-          style={{ paddingHorizontal: d(20), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
-        >
-          <Arrive style={{ height: d(68) }}>
-            <View
-              style={{
-                position: "absolute",
-                left: 0,
-                top: d(-26),
-                width: d(96),
-                height: d(96),
-                borderRadius: d(48),
-                backgroundColor: violet,
-                borderWidth: d(4),
-                borderColor: c.card,
+        <ProfileHeader
+          name={name}
+          level={p.level}
+          date={date}
+          animate
+          actions={[
+            [
+              "glyph-more-violet",
+              "Profil menyusi",
+              () => router.navigate("/customize"),
+            ],
+            [
+              "glyph-gear-violet",
+              "Sozlamalar",
+              () => router.navigate("/settings"),
+            ],
+          ].map(([icon, label, press]) => (
+            <RaisedPressable
+              key={String(icon)}
+              accessibilityLabel={String(label)}
+              onPress={press as () => void}
+              radius={d(19)}
+              depth={d(3)}
+              backgroundColor={c.card}
+              edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
+              faceStyle={{
+                width: d(38),
+                height: d(38),
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Txt
-                style={{
-                  fontSize: d(43),
-                  color: "#FFFFFF",
-                  fontFamily: "Nunito_900Black",
-                }}
-              >
-                {name[0].toUpperCase()}
-              </Txt>
-            </View>
-            <Txt
-              numberOfLines={1}
-              style={{
-                position: "absolute",
-                left: d(110),
-                right: d(104),
-                top: d(24),
-                fontSize: d(26),
-                lineHeight: d(29),
-                fontFamily: "Nunito_900Black",
-              }}
-            >
-              {name}
-            </Txt>
-            <View
-              style={{
-                position: "absolute",
-                right: 0,
-                top: d(29),
-                flexDirection: "row",
-                gap: d(6),
-                alignItems: "center",
-                paddingVertical: d(6),
-                paddingHorizontal: d(8),
-                borderRadius: 99,
-                backgroundColor: c.soft,
-              }}
-            >
-              <Icon name="level-badge" size={d(18)} />
-              <Txt
-                style={{
-                  fontSize: d(12),
-                  color: violet,
-                  fontFamily: "Nunito_900Black",
-                }}
-              >
-                {p.level}-daraja
-              </Txt>
-            </View>
-          </Arrive>
+              <Icon name={String(icon)} size={d(28)} />
+            </RaisedPressable>
+          ))}
+        />
+        <View
+          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
+        >
           <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{

@@ -84,6 +84,7 @@ function Navigation() {
         <Stack.Protected guard={settings.onboarded}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="settings" />
+          <Stack.Screen name="customize/index" />
           <Stack.Screen name="speech-settings" />
           <Stack.Protected guard={testToolsEnabled}>
             <Stack.Screen name="device-settings" />
