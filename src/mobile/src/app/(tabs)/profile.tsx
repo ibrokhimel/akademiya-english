@@ -13,6 +13,7 @@ import { DombiOverlay } from "../../components/TabChrome";
 import { Avatar } from "../../components/Avatar";
 import { AvatarFrame } from "../../components/AvatarFrame";
 import { Arrive } from "../../components/Motion";
+import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileDetails } from "../../components/ProfileDetails";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { RaisedPressable } from "../../components/RaisedPressable";
@@ -53,7 +54,9 @@ export default function Profile() {
           name={name}
           level={p.level}
           date={date}
+          dateOnImage={settings.profile.banner.kind === "media"}
           animate
+          banner={<ProfileBanner banner={settings.profile.banner} height={d(199)} />}
           avatar={(size) => <Avatar avatar={settings.profile.avatar} name={name} size={size} dombiOutfit={settings.profile.dombi.outfit} />}
           frame={(size, avatar) => <AvatarFrame id={settings.profile.frame} size={size}>{avatar}</AvatarFrame>}
           actions={[

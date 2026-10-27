@@ -87,6 +87,7 @@ function Navigation() {
           <Stack.Screen name="customize/index" />
           <Stack.Screen name="customize/avatar" />
           <Stack.Screen name="customize/frame" />
+          <Stack.Screen name="customize/banner" />
           <Stack.Screen name="customize/crop" options={{ animation: "fade" }} />
           <Stack.Screen name="speech-settings" />
           <Stack.Protected guard={testToolsEnabled}>

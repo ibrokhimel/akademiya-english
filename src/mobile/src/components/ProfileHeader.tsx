@@ -11,7 +11,7 @@ import { useDesignScale } from "./useDesignScale";
  *  - `avatar(size)` replaces the letter inside the avatar circle
  *  - `frame(size, avatar)` wraps the avatar; the default is a ring in the card colour
  */
-export function ProfileHeader({ name, level, caption, date, actions, banner, avatar, frame, compact = false, animate = false }: {
+export function ProfileHeader({ name, level, caption, date, dateOnImage = false, actions, banner, avatar, frame, compact = false, animate = false }: {
   name: string;
   /** shows the "N-daraja" pill */
   level?: number;
@@ -19,6 +19,8 @@ export function ProfileHeader({ name, level, caption, date, actions, banner, ava
   caption?: string;
   /** small text at the banner's bottom right (join month) */
   date?: string;
+  /** the banner is a picture: the date turns white (screen RnkvP) */
+  dateOnImage?: boolean;
   /** buttons at the banner's top right (Profile tab only) */
   actions?: ReactNode;
   banner?: ReactNode;
@@ -91,7 +93,7 @@ export function ProfileHeader({ name, level, caption, date, actions, banner, ava
         {banner}
         {actions ? <View style={{ position: "absolute", right: d(14), top: d(8), flexDirection: "row", gap: d(8) }}>{actions}</View> : null}
         {date ? (
-          <Txt style={{ position: "absolute", right: d(14), bottom: d(6), fontSize: d(11), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>{date}</Txt>
+          <Txt style={{ position: "absolute", right: d(14), bottom: d(6), fontSize: d(11), color: dateOnImage ? "#FFFFFF" : c.muted, fontFamily: "Nunito_800ExtraBold", ...(dateOnImage ? { textShadowColor: "#00000080", textShadowRadius: d(3), textShadowOffset: { width: 0, height: 1 } } : null) }}>{date}</Txt>
         ) : null}
       </View>
       <View style={{ paddingHorizontal: d(compact ? 14 : 20) }}>
