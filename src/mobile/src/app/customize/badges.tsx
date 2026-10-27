@@ -8,7 +8,7 @@ import { EditorScreen } from "../../components/customize/EditorScreen";
 import { RowGroup } from "../../components/customize/RowGroup";
 import { SectionLabel } from "../../components/customize/SectionLabel";
 import { ToggleRow } from "../../components/customize/ToggleRow";
-import { Icon,Txt,useTheme,violet } from "../../components/ui";
+import { Icon,Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import type { Badge } from "../../data/awards";
 import { sound } from "../../lib/audio";
@@ -34,9 +34,9 @@ function BadgeRow({ b, pinned, full, onPin }: { b: Badge; pinned: boolean; full:
           accessibilityState={{ selected: pinned, disabled: !pinned && full }}
           disabled={!pinned && full}
           onPress={onPin}
-          style={{ paddingHorizontal: d(12), paddingVertical: d(6), borderRadius: d(99), borderWidth: d(2), borderColor: violet, backgroundColor: pinned ? violet : c.card, opacity: !pinned && full ? 0.4 : 1 }}
+          style={{ paddingHorizontal: d(12), paddingVertical: d(6), borderRadius: d(99), borderWidth: d(2), borderColor: c.accent, backgroundColor: pinned ? c.accent : c.card, opacity: !pinned && full ? 0.4 : 1 }}
         >
-          <Txt style={{ fontSize: d(12), letterSpacing: d(.4), fontFamily: "Nunito_900Black", color: pinned ? onAccent : violet }}>{pinned ? "QADALGAN" : "QADASH"}</Txt>
+          <Txt style={{ fontSize: d(12), letterSpacing: d(.4), fontFamily: "Nunito_900Black", color: pinned ? onAccent : c.accent }}>{pinned ? "QADALGAN" : "QADASH"}</Txt>
         </Pressable>
       ) : <Icon name="glyph-lock-grey" size={d(20)} />}
     </View>

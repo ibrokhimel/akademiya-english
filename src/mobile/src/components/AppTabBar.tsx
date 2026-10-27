@@ -6,7 +6,7 @@ import Animated,{ Extrapolation,interpolate,useAnimatedStyle,useSharedValue,with
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
 import { spring } from "./Motion";
-import { Icon,Txt,useTheme,violet } from "./ui";
+import { Icon,Txt,useTheme } from "./ui";
 
 const labels = ["O'rganish", "Gapirish", "Mashq", "Men"];
 const icons = ["tab-home", "studio-mic", "tab-practice", "tab-profile"];
@@ -103,7 +103,7 @@ function TabItem({ index, label, icon, position, scale, shown, selected, onPress
       <View style={{ height: SQUARE_H * scale, justifyContent: "center", opacity: shown ? 1 : 0.5 }}>
         <Icon name={icon} size={30 * scale} />
       </View>
-      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: violet, opacity: shown ? 1 : 0 }}>{label}</Txt>
+      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: c.accent, opacity: shown ? 1 : 0 }}>{label}</Txt>
     </Animated.View>
   </Pressable>;
 }

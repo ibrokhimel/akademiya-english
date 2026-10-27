@@ -8,7 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Confidence,Done,Goal,Level,PermissionSheet,Plan,Reminder } from "../components/onboarding/StepsEnd";
 import { Heard,Meet,Mic,Name,Task,VoicePromise,Welcome } from "../components/onboarding/StepsStart";
 import { ScreenTransition } from "../components/ScreenTransition";
-import { Button,Icon,LinkButton,useTheme,violet } from "../components/ui";
+import { Button,Icon,LinkButton,useTheme } from "../components/ui";
 import { useMeasureDombiLevel } from "../lib/dombiLevel";
 import { cloudEnabled } from "../lib/config";
 import { notificationPermission,reminders } from "../lib/notifications";
@@ -155,7 +155,7 @@ export default function Onboarding() {
             </Pressable>
             <View style={{ flex: 1, flexDirection: "row", gap: d(5) }}>
               {Array.from({ length: SEGMENTS }, (_, i) => (
-                <View key={i} style={{ flex: 1, height: d(8), borderRadius: 4, backgroundColor: i < bar ? violet : c.line }} />
+                <View key={i} style={{ flex: 1, height: d(8), borderRadius: 4, backgroundColor: i < bar ? c.accent : c.line }} />
               ))}
             </View>
           </View>

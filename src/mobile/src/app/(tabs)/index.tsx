@@ -6,7 +6,7 @@ import { useAuditScroll } from "../../audit/layout";
 import { BottomSheet } from "../../components/BottomSheet";
 import { LessonStartSheet } from "../../components/LessonStartSheet";
 import { Arrive,Pulse } from "../../components/Motion";
-import { brand,shared,type } from "../../components/system";
+import { shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import { DombiOverlay,TabHeader } from "../../components/TabChrome";
 import type { Zones } from "../../components/DombiPlay";
@@ -18,8 +18,7 @@ import {
 Icon,
 Txt,
 gold,
-useTheme,
-violet
+useTheme
 } from "../../components/ui";
 import { units,type Lesson } from "../../data/content";
 import { sound,stopAudio } from "../../lib/audio";
@@ -118,13 +117,13 @@ export default function Learn() {
           marginHorizontal: d(20),
           marginTop: d(12),
           borderRadius: d(24),
-          backgroundColor: brand.lip,
+          backgroundColor: c.accentLip,
           paddingBottom: d(4),
         }}
       >
         <View ref={cardRef} collapsable={false}
           style={{
-            backgroundColor: violet,
+            backgroundColor: c.accent,
             borderRadius: d(24),
             padding: d(20),
             gap: d(14),
@@ -132,7 +131,7 @@ export default function Learn() {
         >
           <View style={{ flexDirection: "row", alignItems: "flex-start", gap: d(12) }}>
             <View style={{ flex: 1, gap: d(4) }}>
-              <Txt style={{ ...type("label", d), color: brand.washLine }}>
+              <Txt style={{ ...type("label", d), color: c.accentWashLine }}>
                 {nextUnit.unit}-BO&apos;LIM · {nextUnit.name.replace("!", "").toUpperCase()}
               </Txt>
               <Txt style={{ ...type("title", d), color: "#FFFFFF" }}>
@@ -142,7 +141,7 @@ export default function Learn() {
             <Pressable
               accessibilityLabel="Ayta oladiganlarim"
               onPress={() => router.navigate("/phrases")}
-              style={{ width: d(48), height: d(48), borderRadius: d(14), backgroundColor: brand.lip, alignItems: "center", justifyContent: "center" }}
+              style={{ width: d(48), height: d(48), borderRadius: d(14), backgroundColor: c.accentLip, alignItems: "center", justifyContent: "center" }}
             >
               <Icon name="book-phrase-list" size={d(32)} />
             </Pressable>
@@ -154,10 +153,10 @@ export default function Learn() {
               radius={d(16)}
               depth={d(4)}
               backgroundColor="#FFFFFF"
-              edgeColor={brand.washLine}
+              edgeColor={c.accentWashLine}
               faceStyle={{ height: d(48), alignItems: "center", justifyContent: "center" }}
             >
-              <Txt style={{ ...type("button", d), color: violet }}>
+              <Txt style={{ ...type("button", d), color: c.accent }}>
                 {resume?.id === next.id ? "DAVOM ETISH" : "BOSHLASH"}
               </Txt>
             </RaisedPressable>
@@ -195,8 +194,8 @@ export default function Learn() {
               const state = p.state(l.id),
                 current = state === "cur",
                 done = state === "done",
-                face = current ? gold : done ? violet : c.line,
-                edge = current ? shared.light.rewardLip : done ? brand.lip : c.edge;
+                face = current ? gold : done ? c.accent : c.line,
+                edge = current ? shared.light.rewardLip : done ? c.accentLip : c.edge;
               const glyph = done
                 ? "glyph-check-white"
                 : SPOTS[k][2] === "headphones"
@@ -345,7 +344,7 @@ export default function Learn() {
           <Txt
             style={{
               fontSize: d(13),
-              color: violet,
+              color: c.accent,
               fontFamily: "Nunito_900Black",
             }}
           >

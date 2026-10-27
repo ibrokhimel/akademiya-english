@@ -3,7 +3,7 @@ import { ScrollView, View } from "react-native";
 import { dombiVoiceMs, hasDombiVoice, playDombi, stopAudio } from "../../lib/audio";
 import { useApp } from "../../lib/store";
 import { Dombi, type DombiMoment } from "../Dombi";
-import { Txt, useTheme, violet } from "../ui";
+import { Txt, useTheme } from "../ui";
 
 const LINES = 3;
 
@@ -68,7 +68,7 @@ export function DombiSays({ text, moment = "idle", size = 80, d }: { text: strin
             <View onLayout={(e) => setHeight(e.nativeEvent.layout.height)} style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -d(3) }}>
               {words.map((w, i) => (
                 <View key={i} onLayout={(e) => { tops.current[i] = e.nativeEvent.layout.y; }} style={{ paddingHorizontal: d(3), borderRadius: d(6), backgroundColor: i === now ? c.soft : "transparent" }}>
-                  <Txt importantForAccessibility="no" style={{ fontSize: d(16), lineHeight: lh, fontFamily: "Nunito_900Black", color: i === now ? violet : c.text }}>{w}</Txt>
+                  <Txt importantForAccessibility="no" style={{ fontSize: d(16), lineHeight: lh, fontFamily: "Nunito_900Black", color: i === now ? c.accent : c.text }}>{w}</Txt>
                 </View>
               ))}
             </View>
@@ -78,7 +78,7 @@ export function DombiSays({ text, moment = "idle", size = 80, d }: { text: strin
         </View>
         {more ? (
           <View style={{ width: d(4), height: shown, marginLeft: d(8), borderRadius: d(2), backgroundColor: c.line }}>
-            <View style={{ position: "absolute", left: 0, right: 0, top: (offset / height) * shown, height: (shown / height) * shown, borderRadius: d(2), backgroundColor: violet }} />
+            <View style={{ position: "absolute", left: 0, right: 0, top: (offset / height) * shown, height: (shown / height) * shown, borderRadius: d(2), backgroundColor: c.accent }} />
           </View>
         ) : null}
       </View>

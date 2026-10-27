@@ -9,7 +9,7 @@ import { prediction } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { playVoice } from "../lib/voicePlayback";
 import { AudioBars,Count } from "./Motion";
-import { Icon,Txt,useTheme,violet } from "./ui";
+import { Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
 type Value = { value: number; suffix: string } | { text: string };
@@ -108,7 +108,7 @@ export function FavouritePhraseRow({ phraseId, onPress, empty, background }: { p
         onPress={() => { if (phraseId) void player.toggle(phraseId); }}
         style={{ width: d(44), height: d(44), borderRadius: d(12), backgroundColor: c.soft, alignItems: "center", justifyContent: "center", opacity: ph ? 1 : 0.5 }}
       >
-        {player.playing ? <AudioBars color={violet} size={d(18)} /> : <Icon name="glyph-speaker-violet" size={d(24)} />}
+        {player.playing ? <AudioBars color={c.accent} size={d(18)} /> : <Icon name="glyph-speaker-violet" size={d(24)} />}
       </Pressable>
       <View style={{ flex: 1, gap: d(2) }}>
         <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black", color: ph ? c.text : c.muted }}>{ph ? ph.en : empty}</Txt>

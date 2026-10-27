@@ -10,7 +10,7 @@ import { SectionLabel } from "../../components/customize/SectionLabel";
 import { TextField } from "../../components/customize/TextField";
 import { ToggleRow } from "../../components/customize/ToggleRow";
 import { FavouritePhraseRow } from "../../components/ProfileStats";
-import { Txt,useTheme,violet } from "../../components/ui";
+import { Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { P } from "../../data/content";
 import { statRows } from "../../data/stats";
@@ -36,9 +36,9 @@ function PhraseSheet({ visible, value, onPick, onClose }: { visible: boolean; va
               accessibilityState={{ selected: value === id }}
               accessibilityLabel={P[id].en}
               onPress={() => { onPick(id); onClose(); }}
-              style={{ padding: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: value === id ? violet : c.line, backgroundColor: value === id ? c.soft : c.card, gap: d(2) }}
+              style={{ padding: d(12), borderRadius: d(16), borderWidth: d(2), borderColor: value === id ? c.accent : c.line, backgroundColor: value === id ? c.soft : c.card, gap: d(2) }}
             >
-              <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black", color: value === id ? violet : c.text }}>{P[id].en}</Txt>
+              <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black", color: value === id ? c.accent : c.text }}>{P[id].en}</Txt>
               <Txt style={{ fontSize: d(12), color: c.muted }}>{P[id].uz}</Txt>
             </Pressable>
           ))}

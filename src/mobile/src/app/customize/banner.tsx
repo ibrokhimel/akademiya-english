@@ -9,7 +9,7 @@ import { useLookColors } from "../../components/customize/colors";
 import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileHeader } from "../../components/ProfileHeader";
-import { Icon,Txt,useTheme,violet } from "../../components/ui";
+import { Icon,Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { bannerGroups,banners } from "../../data/cosmetics";
 import { onCropped,pickMedia,removeUnusedProfileFiles,type PickedMedia } from "../../lib/media";
@@ -71,10 +71,10 @@ export default function BannerEditor() {
         accessibilityLabel="Rasm, GIF yoki video yuklash"
         accessibilityState={{ selected: draft.kind === "media" }}
         onPress={() => void upload()}
-        style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(10), height: d(72), borderRadius: d(18), borderWidth: d(2), borderColor: violet, backgroundColor: c.soft, opacity: pressed ? 0.7 : 1 })}
+        style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(10), height: d(72), borderRadius: d(18), borderWidth: d(2), borderColor: c.accent, backgroundColor: c.soft, opacity: pressed ? 0.7 : 1 })}
       >
         <Icon name="glyph-play-violet" size={d(18)} />
-        <Txt style={{ fontSize: d(15), color: violet, fontFamily: "Nunito_900Black" }}>Rasm, GIF yoki video yuklash</Txt>
+        <Txt style={{ fontSize: d(15), color: c.accent, fontFamily: "Nunito_900Black" }}>Rasm, GIF yoki video yuklash</Txt>
       </Pressable>
       <Txt style={{ fontSize: d(12), lineHeight: d(17), color: c.muted }}>GIF va video: 6 soniyagacha, 8 MB gacha. Ovozsiz, takrorlanib turadi.</Txt>
       {sheet}

@@ -1,8 +1,8 @@
 import { Pressable, ScrollView, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { brand, type } from "../../components/system";
+import { type } from "../../components/system";
 import { DombiOverlay, TabHeader, useDs } from "../../components/TabChrome";
-import { Icon, Txt } from "../../components/ui";
+import { Icon, Txt, useTheme } from "../../components/ui";
 import { useHomeBack } from "../../lib/navigation";
 import { router } from "expo-router";
 import { MIN, practiceCounts } from "../../../../core/practice.js";
@@ -19,7 +19,7 @@ const GROUPS: { head: string; rows: [kind: Kind, icon: string, title: string, no
 
 export default function Practice() {
   useHomeBack();
-  const { progress: p } = useApp(), ds = useDs(), { width } = useWindowDimensions();
+  const { progress: p } = useApp(), ds = useDs(), c = useTheme(), { width } = useWindowDimensions();
   const scale = Math.min(width / 390, 1.2), d = (n: number) => n * scale;
   const first = Object.keys(p.done).length === 0, counts = practiceCounts(units, p.done);
   return (
@@ -38,7 +38,7 @@ export default function Practice() {
                 onPress={() => router.push(`/activity/${kind}`)}
                 style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(18), borderWidth: 2, borderColor: ds.line, backgroundColor: locked ? ds.paper : ds.surface }}
               >
-                <View style={{ width: d(52), height: d(52), borderRadius: d(14), backgroundColor: locked ? ds.line : brand.wash, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ width: d(52), height: d(52), borderRadius: d(14), backgroundColor: locked ? ds.line : c.accentWash, alignItems: "center", justifyContent: "center" }}>
                   <Icon name={icon} size={d(28)} />
                 </View>
                 <View style={{ flex: 1, gap: d(2) }}>

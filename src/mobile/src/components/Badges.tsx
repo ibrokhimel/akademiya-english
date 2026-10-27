@@ -6,7 +6,7 @@ import { testToolsEnabled } from "../lib/config";
 import { useApp } from "../lib/store";
 import { useCosmeticColor } from "./customize/colors";
 import { Effect } from "./Effects";
-import { gold,Icon,Txt,useTheme,violet } from "./ui";
+import { gold,Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
 /** The awards (MUKOFOTLAR) and every badge a learner can pin, with theme colours worked out. Friend awards stay in test builds. */
@@ -69,9 +69,9 @@ export function PinnedTiles({ badges, empty = 0, onPress }: { badges: Badge[]; /
   return (
     <View style={{ flexDirection: "row", gap: d(10) }}>
       {badges.map((b) => (
-        <Pressable key={b.id} disabled={!onPress} accessibilityRole={onPress ? "button" : undefined} accessibilityLabel={b.title} onPress={() => onPress?.(b.id)} style={{ ...tile, backgroundColor: c.soft, borderWidth: d(onPress ? 2 : 0), borderColor: violet }}>
+        <Pressable key={b.id} disabled={!onPress} accessibilityRole={onPress ? "button" : undefined} accessibilityLabel={b.title} onPress={() => onPress?.(b.id)} style={{ ...tile, backgroundColor: c.soft, borderWidth: d(onPress ? 2 : 0), borderColor: c.accent }}>
           <Icon name={b.icon} size={d(36)} />
-          <Txt numberOfLines={1} style={{ fontSize: d(12), fontFamily: "Nunito_900Black", color: violet }}>{b.title}</Txt>
+          <Txt numberOfLines={1} style={{ fontSize: d(12), fontFamily: "Nunito_900Black", color: c.accent }}>{b.title}</Txt>
         </Pressable>
       ))}
       {Array.from({ length: empty }, (_, i) => (
@@ -111,7 +111,7 @@ export function TrophyShelf({ trophies, order, lifted, onLongPress, onPress }: {
             accessibilityState={{ selected: lifted === t.id }}
             onLongPress={() => onLongPress?.(t.id)}
             onPress={() => onPress?.(t.id, i)}
-            style={{ padding: d(4), borderRadius: d(14), borderWidth: d(2), borderColor: lifted === t.id ? violet : "transparent", transform: [{ scale: lifted === t.id ? 1.12 : 1 }], opacity: t.earned ? 1 : 0.4 }}
+            style={{ padding: d(4), borderRadius: d(14), borderWidth: d(2), borderColor: lifted === t.id ? c.accent : "transparent", transform: [{ scale: lifted === t.id ? 1.12 : 1 }], opacity: t.earned ? 1 : 0.4 }}
           >
             <Icon name={t.icon} size={d(44)} />
           </Pressable>

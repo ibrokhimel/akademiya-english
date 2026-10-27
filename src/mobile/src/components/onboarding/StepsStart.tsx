@@ -7,7 +7,7 @@ import { dayMonth } from "../../lib/onboardingPlan";
 import { useApp } from "../../lib/store";
 import type { useSpeech } from "../../lib/useSpeech";
 import { Dombi } from "../Dombi";
-import { Icon, LinkButton, Picture, Txt, useTheme, violet } from "../ui";
+import { Icon, LinkButton, Picture, Txt, useTheme } from "../ui";
 import { DombiSays } from "./DombiSays";
 import { Heading, InfoRow, Label, Panel, Tile, type Scale } from "./parts";
 
@@ -17,7 +17,7 @@ export function Welcome({ d }: { d: Scale }) {
   return (
     <>
       <Dombi moment="onboardingIdle" size={d(150)} />
-      <Txt style={{ fontSize: d(30), color: violet, fontFamily: "Nunito_900Black", textAlign: "center" }}>Akademiya English</Txt>
+      <Txt style={{ fontSize: d(30), color: c.accent, fontFamily: "Nunito_900Black", textAlign: "center" }}>Akademiya English</Txt>
       <Txt style={{ maxWidth: d(300), fontSize: d(17), lineHeight: d(24), fontFamily: "Nunito_800ExtraBold", color: c.muted, textAlign: "center" }}>
         Ingliz tilida gapirishni birinchi kundanoq boshlang.
       </Txt>
@@ -69,7 +69,7 @@ export function Name({ d, name, setName, onDone }: { d: Scale; name: string; set
         returnKeyType="done"
         placeholder="Ismingiz"
         placeholderTextColor={c.faint}
-        style={{ height: d(60), paddingHorizontal: d(18), borderRadius: d(16), borderWidth: d(2), borderColor: violet, backgroundColor: c.card, color: c.text, fontSize: d(24), fontFamily: "Nunito_900Black" }}
+        style={{ height: d(60), paddingHorizontal: d(18), borderRadius: d(16), borderWidth: d(2), borderColor: c.accent, backgroundColor: c.card, color: c.text, fontSize: d(24), fontFamily: "Nunito_900Black" }}
       />
       <Label text="SHUNDAY MUROJAAT QILAMAN" d={d} />
       <Panel d={d}>
@@ -114,7 +114,7 @@ export function Task({ d, speech, error, retry }: { d: Scale; speech: ReturnType
     <>
       <DombiSays text={lines.task} d={d} />
       <View style={{ gap: d(4) }}>
-        <Label text="AYTING" d={d} color={violet} />
+        <Label text="AYTING" d={d} color={c.accent} />
         <Txt style={{ fontSize: d(21), lineHeight: d(27), fontFamily: "Nunito_900Black" }}>Do&apos;stingizni uchratdingiz. Unga salom bering.</Txt>
       </View>
       <View style={{ height: d(170), alignItems: "center", justifyContent: "center", borderRadius: d(20), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card }}>
@@ -127,7 +127,7 @@ export function Task({ d, speech, error, retry }: { d: Scale; speech: ReturnType
       <View style={{ alignItems: "center", gap: d(8), paddingTop: d(6) }}>
         <View style={{ flexDirection: "row", gap: d(6), height: d(40), alignItems: "center" }}>
           {Array.from({ length: 7 }, (_, i) => (
-            <View key={i} style={{ width: d(8), height: d(8 + (speech.listening ? Math.abs(Math.sin(i + speech.volume * 4)) * 32 : 0)), borderRadius: 4, backgroundColor: violet }} />
+            <View key={i} style={{ width: d(8), height: d(8 + (speech.listening ? Math.abs(Math.sin(i + speech.volume * 4)) * 32 : 0)), borderRadius: 4, backgroundColor: c.accent }} />
           ))}
         </View>
         <Txt style={{ fontSize: d(14), color: c.muted }}>{speech.transcript || error || "Tinglayapman…"}</Txt>
@@ -187,7 +187,7 @@ export function VoicePromise({ d }: { d: Scale }) {
         <Txt style={{ fontSize: d(16), fontFamily: "Nunito_900Black" }}>Ovozingiz: 1-kun va 30-kun</Txt>
         {[["1-kun", new Date()], ["30-kun", later]].map(([label, date]) => (
           <View key={label as string} style={{ flexDirection: "row", alignItems: "center", gap: d(10), padding: d(10), borderRadius: d(14), backgroundColor: c.surface }}>
-            <View style={{ width: d(34), height: d(34), borderRadius: d(17), backgroundColor: violet, alignItems: "center", justifyContent: "center" }}>
+            <View style={{ width: d(34), height: d(34), borderRadius: d(17), backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
               <Icon name="glyph-play-white" size={d(16)} />
             </View>
             <View style={{ flex: 1 }}>

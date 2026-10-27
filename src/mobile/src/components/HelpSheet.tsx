@@ -3,9 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { HELP_STEPS } from "../../../core/help.js";
 import { BottomSheet, SheetHandle } from "./BottomSheet";
 import { Dombi } from "./Dombi";
-import { brand, type } from "./system";
+import { type } from "./system";
 import { useDs } from "./TabChrome";
-import { Icon, Txt } from "./ui";
+import { Icon, Txt, useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 import { useApp } from "../lib/store";
 
@@ -29,7 +29,7 @@ export function HelpSheet({ visible, step, onClose, onStep, firstWord, uzbek, an
   answer: string;
   onSlow: () => void;
 }) {
-  const d = useDesignScale(), ds = useDs(), scrim = useScrim();
+  const d = useDesignScale(), ds = useDs(), c = useTheme(), scrim = useScrim();
   const rows: Record<(typeof HELP_STEPS)[number], [icon: string, title: string, note: string]> = {
     slow: ["glyph-slow-violet", "Sekin tinglash", "Gapni sekinroq eshiting"],
     firstWord: ["bulb-tip", "Birinchi so'z", `"${firstWord} …"`],
@@ -54,10 +54,10 @@ export function HelpSheet({ visible, step, onClose, onStep, firstWord, uzbek, an
               accessibilityRole="button"
               accessibilityLabel={title}
               onPress={() => { if (key === "slow") onSlow(); onStep(i + 1); }}
-              style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(16), borderWidth: 2, borderColor: step > i ? brand.main : ds.line }}
+              style={{ flexDirection: "row", alignItems: "center", gap: d(12), padding: d(12), borderRadius: d(16), borderWidth: 2, borderColor: step > i ? c.accent : ds.line }}
             >
-              <View style={{ width: d(28), height: d(28), borderRadius: d(14), backgroundColor: brand.wash, alignItems: "center", justifyContent: "center" }}>
-                <Txt style={{ ...type("small", d), color: brand.main }}>{i + 1}</Txt>
+              <View style={{ width: d(28), height: d(28), borderRadius: d(14), backgroundColor: c.accentWash, alignItems: "center", justifyContent: "center" }}>
+                <Txt style={{ ...type("small", d), color: c.accent }}>{i + 1}</Txt>
               </View>
               <Icon name={icon} size={d(28)} />
               <View style={{ flex: 1 }}>

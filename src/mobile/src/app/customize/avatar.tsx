@@ -8,7 +8,7 @@ import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
 import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileMedia } from "../../components/ProfileMedia";
-import { Button,Txt,useTheme,violet } from "../../components/ui";
+import { Button,Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { avatarBackgrounds,avatarColors,builtPartTabs,builtParts,expressions,movingAvatars,skinTones } from "../../data/cosmetics";
 import { onCropped,pickMedia,remember,removeUnusedProfileFiles,useRecentMedia,type PickedMedia } from "../../lib/media";
@@ -114,7 +114,7 @@ export default function AvatarEditor() {
                       accessibilityLabel={t.label}
                       accessibilityState={{ selected: on }}
                       onPress={() => build({ skin: i })}
-                      style={{ width: skin, height: skin, borderRadius: skin / 2, borderWidth: d(on ? 3 : 2), borderColor: on ? violet : c.line, backgroundColor: t.color }}
+                      style={{ width: skin, height: skin, borderRadius: skin / 2, borderWidth: d(on ? 3 : 2), borderColor: on ? c.accent : c.line, backgroundColor: t.color }}
                     />
                   );
                 })}
@@ -149,7 +149,7 @@ export default function AvatarEditor() {
                       accessibilityLabel={m.mediaType === "image" ? "Rasm" : m.mediaType === "gif" ? "GIF" : "Video"}
                       accessibilityState={{ selected: on }}
                       onPress={() => applyMedia(m)}
-                      style={{ width: tile, height: tile, borderRadius: tile / 2, overflow: "hidden", borderWidth: d(on ? 3 : 2), borderColor: on ? violet : c.line, backgroundColor: c.surface }}
+                      style={{ width: tile, height: tile, borderRadius: tile / 2, overflow: "hidden", borderWidth: d(on ? 3 : 2), borderColor: on ? c.accent : c.line, backgroundColor: c.surface }}
                     >
                       <ProfileMedia uri={m.uri} mediaType={m.mediaType} still />
                     </Pressable>
@@ -168,10 +168,10 @@ export default function AvatarEditor() {
 
 /** The "O'z rasmim" tile: a plus until a picture is chosen, then that picture. */
 function OwnPictureFace({ media }: { media: PickedMedia | null }) {
-  const d = useDesignScale();
+  const d = useDesignScale(), c = useTheme();
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      {media ? <ProfileMedia uri={media.uri} mediaType={media.mediaType} still /> : <Txt style={{ fontSize: d(24), color: violet, fontFamily: "Nunito_900Black" }}>+</Txt>}
+      {media ? <ProfileMedia uri={media.uri} mediaType={media.mediaType} still /> : <Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt>}
     </View>
   );
 }

@@ -9,7 +9,7 @@ import { SectionLabel } from "../../components/customize/SectionLabel";
 import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileBackground } from "../../components/ProfileBackground";
 import { shared } from "../../components/system";
-import { Txt,useTheme,violet } from "../../components/ui";
+import { Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { backgrounds,cardColors,profileColors } from "../../data/cosmetics";
 import { onCropped,pickMedia,removeUnusedProfileFiles,type PickedMedia } from "../../lib/media";
@@ -48,7 +48,7 @@ function LookPreview({ look }: { look: Profile["look"] }) {
  * pattern, or the learner's own picture, GIF or video on the same path and limits as the banner) and FON XIRALIGI.
  */
 export default function LookEditor() {
-  const d = useDesignScale(), { profile, setProfile, earned } = useProfile();
+  const d = useDesignScale(), c = useTheme(), { profile, setProfile, earned } = useProfile();
   const [look, setLook] = useState(profile.look);
   const set = (patch: Partial<Profile["look"]>) => setLook((x) => ({ ...x, ...patch }));
   const applyMedia = (m: PickedMedia) => setLook((x) => ({ ...x, background: { kind: "media", id: x.background.id, uri: m.uri, mediaType: m.mediaType } }));
@@ -59,7 +59,7 @@ export default function LookEditor() {
     if (r.kind === "refused") refuse("background");
     if (r.kind === "media") applyMedia(r.media);
   }
-  const own: Choice = { id: "own", label: "O'z rasmim, GIF yoki video", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: violet, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
+  const own: Choice = { id: "own", label: "O'z rasmim, GIF yoki video", content: <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><Txt style={{ fontSize: d(24), color: c.accent, fontFamily: "Nunito_900Black" }}>+</Txt></View> };
   const pickBackground = (id: string) => {
     if (id === "own") { void upload(); return; }
     // colours are kind "color"; the pattern and city stand-ins are catalogue items

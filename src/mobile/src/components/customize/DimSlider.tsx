@@ -2,7 +2,7 @@ import { useEffect,useMemo,useRef,useState } from "react";
 import { View } from "react-native";
 import { Gesture,GestureDetector } from "react-native-gesture-handler";
 import { DIM_MAX,clampDim,dimAt } from "../../../../core/showcase.js";
-import { Txt,useTheme,violet } from "../ui";
+import { Txt,useTheme } from "../ui";
 import { useDesignScale } from "../useDesignScale";
 
 /**
@@ -47,9 +47,9 @@ export function DimSlider({ value, onChange }: { value: number; onChange: (dim: 
           style={{ flex: 1, height: knob + d(8), justifyContent: "center" }}
         >
           <View style={{ height: d(8), borderRadius: d(4), backgroundColor: c.line, marginHorizontal: knob / 2 }}>
-            <View style={{ width: left, height: "100%", borderRadius: d(4), backgroundColor: violet }} />
+            <View style={{ width: left, height: "100%", borderRadius: d(4), backgroundColor: c.accent }} />
           </View>
-          <View style={{ position: "absolute", left, width: knob, height: knob, borderRadius: knob / 2, backgroundColor: c.card, borderWidth: d(3), borderColor: violet }} />
+          <View style={{ position: "absolute", left, width: knob, height: knob, borderRadius: knob / 2, backgroundColor: c.card, borderWidth: d(3), borderColor: c.accent }} />
         </View>
       </GestureDetector>
       <Txt style={{ fontSize: d(13), color: c.muted, fontFamily: "Nunito_800ExtraBold" }}>Ko&apos;p</Txt>

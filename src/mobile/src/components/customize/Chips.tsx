@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Pressable,View } from "react-native";
 import { sound } from "../../lib/audio";
 import { useApp } from "../../lib/store";
-import { Icon,Txt,useTheme,violet } from "../ui";
+import { Icon,Txt,useTheme } from "../ui";
 import { useDesignScale } from "../useDesignScale";
 
 export type ChipOption = {
@@ -53,12 +53,12 @@ export function Chips({ options, solid = false, ...pick }: { options: ChipOption
               paddingHorizontal: d(14),
               borderRadius: d(20),
               borderWidth: d(2),
-              borderColor: selected ? (solid ? c.text : violet) : c.line,
+              borderColor: selected ? (solid ? c.text : c.accent) : c.line,
               backgroundColor: selected ? (solid ? c.text : c.soft) : o.locked ? c.surface : c.card,
             }}
           >
             {o.locked ? <Icon name="glyph-lock-grey" size={d(16)} /> : null}
-            {o.content && !o.locked ? o.content : <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : violet) : c.text) }}>{o.label}</Txt>}
+            {o.content && !o.locked ? o.content : <Txt style={{ fontSize: d(14), lineHeight: d(18), fontFamily: "Nunito_900Black", color: o.locked ? c.muted : o.textColor ?? (selected ? (solid ? c.bg : c.accent) : c.text) }}>{o.label}</Txt>}
           </Pressable>
         );
       })}

@@ -7,7 +7,7 @@ import { defaultSections,moveSection,toggleSection } from "../../../../core/show
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { RowGroup } from "../../components/customize/RowGroup";
 import { ToggleRow } from "../../components/customize/ToggleRow";
-import { Txt,useTheme,violet } from "../../components/ui";
+import { Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { profileSections } from "../../data/cosmetics";
 import { useProfile,type Profile } from "../../lib/store";
@@ -118,7 +118,7 @@ export default function SectionsEditor() {
         ))}
       </RowGroup>
       <Pressable accessibilityRole="button" onPress={() => setSections(defaultSections())} style={{ alignSelf: "center", paddingVertical: d(10), paddingHorizontal: d(16) }}>
-        <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: violet, fontFamily: "Nunito_900Black" }}>ASLIGA QAYTARISH</Txt>
+        <Txt style={{ fontSize: d(14), letterSpacing: d(0.6), color: c.accent, fontFamily: "Nunito_900Black" }}>ASLIGA QAYTARISH</Txt>
       </Pressable>
     </EditorScreen>
   );

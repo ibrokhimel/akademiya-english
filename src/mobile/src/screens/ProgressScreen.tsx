@@ -6,7 +6,7 @@ import { dayOf } from "../../../core/progress.js";
 import { useAuditScroll } from "../audit/layout";
 import { Arrive,Count,Fill } from "../components/Motion";
 import { shared,type } from "../components/system";
-import { Icon,Txt,useTheme,violet } from "../components/ui";
+import { Icon,Txt,useTheme } from "../components/ui";
 import { useDesignScale } from "../components/useDesignScale";
 import { P,units } from "../data/content";
 import { play } from "../lib/audio";
@@ -27,7 +27,7 @@ export default function Progress() {
     const spoken = Math.ceil(events.reduce((n, e) => n + (e.spokenMs || 0), 0) / 60000), days = new Set(events.filter((e) => e.type === "lesson").map((e) => dayOf(e.at))).size;
     return (<View style={{ flex: 1, backgroundColor: c.bg }}>
       <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
-        <SafeAreaView edges={["top", "left", "right"]} style={{ backgroundColor: violet }}>
+        <SafeAreaView edges={["top", "left", "right"]} style={{ backgroundColor: c.accent }}>
           <View style={{
             paddingHorizontal: d(24),
             paddingTop: d(8),
@@ -114,7 +114,7 @@ export default function Progress() {
             <Txt style={{
             fontSize: d(14),
             letterSpacing: d(0.5),
-            color: violet,
+            color: c.accent,
             fontFamily: "Nunito_900Black",
         }}>
               HAMMASINI KO&apos;RISH ({learned.length})
@@ -169,7 +169,7 @@ export default function Progress() {
             backgroundColor: c.line,
             overflow: "hidden",
         }}>
-              <Fill value={p.level >= 1 ? 1 : Object.keys(p.done).length / 18} color={violet} style={{ borderRadius: d(8) }}/>
+              <Fill value={p.level >= 1 ? 1 : Object.keys(p.done).length / 18} color={c.accent} style={{ borderRadius: d(8) }}/>
             </View>
           </View></Arrive>
           <Arrive index={news.length + 3} style={{
