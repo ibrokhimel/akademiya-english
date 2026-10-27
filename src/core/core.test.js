@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf, voiceOf } from './text.js';
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
-import { defaultProfile, normalizeProfile, earnedItems, SECTION_IDS, STAT_IDS } from './profile.js';
+import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -659,4 +659,25 @@ test('badge styles are grid, row and shelf; anything else is grid', () => {
 test('earned units ignore entries that are not unit names', () => {
   const e = earnedItems({ unitsDone: ['cafe', 5, null, '', {}] });
   assert.deepEqual([...e].sort(), ['frame.unit.cafe', 'title.unit.cafe']);
+});
+test('the synced profile never carries a phone path, and the input is left alone', () => {
+  const p = normalizeProfile({ avatar: { kind: 'photo', uri: 'file:///a.jpg', mediaType: 'image' }, banner: { kind: 'media', uri: 'file:///b.mp4', mediaType: 'video' }, look: { background: { kind: 'media', uri: 'file:///c.gif', mediaType: 'gif' } } });
+  const out = profileForSync(p);
+  assert.equal(out.avatar.uri, null); assert.equal(out.banner.uri, null); assert.equal(out.look.background.uri, null);
+  assert.equal(out.avatar.mediaType, 'image'); assert.equal(out.banner.kind, 'media');
+  assert.equal(p.avatar.uri, 'file:///a.jpg');
+  assert.deepEqual(profileForSync(defaultProfile()), defaultProfile());
+});
+test('only media that is in use and not yet uploaded is picked', () => {
+  const p = normalizeProfile({ avatar: { kind: 'media', uri: 'file:///a.gif', mediaType: 'gif' }, banner: { kind: 'media', uri: 'file:///b.png', mediaType: 'image' }, look: { background: { kind: 'color', id: 'plain', uri: 'file:///old.png', mediaType: 'image' } } });
+  assert.deepEqual(mediaToUpload(p, {}).map((m) => m.field), ['avatar', 'banner']);
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///a.gif' }).map((m) => m.field), ['banner']);
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///a.gif', banner: 'file:///b.png' }), []);
+  assert.equal(mediaToUpload(p, {})[0].uri, 'file:///a.gif'); assert.equal(mediaToUpload(p, {})[0].mediaType, 'gif');
+});
+test('a letter avatar or a colour banner uploads nothing, and a changed picture uploads again', () => {
+  assert.deepEqual(mediaToUpload(defaultProfile(), {}), []);
+  const p = normalizeProfile({ avatar: { kind: 'photo', uri: 'file:///new.jpg', mediaType: 'image' } });
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///old.jpg' }).map((m) => m.field), ['avatar']);
+  assert.deepEqual(mediaToUpload(null, null), []);
 });

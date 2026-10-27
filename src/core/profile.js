@@ -104,3 +104,25 @@ export function earnedItems(facts = {}) {
   for (const id of Array.isArray(unitsDone) ? unitsDone.filter((u) => typeof u === 'string' && u !== '') : []) { out.add(`frame.unit.${id}`); out.add(`title.unit.${id}`); }
   return out;
 }
+
+// What leaves the phone: the profile without any local file path (the picture itself goes up as a file).
+export function profileForSync(profile) {
+  const p = normalizeProfile(profile);
+  p.avatar.uri = null; p.banner.uri = null; p.look.background.uri = null;
+  return p;
+}
+
+// The pictures, GIFs and videos the profile uses right now: which users field each goes to, and where it is on the phone.
+function mediaInUse(profile) {
+  const p = normalizeProfile(profile), out = [];
+  if ((p.avatar.kind === 'photo' || p.avatar.kind === 'media') && p.avatar.uri) out.push({ field: 'avatar', uri: p.avatar.uri, mediaType: p.avatar.mediaType });
+  if (p.banner.kind === 'media' && p.banner.uri) out.push({ field: 'banner', uri: p.banner.uri, mediaType: p.banner.mediaType });
+  if (p.look.background.kind === 'media' && p.look.background.uri) out.push({ field: 'background', uri: p.look.background.uri, mediaType: p.look.background.mediaType });
+  return out;
+}
+
+// done = { avatar: uri, banner: uri, background: uri } of what was uploaded last. Returns the media still to upload.
+export function mediaToUpload(profile, done) {
+  const sent = isObj(done) ? done : {};
+  return mediaInUse(profile).filter((m) => sent[m.field] !== m.uri);
+}
