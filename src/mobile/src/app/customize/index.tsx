@@ -58,8 +58,7 @@ export default function Customize() {
         </RowGroup>
         <SectionLabel>ILOVA</SectionLabel>
         <RowGroup>
-          {/* the app theme is not stored yet; until the theme work lands every install is on the first one */}
-          <SettingRow icon="glyph-moon-grey" label="Ilova ko'rinishi" value={themes[0].label} onPress={go("/customize/app")} />
+          <SettingRow icon="glyph-moon-grey" label="Ilova ko'rinishi" value={labelOf(themes, settings.appLook.theme, themes[0].label)} onPress={go("/customize/app")} />
           <SettingRow icon="glyph-shield-grey" label="Hisob" onPress={() => router.navigate("/account")} />
         </RowGroup>
       </ScrollView>

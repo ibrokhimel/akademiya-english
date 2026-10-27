@@ -154,9 +154,11 @@ function removeFile(uri: string) {
     if (still.exists && ours(still.uri)) still.delete();
   } catch {}
 }
-/** After a save: deletes profile files (and video first frames) that neither the saved profile (`keep`) nor the recent list uses any more. */
+/** After a save: deletes profile files (and video first frames) that neither the saved profile (`keep`), the saved lesson background nor the recent list uses any more. */
 export function removeUnusedProfileFiles(keep: (string | null | undefined)[]) {
-  const names = new Set([...keep, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map((u) => u.split("/").pop()));
+  // the lesson background's own picture (Ilova ko'rinishi) lives in the same folder
+  const lesson = read<{ appLook?: { lessonBackground?: { uri?: string | null } } }>("settings", {}).appLook?.lessonBackground?.uri;
+  const names = new Set([...keep, lesson, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map((u) => u.split("/").pop()));
   try {
     for (const item of folder().list()) if (item instanceof File && !names.has(item.name)) item.delete();
   } catch {}

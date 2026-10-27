@@ -97,6 +97,7 @@ function Navigation() {
           <Stack.Screen name="customize/dombi" />
           <Stack.Screen name="customize/look" />
           <Stack.Screen name="customize/sections" />
+          <Stack.Screen name="customize/app" />
           <Stack.Screen name="customize/crop" options={{ animation: "fade" }} />
           <Stack.Screen name="speech-settings" />
           <Stack.Protected guard={testToolsEnabled}>
