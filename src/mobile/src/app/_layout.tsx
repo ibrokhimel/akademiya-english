@@ -37,6 +37,9 @@ export default function RootLayout() {
     Nunito_700Bold,
     Nunito_800ExtraBold,
     Nunito_900Black,
+    // Disleksiya uchun shrift (SIL OFL 1.1, assets/fonts/OFL.txt)
+    OpenDyslexic_400Regular: require("../../assets/fonts/OpenDyslexic-Regular.otf"),
+    OpenDyslexic_700Bold: require("../../assets/fonts/OpenDyslexic-Bold.otf"),
   });
   useEffect(() => {
     if (loaded || error) void SplashScreen.hideAsync();

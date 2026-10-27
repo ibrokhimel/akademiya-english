@@ -15,6 +15,7 @@ type TextProps,
 type ViewProps,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { textScale } from "../../../core/look.js";
 import { useAuditText } from "../audit/layout";
 import { pictures } from "../data/assets";
 import { sound } from "../lib/audio";
@@ -41,11 +42,27 @@ export function useTheme() {
   const mode = isDark ? THEMES.dark : THEMES.light;
   return mode[settings.appLook.theme] ?? mode.violet;
 }
+// Disleksiya uchun shrift: OpenDyslexic (assets/fonts, loaded in app/_layout.tsx) in place of Nunito's weights.
+const DYSLEXIC: Record<string, string> = {
+  Nunito_700Bold: "OpenDyslexic_400Regular",
+  Nunito_800ExtraBold: "OpenDyslexic_700Bold",
+  Nunito_900Black: "OpenDyslexic_700Bold",
+};
 export function Txt({ style, ...props }: TextProps) {
   const d = useDesignScale();
   const textStyle = StyleSheet.flatten(style);
   const auditText = useAuditText({ ...props, style });
   const c = useTheme();
+  const { appLook } = useApp().settings;
+  // MATN O'LCHAMI and the font, laid over the finished style so every size and family a screen sets follows them
+  const k = textScale(appLook.textSize), size = textStyle?.fontSize ?? d(16);
+  const look = k !== 1 || appLook.dyslexiaFont
+    ? {
+        fontSize: size * k,
+        lineHeight: (textStyle?.lineHeight ?? size * 1.42) * k,
+        ...(appLook.dyslexiaFont ? { fontFamily: DYSLEXIC[textStyle?.fontFamily ?? "Nunito_700Bold"] ?? DYSLEXIC.Nunito_700Bold } : null),
+      }
+    : null;
   return (
     <NativeText
       {...props}
@@ -59,6 +76,7 @@ export function Txt({ style, ...props }: TextProps) {
           includeFontPadding: false,
         },
         style,
+        look,
       ]}
     />
   );
