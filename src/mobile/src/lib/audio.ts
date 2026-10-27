@@ -188,11 +188,16 @@ export async function playUri(
     }
   });
 }
-export async function playDombi(text: string, enabled = true) {
+/** Whether Dombi has a recorded voice for this exact line. */
+export const hasDombiVoice = (text: string) => !!dombiMetadata[text];
+/** How long Dombi's recorded line runs, from its last mouth shape. */
+export const dombiVoiceMs = (text: string) => dombiMetadata[text]?.mouth.at(-1)?.[0] ?? 0;
+export async function playDombi(text: string, enabled = true, onTick?: (ms: number) => void) {
   const line = dombiMetadata[text];
   if (!enabled || !line || AppState.currentState !== "active") return;
   let previous = -1;
   await playUri(dombiAudio[line.key], line.volume, (ms) => {
+    onTick?.(ms);
     let index = 0;
     while (index + 1 < line.mouth.length && line.mouth[index + 1][0] <= ms)
       index++;
