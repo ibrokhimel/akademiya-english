@@ -8,6 +8,7 @@ import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "re
 import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
 import { useFinger } from "./DombiWatch";
+import { useMicLevel } from "../lib/micLevel";
 import { Dombi, type DombiMoment } from "./Dombi";
 
 type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean };
@@ -95,12 +96,17 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     wasHeld.current = held;
   }, [env, dx, dy, rot]);
 
+  // Held on a tab, the mic listens (owner: only while a finger holds him): talk and he pulses, blow and he leans back.
+  const mic = useMicLevel(), micOn = useRef(false), micLevel = useRef<(level: number) => void>(() => {});
   const send = useCallback((ev: Event) => {
     const r = touchReducer(current(), { ...ev, rule, env: env() });
     state.current = r.state; apply(r.effects as Effect[]); draw();
+    const held = rule === "all" && r.state.mode === "held";
+    if (held !== micOn.current) { micOn.current = held; if (held) mic.start((level) => micLevel.current(level)); else mic.stop(); }
     const sleeping = r.state.mode === "asleep";
     if (sleeping !== asleepRef.current) { asleepRef.current = sleeping; setAsleep(sleeping); }
-  }, [rule, env, apply, draw]);
+  }, [rule, env, apply, draw, mic]);
+  useEffect(() => { micLevel.current = (level) => send({ type: "mic", t: Date.now(), level, dt: 0.05 }); }, [send]);
 
   // Leaving the screen sends him home, calm (a throw or a walk never plays out unseen), and coming back starts his
   // 22 s nap count afresh: the count runs only while his screen is in view.
@@ -111,8 +117,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     dx.set(0); dy.set(0); rot.set(0); shown.set(1);
     rig.current?.play("none"); rig.current?.mood("smirk");
     if (asleepRef.current) { asleepRef.current = false; setAsleep(false); }
+    micOn.current = false; mic.stop();
     return () => { state.current = touchStart(Date.now()); };
-  }, [focused, dx, dy, rot, shown]);
+  }, [focused, dx, dy, rot, shown, mic]);
 
   // Frames run only while something moves or a press is pending; otherwise one timer waits for his 22 s nap.
   const schedule = useRef<() => void>(() => {});
