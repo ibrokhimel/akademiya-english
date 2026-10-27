@@ -13,7 +13,9 @@ import { Effect } from "../components/Effects";
 import { Exercise,type Answer } from "../components/Exercise";
 import { HelpSheet,useScrim } from "../components/HelpSheet";
 import { Dombi } from "../components/Dombi";
-import { DombiOverlay,useDs } from "../components/TabChrome";
+import { useDs } from "../components/TabChrome";
+import { LessonDombi,type Spot } from "../components/LessonDombi";
+import type { Space } from "../components/Blocks";
 import { LessonMoment } from "../components/LessonMoment";
 import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
@@ -112,6 +114,10 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
     const didLeave = useRef(false), completed = useRef(false), alive = useRef(true), counted = useRef(false);
     // Dombi helps (owner pick A): misses are counted per item; after the second he offers help.
     const [help, setHelp] = useState<Record<string, ReturnType<typeof helpStart>>>({}), [helpUi, setHelpUi] = useState({ at: "", step: 0, open: false });
+    // Dombi sits where the exercise shows nothing (owner, 2026-10-27): the exercise reports its blocks, keyed so a
+    // leaving exercise's late report is ignored; his place is kept while the answer panel hides him.
+    const [space, setSpace] = useState<{ key: string; space: Space } | null>(null), [dombiSpot, setDombiSpot] = useState<Spot | null>(null);
+    const exerciseAt = useRef({ x: 0, y: 0 });
     const itemKey = current ? `${current.item.ex}:${current.item.p ?? current.item.en ?? current.n}` : "";
     const helpHere = help[itemKey] ?? helpStart();
     const ds = useDs(), scrim = useScrim();
@@ -343,15 +349,15 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
             </Txt>
           </Bounce></View>
         </View>
-        {current ? (<ScreenTransition transitionKey={`${current.n}-${current.round}-${speaking}-${turn}`}>
-            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (keep) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : violet, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (keep) app.saveResume(snapshot()); }} onSpeakingOff={() => {
+        {current ? (<View style={{ flex: 1 }} onLayout={(e) => { exerciseAt.current = { x: e.nativeEvent.layout.x, y: e.nativeEvent.layout.y }; }}><ScreenTransition transitionKey={`${current.n}-${current.round}-${speaking}-${turn}`}>
+            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} onSpace={(sp) => { const { x, y } = exerciseAt.current, at = (r: Space["view"]) => ({ ...r, x: r.x + x, y: r.y + y }); setSpace({ key: `${current.n}-${current.round}-${speaking}-${turn}`, space: { view: at(sp.view), blocks: sp.blocks.map(at) } }); }} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (keep) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : violet, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (keep) app.saveResume(snapshot()); }} onSpeakingOff={() => {
                 engine.setSpeaking(false);
                 setSpeaking(false);
                 if (keep) app.saveResume(snapshot());
                 setCurrent(nextItem());
             }}/>
-          </ScreenTransition>) : null}
-        {current && !feedback && !quiet ? <DombiOverlay rule="nocarry" bottom={204} moment={helpHere.offered ? "helpOffer" : "idle"} line={helpHere.offered ? "Qiyin bo'lyaptimi? Yordam beraymi?" : undefined} onPress={() => { setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: "open" }) })); setHelpUi({ at: uiKey, step: Math.max(1, helpStep), open: true }); }} /> : null}
+          </ScreenTransition></View>) : null}
+        {current && !feedback && !quiet ? <LessonDombi space={space?.key === `${current.n}-${current.round}-${speaking}-${turn}` ? space.space : null} start={dombiSpot} onSpot={setDombiSpot} moment={helpHere.offered ? "helpOffer" : "idle"} line={helpHere.offered ? "Qiyin bo'lyaptimi? Yordam beraymi?" : undefined} onPress={() => { setHelp((h) => ({ ...h, [itemKey]: helpReducer(h[itemKey] ?? helpStart(), { type: "open" }) })); setHelpUi({ at: uiKey, step: Math.max(1, helpStep), open: true }); }} /> : null}
         {current ? <HelpSheet visible={helpOpen} step={helpStep} onClose={() => setHelpUi({ at: uiKey, step: helpStep, open: false })} onStep={(n) => setHelpUi({ at: uiKey, step: Math.max(helpStep, n), open: true })}
           firstWord={String(answerOf(current.item, P)).split(" ")[0] ?? ""}
           uzbek={current.item.trap ? T[current.item.trap]?.why ?? "" : current.item.p ? P[current.item.p]?.uz ?? "" : current.item.uz ?? ""}
