@@ -9,6 +9,7 @@ import { Arrive,Pulse } from "../../components/Motion";
 import { brand,shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import { DombiOverlay,TabHeader } from "../../components/TabChrome";
+import type { Zones } from "../../components/DombiPlay";
 import { idleMoment } from "../../../../core/dombi.js";
 import { useMeasureDombiLevel } from "../../lib/dombiLevel";
 import {
@@ -54,10 +55,17 @@ export default function Learn() {
   // (Redmi test, 2026-10-27: an app opened at 02:41 kept him sleepy all day).
   const [opened] = useState(() => idleMoment({ now: Date.now(), lastOpen: settings.lastOpen ? Date.parse(settings.lastOpen) : undefined }));
   const [seenAt, setSeenAt] = useState(() => Date.now());
+  // Dombi's perches (motion-plan §8): the card's top edge and the streak flame, measured once the tab has slid in.
+  const cardRef = useRef<View>(null), flameRef = useRef<View>(null), zonesAt = useRef<Zones | undefined>(undefined);
+  const zones = useCallback(() => zonesAt.current, []);
   useFocusEffect(useCallback(() => {
+    const measure = setTimeout(() => {
+      cardRef.current?.measureInWindow((x, y, w) => { zonesAt.current = { ...zonesAt.current, peek: { l: x, r: x + w, top: y } }; });
+      flameRef.current?.measureInWindow((x, y, _w, h) => { zonesAt.current = { ...zonesAt.current, warm: { x, y: y + h } }; });
+    }, 450);
     setSeenAt(Date.now());
     const sub = AppState.addEventListener("change", (s) => { if (s === "active") setSeenAt(Date.now()); });
-    return () => sub.remove();
+    return () => { sub.remove(); clearTimeout(measure); };
   }, []));
   const moment = (opened === "glad" ? "glad" : idleMoment({ now: seenAt, lastOpen: undefined })) as "glad" | "night" | "idle";
   useEffect(() => { set({ lastOpen: new Date().toISOString() }); }, [set]);
@@ -87,7 +95,7 @@ export default function Learn() {
       edges={["top", "left", "right"]}
       style={{ flex: 1, backgroundColor: c.bg }}
     >
-      <TabHeader title="O'rganish" />
+      <TabHeader title="O'rganish" flameRef={flameRef} />
       <Arrive
         style={{
           marginHorizontal: d(20),
@@ -97,7 +105,7 @@ export default function Learn() {
           paddingBottom: d(4),
         }}
       >
-        <View
+        <View ref={cardRef} collapsable={false}
           style={{
             backgroundColor: violet,
             borderRadius: d(24),
@@ -328,7 +336,7 @@ export default function Learn() {
           </Txt>
         </Pressable>
       ) : null}
-      <DombiOverlay moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
+      <DombiOverlay zones={zones} moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
       <BottomSheet
         visible={!!pick}
         onClose={() => {

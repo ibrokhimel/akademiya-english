@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router/js-tabs";
 import { useReducedMotion } from "react-native-reanimated";
 import { AppTabBar } from "../../components/AppTabBar";
+import { DombiWatch } from "../../components/DombiWatch";
 import { springs } from "../../components/system";
 import { useTheme } from "../../components/ui";
 import { sound } from "../../lib/audio";
@@ -11,6 +12,7 @@ export default function TabLayout() {
   const reduced = useReducedMotion();
   const c = useTheme();
   return (
+    <DombiWatch>
     <Tabs
       initialRouteName="index"
       backBehavior="firstRoute"
@@ -38,5 +40,6 @@ export default function TabLayout() {
       <Tabs.Screen name="practice" />
       <Tabs.Screen name="profile" />
     </Tabs>
+    </DombiWatch>
   );
 }

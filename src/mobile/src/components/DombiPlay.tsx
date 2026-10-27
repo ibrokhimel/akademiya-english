@@ -6,9 +6,13 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
+import { useFinger } from "./DombiWatch";
 import { Dombi, type DombiMoment } from "./Dombi";
 
-type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean };
+type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean };
+/** Learn-tab perches in screen points: the card's top edge and the flame's left side and bottom. */
+export type Zones = { peek?: { l: number; r: number; top: number }; warm?: { x: number; y: number } };
+type Event = { type: string; t: number; x?: number; y?: number; dt?: number; cancel?: boolean; d?: number; g?: number; level?: number };
 type Rule = "all" | "nocarry" | "perch";
 
 // Haptics as in the playground's buzz(): one number is one tap, an array alternates tap / pause.
@@ -28,9 +32,11 @@ function buzz(pattern: number | number[]) {
  * rule "perch" (a lesson): carried, dropped and thrown as on the tabs, landing `ground` points below his spot; after
  * 4 s untouched where he landed, onDrop gets how far from his spot he is and the screen moves him to the nearest free
  * spot (owner, 2026-10-27). scale shrinks him with his feet in place.
+ * Eyes follow a finger anywhere on the tabs (DombiWatch); a drop on the Learn card or beside the flame perches him (zones);
+ * let go at a side edge he hides and peeks back in.
  * Reduce Motion: no touch play; a tap still does onTap.
  */
-export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0 }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number }) {
+export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined }) {
   const reduce = useReducedMotion();
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
@@ -46,8 +52,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   // Asleep shows on every phone: a still-picture phone draws the sleeping pose (Redmi test, 2026-10-27: he looked awake).
   const [asleep, setAsleep] = useState(false);
   const asleepRef = useRef(false);
-  const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0);
-  const style = useAnimatedStyle(() => ({ transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }, { scale }], transformOrigin: "50% 100%" }));
+  const dx = useSharedValue(0), dy = useSharedValue(0), rot = useSharedValue(0), shown = useSharedValue(1), wasHeld = useRef(false);
+  const style = useAnimatedStyle(() => ({ opacity: shown.value, transform: [{ translateX: dx.value }, { translateY: dy.value }, { rotate: `${rot.value}deg` }, { scale }], transformOrigin: "50% 100%" }));
   const dropTo = useRef(onDrop);
   useEffect(() => { dropTo.current = onDrop; }, [onDrop]);
   const scaleRef = useRef(scale);
@@ -55,8 +61,8 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
 
   const env = useCallback(() => {
     const h = home.current ?? { x: width - 56, y: height - 120 };
-    return { w: width, h: height, homeX: h.x, floorY: h.y, groundY: h.y + ground };
-  }, [width, height, ground]);
+    return { w: width, h: height, homeX: h.x, floorY: h.y, groundY: h.y + ground, eyeUp: size * 0.55, zones: zones?.() };
+  }, [width, height, ground, size, zones]);
 
   const apply = useCallback((effects: Effect[]) => {
     const now = Date.now();
@@ -66,11 +72,14 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
       if (e.haptic !== undefined) { if (at === now) buzz(e.haptic); continue; }
       // The screen takes him from where he was let go; his own offset goes back to his spot in the same frame.
       if (e.drop) { dropTo.current?.(dx.get(), dy.get()); dx.set(0); dy.set(0); rot.set(0); continue; }
+      if (e.hidden !== undefined) { shown.set(e.hidden ? 0 : 1); continue; }
+      if (e.pop) continue;
       const r = rig.current;
       if (!r) { if (awakeRef.current) pending.current.push({ e, at }); continue; }   // still-picture phone: the rig is mounting
       if (e.fire) r.fire(e.fire); else if (e.play !== undefined) r.play(e.play); else if (e.mood) r.mood(e.mood);
+      else if (e.num) r.num(e.num[0], e.num[1]); else if (e.looking !== undefined) r.bool("looking", e.looking);
     }
-  }, [dx, dy, rot]);
+  }, [dx, dy, rot, shown]);
 
   const draw = useCallback(() => {
     const s = current(), e = env(), b = s.body;
@@ -78,12 +87,14 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     dx.set(b.x - e.homeX); dy.set(b.y - e.floorY); rot.set(b.rot);
     const r = rig.current; if (!r) return;
     const held = s.mode === "held";
-    r.num("swing", held ? b.swing : 0); r.num("squish", held ? b.squish : 0);
-    r.bool("looking", held);
-    r.num("lookX", held ? Math.max(-100, Math.min(100, b.vx / 6)) : 0); r.num("lookY", held ? Math.max(-100, Math.min(100, b.vy / 6)) : 0);
+    r.num("swing", b.swing); r.num("squish", held ? b.squish : 0);
+    // Carried, his eyes look where he is going; at rest they belong to the finger watcher (effects `looking`, lookX/Y).
+    if (held) { r.bool("looking", true); r.num("lookX", Math.max(-100, Math.min(100, b.vx / 6))); r.num("lookY", Math.max(-100, Math.min(100, b.vy / 6))); }
+    else if (wasHeld.current) { r.bool("looking", false); r.num("lookX", 0); r.num("lookY", 0); }
+    wasHeld.current = held;
   }, [env, dx, dy, rot]);
 
-  const send = useCallback((ev: { type: "down" | "move" | "up" | "tick"; t: number; x?: number; y?: number; dt?: number; cancel?: boolean }) => {
+  const send = useCallback((ev: Event) => {
     const r = touchReducer(current(), { ...ev, rule, env: env() });
     state.current = r.state; apply(r.effects as Effect[]); draw();
     const sleeping = r.state.mode === "asleep";
@@ -96,11 +107,11 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   useEffect(() => {
     if (focused) return;
     state.current = touchStart(Date.now()); pending.current = [];
-    dx.set(0); dy.set(0); rot.set(0);
+    dx.set(0); dy.set(0); rot.set(0); shown.set(1);
     rig.current?.play("none"); rig.current?.mood("smirk");
     if (asleepRef.current) { asleepRef.current = false; setAsleep(false); }
     return () => { state.current = touchStart(Date.now()); };
-  }, [focused, dx, dy, rot]);
+  }, [focused, dx, dy, rot, shown]);
 
   // Frames run only while something moves or a press is pending; otherwise one timer waits for his 22 s nap.
   const schedule = useRef<() => void>(() => {});
@@ -109,7 +120,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     const L = loop.current;
     // Keep ticking while effects wait for the rig, so they play as soon as it mounts.
     // In a lesson, frames also run while he waits away from his spot, so the 4 s wait ends on time.
-    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep"].includes(s.mode) || Object.keys(s.at).length > 0 || pending.current.length > 0 || (rule === "perch" && (Math.abs(dx.get()) > 1 || Math.abs(dy.get()) > 1)); };
+    const busy = () => { const s = current(); return !!s.press || !["idle", "asleep", "perched"].includes(s.mode) || s.tilt !== 0 || s.slid || Object.keys(s.at).length > 0 || pending.current.length > 0 || (rule === "perch" && (Math.abs(dx.get()) > 1 || Math.abs(dy.get()) > 1)); };
     const frame = (now: number) => {
       L.raf = 0;
       const dt = Math.min(0.033, L.last ? (now - L.last) / 1000 : 0.016); L.last = now;
@@ -121,7 +132,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
       if (L.raf || L.timer) return;
       if (busy()) { L.raf = requestAnimationFrame(frame); return; }
       const s = current();
-      if (s.mode === "idle") L.timer = setTimeout(() => { L.timer = null; send({ type: "tick", t: Date.now(), dt: 0.016 }); schedule.current(); }, Math.max(50, s.lastAct + 22050 - Date.now()));
+      if (s.mode === "idle" || s.mode === "perched") L.timer = setTimeout(() => { L.timer = null; send({ type: "tick", t: Date.now(), dt: 0.016 }); schedule.current(); }, Math.max(50, s.lastAct + 22050 - Date.now()));
     };
     schedule.current();
     return () => { cancelAnimationFrame(L.raf); if (L.timer) clearTimeout(L.timer); L.raf = 0; L.timer = null; };
@@ -132,7 +143,7 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     if (!awake) return;
     const check = setInterval(() => {
       const s = current();
-      if (!s.press && ["idle", "asleep"].includes(s.mode) && Date.now() - s.lastAct > 2000) { awakeRef.current = false; pending.current = []; setAwake(false); }
+      if (!s.press && ["idle", "asleep", "perched"].includes(s.mode) && Date.now() - s.lastAct > 2000) { awakeRef.current = false; pending.current = []; setAwake(false); }
     }, 500);
     return () => clearInterval(check);
   }, [awake]);
@@ -148,6 +159,9 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
 
   const pressAt = useRef(0), pressMoved = useRef(0), last = useRef({ x: 0, y: 0 }), lifted = useRef(false);
   const restart = useCallback(() => { const L = loop.current; if (L.timer) { clearTimeout(L.timer); L.timer = null; } schedule.current(); }, []);
+  // Eyes on a finger anywhere on the tab. They follow only while the rig is drawn (a still-picture phone: while he is awake), so a passing
+  // finger never loads the rig.
+  useFinger(focused && rule === "all" && !reduce, (x, y) => { if (!rig.current) return; send({ type: "look", t: Date.now(), x, y }); restart(); });
   const down = useCallback((x: number, y: number, lx: number, ly: number) => {
     homeFrom(x, y, lx, ly);
     awakeRef.current = true; setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };

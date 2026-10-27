@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import type { RefObject } from "react";
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { useDombiLevel } from "../lib/dombiLevel";
@@ -6,7 +7,7 @@ import { useApp } from "../lib/store";
 import { useActorFile } from "./Actor";
 import { Effect } from "./Effects";
 import { type DombiMoment } from "./Dombi";
-import { DombiPlay } from "./DombiPlay";
+import { DombiPlay, type Zones } from "./DombiPlay";
 import { Bounce, Count } from "./Motion";
 import { shared, type } from "./system";
 import { Icon, Txt } from "./ui";
@@ -24,7 +25,7 @@ function useScale() {
 }
 
 /** "Tab header" (Pencil L10x6): the tab's title, then the streak and phrases pills. */
-export function TabHeader({ title }: { title: string }) {
+export function TabHeader({ title, flameRef }: { title: string; /** the streak pill, for Dombi to warm his hands by */ flameRef?: RefObject<View | null> }) {
   const d = useScale(), ds = useDs(), { progress: p } = useApp();
   const pill = (icon: string, value: number, color: string, to: "/calendar" | "/phrases") => (
     <Pressable
@@ -42,7 +43,7 @@ export function TabHeader({ title }: { title: string }) {
     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: d(12), paddingHorizontal: d(20) }}>
       <Txt style={{ ...type("title", d), color: ds.ink }}>{title}</Txt>
       <View style={{ flexDirection: "row", gap: d(8) }}>
-        {pill("flame-streak", p.streak.count, ds.rewardText, "/calendar")}
+        <View ref={flameRef} collapsable={false}>{pill("flame-streak", p.streak.count, ds.rewardText, "/calendar")}</View>
         {pill("bubble-phrases", p.phrases, shared.app.english.main, "/phrases")}
       </View>
     </View>
@@ -50,7 +51,7 @@ export function TabHeader({ title }: { title: string }) {
 }
 
 /** "Dombi overlay" (Pencil IdIvY / S9cqrF): Dombi at 80 in the bottom-right corner, with an optional bubble. */
-export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all" }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void; rule?: "all" | "nocarry" }) {
+export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all", zones }: { moment: DombiMoment; line?: string; bottom?: number; onPress?: () => void; rule?: "all" | "nocarry"; zones?: () => Zones | undefined }) {
   const d = useScale(), ds = useDs();
   return (
     <View pointerEvents="box-none" style={{ position: "absolute", right: d(16), bottom: d(bottom), flexDirection: "row", alignItems: "flex-end", gap: d(4) }}>
@@ -61,7 +62,7 @@ export function DombiOverlay({ moment, line, bottom = 8, onPress, rule = "all" }
           </View>
         </View>
       ) : null}
-      <DombiPlay moment={moment} size={d(80)} rule={rule} onTap={onPress} />
+      <DombiPlay moment={moment} size={d(80)} rule={rule} onTap={onPress} zones={zones} />
     </View>
   );
 }
