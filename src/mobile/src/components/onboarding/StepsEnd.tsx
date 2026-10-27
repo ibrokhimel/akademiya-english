@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { goals, lessons, units } from "../../data/content";
 import { confidenceReplies, goalReplies, levelReplies, lines } from "../../data/onboardingLines";
 import { reminderCopy } from "../../data/reminderCopy";
@@ -135,10 +136,11 @@ export function Reminder({ d, time, setTime }: { d: Scale; time: string; setTime
 
 /** Dombi explains before the phone's own permission question. */
 export function PermissionSheet({ d, onAllow, onSkip }: { d: Scale; onAllow: () => void; onSkip: () => void }) {
-  const c = useTheme();
+  // The sheet covers the whole screen, so it keeps clear of the phone's navigation bar itself.
+  const c = useTheme(), { bottom } = useSafeAreaInsets();
   return (
     <View style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "#14161B66", justifyContent: "flex-end" }}>
-      <View style={{ paddingTop: d(14), paddingHorizontal: d(20), paddingBottom: d(30), gap: d(14), borderTopLeftRadius: d(28), borderTopRightRadius: d(28), backgroundColor: c.card }}>
+      <View style={{ paddingTop: d(14), paddingHorizontal: d(20), paddingBottom: d(30) + bottom, gap: d(14), borderTopLeftRadius: d(28), borderTopRightRadius: d(28), backgroundColor: c.card }}>
         <View style={{ alignSelf: "center", width: d(40), height: d(5), borderRadius: 3, backgroundColor: c.line }} />
         <DombiSays text={lines.permission} moment="explaining" d={d} />
         <Button label="TUSHUNARLI" onPress={onAllow} />
