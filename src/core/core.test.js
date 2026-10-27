@@ -564,3 +564,22 @@ test('ball: a sideways landing sets him spinning, and he settles feet-down again
   const later = runR(ticks(3516, 12000), 'all', s, GENV);
   assert.ok(near(((later.s.body.rot % 360) + 360) % 360, 0, 1) || near(((later.s.body.rot % 360) + 360) % 360, 360, 1), 'feet down again: ' + later.s.body.rot);
 });
+// Holding follows the pull too (owner 2026-10-28: "holding him is the same no matter the gravity").
+test('held: with the phone on its left side he hangs toward the left', () => {
+  const a = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), grav(330, -1, 0), ...ticks(346, 1200)], 'all', touchStart(0), GENV);
+  assert.equal(a.s.mode, 'held'); assert.ok(near(a.s.body.rot, 90, 1), 'rot ' + a.s.body.rot);
+});
+test('held: he swings with movement across the pull, not always left-right', () => {
+  const ev = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), grav(325, -1, 0), ...ticks(326, 330)];
+  for (let i = 0; i < 10; i++) ev.push({ type: 'move', t: 340 + i * 30, x: 334, y: 660 - i * 25 }, { type: 'tick', t: 341 + i * 30, dt: 0.03 });
+  const most = (events) => { let s = touchStart(0), m = 0; for (const e of events) { s = touchReducer(s, { env: GENV, rule: 'all', ...e }).state; m = Math.max(m, Math.abs(s.body.swing)); } return m; };
+  assert.ok(most(ev) > 0.3, 'moving along the screen length swings him when the pull is sideways');
+  assert.ok(most(ev.filter((e) => e.type !== 'gravity')) < 0.05, 'with the pull down, the same move does not swing him');
+});
+test('held: his eyes look toward the finger in his own turned frame', () => {
+  const env = { ...GENV, eyeUp: 50 };
+  const lying = runR([grav(0, -1, 0), ...ticks(16, 4000)], 'all', touchStart(0), env);
+  const b = lying.s.body, look = runR([{ type: 'look', t: 4100, x: b.x + 250, y: b.y }], 'all', lying.s, env);
+  assert.ok(NUMS(look.fx, 'lookY')[0] < -20, 'lying on the left wall, the screen right is his up: ' + NUMS(look.fx, 'lookY')[0]);
+  assert.ok(Math.abs(NUMS(look.fx, 'lookX')[0]) < 5);
+});

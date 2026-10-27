@@ -39,6 +39,8 @@ export type Settings = {
   lastOpen?: string;
   /** Match rush: the most pairs found in one minute */
   matchBest?: number;
+  /** Dombi falls and rolls with the phone's tilt and movement on the tabs; off unless turned on (owner 2026-10-28) */
+  phoneMotion?: boolean;
   /** minutes a day picked in onboarding's plan */
   minutes?: number;
 };

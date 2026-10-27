@@ -50,11 +50,14 @@ export function touchReducer(state, ev) {
   const fire = (name) => fx.push({ fire: name }), play = (v) => fx.push({ play: v }), mood = (m) => fx.push({ mood: m }), buzz = (h) => fx.push({ haptic: h });
   const num = (name, v) => fx.push({ num: [name, v] }), rand = () => ev.rand ?? Math.random();
   // At rest he is either at home (idle) or sitting on a perch; `rest` plays the matching pose.
+  // The phone's pull as a unit vector, and the turn that points his feet along it.
+  const pull = () => { const m = Math.hypot(s.g.x, s.g.y) || 1; return { x: s.g.x / m, y: s.g.y / m }; };
+  const downAngle = () => Math.atan2(-s.g.x, s.g.y) * (180 / Math.PI);
   const resting = () => s.mode === 'idle' || s.mode === 'perched' || s.mode === 'lying';
   const rest = () => { s.mode = s.perch ? 'perched' : 'idle'; play(s.perch || 'none'); };
 
   const startCarry = () => {
-    s.press.mode = 'carry'; s.mode = 'held'; s.perch = null; s.hf = 0; s.trail = []; s.body.tx = s.press.last.x; s.body.ty = s.press.last.y - 4; s.body.rot = 0; s.body.spin = 0;
+    s.press.mode = 'carry'; s.mode = 'held'; s.perch = null; s.hf = 0; s.trail = []; s.edge = null; s.body.tx = s.press.last.x - pull().x * 4; s.body.ty = s.press.last.y - pull().y * 4; s.body.spin = 0;
     s.mic = { level: 0, loud: 0, wind: false };
     fire('hop'); play('held'); mood('smirk'); buzz(15);
   };
@@ -155,7 +158,7 @@ export function touchReducer(state, ev) {
     }
     if (s.press.mode === 'carry') {
       const prev = s.trail[s.trail.length - 1];
-      s.body.tx = p.x; s.body.ty = p.y - 4; s.trail.push({ x: p.x, y: p.y, t }); if (s.trail.length > 16) s.trail.shift();
+      s.body.tx = p.x - pull().x * 4; s.body.ty = p.y - pull().y * 4; s.trail.push({ x: p.x, y: p.y, t }); if (s.trail.length > 16) s.trail.shift();
       if (prev && t > prev.t) {
         const fvx = (p.x - prev.x) / ((t - prev.t) / 1000), sign = Math.abs(fvx) > SHAKE_SPEED ? Math.sign(fvx) : 0;
         if (sign && sign !== s.shake.sign) {
@@ -174,8 +177,11 @@ export function touchReducer(state, ev) {
   } else if (ev.type === 'look') {
     // His eyes follow a finger anywhere on the screen while he is at rest; they let go 2.5 s after it stops.
     if (resting()) {
-      const b = s.body, eye = b.y - (env.eyeUp ?? 50);
-      fx.push({ looking: true }); num('lookX', Math.round(clamp((ev.x - b.x) / 2.2, -100, 100))); num('lookY', Math.round(clamp((ev.y - eye) / 2.2, -100, 100)));
+      // Seen from his eyes and in his own frame: turned, "up" for him is not the screen's up.
+      const b = s.body, th = (b.rot * Math.PI) / 180, up = env.eyeUp ?? 50;
+      const ex = b.x + Math.sin(th) * up, ey = b.y - Math.cos(th) * up, dx = ev.x - ex, dy = ev.y - ey;
+      const lx = dx * Math.cos(th) + dy * Math.sin(th), ly = -dx * Math.sin(th) + dy * Math.cos(th);
+      fx.push({ looking: true }); num('lookX', Math.round(clamp(lx / 2.2, -100, 100))); num('lookY', Math.round(clamp(ly / 2.2, -100, 100)));
       s.at.unlook = t + LOOK_MS;
     }
   } else if (ev.type === 'nudge') {
@@ -268,9 +274,13 @@ export function touchReducer(state, ev) {
     if (s.mode === 'held') {
       const ox = b.vx, oy = b.vy;
       b.vx += ((b.tx - b.x) * 130 - b.vx * 15) * dt; b.vy += ((b.ty - b.y) * 130 - b.vy * 15) * dt; b.x += b.vx * dt; b.y += b.vy * dt;
-      const ax = (b.vx - ox) / dt, ay = (b.vy - oy) / dt;
-      b.swingV += (-ax * 0.012 - b.swing * 70 - b.swingV * 7) * dt; b.swing = clamp(b.swing + b.swingV * dt, -38, 38);
-      b.squish += (clamp(-ay * 0.012, -70, 70) - b.squish) * 0.25;
+      const ax = (b.vx - ox) / dt, ay = (b.vy - oy) / dt, n = pull();
+      // Swinging comes from movement across the pull, squashing from movement along it; he turns to hang along it.
+      const across = ax * n.y - ay * n.x, along = ax * n.x + ay * n.y;
+      b.swingV += (-across * 0.012 - b.swing * 70 - b.swingV * 7) * dt; b.swing = clamp(b.swing + b.swingV * dt, -38, 38);
+      b.squish += (clamp(-along * 0.012, -70, 70) - b.squish) * 0.25;
+      const d = ((((downAngle() - b.rot) % 360) + 540) % 360) - 180;
+      b.rot = Math.abs(d) < 0.5 ? downAngle() : b.rot + d * (1 - Math.pow(0.7, dt * 60));
     } else if (s.mode === 'falling' || s.mode === 'flying' || s.mode === 'exit') {
       b.vx += GRAVITY * s.g.x * dt; b.vy += GRAVITY * s.g.y * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.rot += b.spin * dt;
       if (s.mode === 'exit') { if (b.x < -140 || b.x > env.w + 140 || b.y > env.h + 200 || b.y < -200) hide(); }

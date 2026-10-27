@@ -1,14 +1,15 @@
 import { useIsFocused } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
-import { Pressable, useWindowDimensions } from "react-native";
-import { DeviceMotion } from "expo-sensors";
+import { Platform, Pressable, useWindowDimensions } from "react-native";
+import { Accelerometer } from "expo-sensors";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { touchReducer, touchStart } from "../../../core/touch.js";
 import type { Rig } from "./Actor";
 import { useFinger } from "./DombiWatch";
 import { useMicLevel } from "../lib/micLevel";
+import { useApp } from "../lib/store";
 import { Dombi, type DombiMoment } from "./Dombi";
 
 type Effect = { fire?: string; play?: string; mood?: string; haptic?: number | number[]; drop?: boolean; num?: [string, number]; looking?: boolean; hidden?: boolean; pop?: boolean };
@@ -40,6 +41,8 @@ function buzz(pattern: number | number[]) {
  */
 export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1, ground = 0, zones, eventsRef, onPop, phone = false }: { moment: DombiMoment; size: number; rule?: Rule; onTap?: () => void; onDrop?: (dx: number, dy: number) => void; scale?: number; ground?: number; zones?: () => Zones | undefined; /** filled with a sender for screen events: feed, highfive, hand */ eventsRef?: RefObject<((type: string) => boolean) | null>; /** a high-five landed: the screen shows its pop */ onPop?: () => void; /** a tab: the phone's sensors and the mic (while held) may move him */ phone?: boolean }) {
   const reduce = useReducedMotion();
+  // Settings → "Telefon harakati" (owner 2026-10-28: off unless the learner turns it on).
+  const motion = useApp().settings.phoneMotion === true;
   const { width, height } = useWindowDimensions();
   const rig = useRef<Rig | null>(null);
   const state = useRef<ReturnType<typeof touchStart> | null>(null);
@@ -93,7 +96,11 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
     const held = s.mode === "held";
     r.num("swing", b.swing); r.num("squish", b.squish);
     // Carried, his eyes look where he is going; at rest they belong to the finger watcher (effects `looking`, lookX/Y).
-    if (held) { r.bool("looking", true); r.num("lookX", Math.max(-100, Math.min(100, b.vx / 6))); r.num("lookY", Math.max(-100, Math.min(100, b.vy / 6))); }
+    if (held) {
+      // Where he is going, seen in his own turned frame.
+      const th = (b.rot * Math.PI) / 180, lx = b.vx * Math.cos(th) + b.vy * Math.sin(th), ly = -b.vx * Math.sin(th) + b.vy * Math.cos(th);
+      r.bool("looking", true); r.num("lookX", Math.max(-100, Math.min(100, lx / 6))); r.num("lookY", Math.max(-100, Math.min(100, ly / 6)));
+    }
     else if (wasHeld.current) { r.bool("looking", false); r.num("lookX", 0); r.num("lookY", 0); }
     wasHeld.current = held;
   }, [env, dx, dy, rot]);
@@ -178,29 +185,31 @@ export function DombiPlay({ moment, size, rule = "all", onTap, onDrop, scale = 1
   // The phone itself, only while his tab is in view (owner 2026-10-27): its gravity is his gravity, and moving the phone
   // pushes him the other way, as if he were inside it; a hard shake also throws him (1.5 s apart).
   useEffect(() => {
-    if (!focused || rule !== "all" || reduce || !phone) return;
+    if (!focused || rule !== "all" || reduce || !phone || !motion) return;
+    // The raw accelerometer at ~60 readings a second: the phone's fused gravity sensor reports ~5 a second on the
+    // Redmi, which made him lag (owner 2026-10-28). The reading is the phone's push against gravity, so its opposite
+    // is the pull he feels, including the phone's own movement. Android reports in the phone's axes (y up); iOS the
+    // other way round.
+    const flip = Platform.OS === "ios" ? -1 : 1;
     let lastShake = 0, gx = 0, gy = 1, sentX = 0, sentY = 1;
-    DeviceMotion.setUpdateInterval(50);
-    const sub = DeviceMotion.addListener((m) => {
-      const now = Date.now(), a = m.acceleration;
-      if (a && Math.hypot(a.x, a.y, a.z) > 22 && now - lastShake > 1500) {
+    Accelerometer.setUpdateInterval(16);
+    const sub = Accelerometer.addListener((r) => {
+      const now = Date.now();
+      if (Math.hypot(r.x, r.y, r.z) > 2.6 && now - lastShake > 1500) {
         lastShake = now; awakeRef.current = true; setAwake(true);
         send({ type: "phoneShake", t: now }); restart();
       }
-      // accelerationIncludingGravity is the pull in the phone's axes (y up); minus the phone's own push, in screen axes.
-      const all = m.accelerationIncludingGravity, own = m.acceleration ?? { x: 0, y: 0, z: 0 };
-      if (all) {
-        gx += ((all.x - 2 * own.x) / 9.81 - gx) * 0.35; gy += (-(all.y - 2 * own.y) / 9.81 - gy) * 0.35;
-        if (Math.abs(gx - sentX) > 0.04 || Math.abs(gy - sentY) > 0.04) {
-          sentX = gx; sentY = gy; send({ type: "gravity", t: now, gx, gy });
-          // Tipped into a fall: a still-picture phone loads the rig so the bounces and squashes show.
-          if (["falling", "flying"].includes(current().mode) && !awakeRef.current) { awakeRef.current = true; setAwake(true); }
-          restart();
-        }
+      gx += (-flip * r.x - gx) * 0.5; gy += (flip * r.y - gy) * 0.5;
+      if (Math.abs(gx - sentX) > 0.02 || Math.abs(gy - sentY) > 0.02) {
+        sentX = gx; sentY = gy; send({ type: "gravity", t: now, gx, gy });
+        // Tipped into a fall: a still-picture phone loads the rig so the bounces and squashes show.
+        if (["falling", "flying"].includes(current().mode) && !awakeRef.current) { awakeRef.current = true; setAwake(true); }
+        restart();
       }
     });
-    return () => sub.remove();
-  }, [focused, rule, reduce, phone, send, restart]);
+    // Switched off or leaving the tab: the screen's bottom is down again.
+    return () => { sub.remove(); send({ type: "gravity", t: Date.now(), gx: 0, gy: 1 }); };
+  }, [focused, rule, reduce, phone, motion, send, restart]);
   const down = useCallback((x: number, y: number, lx: number, ly: number) => {
     homeFrom(x, y, lx, ly);
     awakeRef.current = true; setAwake(true); pressAt.current = Date.now(); pressMoved.current = 0; last.current = { x, y };
