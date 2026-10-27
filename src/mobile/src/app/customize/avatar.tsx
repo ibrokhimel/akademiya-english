@@ -5,6 +5,7 @@ import { Chips } from "../../components/customize/Chips";
 import { ChoiceTiles,choicesFrom } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
+import { MediaRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileMedia } from "../../components/ProfileMedia";
 import { Button,Txt,useTheme,violet } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
@@ -28,6 +29,8 @@ export default function AvatarEditor() {
   const [draft, setDraft] = useState(profile.avatar);
   const [tab, setTab] = useState<Tab>(tabOf(profile.avatar.kind));
   const recent = useRecentMedia();
+  // the GIF or video that was too long or too big, and which pick to open again from the sheet
+  const [refused, setRefused] = useState<null | "avatar.photo" | "avatar.bg">(null);
   const name = settings.name.trim() || "Siz";
   const edit = (patch: Partial<Profile["avatar"]>) => setDraft((a) => ({ ...a, ...patch }));
   const savedFiles = [profile.avatar.uri, profile.banner.uri, profile.look.background.uri];
@@ -46,6 +49,7 @@ export default function AvatarEditor() {
   });
   const pick = async (source: "library" | "camera", key: "avatar.photo" | "avatar.bg" = "avatar.photo") => {
     const r = await pickMedia({ source, target: "avatar", key });
+    if (r.kind === "refused") setRefused(key);
     if (r.kind === "media") {
       if (key === "avatar.bg") applyUnderLetter(r.media);
       else applyMedia(r.media);
@@ -110,6 +114,12 @@ export default function AvatarEditor() {
           <Txt style={{ fontSize: d(12), lineHeight: d(17), color: c.muted }}>Rasm: JPG yoki PNG. GIF va video: 6 soniyagacha, 8 MB gacha, ovozsiz takrorlanadi.</Txt>
         </>
       ) : null}
+      <MediaRefusedSheet
+        visible={refused !== null}
+        onClose={() => setRefused(null)}
+        // the sheet closes first; iOS cannot open the gallery over a closing sheet
+        onPickAnother={() => { const key = refused ?? "avatar.photo"; setTimeout(() => void pick("library", key), 450); }}
+      />
     </EditorScreen>
   );
 }
