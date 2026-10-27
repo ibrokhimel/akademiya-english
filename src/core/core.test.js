@@ -386,3 +386,75 @@ test('touch: in a lesson a throw plays out; he stays where he lands and goes to 
   assert.equal(back.fx.filter((f) => f.drop).length, 1);
   assert.equal(back.s.body.x, ENV.homeX); assert.equal(back.s.body.y, ENV.floorY);
 });
+
+// Remaining touch moves (plan 2026-10-27-dombi-remaining-features, numbers from design/rive/play.html).
+const NUMS = (fx, name) => fx.filter((f) => f.num && f.num[0] === name).map((f) => f.num[1]);
+const runR = (events, rule = 'all', s = touchStart(0), env = ENV) => { const fx = []; for (const e of events) { const r = touchReducer(s, { env, rule, ...e }); s = r.state; fx.push(...r.effects); } return { s, fx }; };
+const carryTo = (x, y) => [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x, y }, ...ticks(331, 700), { type: 'move', t: 705, x, y: y + 1 }, { type: 'up', t: 710, x, y: y + 1 }];
+test('touch: let go at the screen edge, he hides and peeks back in from a side, then comes home', () => {
+  const a = runR([...carryTo(4, 400)]);
+  assert.equal(a.s.mode, 'hidden'); assert.ok(a.fx.some((f) => f.hidden === true));
+  const b = runR(ticks(716, 1500).map((e) => ({ ...e, rand: 0.2 })), 'all', a.s);
+  assert.equal(b.s.mode, 'peeking'); assert.ok(b.fx.some((f) => f.hidden === false)); assert.ok(b.s.body.x < 40, 'from the left');
+  assert.ok(b.fx.some((f) => f.looking === true)); assert.equal(NUMS(b.fx, 'lookX')[0], 80);
+  const c = runR(ticks(1516, 12000), 'all', b.s);
+  assert.equal(c.s.mode, 'idle'); assert.ok(Math.abs(c.s.body.x - ENV.homeX) < 6);
+});
+test('touch: a fast sideways swipe throws him off the screen', () => {
+  const ev = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'move', t: 330, x: 300, y: 600 }, { type: 'move', t: 350, x: 250, y: 598 }, { type: 'up', t: 360, x: 220, y: 597 }];
+  const a = runR(ev); assert.equal(a.s.mode, 'exit');
+  assert.equal(runR(ticks(376, 1200), 'all', a.s).s.mode, 'hidden');
+});
+const ZONES = { peek: { l: 20, r: 370, top: 300 }, warm: { x: 330, y: 60 } };
+test('touch: dropped over the top of the Learn card he sits on it and peeks', () => {
+  const env = { ...ENV, zones: ZONES };
+  const a = runR([...carryTo(150, 260), ...ticks(716, 1400)], 'all', touchStart(0), env);
+  assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.y, 304); assert.ok(fires(a.fx).includes('land')); assert.ok(plays(a.fx).includes('peek'));
+});
+test('touch: dropped beside the flame he warms his hands', () => {
+  const env = { ...ENV, zones: ZONES };
+  const a = runR([...carryTo(290, 70), ...ticks(716, 1400)], 'all', touchStart(0), env);
+  assert.equal(a.s.mode, 'perched'); assert.equal(a.s.body.x, 268); assert.ok(plays(a.fx).includes('warm')); assert.ok(a.fx.some((f) => f.mood === 'happy'));
+});
+test('touch: fed a word he eats it, but not while carried', () => {
+  assert.deepEqual(fires(runR([{ type: 'feed', t: 100 }]).fx), ['eat']);
+  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'feed', t: 330 }]);
+  assert.ok(!fires(held.fx).includes('eat'));
+});
+test('touch: after a right answer he offers a high-five; a hit claps, ignored he plays it off', () => {
+  const hit = runR([{ type: 'highfive', t: 0 }, ...ticks(16, 1100, 50), { type: 'hand', t: 1200 }]);
+  assert.ok(plays(hit.fx).includes('highfive')); assert.ok(fires(hit.fx).includes('clap')); assert.ok(hit.fx.some((f) => f.pop));
+  const miss = runR([{ type: 'highfive', t: 0 }, ...ticks(16, 4000, 50)]);
+  assert.ok(fires(miss.fx).includes('playoff')); assert.ok(!fires(miss.fx).includes('clap'));
+});
+test('touch: a pinch stretches him and snaps on release, and cancels the press it started from', () => {
+  const a = runR([{ type: 'down', t: 0, x: 334, y: 660 }, { type: 'pinch', t: 50, d: 100 }, { type: 'pinch', t: 100, d: 200 }, ...ticks(116, 400), { type: 'pinchEnd', t: 410 }, { type: 'up', t: 420, x: 334, y: 660 }]);
+  assert.equal(NUMS(a.fx, 'stretch').at(1), 60); assert.ok(fires(a.fx).includes('snap'));
+  assert.ok(!fires(a.fx).includes('hop') && !fires(a.fx).includes('poke1'));
+});
+test('touch: shaking the phone throws him; he lands and looks annoyed', () => {
+  const a = runR([{ type: 'phoneShake', t: 0, rand: 0.3 }]); assert.equal(a.s.mode, 'flying');
+  const b = runR(ticks(16, 4000), 'all', a.s); assert.ok(fires(b.fx).includes('shook'));
+});
+test('touch: tilting the phone slides him and leans him; carried, he ignores it', () => {
+  const a = runR([{ type: 'tilt', t: 0, g: 20 }, ...ticks(16, 600)]);
+  assert.notEqual(a.s.body.x, ENV.homeX); assert.notEqual(a.s.body.swing, 0);
+  const held = runR([{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320), { type: 'tilt', t: 330, g: 20 }, ...ticks(346, 600)]);
+  assert.equal(held.s.mode, 'held');
+});
+test('touch: while held, his body pulses with the mic and steady blowing leans him into the wind', () => {
+  const base = [{ type: 'down', t: 0, x: 334, y: 660 }, ...ticks(16, 320)];
+  const talk = runR([...base, { type: 'mic', t: 330, level: 50, dt: 0.05 }]);
+  assert.equal(NUMS(talk.fx, 'amp').length, 1); assert.ok(NUMS(talk.fx, 'amp')[0] > 0);
+  const ev = [...base]; for (let i = 0; i < 8; i++) ev.push({ type: 'mic', t: 330 + i * 50, level: 100, dt: 0.05 });
+  const blow = runR(ev); assert.ok(plays(blow.fx).includes('wind'));
+  const stop = runR([800, 850, 900, 950, 1000, 1050, 1100, 1150].map((t) => ({ type: 'mic', t, level: 0, dt: 0.05 })), 'all', blow.s);
+  assert.deepEqual(plays(stop.fx), ['held']);
+  assert.deepEqual(runR([{ type: 'mic', t: 10, level: 100, dt: 0.05 }]).fx, [], 'not held: the mic does nothing');
+});
+test('touch: his eyes follow a finger on the screen and let go 2.5 s later', () => {
+  const env = { ...ENV, eyeUp: 50 };
+  const a = runR([{ type: 'look', t: 0, x: ENV.homeX + 110, y: ENV.floorY - 50 }], 'all', touchStart(0), env);
+  assert.ok(a.fx.some((f) => f.looking === true)); assert.deepEqual(NUMS(a.fx, 'lookX'), [50]); assert.deepEqual(NUMS(a.fx, 'lookY'), [0]);
+  const b = runR(ticks(16, 2600, 100), 'all', a.s, env); assert.ok(b.fx.some((f) => f.looking === false));
+});
