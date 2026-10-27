@@ -1,6 +1,6 @@
-import { router,useScrollToTop } from "expo-router";
-import { useEffect,useRef,useState } from "react";
-import { Pressable,ScrollView,View,useWindowDimensions } from "react-native";
+import { router,useFocusEffect,useScrollToTop } from "expo-router";
+import { useCallback,useEffect,useRef,useState } from "react";
+import { AppState,Pressable,ScrollView,View,useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
 import { BottomSheet } from "../../components/BottomSheet";
@@ -50,7 +50,16 @@ export default function Learn() {
   useScrollToTop(scroll);
   useAuditScroll(scroll, scale);
   // Dombi: glad after a break wins over late at night; the first time, he introduces himself.
-  const [moment] = useState(() => idleMoment({ now: Date.now(), lastOpen: settings.lastOpen ? Date.parse(settings.lastOpen) : undefined }) as "glad" | "night" | "idle");
+  // Glad belongs to the open after the break; night follows the clock each time the tab or the app comes back
+  // (Redmi test, 2026-10-27: an app opened at 02:41 kept him sleepy all day).
+  const [opened] = useState(() => idleMoment({ now: Date.now(), lastOpen: settings.lastOpen ? Date.parse(settings.lastOpen) : undefined }));
+  const [seenAt, setSeenAt] = useState(() => Date.now());
+  useFocusEffect(useCallback(() => {
+    setSeenAt(Date.now());
+    const sub = AppState.addEventListener("change", (s) => { if (s === "active") setSeenAt(Date.now()); });
+    return () => sub.remove();
+  }, []));
+  const moment = (opened === "glad" ? "glad" : idleMoment({ now: seenAt, lastOpen: undefined })) as "glad" | "night" | "idle";
   useEffect(() => { set({ lastOpen: new Date().toISOString() }); }, [set]);
   const firstTime = Object.keys(p.done).length === 0;
   const wasOpen = useRef(false);
