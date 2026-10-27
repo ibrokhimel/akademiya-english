@@ -224,7 +224,7 @@
     "Voooy!": {
      "file": "scream.wav",
      "ms": 1139,
-     "volume": 0.201,
+     "volume": 1.0,
      "act": "scared"
     }
    },
