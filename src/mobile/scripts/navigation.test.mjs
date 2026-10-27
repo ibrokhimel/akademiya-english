@@ -35,6 +35,11 @@ test('entering the first lesson after onboarding supplies a Home beneath it', ()
   assert.deepEqual(chain(withNavigationParents(stack([route('onboarding'), lesson]))), ['(tabs)', 'lesson/[id]']);
 });
 
+test('Privacy opened from the onboarding backs to the onboarding', () => {
+  const state = stack([route('onboarding'), route('privacy')], [...names, 'privacy']);
+  assert.equal(withNavigationParents(state), state);
+});
+
 test('returning to a new Home removes obsolete navigation history', () => {
   const home = { ...route('(tabs)'), key: 'new-home' };
   const result = withNavigationParents(stack([route('(tabs)'), route('account'), home]));

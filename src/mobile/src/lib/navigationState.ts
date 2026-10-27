@@ -4,6 +4,8 @@ import type { ParamListBase,StackNavigationState } from "expo-router/react-navig
 const parents: Record<string, string> = { privacy: "settings", "speech-settings": "settings", recordings: "settings", "device-settings": "settings", "practice/[id]": "phrases", "speech-test": "settings", "test-a": "settings" };
 export function withNavigationParents(state: StackNavigationState<ParamListBase>) {
   if (!state.routeNames.includes("(tabs)")) return state;
+  // Privacy or Account opened from the onboarding goes back to the onboarding, even on a phone that already finished it.
+  if (["privacy", "account"].includes(state.routes[state.index].name) && state.routes[state.index - 1]?.name === "onboarding") return state;
   const focused = state.routes[state.index].key;
   let source = state.routes;
   const lastHome = source.findLastIndex(route => route.name === "(tabs)");
