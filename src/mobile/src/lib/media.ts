@@ -5,9 +5,10 @@ import { Directory,File,Paths } from "expo-file-system";
 import { ImageManipulator,SaveFormat,type ImageRef } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
+import { createVideoPlayer } from "expo-video";
 import { useEffect,useState } from "react";
 import { Linking } from "react-native";
-import { gifDurationMs,mediaProblem,pickedMediaType,rememberMedia } from "../../../core/customize.js";
+import { gifDurationMs,mediaProblem,pickedMediaType,rememberMedia,thumbnailOf } from "../../../core/customize.js";
 import { read,write } from "./storage";
 
 export type MediaType = "image" | "gif" | "video";
@@ -35,10 +36,20 @@ const extensionOf = (name: string | null | undefined, fallback: string) => {
 };
 
 /**
- * Opens the library (pictures, GIF, video) or the camera (photo). A picture goes on to the crop route with `target`;
- * when it is cropped, the screen that listens with onCropped(`key`) gets it. A GIF or video is checked and copied.
+ * Opens the library (pictures, GIF, video; `imagesOnly` leaves videos out) or the camera (photo). A picture goes on to the
+ * crop route with `target`; when it is cropped, the screen that listens with onCropped(`key`) gets it. A GIF or video is
+ * checked and copied, and a video gets its first-frame picture. A cancel is "none"; a real failure opens the error screen.
  */
-export async function pickMedia({ source, target, key }: { source: "library" | "camera"; target: CropTarget; key: string }): Promise<PickOutcome> {
+export async function pickMedia(options: { source: "library" | "camera"; target: CropTarget; key: string; imagesOnly?: boolean }): Promise<PickOutcome> {
+  try {
+    return await pick(options);
+  } catch {
+    router.navigate("/problem?kind=error");
+    return { kind: "none" };
+  }
+}
+
+async function pick({ source, target, key, imagesOnly = false }: { source: "library" | "camera"; target: CropTarget; key: string; imagesOnly?: boolean }): Promise<PickOutcome> {
   let result: ImagePicker.ImagePickerResult;
   if (source === "camera") {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -50,7 +61,7 @@ export async function pickMedia({ source, target, key }: { source: "library" | "
     result = await ImagePicker.launchCameraAsync({ mediaTypes: ["images"], quality: 1 });
   } else {
     result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
+      mediaTypes: imagesOnly ? ["images"] : ["images", "videos"],
       quality: 1,
       // keep a GIF a GIF and a video as it is (the compatible mode turns GIFs into still JPEGs)
       preferredAssetRepresentationMode: ImagePicker.UIImagePickerPreferredAssetRepresentationMode.Current,
@@ -70,13 +81,35 @@ export async function pickMedia({ source, target, key }: { source: "library" | "
   if (mediaProblem({ mediaType, bytes, ms })) return { kind: "refused" };
   const copy = new File(folder(), newName(mediaType === "gif" ? "gif" : extensionOf(asset.fileName || asset.uri, "mp4")));
   await file.copy(copy);
+  if (mediaType === "video") await saveFirstFrame(copy.uri);
   return { kind: "media", media: { uri: copy.uri, mediaType } };
+}
+
+/** Saves the video's first frame as `thumbnailOf(uri)`, so tiles and still phones show a picture instead of a player. */
+async function saveFirstFrame(uri: string) {
+  const player = createVideoPlayer(uri);
+  try {
+    const [frame] = await player.generateThumbnailsAsync(0, { maxWidth: 1170, maxHeight: 1170 });
+    if (!frame) return;
+    const ref = await ImageManipulator.manipulate(frame).renderAsync();
+    frame.release();
+    const saved = await ref.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+    ref.release();
+    const tmp = new File(saved.uri);
+    await tmp.copy(new File(thumbnailOf(uri)));
+    if (tmp.exists) tmp.delete();
+  } catch {
+    // no picture: the still places fall back to a paused player
+  } finally {
+    player.release();
+  }
 }
 
 /** Crops `ref` to `rect` (picture pixels), shrinks it to the target's size and saves it as JPEG in the profile folder. */
 export async function saveCrop(ref: ImageRef, rect: { originX: number; originY: number; width: number; height: number }, target: CropTarget): Promise<PickedMedia> {
   const done = await ImageManipulator.manipulate(ref).crop(rect).resize(cropMasks[target].out).renderAsync();
   const saved = await done.saveAsync({ format: SaveFormat.JPEG, compress: 0.85 });
+  done.release();
   const tmp = new File(saved.uri), copy = new File(folder(), newName("jpg"));
   await tmp.copy(copy);
   if (tmp.exists) tmp.delete();
@@ -115,12 +148,15 @@ function removeFile(uri: string) {
   try {
     const f = new File(uri);
     // only our own copies: never a file the picker handed us from elsewhere
-    if (f.exists && f.uri.startsWith(folder().uri.replace(/\/$/, ""))) f.delete();
+    const ours = (u: string) => u.startsWith(folder().uri.replace(/\/$/, ""));
+    if (f.exists && ours(f.uri)) f.delete();
+    const still = new File(thumbnailOf(uri));
+    if (still.exists && ours(still.uri)) still.delete();
   } catch {}
 }
-/** After a save: deletes profile files that neither the saved profile (`keep`) nor the recent list uses any more. */
+/** After a save: deletes profile files (and video first frames) that neither the saved profile (`keep`) nor the recent list uses any more. */
 export function removeUnusedProfileFiles(keep: (string | null | undefined)[]) {
-  const names = new Set([...keep, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).map((u) => u.split("/").pop()));
+  const names = new Set([...keep, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map((u) => u.split("/").pop()));
   try {
     for (const item of folder().list()) if (item instanceof File && !names.has(item.name)) item.delete();
   } catch {}

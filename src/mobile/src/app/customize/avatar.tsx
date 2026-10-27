@@ -6,7 +6,7 @@ import { Chips } from "../../components/customize/Chips";
 import { ChoiceTiles,CosmeticFace,choicesFrom,type Choice } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
-import { MediaRefusedSheet } from "../../components/MediaRefusedSheet";
+import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileMedia } from "../../components/ProfileMedia";
 import { Button,Txt,useTheme,violet } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
@@ -35,8 +35,6 @@ export default function AvatarEditor() {
   const [tab, setTab] = useState<Tab>(tabOf(profile.avatar.kind));
   const [part, setPart] = useState<keyof Built>("skin");
   const recent = useRecentMedia();
-  // the GIF or video that was too long or too big, and which pick to open again from the sheet
-  const [refused, setRefused] = useState<null | "avatar.photo" | "avatar.bg">(null);
   const name = settings.name.trim() || "Siz";
   const edit = (patch: Partial<Profile["avatar"]>) => setDraft((a) => ({ ...a, ...patch }));
   const savedFiles = [profile.avatar.uri, profile.banner.uri, profile.look.background.uri];
@@ -53,15 +51,17 @@ export default function AvatarEditor() {
     ];
     return () => off.forEach((f) => f());
   });
-  const pick = async (source: "library" | "camera", key: "avatar.photo" | "avatar.bg" = "avatar.photo") => {
-    const r = await pickMedia({ source, target: "avatar", key });
-    if (r.kind === "refused") setRefused(key);
+  // a GIF or video that was too long or too big: the sheet, and the same pick again from it
+  const { refuse, sheet } = useRefusedSheet((key: "avatar.photo" | "avatar.bg") => void pick("library", key));
+  async function pick(source: "library" | "camera", key: "avatar.photo" | "avatar.bg" = "avatar.photo") {
+    const r = await pickMedia({ source, target: "avatar", key, imagesOnly: key === "avatar.bg" });
+    if (r.kind === "refused") refuse(key);
     if (r.kind === "media") {
       if (key === "avatar.bg") applyUnderLetter(r.media);
       else applyMedia(r.media);
       remember(r.media, savedFiles);
     }
-  };
+  }
   const save = () => {
     setProfile((p) => ({ ...p, avatar: draft }));
     removeUnusedProfileFiles([draft.uri, profile.banner.uri, profile.look.background.uri]);
@@ -87,7 +87,7 @@ export default function AvatarEditor() {
           <ChoiceTiles items={choicesFrom(avatarColors, earned)} value={draft.kind === "letter" ? draft.color : null} onSelect={(id) => edit({ kind: "letter", color: id })} />
           <SectionLabel>FON</SectionLabel>
           <ChoiceTiles
-            items={[...choicesFrom(avatarBackgrounds, earned), { id: "own", label: "O'z rasmim", content: <OwnPictureFace uri={draft.bg === "own" ? draft.uri : null} /> }]}
+            items={[...choicesFrom(avatarBackgrounds, earned), { id: "own", label: "O'z rasmim", content: <OwnPictureFace media={draft.bg === "own" && draft.uri && draft.mediaType ? { uri: draft.uri, mediaType: draft.mediaType } : null} /> }]}
             value={draft.kind === "letter" ? draft.bg : null}
             onSelect={(id) => (id === "own" ? void pick("library", "avatar.bg") : edit({ kind: "letter", bg: id }))}
           />
@@ -161,22 +161,17 @@ export default function AvatarEditor() {
           <Txt style={{ fontSize: d(12), lineHeight: d(17), color: c.muted }}>Rasm: JPG yoki PNG. GIF va video: 6 soniyagacha, 8 MB gacha, ovozsiz takrorlanadi.</Txt>
         </>
       ) : null}
-      <MediaRefusedSheet
-        visible={refused !== null}
-        onClose={() => setRefused(null)}
-        // the sheet closes first; iOS cannot open the gallery over a closing sheet
-        onPickAnother={() => { const key = refused ?? "avatar.photo"; setTimeout(() => void pick("library", key), 450); }}
-      />
+      {sheet}
     </EditorScreen>
   );
 }
 
 /** The "O'z rasmim" tile: a plus until a picture is chosen, then that picture. */
-function OwnPictureFace({ uri }: { uri: string | null }) {
+function OwnPictureFace({ media }: { media: PickedMedia | null }) {
   const d = useDesignScale();
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      {uri ? <ProfileMedia uri={uri} mediaType="image" still /> : <Txt style={{ fontSize: d(24), color: violet, fontFamily: "Nunito_900Black" }}>+</Txt>}
+      {media ? <ProfileMedia uri={media.uri} mediaType={media.mediaType} still /> : <Txt style={{ fontSize: d(24), color: violet, fontFamily: "Nunito_900Black" }}>+</Txt>}
     </View>
   );
 }

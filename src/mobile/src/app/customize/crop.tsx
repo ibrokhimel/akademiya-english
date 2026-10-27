@@ -41,6 +41,9 @@ export default function Crop() {
     return () => { live = false; };
   }, [params.uri]);
 
+  // the full-size picture is native memory: let it go when it is replaced or the screen closes
+  useEffect(() => () => picture?.release(), [picture]);
+
   const base = picture ? cropBase({ imageW: picture.width, imageH: picture.height, viewW: width, maskW, maskH }) : 1;
   const shownW = picture ? picture.width * base : 0, shownH = picture ? picture.height * base : 0;
   const scale = useSharedValue(1), startScale = useSharedValue(1);

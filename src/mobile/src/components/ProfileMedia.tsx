@@ -1,6 +1,8 @@
+import { File } from "expo-file-system";
 import { Image } from "expo-image";
 import { useVideoPlayer,VideoView,type VideoPlayer } from "expo-video";
-import { useEffect } from "react";
+import { useEffect,useMemo } from "react";
+import { thumbnailOf } from "../../../core/customize.js";
 import { StyleSheet,View,type StyleProp,type ViewStyle } from "react-native";
 import { useDombiLevel } from "../lib/dombiLevel";
 import type { Profile } from "../lib/store";
@@ -9,7 +11,9 @@ type MediaType = NonNullable<Profile["avatar"]["mediaType"]>;
 
 /**
  * The learner's own picture, GIF or video, filling its box (cover). GIF and video loop without sound.
- * On a still-picture phone or with Reduce Motion (the same rule as Dombi's still pictures) only the first frame shows.
+ * On a still-picture phone or with Reduce Motion (the same rule as Dombi's still pictures) only the first frame shows:
+ * a GIF through expo-image with autoplay off, a video through the first-frame picture saved at pick time, so only a
+ * live video mounts a player.
  */
 export function ProfileMedia({ uri, mediaType, still, style }: {
   uri: string;
@@ -20,10 +24,15 @@ export function ProfileMedia({ uri, mediaType, still, style }: {
 }) {
   const stillPhone = useDombiLevel() === "still";
   const frozen = still || stillPhone;
-  if (mediaType === "video") return <LoopVideo uri={uri} frozen={frozen} style={style} />;
+  const firstFrame = useMemo(() => {
+    if (mediaType !== "video" || !frozen) return null;
+    const still = thumbnailOf(uri);
+    try { return new File(still).exists ? still : null; } catch { return null; }
+  }, [uri, mediaType, frozen]);
+  if (mediaType === "video" && !firstFrame) return <LoopVideo uri={uri} frozen={frozen} style={style} />;
   return (
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, style]}>
-      <Image source={{ uri }} contentFit="cover" autoplay={!frozen} style={StyleSheet.absoluteFill} accessible={false} />
+      <Image source={{ uri: firstFrame ?? uri }} contentFit="cover" autoplay={!frozen} style={StyleSheet.absoluteFill} accessible={false} />
     </View>
   );
 }

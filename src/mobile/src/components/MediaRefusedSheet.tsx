@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BottomSheet,SheetHandle } from "./BottomSheet";
@@ -25,4 +26,20 @@ export function MediaRefusedSheet({ visible, onClose, onPickAnother }: { visible
       </SafeAreaView>
     </BottomSheet>
   );
+}
+
+/**
+ * The refused sheet wired to a pick: `refuse(key)` opens it for that pick; BOSHQASINI TANLASH closes it and calls
+ * `pickAgain(key)` once the sheet is gone (iOS cannot open the gallery over a closing sheet).
+ */
+export function useRefusedSheet<K>(pickAgain: (key: K) => void) {
+  const [refused, setRefused] = useState<{ key: K } | null>(null);
+  const sheet = (
+    <MediaRefusedSheet
+      visible={refused !== null}
+      onClose={() => setRefused(null)}
+      onPickAnother={() => { if (refused) { const { key } = refused; setTimeout(() => pickAgain(key), 450); } }}
+    />
+  );
+  return { refuse: (key: K) => setRefused({ key }), sheet };
 }

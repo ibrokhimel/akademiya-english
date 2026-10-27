@@ -5,7 +5,7 @@ import { AvatarFrame } from "../../components/AvatarFrame";
 import { ChoiceTiles,choicesFrom } from "../../components/customize/ChoiceTiles";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
-import { MediaRefusedSheet } from "../../components/MediaRefusedSheet";
+import { useRefusedSheet } from "../../components/MediaRefusedSheet";
 import { ProfileBanner } from "../../components/ProfileBanner";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { Icon,Txt,useTheme,violet } from "../../components/ui";
@@ -21,15 +21,15 @@ import { useApp,useProfile,type Profile } from "../../lib/store";
 export default function BannerEditor() {
   const d = useDesignScale(), c = useTheme(), { settings } = useApp(), { profile, setProfile, earned } = useProfile();
   const [draft, setDraft] = useState(profile.banner);
-  const [refused, setRefused] = useState(false);
   const name = settings.name.trim() || "Siz";
   const applyMedia = (m: PickedMedia) => setDraft((b) => ({ ...b, kind: "media", uri: m.uri, mediaType: m.mediaType }));
   useEffect(() => onCropped("banner", applyMedia), []);
-  const upload = async () => {
+  const { refuse, sheet } = useRefusedSheet(() => void upload());
+  async function upload() {
     const r = await pickMedia({ source: "library", target: "banner", key: "banner" });
-    if (r.kind === "refused") setRefused(true);
+    if (r.kind === "refused") refuse("banner");
     if (r.kind === "media") applyMedia(r.media);
-  };
+  }
   const choose = (group: string) => (id: string) =>
     setDraft({ kind: group === "color" ? "color" : "item", id, uri: null, mediaType: null } as Profile["banner"]);
   const save = () => {
@@ -74,12 +74,7 @@ export default function BannerEditor() {
         <Txt style={{ fontSize: d(15), color: violet, fontFamily: "Nunito_900Black" }}>Rasm, GIF yoki video yuklash</Txt>
       </Pressable>
       <Txt style={{ fontSize: d(12), lineHeight: d(17), color: c.muted }}>GIF va video: 6 soniyagacha, 8 MB gacha. Ovozsiz, takrorlanib turadi.</Txt>
-      <MediaRefusedSheet
-        visible={refused}
-        onClose={() => setRefused(false)}
-        // the sheet closes first; iOS cannot open the gallery over a closing sheet
-        onPickAnother={() => { setTimeout(() => void upload(), 450); }}
-      />
+      {sheet}
     </EditorScreen>
   );
 }

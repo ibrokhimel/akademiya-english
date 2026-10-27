@@ -3,7 +3,7 @@ import { avatarBackgrounds,builtParts,skinTones } from "../data/cosmetics";
 import type { Profile } from "../lib/store";
 import { useCosmeticColor } from "./customize/colors";
 import { ProfileMedia } from "./ProfileMedia";
-import { Icon,Txt,useTheme } from "./ui";
+import { Icon,Txt,useTheme,violet } from "./ui";
 
 /** Mixes a #RRGGBB colour toward white by `amount` (0..1); other colour strings come back unchanged. */
 export function lighter(hex: string, amount: number) {
@@ -100,7 +100,7 @@ function BuiltFace({ built, expression, size }: { built: Profile["avatar"]["buil
     <View style={{ width: size, height: size, borderRadius: size / 2, overflow: "hidden", backgroundColor: c.surface }}>
       <View style={{ position: "absolute", inset: 0, borderRadius: size / 2, backgroundColor: skin }} />
       {has("clothes", built.clothes) ? (
-        <View style={{ position: "absolute", left: u(14), right: u(14), bottom: u(-12), height: u(26), borderTopLeftRadius: u(14), borderTopRightRadius: u(14), backgroundColor: built.clothes === "chapan" ? "#3D5BA9" : "#7B5CFF", borderTopWidth: built.clothes === "chapan" ? u(4) : 0, borderColor: "#E9B949" }} />
+        <View style={{ position: "absolute", left: u(14), right: u(14), bottom: u(-12), height: u(26), borderTopLeftRadius: u(14), borderTopRightRadius: u(14), backgroundColor: built.clothes === "chapan" ? "#3D5BA9" : violet, borderTopWidth: built.clothes === "chapan" ? u(4) : 0, borderColor: "#E9B949" }} />
       ) : null}
       {has("hijab", built.hijab) ? <View style={{ position: "absolute", inset: 0, borderRadius: size / 2, borderWidth: u(14), borderColor: "#5E6AD2" }} /> : null}
       {has("hair", built.hair) && !has("hijab", built.hijab) ? (

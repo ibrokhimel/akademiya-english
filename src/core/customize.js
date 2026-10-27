@@ -109,3 +109,8 @@ export function seasonOpen(id, date = new Date()) {
 export function frameShown(id, date = new Date()) {
   return seasonOpen(id, date) ? id : 'none';
 }
+
+/** Where a video's first-frame picture lives: next to the video, `<name>.thumb.jpg` (small tiles and still phones show it instead of a player). */
+export function thumbnailOf(uri) {
+  return uri.replace(/\.[a-z0-9]{2,4}$/i, '') + '.thumb.jpg';
+}

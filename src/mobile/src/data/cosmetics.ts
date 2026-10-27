@@ -79,9 +79,9 @@ export const frames: Cosmetic[] = [
   c("samarqand", "Samarqand", { group: "pattern", color: "cream", symbol: "✦" }),
   c("navruz", "Navro'z", { group: "special", color: "good", symbol: "❀" }),
   c("newyear", "Yangi yil", { group: "special", color: "ice", symbol: "❄" }),
-  // Seasonal frames open only in their date window (src/core/customize.js). These two have no screen yet, so they wait.
-  c("independence", "Mustaqillik", { group: "special", color: "good", symbol: "★", ready: false }),
-  c("ramadan", "Ramazon", { group: "special", color: "ice", symbol: "☾", ready: false }),
+  // Seasonal frames open only in their date window (src/core/customize.js); Ramazon is always open, never the default.
+  c("independence", "Mustaqillik", { group: "special", color: "good", symbol: "★" }),
+  c("ramadan", "Ramazon", { group: "special", color: "ice", symbol: "☾" }),
   c("perfect", "Mukammal · 10 dars", { group: "special", color: "gold", symbol: "●", earnedBy: "frame.perfect" }),
   c("speaker", "Notiq · 60 daqiqa", { group: "special", picture: "studio-mic", earnedBy: "frame.speaker" }),
 ];

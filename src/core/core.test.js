@@ -6,7 +6,7 @@ import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
 import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
-import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES } from './customize.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -771,4 +771,10 @@ test('the moving avatar is a kind of its own, and a letter on your own picture u
   const own = normalizeProfile({ avatar: { kind: 'letter', bg: 'own', uri: 'file:///bg.jpg', mediaType: 'image' } });
   assert.deepEqual(mediaToUpload(own, {}).map((m) => [m.field, m.uri]), [['avatar', 'file:///bg.jpg']]);
   assert.deepEqual(mediaToUpload(normalizeProfile({ avatar: { kind: 'letter', bg: 'plain', uri: 'file:///bg.jpg', mediaType: 'image' } }), {}), []);
+});
+test('a video keeps its first-frame picture next to it', () => {
+  assert.equal(thumbnailOf('file:///docs/profile/ab-12.mp4'), 'file:///docs/profile/ab-12.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs/profile/ab.MOV'), 'file:///docs/profile/ab.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
 });
