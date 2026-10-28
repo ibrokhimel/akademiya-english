@@ -1,9 +1,10 @@
 import { File } from "expo-file-system";
 import { Image } from "expo-image";
+import { useIsFocused } from "expo-router";
 import { useVideoPlayer,VideoView,type VideoPlayer } from "expo-video";
-import { useEffect,useMemo } from "react";
+import { useEffect,useMemo,useState } from "react";
 import { thumbnailOf } from "../../../core/customize.js";
-import { StyleSheet,View,type StyleProp,type ViewStyle } from "react-native";
+import { AppState,StyleSheet,View,type StyleProp,type ViewStyle } from "react-native";
 import { useDombiLevel } from "../lib/dombiLevel";
 import type { Profile } from "../lib/store";
 
@@ -13,7 +14,8 @@ type MediaType = NonNullable<Profile["avatar"]["mediaType"]>;
  * The learner's own picture, GIF or video, filling its box (cover). GIF and video loop without sound.
  * On a still-picture phone or with Reduce Motion (the same rule as Dombi's still pictures) only the first frame shows:
  * a GIF through expo-image with autoplay off, a video through the first-frame picture saved at pick time, so only a
- * live video mounts a player.
+ * live video mounts a player. Off screen (another screen on top, another tab) or with the app in the background it is
+ * frozen too, so a video never plays where no one sees it and its player is mounted again when it comes back.
  */
 export function ProfileMedia({ uri, mediaType, still, style }: {
   uri: string;
@@ -23,7 +25,9 @@ export function ProfileMedia({ uri, mediaType, still, style }: {
   style?: StyleProp<ViewStyle>;
 }) {
   const stillPhone = useDombiLevel() === "still";
-  const frozen = still || stillPhone;
+  const focused = useIsFocused();
+  const active = useAppActive();
+  const frozen = still || stillPhone || !focused || !active;
   const firstFrame = useMemo(() => {
     if (mediaType !== "video" || !frozen) return null;
     const still = thumbnailOf(uri);
@@ -35,6 +39,17 @@ export function ProfileMedia({ uri, mediaType, still, style }: {
       <Image source={{ uri: firstFrame ?? uri }} contentFit="cover" autoplay={!frozen} style={StyleSheet.absoluteFill} accessible={false} />
     </View>
   );
+}
+
+// "unknown" (before the first report) counts as active; "inactive" (iOS app switcher, Control Centre) and "background" do not
+const isActive = (state: string | null) => state !== "background" && state !== "inactive";
+function useAppActive() {
+  const [active, setActive] = useState(() => isActive(AppState.currentState));
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (state) => setActive(isActive(state)));
+    return () => sub.remove();
+  }, []);
+  return active;
 }
 
 function LoopVideo({ uri, frozen, style }: { uri: string; frozen: boolean; style?: StyleProp<ViewStyle> }) {
