@@ -21,6 +21,14 @@ export function remove(key: string) {
   if (audit) { audit.delete(key); return; }
   Storage.removeItemSync("akademiya." + key);
 }
+/** Every stored key that starts with `prefix`, the prefix left on (e.g. "profile." for the accounts cached at logout). */
+export function keysStartingWith(prefix: string): string[] {
+  const audit = visualAuditStorage();
+  if (audit) return [...audit.keys()].filter((key) => key.startsWith(prefix));
+  return Storage.getAllKeysSync()
+    .filter((key) => key.startsWith("akademiya." + prefix))
+    .map((key) => key.slice("akademiya.".length));
+}
 export const clientId = () =>
   `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
 

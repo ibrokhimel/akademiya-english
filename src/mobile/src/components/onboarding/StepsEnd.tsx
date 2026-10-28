@@ -7,7 +7,7 @@ import { MINUTE_CHOICES, planFor } from "../../lib/onboardingPlan";
 import { reminderPlan } from "../../lib/reminderPlan";
 import { Dombi } from "../Dombi";
 import { TimeWheel } from "../TimeWheel";
-import { Button, Icon, LinkButton, Txt, useTheme, violet } from "../ui";
+import { Button, Icon, LinkButton, Txt, useTheme } from "../ui";
 import { DombiSays } from "./DombiSays";
 import { Choice, Heading, InfoRow, Label, Panel, Tile, type Scale } from "./parts";
 
@@ -29,7 +29,7 @@ export function Goal({ d, goal, setGoal }: { d: Scale; goal: string; setGoal: (v
 
 /** How much English: Dombi answers, and the first unit's lessons are shown. */
 export function Level({ d, level, setLevel }: { d: Scale; level: string; setLevel: (v: string) => void }) {
-  const unit = units[0];
+  const unit = units[0], c = useTheme();
   return (
     <>
       <DombiSays text={levelReplies[level] ?? lines.level} d={d} />
@@ -37,7 +37,7 @@ export function Level({ d, level, setLevel }: { d: Scale; level: string; setLeve
         {LEVELS.map(([key, icon, label, detail]) => <Choice key={key} selected={level === key} dimmed={!!level && level !== key} icon={icon} label={label} detail={detail} onPress={() => setLevel(key)} d={d} />)}
       </View>
       <Panel d={d}>
-        <Label text={`1-BO'LIM · ${unit.name.toUpperCase()}`} d={d} color={violet} />
+        <Label text={`1-BO'LIM · ${unit.name.toUpperCase()}`} d={d} color={c.accentText} />
         {unit.lessons.map((lesson, i) => <LessonRow key={lesson.id} n={i + 1} title={lesson.title} d={d} />)}
       </Panel>
     </>
@@ -81,7 +81,7 @@ export function Plan({ d, name, minutes, setMinutes }: { d: Scale; name: string;
     <>
       <DombiSays text={say} d={d} />
       <Panel d={d} tint={c.soft}>
-        <Label text={`${units.length} BO'LIMDAN KEYIN`} d={d} color={violet} />
+        <Label text={`${units.length} BO'LIMDAN KEYIN`} d={d} color={c.accentText} />
         <InfoRow icon="coffee-kafeda" title="Kafeda buyurtma bera olasiz" d={d} />
         <InfoRow icon="bubble-phrases" title="40+ iborani ovoz chiqarib ayta olasiz" d={d} />
         <InfoRow icon="flame-streak" title="Har kungi odat hosil qilasiz" d={d} />
@@ -100,8 +100,8 @@ export function Plan({ d, name, minutes, setMinutes }: { d: Scale; name: string;
           const days = planFor(m).allDays, on = m === minutes;
           return (
             <View key={m} style={{ flex: 1, alignItems: "center", gap: d(6) }}>
-              <Txt style={{ fontSize: d(13), fontFamily: "Nunito_900Black", color: on ? violet : c.muted }}>{days} kun</Txt>
-              <View style={{ alignSelf: "stretch", height: d(90) * (days / most), borderTopLeftRadius: d(10), borderTopRightRadius: d(10), borderBottomLeftRadius: d(4), borderBottomRightRadius: d(4), backgroundColor: on ? violet : c.line }} />
+              <Txt style={{ fontSize: d(13), fontFamily: "Nunito_900Black", color: on ? c.accentText : c.muted }}>{days} kun</Txt>
+              <View style={{ alignSelf: "stretch", height: d(90) * (days / most), borderTopLeftRadius: d(10), borderTopRightRadius: d(10), borderBottomLeftRadius: d(4), borderBottomRightRadius: d(4), backgroundColor: on ? c.accent : c.line }} />
             </View>
           );
         })}
@@ -168,11 +168,11 @@ export function Done({ d, name, minutes, reminder }: { d: Scale; name: string; m
         </View>
       </View>
       <View style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: d(12), padding: d(14), borderRadius: d(18), borderWidth: d(2), borderColor: c.line }}>
-        <View style={{ width: d(44), height: d(44), borderRadius: d(22), backgroundColor: violet, alignItems: "center", justifyContent: "center" }}>
-          <Txt style={{ fontSize: d(18), color: "#FFFFFF", fontFamily: "Nunito_900Black" }}>1</Txt>
+        <View style={{ width: d(44), height: d(44), borderRadius: d(22), backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+          <Txt style={{ fontSize: d(18), color: c.onAccent, fontFamily: "Nunito_900Black" }}>1</Txt>
         </View>
         <View style={{ flex: 1, gap: d(2) }}>
-          <Label text="NAVBATDAGI DARS" d={d} color={violet} />
+          <Label text="NAVBATDAGI DARS" d={d} color={c.accentText} />
           <Txt style={{ fontSize: d(15), fontFamily: "Nunito_900Black" }}>{first.title}</Txt>
         </View>
       </View>

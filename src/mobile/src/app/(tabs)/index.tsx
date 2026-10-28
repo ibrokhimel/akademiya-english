@@ -6,18 +6,19 @@ import { useAuditScroll } from "../../audit/layout";
 import { BottomSheet } from "../../components/BottomSheet";
 import { LessonStartSheet } from "../../components/LessonStartSheet";
 import { Arrive,Pulse } from "../../components/Motion";
-import { brand,shared,type } from "../../components/system";
+import { shared,type } from "../../components/system";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import { DombiOverlay,TabHeader } from "../../components/TabChrome";
 import type { Zones } from "../../components/DombiPlay";
 import { idleMoment } from "../../../../core/dombi.js";
+import { shouldGreetBirthday } from "../../../../core/showcase.js";
+import { Effect } from "../../components/Effects";
 import { useMeasureDombiLevel } from "../../lib/dombiLevel";
 import {
 Icon,
 Txt,
 gold,
-useTheme,
-violet
+useTheme
 } from "../../components/ui";
 import { units,type Lesson } from "../../data/content";
 import { sound,stopAudio } from "../../lib/audio";
@@ -33,7 +34,7 @@ const SPOTS = [
 ] as const;
 export default function Learn() {
   useMeasureDombiLevel(true);
-  const { progress: p, settings, set, resume } = useApp(),
+  const { progress: p, settings, isDark, set, resume, now } = useApp(),
     c = useTheme(),
     { width } = useWindowDimensions(),
     scale = Math.min(width / 390, 1.2),
@@ -58,13 +59,28 @@ export default function Learn() {
   // Dombi's perches (motion-plan §8): the card's top edge and the streak flame, measured once the tab has slid in.
   const cardRef = useRef<View>(null), flameRef = useRef<View>(null), zonesAt = useRef<Zones | undefined>(undefined);
   const zones = useCallback(() => zonesAt.current, []);
+  // The learner's birthday: the lesson-end confetti on the first open that day, from a cold start or back from the
+  // background, once a year (item 31). `birthday` is the year greeted, 0 when not today.
+  const greetYear = () => {
+    const today = now();
+    return !getVisualAudit() && shouldGreetBirthday({ birthday: settings.profile.birthday, greet: settings.profile.birthdayGreet, now: today, greetedYear: settings.birthdayGreeted }) ? today.getFullYear() : 0;
+  };
+  const [birthday, setBirthday] = useState(greetYear);
+  const greetRef = useRef(greetYear);
+  useEffect(() => { greetRef.current = greetYear; });
+  useEffect(() => { if (birthday) set({ birthdayGreeted: birthday }); }, [birthday, set]);
   useFocusEffect(useCallback(() => {
     const measure = setTimeout(() => {
       cardRef.current?.measureInWindow((x, y, w) => { zonesAt.current = { ...zonesAt.current, peek: { l: x, r: x + w, top: y } }; });
       flameRef.current?.measureInWindow((x, y, _w, h) => { zonesAt.current = { ...zonesAt.current, warm: { x, y: y + h } }; });
     }, 450);
     setSeenAt(Date.now());
-    const sub = AppState.addEventListener("change", (s) => { if (s === "active") setSeenAt(Date.now()); });
+    const sub = AppState.addEventListener("change", (s) => {
+      if (s !== "active") return;
+      setSeenAt(Date.now());
+      const year = greetRef.current();
+      if (year) setBirthday(year);
+    });
     return () => { sub.remove(); clearTimeout(measure); };
   }, []));
   const moment = (opened === "glad" ? "glad" : idleMoment({ now: seenAt, lastOpen: undefined })) as "glad" | "night" | "idle";
@@ -101,13 +117,13 @@ export default function Learn() {
           marginHorizontal: d(20),
           marginTop: d(12),
           borderRadius: d(24),
-          backgroundColor: brand.lip,
+          backgroundColor: c.accentLip,
           paddingBottom: d(4),
         }}
       >
         <View ref={cardRef} collapsable={false}
           style={{
-            backgroundColor: violet,
+            backgroundColor: c.accent,
             borderRadius: d(24),
             padding: d(20),
             gap: d(14),
@@ -115,17 +131,17 @@ export default function Learn() {
         >
           <View style={{ flexDirection: "row", alignItems: "flex-start", gap: d(12) }}>
             <View style={{ flex: 1, gap: d(4) }}>
-              <Txt style={{ ...type("label", d), color: brand.washLine }}>
+              <Txt style={{ ...type("label", d), color: c.onAccentLabel }}>
                 {nextUnit.unit}-BO&apos;LIM · {nextUnit.name.replace("!", "").toUpperCase()}
               </Txt>
-              <Txt style={{ ...type("title", d), color: "#FFFFFF" }}>
+              <Txt style={{ ...type("title", d), color: c.onAccent }}>
                 {next?.title ?? nextUnit.checkpoint.title}
               </Txt>
             </View>
             <Pressable
               accessibilityLabel="Ayta oladiganlarim"
               onPress={() => router.navigate("/phrases")}
-              style={{ width: d(48), height: d(48), borderRadius: d(14), backgroundColor: brand.lip, alignItems: "center", justifyContent: "center" }}
+              style={{ width: d(48), height: d(48), borderRadius: d(14), backgroundColor: c.accentLip, alignItems: "center", justifyContent: "center" }}
             >
               <Icon name="book-phrase-list" size={d(32)} />
             </Pressable>
@@ -137,10 +153,10 @@ export default function Learn() {
               radius={d(16)}
               depth={d(4)}
               backgroundColor="#FFFFFF"
-              edgeColor={brand.washLine}
-              faceStyle={{ height: d(48), alignItems: "center", justifyContent: "center" }}
+              edgeColor={c.accentPaleLine}
+              faceStyle={{ minHeight: d(48), paddingVertical: d(10), alignItems: "center", justifyContent: "center" }}
             >
-              <Txt style={{ ...type("button", d), color: violet }}>
+              <Txt style={{ ...type("button", d), color: c.accentPaleText }}>
                 {resume?.id === next.id ? "DAVOM ETISH" : "BOSHLASH"}
               </Txt>
             </RaisedPressable>
@@ -178,8 +194,8 @@ export default function Learn() {
               const state = p.state(l.id),
                 current = state === "cur",
                 done = state === "done",
-                face = current ? gold : done ? violet : c.line,
-                edge = current ? shared.light.rewardLip : done ? brand.lip : c.edge;
+                face = current ? gold : done ? c.accent : c.line,
+                edge = current ? shared.light.rewardLip : done ? c.accentLip : c.edge;
               const glyph = done
                 ? "glyph-check-white"
                 : SPOTS[k][2] === "headphones"
@@ -208,7 +224,7 @@ export default function Learn() {
                         height: d(75),
                         borderRadius: d(45),
                         borderWidth: d(4),
-                        borderColor: settings.dark ? shared.dark.rewardWash : shared.light.rewardWash,
+                        borderColor: isDark ? shared.dark.rewardWash : shared.light.rewardWash,
                       }}
                     />
                   ) : null}
@@ -328,7 +344,7 @@ export default function Learn() {
           <Txt
             style={{
               fontSize: d(13),
-              color: violet,
+              color: c.accentText,
               fontFamily: "Nunito_900Black",
             }}
           >
@@ -336,6 +352,7 @@ export default function Learn() {
           </Txt>
         </Pressable>
       ) : null}
+      {birthday ? <Effect board="Confetti" trigger="large" delay={600} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} /> : null}
       <DombiOverlay phone zones={zones} moment={firstTime ? "guide" : moment} line={firstTime ? "Salom! Men Dombiman. Birinchi dars 3 daqiqa." : undefined} />
       <BottomSheet
         visible={!!pick}

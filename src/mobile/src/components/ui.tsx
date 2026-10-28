@@ -15,6 +15,7 @@ type TextProps,
 type ViewProps,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { textScale } from "../../../core/look.js";
 import { useAuditText } from "../audit/layout";
 import { pictures } from "../data/assets";
 import { sound } from "../lib/audio";
@@ -22,64 +23,50 @@ import { useApp } from "../lib/store";
 import { Shine } from "./Motion";
 import { RaisedPressable } from "./RaisedPressable";
 import { brand,shared,type } from "./system";
+import { appThemes,brandColors } from "./themeColors";
 import { ToggleControl } from "./ToggleControl";
 import { useDesignScale } from "./useDesignScale";
 
 // Interface colours come from the shared design system (design/system/tokens.json).
-export const violet = brand.main,
-  coral = "#FF6B5B",
-  green = shared.light.correct,
-  gold = shared.light.reward;
-const L = shared.light, D = shared.dark;
+// App chrome (buttons, picks, progress) takes the theme's `c.accent`; `violet` stays the fixed brand violet for art
+// stand-ins and catalogue colours (an avatar or a name picked as "Binafsha" stays violet in every theme).
+const NAMED = brandColors(shared, brand);
+export const violet = NAMED.violet,
+  coral = NAMED.coral,
+  green = NAMED.green,
+  gold = NAMED.gold;
+const THEMES = appThemes(shared);
+/** The palette for the picked theme (MAVZU) in light or dark (REJIM). */
 export function useTheme() {
-  const { settings } = useApp();
-  return settings.dark
-    ? {
-        bg: "#121214",
-        card: "#1B1B1F",
-        surface: "#242429",
-        line: "#34343B",
-        text: D.ink,
-        muted: D.muted,
-        soft: "#26214A",
-        good: D.correctWash,
-        bad: D.notYetWash,
-        goodText: D.correctText,
-        notYet: D.notYet,
-        notYetText: D.notYetText,
-        edge: "#26262B",
-        softLine: "#463C85",
-        goldSoft: "#383014",
-        blueSoft: "#12303F",
-        ice: "#11323F",
-        orangeWash: "#33240F", iceText: "#5BC8F5", cream: "#24211A", coralSoft: "#3A1F1B", orangeBand: "#4A3212", faint: "#5F5F69", tileOrange: "#33240F", tileGold: "#2E2812", tileGrey: "#24262B", tilePink: "#3A1C2B", goldText: "#FFC93C",
-      }
-    : {
-        bg: "#FFFFFF",
-        card: "#FFFFFF",
-        surface: L.paper,
-        line: L.line,
-        text: L.ink,
-        muted: L.muted,
-        soft: brand.wash,
-        good: L.correctWash,
-        bad: L.notYetWash,
-        goodText: L.correctText,
-        notYet: L.notYet,
-        notYetText: L.notYetText,
-        edge: "#B7B7B7",
-        softLine: "#C9BDFF",
-        goldSoft: "#FFF4D1",
-        blueSoft: "#E8F6FD",
-        ice: "#DDF4FF",
-        orangeWash: "#FFF1DC", iceText: "#1491C9", cream: "#FFFDF3", coralSoft: "#FFEDEA", orangeBand: "#FFE2B8", faint: "#B7B7B7", tileOrange: "#FFF1E0", tileGold: "#FFF8E0", tileGrey: "#F1F3F7", tilePink: "#FFE8F3", goldText: "#C98A00",
-      };
+  const { settings, isDark } = useApp();
+  const mode = isDark ? THEMES.dark : THEMES.light;
+  return mode[settings.appLook.theme] ?? mode.violet;
 }
-export function Txt({ style, ...props }: TextProps) {
+// Disleksiya uchun shrift: OpenDyslexic (assets/fonts, loaded in app/_layout.tsx) in place of Nunito's weights.
+const DYSLEXIC: Record<string, string> = {
+  Nunito_700Bold: "OpenDyslexic_400Regular",
+  Nunito_800ExtraBold: "OpenDyslexic_700Bold",
+  Nunito_900Black: "OpenDyslexic_700Bold",
+};
+/**
+ * Text that follows MATN O'LCHAMI and the dyslexia font. `fixed` leaves both out: for art whose size comes from the shape it
+ * sits in (the avatar letter, frame marks, pattern symbols), which would spill out of that shape if it grew.
+ */
+export function Txt({ style, fixed = false, ...props }: TextProps & { fixed?: boolean }) {
   const d = useDesignScale();
   const textStyle = StyleSheet.flatten(style);
   const auditText = useAuditText({ ...props, style });
   const c = useTheme();
+  const { appLook } = useApp().settings;
+  // MATN O'LCHAMI and the font, laid over the finished style so every size and family a screen sets follows them
+  const k = textScale(appLook.textSize), size = textStyle?.fontSize ?? d(16);
+  const look = !fixed && (k !== 1 || appLook.dyslexiaFont)
+    ? {
+        fontSize: size * k,
+        lineHeight: (textStyle?.lineHeight ?? size * 1.42) * k,
+        ...(appLook.dyslexiaFont ? { fontFamily: DYSLEXIC[textStyle?.fontFamily ?? "Nunito_700Bold"] ?? DYSLEXIC.Nunito_700Bold } : null),
+      }
+    : null;
   return (
     <NativeText
       {...props}
@@ -93,6 +80,7 @@ export function Txt({ style, ...props }: TextProps) {
           includeFontPadding: false,
         },
         style,
+        look,
       ]}
     />
   );
@@ -167,8 +155,8 @@ export function Button({
         : kind === "gold"
           ? gold
           : kind === "danger"
-            ? "#FF4B5C"
-            : violet;
+            ? c.dangerFill
+            : c.accent;
   return (
     <RaisedPressable
       accessibilityRole="button"
@@ -191,17 +179,18 @@ export function Button({
               : kind === "gold"
                 ? shared.light.rewardLip
                 : kind === "danger"
-                  ? "#C02A3D"
-                  : brand.lip
+                  ? c.dangerLip
+                  : c.accentLip
       }
       radius={d(16)}
       depth={d(4)}
       faceStyle={{
         borderWidth: kind === "secondary" && !disabled ? d(2) : 0,
         borderColor: c.line,
+        // grows with MATN O'LCHAMI and the dyslexia font instead of clipping the label
         minHeight: d(48),
         paddingHorizontal: d(24),
-        height: d(48),
+        paddingVertical: d(10),
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -211,8 +200,10 @@ export function Button({
           color: disabled
             ? c.muted
             : kind === "secondary"
-              ? violet
-              : "#FFFFFF",
+              ? c.accentText
+              : kind === "primary"
+                ? c.onAccent
+                : c.onFill,
           ...type("button", d),
           textAlign: "center",
         }}
@@ -273,7 +264,8 @@ export function Page({
   children,
   scroll = false,
   style,
-}: ViewProps & { scroll?: boolean }) {
+  backdrop,
+}: ViewProps & { scroll?: boolean; /** drawn behind the content, filling the page (the lesson background) */ backdrop?: ReactNode }) {
   const c = useTheme(),
     segments = useSegments();
   const d = useDesignScale();
@@ -288,6 +280,7 @@ export function Page({
       }
       style={{ flex: 1, backgroundColor: c.bg }}
     >
+      {backdrop}
       {scroll ? (
         <ScrollView contentContainerStyle={[s.page, spacing, style]}>
           {children}
@@ -401,6 +394,7 @@ export function Toggle({
         value={value}
         onChange={onChange}
         offColor={c.line}
+        onColor={c.accent}
       />
     </View>
   );

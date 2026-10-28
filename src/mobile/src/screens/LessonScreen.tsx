@@ -16,12 +16,13 @@ import { Dombi } from "../components/Dombi";
 import { useDs } from "../components/TabChrome";
 import { FeedContext,LessonDombi,type Feed,type Spot } from "../components/LessonDombi";
 import type { Space } from "../components/Blocks";
+import { LessonBackground } from "../components/LessonBackground";
 import { LessonMoment } from "../components/LessonMoment";
 import { PanelDombi } from "../components/PanelDombi";
 import { Bounce,Fill,panelIn,popIn } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
 import { ScreenTransition } from "../components/ScreenTransition";
-import { Button,gold,green,Icon,LinkButton,Page,Txt,useTheme,violet } from "../components/ui";
+import { Button,gold,green,Icon,LinkButton,Page,Txt,useTheme } from "../components/ui";
 import { type } from "../components/system";
 import { useDesignScale } from "../components/useDesignScale";
 import { lessons,P,T,units,type Item,type Lesson } from "../data/content";
@@ -317,7 +318,7 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
       </ScreenTransition>{leaveSheet}</View>);
     }
     return (<ScreenTransition transitionKey={phase}>
-      <Page style={{ padding: d(0), gap: d(0) }}>
+      <Page style={{ padding: d(0), gap: d(0) }} backdrop={<LessonBackground />}>
         <View style={{
             flexDirection: "row",
             alignItems: "center",
@@ -352,7 +353,7 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
           </Bounce></View>
         </View>
         {current ? (<View style={{ flex: 1 }} onLayout={(e) => { exerciseAt.current = { x: e.nativeEvent.layout.x, y: e.nativeEvent.layout.y }; }}><FeedContext.Provider value={feedRef}><ScreenTransition transitionKey={`${current.n}-${current.round}-${speaking}-${turn}`}>
-            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} onDombi={setDombiNow} onSpace={(sp) => { const { x, y } = exerciseAt.current, at = (r: Space["view"]) => ({ ...r, x: r.x + x, y: r.y + y }); setSpace({ key: `${current.n}-${current.round}-${speaking}-${turn}`, space: { view: at(sp.view), blocks: sp.blocks.map(at) } }); }} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (keep) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : violet, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (keep) app.saveResume(snapshot()); }} onSpeakingOff={() => {
+            <Exercise key={`${current.n}-${current.round}-${speaking}-${turn}`} onDombi={setDombiNow} onSpace={(sp) => { const { x, y } = exerciseAt.current, at = (r: Space["view"]) => ({ ...r, x: r.x + x, y: r.y + y }); setSpace({ key: `${current.n}-${current.round}-${speaking}-${turn}`, space: { view: at(sp.view), blocks: sp.blocks.map(at) } }); }} item={current.item as Item} index={current.n} lesson={lesson} speaking={speaking} paused={quitting} checked={!!feedback} bottomControl={<Pressable accessibilityLabel={speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"} onPress={() => { stopAudio(); engine.setSpeaking(!speaking); setSpeaking(!speaking); if (keep) app.saveResume(snapshot()); setCurrent(nextItem()); }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(6), paddingVertical: d(10), paddingHorizontal: d(8), marginTop: d(-4) }}><Icon name={speaking ? "glyph-mic-off-grey" : "glyph-mic-off-violet"} size={d(16)} /><Txt style={{ fontSize: d(13), letterSpacing: d(.5), color: speaking ? c.muted : c.accentText, fontFamily: "Nunito_900Black" }}>{speaking ? "HOZIR GAPIRA OLMAYMAN" : "GAPIRISH O'CHIQ · YOQISH"}</Txt></Pressable>} onAnswer={answer} onSpoken={(ms) => engine.addSpoken(ms)} onSpeechRetry={() => { session.retrySpeech(); ops.push("v"); if (keep) app.saveResume(snapshot()); }} onSpeakingOff={() => {
                 engine.setSpeaking(false);
                 setSpeaking(false);
                 if (keep) app.saveResume(snapshot());
@@ -390,7 +391,7 @@ export function Player({ lesson, onExit, quiet = false, activity }: {
             <Button label="DAVOM ETISH" kind={feedback.right ? "green" : "primary"} onPress={next} testID="lesson-next"/>
           </Animated.View>) : null}
         {leaveSheet}
-        <Modal visible={combo > 0} animationType="fade" onRequestClose={() => { setCombo(0); advance(); }}><SafeAreaView edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: "#5A3FD9" }}><Pressable accessibilityLabel="Davom etish" onPress={() => { setCombo(0); advance(); }} style={{ flex: 1 }}><View style={{ marginHorizontal: d(16), marginVertical: d(8), height: d(16), borderRadius: d(8), backgroundColor: "#FFFFFF33", overflow: "hidden" }}><Fill value={session.stats().progress} color={gold} /></View><View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: d(12) }}><Effect board="Embers" style={{ position: "absolute", width: d(200), height: d(260), top: "50%", marginTop: d(-250) }} /><Icon name="flame-streak" size={d(126)} /><Bounce change={combo}><Txt style={{ fontSize: d(26), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>{combo} ta ketma-ket!</Txt></Bounce><Txt style={{ fontSize: d(15), fontFamily: "Nunito_700Bold", color: c.muted }}>Siz to&apos;xtamayapsiz 💪</Txt></View></Pressable></SafeAreaView></Modal>
+        <Modal visible={combo > 0} animationType="fade" onRequestClose={() => { setCombo(0); advance(); }}><SafeAreaView edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: c.accentLip }}><Pressable accessibilityLabel="Davom etish" onPress={() => { setCombo(0); advance(); }} style={{ flex: 1 }}><View style={{ marginHorizontal: d(16), marginVertical: d(8), height: d(16), borderRadius: d(8), backgroundColor: c.onAccent + "33", overflow: "hidden" }}><Fill value={session.stats().progress} color={gold} /></View><View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: d(12) }}><Effect board="Embers" style={{ position: "absolute", width: d(200), height: d(260), top: "50%", marginTop: d(-250) }} /><Icon name="flame-streak" size={d(126)} /><Bounce change={combo}><Txt style={{ fontSize: d(26), fontFamily: "Nunito_900Black", color: c.onAccent }}>{combo} ta ketma-ket!</Txt></Bounce><Txt style={{ fontSize: d(15), fontFamily: "Nunito_700Bold", color: c.onAccentSoft }}>Siz to&apos;xtamayapsiz 💪</Txt></View></Pressable></SafeAreaView></Modal>
       </Page>
     </ScreenTransition>);
 }

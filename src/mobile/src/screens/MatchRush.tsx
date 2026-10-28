@@ -11,9 +11,9 @@ import { useScrim } from "../components/HelpSheet";
 import { Bounce, Fill } from "../components/Motion";
 import { ProblemContent } from "../components/ProblemContent";
 import { RaisedPressable } from "../components/RaisedPressable";
-import { brand, type } from "../components/system";
+import { type } from "../components/system";
 import { DombiOverlay, useDs } from "../components/TabChrome";
-import { Button, green, Icon, LinkButton, Page, Txt, useTheme, violet } from "../components/ui";
+import { Button, green, Icon, LinkButton, Page, Txt, useTheme } from "../components/ui";
 import { useDesignScale } from "../components/useDesignScale";
 import { P, units } from "../data/content";
 import { play, sound, stopAudio } from "../lib/audio";
@@ -81,7 +81,7 @@ export default function MatchRush() {
       <Page>
         <View style={{ flex: 1, gap: d(16) }}>
           <View style={{ gap: d(6) }}>
-            <Txt style={{ ...type("label", d), color: brand.main }}>JUFTLANG · 1 DAQIQA</Txt>
+            <Txt style={{ ...type("label", d), color: c.accentText }}>JUFTLANG · 1 DAQIQA</Txt>
             <Txt style={{ ...type("title", d), color: ds.ink }}>Ovozni iboraga ulang</Txt>
           </View>
           <View style={{ flexDirection: "row", gap: d(12) }}>
@@ -105,7 +105,7 @@ export default function MatchRush() {
     return (
       <Page>
         <View style={{ flex: 1, gap: d(6) }}>
-          <Txt style={{ ...type("label", d), color: brand.main }}>VAQT TUGADI</Txt>
+          <Txt style={{ ...type("label", d), color: c.accentText }}>VAQT TUGADI</Txt>
           <Txt style={{ ...type("title", d), color: ds.ink }}>{result.found} juft topdingiz</Txt>
           {result.before !== undefined ? <Txt style={{ ...type("body", d), color: ds.muted, marginTop: d(4) }}>Oldingi eng yaxshi natija: {result.before} juft.</Txt> : null}
         </View>
@@ -122,7 +122,7 @@ export default function MatchRush() {
     const id: string = game[side][i];
     if (game.flash && now < game.flash.until && game.flash[side] === i) return { edge: c.notYet, face: c.bad, text: c.notYetText, fade: 1 };
     if (game.matched.includes(id)) return lastPair?.id === id && now < lastPair.until ? { edge: green, face: c.good, text: c.goodText, fade: 1 } : { edge: c.line, face: c.card, text: c.text, fade: FADE };
-    if (game.pick?.side === side && game.pick.i === i) return { edge: violet, face: c.soft, text: violet, fade: 1 };
+    if (game.pick?.side === side && game.pick.i === i) return { edge: c.accent, face: c.soft, text: c.accentText, fade: 1 };
     return { edge: c.line, face: c.card, text: c.text, fade: 1 };
   };
   const card = (side: Side, i: number) => {
@@ -150,7 +150,7 @@ export default function MatchRush() {
       </View>
       <View style={{ paddingHorizontal: d(16), paddingTop: d(12), gap: d(16) }}>
         <View style={{ gap: d(6) }}>
-          <Txt style={{ ...type("label", d), color: brand.main }}>JUFTLANG</Txt>
+          <Txt style={{ ...type("label", d), color: c.accentText }}>JUFTLANG</Txt>
           <Txt style={{ fontSize: d(22), lineHeight: d(27.5), fontFamily: "Nunito_900Black", color: ds.ink }}>Ovozni iboraga ulang</Txt>
         </View>
         <View accessibilityLabel={`${Math.ceil(left * 60)} soniya qoldi`} style={{ height: d(10), borderRadius: d(5), backgroundColor: c.line, overflow: "hidden" }}>

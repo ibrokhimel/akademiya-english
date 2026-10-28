@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { TextInput } from "react-native";
 import { ScreenHeader,SettingGroup,SettingRow } from "../components/SettingsControls";
-import { LinkButton,Page,s,Txt,useTheme,violet } from "../components/ui";
+import { LinkButton,Page,s,Txt,useTheme } from "../components/ui";
 import { useDesignScale } from "../components/useDesignScale";
 import { pb,sync } from "../lib/backend";
 import { useBack } from "../lib/navigation";
@@ -48,6 +48,6 @@ export default function DeviceSettings() {
             })
                 .catch(() => setMessage("Serverga ulanib bo'lmadi"));
         }}/>
-        {message ? (<Txt style={{ color: violet, textAlign: "center" }}>{message}</Txt>) : null}
+        {message ? (<Txt style={{ color: c.accentText, textAlign: "center" }}>{message}</Txt>) : null}
 </Page>;
 }

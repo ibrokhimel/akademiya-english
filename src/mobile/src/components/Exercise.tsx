@@ -52,8 +52,7 @@ Icon,
 LinkButton,
 Picture,
 Txt,
-useTheme,
-violet
+useTheme
 } from "./ui";
 
 // The still waveform on Catch's audio bar (C1).
@@ -362,8 +361,8 @@ export function Exercise({
       if (i === choice) return { edge: c.notYet, text: c.notYetText, face: c.bad };
     }
     return {
-      edge: choice === i ? violet : c.line,
-      text: choice === i ? violet : c.text,
+      edge: choice === i ? c.accent : c.line,
+      text: choice === i ? c.accentText : c.text,
       face: choice === i ? c.soft : c.card,
     };
   };
@@ -383,7 +382,7 @@ export function Exercise({
         <View style={{ gap: d(6), alignSelf: "flex-start" }}>
         <Txt
           style={{
-            color: violet,
+            color: c.accentText,
             fontFamily: "Nunito_900Black",
             fontSize: d(12),
             letterSpacing: d(.8),
@@ -417,7 +416,7 @@ export function Exercise({
           // C1: the sentence is only heard; the bar plays it again, the button beside it slowly.
           <View style={{ flexDirection: "row", alignItems: "center", gap: d(12), backgroundColor: c.card, borderRadius: d(18), borderWidth: d(2), borderColor: c.line, padding: d(12) }}>
             <RaisedPressable soundName={false} disabled={busy} accessibilityLabel="Sekin tinglash" onPress={() => { void replay(true); }} radius={d(12)} depth={d(3)} backgroundColor={c.card} edgeColor={c.line} faceStyle={{ width: d(40), height: d(40), borderWidth: d(2), borderColor: c.line, alignItems: "center", justifyContent: "center" }}><Icon name="glyph-slow-violet" size={d(18)} /></RaisedPressable>
-            <Pressable accessibilityRole="button" accessibilityLabel="Tinglash" disabled={busy} onPress={() => { void replay(); }} style={{ flex: 1, height: d(40), flexDirection: "row", alignItems: "center", gap: d(3) }}>{busy ? <AudioBars color={violet} size={d(30)} count={4} /> : WAVE.map((h, i) => <View key={i} style={{ width: d(3), height: d(h), borderRadius: d(2), backgroundColor: violet }} />)}</Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Tinglash" disabled={busy} onPress={() => { void replay(); }} style={{ flex: 1, height: d(40), flexDirection: "row", alignItems: "center", gap: d(3) }}>{busy ? <AudioBars color={c.accent} size={d(30)} count={4} /> : WAVE.map((h, i) => <View key={i} style={{ width: d(3), height: d(h), borderRadius: d(2), backgroundColor: c.accent }} />)}</Pressable>
           </View>
         ) : null}
         {!item.fix && (item.ex === "meet" || (item.ex === "say" && way !== "tiles")) ? (
@@ -451,7 +450,7 @@ export function Exercise({
         ) : null}
             {item.ex === "meet" && way !== "tiles" ? <View style={{ minHeight: d(28) }}>{showText || checked ? <Txt style={{ fontSize: d(20), fontFamily: "Nunito_900Black" }}>{text}</Txt> : null}</View> : null}
         {item.ex === "say" && way !== "tiles" && !checked && !speech.transcript ? <Pressable accessibilityRole="button" accessibilityLabel="Yordam" onPress={() => setHintShown(true)} style={{ alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: d(4), paddingVertical: d(8), paddingHorizontal: d(14), borderRadius: d(12), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card }}><Icon name="bulb-tip" size={d(17)} /><Txt style={{ fontSize: d(15), fontFamily: "Nunito_800ExtraBold", color: c.muted }}>{hintShown ? text.split(" ")[0].replace(/[.,!?]/g, "") + (text.trim().includes(" ") ? " …" : "") : "Yordam"}</Txt></Pressable> : null}
-        {item.ex === "echo" ? <View style={{ flexDirection: "row", alignItems: "flex-end", gap: d(12) }}><View style={{ width: d(56), height: d(56), borderRadius: d(28), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={voice} size={d(56)} /></View><View style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: d(10), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card, borderRadius: d(18), borderBottomLeftRadius: d(4), padding: d(14) }}><RaisedPressable accessibilityLabel="Tinglash" onPress={() => { void replay(); }} radius={d(12)} depth={d(3)} backgroundColor={c.card} edgeColor={c.line} faceStyle={{ width: d(36), height: d(36), borderWidth: d(2), borderColor: c.line, alignItems: "center", justifyContent: "center" }}>{busy ? <AudioBars color={violet} size={d(18)} /> : <Icon name="glyph-speaker-violet" size={d(18)} />}</RaisedPressable><Txt style={{ flex: 1, fontSize: d(18), fontFamily: "Nunito_900Black" }}>{text}</Txt></View></View> : null}
+        {item.ex === "echo" ? <View style={{ flexDirection: "row", alignItems: "flex-end", gap: d(12) }}><View style={{ width: d(56), height: d(56), borderRadius: d(28), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={voice} size={d(56)} /></View><View style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: d(10), borderWidth: d(2), borderColor: c.line, backgroundColor: c.card, borderRadius: d(18), borderBottomLeftRadius: d(4), padding: d(14) }}><RaisedPressable accessibilityLabel="Tinglash" onPress={() => { void replay(); }} radius={d(12)} depth={d(3)} backgroundColor={c.card} edgeColor={c.line} faceStyle={{ width: d(36), height: d(36), borderWidth: d(2), borderColor: c.line, alignItems: "center", justifyContent: "center" }}>{busy ? <AudioBars color={c.accent} size={d(18)} /> : <Icon name="glyph-speaker-violet" size={d(18)} />}</RaisedPressable><Txt style={{ flex: 1, fontSize: d(18), fontFamily: "Nunito_900Black" }}>{text}</Txt></View></View> : null}
         {item.ex === "heard" ? (
           <>
             <View
@@ -465,14 +464,14 @@ export function Exercise({
               {[...new Set(item.talk?.map(([who]) => who))].map((who) => (
                 <View key={who} style={{ alignItems: "center", gap: d(6) }}>
                   {/* The Rive view keeps its first size, so the face is always drawn at 92 and shrunk with a transform. */}
-                  <View style={{ width: d(checked ? 56 : 92), height: d(checked ? 56 : 92) }}><View style={{ position: "absolute", left: d(checked ? -18 : 0), top: d(checked ? -18 : 0), width: d(92), height: d(92), transform: [{ scale: (checked ? 56 / 92 : 1) * (activeSpeaker === who ? 1.06 : 1) }] }}><View style={{ width: "100%", height: "100%", borderRadius: d(46), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={who} size={d(92)} /></View>{activeSpeaker === who ? <View style={{ position: "absolute", top: d(-3), left: d(-3), right: d(-3), bottom: d(-3), borderWidth: d(3), borderColor: violet, borderRadius: d(50) }} /> : null}</View></View>
-                  <Txt style={{ color: activeSpeaker === who ? violet : c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>
+                  <View style={{ width: d(checked ? 56 : 92), height: d(checked ? 56 : 92) }}><View style={{ position: "absolute", left: d(checked ? -18 : 0), top: d(checked ? -18 : 0), width: d(92), height: d(92), transform: [{ scale: (checked ? 56 / 92 : 1) * (activeSpeaker === who ? 1.06 : 1) }] }}><View style={{ width: "100%", height: "100%", borderRadius: d(46), backgroundColor: c.soft, overflow: "hidden" }}><Actor who={who} size={d(92)} /></View>{activeSpeaker === who ? <View style={{ position: "absolute", top: d(-3), left: d(-3), right: d(-3), bottom: d(-3), borderWidth: d(3), borderColor: c.accent, borderRadius: d(50) }} /> : null}</View></View>
+                  <Txt style={{ color: activeSpeaker === who ? c.accentText : c.muted, fontSize: d(13), fontFamily: "Nunito_900Black" }}>
                     {names[who]}
                   </Txt>
                 </View>
               ))}
             </View>
-            {!checked && heardOnce ? <RaisedPressable onPress={() => { if (!busy) void replay(); }} accessibilityLabel="YANA TINGLASH" disabled={busy} radius={d(16)} depth={d(4)} backgroundColor={busy ? c.line : c.card} edgeColor={busy ? c.edge : c.line} style={{ alignSelf: "center", width: "100%" }} faceStyle={{ height: d(44), paddingHorizontal: d(18), borderWidth: d(2), borderColor: c.line, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(8) }}><Icon name="glyph-replay-violet" size={d(16)} style={busy ? { tintColor: c.muted } : undefined} /><Txt style={{ fontSize: d(13), color: busy ? c.muted : violet, fontFamily: "Nunito_900Black" }}>YANA TINGLASH</Txt></RaisedPressable> : null}
+            {!checked && heardOnce ? <RaisedPressable onPress={() => { if (!busy) void replay(); }} accessibilityLabel="YANA TINGLASH" disabled={busy} radius={d(16)} depth={d(4)} backgroundColor={busy ? c.line : c.card} edgeColor={busy ? c.edge : c.line} style={{ alignSelf: "center", width: "100%" }} faceStyle={{ height: d(44), paddingHorizontal: d(18), borderWidth: d(2), borderColor: c.line, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: d(8) }}><Icon name="glyph-replay-violet" size={d(16)} style={busy ? { tintColor: c.muted } : undefined} /><Txt style={{ fontSize: d(13), color: busy ? c.muted : c.accentText, fontFamily: "Nunito_900Black" }}>YANA TINGLASH</Txt></RaisedPressable> : null}
             {heardOnce ? (
               <View style={{ flexDirection: "row", gap: d(8) }}>
                 {choices.map((k) => (
@@ -567,13 +566,13 @@ export function Exercise({
                       }}
                       style={{
                         borderWidth: d(2),
-                        borderColor: verdict === true ? green : verdict === false && choice === i ? c.notYet : violet,
-                        backgroundColor: verdict === true ? c.good : verdict === false && choice === i ? c.bad : choice === i ? violet : c.soft,
+                        borderColor: verdict === true ? green : verdict === false && choice === i ? c.notYet : c.accent,
+                        backgroundColor: verdict === true ? c.good : verdict === false && choice === i ? c.bad : choice === i ? c.accent : c.soft,
                         borderRadius: d(8),
                         width: verdict === true ? undefined : d(40), height: d(32), paddingHorizontal: verdict === true ? d(6) : 0, alignItems: "center", justifyContent: "center",
                       }}
                     >
-                      <Txt style={{ color: verdict === true ? "#27A852" : choice === i ? "#FFFFFF" : violet, fontSize: d(verdict === true ? 22 : 18), fontFamily: verdict === true ? "Nunito_800ExtraBold" : "Nunito_900Black" }}>{verdict === true ? item.put || text.split(" ")[item.gap || 0]?.replace(/[.,!?]/g, "") : "+"}</Txt>
+                      <Txt style={{ color: verdict === true ? "#27A852" : choice === i ? c.onAccent : c.accentText, fontSize: d(verdict === true ? 22 : 18), fontFamily: verdict === true ? "Nunito_800ExtraBold" : "Nunito_900Black" }}>{verdict === true ? item.put || text.split(" ")[item.gap || 0]?.replace(/[.,!?]/g, "") : "+"}</Txt>
                     </Pressable>
                   ) : null}
                   <Pressable
@@ -586,14 +585,14 @@ export function Exercise({
                     style={{
                       borderBottomWidth: d(3),
                       borderColor:
-                        item.ex !== "gap" ? (verdict !== null ? choiceColor(i).edge : choice === i ? violet : c.edge) : "transparent",
+                        item.ex !== "gap" ? (verdict !== null ? choiceColor(i).edge : choice === i ? c.accent : c.edge) : "transparent",
                       paddingHorizontal: d(item.ex === "gap" ? 2 : 6), paddingVertical: d(2),
                       backgroundColor:
                         item.ex !== "gap" ? choiceColor(i).face : c.bg,
                       borderRadius: d(8),
                     }}
                   >
-                    <Txt style={{ fontSize: d(22), fontFamily: "Nunito_800ExtraBold", color: item.ex !== "gap" && verdict !== null && (choice === i || i === item.bad) ? choiceColor(i).text : item.ex !== "gap" && choice === i ? violet : c.text }}>{verdict === true && item.ex === "fix" && choice === i ? text.split(" ")[i] : word}</Txt>
+                    <Txt style={{ fontSize: d(22), fontFamily: "Nunito_800ExtraBold", color: item.ex !== "gap" && verdict !== null && (choice === i || i === item.bad) ? choiceColor(i).text : item.ex !== "gap" && choice === i ? c.accentText : c.text }}>{verdict === true && item.ex === "fix" && choice === i ? text.split(" ")[i] : word}</Txt>
                   </Pressable>
                 </Animated.View>
               ))}
@@ -620,8 +619,8 @@ export function Exercise({
               }}
               radius={d(22)}
               depth={d(6)}
-              backgroundColor={busy || speech.listening ? c.line : violet}
-              edgeColor={busy || speech.listening ? c.edge : "#5A3FD9"}
+              backgroundColor={busy || speech.listening ? c.line : c.accent}
+              edgeColor={busy || speech.listening ? c.edge : c.accentLip}
               faceStyle={{
                 width: d(80),
                 height: d(80),
@@ -632,7 +631,7 @@ export function Exercise({
               {busy && !slowPlayback ? (
                 <AudioBars color={c.muted} size={d(34)} count={4} />
               ) : (
-                <Icon name="glyph-speaker-white" size={d(34)} style={busy || speech.listening ? { tintColor: c.muted } : undefined} />
+                <Icon name="glyph-speaker-white" size={d(34)} style={{ tintColor: busy || speech.listening ? c.muted : c.onAccent }} />
               )}
             </RaisedPressable>
             <RaisedPressable
@@ -754,7 +753,7 @@ export function Exercise({
                       height: d(98),
                       borderRadius: d(49),
                       borderWidth: d(3),
-                      borderColor: speech.listening ? "#FF6B5B" : violet,
+                      borderColor: speech.listening ? "#FF6B5B" : c.accent,
                     }}
                   /> : null}
                   <RaisedPressable
@@ -770,8 +769,8 @@ export function Exercise({
                     }}
                     radius={d(44)}
                     depth={d(6)}
-                    backgroundColor={busy ? c.line : checked ? "#3DCB6C" : speech.listening ? "#FF6B5B" : violet}
-                    edgeColor={busy ? c.edge : checked ? "#27A852" : speech.listening ? "#D9483A" : "#5A3FD9"}
+                    backgroundColor={busy ? c.line : checked ? "#3DCB6C" : speech.listening ? "#FF6B5B" : c.accent}
+                    edgeColor={busy ? c.edge : checked ? "#27A852" : speech.listening ? "#D9483A" : c.accentLip}
                     faceStyle={{
                       width: d(88),
                       height: d(88),
@@ -779,7 +778,7 @@ export function Exercise({
                       alignItems: "center",
                     }}
                   >
-                    {checked ? <Icon name="glyph-check-white" size={d(38)} /> : speech.listening ? <AudioBars color="#FFFFFF" size={d(30)} count={4} /> : <Icon name="glyph-mic-white" size={d(38)} style={busy ? { tintColor: c.muted } : undefined} />}
+                    {checked ? <Icon name="glyph-check-white" size={d(38)} /> : speech.listening ? <AudioBars color="#FFFFFF" size={d(30)} count={4} /> : <Icon name="glyph-mic-white" size={d(38)} style={{ tintColor: busy ? c.muted : c.onAccent }} />}
                   </RaisedPressable>
                 </View>
                 <Txt style={{ color: c.muted, fontSize: d(13), fontFamily: "Nunito_800ExtraBold" }}>
@@ -801,7 +800,7 @@ export function Exercise({
           </Txt>
         ) : null}
         {item.ex === "meet" && way !== "tiles" && !checked && !speech.transcript ? (
-          <Pressable accessibilityLabel={showText ? "Matnni yashirish" : "Matnni ko'rsatish"} onPress={() => setShowText(!showText)} style={{ alignSelf: "center", paddingVertical: d(6), paddingHorizontal: d(8) }}><Txt style={{ color: violet, fontSize: d(14), fontFamily: "Nunito_800ExtraBold" }}>{showText ? "Matnni yashirish" : "Matnni ko'rsatish"}</Txt></Pressable>
+          <Pressable accessibilityLabel={showText ? "Matnni yashirish" : "Matnni ko'rsatish"} onPress={() => setShowText(!showText)} style={{ alignSelf: "center", paddingVertical: d(6), paddingHorizontal: d(8) }}><Txt style={{ color: c.accentText, fontSize: d(14), fontFamily: "Nunito_800ExtraBold" }}>{showText ? "Matnni yashirish" : "Matnni ko'rsatish"}</Txt></Pressable>
         ) : null}
         {readAloud && !checked ? (
           <LinkButton

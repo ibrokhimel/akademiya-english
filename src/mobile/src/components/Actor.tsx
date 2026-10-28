@@ -5,7 +5,7 @@ useRiveFile,
 useViewModelInstance,
 type RiveFile,
 } from "@rive-app/react-native";
-import { createContext,useContext,useEffect,type ReactNode,type RefObject } from "react";
+import { createContext,useContext,useEffect,useRef,type ReactNode,type RefObject } from "react";
 import { View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { watchMotion } from "../lib/audio";
@@ -19,6 +19,9 @@ export type Rig = {
   num: (name: string, value: number) => void;
   bool: (name: string, value: boolean) => void;
 };
+
+// The hats the rig can draw (its DombiHat enum, design/rive/dombi_full.js): every other outfit waits for its art (Ruling 3).
+const RIVE_HATS = ["none", "doppi"];
 
 const FileContext = createContext<RiveFile | null>(null);
 export function useActorFile() {
@@ -44,6 +47,7 @@ export function Actor({
   listening,
   rigRef,
   onReady,
+  outfit,
 }: {
   who?: string;
   size?: number;
@@ -56,6 +60,8 @@ export function Actor({
   rigRef?: RefObject<Rig | null>;
   /** called once the rig is loaded and drawing */
   onReady?: () => void;
+  /** Dombi's outfit when it is not the saved one (the Dombi editor's preview) */
+  outfit?: string;
 }) {
   const file = useContext(FileContext);
   return (
@@ -74,7 +80,7 @@ export function Actor({
               : { flex: 1 }
           }
         >
-          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} rigRef={rigRef} onReady={onReady} />
+          <LoadedActor file={file} who={who} mood={mood} gesture={gesture} trigger={trigger} talking={talking} listening={listening} rigRef={rigRef} onReady={onReady} outfit={outfit} />
         </View>
       ) : null}
     </View>
@@ -90,6 +96,7 @@ function LoadedActor({
   listening,
   rigRef,
   onReady,
+  outfit,
 }: {
   file: RiveFile;
   who: string;
@@ -100,8 +107,9 @@ function LoadedActor({
   listening?: boolean;
   rigRef?: RefObject<Rig | null>;
   onReady?: () => void;
+  outfit?: string;
 }) {
-  const { settings } = useApp(),
+  const { settings, isDark } = useApp(),
     reduce = useReducedMotion();
   const board =
     (
@@ -134,9 +142,24 @@ function LoadedActor({
     const t = setTimeout(onReady, 120);
     return () => clearTimeout(t);
   }, [instance, onReady]);
+  // His outfit from the profile: the hat goes on at once when he appears; a change plays his quick `dress` hop-turn and
+  // the new hat lands in it (as in design/rive/moments.html). Neck, hand and glasses items and the corner props have no
+  // Rive art yet, so nothing else is set.
+  const wearing = outfit ?? settings.profile.dombi.outfit, hat = RIVE_HATS.includes(wearing) ? wearing : "none";
+  const worn = useRef<{ instance: unknown; hat: string } | null>(null);
+  useEffect(() => {
+    if (!instance || who !== "dombi") return;
+    const before = worn.current?.instance === instance ? worn.current.hat : null;
+    if (before === hat) return;
+    // worn records a hat only once it is on, so a run cut short inside the 90 ms (Reduce Motion flipping) tries again
+    if (before === null || reduce) { instance.enumProperty("hat")?.set(hat); worn.current = { instance, hat }; return; }
+    instance.triggerProperty("dress")?.trigger();
+    const t = setTimeout(() => { instance.enumProperty("hat")?.set(hat); worn.current = { instance, hat }; }, 90);
+    return () => clearTimeout(t);
+  }, [instance, who, hat, reduce]);
   useEffect(() => {
     if (!instance) return;
-    instance.booleanProperty("dark")?.set(settings.dark);
+    instance.booleanProperty("dark")?.set(isDark);
     if (who === "dombi") {
       instance.enumProperty("mood")?.set(mood);
       if (!reduce) instance.enumProperty("gesture")?.set(gesture);
@@ -154,7 +177,7 @@ function LoadedActor({
         instance.numberProperty("amp")?.set(event.amp ?? 0);
       }
     });
-  }, [instance, who, mood, gesture, trigger, talking, listening, settings.dark, reduce]);
+  }, [instance, who, mood, gesture, trigger, talking, listening, isDark, reduce]);
   return instance ? (
     <RiveView
       file={file}

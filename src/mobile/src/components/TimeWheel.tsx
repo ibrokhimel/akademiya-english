@@ -27,7 +27,7 @@ type SharedValue,
 import { scheduleOnRN } from "react-native-worklets";
 import { sound,warmSounds } from "../lib/audio";
 import { useApp } from "../lib/store";
-import { useTheme,violet } from "./ui";
+import { useTheme } from "./ui";
 
 const times = Array.from(
   { length: 48 },
@@ -260,7 +260,7 @@ export function TimeWheel({
               borderRadius: 12 * scale,
               backgroundColor: c.card,
               borderWidth: 2 * scale,
-              borderColor: violet,
+              borderColor: c.accent,
             }}
           />
           <View
@@ -276,6 +276,7 @@ export function TimeWheel({
                 position={position}
                 scale={scale}
                 muted={c.muted}
+                accent={c.accent}
               />
             ))}
           </View>
@@ -292,12 +293,14 @@ const WheelNumber = memo(function WheelNumber({
   position,
   scale,
   muted,
+  accent,
 }: {
   slot: number;
   initialIndex: number;
   position: SharedValue<number>;
   scale: number;
   muted: string;
+  accent: string;
 }) {
   const labelIndex = useDerivedValue(
     () => slot + Math.round((position.get() - slot) / SLOTS) * SLOTS,
@@ -359,7 +362,7 @@ const WheelNumber = memo(function WheelNumber({
     color: interpolateColor(
       Math.min(1, Math.abs(labelIndex.get() - position.get()) / 0.85),
       [0, 1],
-      [violet, muted],
+      [accent, muted],
     ),
   }));
   return (

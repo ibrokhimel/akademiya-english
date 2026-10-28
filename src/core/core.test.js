@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf, voiceOf } from './text.js';
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
+import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName, uploadRefusal, mediaUrisOf } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -615,4 +617,416 @@ test('shake: jolts too far apart are not a shake', () => {
 test('shake: one long jolt over the bar counts once, and after a shake there is a 1.5 s rest', () => {
   assert.deepEqual(shaken([[0, 2.0], [10, 2.2], [20, 2.1], [30, 1]]), []);
   assert.deepEqual(shaken([[0, 2], [50, 1], [200, 2], [250, 1], [400, 2], [450, 1], [600, 2], [650, 1], [1800, 2], [1850, 1], [1900, 2]]), [200, 1900]);
+});
+
+test('a new profile starts with the defaults', () => {
+  const p = defaultProfile();
+  assert.equal(p.v, 1); assert.equal(p.avatar.kind, 'letter'); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
+  assert.deepEqual(p.stats.shown, ['streak', 'phrases']);   // the Profile tab's 2 x 2 as before: streak, then phrases
+  assert.deepEqual(p.look.sections.map((s) => s.id), SECTION_IDS);
+  assert.equal(p.look.sections.filter((s) => !s.shown).map((s) => s.id).join(), 'trophyShelf');
+  assert.deepEqual(STAT_IDS, ['phrases', 'streak', 'minutesSpoken', 'lessons', 'level', 'prediction']);
+  assert.deepEqual(normalizeProfile(p), p);
+  assert.notEqual(defaultProfile().look.sections, p.look.sections);
+});
+test('a stored profile is cleaned: unknown keys dropped, bad values reset', () => {
+  assert.deepEqual(normalizeProfile(null), defaultProfile());
+  assert.deepEqual(normalizeProfile('x'), defaultProfile());
+  const p = normalizeProfile({ junk: 1, frame: 7, nameColor: null, avatar: { kind: 'nope', color: 'red', extra: 1, built: { skin: 4, wat: 1 } }, dombi: { name: 'Bo', zzz: 1 } });
+  assert.equal(p.junk, undefined); assert.equal(p.frame, 'none'); assert.equal(p.nameColor, 'default');
+  assert.equal(p.avatar.kind, 'letter'); assert.equal(p.avatar.color, 'red'); assert.equal(p.avatar.extra, undefined);
+  assert.equal(p.avatar.built.skin, 4); assert.equal(p.avatar.built.wat, undefined); assert.equal(p.dombi.name, 'Bo'); assert.equal(p.dombi.pose, 'sit');
+});
+test('bio is cut at 60, username must be a-z 0-9 _ and 3 to 20 long', () => {
+  assert.equal(normalizeProfile({ bio: 'a'.repeat(80) }).bio.length, 60);
+  assert.equal(normalizeProfile({ username: 'Aziz_01' }).username, 'aziz_01');
+  for (const bad of ['ab', 'a'.repeat(21), 'has space', 'dot.dot', 5]) assert.equal(normalizeProfile({ username: bad }).username, '', String(bad));
+});
+test('pinned badges are 3 at most and unique; dim stays 0 to 0.8', () => {
+  assert.deepEqual(normalizeProfile({ badges: { pinned: ['a', 'b', 'a', 'c', 'd'] } }).badges.pinned, ['a', 'b', 'c']);
+  assert.equal(normalizeProfile({ look: { dim: 5 } }).look.dim, 0.8);
+  assert.equal(normalizeProfile({ look: { dim: -1 } }).look.dim, 0);
+  assert.equal(normalizeProfile({ look: { dim: 'x' } }).look.dim, 0.3);
+});
+test('sections: unknown dropped, missing added at their place, always all of them', () => {
+  const p = normalizeProfile({ look: { sections: [{ id: 'bio', shown: false }, { id: 'zzz', shown: true }, { id: 'banner', shown: true }, { id: 'bio', shown: true }] } });
+  assert.equal(p.look.sections.length, SECTION_IDS.length);
+  assert.deepEqual(p.look.sections.slice(0, 3).map((s) => s.id), ['bio', 'title', 'banner']);   // title lands at its default index 1
+  assert.equal(new Set(p.look.sections.map((s) => s.id)).size, SECTION_IDS.length);
+  assert.equal(p.look.sections[0].shown, false);
+  assert.equal(p.look.sections.find((s) => s.id === 'title').shown, true);
+  assert.equal(p.look.sections.find((s) => s.id === 'joined').shown, true);
+  assert.equal(p.look.sections.find((s) => s.id === 'trophyShelf').shown, false);
+  const none = normalizeProfile({ look: { sections: SECTION_IDS.map((id) => ({ id, shown: false })) } });
+  assert.equal(none.look.sections.length, SECTION_IDS.length);
+});
+test('stats shown keeps only known ids', () => {
+  assert.deepEqual(normalizeProfile({ stats: { shown: ['streak', 'nope', 'streak', 'level'] } }).stats.shown, ['streak', 'level']);
+});
+test('streak frames come from the best streak ever', () => {
+  const e = earnedItems({ bestStreak: 31, perfectLessons: 0, minutesSpoken: 0, level: 0, unitsDone: [] });
+  assert.ok(e.has('frame.streak7') && e.has('frame.streak30') && !e.has('frame.streak100') && !e.has('frame.streak365'));
+  assert.ok(e.has('nameColor.gradient'));
+  const f = (n) => earnedItems({ bestStreak: n });
+  assert.ok(!f(6).has('frame.streak7') && f(7).has('frame.streak7') && !f(29).has('nameColor.gradient') && f(100).has('frame.streak100') && f(365).has('frame.streak365'));
+});
+test('perfect and speaker frames', () => {
+  assert.ok(!earnedItems({ perfectLessons: 9 }).has('frame.perfect') && earnedItems({ perfectLessons: 10 }).has('frame.perfect'));
+  assert.ok(!earnedItems({ minutesSpoken: 59 }).has('frame.speaker') && earnedItems({ minutesSpoken: 60 }).has('frame.speaker'));
+});
+test('level frames and the moving avatar follow the level', () => {
+  assert.equal(earnedItems({ level: 0 }).size, 0);
+  const l1 = earnedItems({ level: 1 }); assert.ok(l1.has('frame.level.a1') && !l1.has('frame.level.a2') && !l1.has('avatar.moving'));
+  const l5 = earnedItems({ level: 5 });
+  for (const k of ['a1', 'a2', 'b1', 'b2', 'c1']) assert.ok(l5.has('frame.level.' + k), k);
+  assert.ok(l5.has('avatar.moving') && earnedItems({ level: 2 }).has('avatar.moving'));
+});
+test('a finished unit gives its frame and title', () => {
+  const e = earnedItems({ unitsDone: ['cafe', 'shop'] });
+  for (const id of ['frame.unit.cafe', 'title.unit.cafe', 'frame.unit.shop', 'title.unit.shop']) assert.ok(e.has(id), id);
+  assert.ok(!e.has('frame.unit.bank') && !e.has('title.earlyBird'));
+  assert.equal(earnedItems({}).size, 0);
+});
+test('badge styles are grid, row and shelf; anything else is grid', () => {
+  for (const s of ['grid', 'row', 'shelf']) assert.equal(normalizeProfile({ badges: { style: s } }).badges.style, s);
+  for (const bad of ['list', 'nope', 5, null]) assert.equal(normalizeProfile({ badges: { style: bad } }).badges.style, 'grid');
+});
+test('earned units ignore entries that are not unit names', () => {
+  const e = earnedItems({ unitsDone: ['cafe', 5, null, '', {}] });
+  assert.deepEqual([...e].sort(), ['frame.unit.cafe', 'title.unit.cafe']);
+});
+test('the synced profile never carries a phone path, and the input is left alone', () => {
+  const p = normalizeProfile({ avatar: { kind: 'photo', uri: 'file:///a.jpg', mediaType: 'image' }, banner: { kind: 'media', uri: 'file:///b.mp4', mediaType: 'video' }, look: { background: { kind: 'media', uri: 'file:///c.gif', mediaType: 'gif' } } });
+  const out = profileForSync(p);
+  assert.equal(out.avatar.uri, null); assert.equal(out.banner.uri, null); assert.equal(out.look.background.uri, null);
+  assert.equal(out.avatar.mediaType, 'image'); assert.equal(out.banner.kind, 'media');
+  assert.equal(p.avatar.uri, 'file:///a.jpg');
+  assert.deepEqual(profileForSync(defaultProfile()), defaultProfile());
+});
+test('only media that is in use and not yet uploaded is picked', () => {
+  const p = normalizeProfile({ avatar: { kind: 'media', uri: 'file:///a.gif', mediaType: 'gif' }, banner: { kind: 'media', uri: 'file:///b.png', mediaType: 'image' }, look: { background: { kind: 'color', id: 'plain', uri: 'file:///old.png', mediaType: 'image' } } });
+  assert.deepEqual(mediaToUpload(p, {}).map((m) => m.field), ['avatar', 'banner']);
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///a.gif' }).map((m) => m.field), ['banner']);
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///a.gif', banner: 'file:///b.png' }), []);
+  assert.equal(mediaToUpload(p, {})[0].uri, 'file:///a.gif'); assert.equal(mediaToUpload(p, {})[0].mediaType, 'gif');
+});
+test('a letter avatar or a colour banner uploads nothing, and a changed picture uploads again', () => {
+  assert.deepEqual(mediaToUpload(defaultProfile(), {}), []);
+  const p = normalizeProfile({ avatar: { kind: 'photo', uri: 'file:///new.jpg', mediaType: 'image' } });
+  assert.deepEqual(mediaToUpload(p, { avatar: 'file:///old.jpg' }).map((m) => m.field), ['avatar']);
+  assert.deepEqual(mediaToUpload(null, null), []);
+});
+test('the early bird title needs five early lessons', () => {
+  assert.ok(!earnedItems({ earlyLessons: 4 }).has('title.earlyBird') && earnedItems({ earlyLessons: 5 }).has('title.earlyBird'));
+  assert.equal(earnedItems({}).has('title.earlyBird'), false);
+});
+
+// ---- profile customization: media limits, recent pictures, crop, seasonal frames (customize.js) ----
+const gif = (...delays) => {   // a tiny GIF89a: header, screen, no colour table, one image per delay (centiseconds)
+  const out = [...'GIF89a'].map((ch) => ch.charCodeAt(0)).concat([1, 0, 1, 0, 0, 0, 0]);
+  out.push(0x21, 0xff, 11, ...[...'NETSCAPE2.0'].map((ch) => ch.charCodeAt(0)), 3, 1, 0, 0, 0);   // loop extension, skipped
+  for (const cs of delays) out.push(0x21, 0xf9, 4, 0, cs & 0xff, cs >> 8, 0, 0, 0x2c, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 0x44, 0x01, 0);
+  out.push(0x3b);
+  return Uint8Array.from(out);
+};
+test('picked media is an image, a GIF or a video', () => {
+  assert.equal(pickedMediaType({ type: 'image', mimeType: 'image/jpeg', fileName: 'a.jpg' }), 'image');
+  assert.equal(pickedMediaType({ type: 'image', mimeType: 'image/gif' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'image', fileName: 'Fun.GIF' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'image', uri: 'file:///x/y.gif' }), 'gif');
+  assert.equal(pickedMediaType({ type: 'video', mimeType: 'video/mp4' }), 'video');
+  assert.equal(pickedMediaType({ type: 'pairedVideo' }), 'video');
+  assert.equal(pickedMediaType({ type: null, mimeType: 'video/quicktime' }), 'video');
+  assert.equal(pickedMediaType({ type: 'livePhoto' }), 'image');
+  assert.equal(pickedMediaType({}), 'image');
+});
+test('GIF and video over 8 MB or 6 seconds are refused, pictures are never refused', () => {
+  const MB = 1024 * 1024;
+  assert.equal(MEDIA_LIMITS.bytes, 8 * MB); assert.equal(MEDIA_LIMITS.ms, 6000);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 5900 }), null);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 8 * MB, ms: 6000 }), null);
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 6040 }), null, 'a 6 s clip the container rounds up still passes');
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: 3 * MB, ms: 6200 }), 'tooLong');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 8 * MB + 1, ms: 1000 }), 'tooBig');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 9 * MB, ms: 9000 }), 'tooBig');
+  assert.equal(mediaProblem({ mediaType: 'gif', bytes: 100, ms: null }), null, 'unknown length is not a reason to refuse');
+  assert.equal(mediaProblem({ mediaType: 'video', bytes: null, ms: 2000 }), null);
+  assert.equal(mediaProblem({ mediaType: 'image', bytes: 40 * MB, ms: null }), null);
+});
+test('a GIF is as long as its frame delays, short delays play at 100 ms like browsers do', () => {
+  assert.equal(gifDurationMs(gif(50, 50, 100)), 2000);
+  assert.equal(gifDurationMs(gif(0, 1, 2)), 220);
+  assert.equal(gifDurationMs(gif(700)), 7000);
+  assert.equal(gifDurationMs(Uint8Array.from([1, 2, 3])), null);
+  assert.equal(gifDurationMs(gif(50).slice(0, 30)), null, 'a cut file has no length');
+});
+test('recent pictures keep the last 4, newest first, without repeats', () => {
+  let list = [];
+  for (const n of [1, 2, 3, 4, 5]) list = rememberMedia(list, { uri: `file:///${n}.jpg`, mediaType: 'image' }).list;
+  assert.deepEqual(list.map((m) => m.uri), ['file:///5.jpg', 'file:///4.jpg', 'file:///3.jpg', 'file:///2.jpg']);
+  const again = rememberMedia(list, { uri: 'file:///3.jpg', mediaType: 'image' });
+  assert.deepEqual(again.list.map((m) => m.uri), ['file:///3.jpg', 'file:///5.jpg', 'file:///4.jpg', 'file:///2.jpg']);
+  assert.deepEqual(again.dropped, []);
+  const next = rememberMedia(again.list, { uri: 'file:///6.mp4', mediaType: 'video' });
+  assert.deepEqual(next.dropped.map((m) => m.uri), ['file:///2.jpg']);
+  assert.deepEqual(rememberMedia('junk', { uri: 'file:///a.gif', mediaType: 'gif' }).list, [{ uri: 'file:///a.gif', mediaType: 'gif' }]);
+  assert.deepEqual(rememberMedia([{ uri: 5 }, null, { uri: 'file:///b.png', mediaType: 'nope' }], { uri: 'file:///a.gif', mediaType: 'gif' }).list.map((m) => m.uri), ['file:///a.gif']);
+});
+test('the crop window covers the mask, pans only as far as the picture reaches and maps to picture pixels', () => {
+  const g = { imageW: 3000, imageH: 4000, viewW: 390, maskW: 300, maskH: 300 };
+  assert.equal(cropBase(g), 0.13);   // fits the screen width
+  assert.equal(cropBase({ imageW: 4000, imageH: 1000, viewW: 390, maskW: 350, maskH: 178 }), 0.178);   // a wide strip still covers the mask height
+  const mid = cropRect({ ...g, scale: 1, x: 0, y: 0 });
+  assert.deepEqual(mid, { originX: 346, originY: 846, width: 2308, height: 2308 });
+  const far = cropRect({ ...g, scale: 1, x: 9999, y: -9999 });
+  assert.equal(far.originX, 0); assert.equal(far.originY, 4000 - far.height);
+  const zoom = cropRect({ ...g, scale: 2, x: 0, y: 0 });
+  assert.equal(zoom.width, 1154); assert.equal(zoom.originX, 923);
+  assert.deepEqual(clampPan({ ...g, scale: 1, x: 9999, y: 9999 }), { x: 45, y: 110 });
+  const tiny = cropRect({ imageW: 100, imageH: 100, viewW: 390, maskW: 350, maskH: 178, scale: 0.2, x: 0, y: 0 });
+  assert.ok(tiny.originX >= 0 && tiny.originY >= 0 && tiny.originX + tiny.width <= 100 && tiny.originY + tiny.height <= 100, JSON.stringify(tiny));
+});
+test('seasonal frames open only in their window, year-end windows wrap, Ramadan is always open', () => {
+  const on = (id, iso) => seasonOpen(id, new Date(iso + 'T12:00:00'));
+  assert.ok(on('navruz', '2027-03-01') && on('navruz', '2027-03-31') && !on('navruz', '2027-02-28') && !on('navruz', '2027-04-01'));
+  assert.ok(on('independence', '2027-08-25') && on('independence', '2027-09-05') && !on('independence', '2027-08-24') && !on('independence', '2027-09-06'));
+  assert.ok(on('newyear', '2026-12-15') && on('newyear', '2026-12-31') && on('newyear', '2027-01-15') && !on('newyear', '2027-01-16') && !on('newyear', '2026-12-14'));
+  assert.ok(on('ramadan', '2027-06-10') && on('violet', '2027-06-10') && on('streak7', '2027-06-10'));
+  assert.deepEqual(SEASONAL_FRAMES, ['navruz', 'independence', 'newyear', 'ramadan']);
+});
+test('a seasonal frame chosen in its window is drawn as none after it', () => {
+  assert.equal(frameShown('navruz', new Date('2027-03-10T12:00:00')), 'navruz');
+  assert.equal(frameShown('navruz', new Date('2027-04-10T12:00:00')), 'none');
+  assert.equal(frameShown('gold', new Date('2027-04-10T12:00:00')), 'gold');
+  assert.equal(frameShown('ramadan', new Date('2027-04-10T12:00:00')), 'ramadan');
+});
+test('the moving avatar is a kind of its own, and a letter on your own picture uploads that picture', () => {
+  assert.equal(normalizeProfile({ avatar: { kind: 'moving' } }).avatar.kind, 'moving');
+  const own = normalizeProfile({ avatar: { kind: 'letter', bg: 'own', uri: 'file:///bg.jpg', mediaType: 'image' } });
+  assert.deepEqual(mediaToUpload(own, {}).map((m) => [m.field, m.uri]), [['avatar', 'file:///bg.jpg']]);
+  assert.deepEqual(mediaToUpload(normalizeProfile({ avatar: { kind: 'letter', bg: 'plain', uri: 'file:///bg.jpg', mediaType: 'image' } }), {}), []);
+});
+test('a video keeps its first-frame picture next to it', () => {
+  assert.equal(thumbnailOf('file:///docs/profile/ab-12.mp4'), 'file:///docs/profile/ab-12.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs/profile/ab.MOV'), 'file:///docs/profile/ab.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
+  assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
+});
+test('the files another account on this phone still uses are listed from its cached settings', () => {
+  const settings = {
+    profile: { avatar: { uri: 'file:///d/profile/a.jpg' }, banner: { uri: 'file:///d/profile/b.mp4' }, look: { background: { uri: 'c.gif' } } },
+    appLook: { lessonBackground: { uri: 'file:///d/profile/l.jpg' } },
+  };
+  assert.deepEqual(mediaUrisOf(settings), ['file:///d/profile/a.jpg', 'file:///d/profile/b.mp4', 'c.gif', 'file:///d/profile/l.jpg']);
+  assert.deepEqual(mediaUrisOf({ profile: { avatar: { uri: null }, banner: { uri: '' }, look: null } }), []);
+  for (const junk of [null, undefined, 'x', 3, {}]) assert.deepEqual(mediaUrisOf(junk), []);
+});
+test('an upload the server will never take is not sent again: over 8 MB, or a 400 answer', () => {
+  assert.equal(uploadRefusal({ bytes: 8 * 1024 * 1024 + 1 }), 'large');
+  assert.equal(uploadRefusal({ bytes: 8 * 1024 * 1024 }), null);
+  assert.equal(uploadRefusal({ error: { status: 400 } }), 'rejected');
+  // worth trying again next sync: offline (status 0), a timeout, a server error, an unknown failure
+  for (const error of [{ status: 0 }, { status: 500 }, new Error('x'), null]) assert.equal(uploadRefusal({ error }), null);
+  assert.equal(uploadRefusal(), null);
+});
+test('a stored profile media uri is found again by its file name, whatever the old app folder was', () => {
+  // an install before the update: the container id in the path is gone, the name is what counts
+  assert.equal(profileFileName('file:///var/mobile/Containers/Data/Application/OLD-ID/Documents/profile/ab-12.mp4'), 'ab-12.mp4');
+  assert.equal(profileFileName('file:///docs/profile/ab-12.thumb.jpg'), 'ab-12.thumb.jpg');
+  assert.equal(profileFileName('file:///docs/profile/ab%20c.jpg'), 'ab c.jpg');
+  assert.equal(profileFileName('file:///docs/profile/ab.jpg?v=2'), 'ab.jpg');
+  assert.equal(profileFileName('ab-12.gif'), 'ab-12.gif');
+  // not ours: another folder, nothing, or no name
+  assert.equal(profileFileName('file:///tmp/ImagePicker/x.jpg'), null);
+  assert.equal(profileFileName('file:///docs/profile/'), null);
+  assert.equal(profileFileName('file:///docs/profile/..'), null);
+  assert.equal(profileFileName('file:///docs/profile/a%2F..%2Fb.jpg'), null);
+  assert.equal(profileFileName('file:///docs/profile/%E0%A4%A'), null);
+  assert.equal(profileFileName(''), null);
+  assert.equal(profileFileName(null), null);
+  assert.equal(profileFileName(undefined), null);
+});
+
+// ---- profile showcase: name and about me, badges, stats (showcase.js) ----
+import { cleanUsername, isUsername, birthdayOn, shouldGreetBirthday, birthdayLabel, MONTHS, toggleStat, shows, togglePin, rarestBadge, shelfOrder, moveTo, statsToShow } from './showcase.js';
+test('username typing: the @ and capitals go, only a-z 0-9 _ stay, 20 at most; the B1 rule decides', () => {
+  assert.equal(cleanUsername('@Aziz.01 x'), 'aziz01x');
+  assert.equal(cleanUsername('@@ibrokhim'), 'ibrokhim');
+  assert.equal(cleanUsername('a'.repeat(30)).length, 20);
+  assert.equal(cleanUsername(null), '');
+  assert.ok(isUsername('aziz_01') && !isUsername('ab') && !isUsername('') && !isUsername('Aziz'));
+  for (const u of ['abc', 'a_b_c', 'x'.repeat(20)]) assert.equal(normalizeProfile({ username: u }).username, u);
+});
+test('birthday: the same month and day; 29 February is kept on the 28th in other years', () => {
+  assert.ok(birthdayOn('03-12', new Date(2027, 2, 12, 9)));
+  assert.ok(!birthdayOn('03-12', new Date(2027, 2, 13)) && !birthdayOn(null, new Date(2027, 2, 12)) && !birthdayOn('3-12', new Date(2027, 2, 12)));
+  assert.ok(birthdayOn('02-29', new Date(2028, 1, 29)) && !birthdayOn('02-29', new Date(2028, 1, 28)));
+  assert.ok(birthdayOn('02-29', new Date(2027, 1, 28)) && !birthdayOn('02-28', new Date(2027, 2, 1)));
+});
+test('birthday greeting: on the day, switched on, once a year', () => {
+  const day = new Date(2027, 2, 12, 8);
+  assert.ok(shouldGreetBirthday({ birthday: '03-12', greet: true, now: day }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: false, now: day }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: true, now: day, greetedYear: 2027 }));
+  assert.ok(shouldGreetBirthday({ birthday: '03-12', greet: true, now: new Date(2028, 2, 12), greetedYear: 2027 }));
+  assert.ok(!shouldGreetBirthday({ birthday: '03-12', greet: true, now: new Date(2027, 2, 11) }));
+});
+test('the birthday greeting is on by default and stays a yes or no', () => {
+  assert.equal(defaultProfile().birthdayGreet, true);
+  assert.equal(normalizeProfile({ birthdayGreet: false }).birthdayGreet, false);
+  assert.equal(normalizeProfile({ birthdayGreet: 'no' }).birthdayGreet, true);
+});
+test('a birthday reads as day and month in Uzbek', () => {
+  assert.equal(birthdayLabel('03-12'), '12-mart');
+  assert.equal(birthdayLabel('01-01'), '1-yanvar');
+  assert.equal(birthdayLabel('12-31'), '31-dekabr');
+  assert.equal(birthdayLabel('nope'), '');
+});
+test('a part of the profile shows unless the learner hid it', () => {
+  assert.ok(shows(defaultProfile(), 'bio') && shows(defaultProfile(), 'title') && !shows(defaultProfile(), 'trophyShelf'));
+  assert.ok(!shows(normalizeProfile({ look: { sections: [{ id: 'bio', shown: false }] } }), 'bio'));
+  assert.ok(shows(null, 'bio') && !shows(defaultProfile(), 'nope'));
+});
+test('pins: up to 3, a second press takes the pin off, a full row takes no more', () => {
+  assert.deepEqual(togglePin([], 'a'), ['a']);
+  assert.deepEqual(togglePin(['a', 'b'], 'a'), ['b']);
+  assert.deepEqual(togglePin(['a', 'b', 'c'], 'd'), ['a', 'b', 'c']);
+  assert.deepEqual(togglePin(['a', 'b', 'c'], 'b'), ['a', 'c']);
+  assert.deepEqual(togglePin(null, 'a'), ['a']);
+});
+test('the rarest badge is the earned one with the biggest goal; the first of equals wins', () => {
+  const list = [{ id: 'perfect', goal: 5, earned: true }, { id: 'early', goal: 10, earned: false }, { id: 'speaker', goal: 10, earned: true }, { id: 'fixer', goal: 10, earned: true }, { id: 'legend', goal: 1, earned: true }];
+  assert.equal(rarestBadge(list), 'speaker');
+  assert.equal(rarestBadge(list.map((b) => ({ ...b, earned: b.id === 'legend' }))), 'legend');
+  assert.equal(rarestBadge(list.map((b) => ({ ...b, earned: false }))), null);
+  assert.equal(rarestBadge([]), null);
+});
+test('trophy shelf: the learner order first, unknown ids dropped, new trophies added at the end', () => {
+  assert.deepEqual(shelfOrder(['c', 'x', 'a'], ['a', 'b', 'c']), ['c', 'a', 'b']);
+  assert.deepEqual(shelfOrder([], ['a', 'b']), ['a', 'b']);
+  assert.deepEqual(shelfOrder(['b', 'b'], ['a', 'b']), ['b', 'a']);
+});
+test('moving a trophy puts it at the new place and keeps the rest in order', () => {
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 2), ['b', 'c', 'a']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'c', 0), ['c', 'a', 'b']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'b', 1), ['a', 'b', 'c']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'z', 0), ['a', 'b', 'c']);
+  assert.deepEqual(moveTo(['a', 'b', 'c'], 'a', 9), ['b', 'c', 'a']);
+});
+test('stats on the profile: the picked ones in the order they were picked, only those with a value; private mode shows none', () => {
+  const all = new Set(STAT_IDS);
+  assert.deepEqual(statsToShow(defaultProfile(), all), ['streak', 'phrases']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['level', 'phrases'] } }), all), ['level', 'phrases']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { shown: ['prediction', 'streak'] } }), new Set(['streak'])), ['streak']);
+  assert.deepEqual(statsToShow(normalizeProfile({ stats: { private: true } }), all), []);
+});
+test('stat layout is a 2 x 2 grid or one big number; anything else is the grid', () => {
+  assert.equal(defaultProfile().stats.layout, 'grid');
+  assert.equal(normalizeProfile({ stats: { layout: 'big' } }).stats.layout, 'big');
+  for (const bad of ['huge', 5, null]) assert.equal(normalizeProfile({ stats: { layout: bad } }).stats.layout, 'grid');
+});
+test('turning a stat on puts it last, turning it off takes it out', () => {
+  assert.deepEqual(toggleStat(['streak', 'phrases'], 'level', true), ['streak', 'phrases', 'level']);
+  assert.deepEqual(toggleStat(['streak', 'phrases'], 'streak', false), ['phrases']);
+  assert.deepEqual(toggleStat(['streak'], 'streak', true), ['streak']);
+  assert.deepEqual(toggleStat(['streak'], 'nope', true), ['streak']);
+});
+test('the month names are the Uzbek ones, January first', () => {
+  assert.equal(MONTHS.length, 12); assert.equal(MONTHS[0], 'yanvar'); assert.equal(MONTHS[11], 'dekabr');
+});
+
+// ---- Dombi on the profile (showcase.js) ----
+import { poseMoment, dombiName } from './showcase.js';
+test('Dombi\'s pose on the profile is one of his rig moments: sitting is idle, waving is glad, sleeping is night', () => {
+  assert.equal(poseMoment('sit'), 'idle');
+  assert.equal(poseMoment('wave'), 'glad');
+  assert.equal(poseMoment('sleep'), 'night');
+  for (const p of ['read', 'nope', null]) assert.equal(poseMoment(p), 'idle');
+  for (const p of ['sit', 'wave', 'sleep']) assert.ok(MOMENTS.includes(poseMoment(p)), p);
+});
+test('Dombi\'s name: trimmed, 16 letters at most, empty is Dombi again', () => {
+  assert.equal(dombiName('  Bobur '), 'Bobur');
+  assert.equal(dombiName(''), 'Dombi');
+  assert.equal(dombiName('   '), 'Dombi');
+  assert.equal(dombiName(null), 'Dombi');
+  assert.equal(dombiName('a'.repeat(30)).length, 16);
+  assert.equal(normalizeProfile({ dombi: { name: 'a'.repeat(30) } }).dombi.name.length, 16);
+  assert.equal(normalizeProfile({ dombi: { name: '  ' } }).dombi.name, 'Dombi');
+});
+
+// ---- profile look: colours, background, what shows (showcase.js) ----
+import { contrastRatio } from './showcase.js';
+test('contrast ratio: black on white is 21, a colour on itself is 1, the order does not matter', () => {
+  assert.equal(Math.round(contrastRatio('#000000', '#FFFFFF')), 21);
+  assert.equal(contrastRatio('#7B5CFF', '#7B5CFF'), 1);
+  assert.equal(contrastRatio('#7B5CFF', '#FFFFFF'), contrastRatio('#FFFFFF', '#7B5CFF'));
+  assert.ok(Math.abs(contrastRatio('#7B5CFF', '#FFFFFF') - 4.36) < 0.01);
+  assert.ok(Number.isNaN(contrastRatio('violet', '#FFFFFF')));
+});
+import { DIM_MAX, clampDim, dimAt } from './showcase.js';
+test('background dim: 0 to 0.8, anything else is clamped or the default; the slider moves in steps of 0.05', () => {
+  assert.equal(DIM_MAX, 0.8);
+  assert.equal(clampDim(0.5), 0.5);
+  assert.equal(clampDim(2), 0.8);
+  assert.equal(clampDim(-1), 0);
+  assert.equal(clampDim(NaN), 0.3);
+  assert.equal(clampDim('x'), 0.3);
+  assert.equal(dimAt(0), 0);
+  assert.equal(dimAt(1), 0.8);
+  assert.equal(dimAt(0.5), 0.4);
+  assert.equal(dimAt(0.33), 0.25);
+  assert.equal(dimAt(1.4), 0.8);
+  assert.equal(dimAt(-0.2), 0);
+  assert.equal(normalizeProfile({ look: { dim: 0.45 } }).look.dim, 0.45);
+});
+import { defaultSections, toggleSection, moveSection, profileLayout } from './showcase.js';
+test('what shows: the switch keeps the place, unknown ids change nothing', () => {
+  const s = defaultSections();
+  const off = toggleSection(s, 'bio', false);
+  assert.equal(off.find((x) => x.id === 'bio').shown, false);
+  assert.deepEqual(off.map((x) => x.id), s.map((x) => x.id));
+  assert.equal(toggleSection(off, 'bio', true).find((x) => x.id === 'bio').shown, true);
+  assert.deepEqual(toggleSection(s, 'nope', false), s);
+  assert.notEqual(off, s);
+  assert.equal(s.find((x) => x.id === 'bio').shown, true);   // the list given is not changed
+});
+test('what shows: dragging a row moves it to the new place and keeps the rest in order', () => {
+  const ids = (l) => l.map((x) => x.id);
+  const s = defaultSections();
+  assert.deepEqual(ids(moveSection(s, 0, 2)).slice(0, 3), ['title', 'bio', 'banner']);
+  assert.deepEqual(ids(moveSection(s, 13, 0))[0], 'dombi');
+  assert.deepEqual(ids(moveSection(s, 2, 2)), ids(s));
+  assert.deepEqual(ids(moveSection(s, 1, 99)).at(-1), 'title');
+  assert.deepEqual(ids(moveSection(s, 1, -5))[0], 'title');
+  assert.deepEqual(moveSection(s, 99, 0), s);
+  assert.equal(moveSection(s, 3, 1).length, SECTION_IDS.length);
+});
+test('reset: the default order with the trophy shelf hidden, a fresh list each time', () => {
+  assert.deepEqual(defaultSections(), defaultProfile().look.sections);
+  assert.notEqual(defaultSections(), defaultSections());
+});
+test('the Profile tab draws its parts from the sections: header parts by switch, the rest in the learner\'s order', () => {
+  const d = profileLayout(defaultProfile());
+  assert.equal(d.name, true);
+  assert.equal(d.banner && d.title && d.level && d.joined && d.dombi, true);
+  assert.deepEqual(d.body, ['bio', 'tags', 'pinnedBadges', 'goal', 'stats', 'records', 'awards', 'favouritePhrase']);
+  const sections = toggleSection(moveSection(defaultSections(), SECTION_IDS.indexOf('awards'), 0), 'bio', false);
+  const moved = normalizeProfile({ look: { sections } });
+  assert.deepEqual(profileLayout(moved).body.slice(0, 3), ['awards', 'tags', 'pinnedBadges']);
+  assert.ok(!profileLayout(moved).body.includes('bio'));
+});
+test('normalizeProfile never hides everything: with every section off the name still shows', () => {
+  const none = normalizeProfile({ look: { sections: SECTION_IDS.map((id) => ({ id, shown: false })) } });
+  const l = profileLayout(none);
+  assert.equal(l.name, true);
+  assert.deepEqual(l.body, []);
+  assert.equal(l.banner || l.title || l.level || l.joined || l.dombi, false);
+  assert.equal(profileLayout(null).name, true);
+});
+test('normalizeProfile: a section id it does not know stays out, a new one comes back at its default place', () => {
+  const saved = SECTION_IDS.filter((id) => id !== 'goal').map((id) => ({ id, shown: true }));
+  const p = normalizeProfile({ look: { sections: [{ id: 'friends', shown: true }, ...saved] } });
+  assert.ok(!p.look.sections.some((s) => s.id === 'friends'));
+  assert.equal(p.look.sections.findIndex((s) => s.id === 'goal'), SECTION_IDS.indexOf('goal'));
+  assert.equal(p.look.sections.find((s) => s.id === 'goal').shown, true);
 });

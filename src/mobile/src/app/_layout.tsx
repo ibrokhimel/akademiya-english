@@ -37,6 +37,9 @@ export default function RootLayout() {
     Nunito_700Bold,
     Nunito_800ExtraBold,
     Nunito_900Black,
+    // Disleksiya uchun shrift (SIL OFL 1.1, assets/fonts/OFL.txt)
+    OpenDyslexic_400Regular: require("../../assets/fonts/OpenDyslexic-Regular.otf"),
+    OpenDyslexic_700Bold: require("../../assets/fonts/OpenDyslexic-Bold.otf"),
   });
   useEffect(() => {
     if (loaded || error) void SplashScreen.hideAsync();
@@ -53,19 +56,19 @@ export default function RootLayout() {
   );
 }
 function Navigation() {
-  const { settings } = useApp();
+  const { settings, isDark } = useApp();
   const segments = useSegments();
   const reduced = useReducedMotion();
   return (
     <>
       {segments[0] !== "visual-audit" && !getVisualAudit() ? <Services /> : null}
-      <StatusBar style={settings.dark ? "light" : "dark"} />
+      <StatusBar style={isDark ? "light" : "dark"} />
       <Stack
         UNSTABLE_router={navigationRouter}
         screenOptions={{
           headerShown: false,
           cardStyle: {
-            backgroundColor: settings.dark ? "#121214" : "#FFFFFF",
+            backgroundColor: isDark ? "#121214" : "#FFFFFF",
           },
           animation: reduced ? "fade" : "slide_from_right",
           animationTypeForReplace: "push",
@@ -84,6 +87,18 @@ function Navigation() {
         <Stack.Protected guard={settings.onboarded}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="settings" />
+          <Stack.Screen name="customize/index" />
+          <Stack.Screen name="customize/avatar" />
+          <Stack.Screen name="customize/frame" />
+          <Stack.Screen name="customize/banner" />
+          <Stack.Screen name="customize/about" />
+          <Stack.Screen name="customize/badges" />
+          <Stack.Screen name="customize/stats" />
+          <Stack.Screen name="customize/dombi" />
+          <Stack.Screen name="customize/look" />
+          <Stack.Screen name="customize/sections" />
+          <Stack.Screen name="customize/app" />
+          <Stack.Screen name="customize/crop" options={{ animation: "fade" }} />
           <Stack.Screen name="speech-settings" />
           <Stack.Protected guard={testToolsEnabled}>
             <Stack.Screen name="device-settings" />
@@ -169,7 +184,7 @@ function Services() {
     app.settings.server,
     app.settings.name,
     app.settings.cast,
-    app.settings.dark,
+    app.settings.mode,
     app.settings.sound,
     app.settings.speaking,
     app.settings.saveVoice,

@@ -1,5 +1,5 @@
 import { router,useScrollToTop } from "expo-router";
-import { useRef,useState } from "react";
+import { Fragment,useRef,useState } from "react";
 import {
 Pressable,
 ScrollView,
@@ -10,19 +10,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuditScroll } from "../../audit/layout";
 import { GoalSheet } from "../../components/GoalSheet";
 import { DombiOverlay } from "../../components/TabChrome";
+import { Avatar } from "../../components/Avatar";
+import { AvatarFrame } from "../../components/AvatarFrame";
 import { Arrive } from "../../components/Motion";
-import { ProfileDetails } from "../../components/ProfileDetails";
+import { ProfilePinned } from "../../components/Badges";
+import { ProfileAbout } from "../../components/ProfileAbout";
+import { ProfileBackground } from "../../components/ProfileBackground";
+import { ProfileBanner } from "../../components/ProfileBanner";
+import { ProfileDetail,ProfileFooter,detailParts,type DetailPart } from "../../components/ProfileDetails";
+import { ProfileHeader } from "../../components/ProfileHeader";
+import { useLookColors } from "../../components/customize/colors";
 import { RaisedPressable } from "../../components/RaisedPressable";
 import {
 Icon,
 Txt,
-useTheme,
-violet
+useTheme
 } from "../../components/ui";
+import { titles } from "../../data/cosmetics";
 import { goals } from "../../data/content";
 import { testToolsEnabled } from "../../lib/config";
 import { useHomeBack } from "../../lib/navigation";
 import { useApp } from "../../lib/store";
+import { poseMoment,profileLayout } from "../../../../core/showcase.js";
+import type { DombiMoment } from "../../components/Dombi";
 export default function Profile() {
   useHomeBack();
   const scroll = useRef<ScrollView>(null);
@@ -38,143 +48,14 @@ export default function Profile() {
     later = () =>
       router.navigate("/problem?kind=not-ready");
   const [goalOpen, setGoalOpen] = useState(false);
+  // "Nimalar ko'rinsin": the header parts by their switch, the rest in the learner's order (the name always shows)
+  const profile = settings.profile,
+    look = useLookColors(profile.look),
+    layout = profileLayout(profile),
+    title = layout.title ? titles.find((t) => t.id === profile.title)?.label : undefined;
   const joined = settings.joined ? new Date(settings.joined) : new Date();
   const date = `${["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"][joined.getMonth()]} ${joined.getFullYear()}`;
-  return (
-    <SafeAreaView
-      edges={["top", "left", "right"]}
-      style={{ flex: 1, backgroundColor: c.bg }}
-    >
-      <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            height: d(199),
-            backgroundColor: c.soft,
-            position: "relative",
-          }}
-        >
-          <View
-            style={{
-              position: "absolute",
-              right: d(14),
-              top: d(8),
-              flexDirection: "row",
-              gap: d(8),
-            }}
-          >
-            {[
-              [
-                "glyph-more-violet",
-                "Profil menyusi",
-                () => router.navigate("/account"),
-              ],
-              [
-                "glyph-gear-violet",
-                "Sozlamalar",
-                () => router.navigate("/settings"),
-              ],
-            ].map(([icon, label, press]) => (
-              <RaisedPressable
-                key={String(icon)}
-                accessibilityLabel={String(label)}
-                onPress={press as () => void}
-                radius={d(19)}
-                depth={d(3)}
-                backgroundColor={c.card}
-                edgeColor={settings.dark ? "#16132E" : "#D9CFFF"}
-                faceStyle={{
-                  width: d(38),
-                  height: d(38),
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Icon name={String(icon)} size={d(28)} />
-              </RaisedPressable>
-            ))}
-          </View>
-          <Txt
-            style={{
-              position: "absolute",
-              right: d(14),
-              bottom: d(6),
-              fontSize: d(11),
-              color: c.muted,
-              fontFamily: "Nunito_800ExtraBold",
-            }}
-          >
-            {date}
-          </Txt>
-        </View>
-        <View
-          style={{ paddingHorizontal: d(20), paddingBottom: d(28), gap: d(18), backgroundColor: c.bg }}
-        >
-          <Arrive style={{ height: d(68) }}>
-            <View
-              style={{
-                position: "absolute",
-                left: 0,
-                top: d(-26),
-                width: d(96),
-                height: d(96),
-                borderRadius: d(48),
-                backgroundColor: violet,
-                borderWidth: d(4),
-                borderColor: c.card,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Txt
-                style={{
-                  fontSize: d(43),
-                  color: "#FFFFFF",
-                  fontFamily: "Nunito_900Black",
-                }}
-              >
-                {name[0].toUpperCase()}
-              </Txt>
-            </View>
-            <Txt
-              numberOfLines={1}
-              style={{
-                position: "absolute",
-                left: d(110),
-                right: d(104),
-                top: d(24),
-                fontSize: d(26),
-                lineHeight: d(29),
-                fontFamily: "Nunito_900Black",
-              }}
-            >
-              {name}
-            </Txt>
-            <View
-              style={{
-                position: "absolute",
-                right: 0,
-                top: d(29),
-                flexDirection: "row",
-                gap: d(6),
-                alignItems: "center",
-                paddingVertical: d(6),
-                paddingHorizontal: d(8),
-                borderRadius: 99,
-                backgroundColor: c.soft,
-              }}
-            >
-              <Icon name="level-badge" size={d(18)} />
-              <Txt
-                style={{
-                  fontSize: d(12),
-                  color: violet,
-                  fontFamily: "Nunito_900Black",
-                }}
-              >
-                {p.level}-daraja
-              </Txt>
-            </View>
-          </Arrive>
+  const goalCard = (
           <Arrive index={1}><Pressable
             onPress={() => setGoalOpen(true)}
             style={{
@@ -207,14 +88,16 @@ export default function Profile() {
               style={{
                 fontSize: d(12),
                 letterSpacing: d(.3),
-                color: violet,
+                color: c.accentText,
                 fontFamily: "Nunito_900Black",
               }}
             >
               O&apos;ZGARTIRISH
             </Txt>
           </Pressable></Arrive>
-          {testToolsEnabled ? <>
+  );
+  const testCards = (
+          testToolsEnabled ? <>
           <Arrive index={2}
             style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}
           >
@@ -254,7 +137,7 @@ export default function Profile() {
               <Txt
                 style={{
                   fontSize: d(14),
-                  color: violet,
+                  color: c.accentText,
                   letterSpacing: 0.6,
                   fontFamily: "Nunito_900Black",
                 }}
@@ -283,10 +166,10 @@ export default function Profile() {
           </Arrive>
           <Arrive index={3}
             style={{
-              backgroundColor: settings.dark ? "#2E8FC8" : "#4FB6F0",
+              backgroundColor: c.promo,
               borderRadius: d(20),
               borderBottomWidth: 4,
-              borderColor: "#2E95D0",
+              borderColor: c.promoEdge,
               padding: d(18),
               gap: d(8),
             }}
@@ -299,7 +182,7 @@ export default function Profile() {
                   style={{
                     fontSize: d(18),
                     lineHeight: d(23),
-                    color: "#FFFFFF",
+                    color: c.onFill,
                     fontFamily: "Nunito_900Black",
                   }}
                 >
@@ -317,7 +200,7 @@ export default function Profile() {
                   <Txt
                     style={{
                       fontSize: d(13),
-                      color: "#FFE27A",
+                      color: c.promoTag,
                       fontFamily: "Nunito_900Black",
                     }}
                   >
@@ -353,8 +236,8 @@ export default function Profile() {
               accessibilityLabel="KO'RISH"
               radius={d(14)}
               depth={d(4)}
-              backgroundColor={settings.dark ? "#E8F6FD" : "#FFFFFF"}
-              edgeColor={settings.dark ? "#9CCBE6" : "#D7ECF8"}
+              backgroundColor={c.promoButton}
+              edgeColor={c.promoButtonEdge}
               faceStyle={{
                 minHeight: d(48),
                 alignItems: "center",
@@ -364,7 +247,7 @@ export default function Profile() {
               <Txt
                 style={{
                   fontSize: d(14),
-                  color: "#2E95D0",
+                  color: c.promoText,
                   fontFamily: "Nunito_900Black",
                 }}
               >
@@ -372,11 +255,75 @@ export default function Profile() {
               </Txt>
             </RaisedPressable>
           </Arrive>
-          </> : null}
-          <Arrive index={testToolsEnabled ? 4 : 2}><ProfileDetails /></Arrive>
+          </> : null
+  );
+  return (
+    <SafeAreaView
+      edges={["top", "left", "right"]}
+      style={{ flex: 1, backgroundColor: c.bg }}
+    >
+      <ProfileBackground background={profile.look.background} dim={profile.look.dim} />
+      <ScrollView ref={scroll} showsVerticalScrollIndicator={false}>
+        <ProfileHeader
+          name={name}
+          nameColor={profile.nameColor}
+          accent={look.name}
+          caption={title}
+          level={profile.stats.private || !layout.level ? undefined : p.level}
+          date={layout.joined ? date : undefined}
+          dateOnImage={layout.banner && settings.profile.banner.kind === "media"}
+          animate
+          banner={layout.banner ? <ProfileBanner banner={settings.profile.banner} height={d(199)} /> : undefined}
+          avatar={(size) => <Avatar avatar={settings.profile.avatar} name={name} size={size} dombiOutfit={settings.profile.dombi.outfit} />}
+          frame={(size, avatar) => <AvatarFrame id={settings.profile.frame} size={size}>{avatar}</AvatarFrame>}
+          actions={[
+            [
+              "glyph-more-violet",
+              "Profil menyusi",
+              () => router.navigate("/customize"),
+            ],
+            [
+              "glyph-gear-violet",
+              "Sozlamalar",
+              () => router.navigate("/settings"),
+            ],
+          ].map(([icon, label, press]) => (
+            <RaisedPressable
+              key={String(icon)}
+              accessibilityLabel={String(label)}
+              onPress={press as () => void}
+              radius={d(19)}
+              depth={d(3)}
+              backgroundColor={c.card}
+              edgeColor={c.menuEdge}
+              faceStyle={{
+                width: d(38),
+                height: d(38),
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name={String(icon)} size={d(28)} />
+            </RaisedPressable>
+          ))}
+        />
+        <View
+          style={{ paddingHorizontal: d(20), paddingTop: d(18), paddingBottom: d(28), gap: d(18) }}
+        >
+          {layout.body.map((id, i) => {
+            // a part with nothing in it takes no room: records in private mode, no favourite phrase picked
+            if ((id === "records" && profile.stats.private) || (id === "favouritePhrase" && !profile.stats.favouritePhrase)) return null;
+            if (id === "bio" || id === "tags") return <ProfileAbout key={id} profile={profile} part={id} />;
+            if (id === "pinnedBadges") return <ProfilePinned key={id} />;
+            if (id === "goal") return <Fragment key={id}>{goalCard}{testCards}</Fragment>;
+            if (detailParts.includes(id)) return <Arrive key={id} index={Math.min(i + 1, 4)} style={{ gap: d(14) }}><ProfileDetail part={id as DetailPart} /></Arrive>;
+            return null;
+          })}
+          <ProfileFooter />
         </View>
       </ScrollView>
-      <DombiOverlay phone moment={Object.keys(p.done).length ? "idle" : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} />
+      {/* his corner: the pose the learner picked (the first-lesson hint first); hidden in "Nimalar ko'rinsin" */}
+      {layout.dombi ? <DombiOverlay phone moment={Object.keys(p.done).length ? poseMoment(profile.dombi.pose) as DombiMoment : "guide"} line={Object.keys(p.done).length ? undefined : "Birinchi darsdan keyin bu yer to'la boshlaydi."} /> : null}
       <GoalSheet visible={goalOpen} onClose={() => setGoalOpen(false)} />
     </SafeAreaView>
   );

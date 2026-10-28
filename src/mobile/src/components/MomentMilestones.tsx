@@ -7,7 +7,7 @@ import { useApp } from "../lib/store";
 import { useActorFile } from "./Actor";
 import { Effect } from "./Effects";
 import { Arrive,Count } from "./Motion";
-import { Button,gold,Icon,Txt,useTheme,violet } from "./ui";
+import { Button,gold,Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
 
 function RewardFrame({ children, background, label, onContinue, goldButton = false, confetti }: { children: ReactNode; background: string; label: string; onContinue: () => void; goldButton?: boolean; confetti?: string }) {
@@ -24,8 +24,8 @@ export function CheckpointResult({ lesson, mistakes, onContinue }: { lesson: Les
   </RewardFrame>;
 }
 export function LevelReward({ onContinue }: { onContinue: () => void }) {
-  const d = useDesignScale(), { progress } = useApp(), level = progress.level;
-  return <RewardFrame background={violet} label={`${level}-DARAJANI BOSHLASH`} onContinue={onContinue} goldButton confetti="fountain"><View style={{ height: d(16) }} /><View style={{ width: d(120), height: d(120), borderRadius: d(60), backgroundColor: "#5A3FD9", borderWidth: d(7), borderColor: gold, alignItems: "center", justifyContent: "center" }}><Count value={level} style={{ fontSize: d(60), color: "#FFFFFF" }} /></View><Txt style={{ fontSize: d(34), fontFamily: "Nunito_900Black", color: "#FFFFFF" }}>Yangi daraja!</Txt><Txt style={{ fontSize: d(13), letterSpacing: d(.8), color: "#FFFFFFCC", fontFamily: "Nunito_900Black" }}>{level}-DARAJA · {level === 1 ? "OMON QOLISH" : ""}</Txt><View style={{ width: "100%", padding: d(18), borderRadius: d(20), backgroundColor: "#FFFFFF21", gap: d(10) }}><Txt style={{ fontSize: d(11), letterSpacing: d(.6), color: "#FFFFFFCC", fontFamily: "Nunito_900Black" }}>ENDI SIZ QILA OLASIZ:</Txt>{level === 1 ? [["hand-wave", "Tanishib, o'zingizni tanishtirish"], ["coffee-kafeda", "Kafeda buyurtma berish"], ["cart-dokon", "Do'konda narx so'rash va to'lash"]].map(([icon, text]) => <View key={text} style={{ flexDirection: "row", alignItems: "center", gap: d(6) }}><Icon name={icon} size={d(22)} /><Txt style={{ flex: 1, fontSize: d(15), fontFamily: "Nunito_800ExtraBold", color: "#FFFFFF" }}>{text}</Txt></View>) : null}</View></RewardFrame>;
+  const d = useDesignScale(), c = useTheme(), { progress } = useApp(), level = progress.level;
+  return <RewardFrame background={c.accent} label={`${level}-DARAJANI BOSHLASH`} onContinue={onContinue} goldButton confetti="fountain"><View style={{ height: d(16) }} /><View style={{ width: d(120), height: d(120), borderRadius: d(60), backgroundColor: c.accentLip, borderWidth: d(7), borderColor: gold, alignItems: "center", justifyContent: "center" }}><Count value={level} style={{ fontSize: d(60), color: c.onAccent }} /></View><Txt style={{ fontSize: d(34), fontFamily: "Nunito_900Black", color: c.onAccent }}>Yangi daraja!</Txt><Txt style={{ fontSize: d(13), letterSpacing: d(.8), color: c.onAccent + "CC", fontFamily: "Nunito_900Black" }}>{level}-DARAJA · {level === 1 ? "OMON QOLISH" : ""}</Txt><View style={{ width: "100%", padding: d(18), borderRadius: d(20), backgroundColor: c.onAccent + "21", gap: d(10) }}><Txt style={{ fontSize: d(11), letterSpacing: d(.6), color: c.onAccent + "CC", fontFamily: "Nunito_900Black" }}>ENDI SIZ QILA OLASIZ:</Txt>{level === 1 ? [["hand-wave", "Tanishib, o'zingizni tanishtirish"], ["coffee-kafeda", "Kafeda buyurtma berish"], ["cart-dokon", "Do'konda narx so'rash va to'lash"]].map(([icon, text]) => <View key={text} style={{ flexDirection: "row", alignItems: "center", gap: d(6) }}><Icon name={icon} size={d(22)} /><Txt style={{ flex: 1, fontSize: d(15), fontFamily: "Nunito_800ExtraBold", color: c.onAccent }}>{text}</Txt></View>) : null}</View></RewardFrame>;
 }
 export function StreakReward({ streak, onContinue }: { streak: number; onContinue: () => void }) {
   const d = useDesignScale(), c = useTheme(), { progress } = useApp(), file = useActorFile(), reduced = useReducedMotion();

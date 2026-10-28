@@ -268,7 +268,7 @@ export function Count({
   format?: (value: number) => string;
   delay?: number;
 }) {
-  const { settings } = useApp();
+  const { isDark } = useApp();
   const [shown, setShown] = useState(value),
     previous = useRef(0),
     reduced = useReducedMotion();
@@ -302,7 +302,7 @@ export function Count({
     <Text
       style={[
         {
-          color: settings.dark ? shared.dark.ink : shared.light.ink,
+          color: isDark ? shared.dark.ink : shared.light.ink,
           fontFamily: "Nunito_900Black",
           fontSize: 15,
           includeFontPadding: false,

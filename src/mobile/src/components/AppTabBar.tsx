@@ -5,8 +5,9 @@ import { Gesture,GestureDetector } from "react-native-gesture-handler";
 import Animated,{ Extrapolation,interpolate,useAnimatedStyle,useSharedValue,withSpring,type SharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
+import { useApp } from "../lib/store";
 import { spring } from "./Motion";
-import { Icon,Txt,useTheme,violet } from "./ui";
+import { Icon,Txt,useTheme } from "./ui";
 
 const labels = ["O'rganish", "Gapirish", "Mashq", "Men"];
 const icons = ["tab-home", "studio-mic", "tab-practice", "tab-profile"];
@@ -15,6 +16,7 @@ const SQUARE_W = 60, SQUARE_H = 46, LIFT = 6;
 // One highlight square rides over the row. Its place is one number, `position`:
 // 0, 1, 2 sit on a tab, fractions sit between tabs. Tapping a tab springs it over;
 // holding the active tab's square and sliding drags it, and letting go picks the nearest tab.
+// The open tab shows its name; "Menyuda yozuvlar" (appLook.tabLabels) shows every tab's name, the others in muted ink.
 export function AppTabBar({ selected, onPress }: { selected: number; onPress: (index: number) => void }) {
   const c = useTheme();
   const { width } = useWindowDimensions();
@@ -93,7 +95,7 @@ export function AppTabBar({ selected, onPress }: { selected: number; onPress: (i
 function TabItem({ index, label, icon, position, scale, shown, selected, onPress }: {
   index: number; label: string; icon: string; position: SharedValue<number>; scale: number; shown: boolean; selected: boolean; onPress: () => void;
 }) {
-  const c = useTheme();
+  const c = useTheme(), { tabLabels } = useApp().settings.appLook;
   // The tab under the square rises, and hands the lift to its neighbour as the square crosses.
   const lift = useAnimatedStyle(() => ({
     transform: [{ translateY: interpolate(Math.abs(position.get() - index), [0, 1], [-LIFT * scale, 0], Extrapolation.CLAMP) }],
@@ -103,7 +105,7 @@ function TabItem({ index, label, icon, position, scale, shown, selected, onPress
       <View style={{ height: SQUARE_H * scale, justifyContent: "center", opacity: shown ? 1 : 0.5 }}>
         <Icon name={icon} size={30 * scale} />
       </View>
-      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: violet, opacity: shown ? 1 : 0 }}>{label}</Txt>
+      <Txt numberOfLines={1} style={{ marginTop: 4 * scale, fontSize: 12 * scale, fontFamily: "Nunito_800ExtraBold", color: shown ? c.accentText : c.muted, opacity: shown || tabLabels ? 1 : 0 }}>{label}</Txt>
     </Animated.View>
   </Pressable>;
 }

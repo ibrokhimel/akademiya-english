@@ -9,7 +9,7 @@ import { GoalSheet } from "../components/GoalSheet";
 import { SegmentControl } from "../components/SegmentControl";
 import { ScreenHeader,SettingGroup,SettingRow,SettingToggle,} from "../components/SettingsControls";
 import { TimeWheel } from "../components/TimeWheel";
-import { Button,Icon,LinkButton,Page,Section,Txt,useTheme,violet } from "../components/ui";
+import { Button,Icon,LinkButton,Page,Section,Txt,useTheme } from "../components/ui";
 import { useDesignScale } from "../components/useDesignScale";
 import { goals } from "../data/content";
 import { sound } from "../lib/audio";
@@ -87,9 +87,9 @@ export default function SettingsScreen() {
         <Section style={{ marginTop: 0 }}>UMUMIY</Section>
         <SettingGroup>
           <SettingRow icon="glyph-speaker-grey" label="Ovozli effektlar" right={toggle("Ovozli effektlar", settings.sound, (sound) => set({ sound }))}/>
-          <SettingRow icon="glyph-moon-grey" label="Tungi rejim" right={toggle("Tungi rejim", settings.dark, (dark) => set({ dark }))}/>
+          <SettingRow icon="glyph-moon-grey" label="Tungi rejim" right={toggle("Tungi rejim", app.isDark, (dark) => set({ mode: dark ? "dark" : "light" }))}/>
           <SettingRow icon="glyph-sparkles-grey" label="Kamroq harakat" detail={reduceMotion ? "Telefoningizda harakat kamaytirilgan." : undefined} right={<View pointerEvents={reduceMotion ? "none" : "auto"} style={{ opacity: reduceMotion ? 0.4 : 1 }}>{toggle("Kamroq harakat", dombiLevel === "still", (lessMotion) => set({ lessMotion }))}</View>}/>
-          <SettingRow icon="glyph-phone-grey" label="Telefon harakati" detail="Dombi telefon qiyshayganda o'sha tomonga yiqiladi." right={toggle("Telefon harakati", settings.phoneMotion === true, (phoneMotion) => set({ phoneMotion }))}/>
+          <SettingRow icon="glyph-phone-grey" label="Telefon harakati" detail={`${settings.profile.dombi.name} telefon qiyshayganda o'sha tomonga yiqiladi.`} right={toggle("Telefon harakati", settings.phoneMotion === true, (phoneMotion) => set({ phoneMotion }))}/>
           <SettingRow icon="glyph-bell-grey" label="Eslatma vaqti" value={settings.reminder || "O'chiq"} onPress={openReminder}/>
           <SettingRow icon={goal[1]} label="Maqsad" value={goal[2]} onPress={() => setPanel("goal")}/>
         </SettingGroup>
@@ -115,7 +115,7 @@ export default function SettingsScreen() {
         </Txt></View>
         <SettingGroup style={{ borderStyle: "dashed" }}>
           <SettingRow icon="glyph-list-grey" label="Hamma darslar ochiq" right={toggle("Hamma darslar ochiq", settings.openAll, (openAll) => set({ openAll }))}/>
-          <SettingRow icon="glyph-timer-grey" label="Sanani surish" detail={<View><Txt style={{ fontSize: d(12), lineHeight: d(15.6), color: c.muted }}>Bugun: {longDate(app.now().toISOString())}</Txt><View style={{ flexDirection: "row", gap: d(6), marginTop: d(6) }}>{[1, 14, 0].map(days => <Pressable key={days} onPress={() => set({ dayShift: days ? (settings.dayShift || 0) + days : 0 })} style={{ paddingHorizontal: d(9), paddingVertical: d(6), borderRadius: d(10), backgroundColor: c.surface, borderWidth: d(2), borderColor: c.line }}><Txt style={{ fontSize: d(12), color: violet, fontFamily: "Nunito_900Black" }}>{days ? `+${days} kun` : "Bugun"}</Txt></Pressable>)}</View></View>} />
+          <SettingRow icon="glyph-timer-grey" label="Sanani surish" detail={<View><Txt style={{ fontSize: d(12), lineHeight: d(15.6), color: c.muted }}>Bugun: {longDate(app.now().toISOString())}</Txt><View style={{ flexDirection: "row", gap: d(6), marginTop: d(6) }}>{[1, 14, 0].map(days => <Pressable key={days} onPress={() => set({ dayShift: days ? (settings.dayShift || 0) + days : 0 })} style={{ paddingHorizontal: d(9), paddingVertical: d(6), borderRadius: d(10), backgroundColor: c.surface, borderWidth: d(2), borderColor: c.line }}><Txt style={{ fontSize: d(12), color: c.accentText, fontFamily: "Nunito_900Black" }}>{days ? `+${days} kun` : "Bugun"}</Txt></Pressable>)}</View></View>} />
           <SettingRow icon="glyph-info-grey" label="Oynalarni ko'rish" onPress={() => setWindowsOpen(true)} />
           <SettingRow icon="glyph-replay-grey" label="Boshidan boshlash" danger onPress={restart} />
         </SettingGroup>

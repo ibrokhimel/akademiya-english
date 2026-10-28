@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import { RaisedPressable } from "../RaisedPressable";
-import { Icon, Txt, useTheme, violet } from "../ui";
+import { Icon, Txt, useTheme } from "../ui";
 
 export type Scale = (n: number) => number;
 
@@ -69,18 +69,18 @@ export function Choice({ label, icon, selected, dimmed, onPress, detail, number,
       radius={d(16)}
       depth={d(number ? 3 : 4)}
       style={{ opacity: dimmed ? 0.55 : 1 }}
-      faceStyle={{ flexDirection: "row", alignItems: "center", gap: d(number ? 12 : 14), paddingVertical: d(number ? 10 : 14), paddingHorizontal: d(number ? 14 : 16), borderWidth: d(2), borderColor: selected ? violet : c.line }}
+      faceStyle={{ flexDirection: "row", alignItems: "center", gap: d(number ? 12 : 14), paddingVertical: d(number ? 10 : 14), paddingHorizontal: d(number ? 14 : 16), borderWidth: d(2), borderColor: selected ? c.accent : c.line }}
     >
       <Icon name={icon} size={d(detail ? 37 : number ? 34 : 28)} />
       <View style={{ flex: 1, gap: 3 }}>
-        <Txt style={{ fontSize: d(number ? 16 : 17), fontFamily: "Nunito_900Black", color: selected ? violet : c.text }}>{label}</Txt>
+        <Txt style={{ fontSize: d(number ? 16 : 17), fontFamily: "Nunito_900Black", color: selected ? c.accentText : c.text }}>{label}</Txt>
         {detail ? <Txt style={{ fontSize: d(13), color: c.muted }}>{detail}</Txt> : null}
       </View>
       {number ? (
         <Txt style={{ fontSize: d(14), color: c.muted, fontFamily: "Nunito_900Black" }}>{number}</Txt>
       ) : !detail ? (
-        <View style={{ width: d(24), height: d(24), borderRadius: 12, backgroundColor: violet, alignItems: "center", justifyContent: "center", opacity: selected ? 1 : 0 }}>
-          <Icon name="glyph-check-white" size={d(14)} />
+        <View style={{ width: d(24), height: d(24), borderRadius: 12, backgroundColor: c.accent, alignItems: "center", justifyContent: "center", opacity: selected ? 1 : 0 }}>
+          <Icon name="glyph-check-white" size={d(14)} style={{ tintColor: c.onAccent }} />
         </View>
       ) : null}
     </RaisedPressable>
