@@ -108,6 +108,16 @@ test('the talk is locked to English and Uzbek', async () => {
   assert.deepEqual(c.inputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']); assert.deepEqual(c.outputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']);
 });
 
+test('the prompt carries the anti-assistant rules, Dombi\'s own life, and the games rule', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'kind', topic: '', profile: {} });
+  assert.match(p, /Never say/); assert.match(p, /I'm here to help/);               // the banned stock lines are named
+  assert.match(p, /Pick a side/i);                                                 // opinions, not "both are legends"
+  assert.match(p, /Chorsu/);                                                       // a life of his own, local and specific
+  assert.match(p, /after every word/);                                             // the word-repeater game is refused
+  assert.match(p, /Bad:/); assert.match(p, /Good:/);                               // shown, not just told
+});
+
 test('unknown pack throws', async () => {
   const { buildSystemPrompt } = await import('./prompts.js');
   assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));
