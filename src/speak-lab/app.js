@@ -9,6 +9,7 @@ import { emptyReport, mergeProfile } from './rules.js';
 
 const root = document.getElementById('root');
 document.body.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches);
+if (window.M) M.reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;      // the lab's motion follows the computer's Reduce Motion, as in src/web
 
 let bar = null, last = null;                                       // last = the talk just ended, for "talk again" and the report's retry
 const stopBar = () => { if (bar) { bar.stop(); bar = null; } };

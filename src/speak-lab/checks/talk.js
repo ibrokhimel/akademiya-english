@@ -99,6 +99,16 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.goto(URL); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go'); await p.waitForSelector('.problem', { timeout: 10000 });
   const line = await p.textContent('.problem p');
   ok('mic-blocked line', /Mikrofon yopiq/.test(line) && (await p.$('.retry')) !== null, line);
+  // 3. dark mode and Reduce Motion: one short talk each, no page errors, dark actually applied
+  for (const [name, opts] of [['dark', { colorScheme: 'dark' }], ['reduce motion', { reducedMotion: 'reduce' }]]) {
+    const c = await b.newContext({ viewport: { width: 1200, height: 800 }, ...opts }); const q = await c.newPage(); const errs = []; q.on('pageerror', (e) => errs.push(e.message));
+    await q.addInitScript((turns) => { window.FAKE = { turns, report: () => Promise.resolve({ stars: 1, why: 'ok', phrases: [], pron: [], level: '', profileUpdate: {} }) }; }, TURNS);
+    await q.goto(URL); await q.waitForSelector('.start .go'); await q.click('.tcard[data-id="day"]'); await q.click('.go');
+    await q.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 15000 }); await q.click('.end'); await q.waitForSelector('.report', { timeout: 5000 });
+    const dark = await q.evaluate(() => document.body.classList.contains('dark')), reduce = await q.evaluate(() => !!(window.M && M.reduce));
+    ok(`${name}: a talk runs clean`, errs.length === 0 && (name === 'dark' ? dark : reduce), errs.join('; ') || `dark=${dark} reduce=${reduce}`);
+    await c.close();
+  }
   await b.close();
   console.log(results.every(Boolean) ? 'talk: ok' : 'talk: FAIL'); process.exit(results.every(Boolean) ? 0 : 1);
 })().catch((e) => { console.log('talk: FAIL', e.message); process.exit(1); });
