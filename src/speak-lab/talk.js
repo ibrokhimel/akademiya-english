@@ -9,10 +9,10 @@ import { mountDombi } from './dombi.js';
 
 const isFake = () => new URLSearchParams(location.search).has('fake');
 
-export async function talkScreen(root, { pack, topic, profile, onEnd }) {
+export async function talkScreen(root, { pack, topic, topicName, profile, onEnd }) {
   root.innerHTML = `
     <div class="talk">
-      <div class="tbar"><span class="topic">${topic || COPY.title}</span><span class="status">${COPY.connecting}</span><span class="endw"><div class="p3d btn small danger end"><div class="face">${COPY.end}</div></div></span></div>
+      <div class="tbar"><span class="topic">${topicName || COPY.title}</span><span class="status">${COPY.connecting}</span><span class="endw"><div class="p3d btn small danger end"><div class="face">${COPY.end}</div></div></span></div>
       <div class="stage"><div class="dbox"></div></div>
       <div class="caps"><div class="cap live"></div></div>
       <div class="side"></div>

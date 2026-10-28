@@ -11,7 +11,13 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   let p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
   await p.addInitScript((turns) => { window.FAKE = { turns }; }, TURNS);
   await p.goto(URL);
+  // the start page: six packs, BOSHLASH off until a topic is picked, then Futbol + Qo'pol
+  await p.waitForSelector('.start .go');
+  ok('start page has six packs', (await p.$$('.pk')).length === 6);
+  ok('start is off before a topic', await p.$eval('.go', (e) => e.classList.contains('disabled')));
+  await p.click('.tcard[data-id="football"]'); await p.click('.pk[data-id="rude"]'); await p.click('.go');
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
+  ok('talk shows the topic name', (await p.textContent('.tbar .topic')) === 'Futbol');
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
   await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
   const moodAfter2 = await p.evaluate(() => window.SPEAK.talk.state.mood);
@@ -27,7 +33,7 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   // 2. the mic blocked: the Uzbek line and a retry
   const ctx = await b.newContext({ viewport: { width: 1200, height: 800 } }); await ctx.grantPermissions([]);
   p = await ctx.newPage(); await p.addInitScript(() => { navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException('denied', 'NotAllowedError')); });
-  await p.goto(URL); await p.waitForSelector('.problem', { timeout: 10000 });
+  await p.goto(URL); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go'); await p.waitForSelector('.problem', { timeout: 10000 });
   const line = await p.textContent('.problem p');
   ok('mic-blocked line', /Mikrofon yopiq/.test(line) && (await p.$('.retry')) !== null, line);
   await b.close();
