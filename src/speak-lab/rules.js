@@ -34,6 +34,11 @@ export function shouldAskFeedback(learnerText, cfg) {
   return (learnerText || '').trim().split(/\s+/).filter(Boolean).length >= cfg.MIN_WORDS_FOR_CARD;
 }
 
+// the cost of a talk, in dollars, from seconds of audio in and out and the price per second (config PRICE)
+export function estimateCost(secIn, secOut, price) {
+  return Math.round(((secIn || 0) * price.inPerSec + (secOut || 0) * price.outPerSec) * 1e6) / 1e6;
+}
+
 // after a dropped socket: wait this long before attempt `attempt` (0-based), or give up (null) after two
 export function nextReconnect(attempt) {
   return [500, 1500][attempt] ?? null;

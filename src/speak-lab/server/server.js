@@ -6,6 +6,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MODELS } from './gemini.js';
 import { buildSystemPrompt as buildPrompt, promptFile } from './prompts.js';
+import { ledger } from './cost.js';
+import { writeTalk } from './log.js';
+import { CFG } from '../config.js';
 
 const str = (v) => (typeof v === 'string' ? v.trim() : '');
 const history = (h) => (Array.isArray(h) ? h.slice(-4).map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${str(t.text)}`).join('\n') : '');
@@ -39,13 +42,14 @@ export function liveConfig(pack, systemInstruction) {
 const json = (s, code, body) => { s.writeHead(code, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ORIGIN }); s.end(JSON.stringify(body)); };
 const readBody = (q) => new Promise((res, rej) => { let d = ''; q.on('data', (c) => { d += c; if (d.length > 30e6) rej(new Error('too big')); }); q.on('end', () => { try { res(d ? JSON.parse(d) : {}); } catch (e) { rej(e); } }); });
 
-export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
-  const hasKey = !!env.GEMINI_API_KEY;
+export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, logsDir = path.join(HERE, 'logs'), budgetUsd = CFG.MONTHLY_BUDGET_USD }) {
+  const hasKey = !!env.GEMINI_API_KEY, book = ledger(logsDir);
   const routes = {
-    'GET /health': async () => [200, { ok: true, model: MODELS.live, key: hasKey }],
+    'GET /health': async () => [200, { ok: true, model: MODELS.live, key: hasKey, monthTotal: book.monthTotal(), budget: budgetUsd }],
     'POST /token': async (b) => {
       if (!hasKey) return [503, { error: 'no key' }];
       if (!PACKS[b.pack]) return [400, { error: 'unknown pack' }];
+      const spent = book.monthTotal(); if (spent >= budgetUsd) return [402, { reason: 'budget', spent, budget: budgetUsd }];
       const system = buildSystemPrompt ? buildSystemPrompt({ pack: b.pack, topic: b.topic || '', profile: b.profile || {} }) : null;
       const config = liveConfig(b.pack, system);
       const token = await gemini.token({ uses: 1, expireTime: new Date(Date.now() + 30 * 60e3).toISOString(),
@@ -80,6 +84,12 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
       const pron = (Array.isArray(j.pron) ? j.pron : []).map(str).filter(Boolean).slice(0, 3);
       const u = j.profileUpdate || {};
       return [200, { stars, why: str(j.why), phrases, pron, level: str(j.level), profileUpdate: { interests: Array.isArray(u.interests) ? u.interests.map(str).filter(Boolean) : [], mistakes: Array.isArray(u.mistakes) ? u.mistakes.map(str).filter(Boolean) : [], lastTalk: str(u.lastTalk) } }];
+    },
+    // the end of a talk: the talk's folder under logs/ and the month's running total
+    'POST /log': async (b) => {
+      const folder = writeTalk(logsDir, b);
+      const { cost, monthTotal } = book.add({ id: b.id, secIn: Number(b.secIn) || 0, secOut: Number(b.secOut) || 0 });
+      return [200, { folder, cost, monthTotal, budget: budgetUsd }];
     },
     // the same line again, slowly, in the pack's voice; base64 PCM at 24 kHz
     'POST /slower': async (b) => {

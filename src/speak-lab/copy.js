@@ -8,6 +8,7 @@ export const COPY = {
   micBlocked: 'Mikrofon yopiq. Brauzer sozlamalarida ruxsat bering.',
   lost: 'Aloqa uzildi.',
   serverDown: 'Server javob bermadi. Uni ishga tushiring: node src/speak-lab/server/server.js',
+  budgetOver: (spent, budget) => `Bu oy uchun byudjet tugadi ($${spent} / $${budget}).`,
   // the report
   reportTitle: 'Suhbat tugadi',
   reportSilent: "Siz gapirmadingiz. Keyingi safar bir og'iz bo'lsa ham ayting.",

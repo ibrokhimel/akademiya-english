@@ -2,7 +2,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost } from './rules.js';
+
+test('estimateCost multiplies seconds by price', () => {
+  const price = { inPerSec: 0.0001, outPerSec: 0.0005 };
+  assert.equal(estimateCost(100, 20, price), 0.02); assert.equal(estimateCost(0, 0, price), 0);
+});
 
 test('emptyReport has zero stars and no phrases', () => {
   const r = emptyReport('silent');

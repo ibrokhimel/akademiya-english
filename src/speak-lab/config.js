@@ -8,6 +8,9 @@ export const CFG = {
   TALK_CAP_MS: 900000, GOODBYE_BEFORE_CAP_MS: 20000,
   MIN_WORDS_FOR_CARD: 3, CARD_FADE_MS: 40000,
   MONTHLY_BUDGET_USD: 10,
+  // dollars per second of audio, in and out: an estimate from Google's Live pricing (about 25 audio tokens a second;
+  // input $3 and output $12 per million tokens as of 2026-10). The owner updates it from the price page; the counter is an estimate.
+  PRICE: { inPerSec: 0.000075, outPerSec: 0.0003 },
   MIC_FLOOR: 6,                            // amp below this counts as silence
 };
 

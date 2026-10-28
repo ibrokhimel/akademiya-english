@@ -55,6 +55,16 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.evaluate(() => window.SPEAK.talk.tick(60000)); await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /Whisper/.test(t)), null, { timeout: 5000 });
   await p.waitForTimeout(1500); ok('the whisper after 110 s, and no third nudge', (await nudges()).length === 2);
   ok('the test bar is there', (await p.$('.testbar .nudge-whisper')) !== null);
+  ok('the cost counter moves', await p.evaluate(() => window.SPEAK.talk.state.cost > 0 && window.SPEAK.talk.state.secOut > 0));
+  // the cap: the clock jumps to 20 s before it → a goodbye nudge; at the cap the talk ends by itself
+  await p.evaluate(() => window.SPEAK.talk.tick(760000));                     // the clock already moved 110 s; this lands a few seconds past the goodbye mark, short of the cap await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /almost up/.test(t)), null, { timeout: 5000 });
+  ok('a goodbye nudge before the cap', true);
+  await p.evaluate(() => window.SPEAK.talk.tick(25000)); await p.waitForFunction(() => window.SPEAK.screen === 'report', null, { timeout: 5000 });
+  ok('the talk ends at the cap', true);
+  await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="football"]'); await p.click('.pk[data-id="rude"]'); await p.click('.go');
+  await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
+  await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  await p.evaluate(() => window.SPEAK.fake.learner('yesterday I go bazaar')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
   await p.click('.end'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
@@ -66,9 +76,10 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   ok('deleting the phrase empties the book', (await p.$$('.plist.book li')).length === 0 && await p.evaluate(() => JSON.parse(localStorage.getItem('speak.profile')).phrasebook.length === 0));
   ok('no page errors', errors.length === 0, errors.join('; '));
   // 1b. a talk where the learner never speaks: zero stars, no coach call
+  const callsBefore = await p.evaluate(() => window.FAKE.reportCalls || 0);
   await p.click('.memory .back'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go');
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 }); await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });
-  ok('a silent talk gets the "you did not speak" report', /gapirmadingiz/.test(await p.textContent('.report .why')) && (await p.$$('.star.on')).length === 0 && await p.evaluate(() => (window.FAKE.reportCalls || 0) === 1));
+  ok('a silent talk gets the "you did not speak" report', /gapirmadingiz/.test(await p.textContent('.report .why')) && (await p.$$('.star.on')).length === 0 && await p.evaluate((n) => (window.FAKE.reportCalls || 0) === n, callsBefore));
   // 1c. the coach is down at the end: "Hisobot kelmadi" and a retry that works
   await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go');
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
@@ -77,6 +88,10 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   ok('coach down → "Hisobot kelmadi" with retry', /Hisobot kelmadi/.test(await p.textContent('.report .why')));
   await p.evaluate(() => { window.FAKE.reportDown = false; }); await p.click('.report .retry'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
   ok('retry brings the report', true);
+  // 1d. over budget: the server refuses a new talk → the Uzbek budget line
+  await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.evaluate(() => { window.FAKE.token = 'budget'; });
+  await p.click('.tcard[data-id="day"]'); await p.click('.go'); await p.waitForSelector('.problem', { timeout: 10000 });
+  ok('over budget → the budget line', /byudjet tugadi \(\$10\.50 \/ \$10\)/.test(await p.textContent('.problem p')), await p.textContent('.problem p'));
   await p.close();
   // 2. the mic blocked: the Uzbek line and a retry
   const ctx = await b.newContext({ viewport: { width: 1200, height: 800 } }); await ctx.grantPermissions([]);

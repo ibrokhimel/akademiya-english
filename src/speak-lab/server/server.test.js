@@ -111,6 +111,19 @@ test('report returns the model\'s json', async () => {
   await s.close();
 });
 
+test('log writes a folder and grows the ledger, and token refuses with 402 over budget', async () => {
+  const { mkdtempSync, existsSync, readFileSync } = await import('node:fs'); const { tmpdir } = await import('node:os'); const { join } = await import('node:path');
+  const logs = mkdtempSync(join(tmpdir(), 'speak-logs-'));
+  const server = createServer({ gemini: fakeGemini, env: { GEMINI_API_KEY: 'k' }, logsDir: logs, budgetUsd: 1 });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r)); servers.push(server); const base = `http://127.0.0.1:${server.address().port}`;
+  let r = await post(base, '/log', { id: 'abc', transcript: [{ who: 'dombi', text: 'Salom' }], cards: [], secIn: 600, secOut: 300, latencies: [800], interruptions: 1 });
+  assert.equal(r.status, 200); const j = await r.json(); assert.ok(j.cost > 0); assert.ok(j.monthTotal >= j.cost);
+  const folder = join(logs, j.folder); assert.ok(existsSync(join(folder, 'transcript.json'))); assert.ok(existsSync(join(folder, 'stats.json')));
+  assert.equal(JSON.parse(readFileSync(join(logs, 'ledger.json'), 'utf8')).talks.length, 1);
+  r = await post(base, '/log', { id: 'big', transcript: [], cards: [], secIn: 3600 * 50, secOut: 3600 * 50, latencies: [], interruptions: 0 });   // a huge talk pushes the month over $1
+  r = await post(base, '/token', { pack: 'kind' }); assert.equal(r.status, 402); const b = await r.json(); assert.equal(b.reason, 'budget'); assert.equal(b.budget, 1); assert.ok(b.spent > 1);
+});
+
 test('missing key refuses /token with 503 in English JSON', async () => {
   const s = await up({});
   const r = await post(s.base, '/token', { pack: 'kind' });

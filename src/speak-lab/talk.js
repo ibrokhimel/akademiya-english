@@ -13,7 +13,9 @@ import { shouldAskFeedback, silenceStage } from './rules.js';
 const NUDGE = {
   remark: '[The learner has been quiet for a while. Say one casual thing to pull them back in, in character, in one sentence. Do not mention this note.]',
   whisper: '[The learner has been silent for about two minutes. Whisper to them in natural Uzbek: ask gently what is up and offer one easy question. Do not mention this note.]',
+  goodbye: '[Time is almost up. Say goodbye in character in one or two sentences, with one thing they did well. Do not mention this note.]',
 };
+import { estimateCost } from './rules.js';
 import { pcmToBase64, base64ToPcm } from './audio.js';
 import { PACKS } from './config.js';
 
@@ -37,7 +39,8 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
       <div class="side"></div>
     </div>`;
   const $ = (s) => root.querySelector(s);
-  const state = { captions: [], learner: [], transcript: [], cards: [], nudges: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: Date.now(), dombiTalking: false, silence: 'none' };
+  const state = { captions: [], learner: [], transcript: [], cards: [], nudges: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: Date.now(), dombiTalking: false, silence: 'none', secIn: 0, secOut: 0, cost: 0, goodbye: false };
+  const id = Math.random().toString(36).slice(2, 10);
   const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0, clockOffset: 0 };
   const now = () => Date.now() + T.clockOffset;                              // the checks move the clock with tick(ms)
   T.tick = (ms) => { T.clockOffset += ms; };
@@ -61,7 +64,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended) return; T.playerPushes++; player.push(pcm);
+      if (ended) return; T.playerPushes++; player.push(pcm); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
@@ -97,12 +100,12 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
 
   // the mic: blocked → the Uzbek line and a retry
   let mic = null;
-  try { mic = await startMic((pcm) => { if (!T.session || ended || muted) return; T.session.sendAudio(pcm); if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
+  try { mic = await startMic((pcm) => { if (!T.session || ended || muted) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
   catch (e) { root.innerHTML = `<div class="talk problem"><p>${COPY.micBlocked}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); return T; }
 
   // the session: real or scripted
   try { T.session = await (isFake() ? connectFake : connectLive)({ pack, topic, profile, handlers }); }
-  catch (e) { mic.stop(); root.innerHTML = `<div class="talk problem"><p>${e.status === 402 ? e.body && e.body.reason : COPY.serverDown}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); T.error = e; return T; }
+  catch (e) { mic.stop(); root.innerHTML = `<div class="talk problem"><p>${e.status === 402 && e.body ? COPY.budgetOver(Number(e.body.spent || 0).toFixed(2), e.body.budget) : COPY.serverDown}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); T.error = e; return T; }
   // Dombi speaks first: the model only talks after a turn, so the page gives it one
   T.session.sendText('[The learner just opened the app and is listening. Start the conversation now, in character: one short greeting and one question. Do not wait for them.]');
 
@@ -110,11 +113,20 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   T.micAmp = () => mic.amp();
   // Dombi on his own: the silence nudges (and the test bar's buttons)
   T.nudge = (kind) => { if (ended || !NUDGE[kind]) return; state.silence = kind; state.nudges.push({ kind, at: Math.round((now() - state.started) / 1000) }); T.session.sendText(NUDGE[kind]); };
-  const quiet = setInterval(() => { if (ended) return; const kind = silenceStage({ quietMs: now() - state.lastSpokeAt, stage: state.silence, dombiTalking: state.dombiTalking || player.playing() }, CFG); if (kind !== 'none') T.nudge(kind); }, 1000);
+  const quiet = setInterval(() => {
+    if (ended) return;
+    const kind = silenceStage({ quietMs: now() - state.lastSpokeAt, stage: state.silence, dombiTalking: state.dombiTalking || player.playing() }, CFG); if (kind !== 'none') T.nudge(kind);
+    // the per-talk cap: a goodbye a little before it, then the end
+    const age = now() - state.started;
+    if (!state.goodbye && age >= CFG.TALK_CAP_MS - CFG.GOODBYE_BEFORE_CAP_MS) { state.goodbye = true; T.nudge('goodbye'); }
+    if (age >= CFG.TALK_CAP_MS) T.end();
+  }, 1000);
 
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); mic.stop(); player.clear(); T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
-    onEnd({ transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level });
+    const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
+    side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
+    onEnd(result);
   };
   $('.end').onclick = T.end;
   return T;
