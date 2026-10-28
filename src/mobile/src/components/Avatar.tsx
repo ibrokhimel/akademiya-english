@@ -60,11 +60,12 @@ function LetterAvatar({ avatar, name, size }: { avatar: Profile["avatar"]; name:
         // the pattern stand-in: its symbol repeated faintly behind the letter until the pattern art lands
         <View pointerEvents="none" style={{ position: "absolute", inset: 0, flexDirection: "row", flexWrap: "wrap", alignContent: "center", justifyContent: "center", opacity: 0.22 }}>
           {Array.from({ length: 9 }, (_, i) => (
-            <Txt key={i} style={{ width: size / 3, textAlign: "center", fontSize: size * 0.14, lineHeight: size / 3, color: "#FFFFFF", fontFamily: "Nunito_900Black" }}>{pattern}</Txt>
+            <Txt fixed key={i} style={{ width: size / 3, textAlign: "center", fontSize: size * 0.14, lineHeight: size / 3, color: "#FFFFFF", fontFamily: "Nunito_900Black" }}>{pattern}</Txt>
           ))}
         </View>
       ) : null}
       <Txt
+        fixed
         style={{
           fontSize: size * 0.45, lineHeight: size * 0.6, color: "#FFFFFF", fontFamily: "Nunito_900Black",
           ...(ownPicture ? { textShadowColor: "#00000066", textShadowRadius: size * 0.04, textShadowOffset: { width: 0, height: 1 } } : null),

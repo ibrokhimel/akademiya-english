@@ -21,7 +21,7 @@ export function ProfileBanner({ banner, height }: { banner: Profile["banner"]; /
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: fill, alignItems: "center", justifyContent: "center" }, gradient]}>
       {banner.kind === "item" && item.picture ? <Icon name={item.picture} size={height * 0.5} /> : null}
       {banner.kind === "item" && item.symbol && !item.picture ? (
-        <Txt numberOfLines={1} style={{ fontSize: height * 0.2, lineHeight: height * 0.27, color: violet, fontFamily: "Nunito_900Black", opacity: 0.85 }}>{item.symbol}</Txt>
+        <Txt fixed numberOfLines={1} style={{ fontSize: height * 0.2, lineHeight: height * 0.27, color: violet, fontFamily: "Nunito_900Black", opacity: 0.85 }}>{item.symbol}</Txt>
       ) : null}
     </View>
   );

@@ -51,6 +51,7 @@ function Marks({ size, width, symbol }: { size: number; width: number; symbol: s
         const a = (i / 8) * Math.PI * 2;
         return (
           <Txt
+            fixed
             key={i}
             accessible={false}
             style={{ position: "absolute", left: size / 2 + r * Math.sin(a) - box / 2, top: size / 2 - r * Math.cos(a) - box / 2, width: box, height: box, lineHeight: box, textAlign: "center", fontSize: width * 0.95, color: violet, fontFamily: "Nunito_900Black" }}
@@ -68,7 +69,7 @@ function Badge({ size, item }: { size: number; item: Cosmetic }) {
   const c = useTheme(), b = size * 0.32;
   return (
     <View pointerEvents="none" style={{ position: "absolute", right: -size * 0.02, bottom: -size * 0.02, width: b, height: b, borderRadius: b / 2, backgroundColor: c.card, borderWidth: Math.max(1, size * 0.015), borderColor: c.line, alignItems: "center", justifyContent: "center" }}>
-      {item.picture ? <Icon name={item.picture} size={b * 0.7} /> : <Txt style={{ fontSize: b * 0.36, lineHeight: b * 0.5, color: violet, fontFamily: "Nunito_900Black" }}>{item.symbol}</Txt>}
+      {item.picture ? <Icon name={item.picture} size={b * 0.7} /> : <Txt fixed style={{ fontSize: b * 0.36, lineHeight: b * 0.5, color: violet, fontFamily: "Nunito_900Black" }}>{item.symbol}</Txt>}
     </View>
   );
 }

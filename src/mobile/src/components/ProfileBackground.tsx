@@ -33,10 +33,10 @@ export function ProfileBackground({ background, dim, items = backgrounds }: { ba
 /** The stand-in pattern: a short symbol repeated in rows, a name written large and pale. Memoised: the dim slider redraws the veil only. */
 const Pattern = memo(function Pattern({ symbol }: { symbol: string }) {
   if (symbol.length > 3)
-    return <Txt numberOfLines={1} style={{ position: "absolute", top: "18%", alignSelf: "center", fontSize: 64, color: violet, opacity: 0.18, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>;
+    return <Txt fixed numberOfLines={1} style={{ position: "absolute", top: "18%", alignSelf: "center", fontSize: 64, color: violet, opacity: 0.18, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>;
   return (
     <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", alignContent: "flex-start", gap: 28, padding: 18, opacity: 0.22 }}>
-      {Array.from({ length: 120 }, (_, i) => <Txt key={i} style={{ fontSize: 20, color: violet, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>)}
+      {Array.from({ length: 120 }, (_, i) => <Txt fixed key={i} style={{ fontSize: 20, color: violet, fontFamily: "Nunito_900Black" }}>{symbol}</Txt>)}
     </View>
   );
 });

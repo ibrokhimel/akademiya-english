@@ -48,7 +48,11 @@ const DYSLEXIC: Record<string, string> = {
   Nunito_800ExtraBold: "OpenDyslexic_700Bold",
   Nunito_900Black: "OpenDyslexic_700Bold",
 };
-export function Txt({ style, ...props }: TextProps) {
+/**
+ * Text that follows MATN O'LCHAMI and the dyslexia font. `fixed` leaves both out: for art whose size comes from the shape it
+ * sits in (the avatar letter, frame marks, pattern symbols), which would spill out of that shape if it grew.
+ */
+export function Txt({ style, fixed = false, ...props }: TextProps & { fixed?: boolean }) {
   const d = useDesignScale();
   const textStyle = StyleSheet.flatten(style);
   const auditText = useAuditText({ ...props, style });
@@ -56,7 +60,7 @@ export function Txt({ style, ...props }: TextProps) {
   const { appLook } = useApp().settings;
   // MATN O'LCHAMI and the font, laid over the finished style so every size and family a screen sets follows them
   const k = textScale(appLook.textSize), size = textStyle?.fontSize ?? d(16);
-  const look = k !== 1 || appLook.dyslexiaFont
+  const look = !fixed && (k !== 1 || appLook.dyslexiaFont)
     ? {
         fontSize: size * k,
         lineHeight: (textStyle?.lineHeight ?? size * 1.42) * k,
