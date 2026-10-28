@@ -10,7 +10,9 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   // 1. a talk: three scripted turns, the mood follows, End shows the report
   let p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
   await p.addInitScript((turns) => { let n = 0; window.FAKE = { turns, feedbackCalls: [],
-    feedback: (body) => { window.FAKE.feedbackCalls.push(body); return ++n === 1 ? Promise.resolve({ better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }) : Promise.reject(new Error('coach down')); } }; }, TURNS);
+    feedback: (body) => { window.FAKE.feedbackCalls.push(body); return ++n === 1 ? Promise.resolve({ better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }) : Promise.reject(new Error('coach down')); },
+    explain: (body) => Promise.resolve({ uz: "'Bugun nima qilding' — bugun nima ish qilganingni so'rayapti." }),
+    slower: (body) => Promise.resolve({ pcm: btoa(String.fromCharCode(...new Uint8Array(4800))) }) }; }, TURNS);
   await p.goto(URL);
   // the start page: six packs, BOSHLASH off until a topic is picked, then Futbol + Qo'pol
   await p.waitForSelector('.start .go');
@@ -32,8 +34,14 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.evaluate(() => window.SPEAK.fake.learner('yes yes')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 4, null, { timeout: 10000 });
   await p.waitForTimeout(600);
   ok('a two-word line asks for no card', await p.evaluate(() => window.FAKE.feedbackCalls.length === 2) && (await p.$$('.fcard')).length === 1);
-  const caps = await p.$$eval('.cap.done', (els) => els.map((e) => e.textContent));
+  const caps = await p.$$eval('.cap.done .ctext', (els) => els.map((e) => e.textContent));
   ok('four captions in order', caps.join('|') === TURNS.map((t) => t.caption).join('|'), caps.join(' | '));
+  // the two buttons under the first caption: the Uzbek explanation appears, the slow repeat reaches the player
+  await p.click('.cap.done .explain'); await p.waitForFunction(() => /so'rayapti/.test(document.querySelector('.cap.done .uz').textContent), null, { timeout: 5000 });
+  ok('explain shows the Uzbek text under the line', true);
+  const pushes = await p.evaluate(() => window.SPEAK.talk.playerPushes);
+  await p.click('.cap.done .slower'); await p.waitForTimeout(600);
+  ok('slower plays through the player', await p.evaluate(() => window.SPEAK.talk.playerPushes) > pushes);
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
   await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });

@@ -61,6 +61,20 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
       const j = (await gemini.flash(parts, { json: true, system: promptFile('feedback.md') })) || {};
       return [200, { better: str(j.better), pron: str(j.pron), level: str(j.level) }];
     },
+    // one of Dombi's lines, explained in natural Uzbek under the caption (spec §4.2)
+    'POST /explain': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      if (!str(b.line)) return [400, { error: 'no line' }];
+      const uz = await gemini.flash([{ text: `Last turns:\n${history(b.history)}\n\nThe line to explain: "${str(b.line)}"` }], { system: promptFile('explain.md') });
+      return [200, { uz: str(uz) }];
+    },
+    // the same line again, slowly, in the pack's voice; base64 PCM at 24 kHz
+    'POST /slower': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      if (!str(b.line)) return [400, { error: 'no line' }];
+      const pcm = await gemini.tts(str(b.line), Object.values(PACKS).includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
+      return [200, { pcm }];
+    },
   };
   return http.createServer(async (q, s) => {
     if (q.method === 'OPTIONS') { s.writeHead(204, { 'Access-Control-Allow-Origin': ORIGIN, 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'GET, POST' }); return s.end(); }

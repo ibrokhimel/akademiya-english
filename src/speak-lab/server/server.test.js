@@ -83,6 +83,24 @@ test('feedback returns the model\'s json and empty strings when the model says n
   await s.close();
 });
 
+test('explain returns uz text', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return "Bu yerda 'what did you buy' deb so'rayapti: nima sotib olding."; };
+  const r = await post(s.base, '/explain', { line: 'What did you buy?', history: [{ who: 'learner', text: 'I go bazaar' }] });
+  assert.equal(r.status, 200); assert.match((await r.json()).uz, /sotib olding/);
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.match(parts[0].text, /What did you buy\?/); assert.equal(opts.json, undefined);
+  await s.close();
+});
+
+test('slower returns base64 pcm', async () => {
+  const s = await up();
+  fakeGemini.tts = async (text, voice, style) => { fakeGemini.calls.push(['tts', text, voice, style]); return 'AAAAAAAA'; };
+  const r = await post(s.base, '/slower', { line: 'Tell me more about the match.', voice: 'Zephyr' });
+  assert.equal(r.status, 200); assert.equal((await r.json()).pcm, 'AAAAAAAA');
+  const [, text, voice, style] = fakeGemini.calls.at(-1); assert.equal(text, 'Tell me more about the match.'); assert.equal(voice, 'Zephyr'); assert.match(style, /slow/i);
+  await s.close();
+});
+
 test('missing key refuses /token with 503 in English JSON', async () => {
   const s = await up({});
   const r = await post(s.base, '/token', { pack: 'kind' });

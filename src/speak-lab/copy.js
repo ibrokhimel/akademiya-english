@@ -9,6 +9,10 @@ export const COPY = {
   lost: 'Aloqa uzildi.',
   serverDown: 'Server javob bermadi. Uni ishga tushiring: node src/speak-lab/server/server.js',
   reportSoon: 'Hisobot',
+  // under a caption
+  explain: "O'ZBEKCHA TUSHUNTIR",
+  slower: 'SEKINROQ',
+  noAnswer: 'Javob kelmadi.',
   // the feedback cards
   cardBetter: 'YAXSHIROQ AYTISH',
   cardPron: 'TALAFFUZ',

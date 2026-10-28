@@ -6,9 +6,10 @@ import { startMic, makePlayer } from './audio.js';
 import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
-import { mountCards } from './cards.js';
+import { mountCards, captionButtons } from './cards.js';
 import { shouldAskFeedback } from './rules.js';
-import { pcmToBase64 } from './audio.js';
+import { pcmToBase64, base64ToPcm } from './audio.js';
+import { PACKS } from './config.js';
 
 const isFake = () => new URLSearchParams(location.search).has('fake');
 const MAX_TURN_CHUNKS = 300;                                                  // 30 s of the learner's audio per turn, at most
@@ -69,8 +70,18 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
     onToolCall(name, args) { if (name === 'set_mood') { state.mood = args.mood; T.dombi.mood(args.mood); } },
     onClose(reason) { if (reason === 'lost') { status(COPY.lost); } },
   };
+  // "Slower": the line again from the TTS model, in the pack's voice; the mic is not sent while it plays, so Dombi is not cut off by his own slow voice
+  let muted = false;
+  async function slower(line) {
+    const { pcm } = await side('slower', { line, voice: (PACKS.find((p) => p.id === pack) || PACKS[0]).voice });
+    if (!pcm || ended) return;
+    muted = true; player.clear(); T.playerPushes++; player.push(base64ToPcm(pcm));
+    await new Promise((r) => { const t = setInterval(() => { if (!player.playing() || ended) { clearInterval(t); r(); } }, 100); });
+    muted = false;
+  }
   function addCaption(text) {
-    const el = document.createElement('div'); el.className = 'cap done'; el.textContent = text;
+    const el = document.createElement('div'); el.className = 'cap done'; const line = document.createElement('div'); line.className = 'ctext'; line.textContent = text; el.appendChild(line);
+    captionButtons(el, text, { onExplain: (l) => side('explain', { line: l, history: state.transcript.slice(-4) }).then((j) => j && j.uz), onSlower: slower });
     $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
@@ -78,7 +89,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
 
   // the mic: blocked → the Uzbek line and a retry
   let mic = null;
-  try { mic = await startMic((pcm) => { if (!T.session || ended) return; T.session.sendAudio(pcm); if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
+  try { mic = await startMic((pcm) => { if (!T.session || ended || muted) return; T.session.sendAudio(pcm); if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
   catch (e) { root.innerHTML = `<div class="talk problem"><p>${COPY.micBlocked}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); return T; }
 
   // the session: real or scripted

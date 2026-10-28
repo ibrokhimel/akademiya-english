@@ -2,6 +2,18 @@
 // mountCards(column, cfg) -> { show(kind, text), turn(), clear() }
 import { COPY } from './copy.js';
 
+// the two buttons under one of Dombi's captions: explain in Uzbek (the text appears under the line), say it slower
+// captionButtons(el, line, { onExplain(line) -> Promise<uz>, onSlower(line) -> Promise })
+export function captionButtons(el, line, { onExplain, onSlower }) {
+  const row = document.createElement('div'); row.className = 'crow';
+  row.innerHTML = `<button class="cbtn explain">${COPY.explain}</button><button class="cbtn slower">${COPY.slower}</button><div class="uz"></div>`;
+  el.appendChild(row);
+  const uz = row.querySelector('.uz'), ex = row.querySelector('.explain'), sl = row.querySelector('.slower');
+  ex.onclick = async () => { if (uz.textContent) { uz.textContent = ''; return; } ex.disabled = true; uz.textContent = '…';
+    try { uz.textContent = (await onExplain(line)) || COPY.noAnswer; } catch { uz.textContent = COPY.noAnswer; } ex.disabled = false; };
+  sl.onclick = async () => { sl.disabled = true; try { await onSlower(line); } catch {} sl.disabled = false; };
+}
+
 export function mountCards(column, cfg) {
   let thisTurn = new Set();
   return {
