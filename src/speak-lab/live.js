@@ -23,9 +23,11 @@ export async function connectLive({ server = CFG.SERVER, pack, topic = '', profi
   // `current` is the one live socket; messages and closes from any other socket are ignored, so a closed socket can never reopen itself
   let current = null, closedByUs = false, handle = null, attempt = 0, reconnecting = false, lastConfig = null;
 
+  const stats = {}, bump = (k) => { stats[k] = (stats[k] || 0) + 1; };           // what kinds of messages came, for the checks and the test bar
   const onMessage = (me, m) => {
     if (me !== current || closedByUs) return;
     const sc = m.serverContent;
+    for (const k of Object.keys(m)) bump(k); if (sc) for (const k of Object.keys(sc)) bump('serverContent.' + k);
     if (m.sessionResumptionUpdate) { if (m.sessionResumptionUpdate.resumable && m.sessionResumptionUpdate.newHandle) handle = m.sessionResumptionUpdate.newHandle; }
     if (m.goAway) { dropCurrent(); reconnect(); return; }
     if (m.toolCall && m.toolCall.functionCalls) {
@@ -82,5 +84,6 @@ export async function connectLive({ server = CFG.SERVER, pack, topic = '', profi
     sendText(text) { if (current && current.s) try { current.s.sendClientContent({ turns: [{ role: 'user', parts: [{ text }] }], turnComplete: true }); } catch (e) { console.warn(e.message); } },
     close() { closedByUs = true; dropCurrent(); },
     config: () => lastConfig,
+    stats: () => stats,
   };
 }
