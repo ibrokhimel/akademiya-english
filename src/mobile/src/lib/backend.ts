@@ -2,6 +2,7 @@ import { Directory,File,Paths } from "expo-file-system";
 import * as SecureStore from "expo-secure-store";
 import PocketBase,{ AsyncAuthStore } from "pocketbase";
 import { uploadRefusal } from "../../../core/customize.js";
+import { modeOf } from "../../../core/look.js";
 import { mediaToUpload,normalizeProfile,profileForSync } from "../../../core/profile.js";
 import { backendURL,cloudEnabled,internalBuild } from "./config";
 import { profileFileUri } from "./media";
@@ -111,7 +112,8 @@ async function synchronize() {
   await pb.collection("users").update(user, {
     name: settings.name,
     settings: {
-      mode: settings.mode,
+      // read straight from storage: an install from before the mode has only `dark`, so work the mode out the same way the app does
+      mode: modeOf(settings),
       sound: settings.sound,
       speaking: settings.speaking,
       saveVoice: settings.saveVoice,
