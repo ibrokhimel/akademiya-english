@@ -8,6 +8,7 @@ test('moodFor reads the mood off his words', () => {
   assert.equal(moodFor('Ha-ha, that was actually funny bro.'), 'laugh'); assert.equal(moodFor('Wow! No way!'), 'surprised');
   assert.equal(moodFor('Hmm... let me think.'), 'think'); assert.equal(moodFor('Zo\'r! You nailed it, proud of you.'), 'proud');
   assert.equal(moodFor('Oops, my bad.'), 'oops'); assert.equal(moodFor('Tell me about your day.'), 'happy'); assert.equal(moodFor(''), 'happy');
+  assert.equal(moodFor('FINALLY! There it is.'), 'proud'); assert.equal(moodFor('Are you kidding me?'), 'surprised');
 });
 
 test('sendMic gates the mic while Dombi talks', () => {

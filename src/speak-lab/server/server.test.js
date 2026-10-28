@@ -118,6 +118,16 @@ test('the prompt carries the anti-assistant rules, Dombi\'s own life, and the ga
   assert.match(p, /Bad:/); assert.match(p, /Good:/);                               // shown, not just told
 });
 
+test('the prompt carries the pronunciation drill: spelled sound, escalation, payoff, next word', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'rude', topic: '', profile: {} });
+  assert.match(p, /KWAI-er/);                                      // spell the sound in capital syllables
+  assert.match(p, /bigger reaction/);                              // each miss in a row escalates
+  assert.match(p, /FINALLY/);                                      // the payoff is a moment
+  assert.match(p, /next word/);                                    // momentum: straight to the next word with a dare
+  assert.match(p, /Are you kidding me/);                           // Rude has Aloa's beats
+});
+
 test('unknown pack throws', async () => {
   const { buildSystemPrompt } = await import('./prompts.js');
   assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));

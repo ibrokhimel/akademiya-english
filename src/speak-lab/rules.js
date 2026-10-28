@@ -33,7 +33,8 @@ export function silenceStage({ quietMs, stage, dombiTalking }, cfg) {
 export function moodFor(text) {
   const t = (text || '').toLowerCase();
   if (/\b(ha-?ha|haha|lol|lmao|kulgili|xa-?xa)\b|😂|🤣/.test(t)) return 'laugh';
-  if (/\b(wow|no way|whoa|voy|really\?|seriously\?|what\?!)|😱|!\?/.test(t)) return 'surprised';
+  if (/\b(finally|nihoyat|there it is)\b/.test(t)) return 'proud';                           // the drill's payoff
+  if (/\b(wow|no way|whoa|voy|really\?|seriously\?|what\?!|are you kidding)|😱|!\?/.test(t)) return 'surprised';
   if (/\b(hmm+|let me think|o'ylab|wait|so\.\.\.)\b|\.\.\./.test(t)) return 'think';
   if (/\b(proud|nailed|perfect|zo'r|barakalla|yaxshi|great job|well done|exactly)\b/.test(t)) return 'proud';
   if (/\b(oops|my bad|sorry|kechirasan|kechir)\b/.test(t)) return 'oops';
