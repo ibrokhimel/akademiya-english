@@ -6,7 +6,7 @@ import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
 import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
-import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName } from './customize.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName, uploadRefusal } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -778,6 +778,14 @@ test('a video keeps its first-frame picture next to it', () => {
   assert.equal(thumbnailOf('file:///docs/profile/ab.MOV'), 'file:///docs/profile/ab.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
+});
+test('an upload the server will never take is not sent again: over 8 MB, or a 400 answer', () => {
+  assert.equal(uploadRefusal({ bytes: 8 * 1024 * 1024 + 1 }), 'large');
+  assert.equal(uploadRefusal({ bytes: 8 * 1024 * 1024 }), null);
+  assert.equal(uploadRefusal({ error: { status: 400 } }), 'rejected');
+  // worth trying again next sync: offline (status 0), a timeout, a server error, an unknown failure
+  for (const error of [{ status: 0 }, { status: 500 }, new Error('x'), null]) assert.equal(uploadRefusal({ error }), null);
+  assert.equal(uploadRefusal(), null);
 });
 test('a stored profile media uri is found again by its file name, whatever the old app folder was', () => {
   // an install before the update: the container id in the path is gone, the name is what counts

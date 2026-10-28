@@ -1,6 +1,7 @@
 import { Directory,File,Paths } from "expo-file-system";
 import * as SecureStore from "expo-secure-store";
 import PocketBase,{ AsyncAuthStore } from "pocketbase";
+import { uploadRefusal } from "../../../core/customize.js";
 import { mediaToUpload,normalizeProfile,profileForSync } from "../../../core/profile.js";
 import { backendURL,cloudEnabled,internalBuild } from "./config";
 import { profileFileUri } from "./media";
@@ -202,7 +203,6 @@ export async function usernameFree(name: string): Promise<boolean | null> {
     return null;
   }
 }
-const MEDIA_LIMIT = 8 * 1024 * 1024;
 const FALLBACK_MIME = { image: "image/jpeg", gif: "image/gif", video: "video/mp4" } as const;
 const FALLBACK_EXT = { image: "jpg", gif: "gif", video: "mp4" } as const;
 /** What the last sync could not do for the profile, for the editors to show. Read it with profileSyncStatus(). */
@@ -211,8 +211,9 @@ export type ProfileSyncStatus = {
   username: string | null;
   /** set when the server refused the username (taken or not allowed); cleared when the learner changes it */
   usernameError: { value: string } | null;
-  /** media the server cannot take: "large" is over 8 MB (the type is worked out from the extension, or from the picked media type) */
-  media: Record<string, { uri: string; error: "large" }>;
+  /** media the server cannot take, not sent again until the learner picks another file: "large" is over 8 MB, "rejected" got a 400
+   *  answer (the type is worked out from the extension, or from the picked media type) */
+  media: Record<string, { uri: string; error: "large" | "rejected" }>;
 };
 const STATUS_KEY = "profileSync";
 export function profileSyncStatus(user = pb.authStore.record?.id || ""): ProfileSyncStatus {
@@ -223,7 +224,8 @@ function saveStatus(user: string, status: ProfileSyncStatus) {
 }
 const MIME: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", mp4: "video/mp4", mov: "video/quicktime" };
 // The username and the learner's own picture, GIF or video. Neither may stop the rest of the sync: a taken username or a failed
-// upload is tried again next time, and a picture is sent once (we remember which file went up for which account).
+// upload is tried again next time (except one the server refused with a 400, or one over 8 MB: those wait for a different file),
+// and a picture is sent once (we remember which file went up for which account).
 async function syncProfileExtras(user: string, profile: ReturnType<typeof normalizeProfile>, ensureOwner: () => void) {
   let status = profileSyncStatus(user);
   // The username goes up only when it changed. A refusal (400) is remembered and not retried until the learner changes it; other failures retry next sync.
@@ -248,7 +250,7 @@ async function syncProfileExtras(user: string, profile: ReturnType<typeof normal
   for (const media of mediaToUpload(profile, read<Record<string, Record<string, string>>>("profileMedia", {})[user])) {
     const known = profileSyncStatus(user).media[media.field];
     if (known?.uri === media.uri) continue; // refused for good: wait for a different file
-    const refuse = (error: "large") => {
+    const refuse = (error: "large" | "rejected") => {
       ensureOwner();
       const now = profileSyncStatus(user);
       saveStatus(user, { ...now, media: { ...now.media, [media.field]: { uri: media.uri, error } } });
@@ -261,11 +263,14 @@ async function syncProfileExtras(user: string, profile: ReturnType<typeof normal
       const ext = media.uri.split("?")[0].split(".").pop()?.toLowerCase() || "";
       const kind = (media.mediaType || "image") as keyof typeof FALLBACK_MIME;
       const type = MIME[ext] || FALLBACK_MIME[kind], name = MIME[ext] ? ext : FALLBACK_EXT[kind];
-      if (file.size > MEDIA_LIMIT) { refuse("large"); continue; }
+      const large = uploadRefusal({ bytes: file.size });
+      if (large) { refuse(large); continue; }
       const form = new FormData();
       form.append(media.field, { uri, name: `${media.field}.${name}`, type } as unknown as Blob);
       await pb.collection("users").update(user, form);
-    } catch {
+    } catch (e) {
+      const rejected = uploadRefusal({ error: e });
+      if (rejected) refuse(rejected);
       continue;
     }
     ensureOwner();

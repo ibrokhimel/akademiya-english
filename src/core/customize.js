@@ -130,3 +130,16 @@ export function profileFileName(uri) {
   try { decoded = decodeURIComponent(name); } catch { return null; }
   return decoded && decoded !== '.' && decoded !== '..' && !/[\\/]/.test(decoded) ? decoded : null;
 }
+
+/**
+ * Why the server will never take this upload, so the sync stops sending the same file: "large" over the 8 MB limit (checked
+ * before sending), "rejected" when the server answered 400 (bad type or content). Null for anything worth trying again
+ * (offline, a timeout, a server error).
+ * @param {{ bytes?: number | null, error?: unknown }} [what]
+ * @returns {'large' | 'rejected' | null}
+ */
+export function uploadRefusal({ bytes = null, error = null } = {}) {
+  if (typeof bytes === 'number' && bytes > MEDIA_LIMITS.bytes) return 'large';
+  if (error && typeof error === 'object' && error.status === 400) return 'rejected';
+  return null;
+}
