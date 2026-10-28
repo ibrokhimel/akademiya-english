@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>speak lab: audio check</title>
+<style>body{font:15px system-ui;padding:20px;max-width:600px}pre{background:#f3f3f6;padding:10px;min-height:120px}button{font:inherit;padding:8px 14px}</style></head>
+<body>
+<h3>Audio check</h3>
+<p>Start: the mic is captured, chunk sizes are printed (expect 1600 samples each), the level moves while you speak, and a 1 s tone plays through the player.</p>
+<button id="go">Start</button> <span id="amp"></span>
+<pre id="log"></pre>
+<script type="module">
+import { startMic, makePlayer } from '../audio.js';
+const log = (s) => { const el = document.getElementById('log'); el.textContent = (s + '\n' + el.textContent).slice(0, 2000); };
+document.getElementById('go').onclick = async () => {
+  try {
+    let n = 0; const mic = await startMic((pcm) => { if (++n % 10 === 1) log(`chunk ${n}: ${pcm.length} samples`); });
+    setInterval(() => { document.getElementById('amp').textContent = 'level ' + mic.amp(); }, 100);
+    const player = makePlayer(); player.onIdle(() => log('player idle'));
+    const tone = new Int16Array(24000); for (let i = 0; i < tone.length; i++) tone[i] = Math.round(Math.sin(i / 24000 * 2 * Math.PI * 440) * 8000);
+    player.push(tone.subarray(0, 12000)); player.push(tone.subarray(12000)); log('tone pushed, playing: ' + player.playing());
+  } catch (e) { log('error: ' + e.message); }
+};
+</script>
+</body></html>
