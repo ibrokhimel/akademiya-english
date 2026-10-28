@@ -6,6 +6,7 @@ import { useEffect,useMemo,useState } from "react";
 import { thumbnailOf } from "../../../core/customize.js";
 import { AppState,StyleSheet,View,type StyleProp,type ViewStyle } from "react-native";
 import { useDombiLevel } from "../lib/dombiLevel";
+import { profileFileUri } from "../lib/media";
 import type { Profile } from "../lib/store";
 
 type MediaType = NonNullable<Profile["avatar"]["mediaType"]>;
@@ -17,13 +18,15 @@ type MediaType = NonNullable<Profile["avatar"]["mediaType"]>;
  * live video mounts a player. Off screen (another screen on top, another tab) or with the app in the background it is
  * frozen too, so a video never plays where no one sees it and its player is mounted again when it comes back.
  */
-export function ProfileMedia({ uri, mediaType, still, style }: {
+export function ProfileMedia({ uri: stored, mediaType, still, style }: {
+  /** as stored in the settings: found again by file name in the profile folder (profileFileUri) */
   uri: string;
   mediaType: MediaType | null;
   /** force the first frame (small tiles) */
   still?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
+  const uri = useMemo(() => profileFileUri(stored), [stored]);
   const stillPhone = useDombiLevel() === "still";
   const focused = useIsFocused();
   const active = useAppActive();

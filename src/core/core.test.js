@@ -6,7 +6,7 @@ import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
 import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
-import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf } from './customize.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -778,6 +778,23 @@ test('a video keeps its first-frame picture next to it', () => {
   assert.equal(thumbnailOf('file:///docs/profile/ab.MOV'), 'file:///docs/profile/ab.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
+});
+test('a stored profile media uri is found again by its file name, whatever the old app folder was', () => {
+  // an install before the update: the container id in the path is gone, the name is what counts
+  assert.equal(profileFileName('file:///var/mobile/Containers/Data/Application/OLD-ID/Documents/profile/ab-12.mp4'), 'ab-12.mp4');
+  assert.equal(profileFileName('file:///docs/profile/ab-12.thumb.jpg'), 'ab-12.thumb.jpg');
+  assert.equal(profileFileName('file:///docs/profile/ab%20c.jpg'), 'ab c.jpg');
+  assert.equal(profileFileName('file:///docs/profile/ab.jpg?v=2'), 'ab.jpg');
+  assert.equal(profileFileName('ab-12.gif'), 'ab-12.gif');
+  // not ours: another folder, nothing, or no name
+  assert.equal(profileFileName('file:///tmp/ImagePicker/x.jpg'), null);
+  assert.equal(profileFileName('file:///docs/profile/'), null);
+  assert.equal(profileFileName('file:///docs/profile/..'), null);
+  assert.equal(profileFileName('file:///docs/profile/a%2F..%2Fb.jpg'), null);
+  assert.equal(profileFileName('file:///docs/profile/%E0%A4%A'), null);
+  assert.equal(profileFileName(''), null);
+  assert.equal(profileFileName(null), null);
+  assert.equal(profileFileName(undefined), null);
 });
 
 // ---- profile showcase: name and about me, badges, stats (showcase.js) ----

@@ -114,3 +114,19 @@ export function frameShown(id, date = new Date()) {
 export function thumbnailOf(uri) {
   return uri.replace(/\.[a-z0-9]{2,4}$/i, '') + '.thumb.jpg';
 }
+
+/**
+ * The file name a stored profile media uri points at, so the phone can find it in its own profile/ folder: iOS moves the app's
+ * document folder on every install and update, so a stored absolute `file://` path goes stale while the file name stays.
+ * Takes a bare name or a uri whose folder is `profile`; anything else (null, another folder, a picker uri) is null.
+ */
+export function profileFileName(uri) {
+  if (typeof uri !== 'string') return null;
+  const path = uri.split(/[?#]/)[0];
+  const parts = path.split('/');
+  const name = parts.pop();
+  if (parts.length && parts[parts.length - 1] !== 'profile') return null;
+  let decoded;
+  try { decoded = decodeURIComponent(name); } catch { return null; }
+  return decoded && decoded !== '.' && decoded !== '..' && !/[\\/]/.test(decoded) ? decoded : null;
+}

@@ -8,7 +8,7 @@ import { router } from "expo-router";
 import { createVideoPlayer } from "expo-video";
 import { useEffect,useState } from "react";
 import { Linking } from "react-native";
-import { gifDurationMs,mediaProblem,pickedMediaType,rememberMedia,thumbnailOf } from "../../../core/customize.js";
+import { gifDurationMs,mediaProblem,pickedMediaType,profileFileName,rememberMedia,thumbnailOf } from "../../../core/customize.js";
 import { read,write } from "./storage";
 
 export type MediaType = "image" | "gif" | "video";
@@ -28,6 +28,23 @@ function folder() {
   const dir = new Directory(Paths.document, "profile");
   if (!dir.exists) dir.create({ intermediates: true, idempotent: true });
   return dir;
+}
+/**
+ * Where a stored profile media uri is on this phone now: found by its file name in the profile folder, because iOS changes the
+ * app's folder path on every install and update. Old absolute uris and bare names both work; a uri from elsewhere is left as it is.
+ * Every place that opens a stored profile file (ProfileMedia, the clean-up, the sync) goes through here.
+ */
+export function profileFileUri(uri: string): string;
+export function profileFileUri(uri: string | null | undefined): string | null;
+export function profileFileUri(uri: string | null | undefined) {
+  if (!uri) return null;
+  const name = profileFileName(uri);
+  if (!name) return uri;
+  try {
+    return new File(new Directory(Paths.document, "profile"), name).uri;
+  } catch {
+    return uri;
+  }
 }
 const newName = (ext: string) => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 const extensionOf = (name: string | null | undefined, fallback: string) => {
@@ -144,8 +161,9 @@ export function useRecentMedia() {
   return list;
 }
 
-function removeFile(uri: string) {
+function removeFile(stored: string) {
   try {
+    const uri = profileFileUri(stored);
     const f = new File(uri);
     // only our own copies: never a file the picker handed us from elsewhere
     const ours = (u: string) => u.startsWith(folder().uri.replace(/\/$/, ""));
@@ -158,7 +176,7 @@ function removeFile(uri: string) {
 export function removeUnusedProfileFiles(keep: (string | null | undefined)[]) {
   // the lesson background's own picture (Ilova ko'rinishi) lives in the same folder
   const lesson = read<{ appLook?: { lessonBackground?: { uri?: string | null } } }>("settings", {}).appLook?.lessonBackground?.uri;
-  const names = new Set([...keep, lesson, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map((u) => u.split("/").pop()));
+  const names = new Set([...keep, lesson, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map(profileFileName));
   try {
     for (const item of folder().list()) if (item instanceof File && !names.has(item.name)) item.delete();
   } catch {}

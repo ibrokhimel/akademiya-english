@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import PocketBase,{ AsyncAuthStore } from "pocketbase";
 import { mediaToUpload,normalizeProfile,profileForSync } from "../../../core/profile.js";
 import { backendURL,cloudEnabled,internalBuild } from "./config";
+import { profileFileUri } from "./media";
 import { read,write } from "./storage";
 import type { Event,Recording,Settings } from "./store";
 import { getVisualAudit } from "./visualAudit";
@@ -253,14 +254,16 @@ async function syncProfileExtras(user: string, profile: ReturnType<typeof normal
       saveStatus(user, { ...now, media: { ...now.media, [media.field]: { uri: media.uri, error } } });
     };
     try {
-      const file = new File(media.uri);
+      // found by file name in the profile folder: the stored path is stale after an iOS install or update
+      const uri = profileFileUri(media.uri);
+      const file = new File(uri);
       if (!file.exists) continue;
       const ext = media.uri.split("?")[0].split(".").pop()?.toLowerCase() || "";
       const kind = (media.mediaType || "image") as keyof typeof FALLBACK_MIME;
       const type = MIME[ext] || FALLBACK_MIME[kind], name = MIME[ext] ? ext : FALLBACK_EXT[kind];
       if (file.size > MEDIA_LIMIT) { refuse("large"); continue; }
       const form = new FormData();
-      form.append(media.field, { uri: media.uri, name: `${media.field}.${name}`, type } as unknown as Blob);
+      form.append(media.field, { uri, name: `${media.field}.${name}`, type } as unknown as Blob);
       await pb.collection("users").update(user, form);
     } catch {
       continue;
