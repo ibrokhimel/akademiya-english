@@ -2,7 +2,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile } from './rules.js';
+
+test('emptyReport has zero stars and no phrases', () => {
+  const r = emptyReport('silent');
+  assert.equal(r.stars, 0); assert.deepEqual(r.phrases, []); assert.deepEqual(r.pron, []); assert.match(r.why, /gapirmadingiz/); assert.equal(r.failed, false);
+  assert.equal(emptyReport('failed').failed, true);
+});
+
+test('mergeProfile unions and caps', () => {
+  const p = { ...emptyProfile(), interests: ['football'], mistakes: ['go → went'], talks: 2, lastTalk: 'old' };
+  const m = mergeProfile(p, { interests: ['football', 'K-pop'], mistakes: Array.from({ length: 25 }, (_, i) => 'm' + i), lastTalk: 'new', level: 'Beginner' });
+  assert.deepEqual(m.interests, ['football', 'K-pop']); assert.equal(m.mistakes.length, 20); assert.equal(m.mistakes[0], 'go → went');
+  assert.equal(m.lastTalk, 'new'); assert.equal(m.level, 'Beginner'); assert.equal(m.talks, 3); assert.equal(p.talks, 2);
+});
 
 test('silenceStage gives remark at 50 s, whisper at 110 s, none again right after a nudge', () => {
   const c = { SILENCE_REMARK_MS: 50000, SILENCE_WHISPER_MS: 110000 };

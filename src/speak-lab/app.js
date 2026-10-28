@@ -1,26 +1,42 @@
-// The speak lab's boot and router: start → talk → report (the report and memory pages come in a later step).
-import { talkScreen } from './talk.js';
+// The speak lab's boot and router: start → talk → report, and the "what Dombi remembers" page.
+import { talkScreen, side } from './talk.js';
 import { startPage } from './start.js';
-import { loadProfile } from './profile.js';
+import { reportScreen } from './report.js';
+import { memoryScreen } from './memory.js';
+import { loadProfile, saveProfile, addPhrases } from './profile.js';
 import { mountTestBar } from './testbar.js';
-import { COPY } from './copy.js';
-
-let bar = null;
-async function startTalk(opts) {
-  if (bar) bar.stop();
-  const T = await talkScreen(root, opts);
-  if (T.session) bar = mountTestBar(root, T);
-  return T;
-}
+import { emptyReport, mergeProfile } from './rules.js';
 
 const root = document.getElementById('root');
 document.body.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches);
 
-function showReport(result) {
-  window.SPEAK.screen = 'report'; if (bar) { bar.stop(); bar = null; }
-  root.innerHTML = `<div class="report"><h2>${COPY.reportSoon}</h2><p>${result.transcript.length} replika · ${result.seconds} s</p></div>`;
+let bar = null, last = null;                                       // last = the talk just ended, for "talk again" and the report's retry
+const stopBar = () => { if (bar) { bar.stop(); bar = null; } };
+
+async function startTalk(opts) {
+  stopBar(); last = opts;
+  const T = await talkScreen(root, { ...opts, profile: loadProfile(), onEnd: (result) => showReport(opts, result) });
+  if (T.session) bar = mountTestBar(root, T);
+}
+
+// the report: nothing said → the "you did not speak" report; otherwise the server's coach, and Dombi's memory grows
+async function showReport(opts, result) {
+  stopBar();
+  const btns = { onAgain: () => startTalk(opts), onStart: showStart, onRetry: () => showReport(opts, result) };
+  if (!result.transcript.some((t) => t.who === 'learner')) return reportScreen(root, emptyReport('silent'), btns);
+  reportScreen(root, { ...emptyReport('silent'), why: '…', stars: 0 }, btns);
+  try {
+    const report = await side('report', { transcript: result.transcript, cards: result.cards, profile: loadProfile(), pack: opts.pack, topic: opts.topic });
+    if (!result.saved) { saveProfile(addPhrases(mergeProfile(loadProfile(), { ...report.profileUpdate, level: report.level }), report.phrases)); result.saved = true; }
+    reportScreen(root, { ...report, failed: false }, btns);
+  } catch (e) { console.warn('report', e.message); reportScreen(root, emptyReport('failed'), btns); }
+}
+
+function showMemory() {
+  memoryScreen(root, loadProfile(), { onChange: (p) => saveProfile(p), onBack: showStart });
 }
 function showStart() {
-  startPage(root, { profile: loadProfile(), onStart: ({ pack, topic, topicName }) => startTalk({ pack, topic, topicName, profile: loadProfile(), onEnd: showReport }), onMemory: () => {} });
+  stopBar();
+  startPage(root, { profile: loadProfile(), onStart: ({ pack, topic, topicName }) => startTalk({ pack, topic, topicName }), onMemory: showMemory });
 }
-showStart();
+if (location.hash === '#memory') showMemory(); else showStart();

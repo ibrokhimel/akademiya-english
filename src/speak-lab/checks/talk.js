@@ -15,6 +15,7 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   let p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
   await p.addInitScript((turns) => { let n = 0; window.FAKE = { turns, feedbackCalls: [],
     feedback: (body) => { window.FAKE.feedbackCalls.push(body); return ++n === 1 ? Promise.resolve({ better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }) : Promise.reject(new Error('coach down')); },
+    report: (body) => { window.FAKE.reportCalls = (window.FAKE.reportCalls || 0) + 1; return window.FAKE.reportDown ? Promise.reject(new Error('coach down')) : Promise.resolve({ stars: 2, why: 'Yaxshi gaplashdingiz, faqat o\'tgan zamonni unutmang.', phrases: [{ en: 'I went to the bazaar', uz: 'Bozorga bordim' }], pron: ['th → z'], level: 'Beginner', profileUpdate: { interests: ['football'], mistakes: ['I go yesterday → I went yesterday'], lastTalk: 'Futbol haqida gaplashdik.' } }); },
     explain: (body) => Promise.resolve({ uz: "'Bugun nima qilding' — bugun nima ish qilganingni so'rayapti." }),
     slower: (body) => Promise.resolve({ pcm: btoa(String.fromCharCode(...new Uint8Array(4800))) }) }; }, TURNS);
   await p.goto(URL);
@@ -56,9 +57,26 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   ok('the test bar is there', (await p.$('.testbar .nudge-whisper')) !== null);
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
-  await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });
-  ok('End shows the report', (await p.$('.report')) !== null);
+  await p.click('.end'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
+  ok('End shows the report with two stars', /unutmang/.test(await p.textContent('.report .why')) && (await p.$$('.plist li')).length === 2);
+  // the phrasebook kept it: the memory page lists the phrase, delete empties it
+  await p.click('.report .home'); await p.waitForSelector('.start'); await p.click('.memlink'); await p.waitForSelector('.memory');
+  ok('memory page has the phrase and the talk', /I went to the bazaar/.test(await p.textContent('.plist.book')) && /football/.test(await p.textContent('.memory')));
+  await p.click('.plist.book .del'); await p.waitForTimeout(200);
+  ok('deleting the phrase empties the book', (await p.$$('.plist.book li')).length === 0 && await p.evaluate(() => JSON.parse(localStorage.getItem('speak.profile')).phrasebook.length === 0));
   ok('no page errors', errors.length === 0, errors.join('; '));
+  // 1b. a talk where the learner never speaks: zero stars, no coach call
+  await p.click('.memory .back'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go');
+  await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 }); await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });
+  ok('a silent talk gets the "you did not speak" report', /gapirmadingiz/.test(await p.textContent('.report .why')) && (await p.$$('.star.on')).length === 0 && await p.evaluate(() => (window.FAKE.reportCalls || 0) === 1));
+  // 1c. the coach is down at the end: "Hisobot kelmadi" and a retry that works
+  await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go');
+  await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  await p.evaluate(() => { window.FAKE.reportDown = true; window.SPEAK.fake.learner('I like football very much'); return window.SPEAK.fake.next(); }); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
+  await p.click('.end'); await p.waitForSelector('.report .retry', { timeout: 5000 });
+  ok('coach down → "Hisobot kelmadi" with retry', /Hisobot kelmadi/.test(await p.textContent('.report .why')));
+  await p.evaluate(() => { window.FAKE.reportDown = false; }); await p.click('.report .retry'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
+  ok('retry brings the report', true);
   await p.close();
   // 2. the mic blocked: the Uzbek line and a retry
   const ctx = await b.newContext({ viewport: { width: 1200, height: 800 } }); await ctx.grantPermissions([]);

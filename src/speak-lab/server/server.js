@@ -68,6 +68,19 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
       const uz = await gemini.flash([{ text: `Last turns:\n${history(b.history)}\n\nThe line to explain: "${str(b.line)}"` }], { system: promptFile('explain.md') });
       return [200, { uz: str(uz) }];
     },
+    // the end of a talk: stars, the phrases to keep, pronunciation notes, the level, and what Dombi should remember (spec §4.6–4.7)
+    'POST /report': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      const lines = Array.isArray(b.transcript) ? b.transcript.map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${str(t.text)}`).join('\n') : '';
+      const cards = Array.isArray(b.cards) ? b.cards.map((c) => `${c.kind}: ${str(c.text)}`).join('\n') : '';
+      const text = `Pack: ${str(b.pack)}. Topic: ${str(b.topic) || 'free'}.\nLearner profile: ${JSON.stringify(b.profile || {})}\n\nTranscript:\n${lines}\n\nCards shown:\n${cards || '(none)'}`;
+      const j = (await gemini.flash([{ text }], { json: true, system: promptFile('report.md') })) || {};
+      const stars = Math.max(1, Math.min(3, Number(j.stars) || 1));
+      const phrases = (Array.isArray(j.phrases) ? j.phrases : []).map((p) => ({ en: str(p && p.en), uz: str(p && p.uz) })).filter((p) => p.en).slice(0, 5);
+      const pron = (Array.isArray(j.pron) ? j.pron : []).map(str).filter(Boolean).slice(0, 3);
+      const u = j.profileUpdate || {};
+      return [200, { stars, why: str(j.why), phrases, pron, level: str(j.level), profileUpdate: { interests: Array.isArray(u.interests) ? u.interests.map(str).filter(Boolean) : [], mistakes: Array.isArray(u.mistakes) ? u.mistakes.map(str).filter(Boolean) : [], lastTalk: str(u.lastTalk) } }];
+    },
     // the same line again, slowly, in the pack's voice; base64 PCM at 24 kHz
     'POST /slower': async (b) => {
       if (!hasKey) return [503, { error: 'no key' }];

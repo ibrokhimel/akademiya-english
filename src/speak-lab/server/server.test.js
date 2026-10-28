@@ -101,6 +101,16 @@ test('slower returns base64 pcm', async () => {
   await s.close();
 });
 
+test('report returns the model\'s json', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return { stars: 2, why: 'Yaxshi gaplashdingiz.', phrases: [{ en: 'I went to the bazaar', uz: 'Bozorga bordim' }], pron: ['th'], level: 'Beginner', profileUpdate: { interests: ['football'], mistakes: ['go → went'], lastTalk: 'Futbol haqida.' } }; };
+  const r = await post(s.base, '/report', { transcript: [{ who: 'dombi', text: 'Salom!' }, { who: 'learner', text: 'yesterday I go bazaar' }], cards: [], profile: { name: 'Ibrohim' }, pack: 'kind', topic: 'futbol' });
+  assert.equal(r.status, 200); const j = await r.json();
+  assert.equal(j.stars, 2); assert.equal(j.phrases[0].uz, 'Bozorga bordim'); assert.deepEqual(j.profileUpdate.interests, ['football']);
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.match(parts[0].text, /yesterday I go bazaar/); assert.equal(opts.json, true);
+  await s.close();
+});
+
 test('missing key refuses /token with 503 in English JSON', async () => {
   const s = await up({});
   const r = await post(s.base, '/token', { pack: 'kind' });

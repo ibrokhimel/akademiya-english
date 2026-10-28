@@ -21,7 +21,7 @@ const isFake = () => new URLSearchParams(location.search).has('fake');
 const MAX_TURN_CHUNKS = 300;                                                  // 30 s of the learner's audio per turn, at most
 
 // the side calls go to the server, or to window.FAKE.<name> in fake mode (a missing fake means "no answer")
-async function side(name, body) {
+export async function side(name, body) {
   if (isFake()) { const f = window.FAKE && window.FAKE[name]; if (!f) throw new Error('no fake ' + name); return f(body); }
   const r = await fetch(CFG.SERVER + '/' + name, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if (!r.ok) throw new Error(name + ' ' + r.status);

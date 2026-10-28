@@ -48,4 +48,16 @@ body.speak { margin: 0; min-height: 100vh; background: var(--bg); color: var(--t
 .pk.on { border-color: var(--violet); color: var(--violet); background: var(--surface); }
 .start .go { width: 280px; margin-top: 10px; }
 .memlink { color: var(--text-muted); font-weight: 800; font-size: 14px; }
-.report { padding: 40px 0; } .report h2 { font-size: 28px; font-weight: 900; margin: 0 0 8px; }
+/* the report and the memory page */
+.report, .memory { padding: 40px 0 80px; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.report h2, .memory h2 { font-size: 28px; font-weight: 900; margin: 0 0 4px; }
+.stars { font-size: 44px; letter-spacing: 6px; color: var(--grey); } .star.on { color: var(--gold); }
+.why { font-size: 17px; font-weight: 800; margin: 0; }
+.lvl { color: var(--text-muted); font-weight: 800; margin: 4px 0; }
+.plist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.plist li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 10px 14px; border-radius: 12px; background: var(--surface); font-weight: 700; }
+.plist li b { font-weight: 900; } .plist li span { color: var(--text-muted); } .plist.pron li { display: block; }
+.plist .del { margin-left: auto; font: inherit; font-size: 12px; font-weight: 900; padding: 3px 10px; border-radius: 10px; border: 2px solid var(--grey); background: var(--card); color: var(--text-muted); cursor: pointer; }
+.rbtns { display: flex; gap: 12px; margin-top: 16px; } .rbtns .btn { width: 240px; }
+.report .retry { width: 240px; }
+.mrow { display: flex; gap: 12px; font-weight: 800; } .mrow .ml { color: var(--text-muted); min-width: 220px; }

@@ -1,5 +1,18 @@
 // The page's pure rules: no DOM, no network, tested in node (rules.test.js).
 import { TOPICS } from './config.js';
+import { COPY } from './copy.js';
+
+// the report when there is nothing to report: the learner never spoke ('silent'), or the server's report call failed ('failed')
+export function emptyReport(reason) {
+  return { stars: 0, why: reason === 'failed' ? COPY.reportFailed : COPY.reportSilent, phrases: [], pron: [], level: '', profileUpdate: null, failed: reason === 'failed' };
+}
+
+// what Dombi remembers after a talk: interests and mistakes are unioned and capped at 20, the last talk's summary replaces, talks + 1
+export function mergeProfile(profile, update = {}) {
+  const union = (a, b) => [...new Set([...(a || []), ...(b || [])].map((s) => String(s).trim()).filter(Boolean))].slice(0, 20);
+  return { ...profile, interests: union(profile.interests, update.interests), mistakes: union(profile.mistakes, update.mistakes),
+    lastTalk: update.lastTalk ? String(update.lastTalk) : profile.lastTalk, level: update.level || profile.level, talks: (profile.talks || 0) + 1 };
+}
 
 // topicsFor(goal) -> cards: the learner's goal cards first, then the "just talk" cards; no goal (or "talk") → only the second group
 export function topicsFor(goal) {
