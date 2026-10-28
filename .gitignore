@@ -30,4 +30,5 @@ src/web/checks/shots*/
 src/speak-lab/server/.env
 src/speak-lab/server/logs/
 src/speak-lab/server/node_modules/
+src/speak-lab/vendor/
 .superpowers/

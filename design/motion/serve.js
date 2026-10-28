@@ -3,7 +3,7 @@
 //   node serve.js 8793 lan  ->  also open to phones on the same Wi-Fi (to feel the taps in the hand). The mic needs https, so speaking stays on the PC.
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
-const T = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.wasm': 'application/wasm',
+const T = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.wasm': 'application/wasm',
             '.png': 'image/png', '.svg': 'image/svg+xml', '.riv': 'application/octet-stream', '.json': 'application/json', '.wav': 'audio/wav' };
 const PORT = +process.argv[2] || 8791, LAN = process.argv[3] === 'lan';
 http.createServer((q, s) => {
