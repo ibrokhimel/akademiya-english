@@ -142,7 +142,8 @@ const defaults: Settings = {
 
 function useStore() {
   const [settings, updateSettings] = useState<Settings>(() => {
-    const { dark: _oldDark, ...saved } = read<Partial<Settings> & { dark?: boolean }>("settings", {});
+    // `?? {}`: a stored `null` (not a missing key) would otherwise throw here and the app would not open
+    const { dark: _oldDark, ...saved } = read<(Partial<Settings> & { dark?: boolean }) | null>("settings", {}) ?? {};
     return releaseSettings({
       ...defaults,
       ...saved,
