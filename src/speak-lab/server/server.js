@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MODELS } from './gemini.js';
+import { buildSystemPrompt as buildPrompt } from './prompts.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 8797, ORIGIN = 'http://127.0.0.1:8791';
@@ -35,7 +36,7 @@ export function liveConfig(pack, systemInstruction) {
 const json = (s, code, body) => { s.writeHead(code, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ORIGIN }); s.end(JSON.stringify(body)); };
 const readBody = (q) => new Promise((res, rej) => { let d = ''; q.on('data', (c) => { d += c; if (d.length > 30e6) rej(new Error('too big')); }); q.on('end', () => { try { res(d ? JSON.parse(d) : {}); } catch (e) { rej(e); } }); });
 
-export function createServer({ gemini, env, buildSystemPrompt = null }) {
+export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
   const hasKey = !!env.GEMINI_API_KEY;
   const routes = {
     'GET /health': async () => [200, { ok: true, model: MODELS.live, key: hasKey }],

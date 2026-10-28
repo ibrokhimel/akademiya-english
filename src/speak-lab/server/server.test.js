@@ -47,6 +47,27 @@ test('token refuses an unknown pack with 400', async () => {
   await s.close();
 });
 
+test('system prompt holds the pack text and the learner\'s name and goal', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'rude', topic: 'futbol', profile: { name: 'Ibrohim', goal: 'ielts', level: 'Beginner', interests: ['football'], mistakes: [], lastTalk: '' } });
+  assert.match(p, /ahmoq/);                       // the owner's rude example line
+  assert.match(p, /Ibrohim/); assert.match(p, /ielts/i); assert.match(p, /futbol/);
+  assert.match(p, /set_mood/); assert.match(p, /Tashkent/);
+});
+
+test('couple pack keeps romance for adults only when age is under 18', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const line = /never a boyfriend or girlfriend/;
+  assert.match(buildSystemPrompt({ pack: 'couple', topic: '', profile: { age: 15 } }), line);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'couple', topic: '', profile: { age: 25 } }), line);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'couple', topic: '', profile: {} }), line);
+});
+
+test('unknown pack throws', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));
+});
+
 test('missing key refuses /token with 503 in English JSON', async () => {
   const s = await up({});
   const r = await post(s.base, '/token', { pack: 'kind' });
