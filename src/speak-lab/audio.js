@@ -14,7 +14,8 @@ export function base64ToPcm(b64) {
 
 const WORKLET = new URL('./pcm-worklet.js', import.meta.url).href;
 let ctx = null;
-export const audioContext = () => (ctx ||= new AudioContext());
+// the context runs at Gemini's own 24 kHz: a chunk played in a 48 kHz context is resampled on its own, and every chunk edge ticks
+export const audioContext = () => (ctx ||= new AudioContext({ sampleRate: OUT_RATE }));
 
 // startMic(onChunk) -> { stop(), amp() }: echo cancellation on (hands-free with speakers), ~100 ms chunks of 16 kHz PCM, amp 0–100
 export async function startMic(onChunk) {
@@ -32,23 +33,28 @@ export async function startMic(onChunk) {
 export function makePlayer() {
   const ac = audioContext();
   let at = 0, sources = new Set(), last = 0, idleCb = null, gain = ac.createGain(); gain.connect(ac.destination);
+  const stats = { pushes: 0, gaps: 0, gapMs: 0, lateMs: 0 };                                  // gaps: the queue ran dry before a chunk came (a crackle each time)
   const tick = () => { if (sources.size === 0 && idleCb) idleCb(); };
   return {
+    stats: () => ({ ...stats }),
     push(int16) {
       const buf = ac.createBuffer(1, int16.length, OUT_RATE), ch = buf.getChannelData(0);
       let peak = 0; for (let i = 0; i < int16.length; i++) { ch[i] = int16[i] / 32768; const a = Math.abs(ch[i]); if (a > peak) peak = a; }
       if (sources.size === 0) { const n = Math.min(120, ch.length); for (let i = 0; i < n; i++) ch[i] *= i / n; }   // a 5 ms fade-in at the start of a stream: no click
-      if (gain.gain.value < 1) { gain.gain.cancelScheduledValues(ac.currentTime); gain.gain.setValueAtTime(1, ac.currentTime); }
       last = Math.min(100, Math.round(peak * 140));
       const s = ac.createBufferSource(); s.buffer = buf; s.connect(gain);
-      const now = ac.currentTime; if (at < now + 0.02) at = now + 0.02;                   // a little lead so the first chunk is never late
+      const now = ac.currentTime; stats.pushes++;
+      if (sources.size > 0 && at < now) { stats.gaps++; stats.gapMs += (now - at) * 1000; }
+      if (at < now + 0.02) at = now + 0.02;                                                 // a little lead so the first chunk is never late
       s.start(at); at += buf.duration; sources.add(s); s.onended = () => { sources.delete(s); if (sources.size === 0) { last = 0; tick(); } };
     },
-    // stopping mid-word: a 25 ms fade instead of a cut, then the sources go
+    // stopping mid-word: the old sound fades out over 25 ms on its own gain node and is dropped; new sound gets a fresh one, so the two never mix
     clear() {
-      const old = [...sources]; sources.clear(); at = 0; last = 0; if (!old.length) return;
-      const t = ac.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(0, t + 0.025);
+      const old = [...sources], oldGain = gain; sources.clear(); at = 0; last = 0; if (!old.length) return;
+      gain = ac.createGain(); gain.connect(ac.destination);
+      const t = ac.currentTime; oldGain.gain.setValueAtTime(1, t); oldGain.gain.linearRampToValueAtTime(0, t + 0.025);
       for (const s of old) { s.onended = null; try { s.stop(t + 0.03); } catch {} }
+      setTimeout(() => oldGain.disconnect(), 100);
       if (idleCb) idleCb();
     },
     amp: () => (sources.size ? last : 0),

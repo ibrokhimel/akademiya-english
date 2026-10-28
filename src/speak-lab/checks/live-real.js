@@ -9,6 +9,7 @@ const { chromium } = require('playwright');
   await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="day"]'); await p.click('.go');
   const t0 = Date.now();
   const got = await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1 || document.querySelector('.problem'), null, { timeout: 40000 }).then(() => true).catch(() => false);
+  console.log('player:', JSON.stringify(await p.evaluate(() => window.SPEAK && window.SPEAK.talk && window.SPEAK.talk.player && window.SPEAK.talk.player.stats && window.SPEAK.talk.player.stats())));
   console.log('messages:', JSON.stringify(await p.evaluate(() => window.SPEAK && window.SPEAK.talk && window.SPEAK.talk.session && window.SPEAK.talk.session.stats && window.SPEAK.talk.session.stats())));
   const caps = await p.$$eval('.cap.done', (els) => els.map((e) => e.textContent)), live = await p.textContent('.cap.live').catch(() => ''), problem = await p.textContent('.problem p').catch(() => null);
   const st = await p.evaluate(() => window.SPEAK && window.SPEAK.talk && { pushes: window.SPEAK.talk.playerPushes, mood: window.SPEAK.talk.state.mood, status: document.querySelector('.status') && document.querySelector('.status').textContent, error: window.SPEAK.talk.error && (window.SPEAK.talk.error.message + ' ' + (window.SPEAK.talk.error.stack || '').slice(0, 300)) });
