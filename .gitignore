@@ -25,3 +25,9 @@ src/web/checks/shots*/
 
 # local check screenshots and logs at the repo root
 /.expo/
+
+# the speak lab's key, its talk logs, and the plan-execution scratch
+src/speak-lab/server/.env
+src/speak-lab/server/logs/
+src/speak-lab/server/node_modules/
+.superpowers/
