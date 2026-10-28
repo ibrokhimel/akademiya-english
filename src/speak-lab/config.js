@@ -14,6 +14,7 @@ export const CFG = {
   // input $3 and output $12 per million tokens as of 2026-10). The owner updates it from the price page; the counter is an estimate.
   PRICE: { inPerSec: 0.000075, outPerSec: 0.0003 },
   MIC_FLOOR: 6,                            // amp below this counts as silence
+  BARGE_IN_FLOOR: 22,                      // while Dombi talks, only mic sound above this is sent (his own voice from the speakers stays under it)
 };
 
 // topic cards: `goal` cards show first for a learner with that goal; the rest are for everyone. `topic` is what Dombi is told.

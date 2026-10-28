@@ -36,7 +36,7 @@ test('token returns the pack voice and the locked model', async () => {
   assert.equal(j.token, 'tok_123'); assert.equal(j.model, 'gemini-3.8-live');
   assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Zephyr');
   assert.deepEqual(j.config.responseModalities, ['AUDIO']);
-  assert.equal(j.config.tools[0].functionDeclarations[0].name, 'set_mood');
+  assert.equal(j.config.tools, undefined);                                 // no tools: the voice model reads tool calls out loud
   const [, constraints] = fakeGemini.calls[0];
   assert.equal(constraints.liveConnectConstraints.model, 'models/gemini-3.8-live');
   assert.equal(constraints.uses, 1);
@@ -89,7 +89,7 @@ test('system prompt holds the pack text and the learner\'s name and goal', async
   const p = buildSystemPrompt({ pack: 'rude', topic: 'futbol', profile: { name: 'Ibrohim', goal: 'ielts', level: 'Beginner', interests: ['football'], mistakes: [], lastTalk: '' } });
   assert.match(p, /ahmoq/);                       // the owner's rude example line
   assert.match(p, /Ibrohim/); assert.match(p, /ielts/i); assert.match(p, /futbol/);
-  assert.match(p, /set_mood/); assert.match(p, /Tashkent/);
+  assert.doesNotMatch(p, /set_mood/); assert.match(p, /Tashkent/);
 });
 
 test('couple pack keeps romance for adults only when age is under 18', async () => {

@@ -8,7 +8,6 @@ export async function connectFake({ handlers: H }) {
   const silence = (ms) => { const a = new Int16Array(Math.round(ms * 24)); for (let i = 0; i < a.length; i++) a[i] = Math.round(Math.sin(i / 24000 * 2 * Math.PI * 220) * 2500); return a; };   // a quiet tone, so the level meter and the mouth have something to follow
   async function play(turn) {
     if (closed) return;
-    if (turn.mood) H.onToolCall && H.onToolCall('set_mood', { mood: turn.mood });
     const words = (turn.caption || '').split(' '), half = Math.ceil(words.length / 2);
     H.onAudio && H.onAudio(silence((turn.audioMs || 600) / 2)); H.onCaption && H.onCaption(words.slice(0, half).join(' ') + ' ', false);
     await new Promise((r) => setTimeout(r, 120));

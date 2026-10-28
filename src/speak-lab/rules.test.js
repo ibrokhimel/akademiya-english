@@ -2,7 +2,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost, moodFor, sendMic } from './rules.js';
+
+test('moodFor reads the mood off his words', () => {
+  assert.equal(moodFor('Ha-ha, that was actually funny bro.'), 'laugh'); assert.equal(moodFor('Wow! No way!'), 'surprised');
+  assert.equal(moodFor('Hmm... let me think.'), 'think'); assert.equal(moodFor('Zo\'r! You nailed it, proud of you.'), 'proud');
+  assert.equal(moodFor('Oops, my bad.'), 'oops'); assert.equal(moodFor('Tell me about your day.'), 'happy'); assert.equal(moodFor(''), 'happy');
+});
+
+test('sendMic gates the mic while Dombi talks', () => {
+  const c = { MIC_FLOOR: 6, BARGE_IN_FLOOR: 22 };
+  assert.equal(sendMic({ amp: 3, dombiTalking: false }, c), true);        // his silence: everything goes, Gemini decides what is speech
+  assert.equal(sendMic({ amp: 10, dombiTalking: true }, c), false);       // his voice through the speakers must not cut him off
+  assert.equal(sendMic({ amp: 30, dombiTalking: true }, c), true);        // the learner really talking over him does
+});
 
 test('estimateCost multiplies seconds by price', () => {
   const price = { inPerSec: 0.0001, outPerSec: 0.0005 };

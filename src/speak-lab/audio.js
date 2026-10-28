@@ -32,11 +32,13 @@ export async function startMic(onChunk) {
 // makePlayer() -> { push(Int16Array), clear(), amp(), onIdle(cb), playing() }: buffers scheduled back to back on one clock
 export function makePlayer() {
   const ac = audioContext();
-  let at = 0, sources = new Set(), last = 0, idleCb = null, gain = ac.createGain(); gain.connect(ac.destination);
+  let at = 0, sources = new Set(), last = 0, idleCb = null, tapNode = null, gain = ac.createGain(); gain.connect(ac.destination);
   const stats = { pushes: 0, gaps: 0, gapMs: 0, lateMs: 0 };                                  // gaps: the queue ran dry before a chunk came (a crackle each time)
   const tick = () => { if (sources.size === 0 && idleCb) idleCb(); };
   return {
     stats: () => ({ ...stats }),
+    // tap(cb): every block of what is actually played goes to cb(Float32Array) too (the checks record it)
+    tap(cb) { const node = ac.createScriptProcessor(4096, 1, 1); node.onaudioprocess = (e) => { cb(new Float32Array(e.inputBuffer.getChannelData(0))); }; tapNode = node; gain.connect(node); node.connect(ac.destination); },
     push(int16) {
       const buf = ac.createBuffer(1, int16.length, OUT_RATE), ch = buf.getChannelData(0);
       let peak = 0; for (let i = 0; i < int16.length; i++) { ch[i] = int16[i] / 32768; const a = Math.abs(ch[i]); if (a > peak) peak = a; }
@@ -51,7 +53,7 @@ export function makePlayer() {
     // stopping mid-word: the old sound fades out over 25 ms on its own gain node and is dropped; new sound gets a fresh one, so the two never mix
     clear() {
       const old = [...sources], oldGain = gain; sources.clear(); at = 0; last = 0; if (!old.length) return;
-      gain = ac.createGain(); gain.connect(ac.destination);
+      gain = ac.createGain(); gain.connect(ac.destination); if (tapNode) gain.connect(tapNode);
       const t = ac.currentTime; oldGain.gain.setValueAtTime(1, t); oldGain.gain.linearRampToValueAtTime(0, t + 0.025);
       for (const s of old) { s.onended = null; try { s.stop(t + 0.03); } catch {} }
       setTimeout(() => oldGain.disconnect(), 100);

@@ -49,8 +49,7 @@ export function liveConfig(pack, systemInstruction, voice = '') {
     inputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] }, outputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] },
     enableAffectiveDialog: true, proactivity: { proactiveAudio: true },
     sessionResumption: {}, contextWindowCompression: { slidingWindow: {} },
-    tools: [{ functionDeclarations: [{ name: 'set_mood', description: 'Show the mood of what you are about to say on your face.',
-      parameters: { type: 'OBJECT', properties: { mood: { type: 'STRING', description: 'happy, laugh, think, surprised, proud, oops, wink, confused, sleepy, focus or smirk' } }, required: ['mood'] } }] }],
+    // no tools: the native-audio model read the set_mood call out loud ("speaker set mood, mood think"); the page reads his mood off his words instead
   };
 }
 

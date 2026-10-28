@@ -29,6 +29,23 @@ export function silenceStage({ quietMs, stage, dombiTalking }, cfg) {
   return 'none';
 }
 
+// Dombi's face from his own words (the voice model reads a tool call out loud, so no tool): laugh, surprised, think, proud, oops, else happy
+export function moodFor(text) {
+  const t = (text || '').toLowerCase();
+  if (/\b(ha-?ha|haha|lol|lmao|kulgili|xa-?xa)\b|😂|🤣/.test(t)) return 'laugh';
+  if (/\b(wow|no way|whoa|voy|really\?|seriously\?|what\?!)|😱|!\?/.test(t)) return 'surprised';
+  if (/\b(hmm+|let me think|o'ylab|wait|so\.\.\.)\b|\.\.\./.test(t)) return 'think';
+  if (/\b(proud|nailed|perfect|zo'r|barakalla|yaxshi|great job|well done|exactly)\b/.test(t)) return 'proud';
+  if (/\b(oops|my bad|sorry|kechirasan|kechir)\b/.test(t)) return 'oops';
+  return 'happy';
+}
+
+// the mic goes to Gemini all the time while Dombi is quiet; while he talks only a clearly loud learner gets through, so his own
+// voice from the speakers cannot cut him off
+export function sendMic({ amp, dombiTalking }, cfg) {
+  return !dombiTalking || amp >= cfg.BARGE_IN_FLOOR;
+}
+
 // a feedback card is only worth asking for when the learner said a few words
 export function shouldAskFeedback(learnerText, cfg) {
   return (learnerText || '').trim().split(/\s+/).filter(Boolean).length >= cfg.MIN_WORDS_FOR_CARD;

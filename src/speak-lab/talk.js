@@ -7,7 +7,7 @@ import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
-import { shouldAskFeedback, silenceStage } from './rules.js';
+import { shouldAskFeedback, silenceStage, moodFor, sendMic } from './rules.js';
 
 // what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
 const NUDGE = {
@@ -71,6 +71,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
     onCaption(text, final) {
       if (final) { if (capText.trim()) { lastDombi = capText.trim(); state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
       capText += text; $('.cap.live').textContent = capText;
+      const m = moodFor(capText); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
     },
     onLearnerText(text, final) {
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }
@@ -78,7 +79,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
     },
     onInterrupted() { state.interruptions++; player.clear(); capText = ''; $('.cap.live').textContent = ''; },
     onTurnComplete() { /* the player's idle event turns the mouth off */ },
-    onToolCall(name, args) { if (name === 'set_mood') { state.mood = args.mood; T.dombi.mood(args.mood); } },
+    onToolCall() { /* no tools in this build: the voice model spoke them aloud */ },
     onClose(reason) { if (reason === 'lost') { status(COPY.lost); T.end(); } },       // the socket is gone for good: the talk ends with what it has
   };
   // End works from the first moment, before the mic and the socket are up; everything it stops may still be missing
@@ -112,7 +113,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   const mouth = setInterval(() => { if (ended || !state.dombiTalking) return; const loud = player.amp() > 4; T.dombi.viseme(loud ? SHAPES[shape++ % SHAPES.length] : 0); if (loud) T.mouthMoves++; }, 95);
 
   // the mic: blocked → the Uzbek line and a retry
-  try { mic = await startMic((pcm) => { if (!T.session || ended || muted) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
+  try { mic = await startMic((pcm) => { if (!T.session || ended || muted || !sendMic({ amp: mic.amp(), dombiTalking: state.dombiTalking }, CFG)) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
   catch (e) { ended = true; root.innerHTML = `<div class="talk problem"><p>${COPY.micBlocked}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); return T; }
   if (ended) { mic.stop(); return T; }                                            // End was pressed while the mic was being asked for
 
