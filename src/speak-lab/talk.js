@@ -6,8 +6,20 @@ import { startMic, makePlayer } from './audio.js';
 import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
+import { mountCards } from './cards.js';
+import { shouldAskFeedback } from './rules.js';
+import { pcmToBase64 } from './audio.js';
 
 const isFake = () => new URLSearchParams(location.search).has('fake');
+const MAX_TURN_CHUNKS = 300;                                                  // 30 s of the learner's audio per turn, at most
+
+// the side calls go to the server, or to window.FAKE.<name> in fake mode (a missing fake means "no answer")
+async function side(name, body) {
+  if (isFake()) { const f = window.FAKE && window.FAKE[name]; if (!f) throw new Error('no fake ' + name); return f(body); }
+  const r = await fetch(CFG.SERVER + '/' + name, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(name + ' ' + r.status);
+  return r.json();
+}
 
 export async function talkScreen(root, { pack, topic, topicName, profile, onEnd }) {
   root.innerHTML = `
@@ -18,23 +30,34 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
       <div class="side"></div>
     </div>`;
   const $ = (s) => root.querySelector(s);
-  const state = { captions: [], learner: [], transcript: [], mood: 'smirk', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: 0, dombiTalking: false };
+  const state = { captions: [], learner: [], transcript: [], cards: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: 0, dombiTalking: false };
   const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0 };
   window.SPEAK = Object.assign(window.SPEAK || {}, { screen: 'talk', talk: T });
 
   T.dombi = await mountDombi($('.dbox'), 220);
-  const player = (T.player = makePlayer());
-  let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false;
+  const player = (T.player = makePlayer()), cards = (T.cards = mountCards($('.side'), CFG));
+  let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
+
+  // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
+  function askFeedback() {
+    const text = learnerText.trim(), pcm = turnPcm; turnPcm = []; cards.turn();
+    if (!shouldAskFeedback(text, CFG)) return;
+    const all = new Int16Array(pcm.reduce((n, c) => n + c.length, 0)); let o = 0; for (const c of pcm) { all.set(c, o); o += c.length; }
+    side('feedback', { audio: pcmToBase64(all), learnerText: text, dombiText: lastDombi, history: state.transcript.slice(-4), level: state.level })
+      .then((j) => { if (ended || !j) return; if (j.level) state.level = j.level; for (const k of ['better', 'pron']) if (j[k] && cards.show(k, j[k])) state.cards.push({ kind: k, text: j[k], turn: state.transcript.length }); })
+      .catch((e) => console.warn('feedback', e.message));                        // no card, the talk goes on
+  }
   const status = (s) => { $('.status').textContent = s; };
 
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
       if (ended) return; T.playerPushes++; player.push(pcm);
-      if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); } }
+      if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
+        setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
-      if (final) { if (capText.trim()) { state.captions.push(capText.trim()); state.transcript.push({ who: 'dombi', text: capText.trim() }); addCaption(capText.trim()); } capText = ''; return; }
+      if (final) { if (capText.trim()) { lastDombi = capText.trim(); state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
       capText += text; $('.cap.live').textContent = capText;
     },
     onLearnerText(text, final) {
@@ -48,14 +71,14 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   };
   function addCaption(text) {
     const el = document.createElement('div'); el.className = 'cap done'; el.textContent = text;
-    $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 4) $('.caps').firstChild.remove();
+    $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
   player.onIdle(() => { state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); if (!ended) T.dombi.listening(true); });
 
   // the mic: blocked → the Uzbek line and a retry
   let mic = null;
-  try { mic = await startMic((pcm) => { if (T.session && !ended) T.session.sendAudio(pcm); }); }
+  try { mic = await startMic((pcm) => { if (!T.session || ended) return; T.session.sendAudio(pcm); if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
   catch (e) { root.innerHTML = `<div class="talk problem"><p>${COPY.micBlocked}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); return T; }
 
   // the session: real or scripted

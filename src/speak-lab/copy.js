@@ -9,6 +9,9 @@ export const COPY = {
   lost: 'Aloqa uzildi.',
   serverDown: 'Server javob bermadi. Uni ishga tushiring: node src/speak-lab/server/server.js',
   reportSoon: 'Hisobot',
+  // the feedback cards
+  cardBetter: 'YAXSHIROQ AYTISH',
+  cardPron: 'TALAFFUZ',
   // the start page
   startTitle: 'Nima haqida gaplashamiz?',
   forGoal: 'MAQSADINGIZ UCHUN',

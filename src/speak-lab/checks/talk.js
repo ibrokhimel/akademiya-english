@@ -2,14 +2,15 @@
 //   node src/speak-lab/checks/talk.js     (needs the lab's server: node design/motion/serve.js)
 const { chromium } = require('playwright');
 const URL = 'http://127.0.0.1:8791/src/speak-lab/?fake=1';
-const TURNS = [{ caption: 'Salom! Bugun nima qilding?', mood: 'happy', audioMs: 500 }, { caption: 'Ha-ha, that was actually funny bro.', mood: 'laugh', audioMs: 500 }, { caption: 'Okay. Tell me more about the match.', mood: 'think', audioMs: 400 }];
+const TURNS = [{ caption: 'Salom! Bugun nima qilding?', mood: 'happy', audioMs: 500 }, { caption: 'Ha-ha, that was actually funny bro.', mood: 'laugh', audioMs: 500 }, { caption: 'Okay. Tell me more about the match.', mood: 'think', audioMs: 400 }, { caption: 'Three apples? Zo\'r. Who ate them?', mood: 'wink', audioMs: 400 }];
 const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
 
 (async () => {
   const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', '--autoplay-policy=no-user-gesture-required'] });
   // 1. a talk: three scripted turns, the mood follows, End shows the report
   let p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
-  await p.addInitScript((turns) => { window.FAKE = { turns }; }, TURNS);
+  await p.addInitScript((turns) => { let n = 0; window.FAKE = { turns, feedbackCalls: [],
+    feedback: (body) => { window.FAKE.feedbackCalls.push(body); return ++n === 1 ? Promise.resolve({ better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }) : Promise.reject(new Error('coach down')); } }; }, TURNS);
   await p.goto(URL);
   // the start page: six packs, BOSHLASH off until a topic is picked, then Futbol + Qo'pol
   await p.waitForSelector('.start .go');
@@ -19,11 +20,20 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
   ok('talk shows the topic name', (await p.textContent('.tbar .topic')) === 'Futbol');
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
-  await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
+  // the learner says a clumsy line, Dombi answers: one "say it better" card; a two-word line gets no call at all
+  await p.evaluate(() => window.SPEAK.fake.learner('yesterday I go bazaar')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
   const moodAfter2 = await p.evaluate(() => window.SPEAK.talk.state.mood);
-  await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 3, null, { timeout: 10000 });
+  await p.waitForSelector('.fcard.better', { timeout: 5000 });
+  ok('one "say it better" card with the coach\'s line', (await p.textContent('.fcard.better .ktxt')) === 'I went to the bazaar yesterday.' && (await p.$$('.fcard')).length === 1);
+  ok('the coach got the learner\'s words', await p.evaluate(() => window.FAKE.feedbackCalls[0].learnerText === 'yesterday I go bazaar'));
+  await p.evaluate(() => window.SPEAK.fake.learner('and then I buy three apple')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 3, null, { timeout: 10000 });
+  await p.waitForTimeout(600);
+  ok('a failed coach call leaves the talk running', await p.evaluate(() => window.FAKE.feedbackCalls.length === 2 && !!window.SPEAK.talk.session) && (await p.$$('.fcard')).length === 1);
+  await p.evaluate(() => window.SPEAK.fake.learner('yes yes')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 4, null, { timeout: 10000 });
+  await p.waitForTimeout(600);
+  ok('a two-word line asks for no card', await p.evaluate(() => window.FAKE.feedbackCalls.length === 2) && (await p.$$('.fcard')).length === 1);
   const caps = await p.$$eval('.cap.done', (els) => els.map((e) => e.textContent));
-  ok('three captions in order', caps.join('|') === TURNS.map((t) => t.caption).join('|'), caps.join(' | '));
+  ok('four captions in order', caps.join('|') === TURNS.map((t) => t.caption).join('|'), caps.join(' | '));
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
   await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });

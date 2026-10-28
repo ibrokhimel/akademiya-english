@@ -5,7 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MODELS } from './gemini.js';
-import { buildSystemPrompt as buildPrompt } from './prompts.js';
+import { buildSystemPrompt as buildPrompt, promptFile } from './prompts.js';
+
+const str = (v) => (typeof v === 'string' ? v.trim() : '');
+const history = (h) => (Array.isArray(h) ? h.slice(-4).map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${str(t.text)}`).join('\n') : '');
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 8797, ORIGIN = 'http://127.0.0.1:8791';
@@ -48,6 +51,15 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt }) {
       const token = await gemini.token({ uses: 1, expireTime: new Date(Date.now() + 30 * 60e3).toISOString(),
         liveConnectConstraints: { model: 'models/' + MODELS.live, config: { responseModalities: config.responseModalities, speechConfig: config.speechConfig, ...(system ? { systemInstruction: system } : {}) } } });
       return [200, { token, model: MODELS.live, config }];
+    },
+    // the learner's last turn → "say it better" and one pronunciation note, as text for the cards (spec §4.2)
+    'POST /feedback': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      const parts = [];
+      if (str(b.audio)) parts.push({ inlineData: { mimeType: 'audio/pcm;rate=16000', data: b.audio } });
+      parts.push({ text: `Last turns:\n${history(b.history)}\n\nLearner's last turn as heard: "${str(b.learnerText)}"\nDombi's reply: "${str(b.dombiText)}"\nLevel so far: ${str(b.level) || 'unknown'}` });
+      const j = (await gemini.flash(parts, { json: true, system: promptFile('feedback.md') })) || {};
+      return [200, { better: str(j.better), pron: str(j.pron), level: str(j.level) }];
     },
   };
   return http.createServer(async (q, s) => {

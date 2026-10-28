@@ -1,7 +1,10 @@
 // node --test src/speak-lab/server/   (a fake gemini is injected; nothing reaches Google)
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from './server.js';
+
+const servers = [];                                              // closed at the end even when an assertion throws, so a failure never hangs the run
+after(() => Promise.all(servers.map((s) => new Promise((r) => s.close(r)))));
 
 const fakeGemini = {
   calls: [],
@@ -12,7 +15,7 @@ const fakeGemini = {
 
 async function up(env = { GEMINI_API_KEY: 'k' }) {
   const server = createServer({ gemini: fakeGemini, env });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  await new Promise((r) => server.listen(0, '127.0.0.1', r)); servers.push(server);
   const base = `http://127.0.0.1:${server.address().port}`;
   return { base, close: () => new Promise((r) => server.close(r)) };
 }
@@ -66,6 +69,18 @@ test('couple pack keeps romance for adults only when age is under 18', async () 
 test('unknown pack throws', async () => {
   const { buildSystemPrompt } = await import('./prompts.js');
   assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));
+});
+
+test('feedback returns the model\'s json and empty strings when the model says nothing', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return { better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }; };
+  const body = { audio: 'AAAA', learnerText: 'yesterday I go bazaar', dombiText: 'Oh nice, what did you buy?', history: [], level: '' };
+  let r = await post(s.base, '/feedback', body); assert.equal(r.status, 200);
+  let j = await r.json(); assert.equal(j.better, 'I went to the bazaar yesterday.'); assert.equal(j.pron, ''); assert.equal(j.level, 'Beginner');
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.equal(parts[0].inlineData.mimeType, 'audio/pcm;rate=16000'); assert.equal(opts.json, true);
+  fakeGemini.flash = async () => ({});
+  r = await post(s.base, '/feedback', body); j = await r.json(); assert.deepEqual(j, { better: '', pron: '', level: '' });
+  await s.close();
 });
 
 test('missing key refuses /token with 503 in English JSON', async () => {

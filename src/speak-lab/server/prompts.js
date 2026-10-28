@@ -33,6 +33,10 @@ function learnerBlock(p = {}, topic = '') {
   return lines.join('\n');
 }
 
+// one of the side-call prompts (feedback.md, explain.md, report.md …), read once
+const files = {};
+export const promptFile = (name) => (files[name] ||= read(name));
+
 export function buildSystemPrompt({ pack, profile = {}, topic = '' }) {
   const P = load();
   if (!P.packs[pack]) throw new Error('unknown pack: ' + pack);

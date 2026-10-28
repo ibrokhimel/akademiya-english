@@ -2,7 +2,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback } from './rules.js';
+import { CFG } from './config.js';
+
+test('shouldAskFeedback is false under three words', () => {
+  assert.equal(shouldAskFeedback('yes', CFG), false); assert.equal(shouldAskFeedback('I go', CFG), false);
+  assert.equal(shouldAskFeedback('I go bazaar', CFG), true); assert.equal(shouldAskFeedback('  ', CFG), false);
+});
 import { seedFromApp, addPhrases, emptyProfile } from './profile.js';
 
 const mem = (o) => ({ getItem: (k) => (k in o ? o[k] : null) });
