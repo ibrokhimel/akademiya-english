@@ -41,7 +41,8 @@ function score(replies, name) {
   const questions = said.filter((s) => /\?\s*$/.test(s)).length;
   const stock = said.flatMap((s) => STOCK.filter((re) => re.test(s)).map((re) => s.match(re)[0]));
   const words = said.map((s) => s.split(/\s+/).filter(Boolean).length);
-  const base = { questions: `${questions}/${said.length} end with a question`, stock: stock.length ? stock : 'none', avgWords: Math.round(words.reduce((a, b) => a + b, 0) / words.length), maxWords: Math.max(...words) };
+  const swears = said.filter((s) => /\b(fuck\w*|shit\w*|damn|hell|crap|ass)\b/i.test(s)).length, slurs = said.filter((s) => /\b(bitch\w*|ho|whore|slut|retard\w*|fag\w*|nigg\w*)\b/i.test(s)).length;
+  const base = { questions: `${questions}/${said.length} end with a question`, stock: stock.length ? stock : 'none', avgWords: Math.round(words.reduce((a, b) => a + b, 0) / words.length), maxWords: Math.max(...words), swears: `${swears}/${said.length}`, slurs };
   if (name === 'talk') { const speed = said.find((s, i) => replies[i].learner.includes('Speed')) || ''; return { ...base, repeater: (speed.match(/speed/gi) || []).length >= 4 }; }
   // the pronunciation dare, Aloa's beats: a spelled-out sound, a dare, a different (bigger) reaction to the second miss, a payoff when right
   const at = (learner) => said[replies.findIndex((r) => r.learner === learner)] || '';

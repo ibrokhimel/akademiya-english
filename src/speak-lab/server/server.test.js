@@ -128,6 +128,16 @@ test('the prompt carries the pronunciation drill: spelled sound, escalation, pay
   assert.match(p, /Are you kidding me/);                           // Rude has Aloa's beats
 });
 
+test('Rude may swear; slurs stay out; an under-18 account gets the light version', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const adult = buildSystemPrompt({ pack: 'rude', topic: '', profile: { age: 25 } }), teen = buildSystemPrompt({ pack: 'rude', topic: '', profile: { age: 15 } }), none = buildSystemPrompt({ pack: 'rude', topic: '', profile: {} });
+  assert.match(adult, /You swear/); assert.doesNotMatch(adult, /never swearing/);
+  assert.match(adult, /never slurs/i);                               // race, religion, nationality, sexuality, disability, gendered slurs
+  assert.match(adult, /no Uzbek mat/i);                              // English swearing only; Uzbek sexual swearing is far heavier
+  assert.match(teen, /under 18/); assert.doesNotMatch(adult, /under 18/); assert.doesNotMatch(none, /under 18/);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'kind', topic: '', profile: {} }), /You swear/);   // only Rude
+});
+
 test('unknown pack throws', async () => {
   const { buildSystemPrompt } = await import('./prompts.js');
   assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));
