@@ -57,10 +57,17 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   ok('the test bar is there', (await p.$('.testbar .nudge-whisper')) !== null);
   ok('the cost counter moves', await p.evaluate(() => window.SPEAK.talk.state.cost > 0 && window.SPEAK.talk.state.secOut > 0));
   // the cap: the clock jumps to 20 s before it → a goodbye nudge; at the cap the talk ends by itself
-  await p.evaluate(() => window.SPEAK.talk.tick(760000));                     // the clock already moved 110 s; this lands a few seconds past the goodbye mark, short of the cap await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /almost up/.test(t)), null, { timeout: 5000 });
-  ok('a goodbye nudge before the cap', true);
-  await p.evaluate(() => window.SPEAK.talk.tick(25000)); await p.waitForFunction(() => window.SPEAK.screen === 'report', null, { timeout: 5000 });
-  ok('the talk ends at the cap', true);
+  ok('the transcript files the learner before the reply', await p.evaluate(() => { const t = window.SPEAK.talk.state.transcript; const i = t.findIndex((x) => x.who === 'learner'); return i > 0 && t[i + 1] && t[i + 1].who === 'dombi' && t[i + 1].text === 'Ha-ha, that was actually funny bro.'; }));
+  const tickTo = (sec) => p.evaluate((s) => { const T = window.SPEAK.talk; T.tick(s * 1000 - (Date.now() + T.clockOffset - T.state.started)); }, sec);   // move the talk's clock to an exact age
+  await tickTo(882);                                                            // past the goodbye mark (880), short of the cap (900)
+  const goodbye = await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /almost up/.test(t)), null, { timeout: 5000 }).then(() => true).catch(() => false);
+  ok('a goodbye nudge before the cap', goodbye);
+  await p.waitForFunction(() => /Xayr/.test(document.querySelector('.cap.live').textContent), null, { timeout: 5000 });   // Dombi is saying goodbye
+  await tickTo(902); await p.waitForTimeout(1200);                              // past the cap while the goodbye is still playing
+  const capState = await p.evaluate(() => ({ screen: window.SPEAK.screen, playing: window.SPEAK.talk.player.playing(), endedAt: window.SPEAK.talk.endedAt }));
+  ok('the cap does not cut the goodbye', capState.screen === 'talk', JSON.stringify(capState));
+  await p.waitForFunction(() => window.SPEAK.screen === 'report', null, { timeout: 8000 });
+  ok('the talk ends once the goodbye is said', true);
   await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.click('.tcard[data-id="football"]'); await p.click('.pk[data-id="rude"]'); await p.click('.go');
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
@@ -88,6 +95,25 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   ok('coach down → "Hisobot kelmadi" with retry', /Hisobot kelmadi/.test(await p.textContent('.report .why')));
   await p.evaluate(() => { window.FAKE.reportDown = false; }); await p.click('.report .retry'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
   ok('retry brings the report', true);
+  // 1e. the socket is lost for good: the talk ends by itself with a report of what was said
+  await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.evaluate(() => { window.FAKE.reportDown = false; }); await p.click('.tcard[data-id="day"]'); await p.click('.go');
+  await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  await p.evaluate(() => { window.SPEAK.fake.learner('my day was good'); return window.SPEAK.fake.next(); }); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
+  await p.evaluate(() => window.SPEAK.fake.drop());
+  const lostReport = await p.waitForFunction(() => window.SPEAK.screen === 'report' && document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 }).then(() => true).catch(() => false);
+  ok('a lost socket ends the talk with a report', lostReport);
+  // 1f. "talk again" pressed while the report is still loading: the late report must not cover the new talk
+  await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.evaluate(() => { const old = window.FAKE.report; window.FAKE.report = (b) => new Promise((r) => setTimeout(() => old(b).then(r), 2500)); });
+  await p.click('.tcard[data-id="day"]'); await p.click('.go'); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  await p.evaluate(() => { window.SPEAK.fake.learner('one more line here'); return window.SPEAK.fake.next(); }); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
+  await p.click('.end'); await p.waitForSelector('.report .again'); await p.click('.report .again'); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  await p.evaluate(() => { window.SPEAK.fake.learner('and this is the next talk'); return window.SPEAK.fake.next(); }); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
+  await p.waitForTimeout(3000);
+  ok('a late report does not cover the new talk', await p.evaluate(() => window.SPEAK.screen === 'talk' && !!document.querySelector('.talk .end')));
+  await p.click('.end');
+  const afterAgain = await p.waitForFunction(() => window.SPEAK.screen === 'report' && document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 8000 }).then(() => 'ok').catch(() => 'timeout');
+  ok('the new talk ends with its own report', afterAgain === 'ok', afterAgain === 'ok' ? '' : await p.evaluate(() => JSON.stringify({ screen: window.SPEAK.screen, stars: document.querySelectorAll('.report .star.on').length, why: document.querySelector('.report .why') && document.querySelector('.report .why').textContent, session: !!(window.SPEAK.talk && window.SPEAK.talk.session), ended: window.SPEAK.talk && window.SPEAK.talk.endedAt })));
+  await p.evaluate(() => { window.FAKE.report = (b) => Promise.resolve({ stars: 2, why: 'ok', phrases: [], pron: [], level: '', profileUpdate: {} }); });
   // 1d. over budget: the server refuses a new talk → the Uzbek budget line
   await p.click('.report .home'); await p.waitForSelector('.start .go'); await p.evaluate(() => { window.FAKE.token = 'budget'; });
   await p.click('.tcard[data-id="day"]'); await p.click('.go'); await p.waitForSelector('.problem', { timeout: 10000 });

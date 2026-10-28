@@ -3,6 +3,8 @@ export const CFG = {
   SERVER: 'http://127.0.0.1:8797',
   SDK: '/src/speak-lab/vendor/genai.js',   // the Gemini SDK bundled for the browser by `npm install` in server/ (esbuild)
   API_VERSION: 'v1alpha',                  // the API version the short-lived tokens connect through
+  CONNECT_TIMEOUT_MS: 15000,               // a socket that has not opened by then is given up (the page shows the server line and a retry)
+  CAP_GRACE_MS: 15000,                     // after the cap, Dombi's goodbye gets this long to play before the talk is ended anyway
   MODEL: 'gemini-3.8-live', FALLBACK_MODEL: 'gemini-2.5-flash-native-audio-latest',
   SILENCE_REMARK_MS: 50000, SILENCE_WHISPER_MS: 110000,
   TALK_CAP_MS: 900000, GOODBYE_BEFORE_CAP_MS: 20000,

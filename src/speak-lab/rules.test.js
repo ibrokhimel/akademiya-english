@@ -41,6 +41,38 @@ import { seedFromApp, addPhrases, emptyProfile } from './profile.js';
 
 const mem = (o) => ({ getItem: (k) => (k in o ? o[k] : null) });
 
+// live.js with a stub SDK: one goAway → exactly one new socket; nothing reopens after close(); a socket that never opens → a timely error
+const stubSdk = (behaviour = {}) => {
+  const log = { connects: 0, sessions: [] };
+  log.sdk = { GoogleGenAI: class { constructor() { this.live = { connect: async ({ config, callbacks }) => {
+    log.connects++; if (behaviour.hang) return new Promise(() => {});
+    const s = { closed: false, handle: config.sessionResumption && config.sessionResumption.handle, sendRealtimeInput() {}, sendClientContent() {}, sendToolResponse() {}, close() { if (s.closed) return; s.closed = true; setTimeout(() => callbacks.onclose({ reason: 'closed' }), 0); } };
+    s.callbacks = callbacks; log.sessions.push(s); setTimeout(() => callbacks.onopen(), 0); return s; } }; } } };
+  return log;
+};
+const tick = (ms) => new Promise((r) => setTimeout(r, ms));
+
+test('one goAway opens one resumed session and nothing reopens after close', async () => {
+  const { connectLive } = await import('./live.js');
+  const log = stubSdk(), closes = [];
+  const s = await connectLive({ pack: 'kind', handlers: { onClose: (r) => closes.push(r) }, sdk: log.sdk, getToken: async () => ({ token: 't', model: 'm', config: {} }), waits: [1, 1] });
+  await tick(5);
+  log.sessions[0].callbacks.onmessage({ sessionResumptionUpdate: { resumable: true, newHandle: 'h1' } });
+  log.sessions[0].callbacks.onmessage({ goAway: { timeLeft: '1s' } });
+  await tick(40);
+  assert.equal(log.connects, 2); assert.equal(log.sessions[1].handle, 'h1'); assert.equal(log.sessions[0].closed, true);
+  s.close(); await tick(10);
+  log.sessions[1].callbacks.onmessage({ goAway: {} }); log.sessions[1].callbacks.onclose({ reason: 'x' }); await tick(40);
+  assert.equal(log.connects, 2); assert.deepEqual(closes, []);
+});
+
+test('a socket that never opens gives an error within the timeout', async () => {
+  const { connectLive } = await import('./live.js');
+  const log = stubSdk({ hang: true }); const t0 = Date.now();
+  await assert.rejects(connectLive({ pack: 'kind', handlers: {}, sdk: log.sdk, getToken: async () => ({ token: 't', model: 'm', config: {} }), connectTimeoutMs: 50 }), /timeout/);
+  assert.ok(Date.now() - t0 < 1000);
+});
+
 test('seedFromApp maps self to talk and keeps a saved name', () => {
   // the app keeps JSON values: the name as a JSON string, the goal and level inside the onboarding event
   const app = { 'akademiya.name': '"Ibrohim"', 'akademiya.events': JSON.stringify([{ type: 'onboarding', goal: 'self', level: 'new' }, { type: 'lesson', id: 'l1' }]) };

@@ -10,7 +10,8 @@ http.createServer((q, s) => {
   let u = decodeURIComponent(q.url.split('?')[0]);
   if (u.endsWith('/')) u += 'index.html';
   const f = path.join(ROOT, u);
-  if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { s.writeHead(404); return s.end(); }
+  // never the speak lab's server folder (its .env holds the Gemini key, its logs hold the learner's talks) nor any dotfile
+  if (/\/\.|^\/src\/speak-lab\/server\//.test(u) || !f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { s.writeHead(404); return s.end(); }
   s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
   fs.createReadStream(f).pipe(s);
 }).listen(PORT, LAN ? '0.0.0.0' : '127.0.0.1', () => { console.log(`Open http://127.0.0.1:${PORT}/design/motion/`);

@@ -14,7 +14,7 @@ export async function connectFake({ handlers: H }) {
     await new Promise((r) => setTimeout(r, 120));
     H.onAudio && H.onAudio(silence((turn.audioMs || 600) / 2)); H.onCaption && H.onCaption(words.slice(half).join(' '), false);
     await new Promise((r) => setTimeout(r, (turn.audioMs || 600) + 150));
-    H.onCaption && H.onCaption('', true); H.onLearnerText && H.onLearnerText('', true); H.onTurnComplete && H.onTurnComplete();
+    H.onLearnerText && H.onLearnerText('', true); H.onCaption && H.onCaption('', true); H.onTurnComplete && H.onTurnComplete();
   }
   const api = {
     next() { if (i < F.turns.length) return play(F.turns[i++]); },         // Dombi's next scripted turn
@@ -27,7 +27,7 @@ export async function connectFake({ handlers: H }) {
   setTimeout(() => { H.onOpen && H.onOpen(); api.next(); }, 200);           // Dombi speaks first
   return {
     sendAudio() { sent.audioChunks++; },
-    sendText(t) { sent.texts.push(t); },
+    sendText(t) { sent.texts.push(t); if (/almost up/.test(t)) setTimeout(() => play({ caption: 'Xayr! Keyingi safar davom etamiz.', mood: 'happy', audioMs: 2500 }), 200); },   // the goodbye is spoken, like Gemini would
     close() { closed = true; },
     config: () => ({ fake: true }),
   };
