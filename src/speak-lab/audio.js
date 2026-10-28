@@ -37,12 +37,20 @@ export function makePlayer() {
     push(int16) {
       const buf = ac.createBuffer(1, int16.length, OUT_RATE), ch = buf.getChannelData(0);
       let peak = 0; for (let i = 0; i < int16.length; i++) { ch[i] = int16[i] / 32768; const a = Math.abs(ch[i]); if (a > peak) peak = a; }
+      if (sources.size === 0) { const n = Math.min(120, ch.length); for (let i = 0; i < n; i++) ch[i] *= i / n; }   // a 5 ms fade-in at the start of a stream: no click
+      if (gain.gain.value < 1) { gain.gain.cancelScheduledValues(ac.currentTime); gain.gain.setValueAtTime(1, ac.currentTime); }
       last = Math.min(100, Math.round(peak * 140));
       const s = ac.createBufferSource(); s.buffer = buf; s.connect(gain);
       const now = ac.currentTime; if (at < now + 0.02) at = now + 0.02;                   // a little lead so the first chunk is never late
       s.start(at); at += buf.duration; sources.add(s); s.onended = () => { sources.delete(s); if (sources.size === 0) { last = 0; tick(); } };
     },
-    clear() { for (const s of sources) { try { s.stop(); } catch {} } sources.clear(); at = 0; last = 0; },
+    // stopping mid-word: a 25 ms fade instead of a cut, then the sources go
+    clear() {
+      const old = [...sources]; sources.clear(); at = 0; last = 0; if (!old.length) return;
+      const t = ac.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(0, t + 0.025);
+      for (const s of old) { s.onended = null; try { s.stop(t + 0.03); } catch {} }
+      if (idleCb) idleCb();
+    },
     amp: () => (sources.size ? last : 0),
     playing: () => sources.size > 0,
     onIdle(cb) { idleCb = cb; },

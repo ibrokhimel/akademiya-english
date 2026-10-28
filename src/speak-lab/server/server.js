@@ -11,6 +11,17 @@ import { writeTalk } from './log.js';
 import { CFG } from '../config.js';
 
 const str = (v) => (typeof v === 'string' ? v.trim() : '');
+// the speech model answers with a WAV file (a RIFF header, the samples, then a metadata chunk); played raw, both ends bang. Only the samples go to the page.
+export function wavSamples(b64) {
+  const b = Buffer.from(b64 || '', 'base64');
+  if (b.length < 12 || b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WAVE') return b64;
+  for (let off = 12; off + 8 <= b.length;) {
+    const id = b.toString('ascii', off, off + 4), len = b.readUInt32LE(off + 4);
+    if (id === 'data') return b.subarray(off + 8, Math.min(b.length, off + 8 + len)).toString('base64');
+    off += 8 + len + (len % 2);
+  }
+  return b64;
+}
 const history = (h) => (Array.isArray(h) ? h.slice(-4).map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${str(t.text)}`).join('\n') : '');
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -100,14 +111,14 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       if (!hasKey) return [503, { error: 'no key' }];
       if (!str(b.line)) return [400, { error: 'no line' }];
       const pcm = await gemini.tts(str(b.line), VOICES.includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
-      return [200, { pcm }];
+      return [200, { pcm: wavSamples(pcm) }];
     },
     // one sample line in a voice, for the start page's "listen" buttons
     'POST /say': async (b) => {
       if (!hasKey) return [503, { error: 'no key' }];
       if (!VOICES.includes(b.voice)) return [400, { error: 'unknown voice' }];
       const pcm = await gemini.tts(SAMPLE, b.voice, 'Friendly and natural, like greeting a friend; natural Uzbek pronunciation, then the English words.');
-      return [200, { pcm }];
+      return [200, { pcm: wavSamples(pcm) }];
     },
   };
   return http.createServer(async (q, s) => {

@@ -62,6 +62,21 @@ test('say returns a sample line in the chosen voice', async () => {
   await s.close();
 });
 
+test('a WAV from the speech model is stripped to its samples, header and trailing chunks gone', async () => {
+  // the TTS model answers with a WAV: RIFF header, the samples, then a metadata chunk; played raw, both ends are a bang
+  const data = Buffer.alloc(4800, 7), trailer = Buffer.concat([Buffer.from('C2PA'), Buffer.from([4, 0, 0, 0]), Buffer.from([255, 255, 255, 255])]);
+  const h = Buffer.alloc(44); h.write('RIFF', 0); h.writeUInt32LE(36 + data.length + trailer.length, 4); h.write('WAVEfmt ', 8); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(24000, 24); h.writeUInt32LE(48000, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(data.length, 40);
+  const wav = Buffer.concat([h, data, trailer]).toString('base64');
+  const s = await up(); fakeGemini.tts = async () => wav;
+  for (const [path, body] of [['/say', { voice: 'Puck' }], ['/slower', { line: 'Hi there', voice: 'Puck' }]]) {
+    const out = Buffer.from((await (await post(s.base, path, body)).json()).pcm, 'base64');
+    assert.equal(out.length, data.length, path); assert.ok(out.equals(data), path);
+  }
+  fakeGemini.tts = async () => Buffer.alloc(100, 3).toString('base64');                                    // raw PCM passes through untouched
+  assert.equal(Buffer.from((await (await post(s.base, '/say', { voice: 'Puck' })).json()).pcm, 'base64').length, 100);
+  await s.close();
+});
+
 test('token refuses an unknown pack with 400', async () => {
   const s = await up();
   const r = await post(s.base, '/token', { pack: 'evil' });
