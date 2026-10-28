@@ -1,12 +1,16 @@
 // A whole talk with the scripted Gemini (?fake=1) in headless Chrome, and the mic-blocked screen.
 //   node src/speak-lab/checks/talk.js     (needs the lab's server: node design/motion/serve.js)
 const { chromium } = require('playwright');
+const fs = require('fs'), path = require('path'), os = require('os');
 const URL = 'http://127.0.0.1:8791/src/speak-lab/?fake=1';
+// a silent microphone (Chrome's default fake device beeps, which would count as the learner speaking)
+const SILENT = path.join(os.tmpdir(), 'speak-lab-silent.wav');
+(() => { const n = 16000 * 2, h = Buffer.alloc(44); h.write('RIFF', 0); h.writeUInt32LE(36 + n * 2, 4); h.write('WAVEfmt ', 8); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(16000, 24); h.writeUInt32LE(32000, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(n * 2, 40); fs.writeFileSync(SILENT, Buffer.concat([h, Buffer.alloc(n * 2)])); })();
 const TURNS = [{ caption: 'Salom! Bugun nima qilding?', mood: 'happy', audioMs: 500 }, { caption: 'Ha-ha, that was actually funny bro.', mood: 'laugh', audioMs: 500 }, { caption: 'Okay. Tell me more about the match.', mood: 'think', audioMs: 400 }, { caption: 'Three apples? Zo\'r. Who ate them?', mood: 'wink', audioMs: 400 }];
 const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
 
 (async () => {
-  const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', '--autoplay-policy=no-user-gesture-required'] });
+  const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', `--use-file-for-fake-audio-capture=${SILENT}`, '--autoplay-policy=no-user-gesture-required'] });
   // 1. a talk: three scripted turns, the mood follows, End shows the report
   let p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
   await p.addInitScript((turns) => { let n = 0; window.FAKE = { turns, feedbackCalls: [],
@@ -42,6 +46,14 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   const pushes = await p.evaluate(() => window.SPEAK.talk.playerPushes);
   await p.click('.cap.done .slower'); await p.waitForTimeout(600);
   ok('slower plays through the player', await p.evaluate(() => window.SPEAK.talk.playerPushes) > pushes);
+  // silence: the clock jumps 50 s → a remark nudge; 110 s → the Uzbek whisper; nothing twice
+  const nudges = () => p.evaluate(() => window.SPEAK.fake.sent.texts.filter((t) => /quiet|silent/.test(t)));
+  await p.waitForTimeout(1500); ok('no nudge while the learner just spoke', (await nudges()).length === 0);
+  await p.evaluate(() => window.SPEAK.talk.tick(50000)); await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /quiet for a while/.test(t)), null, { timeout: 5000 });
+  ok('a remark nudge after 50 s of silence', (await nudges()).length === 1);
+  await p.evaluate(() => window.SPEAK.talk.tick(60000)); await p.waitForFunction(() => window.SPEAK.fake.sent.texts.some((t) => /Whisper/.test(t)), null, { timeout: 5000 });
+  await p.waitForTimeout(1500); ok('the whisper after 110 s, and no third nudge', (await nudges()).length === 2);
+  ok('the test bar is there', (await p.$('.testbar .nudge-whisper')) !== null);
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
   await p.click('.end'); await p.waitForSelector('.report', { timeout: 5000 });

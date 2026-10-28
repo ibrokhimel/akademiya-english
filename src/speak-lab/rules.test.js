@@ -2,7 +2,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage } from './rules.js';
+
+test('silenceStage gives remark at 50 s, whisper at 110 s, none again right after a nudge', () => {
+  const c = { SILENCE_REMARK_MS: 50000, SILENCE_WHISPER_MS: 110000 };
+  assert.equal(silenceStage({ quietMs: 20000, stage: 'none', dombiTalking: false }, c), 'none');
+  assert.equal(silenceStage({ quietMs: 50000, stage: 'none', dombiTalking: false }, c), 'remark');
+  assert.equal(silenceStage({ quietMs: 70000, stage: 'remark', dombiTalking: false }, c), 'none');
+  assert.equal(silenceStage({ quietMs: 110000, stage: 'remark', dombiTalking: false }, c), 'whisper');
+  assert.equal(silenceStage({ quietMs: 200000, stage: 'whisper', dombiTalking: false }, c), 'none');
+  assert.equal(silenceStage({ quietMs: 60000, stage: 'none', dombiTalking: true }, c), 'none');
+});
 import { CFG } from './config.js';
 
 test('shouldAskFeedback is false under three words', () => {

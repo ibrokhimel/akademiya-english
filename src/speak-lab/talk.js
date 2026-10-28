@@ -7,7 +7,13 @@ import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
-import { shouldAskFeedback } from './rules.js';
+import { shouldAskFeedback, silenceStage } from './rules.js';
+
+// what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
+const NUDGE = {
+  remark: '[The learner has been quiet for a while. Say one casual thing to pull them back in, in character, in one sentence. Do not mention this note.]',
+  whisper: '[The learner has been silent for about two minutes. Whisper to them in natural Uzbek: ask gently what is up and offer one easy question. Do not mention this note.]',
+};
 import { pcmToBase64, base64ToPcm } from './audio.js';
 import { PACKS } from './config.js';
 
@@ -31,8 +37,10 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
       <div class="side"></div>
     </div>`;
   const $ = (s) => root.querySelector(s);
-  const state = { captions: [], learner: [], transcript: [], cards: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: 0, dombiTalking: false };
-  const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0 };
+  const state = { captions: [], learner: [], transcript: [], cards: [], nudges: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: Date.now(), dombiTalking: false, silence: 'none' };
+  const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0, clockOffset: 0 };
+  const now = () => Date.now() + T.clockOffset;                              // the checks move the clock with tick(ms)
+  T.tick = (ms) => { T.clockOffset += ms; };
   window.SPEAK = Object.assign(window.SPEAK || {}, { screen: 'talk', talk: T });
 
   T.dombi = await mountDombi($('.dbox'), 220);
@@ -63,7 +71,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
     },
     onLearnerText(text, final) {
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }
-      learnerText += text; state.lastSpokeAt = Date.now(); speechEndAt = Date.now(); firstAudioAt = 0;
+      learnerText += text; state.lastSpokeAt = now(); state.silence = 'none'; speechEndAt = Date.now(); firstAudioAt = 0;
     },
     onInterrupted() { state.interruptions++; player.clear(); capText = ''; $('.cap.live').textContent = ''; },
     onTurnComplete() { /* the player's idle event turns the mouth off */ },
@@ -98,11 +106,15 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   // Dombi speaks first: the model only talks after a turn, so the page gives it one
   T.session.sendText('[The learner just opened the app and is listening. Start the conversation now, in character: one short greeting and one question. Do not wait for them.]');
 
-  const meter = setInterval(() => { if (ended) return; const a = state.dombiTalking ? player.amp() : mic.amp(); T.dombi.amp(a); if (!state.dombiTalking && a > CFG.MIC_FLOOR) state.lastSpokeAt = Date.now(); }, 100);
+  const meter = setInterval(() => { if (ended) return; const a = state.dombiTalking ? player.amp() : mic.amp(); T.dombi.amp(a); if (!state.dombiTalking && a > CFG.MIC_FLOOR) { state.lastSpokeAt = now(); state.silence = 'none'; } }, 100);
+  T.micAmp = () => mic.amp();
+  // Dombi on his own: the silence nudges (and the test bar's buttons)
+  T.nudge = (kind) => { if (ended || !NUDGE[kind]) return; state.silence = kind; state.nudges.push({ kind, at: Math.round((now() - state.started) / 1000) }); T.session.sendText(NUDGE[kind]); };
+  const quiet = setInterval(() => { if (ended) return; const kind = silenceStage({ quietMs: now() - state.lastSpokeAt, stage: state.silence, dombiTalking: state.dombiTalking || player.playing() }, CFG); if (kind !== 'none') T.nudge(kind); }, 1000);
 
   T.end = () => {
-    if (ended) return; ended = true; clearInterval(meter); mic.stop(); player.clear(); T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
-    onEnd({ transcript: state.transcript, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((Date.now() - state.started) / 1000), mood: state.mood });
+    if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); mic.stop(); player.clear(); T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
+    onEnd({ transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level });
   };
   $('.end').onclick = T.end;
   return T;

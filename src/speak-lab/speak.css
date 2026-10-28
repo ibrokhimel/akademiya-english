@@ -30,6 +30,11 @@ body.speak { margin: 0; min-height: 100vh; background: var(--bg); color: var(--t
 .fcard.pron .klbl { color: var(--coral); }
 .fcard .ktxt { font-size: 15px; font-weight: 800; line-height: 1.35; }
 
+/* the test bar (test build only) */
+.testbar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 14px; padding: 6px 16px; background: var(--surface); border-top: 1px solid var(--grey); font: 700 12px/1.4 ui-monospace, Consolas, monospace; color: var(--text-muted); z-index: 20; flex-wrap: wrap; }
+.testbar button { font: inherit; padding: 3px 8px; border-radius: 8px; border: 1px solid var(--grey); background: var(--card); color: var(--text); cursor: pointer; }
+.talk { padding-bottom: 48px; }
+
 /* the start page */
 .start { padding: 40px 0 60px; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 .start h1 { font-size: 30px; font-weight: 900; margin: 0 0 8px; }
