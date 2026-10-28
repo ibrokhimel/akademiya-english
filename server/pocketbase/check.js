@@ -53,6 +53,16 @@ async function user() {
   const other = rec.body && await fetch(`${BASE}/api/files/recordings/${rec.body.id}/${rec.body.audio}?token=${ftB && ftB.token}`);
   ok(!!other && other.status !== 200, 'B cannot play A\'s recording even with their own file token');
 
+  // @username (pb_migrations/1793200000_profile_media.js): the pattern allows an empty name and the unique index skips empty ones,
+  // so a learner can clear their name and any number of learners can have none
+  const uname = 'chk_' + rand();
+  const setName = (u, username) => api(`/api/collections/users/records/${u.id}`, { token: u.token, method: 'PATCH', json: { username } });
+  ok((await setName(A, uname)).status === 200, 'A takes an @username');
+  ok((await setName(B, uname)).status === 400, 'B cannot take the same @username');
+  const cleared = await setName(A, '');
+  ok(cleared.status === 200 && cleared.body && cleared.body.username === '', 'A clears the @username to empty');
+  ok((await setName(B, '')).status === 200, 'B saves an empty @username too (empty names do not collide)');
+
   const fb = new FormData(); fb.append('user', A.id); fb.append('text', 'check'); fb.append('screen', 'learn');
   ok((await api('/api/collections/feedback/records', { token: A.token, method: 'POST', form: fb })).status === 200, 'A sends feedback');
   ok((await api('/api/collections/feedback/records', { token: A.token })).status !== 200 || (await api('/api/collections/feedback/records', { token: A.token })).body.items.length === 0, 'learners cannot read feedback');
