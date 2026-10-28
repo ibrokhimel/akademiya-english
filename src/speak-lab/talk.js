@@ -30,7 +30,7 @@ export async function side(name, body) {
   return r.json();
 }
 
-export async function talkScreen(root, { pack, topic, topicName, profile, onEnd }) {
+export async function talkScreen(root, { pack, voice = '', topic, topicName, profile, onEnd }) {
   root.innerHTML = `
     <div class="talk">
       <div class="tbar"><span class="topic">${topicName || COPY.title}</span><span class="status">${COPY.connecting}</span><span class="endw"><div class="p3d btn small danger end"><div class="face">${COPY.end}</div></div></span></div>
@@ -41,7 +41,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   const $ = (s) => root.querySelector(s);
   const state = { captions: [], learner: [], transcript: [], cards: [], nudges: [], mood: 'smirk', level: profile.level || '', latencies: [], interruptions: 0, started: Date.now(), lastSpokeAt: Date.now(), dombiTalking: false, silence: 'none', secIn: 0, secOut: 0, cost: 0, goodbye: false };
   const id = Math.random().toString(36).slice(2, 10);
-  const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0, clockOffset: 0 };
+  const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0, clockOffset: 0, voice: voice || (PACKS.find((p) => p.id === pack) || PACKS[0]).voice };
   const now = () => Date.now() + T.clockOffset;                              // the checks move the clock with tick(ms)
   T.tick = (ms) => { T.clockOffset += ms; };
   window.SPEAK = Object.assign(window.SPEAK || {}, { screen: 'talk', talk: T });
@@ -94,7 +94,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   // "Slower": the line again from the TTS model, in the pack's voice; the mic is not sent while it plays, so Dombi is not cut off by his own slow voice
   let muted = false;
   async function slower(line) {
-    const { pcm } = await side('slower', { line, voice: (PACKS.find((p) => p.id === pack) || PACKS[0]).voice });
+    const { pcm } = await side('slower', { line, voice: T.voice });
     if (!pcm || ended) return;
     muted = true; player.clear(); T.playerPushes++; player.push(base64ToPcm(pcm));
     await new Promise((r) => { const t = setInterval(() => { if (!player.playing() || ended) { clearInterval(t); r(); } }, 100); });
@@ -117,7 +117,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   if (ended) { mic.stop(); return T; }                                            // End was pressed while the mic was being asked for
 
   // the session: real or scripted
-  try { T.session = await (isFake() ? connectFake : connectLive)({ pack, topic, profile, handlers }); }
+  try { T.session = await (isFake() ? connectFake : connectLive)({ pack, voice: T.voice, topic, profile, handlers }); }
   catch (e) { if (ended) return T; mic.stop(); ended = true; root.innerHTML = `<div class="talk problem"><p>${e.status === 402 && e.body ? COPY.budgetOver(Number(e.body.spent || 0).toFixed(2), e.body.budget) : COPY.serverDown}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); T.error = e; return T; }
   if (ended) { T.session.close(); return T; }                                     // End was pressed while the socket was opening
   // Dombi speaks first: the model only talks after a turn, so the page gives it one

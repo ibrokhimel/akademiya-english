@@ -46,6 +46,9 @@ export const COPY = {
   justTalk: 'SHUNCHAKI SUHBAT',
   ownTopic: "yoki o'zingiz yozing",
   pack: 'DOMBINING FE’LI',
+  voice: 'OVOZ',
+  listen: 'Tinglash',
+  sample: "Salom, men Dombiman! Bugun nima haqida gaplashamiz? Let's go.",
   start: 'BOSHLASH',
   memoryLink: 'Dombi nimani eslaydi',
 };

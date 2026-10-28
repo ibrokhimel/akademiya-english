@@ -43,6 +43,25 @@ test('token returns the pack voice and the locked model', async () => {
   await s.close();
 });
 
+test('token uses the chosen voice when it is a known one, else the pack\'s', async () => {
+  const s = await up();
+  let j = await (await post(s.base, '/token', { pack: 'kind', voice: 'Leda' })).json();
+  assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Leda');
+  j = await (await post(s.base, '/token', { pack: 'kind', voice: 'Evil' })).json();
+  assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Puck');
+  await s.close();
+});
+
+test('say returns a sample line in the chosen voice', async () => {
+  const s = await up();
+  fakeGemini.tts = async (text, voice, style) => { fakeGemini.calls.push(['tts', text, voice, style]); return 'QUJD'; };
+  const r = await post(s.base, '/say', { voice: 'Kore' });
+  assert.equal(r.status, 200); assert.equal((await r.json()).pcm, 'QUJD');
+  const [, text, voice] = fakeGemini.calls.at(-1); assert.equal(voice, 'Kore'); assert.match(text, /Dombi/);
+  assert.equal((await post(s.base, '/say', { voice: 'Evil' })).status, 400);
+  await s.close();
+});
+
 test('token refuses an unknown pack with 400', async () => {
   const s = await up();
   const r = await post(s.base, '/token', { pack: 'evil' });

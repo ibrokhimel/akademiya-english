@@ -16,7 +16,7 @@ async function fetchToken(server, body) {
   return j;
 }
 
-export async function connectLive({ server = CFG.SERVER, pack, topic = '', profile = {}, handlers: H, sdk: sdkIn = null, getToken = null, waits = null, connectTimeoutMs = CFG.CONNECT_TIMEOUT_MS }) {
+export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic = '', profile = {}, handlers: H, sdk: sdkIn = null, getToken = null, waits = null, connectTimeoutMs = CFG.CONNECT_TIMEOUT_MS }) {
   const { GoogleGenAI } = sdkIn || (await loadSdk());
   const token = getToken || ((body) => fetchToken(server, body));
   const delay = waits ? (n) => waits[n] ?? null : nextReconnect;
@@ -46,7 +46,7 @@ export async function connectLive({ server = CFG.SERVER, pack, topic = '', profi
   function dropCurrent() { const me = current; current = null; if (me && me.s) { try { me.s.close(); } catch {} } }
 
   async function open() {
-    const { token: tok, model, config } = await token({ pack, topic, profile });
+    const { token: tok, model, config } = await token({ pack, voice, topic, profile });
     lastConfig = config;
     const ai = new GoogleGenAI({ apiKey: tok, httpOptions: { apiVersion: CFG.API_VERSION } });
     const cfg = handle ? { ...config, sessionResumption: { handle } } : config;

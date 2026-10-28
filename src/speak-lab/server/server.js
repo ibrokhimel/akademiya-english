@@ -17,6 +17,9 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 8797, ORIGIN = 'http://127.0.0.1:8791';
 // the six personality packs and their Gemini voices (spec §4.8)
 export const PACKS = { kind: 'Puck', rude: 'Zephyr', funny: 'Fenrir', drama: 'Aoede', dangasa: 'Charon', couple: 'Leda' };
+// the voices the learner can pick (config.js VOICES holds the same list with their names)
+export const VOICES = ['Puck', 'Fenrir', 'Charon', 'Orus', 'Zephyr', 'Leda', 'Aoede', 'Kore'];
+const SAMPLE = "Salom, men Dombiman! Bugun nima haqida gaplashamiz? Let's go.";
 
 export function readEnv(file = path.join(HERE, '.env')) {
   const env = {};
@@ -26,10 +29,10 @@ export function readEnv(file = path.join(HERE, '.env')) {
 }
 
 // the Live connect config the browser passes through unchanged
-export function liveConfig(pack, systemInstruction) {
+export function liveConfig(pack, systemInstruction, voice = '') {
   return {
     responseModalities: ['AUDIO'],
-    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: PACKS[pack] } } },
+    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: VOICES.includes(voice) ? voice : PACKS[pack] } } },
     ...(systemInstruction ? { systemInstruction } : {}),
     // the recogniser is told which languages to expect, so Uzbek is not heard as Turkish or Spanish
     inputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] }, outputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] },
@@ -52,7 +55,7 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       if (!PACKS[b.pack]) return [400, { error: 'unknown pack' }];
       const spent = book.monthTotal(); if (spent >= budgetUsd) return [402, { reason: 'budget', spent, budget: budgetUsd }];
       const system = buildSystemPrompt ? buildSystemPrompt({ pack: b.pack, topic: b.topic || '', profile: b.profile || {} }) : null;
-      const config = liveConfig(b.pack, system);
+      const config = liveConfig(b.pack, system, str(b.voice));
       const token = await gemini.token({ uses: 1, expireTime: new Date(Date.now() + 30 * 60e3).toISOString(),
         liveConnectConstraints: { model: 'models/' + MODELS.live, config: { responseModalities: config.responseModalities, speechConfig: config.speechConfig, ...(system ? { systemInstruction: system } : {}) } } });
       return [200, { token, model: MODELS.live, config }];
@@ -92,11 +95,18 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       const { cost, monthTotal } = book.add({ id: b.id, secIn: Number(b.secIn) || 0, secOut: Number(b.secOut) || 0 });
       return [200, { folder, cost, monthTotal, budget: budgetUsd }];
     },
-    // the same line again, slowly, in the pack's voice; base64 PCM at 24 kHz
+    // the same line again, slowly, in the talk's voice; base64 PCM at 24 kHz
     'POST /slower': async (b) => {
       if (!hasKey) return [503, { error: 'no key' }];
       if (!str(b.line)) return [400, { error: 'no line' }];
-      const pcm = await gemini.tts(str(b.line), Object.values(PACKS).includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
+      const pcm = await gemini.tts(str(b.line), VOICES.includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
+      return [200, { pcm }];
+    },
+    // one sample line in a voice, for the start page's "listen" buttons
+    'POST /say': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      if (!VOICES.includes(b.voice)) return [400, { error: 'unknown voice' }];
+      const pcm = await gemini.tts(SAMPLE, b.voice, 'Friendly and natural, like greeting a friend; natural Uzbek pronunciation, then the English words.');
       return [200, { pcm }];
     },
   };

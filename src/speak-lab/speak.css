@@ -46,6 +46,12 @@ body.speak { margin: 0; min-height: 100vh; background: var(--bg); color: var(--t
 .packs { display: flex; flex-wrap: wrap; gap: 8px; }
 .pk { font: inherit; font-weight: 900; font-size: 14px; padding: 9px 16px; border-radius: 20px; border: 2px solid var(--grey); background: var(--card); color: var(--text-muted); cursor: pointer; }
 .pk.on { border-color: var(--violet); color: var(--violet); background: var(--surface); }
+.voices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.vc { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 14px; border: 2px solid var(--grey); background: var(--card); cursor: pointer; font-size: 13px; }
+.vc .vw { color: var(--text-muted); font-weight: 800; } .vc b { font-weight: 900; }
+.vc.on { border-color: var(--violet); background: var(--surface); } .vc.on b { color: var(--violet); }
+.vc .listen { margin-left: auto; font: inherit; font-size: 11px; font-weight: 900; padding: 3px 8px; border-radius: 10px; border: 2px solid var(--grey); background: var(--card); color: var(--text-muted); cursor: pointer; }
+.vc .listen:hover { color: var(--violet); border-color: var(--violet); } .vc .listen:disabled { opacity: .5; }
 .start .go { width: 280px; margin-top: 10px; }
 .memlink { color: var(--text-muted); font-weight: 800; font-size: 14px; }
 /* the report and the memory page */

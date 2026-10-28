@@ -22,10 +22,17 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   // the start page: six packs, BOSHLASH off until a topic is picked, then Futbol + Qo'pol
   await p.waitForSelector('.start .go');
   ok('start page has six packs', (await p.$$('.pk')).length === 6);
+  // the voice is chosen apart from the personality, with a listen button each
+  ok('start page has eight voices', (await p.$$('.vc')).length === 8);
+  await p.evaluate(() => { window.FAKE.sayCalls = []; window.FAKE.say = (b) => { window.FAKE.sayCalls.push(b.voice); return Promise.resolve({ pcm: btoa(String.fromCharCode(...new Uint8Array(2400))) }); }; });
+  await p.click('.vc[data-id="Leda"] .listen'); await p.waitForTimeout(400);
+  ok('listen plays a sample in that voice', await p.evaluate(() => window.FAKE.sayCalls[0] === 'Leda'));
+  await p.click('.vc[data-id="Leda"]');
   ok('start is off before a topic', await p.$eval('.go', (e) => e.classList.contains('disabled')));
   await p.click('.tcard[data-id="football"]'); await p.click('.pk[data-id="rude"]'); await p.click('.go');
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
   ok('talk shows the topic name', (await p.textContent('.tbar .topic')) === 'Futbol');
+  ok('the chosen voice reaches the talk and is remembered', await p.evaluate(() => window.SPEAK.talk.voice === 'Leda' && JSON.parse(localStorage.getItem('speak.profile')).voice === 'Leda'));
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
   // the learner says a clumsy line, Dombi answers: one "say it better" card; a two-word line gets no call at all
   await p.evaluate(() => window.SPEAK.fake.learner('yesterday I go bazaar')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });

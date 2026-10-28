@@ -1,7 +1,7 @@
 // What Dombi remembers, kept in this browser: the learner, the phrasebook. Seeded from the app's own saved answers when they exist.
 const KEY = 'speak.profile';
 
-export const emptyProfile = () => ({ name: '', goal: '', level: '', interests: [], mistakes: [], lastTalk: '', phrasebook: [], talks: 0 });
+export const emptyProfile = () => ({ name: '', goal: '', level: '', interests: [], mistakes: [], lastTalk: '', phrasebook: [], talks: 0, voice: '', pack: '' });
 
 const parse = (s) => { try { return s == null ? null : JSON.parse(s); } catch { return null; } };
 const LEVELS = { new: 'Zero' };                                     // the app's onboarding answer; "some" leaves the level to Dombi

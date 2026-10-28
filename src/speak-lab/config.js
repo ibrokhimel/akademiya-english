@@ -32,7 +32,19 @@ export const TOPICS = [
   { id: 'surprise', name: "Nima bo'lsa ham", topic: '', emoji: '🎲' },
 ];
 
-// the six packs: id, name on the page, Gemini voice (the server holds the same voices)
+// the voices the learner can pick, apart from the personality: Gemini's prebuilt voices, with who they sound like
+export const VOICES = [
+  { id: 'Puck', who: 'erkak', name: 'quvnoq' },
+  { id: 'Fenrir', who: 'erkak', name: "jo'shqin" },
+  { id: 'Charon', who: 'erkak', name: 'chuqur' },
+  { id: 'Orus', who: 'erkak', name: "qat'iy" },
+  { id: 'Zephyr', who: 'ayol', name: 'yorqin' },
+  { id: 'Leda', who: 'ayol', name: 'yosh' },
+  { id: 'Aoede', who: 'ayol', name: 'yengil' },
+  { id: 'Kore', who: 'ayol', name: 'jiddiy' },
+];
+
+// the six packs: id, name on the page, Gemini voice used when no voice was picked (the server holds the same voices)
 export const PACKS = [
   { id: 'kind', name: 'Mehribon', voice: 'Puck' },
   { id: 'rude', name: "Qo'pol", voice: 'Zephyr' },
