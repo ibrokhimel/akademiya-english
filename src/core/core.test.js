@@ -6,7 +6,7 @@ import { judge, judgeAny, plain, numberWords, tilesOf, sameTiles, slug, answerOf
 import { makeSession, spareTiles, mix } from './session.js';
 import { progressOf, streakOf, dayOf } from './progress.js';
 import { defaultProfile, normalizeProfile, earnedItems, profileForSync, mediaToUpload, SECTION_IDS, STAT_IDS } from './profile.js';
-import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName, uploadRefusal } from './customize.js';
+import { MEDIA_LIMITS, pickedMediaType, mediaProblem, gifDurationMs, rememberMedia, cropBase, cropRect, clampPan, seasonOpen, frameShown, SEASONAL_FRAMES, thumbnailOf, profileFileName, uploadRefusal, mediaUrisOf } from './customize.js';
 
 const content = (f) => JSON.parse(fs.readFileSync(new URL('../content/' + f, import.meta.url), 'utf8'));
 const P = Object.fromEntries(content('phrases.json').phrases.map((p) => [p.id, p]));
@@ -778,6 +778,15 @@ test('a video keeps its first-frame picture next to it', () => {
   assert.equal(thumbnailOf('file:///docs/profile/ab.MOV'), 'file:///docs/profile/ab.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs/profile/noext'), 'file:///docs/profile/noext.thumb.jpg');
   assert.equal(thumbnailOf('file:///docs.v2/profile/noext'), 'file:///docs.v2/profile/noext.thumb.jpg');
+});
+test('the files another account on this phone still uses are listed from its cached settings', () => {
+  const settings = {
+    profile: { avatar: { uri: 'file:///d/profile/a.jpg' }, banner: { uri: 'file:///d/profile/b.mp4' }, look: { background: { uri: 'c.gif' } } },
+    appLook: { lessonBackground: { uri: 'file:///d/profile/l.jpg' } },
+  };
+  assert.deepEqual(mediaUrisOf(settings), ['file:///d/profile/a.jpg', 'file:///d/profile/b.mp4', 'c.gif', 'file:///d/profile/l.jpg']);
+  assert.deepEqual(mediaUrisOf({ profile: { avatar: { uri: null }, banner: { uri: '' }, look: null } }), []);
+  for (const junk of [null, undefined, 'x', 3, {}]) assert.deepEqual(mediaUrisOf(junk), []);
 });
 test('an upload the server will never take is not sent again: over 8 MB, or a 400 answer', () => {
   assert.equal(uploadRefusal({ bytes: 8 * 1024 * 1024 + 1 }), 'large');

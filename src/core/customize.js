@@ -143,3 +143,15 @@ export function uploadRefusal({ bytes = null, error = null } = {}) {
   if (error && typeof error === 'object' && error.status === 400) return 'rejected';
   return null;
 }
+
+/**
+ * Every profile media uri a stored settings object uses: the avatar, banner and profile background pictures and the lesson
+ * background. Used to keep the files of other accounts on this phone (their settings are cached as `profile.<id>` at logout).
+ * Anything that is not a non-empty string is skipped, so an old or broken cache gives an empty list.
+ */
+export function mediaUrisOf(settings) {
+  const obj = (x) => (x && typeof x === 'object' ? x : {});
+  const s = obj(settings), p = obj(s.profile);
+  return [obj(p.avatar).uri, obj(p.banner).uri, obj(obj(p.look).background).uri, obj(obj(s.appLook).lessonBackground).uri]
+    .filter((u) => typeof u === 'string' && u !== '');
+}

@@ -8,8 +8,8 @@ import { router } from "expo-router";
 import { createVideoPlayer } from "expo-video";
 import { useEffect,useState } from "react";
 import { Linking } from "react-native";
-import { gifDurationMs,mediaProblem,pickedMediaType,profileFileName,rememberMedia,thumbnailOf } from "../../../core/customize.js";
-import { read,write } from "./storage";
+import { gifDurationMs,mediaProblem,mediaUrisOf,pickedMediaType,profileFileName,rememberMedia,thumbnailOf } from "../../../core/customize.js";
+import { keysStartingWith,read,write } from "./storage";
 
 export type MediaType = "image" | "gif" | "video";
 export type PickedMedia = { uri: string; mediaType: MediaType };
@@ -149,7 +149,8 @@ const recentListeners = new Set<(list: PickedMedia[]) => void>();
 export function remember(media: PickedMedia, inUse: (string | null)[]) {
   const { list, dropped } = rememberMedia(read<PickedMedia[]>("recentMedia", []), media);
   write("recentMedia", list);
-  for (const m of dropped as PickedMedia[]) if (!inUse.includes(m.uri)) removeFile(m.uri);
+  const others = new Set(otherAccountsMedia().map(profileFileName));
+  for (const m of dropped as PickedMedia[]) if (!inUse.includes(m.uri) && !others.has(profileFileName(m.uri))) removeFile(m.uri);
   recentListeners.forEach((l) => l(list as PickedMedia[]));
 }
 export function useRecentMedia() {
@@ -161,6 +162,14 @@ export function useRecentMedia() {
   return list;
 }
 
+/** Accounts that logged out on this phone come back with their cached settings (`profile.<id>`), so their pictures must stay. */
+function otherAccountsMedia(): string[] {
+  try {
+    return keysStartingWith("profile.").flatMap((key) => mediaUrisOf(read<{ settings?: unknown } | null>(key, null)?.settings) as string[]);
+  } catch {
+    return [];
+  }
+}
 function removeFile(stored: string) {
   try {
     const uri = profileFileUri(stored);
@@ -172,11 +181,14 @@ function removeFile(stored: string) {
     if (still.exists && ours(still.uri)) still.delete();
   } catch {}
 }
-/** After a save: deletes profile files (and video first frames) that neither the saved profile (`keep`), the saved lesson background nor the recent list uses any more. */
+/**
+ * After a save: deletes profile files (and video first frames) that neither the saved profile (`keep`), the saved lesson
+ * background, the recent list nor another account on this phone (its settings cached as `profile.<id>` at logout) uses any more.
+ */
 export function removeUnusedProfileFiles(keep: (string | null | undefined)[]) {
   // the lesson background's own picture (Ilova ko'rinishi) lives in the same folder
-  const lesson = read<{ appLook?: { lessonBackground?: { uri?: string | null } } }>("settings", {}).appLook?.lessonBackground?.uri;
-  const names = new Set([...keep, lesson, ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map(profileFileName));
+  const lesson = read<{ appLook?: { lessonBackground?: { uri?: string | null } } } | null>("settings", {})?.appLook?.lessonBackground?.uri;
+  const names = new Set([...keep, lesson, ...otherAccountsMedia(), ...read<PickedMedia[]>("recentMedia", []).map((m) => m.uri)].filter((u): u is string => !!u).flatMap((u) => [u, thumbnailOf(u)]).map(profileFileName));
   try {
     for (const item of folder().list()) if (item instanceof File && !names.has(item.name)) item.delete();
   } catch {}
