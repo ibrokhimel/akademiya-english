@@ -14,6 +14,7 @@ export async function mountDombi(box, size) {
     listening(on) { set('boolean', 'listening', !!on); },
     talking(on) { set('boolean', 'talking', !!on); },
     amp(n) { set('number', 'amp', Math.max(0, Math.min(100, n | 0))); },
+    viseme(n) { set('number', 'viseme', n | 0); },                                // 0 = closed; the talking engine's mouth shapes 1–11
     dark(on) { set('boolean', 'dark', !!on); },
     gesture(g) { set('enum', 'gesture', g); },
   };

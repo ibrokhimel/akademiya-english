@@ -84,7 +84,7 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
   // End works from the first moment, before the mic and the socket are up; everything it stops may still be missing
   let mic = null, meter = null, quiet = null;
   T.end = () => {
-    if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); T.endedAt = Math.round((now() - state.started) / 1000);
+    if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
     if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
@@ -106,7 +106,10 @@ export async function talkScreen(root, { pack, topic, topicName, profile, onEnd 
     $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
-  player.onIdle(() => { state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); if (!ended) T.dombi.listening(true); });
+  player.onIdle(() => { state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); if (!ended) T.dombi.listening(true); });
+  // his mouth moves with his voice: a new mouth shape every ~95 ms while the sound is up, closed in the quiet bits (the lab's talk pacing; real lip sync comes later)
+  const SHAPES = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4, 9, 7]; let shape = 0; T.mouthMoves = 0;
+  const mouth = setInterval(() => { if (ended || !state.dombiTalking) return; const loud = player.amp() > 4; T.dombi.viseme(loud ? SHAPES[shape++ % SHAPES.length] : 0); if (loud) T.mouthMoves++; }, 95);
 
   // the mic: blocked → the Uzbek line and a retry
   try { mic = await startMic((pcm) => { if (!T.session || ended || muted) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }

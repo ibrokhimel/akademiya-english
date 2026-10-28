@@ -5,7 +5,7 @@ export async function connectFake({ handlers: H }) {
   if (F.token === 'budget') { const e = new Error('budget'); e.status = 402; e.body = { reason: 'budget', spent: 10.5, budget: 10 }; throw e; }
   let i = 0, closed = false;
   const sent = { audioChunks: 0, texts: [] };
-  const silence = (ms) => new Int16Array(Math.round(ms * 24));
+  const silence = (ms) => { const a = new Int16Array(Math.round(ms * 24)); for (let i = 0; i < a.length; i++) a[i] = Math.round(Math.sin(i / 24000 * 2 * Math.PI * 220) * 2500); return a; };   // a quiet tone, so the level meter and the mouth have something to follow
   async function play(turn) {
     if (closed) return;
     if (turn.mood) H.onToolCall && H.onToolCall('set_mood', { mood: turn.mood });

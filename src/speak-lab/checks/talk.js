@@ -73,6 +73,7 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
   await p.evaluate(() => window.SPEAK.fake.learner('yesterday I go bazaar')); await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 2, null, { timeout: 10000 });
   ok('mood laugh on the second turn', moodAfter2 === 'laugh', moodAfter2);
+  ok('the mouth moved while he spoke', await p.evaluate(() => window.SPEAK.talk.mouthMoves > 3), String(await p.evaluate(() => window.SPEAK.talk.mouthMoves)));
   ok('mic chunks reach the session', await p.evaluate(() => window.SPEAK.fake.sent.audioChunks) > 3);
   await p.click('.end'); await p.waitForFunction(() => document.querySelectorAll('.report .star.on').length === 2, null, { timeout: 5000 });
   ok('End shows the report with two stars', /unutmang/.test(await p.textContent('.report .why')) && (await p.$$('.plist li')).length === 2);

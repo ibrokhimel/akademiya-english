@@ -66,6 +66,14 @@ test('couple pack keeps romance for adults only when age is under 18', async () 
   assert.doesNotMatch(buildSystemPrompt({ pack: 'couple', topic: '', profile: {} }), line);
 });
 
+test('the talk is locked to English and Uzbek', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  assert.match(buildSystemPrompt({ pack: 'kind', topic: '', profile: {} }), /only two languages: English and Uzbek/);
+  const { liveConfig } = await import('./server.js');
+  const c = liveConfig('kind', 'x');
+  assert.deepEqual(c.inputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']); assert.deepEqual(c.outputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']);
+});
+
 test('unknown pack throws', async () => {
   const { buildSystemPrompt } = await import('./prompts.js');
   assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));

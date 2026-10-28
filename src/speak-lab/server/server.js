@@ -31,7 +31,8 @@ export function liveConfig(pack, systemInstruction) {
     responseModalities: ['AUDIO'],
     speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: PACKS[pack] } } },
     ...(systemInstruction ? { systemInstruction } : {}),
-    inputAudioTranscription: {}, outputAudioTranscription: {},
+    // the recogniser is told which languages to expect, so Uzbek is not heard as Turkish or Spanish
+    inputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] }, outputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] },
     enableAffectiveDialog: true, proactivity: { proactiveAudio: true },
     sessionResumption: {}, contextWindowCompression: { slidingWindow: {} },
     tools: [{ functionDeclarations: [{ name: 'set_mood', description: 'Show the mood of what you are about to say on your face.',
