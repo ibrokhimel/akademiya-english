@@ -5,26 +5,28 @@ const { call } = require('./rive_client');
 const ids = require('./dombi_ids.json');
 const { MOUTHS } = require('../icons/dombi_rig');
 const { VISEMES } = require('../icons/dombi_visemes');
-const { H, mouth, eL, eR, lL, lR, anim, newAnim, ae } = require('./dombi_redo');
+const { H, T, SINE, OUT, IN, mouth, eL, eR, lL, lR, anim, newAnim, ae } = require('./dombi_redo');
 const VIS = (n) => VISEMES.find((v) => v.name === n);
 // a tall open mouth for the jaw drop, in the rig's closed-fill format (3 vertices + 6 control points, 200-space)
 const JAW = { fill: { verts: [[89, 121], [113, 121], [101, 148]], c: [[89, 121], [113, 121], [116, 134], [109, 149], [93, 149], [86, 134]] } };
 const vme = (command, payload) => call('viewmodel_editor', { command, data: { [command]: payload } });
 
-const EYE = { dx: 0, y: 0, w: 18, h: 34, rad: 9, r: 0 }, LID = { y: -25, r: 0, op: 0 }, FACE = { x: 0, y: -66, r: 0 };
+// a lid not in use is parked above the eye at full opacity (invisible on his body), never faded: a half-faded lid over a white
+// eye showed as a grey box during the 150 ms switch. Lids slide down instead, like real eyelids.
+const EYE = { dx: 0, y: 0, w: 18, h: 34, rad: 9, r: 0 }, LID = { y: -32, r: 0, op: 100 }, FACE = { x: 0, y: -66, r: 0 };
 function face({ eyeL = {}, eyeR = {}, eyes = {}, lidL = {}, lidR = {}, lids = {}, m = MOUTHS.smirk, f = {} }) {
   const el = { ...EYE, ...eyes, ...eyeL }, er = { ...EYE, ...eyes, ...eyeR }, ll = { ...LID, ...lids, ...lidL }, lr = { ...LID, ...lids, ...lidR }, fc = { ...FACE, ...f };
   return [...H(eL.id, { x: -25 + el.dx, y: el.y, r: el.r, op: 100 }), ...H(eL.pathId, { w: el.w, h: el.h, rad: el.rad }),
     ...H(eR.id, { x: 25 + er.dx, y: er.y, r: er.r, op: 100 }), ...H(eR.pathId, { w: er.w, h: er.h, rad: er.rad }),
-    ...H(lL.id, { x: -25, y: ll.y, r: ll.r, op: ll.op }), ...H(lR.id, { x: 25, y: lr.y, r: lr.r, op: lr.op }),
-    ...H(lL.pathId, { w: 30, h: 16, rad: 0 }), ...H(lR.pathId, { w: 30, h: 16, rad: 0 }),
+    ...H(lL.id, { x: -25 + el.dx, y: ll.y, r: ll.r, op: ll.op }), ...H(lR.id, { x: 25 + er.dx, y: lr.y, r: lr.r, op: lr.op }),   // lids move with the eyes
+    ...H(lL.pathId, { w: 34, h: ll.h || 16, rad: 0 }), ...H(lR.pathId, { w: 34, h: lr.h || 16, rad: 0 }),
     ...mouth(m), ...H(ids.mouthShape.id, { op: 100 }), ...H(ids.face, { x: fc.x, y: fc.y, r: fc.r }),
     ...H(ids.z1, { sx: 0, sy: 0, op: 0 }), ...H(ids.z2, { sx: 0, sy: 0, op: 0 })];
 }
 
 const FACES = {
   // side-eye: both eyes slid to one side under flat half lids, flat mouth
-  sideEye: face({ eyes: { dx: 7 }, lids: { y: -15, op: 100 }, m: MOUTHS.focus }),
+  sideEye: face({ eyes: { dx: 10 }, lids: { y: -15, op: 100 }, m: MOUTHS.focus }),
   // deadpan: heavy flat lids, eyes straight ahead, a flat mouth - nothing impresses him
   deadpan: face({ lids: { y: -11, op: 100 }, m: MOUTHS.focus }),
   // mischievous grin: lids slanting in a little, the widest smile
@@ -36,11 +38,18 @@ const FACES = {
   // disgusted: lopsided - one lid low and slanted, the other eye squinting, a crooked mouth, head turned away and pulled back
   disgusted: face({ eyes: { h: 26, y: 2, dx: 4 }, lidL: { y: -12, r: -12, op: 100 }, lidR: { y: -17, op: 100 }, m: MOUTHS.confused, f: { y: -64, r: 7 } }),
   // jaw-drop shock: tall wide eyes, the mouth hanging wide open (a tall open mouth of its own, bigger than any viseme)
-  shocked: face({ eyes: { w: 22, h: 44, rad: 11, y: -4 }, m: JAW, f: { y: -68 } }),
+  shocked: face({ eyes: { w: 22, h: 44, rad: 11, y: -4 }, lids: { y: -31, h: 8 }, m: JAW, f: { y: -68 } }),   // thin lids parked just above the tall eyes, still inside his head
   // awkward: eyes looking away, a small tight mouth, a little head tilt
   awkward: face({ eyes: { dx: -5, h: 30 }, m: MOUTHS.listen, f: { r: 3 } }),
-  // crying-laughing: eyes squeezed into tilted lines, laughing mouth open
-  cryLaugh: face({ eyeL: { w: 22, h: 6, rad: 3, y: 2, r: 18 }, eyeR: { w: 22, h: 6, rad: 3, y: 2, r: -18 }, m: MOUTHS.laugh }),
+  // crying-laughing (redone: a still face can't laugh): a 0.8 s loop - head bobbing up on every 'ha', mouth wide open and
+  // half closing on the beat, squeezed tilted eyes shaking with it, a little side-to-side rock
+  cryLaugh: { frames: 48, keys: (() => {
+    const base = face({ eyeL: { w: 22, h: 6, rad: 3, y: 2, r: 18 }, eyeR: { w: 22, h: 6, rad: 3, y: 2, r: -18 }, m: MOUTHS.laugh }).filter((k) => !(k.objectId === ids.face && [14, 15].includes(k.propertyKey)) && !(k.objectId === eL.id && k.propertyKey === 14) && !(k.objectId === eR.id && k.propertyKey === 14));
+    const beats = [0, 8, 16, 24, 32, 40], up = [], rot = [], ey = [], m = [];
+    beats.forEach((b, i) => { up.push([b, -66, OUT], [b + 4, -70, IN]); rot.push([b, i % 2 ? -3 : 3, SINE]); ey.push([b, 2, OUT], [b + 4, 0, IN]); m.push(...mouth(MOUTHS.laugh, b, SINE), ...mouth(VIS('EH'), b + 4, SINE)); });
+    up.push([48, -66]); rot.push([48, 3]); ey.push([48, 2]);
+    return [...base.filter((k) => !ids.mouthShape.verts.includes(k.objectId)), ...T(ids.face, 'y', up), ...T(ids.face, 'r', rot), ...T(eL.id, 'y', ey), ...T(eR.id, 'y', ey), ...m, ...mouth(MOUTHS.laugh, 48, SINE)];
+  })() },
   // bored: half lids, eyes drifting up and to the side, a flat sleepy mouth, head tipped
   bored: face({ eyes: { dx: -4, y: -2 }, lids: { y: -12, op: 100 }, m: MOUTHS.sleepy, f: { r: -4 } }),
 };
@@ -51,7 +60,8 @@ async function main() {
   const en = (await vme('listDataEnums', {})).dataEnums.find((e) => e.name === 'DombiMood');
   const missing = names.filter((n) => !en.values.some((v) => v.key === n));
   if (missing.length) await vme('addDataEnumValues', { dataEnumName: 'DombiMood', values: missing });
-  for (const n of names) { await newAnim('face/' + n, 6); await anim('face/' + n, 6, FACES[n], 0); }
+  // a face is a still pose (6 frames) or a loop { frames, keys }
+  for (const n of names) { const f = FACES[n], loop = !Array.isArray(f); await newAnim('face/' + n, loop ? f.frames : 6); await anim('face/' + n, loop ? f.frames : 6, loop ? f.keys : f, loop ? 1 : 0); }
 
   let sm = await ae('queryStateMachine', {}); let L = sm.layers.find((l) => l.layerName === 'Face');
   const todo = names.filter((n) => !L.states.some((s) => s.name === 'face/' + n));
