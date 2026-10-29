@@ -8,6 +8,7 @@ import { play,stopAudio } from "../lib/audio";
 import { prediction } from "../lib/progressExtras";
 import { useApp } from "../lib/store";
 import { playVoice } from "../lib/voicePlayback";
+import { useLookColors } from "./customize/colors";
 import { AudioBars,Count } from "./Motion";
 import { Icon,Txt,useTheme } from "./ui";
 import { useDesignScale } from "./useDesignScale";
@@ -37,9 +38,11 @@ export function StatsBlock({ label, extra }: { label: ReactNode; extra?: ReactNo
   const d = useDesignScale(), c = useTheme(), { settings } = useApp(), values = useStatValues();
   const ids = statsToShow(settings.profile, new Set(values.keys()));
   const big = settings.profile.stats.layout === "big" && ids.length ? ids[0] : null;
+  // the numbers take the profile colour (Ranglar va fon); the default colour keeps the text ink
+  const color = useLookColors(settings.profile.look).name ?? c.text;
   const number = (id: string, size: number) => {
     const v = values.get(id)!;
-    return "text" in v ? <Txt style={{ fontSize: d(size), fontFamily: "Nunito_900Black" }}>{v.text}</Txt> : <Count value={v.value} suffix={v.suffix} style={{ fontSize: d(size) }} />;
+    return "text" in v ? <Txt style={{ fontSize: d(size), color, fontFamily: "Nunito_900Black" }}>{v.text}</Txt> : <Count value={v.value} suffix={v.suffix} style={{ fontSize: d(size), color }} />;
   };
   if (!ids.length && !extra) return null;
   return (<>

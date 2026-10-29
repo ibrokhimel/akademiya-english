@@ -79,7 +79,7 @@ export function ProfileHeader({ name, nameColor = "default", accent, level, capt
           }}
         >
           <Icon name="level-badge" size={d(18)} />
-          <Txt style={{ fontSize: d(12), color: violet, fontFamily: "Nunito_900Black" }}>{level}-daraja</Txt>
+          <Txt style={{ fontSize: d(12), color: accent ?? violet, fontFamily: "Nunito_900Black" }}>{level}-daraja</Txt>
         </View>
       ) : null}
     </>

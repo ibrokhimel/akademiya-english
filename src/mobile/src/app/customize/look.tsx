@@ -1,39 +1,37 @@
 import { useEffect,useState } from "react";
 import { View } from "react-native";
+import { Avatar } from "../../components/Avatar";
 import { ChoiceTiles,choicesFrom,type Choice } from "../../components/customize/ChoiceTiles";
-import { contrastRatio } from "../../../../core/showcase.js";
 import { useLookColors } from "../../components/customize/colors";
 import { DimSlider } from "../../components/customize/DimSlider";
 import { EditorScreen } from "../../components/customize/EditorScreen";
 import { SectionLabel } from "../../components/customize/SectionLabel";
 import { useRefusedSheet } from "../../components/MediaRefusedSheet";
+import { NameText } from "../../components/NameText";
 import { ProfileBackground } from "../../components/ProfileBackground";
-import { shared } from "../../components/system";
 import { Txt,useTheme } from "../../components/ui";
 import { useDesignScale } from "../../components/useDesignScale";
 import { backgrounds,cardColors,profileColors } from "../../data/cosmetics";
 import { onCropped,pickMedia,removeUnusedProfileFiles,type PickedMedia } from "../../lib/media";
 import { useApp,useProfile,type Profile } from "../../lib/store";
 
-/** The preview at the top of "Ranglar va fon": the letter in the profile colour, the name and two numbers on cards. */
+/** The preview at the top of "Ranglar va fon": the avatar, the name and two numbers in the profile colour on cards, as on the Profile tab. */
 function LookPreview({ look }: { look: Profile["look"] }) {
   const d = useDesignScale(), c = useTheme(), { settings, progress: p } = useApp();
-  const name = settings.name.trim() || "Siz", colours = useLookColors(look);
-  // the letter in white or ink, whichever reads better on the profile colour (white on gold does not)
-  const letterInk = contrastRatio(shared.light.surface, colours.fill) >= contrastRatio(shared.light.ink, colours.fill) ? shared.light.surface : shared.light.ink;
+  const name = settings.name.trim() || "Siz", colours = useLookColors(look), profile = settings.profile;
   const card = (text: string) => (
     <View style={{ flex: 1, height: d(48), justifyContent: "center", paddingHorizontal: d(12), borderRadius: d(14), backgroundColor: colours.card }}>
-      <Txt numberOfLines={1} style={{ fontSize: d(15), color: colours.text, fontFamily: "Nunito_900Black" }}>{text}</Txt>
+      <Txt numberOfLines={1} style={{ fontSize: d(15), color: colours.name ?? c.text, fontFamily: "Nunito_900Black" }}>{text}</Txt>
     </View>
   );
   return (
     <View style={{ padding: d(14), gap: d(12), borderRadius: d(20), borderWidth: d(2), borderColor: c.line, backgroundColor: c.bg, overflow: "hidden" }}>
       <ProfileBackground background={look.background} dim={look.dim} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: d(12) }}>
-        <View style={{ width: d(44), height: d(44), borderRadius: d(22), backgroundColor: colours.fill, alignItems: "center", justifyContent: "center" }}>
-          <Txt style={{ fontSize: d(20), color: letterInk, fontFamily: "Nunito_900Black" }}>{(name[0] || "?").toUpperCase()}</Txt>
+        <Avatar avatar={profile.avatar} name={name} size={d(44)} dombiOutfit={profile.dombi.outfit} />
+        <View style={{ flex: 1 }}>
+          <NameText name={name} color={profile.nameColor} plain={colours.name} numberOfLines={1} style={{ fontSize: d(20), fontFamily: "Nunito_900Black" }} />
         </View>
-        <Txt numberOfLines={1} style={{ flex: 1, fontSize: d(20), color: colours.name ?? c.text, fontFamily: "Nunito_900Black" }}>{name}</Txt>
       </View>
       <View style={{ flexDirection: "row", gap: d(10) }}>
         {card(`${p.streak.count} kun`)}
