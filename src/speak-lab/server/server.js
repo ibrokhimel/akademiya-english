@@ -9,6 +9,7 @@ import { buildSystemPrompt as buildPrompt, promptFile } from './prompts.js';
 import { ledger } from './cost.js';
 import { writeTalk } from './log.js';
 import { CFG } from '../config.js';
+import { CATALOG } from '../actions/catalog.js';
 
 const str = (v) => (typeof v === 'string' ? v.trim() : '');
 // the speech model answers with a WAV file (a RIFF header, the samples, then a metadata chunk); played raw, both ends bang. Only the samples go to the page.
@@ -30,6 +31,9 @@ const PORT = 8797, ORIGIN = 'http://127.0.0.1:8791';
 export const PACKS = { kind: 'Puck', rude: 'Zephyr', funny: 'Fenrir', drama: 'Aoede', dangasa: 'Charon', couple: 'Leda' };
 // the voices the learner can pick (config.js VOICES holds the same list with their names)
 export const VOICES = ['Puck', 'Fenrir', 'Charon', 'Orus', 'Zephyr', 'Leda', 'Aoede', 'Kore'];
+// what the director may pick: the catalog without the touch-only actions, listed with their "when it fits" lines
+const TALKABLE = new Map(CATALOG.filter((e) => e.talk !== false).map((e) => [e.id, e]));
+export const DIRECTOR = promptFile('director.md') + '\n' + [...TALKABLE.values()].map((e) => `- ${e.id}: ${e.use}`).join('\n');
 const SAMPLE = "Salom, men Dombiman! Bugun nima haqida gaplashamiz? Let's go.";
 
 export function readEnv(file = path.join(HERE, '.env')) {
@@ -111,6 +115,16 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       if (!str(b.line)) return [400, { error: 'no line' }];
       const pcm = await gemini.tts(str(b.line), VOICES.includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
       return [200, { pcm: wavSamples(pcm) }];
+    },
+    // the director: one of Dombi's catalog actions for a piece of what he is saying (spec 2026-10-30 §4.2); `turn` is echoed
+    // so the page can drop an answer that arrives after his turn moved on
+    'POST /direct': async (b) => {
+      if (!hasKey) return [503, { error: 'no key' }];
+      const turn = Number(b.turn) || 0, recent = Array.isArray(b.recent) ? b.recent.map(str).filter(Boolean).slice(-4) : [];
+      const text = `Personality: ${str(b.pack) || 'kind'}\nThe learner just said: "${str(b.learner)}"\nDombi is saying: "${str(b.said)}"\nRecent actions (never again): ${recent.join(', ') || 'none'}`;
+      const j = (await gemini.flash([{ text }], { json: true, system: DIRECTOR, model: MODELS.director })) || {};
+      const e = TALKABLE.get(str(j.action));
+      return [200, { action: e ? e.id : null, word: e ? str(j.word) : '', strength: j.strength === 'big' ? 'big' : 'small', turn }];
     },
     // one sample line in a voice, for the start page's "listen" buttons
     'POST /say': async (b) => {

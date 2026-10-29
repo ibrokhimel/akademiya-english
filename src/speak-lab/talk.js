@@ -50,7 +50,11 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   T.dombi = await mountDombi($('.dbox'), 220);
   const player = (T.player = makePlayer()), cards = (T.cards = mountCards($('.side'), CFG));
   // Dombi acts out his own lines (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)
-  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce) });
+  // At each clause of his, Gemini Flash (the director) may pick an action too; its answer never holds up his voice.
+  const direct = (q) => { if (ended) return; state.cost += CFG.PRICE.directPerCall;
+    side('direct', { learner: state.learner[state.learner.length - 1] || '', said: q.said, pack, recent: q.recent, turn: q.turn })
+      .then((j) => { if (!ended && j) T.acting.apply(j); }).catch(() => {}); };
+  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce), onPick: direct });
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards

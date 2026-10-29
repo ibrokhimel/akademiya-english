@@ -12,7 +12,8 @@ export const CFG = {
   MONTHLY_BUDGET_USD: 10,
   // dollars per second of audio, in and out: an estimate from Google's Live pricing (about 25 audio tokens a second;
   // input $3 and output $12 per million tokens as of 2026-10). The owner updates it from the price page; the counter is an estimate.
-  PRICE: { inPerSec: 0.000075, outPerSec: 0.0003 },
+  // directPerCall: one director call (flash-lite, ~920 tokens in, ~20 out, measured by server/director-check.js), priced as an estimate
+  PRICE: { inPerSec: 0.000075, outPerSec: 0.0003, directPerCall: 0.0001 },
   MIC_FLOOR: 6,                            // amp below this counts as silence
   BARGE_IN_FLOOR: 22,                      // while Dombi talks, only mic sound above this is sent (his own voice from the speakers stays under it)
   // the action engine (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)

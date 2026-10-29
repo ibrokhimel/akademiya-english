@@ -12,6 +12,8 @@ const TURNS = [
   { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 1400 }] },
   { chunks: [{ text: 'I am still diz', audioMs: 500 }, { text: 'zy, bro.', audioMs: 500 }] },
   { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
+  { chunks: [{ text: 'That was smooth, bro, honestly.', audioMs: 1500 }] },
+  { chunks: [{ text: 'Fine, whatever you say.', audioMs: 700 }] },
   { chunks: [{ text: 'Okay, still dizzy, but whatever, you go first.', audioMs: 2400 }] },
 ];
 const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
@@ -47,7 +49,21 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.fake.interrupt(), 150); }); await p.waitForTimeout(2600);
   L = await log(p); ok('nothing fires after an interrupt', L.slice(before).some((x) => x.id === 'trickShades' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));
 
-  // 5. End with an action scheduled: nothing fires after End, no page errors
+  // 5. the director: no word-list match in "That was smooth, bro", Flash picks trickSpin on "smooth" and it fires
+  before = L.length;
+  await p.evaluate(() => { window.FAKE.directCalls = []; window.FAKE.direct = (b) => { window.FAKE.directCalls.push(b); return Promise.resolve(/smooth/.test(b.said) ? { action: 'trickSpin', word: 'smooth', strength: 'small', turn: b.turn } : { action: null, turn: b.turn }); }; window.SPEAK.fake.next(); });
+  await p.waitForTimeout(2200);
+  L = await log(p); const calls = await p.evaluate(() => window.FAKE.directCalls);
+  ok('the director is asked per clause, with the turn and recent actions', calls.length >= 2 && calls.every((c) => typeof c.turn === 'number' && Array.isArray(c.recent)), `${calls.length} calls`);
+  ok('a director pick fires on its word', L.slice(before).some((x) => x.id === 'trickSpin' && x.how === 'word'), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
+  // 6. an answer that comes after his turn is over is dropped
+  before = L.length;
+  await p.evaluate(() => { window.FAKE.direct = (b) => new Promise((r) => setTimeout(() => r({ action: 'clap', word: 'Fine', turn: b.turn }), 2500)); window.SPEAK.fake.next(); });
+  await p.waitForTimeout(3600);
+  L = await log(p); ok('a late answer after his turn is dropped', L.slice(before).some((x) => x.id === 'clap' && x.how === 'dropped') && !L.slice(before).some((x) => x.id === 'clap' && (x.how === 'word' || x.how === 'pause')), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
+  await p.evaluate(() => { delete window.FAKE.direct; });
+
+  // 7. End with an action scheduled: nothing fires after End, no page errors
   before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.talk.end(), 150); }); await p.waitForTimeout(2600);
   L = await p.evaluate(() => window.SPEAK.talk.acting.log.slice());
   ok('nothing fires after End', L.slice(before).some((x) => x.id === 'dizzy' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));

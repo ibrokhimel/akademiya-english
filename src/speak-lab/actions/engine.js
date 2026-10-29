@@ -3,7 +3,7 @@
 //   { audio(chunkMs), caption(textSoFar), final(), idle(), interrupted(), learnerTurn(), stop(), apply(pick), log }
 // Nothing here is awaited on the audio path: captions schedule timers, his voice never waits.
 import { CATALOG } from './catalog.js';
-import { matchWords, clauseEnd, entry, decide, wordTime, pauseTime, late } from './rules.js';
+import { matchWords, clauseEnd, entry, decide, variant, wordTime, pauseTime, late } from './rules.js';
 
 const SENTENCE = /[^.!?…]+(?:[.!?…]+|$)/g;
 const wordsOf = (s) => s.split(/\s+/).filter(Boolean);
@@ -28,26 +28,32 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
     for (const m of text.match(SENTENCE) || []) { const n = wordsOf(m).length; if (!n) continue; out.push({ text: m.trim(), from: w, n, complete: /[.!?…]\s*$/.test(m) }); w += n; }
     return out;
   }
-  const timeOfWord = (k) => wordTime({ turnStartAt: T.startAt, turnAudioMs: T.audioMs, k, n: wordsOf(T.text).length, offsetMs: cfg.ACT_OFFSET_MS || 0 });
+  const timeOfWord = (me, k) => wordTime({ turnStartAt: me.startAt, turnAudioMs: me.audioMs, k, n: wordsOf(me.text).length, offsetMs: cfg.ACT_OFFSET_MS || 0 });
 
-  // one wanted action for sentence si, landing on word k (k = its index in the turn)
-  function want(e, si, k, word) {
-    const how = decide({ e, actedThisSentence: T.acted.has(si), turn: T.id, lastBigTurn, lastId, reduce }, cfg);
-    if (how === 'skip') { log.push({ id: e.id, word, how: 'skip', turn: T.id }); return; }
-    T.acted.add(si); lastId = e.id; if (e.big) lastBigTurn = T.id;
-    const me = T;
+  // one wanted action for sentence si of turn `me`, landing on word k (its index in the turn). A late director pick waits for
+  // the end of his turn instead (spec §4.2.3); a late word-list match is dropped.
+  function want(me, e, si, k, word, director = false) {
+    const how = decide({ e, actedThisSentence: me.acted.has(si), turn: me.id, lastBigTurn, lastId, reduce }, cfg);
+    if (how === 'skip') { log.push({ id: e.id, word, how: 'skip', turn: me.id }); return; }
+    me.acted.add(si); lastId = e.id; if (e.big) lastBigTurn = me.id;
     if (how === 'word') {
-      const when = timeOfWord(k), next = sentences(T.text)[si + 1];
-      const nextAt = next ? timeOfWord(next.from) : null;
-      if (late({ at: Math.max(when, now()), nextSentenceStartAt: nextAt })) { log.push({ id: e.id, word, how: 'dropped', turn: T.id }); return; }
+      const when = timeOfWord(me, k), next = sentences(me.text)[si + 1];
+      const nextAt = next ? timeOfWord(me, next.from) : null;
+      const over = Math.max(when, now()) > me.startAt + me.audioMs + 100;           // his voice for this turn has already played out
+      if (over || late({ at: Math.max(when, now()), nextSentenceStartAt: nextAt })) {
+        if (director && !me.idled && !over) { me.turnEnd.push({ e, si, word }); log.push({ id: e.id, word, how: 'deferred', turn: me.id }); }
+        else log.push({ id: e.id, word, how: 'dropped', turn: me.id });
+        return;
+      }
       log.push({ id: e.id, word, how: 'plan', at: Math.round(when), turn: me.id });
       at(when, () => { if (T === me || done === me) fire(e, 'word', word, me); });
       return;
     }
+    if (me.handled.has('end:' + si)) { me.turnEnd.push({ e, si, word }); return; }   // its sentence is already over: the end of his turn
     me.pending = me.pending || []; me.pending.push({ e, si, word });              // a mouth action: decided when its sentence ends
   }
   function sentenceDone(s, si) {
-    const me = T, end = timeOfWord(s.from + s.n);
+    const me = T, end = timeOfWord(me, s.from + s.n);
     for (const p of (me.pending || []).filter((p) => p.si === si)) {
       at(end + cfg.MOUTH_AFTER_MS, () => {
         const more = wordsOf(me.text).length > s.from + s.n;                       // his next sentence is already coming
@@ -73,22 +79,36 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
         for (const m of matchWords(s.text, catalog)) {
           const key = si + ':' + m.id; if (T.handled.has(key)) continue;
           if (!s.complete && m.index === s.n - 1 && /[\p{L}'ʻ]$/u.test(text)) continue;   // the last word may still be arriving ("diz" -> "dizzy")
-          T.handled.add(key); want(entry(m.id), si, s.from + m.index, m.word);
+          T.handled.add(key); want(T, entry(m.id), si, s.from + m.index, m.word);
         }
         if (s.complete && !T.handled.has('end:' + si)) { T.handled.add('end:' + si); sentenceDone(s, si); }
       });
       if (onPick && clauseEnd(text, T.clauseWords, cfg)) { T.clauseWords = 0; onPick({ turn: T.id, said: text, recent: log.filter((x) => x.how === 'word' || x.how === 'pause').slice(-4).map((x) => x.id) }); }
     },
     // his turn's text is complete (Gemini's turnComplete); its mouth actions still wait for his voice to end
-    final() { if (!T) return; this.caption(T.text + ' '); if (!T) return; const s = sentences(T.text), last = s[s.length - 1]; if (last && !T.handled.has('end:' + (s.length - 1))) { T.handled.add('end:' + (s.length - 1)); sentenceDone(last, s.length - 1); } done = T; T = null; },
+    final() { if (!T) return; this.caption(T.text + ' '); if (!T) return; const s = sentences(T.text), last = s[s.length - 1]; if (last && !T.handled.has('end:' + (s.length - 1))) { T.handled.add('end:' + (s.length - 1)); sentenceDone(last, s.length - 1); } done = T; T = null; if (!player.playing()) this.idle(); },   // his voice may have ended first
     // his voice has run out: the turn's waiting mouth actions play now
-    idle() { const d = done; if (!d) return; setTimeout(() => { if (!alive || done !== d) return; for (const p of d.turnEnd.splice(0)) fire(p.e, 'pause', p.word, d); }, 0); },
+    idle() { const d = done; if (!d) return; d.idled = true; setTimeout(() => { if (!alive || done !== d) return; for (const p of d.turnEnd.splice(0)) fire(p.e, 'pause', p.word, d); }, 0); },
     // cut off: everything planned for this turn is dropped
     interrupted() { clearAll(); T = null; done = null; },
     learnerTurn() { if (done) done.turnEnd.length = 0; },
     stop() { alive = false; clearAll(); T = null; done = null; },
-    // a director pick (Task 6) lands through the same rules; answers for another turn are ignored
-    apply(pick) { return pick; },
+    // a director pick lands through the same rules as a word match; an answer for another turn, or after his voice ended, is dropped
+    apply(pick) {
+      if (!alive || !pick || !pick.action) return;
+      const me = T && T.id === pick.turn ? T : done && done.id === pick.turn && !done.idled ? done : null;
+      if (!me) { log.push({ id: pick.action, word: pick.word || '', how: 'dropped', turn: pick.turn }); return; }
+      let e = entry(pick.action); if (!e || e.talk === false) return;
+      if (e.id === lastId) e = variant(e.family, { lastId }, catalog) || e;             // the family's idea, another of its actions
+      const all = sentences(me.text), w = (pick.word || '').toLowerCase().replace(/[^\p{L}'ʻ]/gu, '');
+      let si = all.length - 1, k = wordsOf(me.text).length - 1;                       // no usable word: now
+      for (let i = all.length - 1; i >= 0 && w; i--) {
+        const idx = wordsOf(all[i].text).findIndex((x) => x.toLowerCase().replace(/[^\p{L}'ʻ]/gu, '') === w);
+        if (idx >= 0) { si = i; k = all[i].from + idx; break; }
+      }
+      if (si < 0) return;
+      want(me, e, si, Math.max(0, k), pick.word || '', true);
+    },
     turnId: () => (T ? T.id : null),
   };
 }
