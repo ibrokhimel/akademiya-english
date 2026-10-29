@@ -6,16 +6,13 @@
 //   - `celebrate` was never wired to anything; `blink` is the quick automatic blink, too small to read as an action
 // Every one-shot here is whole on its own: anticipation -> action -> hold -> settle, eyes lead, hands late.
 // Frames are 60 fps. Hands: arm-local, (0, 0) is tucked behind the body; global = local + (62 | 138, 128).
-const fs = require('fs');
-const path = require('path');
 const { call } = require('./rive_client');
 const ids = require('./dombi_ids.json');
 const mids = require('./dombi_machine_ids.json');
 const { MOUTHS } = require('../icons/dombi_rig');
 const { VISEMES } = require('../icons/dombi_visemes');
-const { K, SINE, OUT, IN, ae, T, H, mouth, eL, eR, lL, lR, eyes, lidsOff, zOff, anim } = require('./dombi_redo');
+const { K, SINE, OUT, IN, ae, T, H, mouth, eL, eR, lL, lR, eyes, lidsOff, zOff, anim, newAnim, wire } = require('./dombi_redo');
 const VIS = (n) => VISEMES.find(v => v.name === n);
-const F = { enableExitTime: 4, exitTimeIsPercentage: 8, enableEarlyExit: 32 };
 
 const O = ids.once, E = ids.eyes, R = ids.react, HL = ids.handL, HR = ids.handR, HF = ids.handRFront, AL = ids.armL, AR = ids.armR, S = ids.shades;
 // PlayOnce owns `once`: every one-shot keys all five of its props (unlisted ones hold neutral) and hides the shades
@@ -117,34 +114,6 @@ const BATCH = {
     ...T(E, 'x', [[0, 0], [10, 0, OUT], [14, -4], [38, -4], [48, 0], [54, 0]]), ...mouth(MOUTHS.focus), ...mouth(MOUTHS.smirk, 44)]],
 };
 
-const save = () => fs.writeFileSync(path.join(__dirname, 'dombi_machine_ids.json'), JSON.stringify(mids, null, 1));
-async function newAnim(name, frames) {
-  if (mids.anims[name]) return;
-  const r = await ae('createLinearAnimations', { linearAnimations: [{ name, duration: frames / 60 }] });
-  mids.anims[name] = (r.animations || r.linearAnimations)[0].id; save();
-}
-// a new one-shot state: Any --trigger--> state --exit 100 %--> back; both interruptible
-async function wire(layerName, stateName, trigger, back) {
-  let sm = await ae('queryStateMachine', {});
-  let L = sm.layers.find(l => l.layerName === layerName), nm = (id) => (L.states.find(s => s.id === id) || {}).name;
-  if (!L.states.some(s => s.name === stateName)) {
-    await ae('createStates', { layerId: L.layerId || L.id, states: [{ name: stateName, linearAnimationName: stateName, x: 900, y: 300 }] });
-    sm = await ae('queryStateMachine', {}); L = sm.layers.find(l => l.layerName === layerName);
-  }
-  const st = L.states.find(s => s.name === stateName), any = L.states.find(s => s.type === 'any'), to = L.states.find(s => s.name === back);
-  const has = (a, b) => L.transitions.some(t => t.fromStateId === a && t.toStateId === b);
-  const add = []; if (!has(any.id, st.id)) add.push({ id: any.id, transitions: [{ to: st.id }] }); if (!has(st.id, to.id)) add.push({ id: st.id, transitions: [{ to: to.id }] });
-  if (add.length) { await ae('createTransitions', { states: add }); sm = await ae('queryStateMachine', {}); L = sm.layers.find(l => l.layerName === layerName); }
-  const tIn = L.transitions.find(t => t.fromStateId === any.id && t.toStateId === st.id), tOut = L.transitions.find(t => t.fromStateId === st.id && t.toStateId === to.id);
-  await call('set_property_values', { propertyValues: { [tIn.id]: { 152: F.enableEarlyExit, 158: 40, 349: 2 }, [tOut.id]: { 152: F.enableExitTime | F.exitTimeIsPercentage | F.enableEarlyExit, 160: 100, 158: 120, 349: 2 } } });
-  const vm = (await call('viewmodel_editor', { command: 'listViewModels', data: { listViewModels: {} } })).viewModels.find(v => v.name === 'Dombi');
-  const prop = vm.viewModelProperties.find(p => p.name === trigger).id;
-  if (!tIn.conditions.length) await ae('createConditions', { transitions: [{ id: tIn.id, conditions: [{ leftComparator: { viewModelPropertyId: prop } }] }] });
-  // the trigger used to start another state in this layer: drop that old route so only the new one fires
-  for (const t of L.transitions.filter(t => t.fromStateId === any.id && t.toStateId !== st.id && (t.conditions || []).some(c => (c.leftComparator || {}).viewModelPropertyName === trigger)))
-    { await call('delete_objects', { objectIds: [t.id] }); console.log('removed old', trigger, 'route to', nm(t.toStateId)); }
-  console.log('wired', layerName, trigger, '->', stateName, '->', back);
-}
 
 async function main() {
   await call('open_file_editor', { command: 'focusArtboard', data: { focusArtboard: { artboardId: ids.artboard } } });
