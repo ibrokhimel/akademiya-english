@@ -92,6 +92,16 @@ export const CATALOG = [
   a('mood:awkward', E('mood', 'awkward'), 'oops', 'face', 2000, 'awkward: an uncomfortable moment', ['awkward', 'umm', 'uhh']),
   a('mood:cryLaugh', E('mood', 'cryLaugh'), 'celebrate', 'face', 2500, 'crying with laughter: something hilarious', ['dying', 'lmao', "i'm dead", 'i cannot breathe']),
   a('mood:bored', E('mood', 'bored'), 'lazy', 'face', 3000, 'bored: dull, nothing happening', ['meh', 'nothing to do'], { life: L(0.3), packs: { dangasa: 3 } }),
+  // round 3 (2026-10-30, design/rive/dombi_emotes4.js): moves with props and the last of the list
+  a('micDrop', T('micDrop'), 'show-off', 'once', 1400, 'a mic drop: he said something unbeatable, end of discussion', ['mic drop', 'end of story', 'the end', "gap yo'q"], { big: true, packs: { rude: 1.5, funny: 1.5 } }),
+  a('idea', T('idea'), 'think', 'once', 1400, 'a lightbulb: he has an idea, he gets it', ['idea', 'i know', 'got it', 'eureka', 'fikr', 'tushundim'], { life: L(0.2) }),
+  a('steam', T('steam'), 'annoyed', 'once', 1600, 'fuming, steam off his head: really angry, furious', ['furious', 'so angry', 'jahlim chiqdi', 'fuming'], { packs: { drama: 2, rude: 1.5 } }),
+  a('sweat', T('sweat'), 'oops', 'once', 1500, 'a nervous sweat drop: nervous, uh oh, under pressure', ['nervous', 'uh oh', 'scary', "qo'rqdim"], { life: L(0.2) }),
+  a('chefKiss', T('chefKiss'), 'celebrate', 'once', 1200, "a chef's kiss: perfect, delicious, beautiful", ["chef's kiss", 'beautiful', 'masterpiece', "zo'r-ku"], { packs: { drama: 1.5 } }),
+  a('hideFace', T('hideFace'), 'oops', 'once', 1650, "hiding his face: too embarrassing, shy, can't look", ['embarrassing', "can't look", 'uyat', 'shy'], { packs: { couple: 2 } }),
+  a('laughHard', T('laughHard'), 'celebrate', 'once', 1830, 'laughing hard, bouncing: something really funny', ['haha', 'hahaha', 'so funny', 'kuldirding', 'xa-xa'], { packs: { funny: 2 } }),
+  a('flop', T('flop'), 'lazy', 'once', 2170, 'a dramatic flop to the floor: he cannot take it, too much, dying', ["i'm done", 'i give up', 'too much', "o'ldim"], { big: true, packs: { drama: 3, dangasa: 1.5 } }),
+  a('whisper', T('whisper'), 'listen', 'once', 1500, 'leaning in to whisper: a secret, something just between them', ['psst', 'between us', 'whisper', 'sekin'], { packs: { couple: 1.5 } }),
   // touch-only: they need a finger on him
   a('play:held', E('play', 'held'), 'touch', 'loop', 2000, 'carried on a finger', [], { talk: false }),
   a('play:pet', E('play', 'pet'), 'touch', 'loop', 2000, 'being rubbed', [], { talk: false }),

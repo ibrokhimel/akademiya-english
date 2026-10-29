@@ -135,7 +135,16 @@
   "face/shocked": "0-93221",
   "face/awkward": "0-93349",
   "face/cryLaugh": "0-93477",
-  "face/bored": "0-93605"
+  "face/bored": "0-93605",
+  "once/micDrop": "0-102387",
+  "once/idea": "0-102688",
+  "once/steam": "0-102975",
+  "once/sweat": "0-103243",
+  "once/chefKiss": "0-103520",
+  "once/hideFace": "0-103920",
+  "once/laughHard": "0-104155",
+  "once/flop": "0-105145",
+  "once/whisper": "0-105499"
  },
  "vm": {
   "id": "0-10307",

@@ -61,7 +61,9 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } c
 // the groups, by the rig's own property names; anything the file has that is not listed here still shows up under "Other"
 const GROUPS = [
   ['One-off actions', 'trigger', ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink']],
-  ['Round 2 faces (mark these)', 'enum', ['mood'], ['sideEye','deadpan','grin','suspicious','cringe','disgusted','shocked','awkward','cryLaugh','bored']],
+  ['Mark these: round 3 and the redos', 'trigger', ['micDrop', 'idea', 'steam', 'sweat', 'chefKiss', 'hideFace', 'laughHard', 'flop', 'whisper', 'armsCrossed', 'flex']],
+  ['Mark these: redone faces', 'enum', ['mood'], ['sideEye', 'cryLaugh']],
+  ['Round 2 faces', 'enum', ['mood'], ['sideEye','deadpan','grin','suspicious','cringe','disgusted','shocked','awkward','cryLaugh','bored']],
   ['Round 1', 'trigger', ['shrug', 'headScratch', 'armsCrossed', 'fingerWag', 'flex', 'brushShoulders', 'stomp', 'bow', 'melt']],
   ['New emotes', 'trigger', ['spit', 'dance', 'facepalm', 'fistsUp', 'eyeRoll']],
   ['Idle breaks (the page fires these now)', 'trigger', ['lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod']],
