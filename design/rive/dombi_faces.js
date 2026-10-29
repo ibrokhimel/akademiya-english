@@ -8,19 +8,21 @@ const { VISEMES } = require('../icons/dombi_visemes');
 const { H, T, SINE, OUT, IN, mouth, eL, eR, lL, lR, anim, newAnim, ae } = require('./dombi_redo');
 const VIS = (n) => VISEMES.find((v) => v.name === n);
 // a tall open mouth for the jaw drop, in the rig's closed-fill format (3 vertices + 6 control points, 200-space)
+// a mouth collapsed to a dot: the mouth is one path with a round stroke, so a zero-length line draws a small dot
+const DOT = { line: [[[100, 129], [100.3, 129], [100.6, 129], [101, 129]]] };
 const JAW = { fill: { verts: [[89, 121], [113, 121], [101, 148]], c: [[89, 121], [113, 121], [116, 134], [109, 149], [93, 149], [86, 134]] } };
 const vme = (command, payload) => call('viewmodel_editor', { command, data: { [command]: payload } });
 
 // a lid not in use is parked above the eye at full opacity (invisible on his body), never faded: a half-faded lid over a white
 // eye showed as a grey box during the 150 ms switch. Lids slide down instead, like real eyelids.
 const EYE = { dx: 0, y: 0, w: 18, h: 34, rad: 9, r: 0 }, LID = { y: -32, r: 0, op: 100 }, FACE = { x: 0, y: -66, r: 0 };
-function face({ eyeL = {}, eyeR = {}, eyes = {}, lidL = {}, lidR = {}, lids = {}, m = MOUTHS.smirk, f = {} }) {
+function face({ eyeL = {}, eyeR = {}, eyes = {}, lidL = {}, lidR = {}, lids = {}, m = MOUTHS.smirk, f = {}, noMouth = false }) {
   const el = { ...EYE, ...eyes, ...eyeL }, er = { ...EYE, ...eyes, ...eyeR }, ll = { ...LID, ...lids, ...lidL }, lr = { ...LID, ...lids, ...lidR }, fc = { ...FACE, ...f };
   return [...H(eL.id, { x: -25 + el.dx, y: el.y, r: el.r, op: 100 }), ...H(eL.pathId, { w: el.w, h: el.h, rad: el.rad }),
     ...H(eR.id, { x: 25 + er.dx, y: er.y, r: er.r, op: 100 }), ...H(eR.pathId, { w: er.w, h: er.h, rad: er.rad }),
     ...H(lL.id, { x: -25 + el.dx, y: ll.y, r: ll.r, op: ll.op }), ...H(lR.id, { x: 25 + er.dx, y: lr.y, r: lr.r, op: lr.op }),   // lids move with the eyes
     ...H(lL.pathId, { w: 34, h: ll.h || 16, rad: 0 }), ...H(lR.pathId, { w: 34, h: lr.h || 16, rad: 0 }),
-    ...mouth(m), ...H(ids.mouthShape.id, { op: 100 }), ...H(ids.face, { x: fc.x, y: fc.y, r: fc.r }),
+    ...mouth(m), ...H(ids.mouthShape.id, { op: noMouth ? 0 : 100 }), ...H(ids.face, { x: fc.x, y: fc.y, r: fc.r }),
     ...H(ids.z1, { sx: 0, sy: 0, op: 0 }), ...H(ids.z2, { sx: 0, sy: 0, op: 0 })];
 }
 
@@ -52,6 +54,23 @@ const FACES = {
   })() },
   // bored: half lids, eyes drifting up and to the side, a flat sleepy mouth, head tipped
   bored: face({ eyes: { dx: -4, y: -2 }, lids: { y: -12, op: 100 }, m: MOUTHS.sleepy, f: { r: -4 } }),
+  // batch 5 (2026-10-30)
+  // hmph: a pout - eyes shut tight and tilted, a small tight mouth, head turned away
+  hmph: face({ eyeL: { w: 22, h: 6, rad: 3, y: 2, r: -8 }, eyeR: { w: 22, h: 6, rad: 3, y: 2, r: 8 }, m: MOUTHS.listen, f: { r: -9 } }),
+  // squint: narrowed eyes trying to make something out, mouth pulled to one side
+  squint: face({ eyes: { w: 20, h: 10, rad: 5, y: 2 }, m: MOUTHS.think, f: { r: 3 } }),
+  // innocent "who, me?": eyes up and away, a small whistling mouth, head tipped
+  innocent: face({ eyes: { y: -6, dx: 3 }, m: VIS('OO'), f: { r: 5 } }),
+  // excited: big wide eyes, a wide open smile
+  excited: face({ eyes: { w: 22, h: 40, rad: 11, y: -3 }, lids: { y: -34 }, m: MOUTHS.laugh, f: { y: -68 } }),
+  // speechless: little dot eyes and no mouth at all
+  speechless: face({ eyes: { w: 10, h: 10, rad: 5, y: 2 }, m: DOT }),   // a dot, not a faded-out mouth (a fading mouth shows grey)
+  // nervous grin: eyes a touch wide and looking away, teeth showing in a tight grin
+  nervousGrin: face({ eyes: { dx: -4, h: 36 }, m: VIS('TEETH'), f: { r: 2 } }),
+  // content: eyes shut in calm lines, a soft smile, head resting to one side
+  content: face({ eyes: { w: 22, h: 6, rad: 3, y: 4 }, m: MOUTHS.happy, f: { r: -3 } }),
+  // thinking hard: one eye shut, the other up and aside, mouth twisted
+  thinkingHard: face({ eyeL: { w: 20, h: 6, rad: 3, y: 3 }, eyeR: { y: -4, dx: 2 }, m: MOUTHS.think, f: { r: 6 } }),
 };
 
 async function main() {

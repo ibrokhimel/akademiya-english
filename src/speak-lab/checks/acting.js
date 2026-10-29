@@ -12,7 +12,7 @@ const TURNS = [
   { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 1400 }] },
   { chunks: [{ text: 'I am still diz', audioMs: 500 }, { text: 'zy, bro.', audioMs: 500 }] },
   { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
-  { chunks: [{ text: 'That was smooth, bro, honestly.', audioMs: 1500 }] },
+  { chunks: [{ text: 'That was sweet, bro, honestly.', audioMs: 1500 }] },
   { chunks: [{ text: 'Fine, whatever you say.', audioMs: 700 }] },
   { chunks: [{ text: 'Messi is better. Fight me.', audioMs: 1400 }] },
   { chunks: [{ text: 'Okay, still dizzy, but you go first.', audioMs: 2400 }] },
@@ -51,9 +51,9 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.fake.interrupt(), 150); }); await p.waitForTimeout(2600);
   L = await log(p); ok('nothing fires after an interrupt', L.slice(before).some((x) => x.id === 'trickShades' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));
 
-  // 5. the director: no word-list match in "That was smooth, bro", Flash picks trickSpin on "smooth" and it fires
+  // 5. the director: no word-list match in "That was sweet, bro", Flash picks trickSpin on "sweet" and it fires
   before = L.length;
-  await p.evaluate(() => { window.FAKE.directCalls = []; window.FAKE.direct = (b) => { window.FAKE.directCalls.push(b); return Promise.resolve(/smooth/.test(b.said) ? { action: 'trickSpin', word: 'smooth', strength: 'small', turn: b.turn } : { action: null, turn: b.turn }); }; window.SPEAK.fake.next(); });
+  await p.evaluate(() => { window.FAKE.directCalls = []; window.FAKE.direct = (b) => { window.FAKE.directCalls.push(b); return Promise.resolve(/sweet/.test(b.said) ? { action: 'trickSpin', word: 'sweet', strength: 'small', turn: b.turn } : { action: null, turn: b.turn }); }; window.SPEAK.fake.next(); });
   await p.waitForTimeout(2200);
   L = await log(p); const calls = await p.evaluate(() => window.FAKE.directCalls);
   ok('the director is asked per clause, with the turn and recent actions', calls.length >= 2 && calls.every((c) => typeof c.turn === 'number' && Array.isArray(c.recent)), `${calls.length} calls`);
