@@ -15,6 +15,8 @@ export const CFG = {
   PRICE: { inPerSec: 0.000075, outPerSec: 0.0003 },
   MIC_FLOOR: 6,                            // amp below this counts as silence
   BARGE_IN_FLOOR: 22,                      // while Dombi talks, only mic sound above this is sent (his own voice from the speakers stays under it)
+  // the action engine (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)
+  CLAUSE_WORDS: 8,                         // the director is asked at each , . ! ? or after this many words without one
 };
 
 // topic cards: `goal` cards show first for a learner with that goal; the rest are for everyone. `topic` is what Dombi is told.
