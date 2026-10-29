@@ -9,7 +9,10 @@ const HUM = path.join(os.tmpdir(), 'speak-lab-hum.wav');
   h.write('RIFF', 0); h.writeUInt32LE(36 + n * 2, 4); h.write('WAVEfmt ', 8); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(16000, 24); h.writeUInt32LE(32000, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(n * 2, 40); fs.writeFileSync(HUM, Buffer.concat([h, d])); })();
 const TURNS = [{ caption: 'Salom! Qalaysan?', audioMs: 400 },
   { chunks: [{ text: 'Okay so honestly, let me tell you a long story about the bus, it was so cool.', audioMs: 3000 }] },
-  { chunks: [{ text: 'And another long story, honestly, the bus driver was so cool, seriously.', audioMs: 3000 }] }];
+  { chunks: [{ text: 'And another long story, honestly, the bus driver was so cool, seriously.', audioMs: 3000 }] },
+  { chunks: [{ text: 'Okay so here is', audioMs: 600 }, { text: ' the thing about samsa,', audioMs: 600 }, { text: ' I am so dizzy now.', audioMs: 600 }] },
+  { chunks: [{ text: 'Wait wait let me', audioMs: 600 }, { text: ' tell you about Chorsu', audioMs: 600 }, { text: ' and the samsa there.', audioMs: 600 }] },
+  { caption: 'Fresh line here.', audioMs: 500 }];
 const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
 
 (async () => {
@@ -56,6 +59,24 @@ const results = []; const ok = (name, pass, extra = '') => { results.push(pass);
   await p.click('.micsw [data-id="hold"]'); await p.waitForTimeout(3200);
   const L = await p.evaluate((n) => window.SPEAK.talk.acting.log.slice(n), before);
   ok('switching while he talks stops his voice and his planned actions', await p.evaluate(() => !window.SPEAK.talk.player.playing()) && L.some((x) => x.how === 'plan') && !L.some((x) => x.how === 'word'), JSON.stringify(L));
+  // 8. hold pressed while more of his turn is still on its way: the rest of that turn is dropped (no voice, no actions, no caption)
+  await p.evaluate(() => { window.SPEAK.fake.next(); }); await p.waitForTimeout(60); await p.keyboard.down('Space'); await p.waitForTimeout(1200);
+  let L2 = await p.evaluate(() => window.SPEAK.talk.acting.log.slice()); const cutAt = L2.map((x) => x.how).lastIndexOf('cut');
+  ok('after a hold press the rest of his turn is dropped', cutAt >= 0 && await p.evaluate(() => !window.SPEAK.talk.player.playing() && document.querySelector('.cap.live').textContent === '')
+    && !L2.slice(cutAt + 1).some((x) => ['plan', 'word', 'pause'].includes(x.how)), JSON.stringify(L2.slice(cutAt)));
+  await p.keyboard.up('Space'); await p.waitForTimeout(1500);
+  // 9. switching mid-sentence: his cut line never merges into his next one
+  await p.evaluate(() => { window.SPEAK.fake.next(); }); await p.waitForTimeout(60); await p.click('.micsw [data-id="auto"]'); await p.waitForTimeout(2500);
+  await p.evaluate(() => { window.SPEAK.fake.next(); }); await p.waitForTimeout(1500);
+  const lastCap = await p.evaluate(() => [...document.querySelectorAll('.cap.done .ctext')].pop().textContent);
+  ok('after a mid-sentence switch his next line stands alone', lastCap === 'Fresh line here.', JSON.stringify(lastCap));
+  // 10. the window loses focus while space is held: the hold ends
+  await p.click('.micsw [data-id="hold"]'); await p.waitForTimeout(500); await p.keyboard.down('Space'); await p.waitForTimeout(200);
+  await p.evaluate(() => window.dispatchEvent(new Event('blur'))); await p.waitForTimeout(200);
+  s = await sent(); ok('losing focus ends a hold', s.events[s.events.length - 1] === 'end', JSON.stringify(s.events.slice(-3))); await p.keyboard.up('Space');
+  // 11. a switch that cannot reconnect ends the talk instead of leaving it silent
+  await p.evaluate(() => { window.FAKE.setMicFail = true; }); await p.click('.micsw [data-id="auto"]'); await p.waitForTimeout(800);
+  ok('a failed switch ends the talk', await p.evaluate(() => window.SPEAK.talk.endedAt != null));
   ok('no page errors', errors.length === 0, errors.join(' | '));
   await b.close();
   const failed = results.filter((r) => !r).length; console.log(failed ? `mic: ${failed} FAILED` : 'mic: ok'); process.exit(failed ? 1 : 0);

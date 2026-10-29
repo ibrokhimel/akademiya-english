@@ -81,4 +81,12 @@ async function main() {
     await wire('PlayOnce', 'once/' + name, name, 'once/idle');
   }
 }
-main().catch((e) => { console.log('FAIL', String(e.stack).split('\n').slice(0, 4).join(' | ')); process.exit(1); });
+if (!process.argv.includes('--idle-fix')) main().catch((e) => { console.log('FAIL', String(e.stack).split('\n').slice(0, 4).join(' | ')); process.exit(1); });
+
+// review fix (2026-10-30): another one-shot can cut spit off mid-flight, and nothing else keys the drop, so it stayed on screen.
+// once/idle (where every one-shot returns) now hides it. Run: node dombi_emotes1.js --idle-fix
+if (process.argv.includes('--idle-fix')) (async () => {
+  const mids = require('./dombi_machine_ids.json'), id = mids.anims['once/idle'];
+  await call('animation_editor', { command: 'modifyKeyFrames', data: { modifyKeyFrames: { animationId: id, add: [{ objectId: ids.spitDrop, propertyKey: 18, frame: 0, value: 0, interpolationType: 'hold' }] } } });
+  console.log('once/idle hides the spit drop');
+})().catch((e) => { console.log('FAIL', e.message); process.exit(1); });

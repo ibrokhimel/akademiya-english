@@ -63,6 +63,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   T.stage = mountStage({ stageEl: $('.stage'), boxEl: $('.dbox'), dombi: T.dombi, cfg: stageCfg, pack, reduce: !!(window.M && M.reduce),
     getState: () => (state.dombiTalking ? 'talking' : now() - state.lastSpokeAt < CFG.LISTEN_HOLD_MS ? 'listening' : 'idle') });
   T.acting = makeActing({ dombi: T.dombi, player, cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
+  let cutting = false, cutTimer = null;    // cutting: the learner cut him off; his output still on its way is dropped until Gemini says interrupted or done
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
@@ -79,11 +80,13 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
+      if (ended || cutting) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
+      if (final && cutting) { cutting = false; capText = ''; T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); return; }
+      if (cutting) return;
       if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
       capText += text; $('.cap.live').textContent = cleanCaption(capText); T.acting.caption(cleanCaption(capText));
       T.timing.push({ t: Math.round(performance.now()), kind: 'caption', words: cleanCaption(capText).split(/\s+/).filter(Boolean).length });
@@ -93,7 +96,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }
       learnerText += text; T.acting.learnerTurn(); state.lastSpokeAt = now(); state.silence = 'none'; speechEndAt = Date.now(); firstAudioAt = 0;
     },
-    onInterrupted() { state.interruptions++; T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = ''; },
+    onInterrupted() { cutting = false; state.interruptions++; T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = ''; },
     onTurnComplete() { /* the player's idle event turns the mouth off */ },
     onToolCall() { /* no tools in this build: the voice model spoke them aloud */ },
     onClose(reason) { if (reason === 'lost') { status(COPY.lost); T.end(); } },       // the socket is gone for good: the talk ends with what it has
@@ -102,7 +105,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   let mic = null, meter = null, quiet = null;
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
-    removeEventListener('keydown', keys); removeEventListener('keyup', keys); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
+    removeEventListener('keydown', keys); removeEventListener('keyup', keys); removeEventListener('blur', release); clearTimeout(cutTimer); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, timing: T.timing, acting: T.acting.log, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
@@ -132,19 +135,26 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   // switching mode mid-talk reconnects (live.js setMic) and hands the new session the last lines if it can't resume
   let micMode = micStart === 'hold' ? 'hold' : 'auto', holding = false, switching = false;
   const showMic = () => { root.querySelectorAll('.micsw button').forEach((b) => b.classList.toggle('on', b.dataset.id === micMode)); $('.holdw').style.display = micMode === 'hold' ? '' : 'none'; };
-  const cutHim = () => { if (state.dombiTalking || player.playing()) { T.acting.interrupted(); player.clear(); } };
+  // cut him off now: his voice, his planned actions and his half line go; what of that turn is still on its way gets dropped
+  // (cutting) until Gemini says interrupted or done; the 4 s fallback is so a lost signal can never mute him for good
+  const cutHim = () => {
+    if (!state.dombiTalking && !player.playing() && !capText) return;
+    T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = '';
+    cutting = true; clearTimeout(cutTimer); cutTimer = setTimeout(() => { cutting = false; }, 4000);
+  };
   const press = () => { if (micMode !== 'hold' || holding || switching || ended || !T.session) return; holding = true; $('.hold').classList.add('down'); cutHim(); T.session.activityStart(); };
   const release = () => { if (!holding) return; holding = false; $('.hold').classList.remove('down'); if (T.session) T.session.activityEnd(); };
   T.switchMic = async (mode) => {
     if (mode === micMode || switching || ended || !T.session) return;
-    release(); cutHim(); switching = true; micMode = mode; showMic(); status(COPY.reconnecting);
+    release(); cutHim(); learnerText = ''; switching = true; micMode = mode; showMic(); status(COPY.reconnecting);
     const lines = state.transcript.slice(-6).map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${t.text}`);
-    try { (T.micSwitches ||= []).push(await T.session.setMic(mode, lines)); } catch (e) { console.warn('mic switch', e.message); }
-    switching = false; if (!ended) status(COPY.listening);
+    // the old socket is gone, so nothing of his cut turn can still arrive; a switch that can't reconnect ends the talk (not a silent one)
+    try { (T.micSwitches ||= []).push(await T.session.setMic(mode, lines)); } catch (e) { console.warn('mic switch', e.message); switching = false; cutting = false; if (!ended) { status(COPY.lost); T.end(); } return; }
+    switching = false; cutting = false; if (!ended) status(COPY.listening);
   };
   const keys = (e) => { if (e.code !== 'Space' || e.repeat || /input|textarea/i.test(e.target.tagName)) return; e.preventDefault(); (e.type === 'keydown' ? press : release)(); };
-  $('.hold').addEventListener('pointerdown', press); $('.hold').addEventListener('pointerup', release); $('.hold').addEventListener('pointerleave', release);
-  addEventListener('keydown', keys); addEventListener('keyup', keys);
+  $('.hold').addEventListener('pointerdown', press); $('.hold').addEventListener('pointerup', release); $('.hold').addEventListener('pointerleave', release); $('.hold').addEventListener('pointercancel', release);
+  addEventListener('keydown', keys); addEventListener('keyup', keys); addEventListener('blur', release);   // keyup never comes if the window loses focus
   root.querySelectorAll('.micsw button').forEach((b) => b.addEventListener('click', () => T.switchMic(b.dataset.id)));
   showMic();
 

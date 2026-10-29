@@ -89,7 +89,8 @@ export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic
     async setMic(mode, lines = []) {
       micMode = mode === 'hold' ? 'hold' : 'auto'; probing = true; dropCurrent();
       try {
-        if (handle) { try { await open(); await new Promise((r) => setTimeout(r, 1500)); if (current) return 'resumed'; } catch (e) { console.warn('resume failed', e.message); } }
+        if (handle) { try { await open(); await new Promise((r) => setTimeout(r, 1500)); if (closedByUs) return 'closed'; if (current) return 'resumed'; } catch (e) { console.warn('resume failed', e.message); } }
+        if (closedByUs) return 'closed';                                    // End was pressed during the switch
         handle = null; await open();
         if (lines.length) this.sendText('[The mic mode changed and you reconnected. The talk so far:\n' + lines.join('\n') + '\nCarry on from where you were. Do not mention this note.]');
         return 'fresh';

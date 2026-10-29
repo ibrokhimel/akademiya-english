@@ -91,3 +91,28 @@ test('an action on his last word is planned while his turn is still coming in, e
   assert.equal(L.length && L[0].how, 'plan', JSON.stringify(a.log));
   a.stop();
 });
+
+// final review fixes: a fake player whose clock and queue the test controls
+function rig(cfg = {}) {
+  const st = { clock: 1000, pushed: 0, queueEnd: 1000 }, fired = [];
+  const player = { endsAt: () => Math.max(st.clock, st.queueEnd), pushedMs: () => st.pushed, playing: () => st.queueEnd > st.clock };
+  const push = (ms) => { st.queueEnd = Math.max(st.clock, st.queueEnd) + ms; st.pushed += ms; };
+  const a = makeActing({ dombi: { fire: (r) => fired.push(r) }, player, now: () => st.clock, cfg: { ACT_OFFSET_MS: 590, BIG_EVERY_TURNS: 3, MOUTH_AFTER_MS: 250, CLAUSE_WORDS: 8, ...cfg } });
+  return { st, a, push, fired };
+}
+test('a director pick on the last word of a closed turn still plays while his voice is playing', () => {
+  const { st, a, push } = rig();
+  push(3000); a.audio(3000); a.caption('That was a nice little thing, you know.'); st.clock += 200; a.final();
+  st.clock += 600; a.apply({ turn: 1, action: 'smug', word: 'know' });               // 2.2 s of his voice still to come
+  assert.equal(a.log.filter((x) => x.id === 'smug').map((x) => x.how).join(), 'plan', JSON.stringify(a.log));
+  a.stop();
+});
+test('a caption that arrives before its audio does not take the whole talk\'s audio as the turn\'s', () => {
+  const { st, a, push } = rig({ ACT_OFFSET_MS: 0 });
+  push(20000); a.audio(20000); a.caption('Long first turn.'); a.final(); st.clock += 21000;   // a 20 s first turn, played out
+  a.caption('Okay so I am');                                                                  // turn 2: caption first...
+  push(1500); a.audio(1500); a.caption('Okay so I am so dizzy, honestly.');                      // ...then its audio
+  const plan = a.log.find((x) => x.id === 'dizzy' && x.how === 'plan');
+  assert.ok(plan && plan.at - st.clock < 1500, `dizzy planned ${plan ? plan.at - st.clock : '?'} ms ahead`);
+  a.stop();
+});

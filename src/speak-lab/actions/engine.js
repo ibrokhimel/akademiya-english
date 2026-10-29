@@ -37,10 +37,11 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
     if (how === 'skip') { log.push({ id: e.id, word, how: 'skip', turn: me.id }); return; }
     me.acted.add(si); lastId = e.id; if (e.big) lastBigTurn = me.id;
     if (how === 'word') {
-      const when = timeOfWord(me, k), next = sentences(me.text)[si + 1];
+      const voiceEnd = me.startAt + me.audioMs, next = sentences(me.text)[si + 1];
+      const when = me !== T ? Math.min(timeOfWord(me, k), voiceEnd) : timeOfWord(me, k);      // a closed turn: never past his last sound
       const nextAt = next ? timeOfWord(me, next.from) : null;
       // his voice for this turn has already played out: only knowable once the turn is closed (while it streams, more audio comes)
-      const over = me !== T && Math.max(when, now()) > me.startAt + me.audioMs + 100;
+      const over = me !== T && now() > voiceEnd + 100;
       if (over || late({ at: Math.max(when, now()), nextSentenceStartAt: nextAt })) {
         if (director && !me.idled && !over) { me.turnEnd.push({ e, si, word }); log.push({ id: e.id, word, how: 'deferred', turn: me.id }); }
         else log.push({ id: e.id, word, how: 'dropped', turn: me.id });
@@ -69,7 +70,8 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
     // after each chunk of his voice is pushed: where this turn starts on the clock, and how much of it there is
     audio(chunkMs) {
       if (!alive) return; if (!T) T = newTurn();
-      if (T.startAt == null) { T.startAt = player.endsAt() - chunkMs; T.pushed0 = player.pushedMs() - chunkMs; }
+      // the turn's clock starts at its first sound, even when a caption opened the turn before it
+      if (!T.audioSeen) { T.audioSeen = true; T.startAt = player.endsAt() - chunkMs; T.pushed0 = player.pushedMs() - chunkMs; }
       T.audioMs = player.pushedMs() - T.pushed0;
     },
     // his caption so far for this turn (already cleaned of tags)
