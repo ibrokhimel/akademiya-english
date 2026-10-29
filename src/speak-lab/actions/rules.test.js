@@ -79,3 +79,15 @@ test('nextLifeMs stays in its window, doubled with Reduce Motion', () => {
   for (let i = 0; i < 100; i++) { const t = nextLifeMs({ reduce: false, rand: Math.random }, c); assert.ok(t >= 3000 && t <= 8000); }
   assert.equal(nextLifeMs({ reduce: true, rand: () => 0 }, c), 6000);
 });
+
+// the engine itself, with a fake Dombi and player: a word near the end of a turn that is still streaming must not count as late
+import { makeActing } from './engine.js';
+test('an action on his last word is planned while his turn is still coming in, even with the caption-lead offset', () => {
+  let clock = 1000; const fired = [];
+  const player = { endsAt: () => clock + 3000, pushedMs: () => 3000, playing: () => true };
+  const a = makeActing({ dombi: { fire: (rig) => fired.push(rig) }, player, now: () => clock, cfg: { ACT_OFFSET_MS: 590, BIG_EVERY_TURNS: 3, MOUTH_AFTER_MS: 250, CLAUSE_WORDS: 8 } });
+  a.audio(3000); a.caption('Honestly the driver was so rude, seriously.');
+  const L = a.log.filter((x) => x.id === 'poke2');
+  assert.equal(L.length && L[0].how, 'plan', JSON.stringify(a.log));
+  a.stop();
+});

@@ -39,7 +39,8 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
     if (how === 'word') {
       const when = timeOfWord(me, k), next = sentences(me.text)[si + 1];
       const nextAt = next ? timeOfWord(me, next.from) : null;
-      const over = Math.max(when, now()) > me.startAt + me.audioMs + 100;           // his voice for this turn has already played out
+      // his voice for this turn has already played out: only knowable once the turn is closed (while it streams, more audio comes)
+      const over = me !== T && Math.max(when, now()) > me.startAt + me.audioMs + 100;
       if (over || late({ at: Math.max(when, now()), nextSentenceStartAt: nextAt })) {
         if (director && !me.idled && !over) { me.turnEnd.push({ e, si, word }); log.push({ id: e.id, word, how: 'deferred', turn: me.id }); }
         else log.push({ id: e.id, word, how: 'dropped', turn: me.id });
