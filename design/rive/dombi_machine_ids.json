@@ -116,7 +116,16 @@
   "once/nod": "0-86924",
   "once/weightShift": "0-87243",
   "once/leanBack": "0-87388",
-  "once/idleHop": "0-87692"
+  "once/idleHop": "0-87692",
+  "once/shrug": "0-88497",
+  "once/headScratch": "0-88767",
+  "once/armsCrossed": "0-88968",
+  "once/fingerWag": "0-89254",
+  "once/flex": "0-89490",
+  "once/brushShoulders": "0-89757",
+  "once/stomp": "0-90020",
+  "once/bow": "0-90297",
+  "once/melt": "0-90606"
  },
  "vm": {
   "id": "0-10307",

@@ -71,6 +71,16 @@ export const CATALOG = [
   a('facepalm', T('facepalm'), 'oops', 'once', 1270, 'facepalm: something silly or embarrassing, "oh no", "why"', ['oh no', 'facepalm', 'oh my god', 'why would you']),
   a('fistsUp', T('fistsUp'), 'show-off', 'once', 1170, 'ready to fight for his opinion: "fight me", "bring it"', ['fight me', 'bring it', 'come at me', 'fight'], { packs: { rude: 1.5 } }),
   a('eyeRoll', T('eyeRoll'), 'annoyed', 'once', 1000, 'an eye-roll: "whatever", "yeah right", sarcasm', ['whatever', 'yeah right', 'as if'], { life: L(0.3), packs: { rude: 2 } }),
+  // round 1 of the 'way more' batch (2026-10-30, design/rive/dombi_emotes3.js)
+  a('shrug', T('shrug'), 'oops', 'once', 1000, 'a shrug: he does not know, who knows, maybe', ["i don't know", 'dunno', 'bilmadim', 'who knows', 'kim biladi'], { life: L(0.3) }),
+  a('headScratch', T('headScratch'), 'think', 'once', 1400, 'scratching his head: confused, no idea, that is weird', ['no idea', 'confusing', 'weird', 'tushunmadim'], { life: L(0.3, 0.3) }),
+  a('armsCrossed', T('armsCrossed'), 'annoyed', 'once', 1600, 'arms crossed: not impressed, waiting, prove it', ['not impressed', 'prove it', 'really now'], { life: L(0, 0.2), packs: { rude: 2 } }),
+  a('fingerWag', T('fingerWag'), 'annoyed', 'once', 1170, 'wagging a finger: no no no, not allowed', ['no no', 'nuh uh', 'not allowed', "yo'q yo'q"], { packs: { rude: 1.5, kind: 0.5 } }),
+  a('flex', T('flex'), 'show-off', 'once', 1330, 'flexing: strong, the gym, muscles', ['strong', 'muscle', 'gym', 'kuchli'], { packs: { funny: 1.5 } }),
+  a('brushShoulders', T('brushShoulders'), 'show-off', 'once', 1600, 'brushing his shoulders off: light work, too easy, no sweat', ['too easy', 'light work', 'no sweat', 'easy money'], { packs: { rude: 1.5 } }),
+  a('stomp', T('stomp'), 'annoyed', 'once', 1000, 'stomping: angry, fed up, enough', ['angry', 'so mad', 'enough', 'jahlim'], { packs: { drama: 2 } }),
+  a('bow', T('bow'), 'greet', 'once', 1600, 'the Uzbek greeting, hand on his chest and a small bow: thanks, welcome, respect', ['thank you', 'rahmat', 'welcome', 'xush kelibsiz', 'respect', 'hurmat']),
+  a('melt', T('melt'), 'lazy', 'once', 2670, 'melting into a puddle: bored, too hot, done', ['bored', 'boring', 'zerikdim', 'melting', 'so hot', 'issiq'], { life: L(0.3), packs: { dangasa: 3, kind: 0.5 } }),
   // touch-only: they need a finger on him
   a('play:held', E('play', 'held'), 'touch', 'loop', 2000, 'carried on a finger', [], { talk: false }),
   a('play:pet', E('play', 'pet'), 'touch', 'loop', 2000, 'being rubbed', [], { talk: false }),

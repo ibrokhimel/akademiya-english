@@ -103,5 +103,21 @@ async function wire(layerName, stateName, trigger, back) {
   console.log('wired', layerName, trigger, '->', stateName, '->', back);
 }
 
-module.exports = { K, SINE, OUT, IN, ae, key, T, H, mouth, eL, eR, lL, lR, eyes, lidsOff, zOff, noHands, anim, newAnim, wire, F };
+
+// shared helpers for PlayOnce one-shots (emotes): PlayOnce owns the 'once' group, so each one-shot keys all five of its props
+// (unlisted ones hold neutral) and hides the props only one-shots use (shades, spit drop)
+const once = (spec) => ['x', 'y', 'r', 'sx', 'sy'].flatMap((p) => T(ids.once, p, spec[p] || [[0, p[0] === 's' ? 100 : 0, 'hold']]))
+  .concat(H(ids.shades, { op: 0, y: -9 }), ids.spitDrop ? H(ids.spitDrop, { op: 0 }) : []);
+const scale = (id, list) => [...T(id, 'sx', list), ...T(id, 'sy', list)];
+const bothEyes = (p, list) => [...T(eL.pathId, p, list), ...T(eR.pathId, p, list)];
+const bothEyesY = (list) => [...T(eL.id, 'y', list), ...T(eR.id, 'y', list)];
+const eyesAt = [...H(eL.id, { x: -25, r: 0, op: 100 }), ...H(eR.id, { x: 25, r: 0, op: 100 })];
+const lidsY = (yList, rot = 0) => [...T(lL.id, 'y', yList), ...T(lR.id, 'y', yList), ...H(lL.id, { x: -25, r: rot, op: 100 }), ...H(lR.id, { x: 25, r: -rot, op: 100 }),
+  ...H(lL.pathId, { w: 30, h: 16, rad: 0 }), ...H(lR.pathId, { w: 30, h: 16, rad: 0 })];
+const allHandsOff = [...H(ids.handL, { sx: 0, sy: 0 }), ...H(ids.handR, { sx: 0, sy: 0 }), ...H(ids.handRFront, { sx: 0, sy: 0 })];
+// eyes shut as lines (blissful, bowing, melting): from frame a to b
+const shut = (a, b) => [...bothEyes('h', [[0, 34], [a, 34, OUT], [a + 5, 6], [b, 6, OUT], [b + 6, 34]]), ...bothEyes('w', [[0, 18], [a, 18, OUT], [a + 5, 22], [b, 22, OUT], [b + 6, 18]]),
+  ...bothEyes('rad', [[0, 9], [a, 9, OUT], [a + 5, 3], [b, 3, OUT], [b + 6, 9]]), ...bothEyesY([[0, 0], [a, 0, OUT], [a + 5, 6], [b, 6, OUT], [b + 6, 0]])];
+
+module.exports = { K, SINE, OUT, IN, ae, key, T, H, mouth, eL, eR, lL, lR, eyes, lidsOff, zOff, noHands, anim, newAnim, wire, F, once, scale, bothEyes, bothEyesY, eyesAt, lidsY, allHandsOff, shut };
 if (require.main === module) main().catch(e => { console.log('FAIL', String(e.stack).split('\n').slice(0, 4).join(' | ')); process.exit(1); });
