@@ -7,7 +7,7 @@ import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
-import { shouldAskFeedback, silenceStage, moodFor, sendMic } from './rules.js';
+import { shouldAskFeedback, silenceStage, moodFor, sendMic, cleanCaption } from './rules.js';
 
 // what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
 const NUDGE = {
@@ -69,9 +69,9 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
-      if (final) { if (capText.trim()) { lastDombi = capText.trim(); state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
-      capText += text; $('.cap.live').textContent = capText;
-      const m = moodFor(capText); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
+      if (final) { const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
+      capText += text; $('.cap.live').textContent = cleanCaption(capText);
+      const m = moodFor(cleanCaption(capText)); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
     },
     onLearnerText(text, final) {
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }

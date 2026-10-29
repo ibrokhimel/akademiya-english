@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost, moodFor, sendMic } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost, moodFor, sendMic, cleanCaption } from './rules.js';
 
 test('moodFor reads the mood off his words', () => {
   assert.equal(moodFor('Ha-ha, that was actually funny bro.'), 'laugh'); assert.equal(moodFor('Wow! No way!'), 'surprised');
@@ -116,4 +116,12 @@ test('pcm base64 round-trips', () => {
   const x = new Int16Array(1000); for (let i = 0; i < x.length; i++) x[i] = ((i * 7919) % 65536) - 32768;
   const y = base64ToPcm(pcmToBase64(x));
   assert.equal(y.length, x.length); assert.deepEqual(Array.from(y), Array.from(x));
+});
+
+test('cleanCaption drops tags in brackets and angle brackets', () => {
+  assert.equal(cleanCaption('[smirk] That is my brave jonim!'), 'That is my brave jonim!');
+  assert.equal(cleanCaption('<speaker_set_mood>{mood: think}</speaker_set_mood><speaker_audio>Chernobyl, again?'), 'Chernobyl, again?');
+  assert.equal(cleanCaption('Choir. KWAI-er. [laughs] Go on.'), 'Choir. KWAI-er. Go on.');
+  assert.equal(cleanCaption('no tags here'), 'no tags here');
+  assert.equal(cleanCaption('Okay [smi'), 'Okay');                     // a tag still arriving shows nothing past its bracket
 });

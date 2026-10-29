@@ -41,6 +41,12 @@ export function moodFor(text) {
   return 'happy';
 }
 
+// what the voice model sometimes writes but must never show: [smirk], <speaker_set_mood>{…}</speaker_set_mood>; a tag still
+// arriving (an open [ or < with no close yet) hides everything after it until it closes
+export function cleanCaption(text) {
+  return (text || '').replace(/<[^>]*>/g, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\{[^}]*\}/g, ' ').replace(/[[<].*$/, '').replace(/\s+/g, ' ').trim();
+}
+
 // the mic goes to Gemini all the time while Dombi is quiet; while he talks only a clearly loud learner gets through, so his own
 // voice from the speakers cannot cut him off
 export function sendMic({ amp, dombiTalking }, cfg) {
