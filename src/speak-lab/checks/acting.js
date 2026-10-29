@@ -1,0 +1,57 @@
+// Dombi acting out his lines, with the scripted Gemini (?fake=1) in headless Chrome.
+//   node src/speak-lab/checks/acting.js     (needs the lab's server: node design/motion/serve.js)
+const { chromium } = require('playwright');
+const fs = require('fs'), path = require('path'), os = require('os');
+const URL = 'http://127.0.0.1:8791/src/speak-lab/?fake=1';
+const SILENT = path.join(os.tmpdir(), 'speak-lab-silent.wav');
+(() => { const n = 16000 * 2, h = Buffer.alloc(44); h.write('RIFF', 0); h.writeUInt32LE(36 + n * 2, 4); h.write('WAVEfmt ', 8); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(16000, 24); h.writeUInt32LE(32000, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(n * 2, 40); fs.writeFileSync(SILENT, Buffer.concat([h, Buffer.alloc(n * 2)])); })();
+// turn 0 is his opener; the check plays the others one by one with SPEAK.fake.next()
+const TURNS = [
+  { caption: 'Salom! Qalaysan?', audioMs: 400 },
+  { chunks: [{ text: 'I am still dizzy from the bus.', audioMs: 900 }, { text: ' Chorsu samsa is the best.', audioMs: 900 }] },
+  { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 1400 }] },
+  { chunks: [{ text: 'I am still diz', audioMs: 500 }, { text: 'zy, bro.', audioMs: 500 }] },
+  { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
+  { chunks: [{ text: 'Okay, still dizzy, but whatever, you go first.', audioMs: 2400 }] },
+];
+const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
+const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.talk.acting.log.slice() : null));
+
+(async () => {
+  const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', `--use-file-for-fake-audio-capture=${SILENT}`, '--autoplay-policy=no-user-gesture-required'] });
+  const p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
+  await p.addInitScript((turns) => { window.FAKE = { turns, feedback: () => Promise.resolve({}), report: () => Promise.resolve({ stars: 1, phrases: [], pron: [] }) }; }, TURNS);
+  await p.goto(URL); await p.waitForSelector('.start .go');
+  await p.click('.tcard[data-id="football"]'); await p.click('.go');
+  await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
+  await p.waitForFunction(() => document.querySelectorAll('.cap.done').length >= 1, null, { timeout: 10000 });
+  ok('the talk has an acting engine with a log', Array.isArray(await log(p)));
+  if (!(await log(p))) { await b.close(); process.exit(1); }
+
+  // 1. "dizzy" lands on its word (word 3 of 7 in a 900 ms chunk: ~386 ms in), "samsa" makes him eat after his voice is done
+  await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(3200);
+  let L = await log(p);
+  const dz = L.find((x) => x.id === 'dizzy' && x.how === 'word'), eat = L.find((x) => x.id === 'eat' && x.how === 'pause');
+  ok('dizzy fires on its word', !!dz && dz.how === 'word' && Math.abs(dz.at - dz.turnStartAt - 386) <= 150, dz ? `${dz.at - dz.turnStartAt} ms into the turn` : 'not fired');
+  ok('eat waits until his voice is done', !!eat && eat.how === 'pause' && eat.at - eat.turnStartAt >= 1800, eat ? `${eat.at - eat.turnStartAt} ms into the turn` : 'not fired');
+
+  // 2. one per sentence (trickSpin wins over eat in sentence 1), no repeats (sentence 2's trickSpin is skipped)
+  let before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(1800);
+  L = await log(p); ok('one action per sentence, never twice running', L.slice(before).filter((x) => x.how === 'word' || x.how === 'pause').map((x) => x.id).join() === 'trickSpin', JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
+
+  // 3. a word split across pieces still matches
+  before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(1600);
+  L = await log(p); ok('"diz" + "zy" still fires dizzy', L.slice(before).some((x) => x.id === 'dizzy' && x.how === 'word'));
+
+  // 4. interrupted with trickShades planned ~2 s ahead: nothing fires after the interrupt
+  before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.fake.interrupt(), 150); }); await p.waitForTimeout(2600);
+  L = await log(p); ok('nothing fires after an interrupt', L.slice(before).some((x) => x.id === 'trickShades' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));
+
+  // 5. End with an action scheduled: nothing fires after End, no page errors
+  before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.talk.end(), 150); }); await p.waitForTimeout(2600);
+  L = await p.evaluate(() => window.SPEAK.talk.acting.log.slice());
+  ok('nothing fires after End', L.slice(before).some((x) => x.id === 'dizzy' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));
+  ok('no page errors', errors.length === 0, errors.join(' | '));
+  await b.close();
+  const failed = results.filter((r) => !r).length; console.log(failed ? `acting: ${failed} FAILED` : 'acting: ok'); process.exit(failed ? 1 : 0);
+})().catch((e) => { console.log('FAIL', e.message); process.exit(1); });

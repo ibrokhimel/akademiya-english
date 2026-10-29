@@ -7,6 +7,7 @@ import { connectLive } from './live.js';
 import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
+import { makeActing } from './actions/engine.js';
 import { shouldAskFeedback, silenceStage, moodFor, sendMic, cleanCaption } from './rules.js';
 
 // what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
@@ -48,6 +49,8 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
 
   T.dombi = await mountDombi($('.dbox'), 220);
   const player = (T.player = makePlayer()), cards = (T.cards = mountCards($('.side'), CFG));
+  // Dombi acts out his own lines (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)
+  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce) });
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
@@ -64,20 +67,20 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended) return; T.playerPushes++; player.push(pcm); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
+      if (ended) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
-      if (final) { const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
-      capText += text; $('.cap.live').textContent = cleanCaption(capText);
+      if (final) { T.acting.final(); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
+      capText += text; $('.cap.live').textContent = cleanCaption(capText); T.acting.caption(cleanCaption(capText));
       const m = moodFor(cleanCaption(capText)); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
     },
     onLearnerText(text, final) {
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }
-      learnerText += text; state.lastSpokeAt = now(); state.silence = 'none'; speechEndAt = Date.now(); firstAudioAt = 0;
+      learnerText += text; T.acting.learnerTurn(); state.lastSpokeAt = now(); state.silence = 'none'; speechEndAt = Date.now(); firstAudioAt = 0;
     },
-    onInterrupted() { state.interruptions++; player.clear(); capText = ''; $('.cap.live').textContent = ''; },
+    onInterrupted() { state.interruptions++; T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = ''; },
     onTurnComplete() { /* the player's idle event turns the mouth off */ },
     onToolCall() { /* no tools in this build: the voice model spoke them aloud */ },
     onClose(reason) { if (reason === 'lost') { status(COPY.lost); T.end(); } },       // the socket is gone for good: the talk ends with what it has
@@ -86,7 +89,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   let mic = null, meter = null, quiet = null;
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
-    if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
+    T.acting.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
@@ -107,7 +110,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
     $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
-  player.onIdle(() => { state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); if (!ended) T.dombi.listening(true); });
+  player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); if (!ended) T.dombi.listening(true); });
   // his mouth moves with his voice: a new mouth shape every ~95 ms while the sound is up, closed in the quiet bits (the lab's talk pacing; real lip sync comes later)
   const SHAPES = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4, 9, 7]; let shape = 0; T.mouthMoves = 0;
   const mouth = setInterval(() => { if (ended || !state.dombiTalking) return; const loud = player.amp() > 4; T.dombi.viseme(loud ? SHAPES[shape++ % SHAPES.length] : 0); if (loud) T.mouthMoves++; }, 95);

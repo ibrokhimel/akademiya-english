@@ -29,10 +29,10 @@ export async function startMic(onChunk) {
   return { stop() { node.port.onmessage = null; src.disconnect(); node.disconnect(); stream.getTracks().forEach((t) => t.stop()); }, amp: () => amp };
 }
 
-// makePlayer() -> { push(Int16Array), clear(), amp(), onIdle(cb), playing() }: buffers scheduled back to back on one clock
+// makePlayer() -> { push(Int16Array), clear(), amp(), onIdle(cb), playing(), endsAt(), pushedMs() }: buffers scheduled back to back on one clock
 export function makePlayer() {
   const ac = audioContext();
-  let at = 0, sources = new Set(), last = 0, idleCb = null, tapNode = null, gain = ac.createGain(); gain.connect(ac.destination);
+  let at = 0, sources = new Set(), last = 0, idleCb = null, tapNode = null, gain = ac.createGain(), pushed = 0; gain.connect(ac.destination);
   const stats = { pushes: 0, gaps: 0, gapMs: 0, lateMs: 0 };                                  // gaps: the queue ran dry before a chunk came (a crackle each time)
   const tick = () => { if (sources.size === 0 && idleCb) idleCb(); };
   return {
@@ -48,7 +48,7 @@ export function makePlayer() {
       const now = ac.currentTime; stats.pushes++;
       if (sources.size > 0 && at < now) { stats.gaps++; stats.gapMs += (now - at) * 1000; }
       if (at < now + 0.02) at = now + 0.02;                                                 // a little lead so the first chunk is never late
-      s.start(at); at += buf.duration; sources.add(s); s.onended = () => { sources.delete(s); if (sources.size === 0) { last = 0; tick(); } };
+      s.start(at); at += buf.duration; pushed += buf.duration * 1000; sources.add(s); s.onended = () => { sources.delete(s); if (sources.size === 0) { last = 0; tick(); } };
     },
     // stopping mid-word: the old sound fades out over 25 ms on its own gain node and is dropped; new sound gets a fresh one, so the two never mix
     clear() {
@@ -61,6 +61,9 @@ export function makePlayer() {
     },
     amp: () => (sources.size ? last : 0),
     playing: () => sources.size > 0,
+    // for the action engine (performance.now() clock): when the queued sound runs out, and how much sound was ever pushed
+    endsAt: () => performance.now() + Math.max(0, at - ac.currentTime) * 1000,
+    pushedMs: () => pushed,
     onIdle(cb) { idleCb = cb; },
   };
 }

@@ -1,5 +1,5 @@
 // A scripted Gemini for the checks (?fake=1): the same shape as live.js, driven by the check through window.SPEAK.fake.
-// window.FAKE = { turns: [{ caption, mood, audioMs }], feedback?, explain?, slower?, report?, token? }
+// window.FAKE = { turns: [{ caption, mood, audioMs } | { chunks: [{ text, audioMs }] }], feedback?, explain?, slower?, report?, token? }
 export async function connectFake({ handlers: H }) {
   const F = window.FAKE || { turns: [] };
   if (F.token === 'budget') { const e = new Error('budget'); e.status = 402; e.body = { reason: 'budget', spent: 10.5, budget: 10 }; throw e; }
@@ -8,6 +8,13 @@ export async function connectFake({ handlers: H }) {
   const silence = (ms) => { const a = new Int16Array(Math.round(ms * 24)); for (let i = 0; i < a.length; i++) a[i] = Math.round(Math.sin(i / 24000 * 2 * Math.PI * 220) * 2500); return a; };   // a quiet tone, so the level meter and the mouth have something to follow
   async function play(turn) {
     if (closed) return;
+    if (turn.chunks) {                                                        // a check controls which words arrive with which sound
+      let total = 0;
+      for (const c of turn.chunks) { if (closed) return; H.onAudio && H.onAudio(silence(c.audioMs)); H.onCaption && H.onCaption(c.text, false); total += c.audioMs; await new Promise((r) => setTimeout(r, 120)); }
+      await new Promise((r) => setTimeout(r, Math.max(0, total - 120 * turn.chunks.length) + 150));
+      if (closed) return;
+      H.onLearnerText && H.onLearnerText('', true); H.onCaption && H.onCaption('', true); H.onTurnComplete && H.onTurnComplete(); return;
+    }
     const words = (turn.caption || '').split(' '), half = Math.ceil(words.length / 2);
     H.onAudio && H.onAudio(silence((turn.audioMs || 600) / 2)); H.onCaption && H.onCaption(words.slice(0, half).join(' ') + ' ', false);
     await new Promise((r) => setTimeout(r, 120));
