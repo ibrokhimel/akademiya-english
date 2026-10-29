@@ -21,6 +21,10 @@ export const CFG = {
   BIG_EVERY_TURNS: 3,                      // a big action (celebrate, dress, shades, sleep) at most once in this many of his turns
   MOUTH_AFTER_MS: 250,                     // a mouth action (eat, yawn) plays this long after the sentence that named it
   ACT_OFFSET_MS: 0,                        // added to every word's estimated play time (measured on a real talk, Task 9)
+  LIFE_MIN_MS: 3000, LIFE_MAX_MS: 8000,    // his own moves come every 3–8 s (twice as far apart with Reduce Motion)
+  TRAVEL_WEIGHT: 2,                        // how often an idle move is a walk to another spot, against the catalog's idle weights (~17)
+  WALK_PX_PER_S: 160,                      // walking speed across the stage
+  LISTEN_HOLD_MS: 1500,                    // the learner counts as talking until this long after their last sound or word
 };
 
 // topic cards: `goal` cards show first for a learner with that goal; the rest are for everyone. `topic` is what Dombi is told.

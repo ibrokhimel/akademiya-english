@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CATALOG } from './catalog.js';
-import { matchWords, clauseEnd, entry, decide, variant, wordTime, pauseTime, late } from './rules.js';
+import { matchWords, clauseEnd, entry, decide, variant, wordTime, pauseTime, late, livePick, nextLifeMs } from './rules.js';
 
 test('every catalog entry fires something the rig has', () => {
   const RIG = { trigger: ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink', 'lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod'],
@@ -52,4 +52,30 @@ test('late once his next sentence has started', () => {
   assert.equal(late({ at: 5000, nextSentenceStartAt: 4800 }), true);
   assert.equal(late({ at: 4700, nextSentenceStartAt: 4800 }), false);
   assert.equal(late({ at: 4700, nextSentenceStartAt: null }), false);
+});
+
+// a seeded random, so the weight tests are the same every run
+const seeded = (s = 7) => () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
+const C = { TRAVEL_WEIGHT: 2 };
+test('livePick while listening: listening moves only, no travel, nothing big, never the last one', () => {
+  const rand = seeded();
+  for (let i = 0; i < 500; i++) {
+    const p = livePick({ state: 'listening', pack: 'kind', lastId: 'nod', reduce: false, rand }, CATALOG, C);
+    assert.ok(p && !p.travel, 'no travel while they talk'); assert.ok(p.life.listening > 0 && !p.big && p.talk !== false && p.id !== 'nod', p.id);
+  }
+});
+test('livePick idle: travel happens, but never with Reduce Motion', () => {
+  const rand = seeded(11); let travel = 0, travelReduce = 0, big = 0;
+  for (let i = 0; i < 500; i++) { if ((livePick({ state: 'idle', pack: 'kind', lastId: '', reduce: false, rand }, CATALOG, C) || {}).travel) travel++; }
+  for (let i = 0; i < 500; i++) { const p = livePick({ state: 'idle', pack: 'kind', lastId: '', reduce: true, rand }, CATALOG, C) || {}; if (p.travel) travelReduce++; if (p.big) big++; }
+  assert.ok(travel > 20, `travel ${travel}`); assert.equal(travelReduce, 0); assert.equal(big, 0);
+});
+test('livePick: Dangasa falls asleep more often than Kind', () => {
+  const count = (pack) => { const rand = seeded(3); let n = 0; for (let i = 0; i < 2000; i++) if ((livePick({ state: 'idle', pack, lastId: '', reduce: false, rand }, CATALOG, C) || {}).id === 'play:sleep') n++; return n; };
+  assert.ok(count('dangasa') > count('kind') * 3, `${count('dangasa')} vs ${count('kind')}`);
+});
+test('nextLifeMs stays in its window, doubled with Reduce Motion', () => {
+  const c = { LIFE_MIN_MS: 3000, LIFE_MAX_MS: 8000 };
+  for (let i = 0; i < 100; i++) { const t = nextLifeMs({ reduce: false, rand: Math.random }, c); assert.ok(t >= 3000 && t <= 8000); }
+  assert.equal(nextLifeMs({ reduce: true, rand: () => 0 }, c), 6000);
 });

@@ -47,6 +47,21 @@ export const pauseTime = ({ sentenceEndAt, moreTextAfter, cfg }) => (moreTextAft
 // too late once his next sentence has started playing
 export const late = ({ at, nextSentenceStartAt }) => nextSentenceStartAt != null && at > nextSentenceStartAt;
 
+// the living layer (spec §4.3): what he does on his own now. Weighted by e.life[state] × the pack's tint; travel only when
+// idle and not Reduce Motion; nothing big unless idle and not Reduce Motion; never the last one; never touch-only.
+export function livePick({ state, pack, lastId = '', reduce = false, rand = Math.random }, catalog = CATALOG, cfg = {}) {
+  const items = catalog.filter((e) => e.talk !== false && e.id !== lastId && (e.life[state] || 0) > 0 && (!e.big || (state === 'idle' && !reduce)))
+    .map((e) => [e, e.life[state] * ((e.packs && e.packs[pack]) ?? 1)]);
+  if (state === 'idle' && !reduce) items.push([{ travel: true }, cfg.TRAVEL_WEIGHT || 0]);
+  const total = items.reduce((n, [, w]) => n + w, 0); if (!total) return null;
+  let r = rand() * total;
+  for (const [e, w] of items) { if ((r -= w) < 0) return e; }
+  return items[items.length - 1][0];
+}
+
+// how long until his next living move: LIFE_MIN_MS..LIFE_MAX_MS, twice as long with Reduce Motion (half as many moves)
+export const nextLifeMs = ({ reduce = false, rand = Math.random }, cfg) => (cfg.LIFE_MIN_MS + rand() * (cfg.LIFE_MAX_MS - cfg.LIFE_MIN_MS)) * (reduce ? 2 : 1);
+
 // a clause is done at , . ! ? (or … ;), or after cfg.CLAUSE_WORDS words without one: that is when the director is asked
 export function clauseEnd(sentence, wordsSinceLast, cfg) {
   return /[,.!?;…]\s*$/.test(sentence || '') || wordsSinceLast >= cfg.CLAUSE_WORDS;

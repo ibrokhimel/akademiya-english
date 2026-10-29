@@ -22,7 +22,8 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
 (async () => {
   const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', `--use-file-for-fake-audio-capture=${SILENT}`, '--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
-  await p.addInitScript((turns) => { window.FAKE = { turns, feedback: () => Promise.resolve({}), report: () => Promise.resolve({ stars: 1, phrases: [], pron: [] }) }; }, TURNS);
+  // his own moves every 0.3–0.6 s here (3–8 s for real), and walking much more likely, so the living cases are quick
+  await p.addInitScript((turns) => { window.FAKE = { turns, cfg: { LIFE_MIN_MS: 300, LIFE_MAX_MS: 600, TRAVEL_WEIGHT: 20 }, feedback: () => Promise.resolve({}), report: () => Promise.resolve({ stars: 1, phrases: [], pron: [] }) }; }, TURNS);
   await p.goto(URL); await p.waitForSelector('.start .go');
   await p.click('.tcard[data-id="football"]'); await p.click('.go');
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });
@@ -63,10 +64,24 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   L = await log(p); ok('a late answer after his turn is dropped', L.slice(before).some((x) => x.id === 'clap' && x.how === 'dropped') && !L.slice(before).some((x) => x.id === 'clap' && (x.how === 'word' || x.how === 'pause')), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
   await p.evaluate(() => { delete window.FAKE.direct; });
 
-  // 7. End with an action scheduled: nothing fires after End, no page errors
+  // 7. living: while the learner talks only listening moves and no walking; when it's quiet he walks to other spots
+  const S = () => p.evaluate(() => window.SPEAK.talk.stage.log.slice());
+  let s0 = (await S()).length;
+  for (let i = 0; i < 12; i++) { await p.evaluate(() => window.SPEAK.fake.learner('and then I ')); await p.waitForTimeout(500); }
+  let sl = (await S()).slice(s0);
+  ok('while the learner talks: listening moves only, no walking', sl.length >= 3 && sl.every((x) => !x.travel && x.state === 'listening' && x.fits), JSON.stringify(sl.map((x) => x.travel ? 'walk' : x.id + ':' + x.state)));
+  await p.waitForTimeout(1700); s0 = (await S()).length; await p.waitForTimeout(6000);
+  sl = (await S()).slice(s0);
+  ok('when it is quiet he walks to other spots', sl.some((x) => x.travel), JSON.stringify(sl.map((x) => x.travel ? 'walk:' + x.travel : x.id)));
+  const moved = await p.evaluate(() => getComputedStyle(document.querySelector('.dbox')).left);
+  ok('his box really moved on the stage', moved !== '' && await p.evaluate(() => document.querySelector('.stage').classList.contains('living')), moved);
+
+  // 8. End with an action scheduled: nothing fires after End, no page errors
   before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.talk.end(), 150); }); await p.waitForTimeout(2600);
   L = await p.evaluate(() => window.SPEAK.talk.acting.log.slice());
   ok('nothing fires after End', L.slice(before).some((x) => x.id === 'dizzy' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));
+  const sEnd = await p.evaluate(() => window.SPEAK.talk.stage.log.length); await p.waitForTimeout(1500);
+  ok('after End he does nothing more on his own', (await p.evaluate(() => window.SPEAK.talk.stage.log.length)) === sEnd);
   ok('no page errors', errors.length === 0, errors.join(' | '));
   await b.close();
   const failed = results.filter((r) => !r).length; console.log(failed ? `acting: ${failed} FAILED` : 'acting: ok'); process.exit(failed ? 1 : 0);

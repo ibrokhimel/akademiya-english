@@ -8,6 +8,7 @@ import { connectFake } from './fake.js';
 import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
 import { makeActing } from './actions/engine.js';
+import { mountStage } from './actions/stage.js';
 import { shouldAskFeedback, silenceStage, moodFor, sendMic, cleanCaption } from './rules.js';
 
 // what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
@@ -54,7 +55,11 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   const direct = (q) => { if (ended) return; state.cost += CFG.PRICE.directPerCall;
     side('direct', { learner: state.learner[state.learner.length - 1] || '', said: q.said, pack, recent: q.recent, turn: q.turn })
       .then((j) => { if (!ended && j) T.acting.apply(j); }).catch(() => {}); };
-  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce), onPick: direct });
+  // He lives on the stage on his own: listening moves while the learner talks, small gestures while he talks, the rest when quiet.
+  const stageCfg = isFake() && window.FAKE && window.FAKE.cfg ? { ...CFG, ...window.FAKE.cfg } : CFG;    // the checks speed it up
+  T.stage = mountStage({ stageEl: $('.stage'), boxEl: $('.dbox'), dombi: T.dombi, cfg: stageCfg, pack, reduce: !!(window.M && M.reduce),
+    getState: () => (state.dombiTalking ? 'talking' : now() - state.lastSpokeAt < CFG.LISTEN_HOLD_MS ? 'listening' : 'idle') });
+  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
@@ -93,7 +98,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   let mic = null, meter = null, quiet = null;
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
-    T.acting.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
+    T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
