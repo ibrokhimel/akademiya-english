@@ -24,6 +24,29 @@ export function matchWords(sentence, catalog = CATALOG) {
   return hits.sort((x, y) => x.at - y.at).map(({ at, ...h }) => h);
 }
 
+// may this action play, and how (spec §4.2.5–6): 'word' lands on its word, 'pause' waits for the pause after the sentence
+// (it uses his mouth), 'skip' = not now. One per sentence, never the same twice running, big ones once in BIG_EVERY_TURNS turns.
+export function decide({ e, actedThisSentence, turn, lastBigTurn, lastId, reduce = false }, cfg) {
+  if (!e || e.talk === false || actedThisSentence || e.id === lastId) return 'skip';
+  if (e.big && (reduce || turn - lastBigTurn < cfg.BIG_EVERY_TURNS)) return 'skip';
+  return e.mouth ? 'pause' : 'word';
+}
+
+// one action of a family, at random, never the last one played and never touch-only; null if none is left
+export function variant(family, { lastId = '', rand = Math.random }, catalog = CATALOG) {
+  const pool = catalog.filter((e) => e.family === family && e.talk !== false && e.id !== lastId);
+  return pool.length ? pool[Math.floor(rand() * pool.length) % pool.length] : null;
+}
+
+// when word k of the n words so far plays: his speech is taken as even over the audio pushed so far (offsetMs is measured, Task 9)
+export const wordTime = ({ turnStartAt, turnAudioMs, k, n, offsetMs = 0 }) => turnStartAt + (n ? (turnAudioMs * k) / n : 0) + offsetMs;
+
+// a mouth action's moment: just after the sentence, unless his next sentence is already arriving, then at the end of his turn
+export const pauseTime = ({ sentenceEndAt, moreTextAfter, cfg }) => (moreTextAfter ? 'turn-end' : sentenceEndAt + cfg.MOUTH_AFTER_MS);
+
+// too late once his next sentence has started playing
+export const late = ({ at, nextSentenceStartAt }) => nextSentenceStartAt != null && at > nextSentenceStartAt;
+
 // a clause is done at , . ! ? (or … ;), or after cfg.CLAUSE_WORDS words without one: that is when the director is asked
 export function clauseEnd(sentence, wordsSinceLast, cfg) {
   return /[,.!?;…]\s*$/.test(sentence || '') || wordsSinceLast >= cfg.CLAUSE_WORDS;

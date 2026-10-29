@@ -17,6 +17,9 @@ export const CFG = {
   BARGE_IN_FLOOR: 22,                      // while Dombi talks, only mic sound above this is sent (his own voice from the speakers stays under it)
   // the action engine (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)
   CLAUSE_WORDS: 8,                         // the director is asked at each , . ! ? or after this many words without one
+  BIG_EVERY_TURNS: 3,                      // a big action (celebrate, dress, shades, sleep) at most once in this many of his turns
+  MOUTH_AFTER_MS: 250,                     // a mouth action (eat, yawn) plays this long after the sentence that named it
+  ACT_OFFSET_MS: 0,                        // added to every word's estimated play time (measured on a real talk, Task 9)
 };
 
 // topic cards: `goal` cards show first for a learner with that goal; the rest are for everyone. `topic` is what Dombi is told.
