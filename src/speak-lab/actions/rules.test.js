@@ -5,7 +5,7 @@ import { CATALOG } from './catalog.js';
 import { matchWords, clauseEnd, entry, decide, variant, wordTime, pauseTime, late, livePick, nextLifeMs } from './rules.js';
 
 test('every catalog entry fires something the rig has', () => {
-  const RIG = { trigger: ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink', 'lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod'],
+  const RIG = { trigger: ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink', 'lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod', 'spit', 'dance', 'facepalm', 'fistsUp', 'eyeRoll'],
     play: ['none', 'held', 'walk', 'pet', 'peek', 'warm', 'sleep', 'wind', 'highfive', 'back'], gesture: ['wave', 'celebrate', 'thinking', 'point'],
     mood: ['smirk', 'happy', 'laugh', 'talk', 'listen', 'think', 'surprised', 'sleepy', 'wink', 'proud', 'focus', 'confused', 'oops'] };
   for (const e of CATALOG) e.rig.trigger ? assert.ok(RIG.trigger.includes(e.rig.trigger), e.id) : assert.ok(RIG[e.rig.enum].includes(e.rig.value), e.id);

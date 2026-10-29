@@ -65,6 +65,12 @@ export const CATALOG = [
   a('play:highfive', E('play', 'highfive'), 'offer', 'loop', 2500, 'offering a high-five, waiting for it', ['gimme five', 'qo\'l ber']),
   a('playoff', T('playoff'), 'offer', 'once', 1070, 'a high-five left hanging: plays it off', ['left hanging']),
   a('snap', T('snap'), 'move', 'once', 500, 'snapping back into shape', []),
+  // the first new emotes (2026-10-30, design/rive/dombi_emotes1.js)
+  a('spit', T('spit'), 'annoyed', 'once', 930, 'disgusted: "ptui", something gross or awful', ['ptui', 'gross', 'yuck', 'disgusting', 'bleh'], { packs: { rude: 2 } }),
+  a('dance', T('dance'), 'celebrate', 'once', 2000, 'a little victory dance, party mood', ['dance', 'dancing', 'party', 'raqs', "let's dance"], { big: true, life: L(0.2), packs: { drama: 2, funny: 2 } }),
+  a('facepalm', T('facepalm'), 'oops', 'once', 1270, 'facepalm: something silly or embarrassing, "oh no", "why"', ['oh no', 'facepalm', 'oh my god', 'why would you']),
+  a('fistsUp', T('fistsUp'), 'show-off', 'once', 1170, 'ready to fight for his opinion: "fight me", "bring it"', ['fight me', 'bring it', 'come at me', 'fight'], { packs: { rude: 1.5 } }),
+  a('eyeRoll', T('eyeRoll'), 'annoyed', 'once', 1000, 'an eye-roll: "whatever", "yeah right", sarcasm', ['whatever', 'yeah right', 'as if'], { life: L(0.3), packs: { rude: 2 } }),
   // touch-only: they need a finger on him
   a('play:held', E('play', 'held'), 'touch', 'loop', 2000, 'carried on a finger', [], { talk: false }),
   a('play:pet', E('play', 'pet'), 'touch', 'loop', 2000, 'being rubbed', [], { talk: false }),

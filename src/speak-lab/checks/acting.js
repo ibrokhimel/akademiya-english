@@ -14,7 +14,8 @@ const TURNS = [
   { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
   { chunks: [{ text: 'That was smooth, bro, honestly.', audioMs: 1500 }] },
   { chunks: [{ text: 'Fine, whatever you say.', audioMs: 700 }] },
-  { chunks: [{ text: 'Okay, still dizzy, but whatever, you go first.', audioMs: 2400 }] },
+  { chunks: [{ text: 'Messi is better. Fight me.', audioMs: 1400 }] },
+  { chunks: [{ text: 'Okay, still dizzy, but you go first.', audioMs: 2400 }] },
 ];
 const results = []; const ok = (name, pass, extra = '') => { results.push(pass); console.log(`${pass ? 'ok  ' : 'FAIL'} ${name}${extra ? ' · ' + extra : ''}`); };
 const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.talk.acting.log.slice() : null));
@@ -76,7 +77,11 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   const moved = await p.evaluate(() => getComputedStyle(document.querySelector('.dbox')).left);
   ok('his box really moved on the stage', moved !== '' && await p.evaluate(() => document.querySelector('.stage').classList.contains('living')), moved);
 
-  // 8. End with an action scheduled: nothing fires after End, no page errors
+  // 8. a new emote: "Fight me." puts his fists up on "Fight"
+  before = (await log(p)).length; await p.evaluate(() => { window.SPEAK.fake.next(); }); await p.waitForTimeout(2400);
+  L = await log(p); ok('"Fight me." fires fistsUp on its word', L.slice(before).some((x) => x.id === 'fistsUp' && x.how === 'word' && /fight/i.test(x.word)), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
+
+  // 9. End with an action scheduled: nothing fires after End, no page errors
   before = L.length; await p.evaluate(() => { window.SPEAK.fake.next(); setTimeout(() => window.SPEAK.talk.end(), 150); }); await p.waitForTimeout(2600);
   L = await p.evaluate(() => window.SPEAK.talk.acting.log.slice());
   ok('nothing fires after End', L.slice(before).some((x) => x.id === 'dizzy' && x.how === 'plan') && !L.slice(before).some((x) => x.how === 'word' || x.how === 'pause'), JSON.stringify(L.slice(before)));

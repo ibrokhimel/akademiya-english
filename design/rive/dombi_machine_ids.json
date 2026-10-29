@@ -107,7 +107,12 @@
   "theme/light": "0-69295",
   "theme/dark": "0-69344",
   "once/celebrate": "0-82093",
-  "eyes/slow-blink": "0-82094"
+  "eyes/slow-blink": "0-82094",
+  "once/spit": "0-85030",
+  "once/dance": "0-85339",
+  "once/facepalm": "0-85690",
+  "once/fistsUp": "0-85918",
+  "once/eyeRoll": "0-86168"
  },
  "vm": {
   "id": "0-10307",
