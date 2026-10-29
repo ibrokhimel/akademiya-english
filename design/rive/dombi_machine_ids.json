@@ -112,7 +112,11 @@
   "once/dance": "0-85339",
   "once/facepalm": "0-85690",
   "once/fistsUp": "0-85918",
-  "once/eyeRoll": "0-86168"
+  "once/eyeRoll": "0-86168",
+  "once/nod": "0-86924",
+  "once/weightShift": "0-87243",
+  "once/leanBack": "0-87388",
+  "once/idleHop": "0-87692"
  },
  "vm": {
   "id": "0-10307",

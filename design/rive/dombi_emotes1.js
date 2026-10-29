@@ -56,10 +56,13 @@ const EMOTES = {
     ...T(HR, 'y', [[0, -30], [26, -30, OUT], [29, -42], [34, -30], [46, -30, OUT], [49, -42], [54, -30], [70, -30]]),
     ...scale(HL, [[0, 0, OUT], [8, 115], [12, 100], [58, 100, IN], [66, 0], [70, 0]]), ...scale(HR, [[0, 0, OUT], [9, 115], [13, 100], [58, 100, IN], [66, 0], [70, 0]]),
     ...lids([[0, -25, OUT], [8, -16], [58, -16, IN], [66, -25], [70, -25]], 10), ...mouth(MOUTHS.smirk)]],
-  // eye-roll: eyes go up and round (left -> top -> right), a long sigh (rise, sag), half lids, back to a flat smirk
-  eyeRoll: () => [60, [...o({ sy: [[0, 100], [24, 100, SINE], [32, 103], [46, 97], [56, 100], [60, 100]], r: [[0, 0], [8, -2], [44, -2], [56, 0], [60, 0]] }), ...handsOff,
-    ...T(E, 'x', [[0, 0, OUT], [6, -4], [14, 0], [22, 4], [28, 1], [40, 1, SINE], [50, 0], [60, 0]]), ...T(E, 'y', [[0, -9, OUT], [6, -13], [14, -16], [22, -13], [28, -15], [40, -15, SINE], [50, -9], [60, -9]]),
-    ...lids([[0, -25], [26, -25, OUT], [32, -17], [48, -17, IN], [56, -25], [60, -25]]), ...mouth(MOUTHS.focus), ...mouth(MOUTHS.smirk, 50, SINE)]],
+  // eye-roll (redone 2026-10-30, the first was too small to read): eyes sweep far up and across (left, top, right), stay up
+  // for a beat, come down under half-shut lids with a big sagging sigh and a head tilt, mouth pulled flat to one side
+  eyeRoll: () => [76, [...o({ sy: [[0, 100], [30, 100, SINE], [38, 105], [52, 95], [64, 100], [76, 100]], sx: [[0, 100], [30, 100, SINE], [38, 97], [52, 104], [64, 100], [76, 100]],
+      r: [[0, 0, OUT], [10, -3], [40, -3, SINE], [50, 4], [64, 0], [76, 0]] }), ...handsOff,
+    ...T(E, 'x', [[0, 0, OUT], [5, -9], [11, 0], [17, 9], [30, 9, SINE], [44, 0], [76, 0]]), ...T(E, 'y', [[0, -9, OUT], [5, -22], [11, -28], [17, -24], [30, -26, SINE], [44, -8], [76, -8]]),
+    // the lids only come on once the eyes are back down (while the eyes are up they would stick out of his head)
+    ...lids([[0, -25], [40, -25, OUT], [46, -15], [64, -15, IN], [72, -25], [76, -25]]), ...T(lL.id, 'op', [[0, 0, 'hold'], [40, 100, 'hold'], [72, 0, 'hold']]), ...T(lR.id, 'op', [[0, 0, 'hold'], [40, 100, 'hold'], [72, 0, 'hold']]), ...mouth(MOUTHS.focus, 0, 'hold'), ...mouth(MOUTHS.confused, 38, SINE), ...mouth(MOUTHS.smirk, 66, SINE)]],
 };
 
 async function main() {
