@@ -107,7 +107,7 @@ async function wire(layerName, stateName, trigger, back) {
 // shared helpers for PlayOnce one-shots (emotes): PlayOnce owns the 'once' group, so each one-shot keys all five of its props
 // (unlisted ones hold neutral) and hides the props only one-shots use (shades, spit drop)
 const once = (spec) => ['x', 'y', 'r', 'sx', 'sy'].flatMap((p) => T(ids.once, p, spec[p] || [[0, p[0] === 's' ? 100 : 0, 'hold']]))
-  .concat(H(ids.shades, { op: 0, y: -9 }), ids.spitDrop ? H(ids.spitDrop, { op: 0 }) : []);
+  .concat(H(ids.shades, { op: 0, y: -9 }), ids.spitDrop ? H(ids.spitDrop, { op: 0 }) : [], ids.handLFront ? H(ids.handLFront, { sx: 0, sy: 0 }) : []);   // the second front hand stays hidden unless a one-shot shows it
 const scale = (id, list) => [...T(id, 'sx', list), ...T(id, 'sy', list)];
 const bothEyes = (p, list) => [...T(eL.pathId, p, list), ...T(eR.pathId, p, list)];
 const bothEyesY = (list) => [...T(eL.id, 'y', list), ...T(eR.id, 'y', list)];

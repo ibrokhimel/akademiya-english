@@ -9,7 +9,7 @@ const { MOUTHS } = require('../icons/dombi_rig');
 const { SINE, OUT, IN, T, H, mouth, anim, newAnim, wire, once, scale, bothEyes, eyesAt, lidsY, allHandsOff, shut } = require('./dombi_redo');
 const vme = (command, payload) => call('viewmodel_editor', { command, data: { [command]: payload } });
 
-const E = ids.eyes, HL = ids.handL, HR = ids.handR, HF = ids.handRFront, AR = ids.armR;
+const E = ids.eyes, HL = ids.handL, HR = ids.handR, HF = ids.handRFront, HLF = ids.handLFront, AR = ids.armR;
 const offLR = [...H(HL, { sx: 0, sy: 0 }), ...H(HR, { sx: 0, sy: 0 })], offF = H(HF, { sx: 0, sy: 0 });
 const pop = (id, inF, outF, end, s = 100) => scale(id, [[0, 0, OUT], [inF, 0, OUT], [inF + 7, s * 1.12], [inF + 11, s], [outF, s, IN], [outF + 9, 0], [end, 0]]);
 
@@ -25,10 +25,12 @@ const MOVES = {
     ...T(HR, 'x', [[0, 12], [16, 12], [20, 6], [24, 13], [28, 6], [32, 13], [36, 6], [40, 13], [44, 6], [48, 12], [84, 12]]), ...H(HR, { y: -88 }), ...pop(HR, 2, 62, 84),
     ...T(E, 'x', [[0, 0, OUT], [8, -4], [64, -4], [74, 0], [84, 0]]), ...T(E, 'y', [[0, -9, OUT], [8, -14], [64, -14], [74, -9], [84, -9]]),
     ...mouth(MOUTHS.think, 0, 'hold'), ...mouth(MOUTHS.smirk, 72, SINE)]],
-  // arms crossed: the front hand becomes a bar across his chest, elbows peek out at the sides, chin up, half lids, flat mouth
+  // arms crossed (redone: one front hand couldn't cross): both front hands become forearms crossing in an X on his belly,
+  // chin up, half lids, flat mouth
   armsCrossed: [96, [...once({ r: [[0, 0, OUT], [10, -2], [76, -2, SINE], [88, 0], [96, 0]], sy: [[0, 100, OUT], [10, 102], [76, 102], [88, 100], [96, 100]] }),
-    ...H(HF, { x: 0, y: -10 }), ...T(HF, 'sx', [[0, 0, OUT], [6, 0], [13, 320], [17, 300], [76, 300, IN], [86, 0], [96, 0]]), ...T(HF, 'sy', [[0, 0, OUT], [6, 0], [13, 66], [17, 58], [76, 58, IN], [86, 0], [96, 0]]),
-    ...H(HL, { x: -14, y: 28 }), ...H(HR, { x: 14, y: 28 }), ...pop(HL, 4, 76, 96, 90), ...pop(HR, 4, 76, 96, 90),
+    ...offLR, ...H(HF, { x: 0, y: -14, r: -22 }), ...H(HLF, { x: 0, y: -14, r: 22 }),
+    ...T(HF, 'sx', [[0, 0, OUT], [6, 0], [13, 230], [17, 210], [76, 210, IN], [86, 0], [96, 0]]), ...T(HF, 'sy', [[0, 0, OUT], [6, 0], [13, 78], [17, 70], [76, 70, IN], [86, 0], [96, 0]]),
+    ...T(HLF, 'sx', [[0, 0, OUT], [4, 0], [11, 230], [15, 210], [76, 210, IN], [86, 0], [96, 0]]), ...T(HLF, 'sy', [[0, 0, OUT], [4, 0], [11, 78], [15, 70], [76, 70, IN], [86, 0], [96, 0]]),
     ...lidsY([[0, -25], [10, -25, OUT], [16, -16], [76, -16, IN], [86, -25], [96, -25]]), ...T(E, 'y', [[0, -9], [96, -9]]), ...mouth(MOUTHS.focus, 0, 'hold'), ...mouth(MOUTHS.smirk, 84, SINE)]],
   // finger-wag: "no no no" - a hand up by his face wagging, head shaking the other way, firm lids, flat mouth
   fingerWag: [70, [...once({ r: [[0, 0], [10, 0], [16, -3], [22, 3], [28, -3], [34, 3], [40, -3], [46, 0], [70, 0]] }), ...offLR,
@@ -71,4 +73,11 @@ async function main() {
     await newAnim('once/' + name, frames); await anim('once/' + name, frames, keys); await wire('PlayOnce', 'once/' + name, name, 'once/idle');
   }
 }
-main().catch((e) => { console.log('FAIL', String(e.stack).split('\n').slice(0, 4).join(' | ')); process.exit(1); });
+if (!process.argv.includes('--idle-fix')) main().catch((e) => { console.log('FAIL', String(e.stack).split('\n').slice(0, 4).join(' | ')); process.exit(1); });
+
+// the second front hand (added for arms crossed) is hidden again whenever a one-shot ends: node dombi_emotes3.js --idle-fix
+if (process.argv.includes('--idle-fix')) (async () => {
+  const mids = require('./dombi_machine_ids.json');
+  await call('animation_editor', { command: 'modifyKeyFrames', data: { modifyKeyFrames: { animationId: mids.anims['once/idle'], add: [16, 17].map((k) => ({ objectId: ids.handLFront, propertyKey: k, frame: 0, value: 0, interpolationType: 'hold' })) } } });
+  console.log('once/idle hides the second front hand');
+})().catch((e) => { console.log('FAIL', e.message); process.exit(1); });
