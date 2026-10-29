@@ -125,7 +125,17 @@
   "once/brushShoulders": "0-89757",
   "once/stomp": "0-90020",
   "once/bow": "0-90297",
-  "once/melt": "0-90606"
+  "once/melt": "0-90606",
+  "face/sideEye": "0-92453",
+  "face/deadpan": "0-92581",
+  "face/grin": "0-92709",
+  "face/suspicious": "0-92837",
+  "face/cringe": "0-92965",
+  "face/disgusted": "0-93093",
+  "face/shocked": "0-93221",
+  "face/awkward": "0-93349",
+  "face/cryLaugh": "0-93477",
+  "face/bored": "0-93605"
  },
  "vm": {
   "id": "0-10307",

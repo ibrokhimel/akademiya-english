@@ -1,7 +1,8 @@
 // Dombi on the stage: the Rive rig from the lab (view model `Dombi`).
 // mountDombi(box, size) -> { mood(name), listening(bool), talking(bool), amp(n), viseme(n), dark(bool), gesture(g),
 //                            fire(rig, ms), trigger(name), play(value), directed(bool), reset() }
-const MOODS = new Set(['smirk', 'happy', 'laugh', 'talk', 'listen', 'think', 'surprised', 'sleepy', 'wink', 'proud', 'focus', 'confused', 'oops']);
+const MOODS = new Set(['smirk', 'happy', 'laugh', 'talk', 'listen', 'think', 'surprised', 'sleepy', 'wink', 'proud', 'focus', 'confused', 'oops',
+  'sideEye', 'deadpan', 'grin', 'suspicious', 'cringe', 'disgusted', 'shocked', 'awkward', 'cryLaugh', 'bored']);   // round 2 faces (2026-10-30)
 
 export async function mountDombi(box, size) {
   const canvas = Object.assign(document.createElement('canvas'), { width: Math.round(size * 1.32 * 2), height: Math.round(size * 1.32 * 2) });

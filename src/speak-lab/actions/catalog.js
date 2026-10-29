@@ -81,6 +81,17 @@ export const CATALOG = [
   a('stomp', T('stomp'), 'annoyed', 'once', 1000, 'stomping: angry, fed up, enough', ['angry', 'so mad', 'enough', 'jahlim'], { packs: { drama: 2 } }),
   a('bow', T('bow'), 'greet', 'once', 1600, 'the Uzbek greeting, hand on his chest and a small bow: thanks, welcome, respect', ['thank you', 'rahmat', 'welcome', 'xush kelibsiz', 'respect', 'hurmat']),
   a('melt', T('melt'), 'lazy', 'once', 2670, 'melting into a puddle: bored, too hot, done', ['bored', 'boring', 'zerikdim', 'melting', 'so hot', 'issiq'], { life: L(0.3), packs: { dangasa: 3, kind: 0.5 } }),
+  // round 2 faces (2026-10-30, design/rive/dombi_faces.js): held for ms, then his words' mood again
+  a('mood:sideEye', E('mood', 'sideEye'), 'annoyed', 'face', 2500, 'a side-eye: he doubts what they just said', ['sure you did', 'mhm sure'], { life: L(0, 0.3), packs: { rude: 2 } }),
+  a('mood:deadpan', E('mood', 'deadpan'), 'annoyed', 'face', 2500, 'deadpan: flat, not impressed, sarcastic', ['wow amazing', 'hilarious', 'how exciting']),
+  a('mood:grin', E('mood', 'grin'), 'show-off', 'face', 2500, 'a mischievous grin: a plan, a prank, teasing them', ['hehe', 'i have a plan', 'evil', 'prank']),
+  a('mood:suspicious', E('mood', 'suspicious'), 'think', 'face', 2500, 'suspicious: he does not believe it', ['suspicious', 'are you sure', 'hmm really']),
+  a('mood:cringe', E('mood', 'cringe'), 'oops', 'face', 2000, 'cringing: embarrassing or painful to hear', ['cringe', 'yikes', 'oof']),
+  a('mood:disgusted', E('mood', 'disgusted'), 'annoyed', 'face', 2000, 'disgusted: nasty, gross', ['ew', 'eww', 'nasty', 'jirkanch']),
+  a('mood:shocked', E('mood', 'shocked'), 'surprise', 'face', 2000, 'jaw drop: totally shocked, unbelievable', ['unbelievable', 'i cannot believe', 'jaw drop', 'voy']),
+  a('mood:awkward', E('mood', 'awkward'), 'oops', 'face', 2000, 'awkward: an uncomfortable moment', ['awkward', 'umm', 'uhh']),
+  a('mood:cryLaugh', E('mood', 'cryLaugh'), 'celebrate', 'face', 2500, 'crying with laughter: something hilarious', ['dying', 'lmao', "i'm dead", 'i cannot breathe']),
+  a('mood:bored', E('mood', 'bored'), 'lazy', 'face', 3000, 'bored: dull, nothing happening', ['meh', 'nothing to do'], { life: L(0.3), packs: { dangasa: 3 } }),
   // touch-only: they need a finger on him
   a('play:held', E('play', 'held'), 'touch', 'loop', 2000, 'carried on a finger', [], { talk: false }),
   a('play:pet', E('play', 'pet'), 'touch', 'loop', 2000, 'being rubbed', [], { talk: false }),

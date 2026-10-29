@@ -61,7 +61,8 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } c
 // the groups, by the rig's own property names; anything the file has that is not listed here still shows up under "Other"
 const GROUPS = [
   ['One-off actions', 'trigger', ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink']],
-  ['Round 1 (mark these)', 'trigger', ['shrug', 'headScratch', 'armsCrossed', 'fingerWag', 'flex', 'brushShoulders', 'stomp', 'bow', 'melt']],
+  ['Round 2 faces (mark these)', 'enum', ['mood'], ['sideEye','deadpan','grin','suspicious','cringe','disgusted','shocked','awkward','cryLaugh','bored']],
+  ['Round 1', 'trigger', ['shrug', 'headScratch', 'armsCrossed', 'fingerWag', 'flex', 'brushShoulders', 'stomp', 'bow', 'melt']],
   ['New emotes', 'trigger', ['spit', 'dance', 'facepalm', 'fistsUp', 'eyeRoll']],
   ['Idle breaks (the page fires these now)', 'trigger', ['lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod']],
   ['Loops (play)', 'enum', ['play']],
@@ -89,13 +90,13 @@ function section(title, grid) { const h = document.createElement('h2'); h.textCo
   const props = Object.fromEntries((vm.properties || []).map((p) => [p.name, String(p.type)]));
   const seen = new Set(['gestureDone']);                                         // a signal the rig sends back, not an action
   const enumValues = (name) => { try { return vm.enum(name).values || []; } catch (e) { return []; } };
-  for (const [title, kind, names] of GROUPS) {
+  for (const [title, kind, names, only] of GROUPS) {
     const grid = document.createElement('div'); grid.className = 'grid';
     for (const name of names) {
       seen.add(name);
       if (!(name in props)) { const m = document.createElement('div'); m.className = 'missing'; m.textContent = name + ': not in the exported file'; grid.append(m); continue; }
       if (kind === 'trigger') grid.append(card(name, name, () => { vm.trigger(name).trigger(); now('▶ ' + name); }));
-      else if (kind === 'enum') for (const v of enumValues(name)) grid.append(card(name + '=' + v, (names.length > 1 ? name + ': ' : '') + v, (btn) => {
+      else if (kind === 'enum') for (const v of enumValues(name).filter((v) => !only || only.includes(v))) grid.append(card(name + '=' + v, (names.length > 1 ? name + ': ' : '') + v, (btn) => {
         vm.enum(name).value = v; now(name + ' = ' + v);
         grid.querySelectorAll('.go.on').forEach((b) => b.classList.remove('on')); btn.classList.add('on'); }));
       else if (kind === 'boolean') grid.append(card(name, name, (btn) => {
