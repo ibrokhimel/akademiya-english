@@ -48,6 +48,7 @@ export const COPY = {
   pack: 'DOMBINING FE’LI',
   voice: 'OVOZ',
   listen: 'Tinglash',
+  micMode: 'MIKROFON', micAuto: 'Avto', micHold: 'Bosib gapirish', holdToTalk: 'Bosib turib gapiring', reconnecting: 'Ulanmoqda…',
   sample: "Salom, men Dombiman! Bugun nima haqida gaplashamiz? Let's go.",
   start: 'BOSHLASH',
   memoryLink: 'Dombi nimani eslaydi',

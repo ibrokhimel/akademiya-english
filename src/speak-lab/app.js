@@ -38,6 +38,6 @@ function showMemory() {
 }
 function showStart() {
   stopBar(); screen++;
-  startPage(root, { profile: loadProfile(), onStart: ({ pack, voice, topic, topicName }) => { saveProfile({ ...loadProfile(), voice, pack }); startTalk({ pack, voice, topic, topicName }); }, onMemory: showMemory });
+  startPage(root, { profile: loadProfile(), onStart: ({ pack, voice, mic, topic, topicName }) => { saveProfile({ ...loadProfile(), voice, pack, mic }); startTalk({ pack, voice, mic, topic, topicName }); }, onMemory: showMemory });
 }
 if (location.hash === '#memory') showMemory(); else showStart();

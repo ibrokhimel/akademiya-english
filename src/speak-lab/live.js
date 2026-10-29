@@ -1,5 +1,6 @@
 // The Gemini Live session: a short-lived token from our server, then the browser talks to Gemini itself.
-// connectLive({ server, pack, topic, profile, handlers }) -> { sendAudio(Int16Array), sendText(text), close() }
+// connectLive({ server, pack, topic, profile, mic, handlers }) -> { sendAudio(Int16Array), sendText(text), activityStart(), activityEnd(), setMic(mode, lines), close() }
+// mic: 'auto' (Gemini detects speech) or 'hold' (the page sends activity start / end: hold-to-talk)
 // handlers: onAudio(Int16Array) · onCaption(text, final) · onLearnerText(text, final) · onInterrupted() · onTurnComplete() · onToolCall(name, args) · onClose(reason) · onOpen()
 // Test-only options: sdk (the SDK module), getToken(body), waits (reconnect delays), connectTimeoutMs.
 import { CFG } from './config.js';
@@ -16,12 +17,12 @@ async function fetchToken(server, body) {
   return j;
 }
 
-export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic = '', profile = {}, handlers: H, sdk: sdkIn = null, getToken = null, waits = null, connectTimeoutMs = CFG.CONNECT_TIMEOUT_MS }) {
+export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic = '', profile = {}, mic = 'auto', handlers: H, sdk: sdkIn = null, getToken = null, waits = null, connectTimeoutMs = CFG.CONNECT_TIMEOUT_MS }) {
   const { GoogleGenAI } = sdkIn || (await loadSdk());
   const token = getToken || ((body) => fetchToken(server, body));
   const delay = waits ? (n) => waits[n] ?? null : nextReconnect;
   // `current` is the one live socket; messages and closes from any other socket are ignored, so a closed socket can never reopen itself
-  let current = null, closedByUs = false, handle = null, attempt = 0, reconnecting = false, lastConfig = null;
+  let current = null, closedByUs = false, handle = null, attempt = 0, reconnecting = false, lastConfig = null, micMode = mic, probing = false;
 
   const stats = {}, bump = (k) => { stats[k] = (stats[k] || 0) + 1; };           // what kinds of messages came, for the checks and the test bar
   const onMessage = (me, m) => {
@@ -46,7 +47,7 @@ export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic
   function dropCurrent() { const me = current; current = null; if (me && me.s) { try { me.s.close(); } catch {} } }
 
   async function open() {
-    const { token: tok, model, config } = await token({ pack, voice, topic, profile });
+    const { token: tok, model, config } = await token({ pack, voice, topic, profile, mic: micMode });
     lastConfig = config;
     const ai = new GoogleGenAI({ apiKey: tok, httpOptions: { apiVersion: CFG.API_VERSION } });
     const cfg = handle ? { ...config, sessionResumption: { handle } } : config;
@@ -55,7 +56,7 @@ export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic
       onopen: () => { if (me === current) { attempt = 0; H.onOpen && H.onOpen(); } },
       onmessage: (m) => onMessage(me, m),
       onerror: (e) => console.warn('live error', e && e.message),
-      onclose: (e) => { if (closedByUs || me !== current) return; console.warn('live closed', e && e.reason); current = null; reconnect(); },
+      onclose: (e) => { if (closedByUs || me !== current) return; if (probing) { current = null; return; } console.warn('live closed', e && e.reason); current = null; reconnect(); },
     } });
     const timeout = new Promise((_, rej) => setTimeout(() => { timedOut = true; rej(new Error('connect timeout')); }, connectTimeoutMs));
     current = me;                                                         // from here its callbacks count
@@ -81,6 +82,19 @@ export async function connectLive({ server = CFG.SERVER, pack, voice = '', topic
   await open();
   return {
     sendAudio(pcm) { if (current && current.s) try { current.s.sendRealtimeInput({ audio: { data: pcmToBase64(pcm), mimeType: 'audio/pcm;rate=16000' } }); } catch (e) { console.warn(e.message); } },
+    activityStart() { if (current && current.s) try { current.s.sendRealtimeInput({ activityStart: {} }); } catch (e) { console.warn(e.message); } },
+    activityEnd() { if (current && current.s) try { current.s.sendRealtimeInput({ activityEnd: {} }); } catch (e) { console.warn(e.message); } },
+    // a new mic mode: a new token and socket. First the same conversation (resumption handle); if Gemini drops that within a
+    // moment, a fresh session that gets the last lines of the talk, so Dombi carries on. Resolves 'resumed' | 'fresh'.
+    async setMic(mode, lines = []) {
+      micMode = mode === 'hold' ? 'hold' : 'auto'; probing = true; dropCurrent();
+      try {
+        if (handle) { try { await open(); await new Promise((r) => setTimeout(r, 1500)); if (current) return 'resumed'; } catch (e) { console.warn('resume failed', e.message); } }
+        handle = null; await open();
+        if (lines.length) this.sendText('[The mic mode changed and you reconnected. The talk so far:\n' + lines.join('\n') + '\nCarry on from where you were. Do not mention this note.]');
+        return 'fresh';
+      } finally { probing = false; }
+    },
     sendText(text) { if (current && current.s) try { current.s.sendClientContent({ turns: [{ role: 'user', parts: [{ text }] }], turnComplete: true }); } catch (e) { console.warn(e.message); } },
     close() { closedByUs = true; dropCurrent(); },
     config: () => lastConfig,

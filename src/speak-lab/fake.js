@@ -4,7 +4,7 @@ export async function connectFake({ handlers: H }) {
   const F = window.FAKE || { turns: [] };
   if (F.token === 'budget') { const e = new Error('budget'); e.status = 402; e.body = { reason: 'budget', spent: 10.5, budget: 10 }; throw e; }
   let i = 0, closed = false;
-  const sent = { audioChunks: 0, texts: [] };
+  const sent = { audioChunks: 0, texts: [], events: [], mic: [] };      // events: activity start / end and mic switches, in order
   const silence = (ms) => { const a = new Int16Array(Math.round(ms * 24)); for (let i = 0; i < a.length; i++) a[i] = Math.round(Math.sin(i / 24000 * 2 * Math.PI * 220) * 2500); return a; };   // a quiet tone, so the level meter and the mouth have something to follow
   async function play(turn) {
     if (closed) return;
@@ -33,6 +33,9 @@ export async function connectFake({ handlers: H }) {
   setTimeout(() => { H.onOpen && H.onOpen(); api.next(); }, 200);           // Dombi speaks first
   return {
     sendAudio() { sent.audioChunks++; },
+    activityStart() { sent.events.push('start'); },
+    activityEnd() { sent.events.push('end'); },
+    setMic(mode, lines) { sent.events.push('mic:' + mode); sent.mic.push({ mode, lines }); return new Promise((r) => setTimeout(() => r('resumed'), 150)); },
     sendText(t) { sent.texts.push(t); if (/almost up/.test(t)) setTimeout(() => play({ caption: 'Xayr! Keyingi safar davom etamiz.', mood: 'happy', audioMs: 2500 }), 200); },   // the goodbye is spoken, like Gemini would
     close() { closed = true; },
     config: () => ({ fake: true }),

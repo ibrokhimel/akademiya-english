@@ -32,12 +32,14 @@ export async function side(name, body) {
   return r.json();
 }
 
-export async function talkScreen(root, { pack, voice = '', topic, topicName, profile, onEnd }) {
+export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto', topic, topicName, profile, onEnd }) {
+  const micSw = [['auto', COPY.micAuto], ['hold', COPY.micHold]].map(([id, name]) => `<button data-id="${id}">${name}</button>`).join('');
   root.innerHTML = `
     <div class="talk">
-      <div class="tbar"><span class="topic">${topicName || COPY.title}</span><span class="status">${COPY.connecting}</span><span class="endw"><div class="p3d btn small danger end"><div class="face">${COPY.end}</div></div></span></div>
+      <div class="tbar"><span class="topic">${topicName || COPY.title}</span><span class="status">${COPY.connecting}</span><span class="micsw">${micSw}</span><span class="endw"><div class="p3d btn small danger end"><div class="face">${COPY.end}</div></div></span></div>
       <div class="stage"><div class="dbox"></div></div>
       <div class="caps"><div class="cap live"></div></div>
+      <div class="holdw"><div class="p3d btn primary hold"><div class="face">${COPY.holdToTalk}</div></div></div>
       <div class="side"></div>
     </div>`;
   const $ = (s) => root.querySelector(s);
@@ -98,7 +100,7 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   let mic = null, meter = null, quiet = null;
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
-    T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
+    removeEventListener('keydown', keys); removeEventListener('keyup', keys); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
@@ -124,13 +126,33 @@ export async function talkScreen(root, { pack, voice = '', topic, topicName, pro
   const SHAPES = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4, 9, 7]; let shape = 0; T.mouthMoves = 0;
   const mouth = setInterval(() => { if (ended || !state.dombiTalking) return; const loud = player.amp() > 4; T.dombi.viseme(loud ? SHAPES[shape++ % SHAPES.length] : 0); if (loud) T.mouthMoves++; }, 95);
 
+  // the mic switch (spec 2026-10-30 §4.4): in hold mode the mic goes to Gemini only while the button or the space bar is held;
+  // switching mode mid-talk reconnects (live.js setMic) and hands the new session the last lines if it can't resume
+  let micMode = micStart === 'hold' ? 'hold' : 'auto', holding = false, switching = false;
+  const showMic = () => { root.querySelectorAll('.micsw button').forEach((b) => b.classList.toggle('on', b.dataset.id === micMode)); $('.holdw').style.display = micMode === 'hold' ? '' : 'none'; };
+  const cutHim = () => { if (state.dombiTalking || player.playing()) { T.acting.interrupted(); player.clear(); } };
+  const press = () => { if (micMode !== 'hold' || holding || switching || ended || !T.session) return; holding = true; $('.hold').classList.add('down'); cutHim(); T.session.activityStart(); };
+  const release = () => { if (!holding) return; holding = false; $('.hold').classList.remove('down'); if (T.session) T.session.activityEnd(); };
+  T.switchMic = async (mode) => {
+    if (mode === micMode || switching || ended || !T.session) return;
+    release(); cutHim(); switching = true; micMode = mode; showMic(); status(COPY.reconnecting);
+    const lines = state.transcript.slice(-6).map((t) => `${t.who === 'dombi' ? 'Dombi' : 'Learner'}: ${t.text}`);
+    try { (T.micSwitches ||= []).push(await T.session.setMic(mode, lines)); } catch (e) { console.warn('mic switch', e.message); }
+    switching = false; if (!ended) status(COPY.listening);
+  };
+  const keys = (e) => { if (e.code !== 'Space' || e.repeat || /input|textarea/i.test(e.target.tagName)) return; e.preventDefault(); (e.type === 'keydown' ? press : release)(); };
+  $('.hold').addEventListener('pointerdown', press); $('.hold').addEventListener('pointerup', release); $('.hold').addEventListener('pointerleave', release);
+  addEventListener('keydown', keys); addEventListener('keyup', keys);
+  root.querySelectorAll('.micsw button').forEach((b) => b.addEventListener('click', () => T.switchMic(b.dataset.id)));
+  showMic();
+
   // the mic: blocked → the Uzbek line and a retry
-  try { mic = await startMic((pcm) => { if (!T.session || ended || muted || !sendMic({ amp: mic.amp(), dombiTalking: state.dombiTalking }, CFG)) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
+  try { mic = await startMic((pcm) => { if (!T.session || ended || muted || switching || (micMode === 'hold' ? !holding : !sendMic({ amp: mic.amp(), dombiTalking: state.dombiTalking }, CFG))) return; T.session.sendAudio(pcm); state.secIn += pcm.length / 16000; if (!state.dombiTalking && mic.amp() > CFG.MIC_FLOOR) { if (turnPcm.length < MAX_TURN_CHUNKS) turnPcm.push(pcm); } }); }
   catch (e) { ended = true; root.innerHTML = `<div class="talk problem"><p>${COPY.micBlocked}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); return T; }
   if (ended) { mic.stop(); return T; }                                            // End was pressed while the mic was being asked for
 
   // the session: real or scripted
-  try { T.session = await (isFake() ? connectFake : connectLive)({ pack, voice: T.voice, topic, profile, handlers }); }
+  try { T.session = await (isFake() ? connectFake : connectLive)({ pack, voice: T.voice, topic, profile, mic: micMode, handlers }); }
   catch (e) { if (ended) return T; mic.stop(); ended = true; root.innerHTML = `<div class="talk problem"><p>${e.status === 402 && e.body ? COPY.budgetOver(Number(e.body.spent || 0).toFixed(2), e.body.budget) : COPY.serverDown}</p><div class="p3d btn primary retry"><div class="face">${COPY.retry}</div></div></div>`; $('.retry').onclick = () => location.reload(); T.error = e; return T; }
   if (ended) { T.session.close(); return T; }                                     // End was pressed while the socket was opening
   // Dombi speaks first: the model only talks after a turn, so the page gives it one

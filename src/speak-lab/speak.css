@@ -70,3 +70,13 @@ body.speak { margin: 0; min-height: 100vh; background: var(--bg); color: var(--t
 .rbtns { display: flex; gap: 12px; margin-top: 16px; } .rbtns .btn { width: 240px; }
 .report .retry { width: 240px; }
 .mrow { display: flex; gap: 12px; font-weight: 800; } .mrow .ml { color: var(--text-muted); min-width: 220px; }
+/* the mic mode: on the start page like the packs; in the talk a small switch in the top bar and, in hold mode, the big button */
+.mics { display: flex; gap: 8px; }
+.mc { font: inherit; font-weight: 900; font-size: 14px; padding: 9px 16px; border-radius: 20px; border: 2px solid var(--grey); background: var(--card); color: var(--text-muted); cursor: pointer; }
+.mc.on { border-color: var(--violet); color: var(--violet); background: var(--surface); }
+.micsw { display: inline-flex; gap: 4px; margin-left: auto; margin-right: 12px; }
+.micsw button { font: inherit; font-weight: 800; font-size: 12px; padding: 6px 12px; border-radius: 16px; border: 2px solid var(--grey); background: var(--card); color: var(--text-muted); cursor: pointer; }
+.micsw button.on { border-color: var(--violet); color: var(--violet); }
+.holdw { grid-column: 1; display: flex; justify-content: center; padding: 8px 0 24px; }
+.hold { min-width: 260px; user-select: none; touch-action: none; }
+.hold.down .face { transform: translateY(4px); }

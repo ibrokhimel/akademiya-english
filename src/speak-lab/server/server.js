@@ -44,7 +44,8 @@ export function readEnv(file = path.join(HERE, '.env')) {
 }
 
 // the Live connect config the browser passes through unchanged
-export function liveConfig(pack, systemInstruction, voice = '') {
+// mic: 'auto' (Gemini hears when the learner starts and stops) or 'hold' (the page says so: hold-to-talk, spec 2026-10-30 §4.4)
+export function liveConfig(pack, systemInstruction, voice = '', mic = 'auto') {
   return {
     responseModalities: ['AUDIO'],
     speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: VOICES.includes(voice) ? voice : PACKS[pack] } } },
@@ -53,6 +54,7 @@ export function liveConfig(pack, systemInstruction, voice = '') {
     inputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] }, outputAudioTranscription: { languageCodes: ['en-US', 'uz-UZ'] },
     enableAffectiveDialog: true, proactivity: { proactiveAudio: true },
     sessionResumption: {}, contextWindowCompression: { slidingWindow: {} },
+    ...(mic === 'hold' ? { realtimeInputConfig: { automaticActivityDetection: { disabled: true } } } : {}),
     // no tools: the native-audio model read the set_mood call out loud ("speaker set mood, mood think"); the page reads his mood off his words instead
   };
 }
@@ -69,9 +71,10 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       if (!PACKS[b.pack]) return [400, { error: 'unknown pack' }];
       const spent = book.monthTotal(); if (spent >= budgetUsd) return [402, { reason: 'budget', spent, budget: budgetUsd }];
       const system = buildSystemPrompt ? buildSystemPrompt({ pack: b.pack, topic: b.topic || '', profile: b.profile || {} }) : null;
-      const config = liveConfig(b.pack, system, str(b.voice));
+      const config = liveConfig(b.pack, system, str(b.voice), b.mic === 'hold' ? 'hold' : 'auto');
       const token = await gemini.token({ uses: 1, expireTime: new Date(Date.now() + 30 * 60e3).toISOString(),
-        liveConnectConstraints: { model: 'models/' + MODELS.live, config: { responseModalities: config.responseModalities, speechConfig: config.speechConfig, ...(system ? { systemInstruction: system } : {}) } } });
+        liveConnectConstraints: { model: 'models/' + MODELS.live, config: { responseModalities: config.responseModalities, speechConfig: config.speechConfig, ...(system ? { systemInstruction: system } : {}),
+          ...(config.realtimeInputConfig ? { realtimeInputConfig: config.realtimeInputConfig } : {}) } } });   // hold-to-talk must be locked in too, or Gemini keeps its own speech detection
       return [200, { token, model: MODELS.live, config }];
     },
     // the learner's last turn → "say it better" and one pronunciation note, as text for the cards (spec §4.2)

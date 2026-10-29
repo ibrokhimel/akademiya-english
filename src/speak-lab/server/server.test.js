@@ -1,7 +1,7 @@
 // node --test src/speak-lab/server/   (a fake gemini is injected; nothing reaches Google)
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { createServer } from './server.js';
+import { createServer, liveConfig } from './server.js';
 
 const servers = [];                                              // closed at the end even when an assertion throws, so a failure never hangs the run
 after(() => Promise.all(servers.map((s) => new Promise((r) => s.close(r)))));
@@ -225,4 +225,26 @@ test('direct passes a valid pick through with its turn, and turns unknown or tou
 test('direct refuses without a key', async () => {
   const s = await up({}); const r = await post(s.base, '/direct', { said: 'hi', turn: 1 });
   assert.equal(r.status, 503); await s.close();
+});
+
+// hold-to-talk: the page says when the learner starts and stops, so Gemini's own speech detection is off (spec 2026-10-30 §4.4)
+test('liveConfig turns speech detection off for hold-to-talk only', () => {
+  assert.equal(liveConfig('kind', 's', '', 'hold').realtimeInputConfig.automaticActivityDetection.disabled, true);
+  assert.equal(liveConfig('kind', 's', '', 'auto').realtimeInputConfig, undefined);
+  assert.equal(liveConfig('kind', 's').realtimeInputConfig, undefined);
+});
+test('token passes the mic mode into the config', async () => {
+  const s = await up();
+  const j = await (await post(s.base, '/token', { pack: 'kind', mic: 'hold' })).json();
+  assert.equal(j.config.realtimeInputConfig.automaticActivityDetection.disabled, true);
+  await s.close();
+});
+test('in hold mode the token locks speech detection off too (the token config wins over the page)', async () => {
+  const s = await up(); fakeGemini.calls.length = 0;
+  await post(s.base, '/token', { pack: 'kind', mic: 'hold' });
+  const [, c1] = fakeGemini.calls[0];
+  assert.equal(c1.liveConnectConstraints.config.realtimeInputConfig.automaticActivityDetection.disabled, true);
+  fakeGemini.calls.length = 0; await post(s.base, '/token', { pack: 'kind' });
+  assert.equal(fakeGemini.calls[0][1].liveConnectConstraints.config.realtimeInputConfig, undefined);
+  await s.close();
 });

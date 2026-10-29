@@ -90,7 +90,7 @@ export function makeActing({ dombi, player, cfg, catalog = CATALOG, now = () => 
     // his voice has run out: the turn's waiting mouth actions play now
     idle() { const d = done; if (!d) return; d.idled = true; setTimeout(() => { if (!alive || done !== d) return; for (const p of d.turnEnd.splice(0)) fire(p.e, 'pause', p.word, d); }, 0); },
     // cut off: everything planned for this turn is dropped
-    interrupted() { clearAll(); T = null; done = null; },
+    interrupted() { clearAll(); T = null; done = null; log.push({ how: 'cut', at: Math.round(now()), turn }); },
     learnerTurn() { if (done) done.turnEnd.length = 0; },
     stop() { alive = false; clearAll(); T = null; done = null; },
     // a director pick lands through the same rules as a word match; an answer for another turn, or after his voice ended, is dropped
