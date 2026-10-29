@@ -127,7 +127,7 @@ export default function AboutEditor() {
       <SectionLabel>ONA TILI</SectionLabel>
       <Chips options={chips(nativeLanguages)} value={nativeLanguage} onChange={setNativeLanguage} />
       <RowGroup>
-        <InfoRow icon="glyph-user-grey" label="Shahar" value={showCity} onChange={setShowCity} detail={showCity ? "Profilda ko'rinadi" : "Profilda ko'rinmaydi"}>
+        <InfoRow icon="glyph-user-grey" label="Shahar" value={showCity} onChange={setShowCity} detail={showCity && city.trim() ? "Profilda ko'rinadi" : "Profilda ko'rinmaydi"}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Txt style={{ fontSize: d(15), fontFamily: "Nunito_800ExtraBold" }}>Shahar: </Txt>
             <TextInput
