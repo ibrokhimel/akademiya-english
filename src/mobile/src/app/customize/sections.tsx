@@ -64,7 +64,8 @@ function SectionRow({ section, label, index, count, rowH, from, dy, onToggle, on
         accessibilityActions={[{ name: "increment", label: "Yuqoriga" }, { name: "decrement", label: "Pastga" }]}
         onAccessibilityAction={(e) => onMove(index, e.nativeEvent.actionName === "increment" ? index - 1 : index + 1)}
         hitSlop={{ top: d(8), bottom: d(8), left: d(10), right: d(6) }}
-        style={{ height: rowH, justifyContent: "center" }}
+        // a fixed height: sized from rowH, the row's measured height would grow by its padding on every layout
+        style={{ height: d(32), justifyContent: "center" }}
       >
         <Grip />
       </View>
