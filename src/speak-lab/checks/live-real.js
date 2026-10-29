@@ -26,6 +26,9 @@ const { chromium } = require('playwright');
     const heard = await p.evaluate(() => window.SPEAK.talk.state.learner.slice(-1)[0] || '');
     console.log(`MIC: to hold ${toHold}; heard ${JSON.stringify(heard)}; he answered after a hold: ${answered}; back to auto ${toAuto}`);
   }
+  // TALK_MS: keep talking that long (AUDIO=…wav speaks for the learner), then End, so the talk log (with timing.json) is written
+  if (process.env.TALK_MS && got) { await p.waitForTimeout(+process.env.TALK_MS); await p.click('.end'); await p.waitForTimeout(3000);
+    console.log('talk ended:', JSON.stringify(await p.evaluate(() => ({ turns: window.SPEAK.talk.state.transcript.length, acted: window.SPEAK.talk.acting.log.filter((x) => x.how === 'word' || x.how === 'pause').map((x) => x.id) })))); }
   console.log('logs:', logs.length ? logs.join('\n  ') : 'none');
   console.log(got && caps.length ? 'live-real: ok' : 'live-real: FAIL');
   await b.close();

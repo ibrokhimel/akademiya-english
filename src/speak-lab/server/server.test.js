@@ -248,3 +248,10 @@ test('in hold mode the token locks speech detection off too (the token config wi
   assert.equal(fakeGemini.calls[0][1].liveConnectConstraints.config.realtimeInputConfig, undefined);
   await s.close();
 });
+test('a talk log keeps the timing of captions, audio and acted actions', async () => {
+  const { writeTalk } = await import('./log.js'); const fs = await import('node:fs'); const os = await import('node:os'); const path = await import('node:path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'speak-log-'));
+  const folder = writeTalk(dir, { id: 't1', timing: [{ t: 10, kind: 'audio', ms: 500 }, { t: 12, kind: 'caption', words: 3 }], acting: [{ id: 'eat', how: 'pause', at: 900 }] });
+  const j = JSON.parse(fs.readFileSync(path.join(dir, folder, 'timing.json'), 'utf8'));
+  assert.equal(j.timing.length, 2); assert.equal(j.acting[0].id, 'eat');
+});

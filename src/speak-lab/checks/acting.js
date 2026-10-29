@@ -23,7 +23,7 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   const b = await chromium.launch({ channel: 'chrome', args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', `--use-file-for-fake-audio-capture=${SILENT}`, '--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage({ viewport: { width: 1200, height: 800 } }); const errors = []; p.on('pageerror', (e) => errors.push(e.message));
   // his own moves every 0.3–0.6 s here (3–8 s for real), and walking much more likely, so the living cases are quick
-  await p.addInitScript((turns) => { window.FAKE = { turns, cfg: { LIFE_MIN_MS: 300, LIFE_MAX_MS: 600, TRAVEL_WEIGHT: 20 }, feedback: () => Promise.resolve({}), report: () => Promise.resolve({ stars: 1, phrases: [], pron: [] }) }; }, TURNS);
+  await p.addInitScript((turns) => { window.FAKE = { turns, cfg: { LIFE_MIN_MS: 300, LIFE_MAX_MS: 600, TRAVEL_WEIGHT: 20, ACT_OFFSET_MS: 0 }, feedback: () => Promise.resolve({}), report: () => Promise.resolve({ stars: 1, phrases: [], pron: [] }) }; }, TURNS);
   await p.goto(URL); await p.waitForSelector('.start .go');
   await p.click('.tcard[data-id="football"]'); await p.click('.go');
   await p.waitForFunction(() => window.SPEAK && window.SPEAK.fake && window.SPEAK.talk && window.SPEAK.talk.session, null, { timeout: 20000 });

@@ -48,6 +48,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const T = { state, player: null, dombi: null, session: null, end: null, playerPushes: 0, clockOffset: 0, voice: voice || (PACKS.find((p) => p.id === pack) || PACKS[0]).voice };
   const now = () => Date.now() + T.clockOffset;                              // the checks move the clock with tick(ms)
   T.tick = (ms) => { T.clockOffset += ms; };
+  T.timing = [];                                                             // caption / audio arrival times for the talk log (timing.json)
   window.SPEAK = Object.assign(window.SPEAK || {}, { screen: 'talk', talk: T });
 
   T.dombi = await mountDombi($('.dbox'), 220);
@@ -61,7 +62,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const stageCfg = isFake() && window.FAKE && window.FAKE.cfg ? { ...CFG, ...window.FAKE.cfg } : CFG;    // the checks speed it up
   T.stage = mountStage({ stageEl: $('.stage'), boxEl: $('.dbox'), dombi: T.dombi, cfg: stageCfg, pack, reduce: !!(window.M && M.reduce),
     getState: () => (state.dombiTalking ? 'talking' : now() - state.lastSpokeAt < CFG.LISTEN_HOLD_MS ? 'listening' : 'idle') });
-  T.acting = makeActing({ dombi: T.dombi, player, cfg: CFG, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
+  T.acting = makeActing({ dombi: T.dombi, player, cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
@@ -78,13 +79,14 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
+      if (ended) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
-      if (final) { T.acting.final(); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
+      if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
       capText += text; $('.cap.live').textContent = cleanCaption(capText); T.acting.caption(cleanCaption(capText));
+      T.timing.push({ t: Math.round(performance.now()), kind: 'caption', words: cleanCaption(capText).split(/\s+/).filter(Boolean).length });
       const m = moodFor(cleanCaption(capText)); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
     },
     onLearnerText(text, final) {
@@ -101,7 +103,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
     removeEventListener('keydown', keys); removeEventListener('keyup', keys); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
-    const result = { id, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
+    const result = { id, timing: T.timing, acting: T.acting.log, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
   };

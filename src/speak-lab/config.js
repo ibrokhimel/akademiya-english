@@ -20,7 +20,7 @@ export const CFG = {
   CLAUSE_WORDS: 8,                         // the director is asked at each , . ! ? or after this many words without one
   BIG_EVERY_TURNS: 3,                      // a big action (celebrate, dress, shades, sleep) at most once in this many of his turns
   MOUTH_AFTER_MS: 250,                     // a mouth action (eat, yawn) plays this long after the sentence that named it
-  ACT_OFFSET_MS: 0,                        // added to every word's estimated play time (measured on a real talk, Task 9)
+  ACT_OFFSET_MS: 590,                      // captions run ahead of his voice: measured on a real talk (2026-10-29, median of 31, middle half 450–990 ms)
   LIFE_MIN_MS: 3000, LIFE_MAX_MS: 8000,    // his own moves come every 3–8 s (twice as far apart with Reduce Motion)
   TRAVEL_WEIGHT: 2,                        // how often an idle move is a walk to another spot, against the catalog's idle weights (~17)
   WALK_PX_PER_S: 160,                      // walking speed across the stage
