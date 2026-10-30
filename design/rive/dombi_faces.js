@@ -71,6 +71,43 @@ const FACES = {
   content: face({ eyes: { w: 22, h: 6, rad: 3, y: 4 }, m: MOUTHS.happy, f: { r: -3 } }),
   // thinking hard: one eye shut, the other up and aside, mouth twisted
   thinkingHard: face({ eyeL: { w: 20, h: 6, rad: 3, y: 3 }, eyeR: { y: -4, dx: 2 }, m: MOUTHS.think, f: { r: 6 } }),
+  // batch 6 (2026-10-30)
+  // angry: lids in a hard V, eyes narrowed, teeth gritted (never sad, so no frown)
+  angry: face({ eyes: { h: 30, y: 2 }, lidL: { y: -13, r: 18, op: 100 }, lidR: { y: -13, r: -18, op: 100 }, m: VIS('TEETH') }),
+  // smug: flat half lids, the proud lopsided smirk, head tipped back a little
+  smugFace: face({ lids: { y: -14, op: 100 }, m: MOUTHS.proud, f: { r: -4 } }),
+  // worried: lids slanting up in the middle, eyes a little wide, a small tight mouth
+  worried: face({ eyes: { h: 36, dx: -2 }, lidL: { y: -17, r: -12, op: 100 }, lidR: { y: -17, r: 12, op: 100 }, m: MOUTHS.listen }),
+  // woozy: eyes of different sizes at odd angles, a wobbly mouth, head lolling
+  woozy: face({ eyeL: { w: 22, h: 22, rad: 11, r: 20, y: 2 }, eyeR: { w: 14, h: 30, rad: 7, r: -15 }, m: MOUTHS.confused, f: { r: 8 } }),
+  // tired: heavy flat lids, eyes sagging low, a sleepy mouth, head dropped a little
+  tired: face({ eyes: { y: 3 }, lids: { y: -10, op: 100 }, m: MOUTHS.sleepy, f: { y: -64 } }),
+  // delighted: big round eyes and the biggest smile
+  delighted: face({ eyes: { w: 22, h: 40, rad: 11, y: -3 }, lids: { y: -34 }, m: MOUTHS.happy, f: { y: -67 } }),
+  // judging: one lid low and flat, eyes slid aside, a flat mouth
+  judging: face({ eyes: { dx: 3 }, lidL: { y: -10, op: 100 }, lidR: { y: -28, h: 8 }, m: MOUTHS.focus, f: { r: 3 } }),
+  // flirty: a slow wink on one side, a half lid on the other, the proud smirk (the Asalim pack)
+  flirty: face({ eyeL: { w: 22, h: 6, rad: 3, y: 2, r: -6 }, lidL: { y: -28, h: 8 }, lidR: { y: -16, op: 100 }, m: MOUTHS.proud, f: { r: -5 } }),
+  // cocky: half lids, eyes a touch aside, the smirk, chin up
+  cocky: face({ eyes: { dx: 2 }, lids: { y: -16, op: 100 }, m: MOUTHS.proud, f: { r: 6 } }),
+  // scared: tall wide eyes darting aside at the threat, gritted teeth, head pulled down and back
+  scared: face({ eyes: { w: 18, h: 40, rad: 9, y: -3, dx: -6 }, lids: { y: -30, h: 8 }, m: VIS('TEETH'), f: { y: -62, r: -4 } }),
+  // puzzled: one eye big, one small, a crooked mouth, head tilted right over
+  puzzled: face({ eyeL: { h: 40, w: 20, rad: 10, y: -3 }, eyeR: { h: 20, y: 3 }, lidL: { y: -29, h: 8 }, lidR: { y: -28, h: 8 }, m: MOUTHS.confused, f: { r: -10 } }),
+  // hungry: eyes up dreaming of food, mouth hanging open
+  hungry: face({ eyes: { y: -5 }, m: VIS('AA'), f: { r: 3 } }),
+  // dreamy: eyes drifting up under soft lids, a gentle smile, head tipped
+  dreamy: face({ eyes: { y: -6, h: 28 }, lids: { y: -18, op: 100 }, m: MOUTHS.happy, f: { r: -6 } }),
+  // serious: straight eyes, lids lowered a touch, a flat mouth, no smirk
+  serious: face({ lids: { y: -20, op: 100 }, m: MOUTHS.focus }),
+  // evil laugh: a 0.8 s loop - the grin's slanted lids, the head bobbing on each "mwa-ha", mouth opening and closing
+  evilLaugh: { frames: 48, keys: (() => {
+    const base = face({ lidL: { y: -15, r: 12, op: 100 }, lidR: { y: -15, r: -12, op: 100 }, m: MOUTHS.laugh }).filter((k) => !(k.objectId === ids.face && [14, 15].includes(k.propertyKey)));
+    const beats = [0, 8, 16, 24, 32, 40], up = [], rot = [], m = [];
+    beats.forEach((b, i) => { up.push([b, -66, OUT], [b + 4, -69, IN]); rot.push([b, i % 2 ? -2 : 2, SINE]); m.push(...mouth(MOUTHS.laugh, b, SINE), ...mouth(VIS('EH'), b + 4, SINE)); });
+    up.push([48, -66]); rot.push([48, 2]);
+    return [...base.filter((k) => !ids.mouthShape.verts.includes(k.objectId)), ...T(ids.face, 'y', up), ...T(ids.face, 'r', rot), ...m, ...mouth(MOUTHS.laugh, 48, SINE)];
+  })() },
 };
 
 async function main() {
