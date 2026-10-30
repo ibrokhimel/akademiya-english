@@ -3,7 +3,8 @@
 //                            fire(rig, ms), trigger(name), play(value), directed(bool), reset() }
 const MOODS = new Set(['smirk', 'happy', 'laugh', 'talk', 'listen', 'think', 'surprised', 'sleepy', 'wink', 'proud', 'focus', 'confused', 'oops',
   'sideEye', 'deadpan', 'grin', 'suspicious', 'cringe', 'disgusted', 'shocked', 'awkward', 'cryLaugh', 'bored',
-  'hmph', 'squint', 'innocent', 'excited', 'speechless', 'nervousGrin', 'content', 'thinkingHard']);   // batch 5 faces   // round 2 faces (2026-10-30)
+  'hmph', 'squint', 'innocent', 'excited', 'speechless', 'nervousGrin', 'content', 'thinkingHard',
+  'angry', 'smugFace', 'worried', 'woozy', 'tired', 'delighted', 'judging', 'flirty', 'cocky', 'scared', 'puzzled', 'hungry', 'dreamy', 'serious', 'evilLaugh']);   // batch 5 + 6 faces   // round 2 faces (2026-10-30)
 
 export async function mountDombi(box, size) {
   const canvas = Object.assign(document.createElement('canvas'), { width: Math.round(size * 1.32 * 2), height: Math.round(size * 1.32 * 2) });

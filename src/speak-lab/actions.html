@@ -61,8 +61,10 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } c
 // the groups, by the rig's own property names; anything the file has that is not listed here still shows up under "Other"
 const GROUPS = [
   ['One-off actions', 'trigger', ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink']],
-  ['Mark these: batch 5 moves', 'trigger', ['salute', 'fingerGuns', 'applause', 'headbang', 'sneeze', 'hiccup', 'yawn', 'shiver', 'phoneScroll', 'teaSip', 'kickBall', 'impatient', 'pointLaugh', 'boo', 'headShake', 'slide', 'drumroll', 'gasp']],
-  ['Mark these: batch 5 faces', 'enum', ['mood'], ['hmph', 'squint', 'innocent', 'excited', 'speechless', 'nervousGrin', 'content', 'thinkingHard']],
+  ['Mark these: batch 6 moves', 'trigger', ['byeBye', 'doubleJump', 'roll', 'bounceBall', 'squash', 'stretchTall', 'wobbleJelly', 'peekSide', 'sneakyLook', 'karate', 'boxing', 'doubleFlex', 'ohNo', 'cheer', 'wiggleDance', 'robotDance', 'chinRub', 'callMe', 'cantHear', 'shush', 'yesYes', 'rofl', 'faint', 'runAway', 'startled', 'bubbleGum', 'readBook', 'writeNote', 'trophy', 'gift', 'magnify', 'dozeOff', 'bigStretch', 'airGuitar', 'mindBlown']],
+  ['Mark these: batch 6 faces', 'enum', ['mood'], ['angry', 'smugFace', 'worried', 'woozy', 'tired', 'delighted', 'judging', 'flirty', 'cocky', 'scared', 'puzzled', 'hungry', 'dreamy', 'serious', 'evilLaugh']],
+  ['Batch 5 moves', 'trigger', ['salute', 'fingerGuns', 'applause', 'headbang', 'sneeze', 'hiccup', 'yawn', 'shiver', 'phoneScroll', 'teaSip', 'kickBall', 'impatient', 'pointLaugh', 'boo', 'headShake', 'slide', 'drumroll', 'gasp']],
+  ['Batch 5 faces', 'enum', ['mood'], ['hmph', 'squint', 'innocent', 'excited', 'speechless', 'nervousGrin', 'content', 'thinkingHard']],
   ['Round 3', 'trigger', ['micDrop', 'idea', 'steam', 'sweat', 'chefKiss', 'hideFace', 'laughHard', 'flop', 'whisper', 'armsCrossed', 'flex']],
   ['Redone faces', 'enum', ['mood'], ['sideEye', 'cryLaugh']],
   ['Round 2 faces', 'enum', ['mood'], ['sideEye','deadpan','grin','suspicious','cringe','disgusted','shocked','awkward','cryLaugh','bored']],
