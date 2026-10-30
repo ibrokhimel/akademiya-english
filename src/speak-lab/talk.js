@@ -9,7 +9,9 @@ import { mountDombi } from './dombi.js';
 import { mountCards, captionButtons } from './cards.js';
 import { makeActing } from './actions/engine.js';
 import { mountStage } from './actions/stage.js';
-import { shouldAskFeedback, silenceStage, moodFor, sendMic, cleanCaption } from './rules.js';
+import { shouldAskFeedback, silenceStage, moodFor, sendMic, cleanCaption, captionHtml } from './rules.js';
+import { makeClock } from './clock.js';
+import { makeLipsync, weighWord, loadDict } from './lipsync.js';
 
 // what the page tells the model when the learner goes quiet (spec §4.3); the model answers in character, out loud
 const NUDGE = {
@@ -66,6 +68,18 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   let cutting = false, cutTimer = null;    // cutting: the learner cut him off; his output still on its way is dropped until Gemini says interrupted or done
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
+  // one word clock per turn of his (spec 2026-10-30 in-sync §4.1): the live subtitle and his mouth both read it.
+  // `rate` is how fast he really spoke last turn, carried over; the dictionary loads in the background (rules until then)
+  let dict = null, rate = 1, clock = null, clockAudio = 0, clockClosed = false, pendingLine = '';
+  loadDict().then((d) => { dict = d; });
+  function newClock() {
+    if (pendingLine) fileLine();
+    clock = T.clock = makeClock({ weigh: (w, p) => weighWord(w, p, dict), rate }); clockAudio = 0; clockClosed = false;
+    T.lipsync = makeLipsync({ clock, levelAt: player.levelAt, dict: () => dict, cfg: CFG });
+  }
+  const dropClock = () => { clock = null; clockClosed = false; pendingLine = ''; shown = ''; $('.cap.live').textContent = ''; };
+  function fileLine() { const line = pendingLine; pendingLine = ''; if (line) addCaption(line); }
+
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
   function askFeedback() {
     const text = learnerText.trim(), pcm = turnPcm; turnPcm = []; cards.turn();
@@ -80,23 +94,27 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended || cutting) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
+      if (ended || cutting) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24);
+      if (!clock || clockClosed) newClock();
+      if (!clockAudio) clock.start(player.endsAt() - pcm.length / 24); clockAudio += pcm.length / 24; clock.audio(clockAudio); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },
     onCaption(text, final) {
       if (final && cutting) { cutting = false; capText = ''; T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); return; }
       if (cutting) return;
-      if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); addCaption(lastDombi); } capText = ''; return; }
-      capText += text; $('.cap.live').textContent = cleanCaption(capText); T.acting.caption(cleanCaption(capText));
+      // the finished line goes to the list once his voice has said it (frame loop; at once if his voice already ran out),
+      // the transcript has it now
+      if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); pendingLine = line; if (!clock || !player.playing()) fileLine(); } if (clock) { clock.close(); clockClosed = true; } capText = ''; return; }
+      if (!clock || clockClosed) newClock();
+      capText += text; clock.text(cleanCaption(capText)); T.acting.caption(cleanCaption(capText));
       T.timing.push({ t: Math.round(performance.now()), kind: 'caption', words: cleanCaption(capText).split(/\s+/).filter(Boolean).length });
-      const m = moodFor(cleanCaption(capText)); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); }      // his face follows his words as they come
     },
     onLearnerText(text, final) {
       if (final) { if (learnerText.trim()) { state.learner.push(learnerText.trim()); state.transcript.push({ who: 'learner', text: learnerText.trim() }); } learnerText = ''; return; }
       learnerText += text; T.acting.learnerTurn(); state.lastSpokeAt = now(); state.silence = 'none'; speechEndAt = Date.now(); firstAudioAt = 0;
     },
-    onInterrupted() { cutting = false; state.interruptions++; T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = ''; },
+    onInterrupted() { cutting = false; state.interruptions++; T.acting.interrupted(); player.clear(); capText = ''; dropClock(); },
     onTurnComplete() { /* the player's idle event turns the mouth off */ },
     onToolCall() { /* no tools in this build: the voice model spoke them aloud */ },
     onClose(reason) { if (reason === 'lost') { status(COPY.lost); T.end(); } },       // the socket is gone for good: the talk ends with what it has
@@ -104,7 +122,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   // End works from the first moment, before the mic and the socket are up; everything it stops may still be missing
   let mic = null, meter = null, quiet = null;
   T.end = () => {
-    if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); clearInterval(mouth); T.endedAt = Math.round((now() - state.started) / 1000);
+    if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); T.endedAt = Math.round((now() - state.started) / 1000);
     removeEventListener('keydown', keys); removeEventListener('keyup', keys); removeEventListener('blur', release); clearTimeout(cutTimer); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
     const result = { id, timing: T.timing, acting: T.acting.log, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
@@ -126,10 +144,21 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
     $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
-  player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); if (!ended) T.dombi.listening(true); });
-  // his mouth moves with his voice: a new mouth shape every ~95 ms while the sound is up, closed in the quiet bits (the lab's talk pacing; real lip sync comes later)
-  const SHAPES = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4, 9, 7]; let shape = 0; T.mouthMoves = 0;
-  const mouth = setInterval(() => { if (ended || !state.dombiTalking) return; const loud = player.amp() > 4; T.dombi.viseme(loud ? SHAPES[shape++ % SHAPES.length] : 0); if (loud) T.mouthMoves++; }, 95);
+  player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); lastV = 0; if (pendingLine) fileLine(); shown = ''; $('.cap.live').textContent = ''; if (!ended) T.dombi.listening(true); });
+  // every frame, on the sound playing now: the live subtitle up to the word he is saying (lit), his mouth shape for it, his
+  // face from the words said so far, and quiet gaps in his voice handed to the clock to pin the next sentence
+  let lastV = 0, shown = '', quietFrom = null; T.mouthMoves = 0;
+  const frame = () => {
+    if (ended) return; requestAnimationFrame(frame);
+    if (!clock || !player.playing() || (clockClosed && !pendingLine)) return;          // a filed line is not shown again (e.g. under "Slower")
+    const t = player.playNow(), k = clock.wordAt(t), words = clock.words(), html = captionHtml(words, k);
+    if (html !== shown) { shown = html; $('.cap.live').innerHTML = html;
+      const m = moodFor(words.slice(0, k + 1).map((w) => w.text + w.punct).join(' ')); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); } }
+    if (player.levelAt(t) < 4) quietFrom ??= t; else if (quietFrom != null) { if (t - quietFrom >= CFG.QUIET_GAP_MS) clock.quiet(quietFrom, t); quietFrom = null; }
+    const v = state.dombiTalking ? T.lipsync.at(t) : 0; if (v !== lastV) { lastV = v; T.dombi.viseme(v); if (v) T.mouthMoves++; }
+    if (pendingLine && clockClosed && t >= (clock.endOf(words.length - 1) ?? 0)) { rate = Math.min(2, Math.max(0.5, clock.rate())); fileLine(); }
+  };
+  requestAnimationFrame(frame);
 
   // the mic switch (spec 2026-10-30 §4.4): in hold mode the mic goes to Gemini only while the button or the space bar is held;
   // switching mode mid-talk reconnects (live.js setMic) and hands the new session the last lines if it can't resume
@@ -139,7 +168,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   // (cutting) until Gemini says interrupted or done; the 4 s fallback is so a lost signal can never mute him for good
   const cutHim = () => {
     if (!state.dombiTalking && !player.playing() && !capText) return;
-    T.acting.interrupted(); player.clear(); capText = ''; $('.cap.live').textContent = '';
+    T.acting.interrupted(); player.clear(); capText = ''; dropClock();
     cutting = true; clearTimeout(cutTimer); cutTimer = setTimeout(() => { cutting = false; }, 4000);
   };
   const press = () => { if (micMode !== 'hold' || holding || switching || ended || !T.session) return; holding = true; $('.hold').classList.add('down'); cutHim(); T.session.activityStart(); };

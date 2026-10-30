@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pcmToBase64, base64ToPcm } from './audio.js';
-import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost, moodFor, sendMic, cleanCaption } from './rules.js';
+import { nextReconnect, topicsFor, shouldAskFeedback, silenceStage, emptyReport, mergeProfile, estimateCost, moodFor, sendMic, cleanCaption, captionHtml } from './rules.js';
 
 test('moodFor reads the mood off his words', () => {
   assert.equal(moodFor('Ha-ha, that was actually funny bro.'), 'laugh'); assert.equal(moodFor('Wow! No way!'), 'surprised');
@@ -135,4 +135,10 @@ test('cleanCaption drops stars, underscores and stage-direction brackets, keeps 
   assert.equal(cleanCaption('a half tag *jum'), 'a half tag');          // still arriving: hidden until it closes
   assert.equal(cleanCaption('[jump] go'), 'go');                         // today's rules stay
   assert.equal(cleanCaption('then (dance) we go'), 'then we go');       // a catalog id in brackets is a stage direction too
+});
+
+test('captionHtml shows his words up to the one playing, that one lit, HTML escaped', () => {
+  assert.equal(captionHtml([{ text: 'Hi', punct: ',' }, { text: '<b>', punct: '' }], 1), 'Hi, <span class="now">&lt;b&gt;</span>');
+  assert.equal(captionHtml([{ text: 'Hi', punct: ',' }, { text: 'you', punct: '.' }], 0), '<span class="now">Hi,</span>');
+  assert.equal(captionHtml([{ text: 'Hi', punct: '' }], -1), '');
 });

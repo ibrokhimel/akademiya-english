@@ -56,6 +56,12 @@ export function cleanCaption(text) {
     .replace(/\(([^)]*)\)/g, (m, inner) => (stageOnly(inner) ? ' ' : m)).replace(/[[<*_].*$/, '').replace(/\s+/g, ' ').trim();
 }
 
+// his live subtitle: his words up to the one playing now (word k, lit), so the text never runs ahead of his voice
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+export function captionHtml(words, k) {
+  return words.slice(0, Math.max(0, k + 1)).map((w, i) => (i === k ? `<span class="now">${esc(w.text + w.punct)}</span>` : esc(w.text + w.punct))).join(' ');
+}
+
 // the mic goes to Gemini all the time while Dombi is quiet; while he talks only a clearly loud learner gets through, so his own
 // voice from the speakers cannot cut him off
 export function sendMic({ amp, dombiTalking }, cfg) {
