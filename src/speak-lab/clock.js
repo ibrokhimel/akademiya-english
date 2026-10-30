@@ -15,7 +15,8 @@ export function tokenize(text) {
 }
 
 export function makeClock({ weigh, rate: rate0 = 1 }) {
-  let startAt = null, audioMs = 0, closed = false, W = [], anchors = [], lay = null, lastT = -Infinity, lastK = -1;
+  let startAt = null, audioMs = 0, closed = false, W = [], anchors = [], lay = null;
+  const guards = new Map();                                                     // reader -> { t, k }: its last time and word
   const dirty = () => { lay = null; };
 
   // natural offsets: N[k] = where word k starts with its pauses counted, S[k] = its speech alone
@@ -23,7 +24,7 @@ export function makeClock({ weigh, rate: rate0 = 1 }) {
     if (lay) return lay;
     const n = W.length, N = [0], S = W.map((w) => weigh(w.text, '')), full = W.map((w) => weigh(w.text, w.punct));
     for (let k = 0; k < n; k++) N.push(N[k] + full[k]);
-    const anc = [{ k: 0, at: startAt }, ...anchors.filter((a) => a.k < n)].sort((a, b) => a.k - b.k);
+    const anc = [...(anchors.some((a) => a.k === 0) ? [] : [{ k: 0, at: startAt }]), ...anchors.filter((a) => a.k < n)].sort((a, b) => a.k - b.k);
     const start = new Array(n), end = new Array(n);
     anc.forEach((a, i) => {
       const to = i + 1 < anc.length ? anc[i + 1].k : n;
@@ -51,8 +52,10 @@ export function makeClock({ weigh, rate: rate0 = 1 }) {
     quiet(fromMs, toMs) {
       if (!ready()) return;
       const { start } = layout(); let best = null;
+      // quiet from before his first word: his first loud sound is where word 0 starts (his audio may open on silence)
+      if (fromMs <= start[0]) { if (toMs > start[0]) { anchors = anchors.filter((a) => a.k !== 0).concat({ k: 0, at: toMs }); dirty(); } return; }
       for (let j = 0; j < W.length - 1; j++) {
-        if (!/[.,!?;:…]/.test(W[j].punct)) continue;
+        if (!/[.,!?;:…]/.test(W[j].punct) || start[j] >= fromMs) continue;    // the pause must come after word j began
         const d = Math.abs(start[j + 1] - toMs);
         if (d <= PAUSE_FIND_MS && (!best || d < best.d)) best = { k: j + 1, d };
       }
@@ -62,12 +65,14 @@ export function makeClock({ weigh, rate: rate0 = 1 }) {
     words() { if (!ready()) return W.map((w, k) => ({ k, ...w, start: null, end: null })); const { start, end } = layout(); return W.map((w, k) => ({ k, ...w, start: start[k], end: end[k] })); },
     startOf(k) { return ready() && k >= 0 && k < W.length ? layout().start[k] : null; },
     endOf(k) { return ready() && k >= 0 && k < W.length ? layout().end[k] : null; },
-    // the word playing at time t (-1 before his first word); as time moves forward it never steps back a word
-    wordAt(t) {
+    // the word playing at time t (-1 before his first word); as time moves forward it never steps back a word, for each
+    // reader on its own (the subtitle and the action engine read the clock at different moments)
+    wordAt(t, reader = 'show') {
       if (!ready()) return -1;
       const { start } = layout(); let k = -1;
       for (let i = 0; i < start.length && start[i] <= t; i++) k = i;
-      if (t >= lastT) { k = Math.max(k, lastK); lastT = t; lastK = k; }
+      const g = guards.get(reader) || { t: -Infinity, k: -1 };
+      if (t >= g.t) { k = Math.max(k, g.k); guards.set(reader, { t, k }); }
       return k;
     },
     sentences() {

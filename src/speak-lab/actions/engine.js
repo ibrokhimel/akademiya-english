@@ -49,7 +49,7 @@ export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now
   }
 
   function start(me, b, t) {
-    b.status = 'on'; b.startedAt = t; if (b.k == null) b.k = Math.max(0, me.clock.wordAt(t));
+    b.status = 'on'; b.startedAt = t; if (b.k == null) b.k = Math.max(0, me.clock.wordAt(t, 'act'));
     const face = b.e.rig.enum === 'mood', kind = face ? 'face' : 'move';
     release(kind, t);
     holds[kind] = { beat: b, turn: me, handle: dombi.hold(b.e.rig, !!b.e.hold) };
@@ -84,7 +84,7 @@ export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now
     }
     // small talking motion between beats: a nod / tilt / bob as one of his longer words starts, while no move is on
     if (T && dombi.beat && t >= movingUntil) {
-      const k = T.clock.wordAt(t);
+      const k = T.clock.wordAt(t, 'act');
       if (lastBeatTurn !== T) { lastBeatTurn = T; lastBeatK = -1; }
       if (k > lastBeatK && talkBeats(T.clock.words(), { cfg }).includes(k)) { lastBeatK = k; dombi.beat(); log.push({ how: 'talkBeat', k, at: Math.round(t), turn: T.id }); }
     }

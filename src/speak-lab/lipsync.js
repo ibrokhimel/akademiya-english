@@ -5,6 +5,7 @@ import { buildTrack, visemeAt } from '../../design/rive/talk/engine.js';
 
 const DICT_URL = '/design/rive/node_modules/cmu-pronouncing-dictionary/index.js';   // ~4.7 MB, so it loads once, in the background
 const LOUD = 4, MIN_WORD_MS = 80, NO_SHAPES = 5;                                     // a word with no known sounds still opens the mouth
+const TALK_CYCLE = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4], TALK_CYCLE_MS = 95;               // his sound ahead of his words: the old amplitude mouth
 
 // the English pronouncing dictionary, or null (opened from file://, offline): English then falls back to spelling rules
 let dictLoad = null;
@@ -38,8 +39,12 @@ export function makeLipsync({ clock, levelAt, dict = () => null, cfg }) {
   return {
     at(t) {
       if (quiet(t)) return 0;
-      const w = clock.words().find((x) => x.start != null && t >= x.start && t < x.end);
-      if (!w) return 0;                                                            // between words: a pause
+      const words = clock.words(), w = words.find((x) => x.start != null && t >= x.start && t < x.end);
+      if (!w) {
+        const last = words[words.length - 1];
+        if (last && last.start != null && t < last.end) return 0;                  // between words: a pause
+        return TALK_CYCLE[Math.floor(t / TALK_CYCLE_MS) % TALK_CYCLE.length];      // loud with no word to read yet: plain talking shapes
+      }
       const tr = trackOf(w.text, dict());
       if (!tr.segs.length) return NO_SHAPES;
       const v = visemeAt(tr, ((t - w.start) / Math.max(1, w.end - w.start)) * tr.total);

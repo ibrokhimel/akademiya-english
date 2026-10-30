@@ -64,7 +64,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const stageCfg = isFake() && window.FAKE && window.FAKE.cfg ? { ...CFG, ...window.FAKE.cfg } : CFG;    // the checks speed it up
   T.stage = mountStage({ stageEl: $('.stage'), boxEl: $('.dbox'), dombi: T.dombi, cfg: stageCfg, pack, reduce: !!(window.M && M.reduce),
     getState: () => (state.dombiTalking ? 'talking' : now() - state.lastSpokeAt < CFG.LISTEN_HOLD_MS ? 'listening' : 'idle') });
-  T.acting = makeActing({ dombi: T.dombi, clock: () => clock, cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
+  T.acting = makeActing({ dombi: T.dombi, clock: () => clock, now: () => player.playNow(), cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
   let cutting = false, cutTimer = null;    // cutting: the learner cut him off; his output still on its way is dropped until Gemini says interrupted or done
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
@@ -74,13 +74,14 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   loadDict().then((d) => { dict = d; });
   // for the talk log: each turn's word times, as the clock finally had them
   const wordTimes = [], keepWords = (c) => { if (c && c.words().length) wordTimes.push({ turn: wordTimes.length + 1, words: c.words().map((w) => [w.text, Math.round(w.start), Math.round(w.end)]) }); };
+  let quietFrom = null;                                                          // when his sound last went quiet (reset every turn: a stale one would pin his first word)
   function newClock() {
     if (pendingLine) fileLine();
     keepWords(clock);
-    clock = T.clock = makeClock({ weigh: (w, p) => weighWord(w, p, dict), rate }); clockAudio = 0; clockClosed = false;
+    clock = T.clock = makeClock({ weigh: (w, p) => weighWord(w, p, dict), rate }); clockAudio = 0; clockClosed = false; quietFrom = null;
     T.lipsync = makeLipsync({ clock, levelAt: player.levelAt, dict: () => dict, cfg: CFG });
   }
-  const dropClock = () => { clock = null; clockClosed = false; pendingLine = ''; shown = ''; $('.cap.live').textContent = ''; };
+  const dropClock = () => { clock = null; clockClosed = false; quietFrom = null; pendingLine = ''; shown = ''; $('.cap.live').textContent = ''; };
   function fileLine() { const line = pendingLine; pendingLine = ''; if (line) addCaption(line); }
 
   // the learner's turn is over when Dombi starts answering: his audio + what was heard → the coach → the cards
@@ -148,10 +149,10 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
     $('.caps').insertBefore(el, $('.cap.live')); while ($('.caps').children.length > 5) $('.caps').firstChild.remove();
     $('.cap.live').textContent = '';
   }
-  player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); lastV = 0; if (pendingLine) fileLine(); shown = ''; $('.cap.live').textContent = ''; if (!ended) T.dombi.listening(true); });
+  player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); lastV = 0; quietFrom = null; if (pendingLine) fileLine(); shown = ''; $('.cap.live').textContent = ''; if (!ended) T.dombi.listening(true); });
   // every frame, on the sound playing now: the live subtitle up to the word he is saying (lit), his mouth shape for it, his
   // face from the words said so far, and quiet gaps in his voice handed to the clock to pin the next sentence
-  let lastV = 0, shown = '', quietFrom = null; T.mouthMoves = 0; T.visemes = [];
+  let lastV = 0, shown = ''; T.mouthMoves = 0; T.visemes = [];
   const frame = () => {
     if (ended) return; requestAnimationFrame(frame);
     if (!clock || !player.playing() || (clockClosed && !pendingLine)) return;          // a filed line is not shown again (e.g. under "Slower")

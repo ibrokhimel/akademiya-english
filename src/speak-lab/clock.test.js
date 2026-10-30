@@ -87,3 +87,19 @@ test('an open turn never runs ahead of the sound received: its words stretch to 
   const d = makeClock({ weigh, rate: 2 }); d.start(0); d.text('Then the bus came late.'); d.audio(1000);
   near(d.endOf(4), 2 * (4 + 3 + 3 + 4 + 4) * 60, 1);                     // a slower carried pace is kept while text runs ahead
 });
+
+test('two readers (the subtitle and the actions) each keep their own never-step-back guard', () => {
+  const c = makeClock({ weigh, rate: 0.6 }); c.start(0); c.text('one two three four five six seven eight'); c.audio(1500);
+  const seen = c.wordAt(550); c.wordAt(700, 'act');
+  c.audio(4000);                                                         // more sound: the open turn stretches, words move later
+  assert.ok(c.wordAt(570) >= seen, `the subtitle stepped back from ${seen}`);
+});
+
+test('quiet before his first sound moves the start; it does not squash the first word', () => {
+  const c = makeClock({ weigh }); c.start(0); c.text('Hi, I am Dombi. Nice to meet you.'); c.audio(2500);
+  const len0 = c.endOf(0) - c.startOf(0);
+  c.quiet(-8000, 60);                                                    // a stale or leading quiet ends at his first loud sound
+  near(c.startOf(0), 60);
+  assert.ok(c.endOf(0) - c.startOf(0) >= len0 * 0.9, `"Hi" shrank from ${len0} to ${c.endOf(0) - c.startOf(0)}`);
+  assert.ok(c.startOf(1) > c.endOf(0), 'the second word starts after the first');
+});

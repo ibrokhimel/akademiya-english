@@ -60,3 +60,13 @@ test('odd words never throw and give a shape 0..11', () => {
   }
   assert.ok(weighWord('2026', '', null) >= 80);
 });
+
+test('loud with no word to read (his text lags his voice): the mouth still moves', () => {
+  const none = makeClock({ weigh: (w, p) => weighWord(w, p, null) }); none.start(0); none.audio(1000);
+  const shapes = (lips, from) => new Set(Array.from({ length: 12 }, (_, i) => lips.at(from + i * 50)));
+  const a = shapes(makeLipsync({ clock: none, levelAt: loud, dict: () => null, cfg }), 100);
+  assert.ok(!a.has(0) && a.size >= 3, `no text: ${[...a]}`);
+  const ahead = makeClock({ weigh: (w, p) => weighWord(w, p, null) }); ahead.start(0); ahead.text('Hi'); ahead.audio(3000);   // open turn, sound far past its words
+  const b = shapes(makeLipsync({ clock: ahead, levelAt: loud, dict: () => null, cfg }), ahead.endOf(0) + 50);
+  assert.ok(!b.has(0) && b.size >= 3, `past the last word: ${[...b]}`);
+});
