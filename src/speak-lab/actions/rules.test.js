@@ -2,7 +2,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CATALOG } from './catalog.js';
-import { matchWords, clauseEnd, entry, decide, variant, wordTime, pauseTime, late, livePick, nextLifeMs } from './rules.js';
+import { matchWords, clauseEnd, entry, variant, livePick, nextLifeMs, beatOk, holdEnd } from './rules.js';
+import { makeClock } from '../clock.js';
+import { makeActing } from './engine.js';
 
 test('every catalog entry fires something the rig has', () => {
   const RIG = { trigger: ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink', 'lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod', 'spit', 'dance', 'facepalm', 'fistsUp', 'eyeRoll', 'shrug', 'headScratch', 'armsCrossed', 'fingerWag', 'flex', 'brushShoulders', 'stomp', 'bow', 'melt', 'micDrop', 'idea', 'steam', 'sweat', 'chefKiss', 'hideFace', 'laughHard', 'flop', 'whisper', 'salute', 'fingerGuns', 'applause', 'headbang', 'sneeze', 'hiccup', 'yawn', 'shiver', 'phoneScroll', 'teaSip', 'kickBall', 'impatient', 'pointLaugh', 'boo', 'headShake', 'slide', 'drumroll', 'gasp', 'byeBye', 'doubleJump', 'roll', 'bounceBall', 'squash', 'stretchTall', 'wobbleJelly', 'peekSide', 'sneakyLook', 'karate', 'boxing', 'doubleFlex', 'ohNo', 'cheer', 'wiggleDance', 'robotDance', 'chinRub', 'callMe', 'cantHear', 'shush', 'yesYes', 'rofl', 'faint', 'runAway', 'startled', 'bubbleGum', 'readBook', 'writeNote', 'trophy', 'gift', 'magnify', 'dozeOff', 'bigStretch', 'airGuitar', 'mindBlown'],
@@ -25,35 +27,10 @@ test('clauseEnd at punctuation or after CLAUSE_WORDS words', () => {
   assert.equal(clauseEnd('one two three four five six seven eight', 8, { CLAUSE_WORDS: 8 }), true);
 });
 
-test('decide: one per sentence, no repeats, big ones rare, mouth ones wait', () => {
-  const c = { BIG_EVERY_TURNS: 3 };
-  assert.equal(decide({ e: entry('dizzy'), actedThisSentence: false, turn: 5, lastBigTurn: 0, lastId: '' }, c), 'word');
-  assert.equal(decide({ e: entry('dizzy'), actedThisSentence: true, turn: 5, lastBigTurn: 0, lastId: '' }, c), 'skip');
-  assert.equal(decide({ e: entry('dizzy'), actedThisSentence: false, turn: 5, lastBigTurn: 0, lastId: 'dizzy' }, c), 'skip');
-  assert.equal(decide({ e: entry('celebrate'), actedThisSentence: false, turn: 5, lastBigTurn: 4, lastId: '' }, c), 'skip');
-  assert.equal(decide({ e: entry('celebrate'), actedThisSentence: false, turn: 7, lastBigTurn: 4, lastId: '' }, c), 'word');
-  assert.equal(decide({ e: entry('celebrate'), actedThisSentence: false, turn: 7, lastBigTurn: 0, lastId: '', reduce: true }, c), 'skip');
-  assert.equal(decide({ e: entry('eat'), actedThisSentence: false, turn: 5, lastBigTurn: 0, lastId: '' }, c), 'pause');
-  assert.equal(decide({ e: entry('tapped'), actedThisSentence: false, turn: 5, lastBigTurn: 0, lastId: '' }, c), 'skip');
-});
 test('variant never repeats the last one and never picks touch-only', () => {
   for (let i = 0; i < 50; i++) assert.notEqual(variant('show-off', { lastId: 'trickSpin', rand: Math.random }, CATALOG).id, 'trickSpin');
   assert.equal(variant('touch', { lastId: '', rand: Math.random }, CATALOG), null);
 });
-test('wordTime spreads words evenly over the audio so far', () => {
-  assert.equal(wordTime({ turnStartAt: 1000, turnAudioMs: 2000, k: 2, n: 4, offsetMs: 0 }), 2000);
-  assert.equal(wordTime({ turnStartAt: 1000, turnAudioMs: 2000, k: 2, n: 4, offsetMs: 30 }), 2030);
-});
-test('pauseTime waits for the turn end when the next sentence is already coming', () => {
-  assert.equal(pauseTime({ sentenceEndAt: 3000, moreTextAfter: false, cfg: { MOUTH_AFTER_MS: 250 } }), 3250);
-  assert.equal(pauseTime({ sentenceEndAt: 3000, moreTextAfter: true, cfg: { MOUTH_AFTER_MS: 250 } }), 'turn-end');
-});
-test('late once his next sentence has started', () => {
-  assert.equal(late({ at: 5000, nextSentenceStartAt: 4800 }), true);
-  assert.equal(late({ at: 4700, nextSentenceStartAt: 4800 }), false);
-  assert.equal(late({ at: 4700, nextSentenceStartAt: null }), false);
-});
-
 // a seeded random, so the weight tests are the same every run
 const seeded = (s = 7) => () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
 const C = { TRAVEL_WEIGHT: 2 };
@@ -80,39 +57,119 @@ test('nextLifeMs stays in its window, doubled with Reduce Motion', () => {
   assert.equal(nextLifeMs({ reduce: true, rand: () => 0 }, c), 6000);
 });
 
-// the engine itself, with a fake Dombi and player: a word near the end of a turn that is still streaming must not count as late
-import { makeActing } from './engine.js';
-test('an action on his last word is planned while his turn is still coming in, even with the caption-lead offset', () => {
-  let clock = 1000; const fired = [];
-  const player = { endsAt: () => clock + 3000, pushedMs: () => 3000, playing: () => true };
-  const a = makeActing({ dombi: { fire: (rig) => fired.push(rig) }, player, now: () => clock, cfg: { ACT_OFFSET_MS: 590, BIG_EVERY_TURNS: 3, MOUTH_AFTER_MS: 250, CLAUSE_WORDS: 8 } });
-  a.audio(3000); a.caption('Honestly the driver was so rude, seriously.');
-  const L = a.log.filter((x) => x.id === 'poke2');
-  assert.equal(L.length && L[0].how, 'plan', JSON.stringify(a.log));
+// beats (spec 2026-10-30 in-sync §4.4): spacing, how many in a sentence, no repeats, big ones rare, mouth ones wait for a pause
+const B = { BEAT_GAP_MS: 700, BEATS_PER_SENTENCE: 3, BIG_EVERY_TURNS: 3, HOLD_TAIL_MS: 300, HOLD_CAP_MS: 10000, HOLD_MIN_MS: 800 };
+test('beatOk: three beats in a sentence, the fourth skipped; starts 500 ms apart skip, 700 go', () => {
+  const base = { e: entry('dizzy'), at: 5000, starts: [], inSentence: 0, lastId: '', turn: 5, lastBigTurn: -99 };
+  assert.equal(beatOk(base, B), 'go');
+  assert.equal(beatOk({ ...base, inSentence: 3 }, B), 'skip');
+  assert.equal(beatOk({ ...base, starts: [4500] }, B), 'skip');
+  assert.equal(beatOk({ ...base, starts: [4300] }, B), 'go');
+  assert.equal(beatOk({ ...base, lastId: 'dizzy' }, B), 'skip');
+  assert.equal(beatOk({ ...base, e: entry('celebrate'), lastBigTurn: 4 }, B), 'skip');
+  assert.equal(beatOk({ ...base, e: entry('celebrate'), reduce: true }, B), 'skip');
+  assert.equal(beatOk({ ...base, e: entry('eat') }, B), 'pause');
+  assert.equal(beatOk({ ...base, e: entry('tapped') }, B), 'skip');
+});
+
+const weigh = (w, p = '') => w.length * 60 + (/[.!?…]/.test(p) ? 420 : /[,;:]/.test(p) ? 220 : 0);
+test('holdEnd: the sentence end, a word end, a topic to his voice end + 300, never past 10 s, never under 800 ms', () => {
+  const c = makeClock({ weigh }); c.start(0); c.text('It is so cold here. And then'); c.audio(5000);
+  assert.equal(holdEnd({ until: 'sentence', k: 1, clock: c, startedAt: 0 }, B), c.endOf(4));
+  assert.equal(holdEnd({ until: 'sentence', k: 5, clock: c, startedAt: 2000 }, B), 12000);         // its sentence is still coming: only the cap
+  assert.equal(holdEnd({ until: 'word', k: 3, clock: c, startedAt: 100 }, B), Math.max(c.endOf(3), 900));
+  assert.equal(holdEnd({ until: 'topic', k: 1, clock: c, startedAt: 100 }, B), 10100);
+  assert.equal(holdEnd({ until: 'topic', k: 1, clock: c, startedAt: 100, voiceEndAt: 4000 }, B), 4300);
+  assert.equal(holdEnd({ until: 'topic', k: 1, clock: c, startedAt: 100, voiceEndAt: 40000 }, B), 10100);
+  assert.equal(holdEnd({ until: 'word', k: 0, clock: c, startedAt: 0 }, B), 800);
+});
+
+test('livePick returns nothing while he talks: beats and talking motion are his only motion then', () => {
+  for (let i = 0; i < 30; i++) assert.equal(livePick({ state: 'talking', pack: 'funny', rand: Math.random }, CATALOG, { TRAVEL_WEIGHT: 2 }), null);
+});
+
+// the beat engine on a real word clock, a fake Dombi that records holds, and a clock the test moves (tick by tick)
+function stage(cfg = {}) {
+  const st = { t: 0 }, ops = [], clocks = [];
+  const dombi = {
+    hold: (rig, holdable) => { const h = { id: rig.trigger || rig.value, holdable, face: rig.enum === 'mood' }; ops.push({ t: st.t, op: 'hold', id: h.id, face: h.face }); return h; },
+    release: (h) => { if (h) ops.push({ t: st.t, op: 'release', id: h.id, face: h.face }); },
+    fire: (rig) => ops.push({ t: st.t, op: 'fire', id: rig.trigger || rig.value }), talkingOff: () => {},
+  };
+  const say = (text, audioMs) => { const c = makeClock({ weigh }); c.start(st.t); c.text(text); c.audio(audioMs); clocks.push(c); return c; };
+  const a = makeActing({ dombi, clock: () => clocks[clocks.length - 1] || null, now: () => st.t, manual: true,
+    cfg: { CLAUSE_WORDS: 8, MOUTH_AFTER_MS: 250, ...B, ...cfg } });
+  const run = (ms) => { for (const end = st.t + ms; st.t < end; st.t += 20) a.tick(); };
+  const held = (id) => { const h = ops.find((o) => o.op === 'hold' && o.id === id), r = ops.find((o) => o.op === 'release' && o.id === id && (!h || o.t >= h.t)); return { from: h && h.t, to: r && r.t }; };
+  return { st, a, say, run, held, ops };
+}
+
+test('engine: a word-list shiver holds from its word to the end of its sentence', () => {
+  const { a, say, run, held } = stage();
+  const c = say('Well, winter is here and everything is grey. Anyway.', 6000); a.caption('Well, winter is here and everything is grey. Anyway.');
+  run(6000);
+  const h = held('shiver');
+  assert.ok(h.from != null && Math.abs(h.from - c.startOf(1)) <= 20, JSON.stringify(h) + ' start ' + c.startOf(1));
+  assert.ok(h.to != null && Math.abs(h.to - c.endOf(7)) <= 20, JSON.stringify(h) + ' end ' + c.endOf(7));
   a.stop();
 });
 
-// final review fixes: a fake player whose clock and queue the test controls
-function rig(cfg = {}) {
-  const st = { clock: 1000, pushed: 0, queueEnd: 1000 }, fired = [];
-  const player = { endsAt: () => Math.max(st.clock, st.queueEnd), pushedMs: () => st.pushed, playing: () => st.queueEnd > st.clock };
-  const push = (ms) => { st.queueEnd = Math.max(st.clock, st.queueEnd) + ms; st.pushed += ms; };
-  const a = makeActing({ dombi: { fire: (r) => fired.push(r) }, player, now: () => st.clock, cfg: { ACT_OFFSET_MS: 590, BIG_EVERY_TURNS: 3, MOUTH_AFTER_MS: 250, CLAUSE_WORDS: 8, ...cfg } });
-  return { st, a, push, fired };
-}
-test('a director pick on the last word of a closed turn still plays while his voice is playing', () => {
-  const { st, a, push } = rig();
-  push(3000); a.audio(3000); a.caption('That was a nice little thing, you know.'); st.clock += 200; a.final();
-  st.clock += 600; a.apply({ turn: 1, action: 'smug', word: 'know' });               // 2.2 s of his voice still to come
-  assert.equal(a.log.filter((x) => x.id === 'smug').map((x) => x.how).join(), 'plan', JSON.stringify(a.log));
+test('engine: a director topic hold carries into the next sentence and ends when a new move beat starts', () => {
+  const { a, say, run, held } = stage();
+  const text = 'This party is crazy. Everybody is here tonight. Then I go home.';
+  const c = say(text, 9000); a.caption(text);
+  a.apply({ turn: a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }], keep: true });
+  a.apply({ turn: a.turnId(), beats: [{ action: 'trickSpin', word: 'Then', until: 'sentence' }], keep: true });
+  run(9000);
+  const d = held('dance');
+  assert.ok(d.from != null && d.from < c.startOf(4) && d.to != null, JSON.stringify(d));
+  assert.ok(d.to > c.endOf(3) + 300, 'the dance went on into the next sentence: ' + JSON.stringify(d));
+  assert.ok(Math.abs(d.to - c.startOf(8)) <= 20, 'and ended when the trick started: ' + JSON.stringify(d) + ' ' + c.startOf(8));
   a.stop();
 });
-test('a caption that arrives before its audio does not take the whole talk\'s audio as the turn\'s', () => {
-  const { st, a, push } = rig({ ACT_OFFSET_MS: 0 });
-  push(20000); a.audio(20000); a.caption('Long first turn.'); a.final(); st.clock += 21000;   // a 20 s first turn, played out
-  a.caption('Okay so I am');                                                                  // turn 2: caption first...
-  push(1500); a.audio(1500); a.caption('Okay so I am so dizzy, honestly.');                      // ...then its audio
-  const plan = a.log.find((x) => x.id === 'dizzy' && x.how === 'plan');
-  assert.ok(plan && plan.at - st.clock < 1500, `dizzy planned ${plan ? plan.at - st.clock : '?'} ms ahead`);
+
+test('engine: keep:false ends a topic hold', () => {
+  const { st, a, say, run, held } = stage();
+  const text = 'This party is crazy, everybody came, honestly it is the best one yet.';
+  say(text, 6000); a.caption(text);
+  a.apply({ turn: a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }], keep: true });
+  run(1500); assert.ok(held('dance').from != null && held('dance').to == null);
+  a.apply({ turn: a.turnId(), beats: [], keep: false }); run(60);
+  assert.ok(held('dance').to != null && held('dance').to <= st.t, JSON.stringify(held('dance')));
+  a.stop();
+});
+
+test('engine: interrupted() releases every hold at once', () => {
+  const { st, a, say, run, held } = stage();
+  const text = 'This party is crazy, and that DJ is the worst though.';
+  say(text, 6000); a.caption(text);
+  a.apply({ turn: a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }, { action: 'mood:angry', word: 'worst', until: 'topic' }], keep: true });
+  run(3000); assert.ok(held('dance').from != null && held('angry').from != null);
+  const cutAt = st.t; a.interrupted();
+  assert.equal(held('dance').to, cutAt); assert.equal(held('angry').to, cutAt);
+  a.stop();
+});
+
+test('engine: a face beat and a move beat overlap, two move beats never do', () => {
+  const { a, say, run, held, ops } = stage();
+  const text = 'What, this party is crazy and that DJ is the worst, then a trick.';
+  say(text, 8000); a.caption(text);
+  a.apply({ turn: a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }, { action: 'mood:angry', word: 'worst', until: 'sentence' }, { action: 'trickSpin', word: 'trick', until: 'sentence' }], keep: true });
+  run(8000);
+  const d = held('dance'), f = held('angry'), t = held('trickSpin');
+  assert.ok(f.from > d.from && f.from < d.to, 'the face started while the dance held: ' + JSON.stringify({ d, f }));
+  assert.ok(t.from >= d.to, 'the trick started only once the dance was released: ' + JSON.stringify({ d, t }));
+  let moves = 0, most = 0; for (const o of ops) { if (o.face) continue; moves += o.op === 'hold' ? 1 : o.op === 'release' ? -1 : 0; most = Math.max(most, moves); }
+  assert.equal(most, 1);
+  a.stop();
+});
+
+test('engine: a mouth action waits for his voice to run out', () => {
+  const { st, a, say, run, ops } = stage();
+  const text = 'I could eat ten plov right now.';
+  say(text, 3000); a.caption(text); a.final();
+  run(2000); assert.ok(!ops.some((o) => o.id === 'eat'));
+  a.idle(); run(100);
+  assert.ok(ops.some((o) => o.id === 'eat' && o.t >= 2000), JSON.stringify(ops));
   a.stop();
 });

@@ -23,7 +23,12 @@ export const CFG = {
   // in sync (docs/superpowers/specs/2026-10-30-dombi-in-sync-design.md)
   MOUTH_GATE_MS: 80,                       // his sound quiet this long: the mouth rests
   QUIET_GAP_MS: 150,                       // a quiet gap this long in his voice pins the word after the nearest pause
-  ACT_OFFSET_MS: 590,                     // captions run ahead of his voice: measured on a real talk (2026-10-29, median of 31, middle half 450–990 ms)
+  BEAT_GAP_MS: 700,                        // two of his acted beats start at least this far apart
+  BEATS_PER_SENTENCE: 3,                   // and at most this many start in one sentence
+  HOLD_TAIL_MS: 300,                       // a held beat lets go this long after his voice ends
+  HOLD_CAP_MS: 10000,                      // and never lasts longer than this
+  HOLD_MIN_MS: 800,                        // nor shorter than this (a beat on a sentence's last word still reads)
+  TALK_BEAT_GAP_MS: 600,                   // small talking motion: at most one this often
   LIFE_MIN_MS: 3000, LIFE_MAX_MS: 8000,    // his own moves come every 3–8 s (twice as far apart with Reduce Motion)
   TRAVEL_WEIGHT: 2,                        // how often an idle move is a walk to another spot, against the catalog's idle weights (~17)
   WALK_PX_PER_S: 160,                      // walking speed across the stage

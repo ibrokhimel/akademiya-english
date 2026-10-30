@@ -58,13 +58,13 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   // Dombi acts out his own lines (docs/superpowers/specs/2026-10-30-dombi-action-engine-design.md)
   // At each clause of his, Gemini Flash (the director) may pick an action too; its answer never holds up his voice.
   const direct = (q) => { if (ended) return; state.cost += CFG.PRICE.directPerCall;
-    side('direct', { learner: state.learner[state.learner.length - 1] || '', said: q.said, pack, recent: q.recent, turn: q.turn })
+    side('direct', { learner: state.learner[state.learner.length - 1] || '', said: q.said, line: q.line, pack, recent: q.recent, turn: q.turn })
       .then((j) => { if (!ended && j) T.acting.apply(j); }).catch(() => {}); };
   // He lives on the stage on his own: listening moves while the learner talks, small gestures while he talks, the rest when quiet.
   const stageCfg = isFake() && window.FAKE && window.FAKE.cfg ? { ...CFG, ...window.FAKE.cfg } : CFG;    // the checks speed it up
   T.stage = mountStage({ stageEl: $('.stage'), boxEl: $('.dbox'), dombi: T.dombi, cfg: stageCfg, pack, reduce: !!(window.M && M.reduce),
     getState: () => (state.dombiTalking ? 'talking' : now() - state.lastSpokeAt < CFG.LISTEN_HOLD_MS ? 'listening' : 'idle') });
-  T.acting = makeActing({ dombi: T.dombi, player, cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
+  T.acting = makeActing({ dombi: T.dombi, clock: () => clock, cfg: stageCfg, reduce: !!(window.M && M.reduce), onPick: direct, stage: T.stage });
   let cutting = false, cutTimer = null;    // cutting: the learner cut him off; his output still on its way is dropped until Gemini says interrupted or done
   let capText = '', learnerText = '', speechEndAt = 0, firstAudioAt = 0, ended = false, turnPcm = [], lastDombi = '';
 
@@ -94,9 +94,9 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   const handlers = {
     onOpen() { status(COPY.listening); },
     onAudio(pcm) {
-      if (ended || cutting) return; T.playerPushes++; player.push(pcm); T.acting.audio(pcm.length / 24);
+      if (ended || cutting) return; T.playerPushes++; player.push(pcm);
       if (!clock || clockClosed) newClock();
-      if (!clockAudio) clock.start(player.endsAt() - pcm.length / 24); clockAudio += pcm.length / 24; clock.audio(clockAudio); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
+      if (!clockAudio) clock.start(player.endsAt() - pcm.length / 24); clockAudio += pcm.length / 24; clock.audio(clockAudio); T.acting.audio(); T.timing.push({ t: Math.round(performance.now()), kind: 'audio', ms: Math.round(pcm.length / 24) }); state.secOut += pcm.length / 24000; state.cost = estimateCost(state.secIn, state.secOut, CFG.PRICE);
       if (!state.dombiTalking) { state.dombiTalking = true; T.dombi.talking(true); T.dombi.listening(false); if (speechEndAt && !firstAudioAt) { firstAudioAt = Date.now(); state.latencies.push(firstAudioAt - speechEndAt); }
         setTimeout(askFeedback, 400); }                                          // a beat, so late transcript pieces of the learner's turn arrive first
     },

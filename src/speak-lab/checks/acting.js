@@ -12,7 +12,7 @@ const TURNS = [
   { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 1400 }] },
   { chunks: [{ text: 'I am still diz', audioMs: 500 }, { text: 'zy, bro.', audioMs: 500 }] },
   { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
-  { chunks: [{ text: 'That was sweet, bro, honestly.', audioMs: 1500 }] },
+  { chunks: [{ text: 'That was sweet,', audioMs: 700 }, { text: ' bro, honestly.', audioMs: 800 }] },
   { chunks: [{ text: 'Fine, whatever you say.', audioMs: 700 }] },
   { chunks: [{ text: 'Messi is better. Fight me.', audioMs: 1400 }] },
   { chunks: [{ text: 'Okay, still dizzy, but you go first.', audioMs: 2400 }] },
@@ -32,16 +32,16 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   ok('the talk has an acting engine with a log', Array.isArray(await log(p)));
   if (!(await log(p))) { await b.close(); process.exit(1); }
 
-  // 1. "dizzy" lands on its word (word 3 of 7 in a 900 ms chunk: ~386 ms in), "samsa" makes him eat after his voice is done
+  // 1. "dizzy" lands on its word (where the word clock puts it), "samsa" makes him eat after his voice is done
   await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(3200);
   let L = await log(p);
-  const dz = L.find((x) => x.id === 'dizzy' && x.how === 'word'), eat = L.find((x) => x.id === 'eat' && x.how === 'pause');
-  ok('dizzy fires on its word', !!dz && dz.how === 'word' && Math.abs(dz.at - dz.turnStartAt - 386) <= 150, dz ? `${dz.at - dz.turnStartAt} ms into the turn` : 'not fired');
+  const dz = L.find((x) => x.id === 'dizzy' && x.how === 'word'), dzPlan = L.find((x) => x.id === 'dizzy' && x.how === 'plan'), eat = L.find((x) => x.id === 'eat' && x.how === 'pause');
+  ok('dizzy fires on its word', !!dz && !!dzPlan && Math.abs(dz.at - dzPlan.at) <= 150 && dz.at - dz.turnStartAt < 1800, dz && dzPlan ? `${dz.at - dz.turnStartAt} ms into the turn, ${Math.round(dz.at - dzPlan.at)} ms off its word` : 'not fired');
   ok('eat waits until his voice is done', !!eat && eat.how === 'pause' && eat.at - eat.turnStartAt >= 1800, eat ? `${eat.at - eat.turnStartAt} ms into the turn` : 'not fired');
 
-  // 2. one per sentence (trickSpin wins over eat in sentence 1), no repeats (sentence 2's trickSpin is skipped)
+  // 2. several in a sentence (trickSpin on "Watch", eat after his voice), never twice in a turn (sentence 2's trickSpin is skipped)
   let before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(1800);
-  L = await log(p); ok('one action per sentence, never twice running', L.slice(before).filter((x) => x.how === 'word' || x.how === 'pause').map((x) => x.id).join() === 'trickSpin', JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
+  L = await log(p); ok('several actions in a sentence, never twice in a turn', L.slice(before).filter((x) => x.how === 'word' || x.how === 'pause').map((x) => x.id).join() === 'trickSpin,eat', JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
 
   // 3. a word split across pieces still matches
   before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(1600);
@@ -53,14 +53,14 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
 
   // 5. the director: no word-list match in "That was sweet, bro", Flash picks trickSpin on "sweet" and it fires
   before = L.length;
-  await p.evaluate(() => { window.FAKE.directCalls = []; window.FAKE.direct = (b) => { window.FAKE.directCalls.push(b); return Promise.resolve(/sweet/.test(b.said) ? { action: 'trickSpin', word: 'sweet', strength: 'small', turn: b.turn } : { action: null, turn: b.turn }); }; window.SPEAK.fake.next(); });
+  await p.evaluate(() => { window.FAKE.directCalls = []; window.FAKE.direct = (b) => { window.FAKE.directCalls.push(b); return Promise.resolve(/sweet/.test(b.said) ? { beats: [{ action: 'trickSpin', word: 'sweet', until: 'sentence' }], keep: true, turn: b.turn } : { beats: [], keep: true, turn: b.turn }); }; window.SPEAK.fake.next(); });
   await p.waitForTimeout(2200);
   L = await log(p); const calls = await p.evaluate(() => window.FAKE.directCalls);
-  ok('the director is asked per clause, with the turn and recent actions', calls.length >= 2 && calls.every((c) => typeof c.turn === 'number' && Array.isArray(c.recent)), `${calls.length} calls`);
+  ok('the director is asked per clause, with the turn, the line and recent actions', calls.length >= 2 && calls.every((c) => typeof c.turn === 'number' && Array.isArray(c.recent) && c.line.includes(c.said)), `${calls.length} calls`);
   ok('a director pick fires on its word', L.slice(before).some((x) => x.id === 'trickSpin' && x.how === 'word'), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
   // 6. an answer that comes after his turn is over is dropped
   before = L.length;
-  await p.evaluate(() => { window.FAKE.direct = (b) => new Promise((r) => setTimeout(() => r({ action: 'clap', word: 'Fine', turn: b.turn }), 2500)); window.SPEAK.fake.next(); });
+  await p.evaluate(() => { window.FAKE.direct = (b) => new Promise((r) => setTimeout(() => r({ beats: [{ action: 'clap', word: 'Fine', until: 'sentence' }], keep: true, turn: b.turn }), 2500)); window.SPEAK.fake.next(); });
   await p.waitForTimeout(3600);
   L = await log(p); ok('a late answer after his turn is dropped', L.slice(before).some((x) => x.id === 'clap' && x.how === 'dropped') && !L.slice(before).some((x) => x.id === 'clap' && (x.how === 'word' || x.how === 'pause')), JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
   await p.evaluate(() => { delete window.FAKE.direct; });

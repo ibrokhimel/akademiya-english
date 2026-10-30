@@ -24,13 +24,28 @@ export function matchWords(sentence, catalog = CATALOG) {
   return hits.sort((x, y) => x.at - y.at).map(({ at, ...h }) => h);
 }
 
-// may this action play, and how (spec §4.2.5–6): 'word' lands on its word, 'pause' waits for the pause after the sentence
-// (it uses his mouth), 'skip' = not now. One per sentence, never the same twice running, big ones once in BIG_EVERY_TURNS turns.
-export function decide({ e, actedThisSentence, turn, lastBigTurn, lastId, reduce = false }, cfg) {
-  if (!e || e.talk === false || actedThisSentence || e.id === lastId) return 'skip';
+// may this beat play, and how (spec 2026-10-30 in-sync §4.4): 'go' starts on its word, 'pause' waits for his voice to run
+// out (it uses his mouth), 'skip' = not now. At most BEATS_PER_SENTENCE in a sentence, starts BEAT_GAP_MS apart, never the
+// same action twice running, big ones once in BIG_EVERY_TURNS turns and never with Reduce Motion.
+export function beatOk({ e, at, starts = [], inSentence = 0, lastId = '', turn, lastBigTurn, reduce = false }, cfg) {
+  if (!e || e.talk === false || e.id === lastId || inSentence >= cfg.BEATS_PER_SENTENCE) return 'skip';
+  if (starts.some((s) => Math.abs(s - at) < cfg.BEAT_GAP_MS)) return 'skip';
   if (e.big && (reduce || turn - lastBigTurn < cfg.BIG_EVERY_TURNS)) return 'skip';
-  return e.mouth ? 'pause' : 'word';
+  return e.mouth ? 'pause' : 'go';
 }
+
+// when a held beat lets go: the end of word k (`word`), of k's sentence once that sentence is complete (`sentence`), or
+// never on its own (`topic`); always by his voice's end + HOLD_TAIL_MS and HOLD_CAP_MS after it started, never before HOLD_MIN_MS
+export function holdEnd({ until, k, clock, voiceEndAt = Infinity, startedAt }, cfg) {
+  let end = Infinity;
+  if (until === 'word') end = clock.endOf(k) ?? Infinity;
+  else if (until === 'sentence') { const s = clock.sentences()[clock.sentenceOf(k)]; if (s && s.complete) end = clock.endOf(s.from + s.n - 1); }
+  return Math.min(Math.max(end, startedAt + cfg.HOLD_MIN_MS), voiceEndAt + cfg.HOLD_TAIL_MS, startedAt + cfg.HOLD_CAP_MS);
+}
+
+// the face a move that cannot hold yet leaves on him for the rest of its beat (spec §4.5)
+export const FAMILY_FACE = { celebrate: 'happy', 'show-off': 'cocky', surprise: 'surprised', annoyed: 'hmph', oops: 'oops', lazy: 'tired',
+  think: 'think', listen: 'listen', food: 'hungry', greet: 'happy', dizzy: 'woozy', offer: 'happy', explain: 'focus', move: null, touch: null };
 
 // one action of a family, at random, never the last one played and never touch-only; null if none is left
 export function variant(family, { lastId = '', rand = Math.random }, catalog = CATALOG) {
@@ -38,18 +53,11 @@ export function variant(family, { lastId = '', rand = Math.random }, catalog = C
   return pool.length ? pool[Math.floor(rand() * pool.length) % pool.length] : null;
 }
 
-// when word k of the n words so far plays: his speech is taken as even over the audio pushed so far (offsetMs is measured, Task 9)
-export const wordTime = ({ turnStartAt, turnAudioMs, k, n, offsetMs = 0 }) => turnStartAt + (n ? (turnAudioMs * k) / n : 0) + offsetMs;
-
-// a mouth action's moment: just after the sentence, unless his next sentence is already arriving, then at the end of his turn
-export const pauseTime = ({ sentenceEndAt, moreTextAfter, cfg }) => (moreTextAfter ? 'turn-end' : sentenceEndAt + cfg.MOUTH_AFTER_MS);
-
-// too late once his next sentence has started playing
-export const late = ({ at, nextSentenceStartAt }) => nextSentenceStartAt != null && at > nextSentenceStartAt;
-
 // the living layer (spec §4.3): what he does on his own now. Weighted by e.life[state] × the pack's tint; travel only when
 // idle and not Reduce Motion; nothing big unless idle and not Reduce Motion; never the last one; never touch-only.
+// Nothing while he talks: his beats and talking motion are his only motion then (spec 2026-10-30 in-sync §4.5).
 export function livePick({ state, pack, lastId = '', reduce = false, rand = Math.random }, catalog = CATALOG, cfg = {}) {
+  if (state === 'talking') return null;
   const items = catalog.filter((e) => e.talk !== false && e.id !== lastId && (e.life[state] || 0) > 0 && (!e.big || (state === 'idle' && !reduce)))
     .map((e) => [e, e.life[state] * ((e.packs && e.packs[pack]) ?? 1)]);
   if (state === 'idle' && !reduce) items.push([{ travel: true }, cfg.TRAVEL_WEIGHT || 0]);
