@@ -43,6 +43,20 @@ export function holdEnd({ until, k, clock, voiceEndAt = Infinity, startedAt }, c
   return Math.min(Math.max(end, startedAt + cfg.HOLD_MIN_MS), voiceEndAt + cfg.HOLD_TAIL_MS, startedAt + cfg.HOLD_CAP_MS);
 }
 
+// small talking motion (spec 2026-10-30 in-sync §4.7): which of his words get a nod / tilt / bob: the ones longer than the
+// line's median (the stressed, content-carrying ones), TALK_BEAT_GAP_MS apart, none that start before `heldUntil` (a move is on)
+export function talkBeats(words, { heldUntil = -Infinity, cfg }) {
+  const timed = words.filter((w) => w.start != null && w.end != null);
+  if (!timed.length) return [];
+  const lens = timed.map((w) => w.end - w.start).sort((x, y) => x - y), median = lens[Math.floor(lens.length / 2)];
+  const out = []; let last = -Infinity;
+  for (const w of timed) {
+    if (w.end - w.start <= median || w.start < heldUntil || w.start - last < cfg.TALK_BEAT_GAP_MS) continue;
+    out.push(w.k); last = w.start;
+  }
+  return out;
+}
+
 // the face a move that cannot hold yet leaves on him for the rest of its beat (spec §4.5)
 export const FAMILY_FACE = { celebrate: 'happy', 'show-off': 'cocky', surprise: 'surprised', annoyed: 'hmph', oops: 'oops', lazy: 'tired',
   think: 'think', listen: 'listen', food: 'hungry', greet: 'happy', dizzy: 'woozy', offer: 'happy', explain: 'focus', move: null, touch: null };

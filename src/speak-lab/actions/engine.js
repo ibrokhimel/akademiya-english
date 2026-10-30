@@ -6,14 +6,14 @@
 // `clock()` returns his current turn's word clock (a new clock = a new turn). Nothing here is awaited on the audio path:
 // a light tick (every 40 ms, or the test's own) starts and ends beats against the clock.
 import { CATALOG } from './catalog.js';
-import { matchWords, clauseEnd, entry, beatOk, holdEnd, variant, FAMILY_FACE } from './rules.js';
+import { matchWords, clauseEnd, entry, beatOk, holdEnd, variant, FAMILY_FACE, talkBeats } from './rules.js';
 
 const LATE_MS = 400, RANK = { word: 0, sentence: 1, topic: 2 };
 const norm = (w) => (w || '').toLowerCase().replace(/[^\p{L}\p{N}'ʻ]/gu, '');
 
 export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now = () => performance.now(), reduce = false, onPick = null, stage = null, manual = false }) {
   const log = [], holds = { move: null, face: null };                      // a hold: { beat, turn, handle }
-  let alive = true, turnN = 0, lastBigTurn = -99, lastId = '', T = null, done = null;
+  let alive = true, turnN = 0, lastBigTurn = -99, lastId = '', T = null, done = null, movingUntil = -Infinity, lastBeatK = -1, lastBeatTurn = null;
   const ticker = manual ? null : setInterval(() => tick(), 40);
 
   const newTurn = (c) => ({ id: ++turnN, clock: c, text: '', beats: [], handled: new Set(), starts: [], perSentence: new Map(), asks: [],
@@ -53,6 +53,7 @@ export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now
     const face = b.e.rig.enum === 'mood', kind = face ? 'face' : 'move';
     release(kind, t);
     holds[kind] = { beat: b, turn: me, handle: dombi.hold(b.e.rig, !!b.e.hold) };
+    if (!face) movingUntil = b.e.hold ? Infinity : t + b.e.ms;            // a once-move is over after its own length
     if (stage) { stage.pause(); b.paused = true; }
     log.push({ id: b.e.id, word: b.word, how: 'word', at: Math.round(t), turnStartAt: Math.round(me.clock.startOf(0) ?? t), until: b.until, turn: me.id });
     // a move that cannot hold yet plays once and leaves its family's face on him for the rest of the beat, unless a face was planned
@@ -63,7 +64,7 @@ export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now
     }
   }
   function release(kind, t) {
-    const h = holds[kind]; if (!h) return; holds[kind] = null; h.beat.status = 'done';
+    const h = holds[kind]; if (!h) return; holds[kind] = null; h.beat.status = 'done'; if (kind === 'move') movingUntil = Math.min(movingUntil, t);
     dombi.release(h.handle);
     if (h.beat.paused && stage) stage.resume();
     log.push({ id: h.beat.e.id, how: 'released', at: Math.round(t), turn: h.turn.id });
@@ -80,6 +81,12 @@ export function makeActing({ dombi, clock: getClock, cfg, catalog = CATALOG, now
       const h = holds[kind]; if (!h) continue; const b = h.beat;
       const end = holdEnd({ until: b.until, k: b.until === 'word' && b.untilK != null ? b.untilK : b.k, clock: h.turn.clock, voiceEndAt: h.turn.voiceEndAt, startedAt: b.startedAt }, cfg);
       if (t >= end) release(kind, t);
+    }
+    // small talking motion between beats: a nod / tilt / bob as one of his longer words starts, while no move is on
+    if (T && dombi.beat && t >= movingUntil) {
+      const k = T.clock.wordAt(t);
+      if (lastBeatTurn !== T) { lastBeatTurn = T; lastBeatK = -1; }
+      if (k > lastBeatK && talkBeats(T.clock.words(), { cfg }).includes(k)) { lastBeatK = k; dombi.beat(); log.push({ how: 'talkBeat', k, at: Math.round(t), turn: T.id }); }
     }
   }
   const releaseAll = () => { const t = now(); release('move', t); release('face', t); };

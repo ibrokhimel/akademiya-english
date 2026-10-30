@@ -1,6 +1,6 @@
 // Dombi on the stage: the Rive rig from the lab (view model `Dombi`).
 // mountDombi(box, size) -> { mood(name), listening(bool), talking(bool), amp(n), viseme(n), dark(bool), gesture(g),
-//                            fire(rig, ms), hold(rig, holdable) -> handle, release(handle), talkingOff(ms), trigger(name), play(value),
+//                            fire(rig, ms), hold(rig, holdable) -> handle, release(handle), talkingOff(ms), beat(), trigger(name), play(value),
 //                            directed(bool), reset() }
 const MOODS = new Set(['smirk', 'happy', 'laugh', 'talk', 'listen', 'think', 'surprised', 'sleepy', 'wink', 'proud', 'focus', 'confused', 'oops',
   'sideEye', 'deadpan', 'grin', 'suspicious', 'cringe', 'disgusted', 'shocked', 'awkward', 'cryLaugh', 'bored',
@@ -49,6 +49,8 @@ export async function mountDombi(box, size) {
       if (rig.enum === 'mood') { if (faceHold === token) { faceHold = 0; faceHeld = 0; set('enum', 'mood', current); } return; }
       if (playHold[rig.enum] === token) { playHold[rig.enum] = 0; set('enum', rig.enum, 'none'); }
     },
+    // small talking motion: Rive picks a nod, a tilt or a bob
+    beat() { api.trigger('beat'); },
     // a mouth action plays while his voice is quiet: the lip-sync layer lets go of the mouth for that long
     talkingOff(ms) { set('boolean', 'talking', false); later(ms, () => { if (talkingOn) set('boolean', 'talking', true); }); },
     // the talk is over: nothing held comes back later

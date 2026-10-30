@@ -6,7 +6,7 @@ const T = (trigger) => ({ trigger }), E = (en, value) => ({ enum: en, value });
 const L = (idle = 0, listening = 0, talking = 0) => ({ idle, listening, talking });
 // hold: the move has a repeating middle in Rive, so it can last until its sentence or topic ends (spec 2026-10-30 in-sync §4.6)
 export const HOLDABLE = new Set(['dance', 'wiggleDance', 'robotDance', 'headbang', 'airGuitar', 'applause', 'cheer', 'laughHard', 'drumroll',
-  'shiver', 'phoneScroll', 'lookAround', 'readBook', 'writeNote', 'magnify', 'chinRub', 'headScratch', 'impatient', 'armsCrossed', 'fingerWag',
+  'shiver', 'phoneScroll', 'peekSide', 'readBook', 'writeNote', 'magnify', 'chinRub', 'headScratch', 'impatient', 'armsCrossed', 'fingerWag',
   'boxing', 'doubleFlex', 'dozeOff', 'sweat', 'steam', 'hideFace', 'sneakyLook', 'wobbleJelly', 'bounceBall', 'yesYes']);
 const a = (id, rig, family, kind, ms, use, words = [], more = {}) =>
   ({ id, rig, family, kind, ms, use, words, mouth: false, big: false, life: L(), talk: true, hold: HOLDABLE.has(id), ...more });

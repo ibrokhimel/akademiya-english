@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CATALOG } from './catalog.js';
-import { matchWords, clauseEnd, entry, variant, livePick, nextLifeMs, beatOk, holdEnd } from './rules.js';
+import { matchWords, clauseEnd, entry, variant, livePick, nextLifeMs, beatOk, holdEnd, talkBeats } from './rules.js';
 import { makeClock } from '../clock.js';
 import { makeActing } from './engine.js';
 
@@ -94,7 +94,7 @@ function stage(cfg = {}) {
   const dombi = {
     hold: (rig, holdable) => { const h = { id: rig.trigger || rig.value, holdable, face: rig.enum === 'mood' }; ops.push({ t: st.t, op: 'hold', id: h.id, face: h.face }); return h; },
     release: (h) => { if (h) ops.push({ t: st.t, op: 'release', id: h.id, face: h.face }); },
-    fire: (rig) => ops.push({ t: st.t, op: 'fire', id: rig.trigger || rig.value }), talkingOff: () => {},
+    fire: (rig) => ops.push({ t: st.t, op: 'fire', id: rig.trigger || rig.value }), talkingOff: () => {}, beat: () => ops.push({ t: st.t, op: 'beat' }),
   };
   const say = (text, audioMs) => { const c = makeClock({ weigh }); c.start(st.t); c.text(text); c.audio(audioMs); clocks.push(c); return c; };
   const a = makeActing({ dombi, clock: () => clocks[clocks.length - 1] || null, now: () => st.t, manual: true,
@@ -172,4 +172,33 @@ test('engine: a mouth action waits for his voice to run out', () => {
   a.idle(); run(100);
   assert.ok(ops.some((o) => o.id === 'eat' && o.t >= 2000), JSON.stringify(ops));
   a.stop();
+});
+
+// small talking motion (spec §4.7): on his longer words, spaced out, never while a move holds
+test('talkBeats: longer than the line\'s median, TALK_BEAT_GAP_MS apart, none while a move holds, none for nothing', () => {
+  const cfg = { TALK_BEAT_GAP_MS: 600 };
+  const lens = [100, 400, 120, 380, 90, 420, 110, 400, 100, 450];
+  let t = 0; const words = lens.map((d, k) => { const w = { k, start: t, end: t + d }; t += d + 30; return w; });
+  const ks = talkBeats(words, { heldUntil: -Infinity, cfg });
+  assert.ok(ks.length >= 2, JSON.stringify(ks));
+  for (const k of ks) assert.ok(lens[k] > 250, `word ${k} is short`);
+  for (let i = 1; i < ks.length; i++) assert.ok(words[ks[i]].start - words[ks[i - 1]].start >= 600);
+  const held = talkBeats(words, { heldUntil: words[6].start, cfg });
+  assert.ok(held.every((k) => words[k].start >= words[6].start), JSON.stringify(held));
+  assert.deepEqual(talkBeats([], { heldUntil: -Infinity, cfg }), []);
+});
+
+test('engine: a talking beat on a long word when no move holds, none while a dance holds', () => {
+  const { st, a, say, run, ops } = stage({ TALK_BEAT_GAP_MS: 600 });
+  const text = 'Honestly yesterday everything happened unbelievably quickly, remember?';
+  say(text, 6000); a.caption(text); run(6000);
+  assert.ok(ops.filter((o) => o.op === 'beat').length >= 2, JSON.stringify(ops));
+  a.stop();
+  const s2 = stage({ TALK_BEAT_GAP_MS: 600 });
+  const t2 = 'This party is crazy, everybody showed up dancing tremendously.';
+  s2.say(t2, 6000); s2.a.caption(t2); s2.a.apply({ turn: s2.a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }], keep: true });
+  s2.run(6000);
+  const d = s2.held('dance');
+  assert.ok(!s2.ops.some((o) => o.op === 'beat' && o.t >= d.from && o.t < (d.to ?? Infinity)), JSON.stringify(s2.ops));
+  s2.a.stop();
 });
