@@ -29,10 +29,13 @@ export async function startMic(onChunk) {
   return { stop() { node.port.onmessage = null; src.disconnect(); node.disconnect(); stream.getTracks().forEach((t) => t.stop()); }, amp: () => amp };
 }
 
-// makePlayer() -> { push(Int16Array), clear(), amp(), onIdle(cb), playing(), endsAt(), pushedMs() }: buffers scheduled back to back on one clock
+// makePlayer() -> { push(Int16Array), clear(), amp(), levelAt(t), playNow(), onIdle(cb), playing(), endsAt(), pushedMs() }: buffers scheduled back to back on one clock
 export function makePlayer() {
   const ac = audioContext();
-  let at = 0, sources = new Set(), last = 0, idleCb = null, tapNode = null, gain = ac.createGain(), pushed = 0; gain.connect(ac.destination);
+  let at = 0, sources = new Set(), last = 0, idleCb = null, tapNode = null, gain = ac.createGain(), pushed = 0, env = []; gain.connect(ac.destination);
+  const ENV_MS = 20, ENV_N = (OUT_RATE * ENV_MS) / 1000;                                    // loudness in 20 ms windows, per pushed chunk
+  const playNow = () => performance.now() - (ac.outputLatency || 0) * 1000;               // what the speakers play now, on the page clock
+  const levelAt = (t) => { for (let i = env.length - 1; i >= 0; i--) { const e = env[i]; if (t >= e.at) { const j = Math.floor((t - e.at) / ENV_MS); return j < e.levels.length ? e.levels[j] : 0; } } return 0; };
   const stats = { pushes: 0, gaps: 0, gapMs: 0, lateMs: 0 };                                  // gaps: the queue ran dry before a chunk came (a crackle each time)
   const tick = () => { if (sources.size === 0 && idleCb) idleCb(); };
   return {
@@ -48,18 +51,24 @@ export function makePlayer() {
       const now = ac.currentTime; stats.pushes++;
       if (sources.size > 0 && at < now) { stats.gaps++; stats.gapMs += (now - at) * 1000; }
       if (at < now + 0.02) at = now + 0.02;                                                 // a little lead so the first chunk is never late
+      const levels = new Uint8Array(Math.ceil(ch.length / ENV_N));
+      for (let w = 0; w < levels.length; w++) { let sum = 0, c = 0; for (let i = w * ENV_N; i < Math.min(ch.length, (w + 1) * ENV_N); i++, c++) sum += ch[i] * ch[i]; levels[w] = Math.min(100, Math.round(Math.sqrt(sum / Math.max(1, c)) * 400)); }
+      env.push({ at: performance.now() + (at - now) * 1000, levels }); while (env.length && env[0].at < performance.now() - 5000) env.shift();
       s.start(at); at += buf.duration; pushed += buf.duration * 1000; sources.add(s); s.onended = () => { sources.delete(s); if (sources.size === 0) { last = 0; tick(); } };
     },
     // stopping mid-word: the old sound fades out over 25 ms on its own gain node and is dropped; new sound gets a fresh one, so the two never mix
     clear() {
-      const old = [...sources], oldGain = gain; sources.clear(); at = 0; last = 0; if (!old.length) return;
+      const old = [...sources], oldGain = gain; sources.clear(); at = 0; last = 0; env = []; if (!old.length) return;
       gain = ac.createGain(); gain.connect(ac.destination); if (tapNode) gain.connect(tapNode);
       const t = ac.currentTime; oldGain.gain.setValueAtTime(1, t); oldGain.gain.linearRampToValueAtTime(0, t + 0.025);
       for (const s of old) { s.onended = null; try { s.stop(t + 0.03); } catch {} }
       setTimeout(() => oldGain.disconnect(), 100);
       if (idleCb) idleCb();
     },
-    amp: () => (sources.size ? last : 0),
+    // the loudness of the sound playing now (not of the last chunk received, which runs ahead of it)
+    amp: () => (sources.size ? levelAt(playNow()) : 0),
+    levelAt,
+    playNow,
     playing: () => sources.size > 0,
     // for the action engine (performance.now() clock): when the queued sound runs out, and how much sound was ever pushed
     endsAt: () => performance.now() + Math.max(0, at - ac.currentTime) * 1000,
