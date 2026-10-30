@@ -1,0 +1,18 @@
+{
+  "name": "speak-lab-server",
+  "private": true,
+  "type": "module",
+  "description": "Holds the Gemini key for the speak lab: Live tokens, the text-model side calls, talk logs.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test server.test.js",
+    "build": "esbuild node_modules/@google/genai/dist/web/index.mjs --bundle --format=esm --platform=browser --outfile=../vendor/genai.js --log-level=warning",
+    "postinstall": "npm run build"
+  },
+  "dependencies": {
+    "@google/genai": "latest"
+  },
+  "devDependencies": {
+    "esbuild": "latest"
+  }
+}

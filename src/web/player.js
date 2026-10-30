@@ -75,7 +75,7 @@ export async function playLesson(lesson, { phone, screen, mic, speaking = true, 
   async function runItem(e, way, first) {
     const me = ++run, alive = () => me === run && !left, el = document.createElement('div'); el.className = 'ex'; body.appendChild(el); cur = e;
     W.ready(check, false); checkFn = null; if (window.APP) window.APP.now = { item: e.item, way, round: e.round, n: e.n, seq: me };      // for the checks: what is on screen
-    const ctx = { item: e.item, n: e.n, lesson, el, mic, alive, ready: (on) => W.ready(check, on), onCheck: (fn) => { checkFn = fn; }, spoke: (ms) => { spokenMs += ms; }, speaking: session.speaking, keepVoice };
+    const ctx = { item: e.item, n: e.n, lesson, el, mic, alive, ready: (on) => W.ready(check, on), onCheck: (fn) => { checkFn = fn; }, spoke: (ms) => { spokenMs += ms; }, speaking: session.speaking, keepVoice, speechRetry() { session.retrySpeech(); ops.push('v'); save(); } };
     const going = exerciseFor(e.item, way)(ctx);
     if (!first && !M.reduce) [...el.children].forEach((c, i) => M.anim(c, [{ opacity: 0, translate: '70px 0' }, { opacity: getComputedStyle(c).opacity, translate: '0 0' }], { duration: T.exSlide, delay: i * T.stagger * M.slow, fill: 'backwards' }));
     const res = await Promise.race([going, new Promise((r) => { abort = r; })]); abort = null;
@@ -91,7 +91,7 @@ export async function playLesson(lesson, { phone, screen, mic, speaking = true, 
 
   // after a reload in the middle of the lesson: the answers so far are played into the session again, so it goes on from the same item
   const ops = resume ? [...resume.ops] : [];
-  if (resume) { for (const op of ops) { session.startMistakes(); if (!session.next()) break; if (op === 's') session.skip(); else session.answer(op === 'r'); }
+  if (resume) { for (const op of ops) { session.startMistakes(); if (!session.next()) break; if (op === 'v') session.retrySpeech(); else if (op === 's') session.skip(); else session.answer(op === 'r'); }
     spokenMs = resume.spokenMs || 0; session.speaking = resume.speaking; showCant(); comboEl.textContent = session.stats().combo; pct = session.stats().progress * 100; fill.style.width = pct + '%'; }
   const save = () => { if (onProgress) onProgress({ id: lesson.id, ops, spokenMs: Math.round(spokenMs), speaking: session.speaking }); };
   let first = true;

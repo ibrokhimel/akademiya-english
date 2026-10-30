@@ -15,7 +15,7 @@ const BY_TILES = new Set(['meet', 'say']);       // answered with word tiles whi
 
 export function makeSession(lesson, { speaking = true } = {}) {
   const todo = lesson.items.map((item, n) => ({ item, n })), again = [];
-  let cur = null, round = 'lesson', asked = 0, firstRight = 0, missed = 0, combo = 0, bestCombo = 0, done = 0, skipped = 0, announced = false;
+  let cur = null, round = 'lesson', asked = 0, firstRight = 0, missed = 0, speechRetries = 0, combo = 0, bestCombo = 0, done = 0, skipped = 0, announced = false;
   const total = () => lesson.items.length - skipped;
 
   return {
@@ -30,6 +30,9 @@ export function makeSession(lesson, { speaking = true } = {}) {
       const e = from.shift(); cur = { ...e, round, of: lesson.items.length }; return cur;
     },
     startMistakes() { if (announced || todo.length || !again.length || cur) return false; announced = true; return true; },
+    // A transcript mismatch cannot establish a learner error. Keep this item
+    // open and do not award credit, add a mistake, or reset the answer combo.
+    retrySpeech() { if (!cur) throw new Error('no item is open'); speechRetries++; },
     answer(right) {
       if (!cur) throw new Error('no item is open');
       const first = cur.round === 'lesson';
@@ -39,7 +42,7 @@ export function makeSession(lesson, { speaking = true } = {}) {
     },
     skip() { if (!cur) throw new Error('no item is open'); skipped++; cur = null; },
     stats() {
-      return { accuracy: asked ? Math.round((firstRight / asked) * 100) : 100, mistakes: missed, perfect: asked > 0 && missed === 0, combo, bestCombo,
+      return { accuracy: asked ? Math.round((firstRight / asked) * 100) : 100, mistakes: missed, speechRetries, correct: firstRight, perfect: asked > 0 && missed === 0 && speechRetries === 0, combo, bestCombo,
         progress: total() ? done / total() : 1, answered: asked, skipped, left: todo.length + again.length + (cur ? 1 : 0) };
     },
   };

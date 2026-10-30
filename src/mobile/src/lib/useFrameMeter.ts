@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect,useState } from "react";
 
 export type FrameStats = {
   /** Frames the JS thread produced in the last second. */
@@ -8,10 +8,11 @@ export type FrameStats = {
 };
 
 /** Measures the JS thread's frame rate, reported once a second. */
-export function useFrameMeter(): FrameStats {
+export function useFrameMeter(enabled = true): FrameStats {
   const [stats, setStats] = useState<FrameStats>({ fps: 0, worstMs: 0 });
 
   useEffect(() => {
+    if (!enabled) return;
     let raf = 0;
     let frames = 0;
     let worst = 0;
@@ -35,7 +36,7 @@ export function useFrameMeter(): FrameStats {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [enabled]);
 
   return stats;
 }

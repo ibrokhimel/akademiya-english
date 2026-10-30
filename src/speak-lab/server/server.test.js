@@ -1,0 +1,272 @@
+// node --test src/speak-lab/server/   (a fake gemini is injected; nothing reaches Google)
+import { test, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { createServer, liveConfig } from './server.js';
+
+const servers = [];                                              // closed at the end even when an assertion throws, so a failure never hangs the run
+after(() => Promise.all(servers.map((s) => new Promise((r) => s.close(r)))));
+
+const fakeGemini = {
+  calls: [],
+  async token(constraints) { this.calls.push(['token', constraints]); return 'tok_123'; },
+  async flash() { return '{}'; },
+  async tts() { return ''; },
+};
+
+async function up(env = { GEMINI_API_KEY: 'k' }) {
+  const server = createServer({ gemini: fakeGemini, env });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r)); servers.push(server);
+  const base = `http://127.0.0.1:${server.address().port}`;
+  return { base, close: () => new Promise((r) => server.close(r)) };
+}
+const post = (base, path, body) => fetch(base + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+
+test('health reports the model', async () => {
+  const s = await up();
+  const r = await (await fetch(s.base + '/health')).json();
+  assert.equal(r.ok, true); assert.equal(r.model, 'gemini-3.8-live');
+  await s.close();
+});
+
+test('token returns the pack voice and the locked model', async () => {
+  const s = await up(); fakeGemini.calls.length = 0;
+  const r = await post(s.base, '/token', { pack: 'rude', topic: 'futbol' });
+  assert.equal(r.status, 200);
+  const j = await r.json();
+  assert.equal(j.token, 'tok_123'); assert.equal(j.model, 'gemini-3.8-live');
+  assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Zephyr');
+  assert.deepEqual(j.config.responseModalities, ['AUDIO']);
+  assert.equal(j.config.tools, undefined);                                 // no tools: the voice model reads tool calls out loud
+  const [, constraints] = fakeGemini.calls[0];
+  assert.equal(constraints.liveConnectConstraints.model, 'models/gemini-3.8-live');
+  assert.equal(constraints.uses, 1);
+  await s.close();
+});
+
+test('token uses the chosen voice when it is a known one, else the pack\'s', async () => {
+  const s = await up();
+  let j = await (await post(s.base, '/token', { pack: 'kind', voice: 'Leda' })).json();
+  assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Leda');
+  j = await (await post(s.base, '/token', { pack: 'kind', voice: 'Evil' })).json();
+  assert.equal(j.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Puck');
+  await s.close();
+});
+
+test('say returns a sample line in the chosen voice', async () => {
+  const s = await up();
+  fakeGemini.tts = async (text, voice, style) => { fakeGemini.calls.push(['tts', text, voice, style]); return 'QUJD'; };
+  const r = await post(s.base, '/say', { voice: 'Kore' });
+  assert.equal(r.status, 200); assert.equal((await r.json()).pcm, 'QUJD');
+  const [, text, voice] = fakeGemini.calls.at(-1); assert.equal(voice, 'Kore'); assert.match(text, /Dombi/);
+  assert.equal((await post(s.base, '/say', { voice: 'Evil' })).status, 400);
+  await s.close();
+});
+
+test('a WAV from the speech model is stripped to its samples, header and trailing chunks gone', async () => {
+  // the TTS model answers with a WAV: RIFF header, the samples, then a metadata chunk; played raw, both ends are a bang
+  const data = Buffer.alloc(4800, 7), trailer = Buffer.concat([Buffer.from('C2PA'), Buffer.from([4, 0, 0, 0]), Buffer.from([255, 255, 255, 255])]);
+  const h = Buffer.alloc(44); h.write('RIFF', 0); h.writeUInt32LE(36 + data.length + trailer.length, 4); h.write('WAVEfmt ', 8); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(24000, 24); h.writeUInt32LE(48000, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(data.length, 40);
+  const wav = Buffer.concat([h, data, trailer]).toString('base64');
+  const s = await up(); fakeGemini.tts = async () => wav;
+  for (const [path, body] of [['/say', { voice: 'Puck' }], ['/slower', { line: 'Hi there', voice: 'Puck' }]]) {
+    const out = Buffer.from((await (await post(s.base, path, body)).json()).pcm, 'base64');
+    assert.equal(out.length, data.length, path); assert.ok(out.equals(data), path);
+  }
+  fakeGemini.tts = async () => Buffer.alloc(100, 3).toString('base64');                                    // raw PCM passes through untouched
+  assert.equal(Buffer.from((await (await post(s.base, '/say', { voice: 'Puck' })).json()).pcm, 'base64').length, 100);
+  await s.close();
+});
+
+test('token refuses an unknown pack with 400', async () => {
+  const s = await up();
+  const r = await post(s.base, '/token', { pack: 'evil' });
+  assert.equal(r.status, 400);
+  await s.close();
+});
+
+test('system prompt holds the pack text and the learner\'s name and goal', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'rude', topic: 'futbol', profile: { name: 'Ibrohim', goal: 'ielts', level: 'Beginner', interests: ['football'], mistakes: [], lastTalk: '' } });
+  assert.match(p, /ahmoq/);                       // the owner's rude example line
+  assert.match(p, /Ibrohim/); assert.match(p, /ielts/i); assert.match(p, /futbol/);
+  assert.doesNotMatch(p, /set_mood/); assert.match(p, /Tashkent/);
+});
+
+test('couple pack keeps romance for adults only when age is under 18', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const line = /never a boyfriend or girlfriend/;
+  assert.match(buildSystemPrompt({ pack: 'couple', topic: '', profile: { age: 15 } }), line);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'couple', topic: '', profile: { age: 25 } }), line);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'couple', topic: '', profile: {} }), line);
+});
+
+test('the talk is locked to English and Uzbek', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  assert.match(buildSystemPrompt({ pack: 'kind', topic: '', profile: {} }), /only two languages: English and Uzbek/);
+  const { liveConfig } = await import('./server.js');
+  const c = liveConfig('kind', 'x');
+  assert.deepEqual(c.inputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']); assert.deepEqual(c.outputAudioTranscription.languageCodes, ['en-US', 'uz-UZ']);
+});
+
+test('the prompt carries the anti-assistant rules, Dombi\'s own life, and the games rule', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'kind', topic: '', profile: {} });
+  assert.match(p, /Never say/); assert.match(p, /I'm here to help/);               // the banned stock lines are named
+  assert.match(p, /Pick a side/i);                                                 // opinions, not "both are legends"
+  assert.match(p, /Chorsu/);                                                       // a life of his own, local and specific
+  assert.match(p, /after every word/);                                             // the word-repeater game is refused
+  assert.match(p, /Bad:/); assert.match(p, /Good:/);                               // shown, not just told
+});
+
+test('the prompt carries the pronunciation drill: spelled sound, escalation, payoff, next word', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const p = buildSystemPrompt({ pack: 'rude', topic: '', profile: {} });
+  assert.match(p, /KWAI-er/);                                      // spell the sound in capital syllables
+  assert.match(p, /bigger reaction/);                              // each miss in a row escalates
+  assert.match(p, /FINALLY/);                                      // the payoff is a moment
+  assert.match(p, /next word/);                                    // momentum: straight to the next word with a dare
+  assert.match(p, /Are you kidding me/);                           // Rude has Aloa's beats
+});
+
+test('Rude may swear; slurs stay out; an under-18 account gets the light version', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  const adult = buildSystemPrompt({ pack: 'rude', topic: '', profile: { age: 25 } }), teen = buildSystemPrompt({ pack: 'rude', topic: '', profile: { age: 15 } }), none = buildSystemPrompt({ pack: 'rude', topic: '', profile: {} });
+  assert.match(adult, /You swear/); assert.doesNotMatch(adult, /never swearing/);
+  assert.match(adult, /never slurs/i);                               // race, religion, nationality, sexuality, disability, gendered slurs
+  assert.match(adult, /no Uzbek mat/i);                              // English swearing only; Uzbek sexual swearing is far heavier
+  assert.match(teen, /under 18/); assert.doesNotMatch(adult, /under 18/); assert.doesNotMatch(none, /under 18/);
+  assert.doesNotMatch(buildSystemPrompt({ pack: 'kind', topic: '', profile: {} }), /You swear/);   // only Rude
+});
+
+test('unknown pack throws', async () => {
+  const { buildSystemPrompt } = await import('./prompts.js');
+  assert.throws(() => buildSystemPrompt({ pack: 'evil', topic: '', profile: {} }));
+});
+
+test('feedback returns the model\'s json and empty strings when the model says nothing', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return { better: 'I went to the bazaar yesterday.', pron: '', level: 'Beginner' }; };
+  const body = { audio: 'AAAA', learnerText: 'yesterday I go bazaar', dombiText: 'Oh nice, what did you buy?', history: [], level: '' };
+  let r = await post(s.base, '/feedback', body); assert.equal(r.status, 200);
+  let j = await r.json(); assert.equal(j.better, 'I went to the bazaar yesterday.'); assert.equal(j.pron, ''); assert.equal(j.level, 'Beginner');
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.equal(parts[0].inlineData.mimeType, 'audio/pcm;rate=16000'); assert.equal(opts.json, true);
+  fakeGemini.flash = async () => ({});
+  r = await post(s.base, '/feedback', body); j = await r.json(); assert.deepEqual(j, { better: '', pron: '', level: '' });
+  await s.close();
+});
+
+test('explain returns uz text', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return "Bu yerda 'what did you buy' deb so'rayapti: nima sotib olding."; };
+  const r = await post(s.base, '/explain', { line: 'What did you buy?', history: [{ who: 'learner', text: 'I go bazaar' }] });
+  assert.equal(r.status, 200); assert.match((await r.json()).uz, /sotib olding/);
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.match(parts[0].text, /What did you buy\?/); assert.equal(opts.json, undefined);
+  await s.close();
+});
+
+test('slower returns base64 pcm', async () => {
+  const s = await up();
+  fakeGemini.tts = async (text, voice, style) => { fakeGemini.calls.push(['tts', text, voice, style]); return 'AAAAAAAA'; };
+  const r = await post(s.base, '/slower', { line: 'Tell me more about the match.', voice: 'Zephyr' });
+  assert.equal(r.status, 200); assert.equal((await r.json()).pcm, 'AAAAAAAA');
+  const [, text, voice, style] = fakeGemini.calls.at(-1); assert.equal(text, 'Tell me more about the match.'); assert.equal(voice, 'Zephyr'); assert.match(style, /slow/i);
+  await s.close();
+});
+
+test('report returns the model\'s json', async () => {
+  const s = await up();
+  fakeGemini.flash = async (parts, opts) => { fakeGemini.calls.push(['flash', parts, opts]); return { stars: 2, why: 'Yaxshi gaplashdingiz.', phrases: [{ en: 'I went to the bazaar', uz: 'Bozorga bordim' }], pron: ['th'], level: 'Beginner', profileUpdate: { interests: ['football'], mistakes: ['go → went'], lastTalk: 'Futbol haqida.' } }; };
+  const r = await post(s.base, '/report', { transcript: [{ who: 'dombi', text: 'Salom!' }, { who: 'learner', text: 'yesterday I go bazaar' }], cards: [], profile: { name: 'Ibrohim' }, pack: 'kind', topic: 'futbol' });
+  assert.equal(r.status, 200); const j = await r.json();
+  assert.equal(j.stars, 2); assert.equal(j.phrases[0].uz, 'Bozorga bordim'); assert.deepEqual(j.profileUpdate.interests, ['football']);
+  const [, parts, opts] = fakeGemini.calls.at(-1); assert.match(parts[0].text, /yesterday I go bazaar/); assert.equal(opts.json, true);
+  await s.close();
+});
+
+test('log writes a folder and grows the ledger, and token refuses with 402 over budget', async () => {
+  const { mkdtempSync, existsSync, readFileSync } = await import('node:fs'); const { tmpdir } = await import('node:os'); const { join } = await import('node:path');
+  const logs = mkdtempSync(join(tmpdir(), 'speak-logs-'));
+  const server = createServer({ gemini: fakeGemini, env: { GEMINI_API_KEY: 'k' }, logsDir: logs, budgetUsd: 1 });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r)); servers.push(server); const base = `http://127.0.0.1:${server.address().port}`;
+  let r = await post(base, '/log', { id: 'abc', transcript: [{ who: 'dombi', text: 'Salom' }], cards: [], secIn: 600, secOut: 300, latencies: [800], interruptions: 1 });
+  assert.equal(r.status, 200); const j = await r.json(); assert.ok(j.cost > 0); assert.ok(j.monthTotal >= j.cost);
+  const folder = join(logs, j.folder); assert.ok(existsSync(join(folder, 'transcript.json'))); assert.ok(existsSync(join(folder, 'stats.json')));
+  assert.equal(JSON.parse(readFileSync(join(logs, 'ledger.json'), 'utf8')).talks.length, 1);
+  r = await post(base, '/log', { id: 'big', transcript: [], cards: [], secIn: 3600 * 50, secOut: 3600 * 50, latencies: [], interruptions: 0 });   // a huge talk pushes the month over $1
+  r = await post(base, '/token', { pack: 'kind' }); assert.equal(r.status, 402); const b = await r.json(); assert.equal(b.reason, 'budget'); assert.equal(b.budget, 1); assert.ok(b.spent > 1);
+});
+
+test('missing key refuses /token with 503 in English JSON', async () => {
+  const s = await up({});
+  const r = await post(s.base, '/token', { pack: 'kind' });
+  assert.equal(r.status, 503);
+  assert.equal((await r.json()).error, 'no key');
+  await s.close();
+});
+
+// the director: Gemini Flash plans up to three beats for a clause of his (spec 2026-10-30 in-sync §4.4)
+test('direct returns at most 3 sanitized beats with keep and the turn', async () => {
+  const s = await up(); const sent = [];
+  let answer = { beats: [{ action: 'shiver', word: 'freezing', until: 'sentence' }, { action: 'tapped', word: 'x' }, { action: 'moonwalk' },
+    { action: 'gasp', word: 'what', until: 'banana' }, { action: 'dance', word: 'party', until: 'word:tonight' }, { action: 'nod', word: 'yes', until: 'topic' }], keep: 'yes' };
+  fakeGemini.flash = async (parts, opts) => { sent.push({ parts, opts }); return answer; };
+  const said = 'What, I am freezing, party tonight, yes', line = 'Bro. ' + said;
+  let j = await (await post(s.base, '/direct', { learner: 'look at me', said, line, pack: 'rude', recent: ['eat'], turn: 7 })).json();
+  assert.deepEqual(j, { beats: [{ action: 'shiver', word: 'freezing', until: 'sentence' }, { action: 'gasp', word: 'what', until: 'sentence' },
+    { action: 'dance', word: 'party', until: 'word:tonight' }], keep: false, turn: 7 });
+  const prompt = sent[0].opts.system + '\n' + sent[0].parts.map((p) => p.text).join('\n');
+  assert.ok(prompt.includes('trickSpin') && prompt.includes('showing off, being cool'), 'the catalog ids and their use lines go to Flash');
+  assert.ok(!/\btapped\b|play:pet|poke1/.test(prompt), 'touch-only actions are never offered');
+  assert.ok(prompt.includes(line), 'the whole line so far goes to Flash too');
+  assert.equal(sent[0].opts.json, true); assert.equal(sent[0].opts.model, 'gemini-3.5-flash-lite');   // the fast model: it answers while he is still talking
+  answer = { beats: [{ action: 'shiver', word: 'nowhere', until: 'topic' }], keep: true };
+  j = await (await post(s.base, '/direct', { said: 'so cold', turn: 8 })).json();
+  assert.deepEqual(j, { beats: [{ action: 'shiver', word: '', until: 'topic' }], keep: true, turn: 8 });   // a word not in the clause: "now"
+  answer = { beats: 'shiver' }; j = await (await post(s.base, '/direct', { said: 'hey', turn: 9 })).json();
+  assert.deepEqual(j, { beats: [], keep: false, turn: 9 });
+  answer = { beats: [{ action: 'dance', word: 'party', until: 'word:nothere' }] }; j = await (await post(s.base, '/direct', { said: 'a party', turn: 10 })).json();
+  assert.equal(j.beats[0].until, 'sentence');                                                          // an end word not in the clause
+  fakeGemini.flash = async () => '{}';
+  await s.close();
+});
+test('direct refuses without a key', async () => {
+  const s = await up({}); const r = await post(s.base, '/direct', { said: 'hi', turn: 1 });
+  assert.equal(r.status, 503); await s.close();
+});
+
+// hold-to-talk: the page says when the learner starts and stops, so Gemini's own speech detection is off (spec 2026-10-30 §4.4)
+test('liveConfig turns speech detection off for hold-to-talk only', () => {
+  assert.equal(liveConfig('kind', 's', '', 'hold').realtimeInputConfig.automaticActivityDetection.disabled, true);
+  assert.equal(liveConfig('kind', 's', '', 'auto').realtimeInputConfig, undefined);
+  assert.equal(liveConfig('kind', 's').realtimeInputConfig, undefined);
+});
+test('token passes the mic mode into the config', async () => {
+  const s = await up();
+  const j = await (await post(s.base, '/token', { pack: 'kind', mic: 'hold' })).json();
+  assert.equal(j.config.realtimeInputConfig.automaticActivityDetection.disabled, true);
+  await s.close();
+});
+test('in hold mode the token locks speech detection off too (the token config wins over the page)', async () => {
+  const s = await up(); fakeGemini.calls.length = 0;
+  await post(s.base, '/token', { pack: 'kind', mic: 'hold' });
+  const [, c1] = fakeGemini.calls[0];
+  assert.equal(c1.liveConnectConstraints.config.realtimeInputConfig.automaticActivityDetection.disabled, true);
+  fakeGemini.calls.length = 0; await post(s.base, '/token', { pack: 'kind' });
+  assert.equal(fakeGemini.calls[0][1].liveConnectConstraints.config.realtimeInputConfig, undefined);
+  await s.close();
+});
+test('a talk log keeps the timing of captions, audio and acted actions', async () => {
+  const { writeTalk } = await import('./log.js'); const fs = await import('node:fs'); const os = await import('node:os'); const path = await import('node:path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'speak-log-'));
+  const folder = writeTalk(dir, { id: 't1', timing: [{ t: 10, kind: 'audio', ms: 500 }, { t: 12, kind: 'caption', words: 3 }], acting: [{ id: 'eat', how: 'pause', at: 900 }] });
+  const j = JSON.parse(fs.readFileSync(path.join(dir, folder, 'timing.json'), 'utf8'));
+  assert.equal(j.timing.length, 2); assert.equal(j.acting[0].id, 'eat');
+});
+test('a talk log keeps his words\' clock times and his mouth shapes too', async () => {
+  const { writeTalk } = await import('./log.js'); const fs = await import('node:fs'); const os = await import('node:os'); const path = await import('node:path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'speak-log-'));
+  const words = [{ turn: 1, words: [['Hi', 1000, 1200], ['there', 1250, 1600]] }], visemes = [[1000, 5], [1080, 1], [1600, 0]];
+  const folder = writeTalk(dir, { id: 't2', timing: [], acting: [], words, visemes });
+  const j = JSON.parse(fs.readFileSync(path.join(dir, folder, 'timing.json'), 'utf8'));
+  assert.deepEqual(j.words, words); assert.deepEqual(j.visemes, visemes);
+});

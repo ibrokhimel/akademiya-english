@@ -49,12 +49,12 @@ export function closeHear() { if (stream) stream.getTracks().forEach((t) => t.st
 function listenBrowser(lang, onPartial) {
   let r; try { r = new SR(); } catch (e) { return { done: Promise.resolve(null), stop() {} }; }
   r.lang = lang; r.interimResults = true; r.maxAlternatives = 5; r.continuous = false;
-  let alts = [], last = '', failed = false, over = false;
+  let alts = [], failed = false, over = false;
   const done = new Promise((res) => {
-    r.onresult = (e) => { const out = []; for (const one of e.results) { if (one.isFinal) for (const a of one) out.push(a.transcript); else last = one[0].transcript; } if (out.length) alts = out;
+    r.onresult = (e) => { const out = []; for (const one of e.results) { if (one.isFinal) for (const a of one) out.push(a.transcript);  } if (out.length) alts = out;
       const now = [...e.results].map((x) => x[0].transcript).join(' ').trim(); if (now) onPartial(now); };
     r.onerror = (e) => { if (['not-allowed', 'service-not-allowed', 'network', 'audio-capture', 'language-not-supported'].includes(e.error)) failed = true; };
-    r.onend = () => { over = true; res(failed ? null : alts.length ? alts.filter((a) => a.trim()) : last ? [last] : []); };
+    r.onend = () => { over = true; res(failed ? null : alts.length ? alts.filter((a) => a.trim()) : []); };
   });
   try { r.start(); } catch (e) { return { done: Promise.resolve(null), stop() {} }; }
   return { done, stop() { if (!over) try { r.stop(); } catch (e) {} } };

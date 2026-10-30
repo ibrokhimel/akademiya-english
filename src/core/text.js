@@ -25,15 +25,22 @@ export function numberWords(n) {
 const SAME = { "i'm": 'i am', "it's": 'it is', "what's": 'what is', "that's": 'that is', "i'd": 'i would', "i'll": 'i will', "don't": 'do not', okay: 'ok', tshirt: 't shirt', tee: 't' };
 // Text as plain words: small letters, no marks, short forms opened up, digits as words. Both sides of a comparison go through this.
 export function plain(text) {
-  let t = text.toLowerCase().replace(/[’`]/g, "'").replace(/(\d)[,\s](?=\d{3}\b)/g, '$1').replace(/\d+/g, (d) => (d.length < 7 ? ' ' + numberWords(+d) + ' ' : d));
+  let t = text.toLowerCase().replace(/[’`]/g, "'")
+    .replace(/(\d),(?=\d{3}\b)/g, '$1')
+    // A recognizer can group a price with spaces. Unrelated spoken numbers
+    // ("90 100") must stay separate rather than becoming "90,100".
+    .replace(/\b\d{1,3}(?:[ \u00a0]\d{3})+(?=\s+(?:som|sum|soum|soom)\b)/g, value => value.replace(/[ \u00a0]/g, ''))
+    .replace(/\d+/g, (d) => (d.length < 7 ? ' ' + numberWords(+d) + ' ' : d));
   t = t.replace(/-/g, ' ').replace(/[^a-z' ]/g, ' ');
   return t.split(/\s+/).filter(Boolean).flatMap((w) => (SAME[w] || w).split(' ')).map((w) => w.replace(/'/g, ''));
 }
 const NEAR = { a: ['uh', 'one'], som: ['sum', 'some', 'soum', 'soom', 'psalm'], one: ['won'], two: ['to', 'too'], four: ['for'], hi: ['hey', 'hai'] };   // what a recogniser writes for a word said right
 const sameWord = (want, got) => want === got || (NEAR[want] || []).includes(got);
 
-// Did they say it? want: the sentence · heard: what the phone wrote · loose: words that count whatever was heard there (names, Uzbek words).
-// Returns { right, words: [{ text, ok }] } with one entry for each word of the sentence as written, for the green and orange words.
+// Transcript matching, not a pronunciation score. Loose names/Uzbek words may
+// occupy up to three recognizer tokens ("Aziz" -> "as is"). The rest of the
+// utterance must match in full; finding the answer inside unrelated speech fails.
+// words describes the EXPECTED sentence, never the learner's actual transcript.
 export function judge(want, heard, loose = []) {
   const shown = want.split(/\s+/).filter(Boolean), free = new Set(loose.flatMap((w) => plain(w)));
   const parts = shown.map((w) => plain(w)), W = parts.flat(), H = plain(heard || '');
@@ -53,11 +60,21 @@ export function judge(want, heard, loose = []) {
     else i++;
   }
   let k = 0; const words = shown.map((text, s) => { const part = ok.slice(k, k + parts[s].length); k += parts[s].length; return { text, ok: part.every(Boolean) }; });
-  return { right: m > 0 && words.every((w) => w.ok), words };
+  const full = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(false));
+  full[n][m] = true;
+  for (let a = n - 1; a >= 0; a--) for (let b = m; b >= 0; b--) {
+    if (free.has(W[a])) {
+      // Preserve the curriculum's name tolerance, only at this word's position.
+      for (let size = 0; size <= 3 && b + size <= m; size++)
+        full[a][b] ||= full[a + 1][b + size];
+    } else if (b < m && sameWord(W[a], H[b])) full[a][b] = full[a + 1][b + 1];
+  }
+  return { right: n > 0 && m > 0 && full[0][0], words };
 }
-// The best reading over everything that would be right (the phrase, other right answers) and everything the phone offered.
+// The engine ranks hypotheses best first. Alternate accepted ANSWERS are valid;
+// a lower-ranked transcription must not silently replace an unrelated top one.
 export function judgeAny(wants, heards, loose = []) {
   let first = null;
-  for (const want of wants) for (const heard of heards) { const r = judge(want, heard, loose); if (r.right) return { ...r, want }; if (!first) first = { ...r, want }; }
+  for (const want of wants) { const r = judge(want, heards[0] || '', loose); if (r.right) return { ...r, want }; if (!first) first = { ...r, want }; }
   return first || { right: false, want: wants[0], words: wants[0].split(/\s+/).map((text) => ({ text, ok: false })) };
 }

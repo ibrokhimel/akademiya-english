@@ -1,0 +1,358 @@
+{
+  "ob-welcome": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-meet": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-goal": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-goal-selected": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-level": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-level-selected": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-achieve": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-confidence": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-confidence-selected": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-mic": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-listen": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-heard": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-promise": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "ob-reminder": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers.",
+    "Intentional: preserved the cylinder picker approved after the original browser design, including the fast-scroll fix."
+  ],
+  "ob-listening": [
+    "Matched the nine progress segments, options, text hierarchy, buttons, guide and footer geometry. Animated character frames can differ between renderers."
+  ],
+  "account-name": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content."
+  ],
+  "account-name-filled": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content."
+  ],
+  "login": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content."
+  ],
+  "login-no-account": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content.",
+    "Intentional: unavailable native providers use the custom not-ready screen, without claiming an account lookup happened."
+  ],
+  "email-login": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content."
+  ],
+  "email-create": [
+    "Matched shared input/provider controls and guide. Native email authentication is functional; the browser provider flow is a prototype, so these routes intentionally have different content."
+  ],
+  "learn-empty": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "learn-full": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "progress-empty": [
+    "Matched empty/populated content, newest phrase order, week indicators, level bar and stats."
+  ],
+  "progress-full": [
+    "Matched empty/populated content, newest phrase order, week indicators, level bar and stats."
+  ],
+  "profile-empty": [
+    "Restored overview, friend streak slots, records and awards; matched design-unit spacing and component sizing."
+  ],
+  "profile-full": [
+    "Restored overview, friend streak slots, records and awards; matched design-unit spacing and component sizing."
+  ],
+  "profile-middle": [
+    "Restored overview, friend streak slots, records and awards; matched design-unit spacing and component sizing."
+  ],
+  "profile-bottom": [
+    "Restored overview, friend streak slots, records and awards; matched design-unit spacing and component sizing."
+  ],
+  "progress-middle": [
+    "Matched empty/populated content, newest phrase order, week indicators, level bar and stats."
+  ],
+  "progress-bottom": [
+    "Matched empty/populated content, newest phrase order, week indicators, level bar and stats."
+  ],
+  "lesson-start": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "checkpoint-start": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "exercise-meet": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-meet-tiles": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-say": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-say-tiles": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-echo": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-tiles": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-heard": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-fix": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-gap": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-tiles-selected": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-tiles-right": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-tiles-wrong": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-fix-selected": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-gap-selected": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-heard-selected": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "exercise-listening": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "feedback-right": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "feedback-wrong": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "lesson-quit": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress.",
+    "Intentional: preserved the approved Save and leave behavior and truthful copy; the older browser prototype says progress is lost."
+  ],
+  "combo-3": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "combo-5": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "combo-10": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "moment-mistakes": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "moment-canSay": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "moment-result": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "moment-streak": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "moment-level": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "moment-perfect": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "checkpoint-result-0": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "checkpoint-result-3": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "checkpoint-result-6": [
+    "Matched the result, streak, level and checkpoint reward components, typography and controls. Rive/confetti frames are time-dependent."
+  ],
+  "phrases-empty": [
+    "Matched grouped phrases, counts, recorded-voice badges and practice actions. Fixed the browser recording-badge Promise bug before comparison."
+  ],
+  "calendar-empty": [
+    "Matched month controls, counters, seven-column calendar, streak bands, goals and freeze card."
+  ],
+  "recordings-empty": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "phrases-full": [
+    "Matched grouped phrases, counts, recorded-voice badges and practice actions. Fixed the browser recording-badge Promise bug before comparison."
+  ],
+  "calendar-full": [
+    "Matched month controls, counters, seven-column calendar, streak bands, goals and freeze card."
+  ],
+  "recordings-full": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "calendar-previous": [
+    "Matched month controls, counters, seven-column calendar, streak bands, goals and freeze card."
+  ],
+  "settings": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page."
+  ],
+  "settings-bottom": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page."
+  ],
+  "settings-goal": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page."
+  ],
+  "settings-reminder": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page.",
+    "Intentional: preserved the cylinder picker approved after the original browser design, including the fast-scroll fix."
+  ],
+  "settings-logout": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page."
+  ],
+  "settings-delete": [
+    "Matched the planned settings groups and custom dialogs. Android server/test tools are preserved in a separate device settings page."
+  ],
+  "recordings-off": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "recordings-playing": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "recordings-delete-one": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "recordings-delete-all": [
+    "Matched recording rows, dates, playback state, empty state, single-row removal and delete-all confirmation. Privacy copy accurately reflects the native account sync."
+  ],
+  "feedback-form-empty": [
+    "Restored the planned category chips, text area, screenshot switch, bottom sheet and thank-you toast. Native screenshot capture is real."
+  ],
+  "feedback-form-filled": [
+    "Restored the planned category chips, text area, screenshot switch, bottom sheet and thank-you toast. Native screenshot capture is real."
+  ],
+  "feedback-form-sent": [
+    "Restored the planned category chips, text area, screenshot switch, bottom sheet and thank-you toast. Native screenshot capture is real."
+  ],
+  "confidence-empty": [
+    "Matched the confidence choices, first-day badge, selected state and improvement result."
+  ],
+  "confidence-selected": [
+    "Matched the confidence choices, first-day badge, selected state and improvement result."
+  ],
+  "confidence-improved": [
+    "Matched the confidence choices, first-day badge, selected state and improvement result."
+  ],
+  "confidence-same": [
+    "Matched the confidence choices, first-day badge, selected state and improvement result."
+  ],
+  "problem-offline": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "problem-mic-blocked": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "problem-speech-unavailable": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "problem-not-ready": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "problem-not-found": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "problem-error": [
+    "Restored the custom problem screen/sheet. Permission instructions refer to Android settings instead of browser site controls."
+  ],
+  "control-buttons": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-options": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-toggles": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-segments": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-text-input": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-toast": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-dialog": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-icons": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-progress": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-streak-week": [
+    "Compared the actual shared component in both light and dark mode."
+  ],
+  "control-time-wheel": [
+    "Compared the actual shared component in both light and dark mode.",
+    "Intentional: preserved the cylinder picker approved after the original browser design, including the fast-scroll fix."
+  ],
+  "learn-middle": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "learn-bottom": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "learn-speaking-off": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "lesson-repeat-start": [
+    "Matched header, banner, current-node scrolling, path sections and final locked node; retained live progress and navigation."
+  ],
+  "checkpoint-player": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "practice-speak": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "practice-tiles": [
+    "Matched the shared exercise layout, illustrations, sentence tiles, microphone, controls and feedback. Practice uses the same player without modifying course progress."
+  ],
+  "speech-result-right": [
+    "Additional completed-answer state checked directly against the browser exercise, in both themes."
+  ],
+  "speech-result-wrong": [
+    "Additional completed-answer state checked directly against the browser exercise, in both themes."
+  ],
+  "exercise-heard-checked-right": [
+    "Additional completed-answer state checked directly against the browser exercise, in both themes."
+  ],
+  "exercise-fix-checked-right": [
+    "Additional completed-answer state checked directly against the browser exercise, in both themes."
+  ],
+  "exercise-gap-checked-right": [
+    "Additional completed-answer state checked directly against the browser exercise, in both themes."
+  ]
+}

@@ -140,6 +140,17 @@ The owner looked through it on 2026-10-15: "ts look alr".
 - **Shown but after the MVP:** on Profile, friends, the league, Apples, friend streaks and the pet outfit are drawn as
   designed and open "not ready yet" (31d).
 
+### The speak lab (2026-10-28): free talk with Dombi through Gemini Live
+Built from [the speaking-companion design](../superpowers/specs/2026-10-28-speaking-companion-design.md) and
+[its plan](../superpowers/plans/2026-10-28-speaking-companion.md). Where: `src/speak-lab/` (the page, served by the
+lab's server at http://127.0.0.1:8791/src/speak-lab/) and `src/speak-lab/server/` (a small Node server on port 8797
+that holds the Gemini key in its git-ignored `.env`, mints the short-lived Live tokens, runs the text-model side
+calls and logs every talk under `server/logs/`). Start: `node design/motion/serve.js` and, in `src/speak-lab/server/`,
+`npm install` once (it also bundles the Gemini SDK for the browser into `src/speak-lab/vendor/`) then `npm start`.
+Checks: `node --test src/speak-lab/rules.test.js src/speak-lab/server/server.test.js` and
+`node src/speak-lab/checks/talk.js` (a scripted Gemini, no cost); `node src/speak-lab/checks/live-real.js` opens one
+real socket. The prompts the owner edits are Markdown in `src/speak-lab/prompts/`.
+
 ### What the browser version cannot tell us
 - How the phone's own speech recogniser hears Uzbek-accented English. The browser's is a different one, so its result
   is a first look, not the answer.

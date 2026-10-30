@@ -12,7 +12,7 @@ import { listen, canHear, hearReady } from './hear.js';
 import { startClip } from './voicerec.js';
 
 const head = (kicker, task) => `<div class="hd"><div class="kicker">${kicker}</div><div class="task">${task}</div></div>`;
-const RESULT = `<div class="result" style="opacity:0;display:none"><div class="lbl">SIZ AYTDINGIZ:</div><div class="words"></div><div class="hint" style="display:none">To'q sariq so'zni bosing — tinglang va qaytaring.</div></div>`;
+const RESULT = `<div class="result" style="opacity:0;display:none"><div class="lbl">SIZ AYTDINGIZ:</div><div class="recognized" style="display:none"></div><div class="lbl targetlbl" style="display:none">NAMUNA:</div><div class="words"></div><div class="hint" style="display:none">To'q sariq so'zni bosing — tinglang va qaytaring.</div></div>`;
 const spans = (text) => text.split(' ').map((w) => `<span>${w}</span>`).join('');
 const pict = (pic, h) => `<div class="pict" style="height:${h}px">${picHTML(pic)}</div>`;
 // in a checkpoint's story chain the small heading says where the learner is: "3/5 · NARXINI SO'RANG"
@@ -44,10 +44,11 @@ function liveWords(ctx) {
   const { el } = ctx, card = el.querySelector('.result'); let on = false, hidden = [];
   return {
     show(text) { if (!ctx.alive() || !card) return;
-      if (!on) { on = true; hidden = [...el.querySelectorAll('.audiorow, .textlink, .hintchip')].filter((h) => h.style.display !== 'none'); hidden.forEach((h) => { h.style.display = 'none'; });
+      if (!on) { on = true; hidden = [...el.querySelectorAll('.audiorow, .textlink:not(.skip), .hintchip')].filter((h) => h.style.display !== 'none'); hidden.forEach((h) => { h.style.display = 'none'; });
+        card.querySelector('.recognized').style.display = 'none'; card.querySelector('.targetlbl').style.display = 'none';
         card.querySelector('.lbl').textContent = 'ESHITYAPMAN…'; card.querySelector('.hint').style.display = 'none'; card.style.display = 'flex'; card.style.opacity = 1; }
       const box = card.querySelector('.words'); box.replaceChildren(...text.split(/\s+/).filter(Boolean).map((w) => Object.assign(document.createElement('span'), { className: 'chipw live', textContent: w }))); },
-    end(kept) { if (!on || !card) return; card.querySelector('.lbl').textContent = 'SIZ AYTDINGIZ:'; if (!kept) { card.style.display = 'none'; hidden.forEach((h) => { h.style.display = ''; }); } },
+    end(kept) { if (!on || !card) return; card.querySelector('.lbl').textContent = 'ESHITILGAN MATN:'; if (!kept) { card.style.display = 'none'; hidden.forEach((h) => { h.style.display = ''; }); } },
   };
 }
 // The whole turn: wait for a press, listen, show what was said word by word. replay(): says the phrase again (a tap on an orange word).
@@ -56,19 +57,24 @@ async function speakTurn(ctx, item, replay) {
   for (;;) {
     mic.idle(true, cap); if (first) SND.play('turn'); first = false;
     await new Promise((r) => { mic.onTap = r; }); mic.onTap = null; if (!ctx.alive()) return null;
+    card.querySelector('.hint').style.display = 'none';
     stop(); const got = await hearOnce(ctx, wants); if (!ctx.alive() || got === null) return null;
     if (got === 'silent') { cap = 'Eshitmadim. Yana bir bor ayting'; continue; }
     if (got === 'again') { cap = 'Bosib gapiring'; continue; }
     if (got === 'unclear') { if (++unclear >= 3) return { off: 'nosr' }; cap = 'Tushunmadim. Yana bir bor ayting'; continue; }      // not a mistake: it is asked again; the third time the lesson goes on with words to build
     if (got.off) return got;
     ctx.spoke(got.ms); const r = judgeAny(wants, got.alts, looseOf(item));
-    const hide = [...el.querySelectorAll('.audiorow, .textlink, .hintchip')]; await Promise.all(hide.map((h) => M.fadeOut(h, 0, 120))); hide.forEach((h) => { h.style.display = 'none'; });   // the controls make room for what was said
+    const hide = [...el.querySelectorAll('.audiorow, .textlink:not(.skip), .hintchip')]; await Promise.all(hide.map((h) => M.fadeOut(h, 0, 120))); hide.forEach((h) => { h.style.display = 'none'; });   // the controls make room for what was said
+    card.querySelector('.lbl').textContent = 'ESHITILGAN MATN:';
+    const recognized = card.querySelector('.recognized'); recognized.textContent = got.alts[0] || ''; recognized.style.display = 'block'; card.querySelector('.targetlbl').style.display = 'block';
     card.style.display = 'flex'; const box = card.querySelector('.words'); box.innerHTML = r.words.map((w) => `<span class="chipw">${w.text}</span>`).join(''); card.style.opacity = 1; M.fadeUp(card, 10, 200);
     await M.wait(260); if (!ctx.alive()) return null;
-    for (const [i, c] of [...box.children].entries()) { if (r.words[i].ok) { c.classList.add('good'); M.punch(c, 1.1, 160); SND.appear(); } else { c.classList.add('retry'); c.onclick = () => { M.punch(c, 1.12, 180); replay(); }; } await M.wait(90); }
-    if (!r.right) { const hint = card.querySelector('.hint'); hint.style.display = 'block'; M.fadeUp(hint, 6, 180); } else M.pop(card, GREEN);
+    for (const c of [...box.children]) { if (r.right) { c.classList.add('good'); M.punch(c, 1.1, 160); SND.appear(); } else { c.classList.add('retry'); c.onclick = () => { M.punch(c, 1.12, 180); replay(); }; } await M.wait(90); }
+    if (!r.right) { const hint = card.querySelector('.hint'); hint.textContent = 'Ibora tasdiqlanmadi. Namunani bosib tinglang va qayta ayting.'; hint.style.display = 'block'; M.fadeUp(hint, 6, 180); } else M.pop(card, GREEN);
     if (r.right && got.clip && item.p && ctx.keepVoice) ctx.keepVoice(item.p, got.clip);                // "Mening ovozim": a good try is kept, when the learner chose to save their voice
-    return r;
+    if (r.right) return r;
+    ctx.speechRetry?.();
+    cap = 'Yana ayting yoki so‘zlarni tanlang';
   }
 }
 // words appear one by one; with `ms` they light up at the pace of the sound
@@ -98,9 +104,9 @@ async function meet(ctx) {
 // ---------- E2 Say What You See: a situation in Uzbek, said from memory ----------
 async function sayIt(ctx) {
   const { item, el, mic } = ctx, p = C.P[item.p];
-  el.innerHTML = head(stepOf(ctx, 'AYTING'), item.task) + `${pict(item.pic || p.pic, 150)}<div class="hintchip" style="opacity:0"><img src="${ICON}bulb-tip.png" alt="">${p.en.split(' ')[0].replace(/[.,!?]/g, '')} …</div>${RESULT}<div class="michold"></div>`;
+  el.innerHTML = head(stepOf(ctx, 'AYTING'), item.task) + `${pict(item.pic || p.pic, 150)}<button class="textlink hintchip"><img src="${ICON}bulb-tip.png" alt="">Yordam</button>${RESULT}<div class="michold"></div>`;
   el.querySelector('.michold').appendChild(mic.el); mic.idle(false, 'Bosib gapiring'); M.popIn(el.querySelector('.pict'), { duration: 240 });
-  M.wait(900).then(() => { const h = el.querySelector('.hintchip'); if (ctx.alive() && h && h.style.display !== 'none') { h.style.opacity = 1; M.popIn(h); } });   // the hint shows only the first word
+  el.querySelector('.hintchip').onclick = () => { const hint = el.querySelector('.hintchip'); hint.textContent = p.en.split(' ')[0].replace(/[.,!?]/g, '') + (p.en.trim().includes(' ') ? ' …' : ''); };
   await M.wait(450); if (!ctx.alive()) return null;
   const r = await speakTurn(ctx, item, () => say(p.voice, p.en)); if (!r || r.off) return r;
   return { right: r.right, answer: r.right ? r.want : p.en, tip: tipOf(item, p), voice: p.voice };
@@ -156,10 +162,16 @@ async function readAloud(ctx, item, text, voice) {
   box.innerHTML = `<div class="ralbl">Endi ovoz chiqarib ayting</div>${RESULT}<div class="michold"></div><button class="textlink skip">O'TKAZIB YUBORISH</button>`; el.appendChild(box);
   box.querySelector('.michold').appendChild(mic.el); M.fadeUp(box, 10, 220);
   const skip = new Promise((r) => { box.querySelector('.skip').onclick = () => r('skip'); });
-  const r = await Promise.race([speakTurn(ctx, { ...item, ex: 'say', also: [], accept: [] }, () => say(voice, text)), skip]);
-  if (r === 'skip') { mic.onTap = null; mic.idle(false); return 'skip'; }
-  if (r && r.off) return 'skip'; if (!r) return null;
-  if (r.right) await M.wait(500); return r;
+  let cancelled = false;
+  const practice = { ...ctx, alive: () => !cancelled && ctx.alive() };
+  for (;;) {
+    const r = await Promise.race([speakTurn(practice, { ...item, ex: 'say', also: [], accept: [] }, () => say(voice, text)), skip]);
+    if (r === 'skip' || (r && r.off)) { cancelled = true; mic.onTap = null; mic.idle(false); return 'skip'; }
+    if (!r) return null;
+    if (r.right) { await M.wait(500); return r; }
+    // This optional practice hasn't matched. Retry or explicitly skip; never
+    // present a mismatching attempt as a successful speaking answer.
+  }
 }
 
 // ---------- E6 What Happened?: a conversation with no text, one question, three pictures ----------

@@ -3,10 +3,84 @@
     "name": "Akademiya English",
     "slug": "akademiya-english",
     "scheme": "akademiya",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "plugins": [
+      "./plugins/withAndroidNdk",
+      "./plugins/withAndroidBack",
+      "./plugins/withAndroidReleaseSigning",
+      "expo-router",
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
+      ],
+      "expo-sqlite",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-light.png",
+          "imageWidth": 293,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFFFFF",
+          "dark": {
+            "image": "./assets/splash-dark.png",
+            "backgroundColor": "#121214"
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-speech-recognition",
+        {
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.tts"
+          ],
+          "microphonePermission": "Gapirish mashqlari uchun mikrofon kerak."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "../../pendev/icons-r2/glyph-bell-white.png",
+          "color": "#7B5CFF"
+        }
+      ],
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Profil rasmi uchun galereyadan rasm, GIF yoki video tanlaysiz.",
+          "cameraPermission": "Profil rasmi uchun suratga olasiz."
+        }
+      ],
+      [
+        "expo-alternate-app-icons",
+        [
+          {
+            "name": "Doppi",
+            "ios": "./assets/icons/doppi.png",
+            "android": { "foregroundImage": "./assets/icons/doppi-foreground.png", "backgroundColor": "#7B5CFF" }
+          },
+          {
+            "name": "Gold",
+            "ios": "./assets/icons/gold.png",
+            "android": { "foregroundImage": "./assets/icons/gold-foreground.png", "backgroundColor": "#7B5CFF" }
+          },
+          {
+            "name": "Night",
+            "ios": "./assets/icons/night.png",
+            "android": { "foregroundImage": "./assets/icons/night-foreground.png", "backgroundColor": "#7B5CFF" }
+          }
+        ]
+      ]
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "ai.akademiya.english",
@@ -24,7 +98,16 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": true,
+      "versionCode": 2,
+      "allowBackup": false,
+      "permissions": [
+        "android.permission.HIGH_SAMPLING_RATE_SENSORS"
+      ],
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

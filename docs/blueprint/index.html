@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#7B5CFF">
+  <meta name="description" content="The Akademiya app explained one idea at a time. A short, visual tour with optional details.">
+  <title>Akademiya · The app, one idea at a time</title>
+  <link rel="icon" href="/src/mobile/assets/favicon.png">
+  <link rel="stylesheet" href="presentation.css">
+</head>
+<body>
+  <a class="skip" href="#stage">Skip to the presentation</a>
+  <div class="presentation">
+    <header class="topbar">
+      <a class="brand" href="#tour/idea"><img src="/src/mobile/assets/icon.png" alt=""><span>akademiya<small>FULL APP · VERSION 1 PLAN</small></span></a>
+      <nav aria-label="Presentation views"><a id="tour-link" href="#tour/idea">Quick tour</a><a id="features-link" href="#features/learn">Explore features</a><button id="topic-button" class="quiet" aria-haspopup="dialog">Jump to a topic</button></nav>
+    </header>
+    <main id="stage" tabindex="-1"></main>
+    <footer id="controls"></footer>
+  </div>
+  <dialog id="detail" aria-labelledby="detail-title"></dialog>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  <script type="module" src="presentation.js"></script>
+</body>
+</html>

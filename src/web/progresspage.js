@@ -101,13 +101,14 @@ export function renderProgress(host, ctx) {
 }
 
 // ---------- 25 · Ayta oladiganlarim ----------
-export function thingsICanSay(ctx) {
+export async function thingsICanSay(ctx) {
   const groups = canSay(ctx), total = groups.reduce((n, g) => n + g.phrases.length, 0), rec = ctx.rec;
+  const saved = new Set(rec ? (await rec.list()).map(r => r.phraseId) : []);
   const { el, close, closed } = sheetPage(ctx, 'pg25', `<div class="top"><button class="back"><img src="${ICON}glyph-chevron-left-grey.png" alt=""></button>
       <span><b>Ayta oladiganlarim</b><small>${total} ta ibora · ${groups.length} bo'lim</small></span></div>
     <div class="scroll"><div class="pgb">${groups.length ? groups.map((g) => `<div class="uh"><img src="${ICON}${g.unit.icon}.png" alt=""><span>${unitName(g.unit).toUpperCase()}</span><i></i><span>${g.phrases.length}</span></div>
       ${g.phrases.map((ph) => `<div class="row" data-id="${ph.id}">${playHTML}<span class="tx"><b>${ph.en}</b><small>${ph.uz}</small>
-        ${rec && rec.has(ph.id) ? `<button class="mine"><img src="${ICON}glyph-user-coral.png" alt="">Mening ovozim ▶</button>` : ''}</span>
+        ${saved.has(ph.id) ? `<button class="mine"><img src="${ICON}glyph-user-coral.png" alt="">Mening ovozim ▶</button>` : ''}</span>
         <button class="again"><img src="${ICON}glyph-mic-violet.png" alt=""></button></div>`).join('')}`).join('')
       : '<div class="empty">Birinchi darsdan keyin iboralaringiz shu yerda chiqadi.</div>'}</div></div>`);
   const items = [...el.querySelectorAll('.uh, .row, .empty')];

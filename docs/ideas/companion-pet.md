@@ -21,6 +21,10 @@ A **small pet** lives on top of the app, on **every screen**:
 
 ## Notes to handle in design (not decisions yet)
 
+- **Full app update, 2026-10-23:** AI Speaking has its own main tab. Dombi can take the learner
+  into that destination, but the learner can also open it directly. This changes the entry
+  structure, not the requirement to build real live-conversation services.
+
 - It must never cover buttons or exercise content; it can rest or "sleep" in a corner during exercises.
 - A way to hide or mute it.
 - The open "talk about any topic" practice uses live AI voice → costs money per minute; it fits the

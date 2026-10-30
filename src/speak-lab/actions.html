@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dombi actions</title>
+<!-- Throwaway: a button for everything Dombi's rig can already do, so the owner can judge which actions are good enough.
+     The buttons are read from the exported file itself, so the page shows what the app really has, not a list typed here. -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f6f5f2; --card: #fff; --ink: #1d1d1f; --mute: #6e6e73; --line: #e3e1dc; --keep: #2fb35f; --redo: #e5533d; --on: #1d1d1f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 700 15px/1.35 Nunito, system-ui, sans-serif; }
+  .wrap { display: grid; grid-template-columns: minmax(320px, 520px) 1fr; gap: 24px; padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .stage { position: sticky; top: 24px; align-self: start; background: var(--card); border-radius: 24px; padding: 16px; border: 1px solid var(--line); }
+  .stage.dark { background: #1c1c1e; }
+  canvas { width: 100%; aspect-ratio: 1; display: block; }
+  .now { text-align: center; color: var(--mute); min-height: 1.4em; margin-top: 8px; }
+  .row { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+  h1 { font-size: 22px; margin: 0 0 4px; } h2 { font-size: 15px; margin: 22px 0 10px; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+  p.lead { margin: 0; color: var(--mute); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+  .act { display: flex; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .act.keep { border-color: var(--keep); box-shadow: inset 4px 0 0 var(--keep); } .act.redo { border-color: var(--redo); box-shadow: inset 4px 0 0 var(--redo); }
+  .act > button.go { flex: 1; text-align: left; padding: 11px 12px; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; }
+  .act > button.go:hover { background: #f0efeb; } .act > button.go.on { background: var(--on); color: #fff; }
+  .mark { border: 0; border-left: 1px solid var(--line); background: none; width: 34px; align-self: stretch; cursor: pointer; font: 900 14px Nunito; color: var(--mute); }
+  .mark.k:hover, .keep .mark.k { color: var(--keep); } .mark.r:hover, .redo .mark.r { color: var(--redo); }
+  .slider { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .slider label { display: flex; justify-content: space-between; } .slider input { width: 100%; }
+  button.plain { font: inherit; padding: 9px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); cursor: pointer; }
+  button.plain[aria-pressed=true] { background: var(--on); color: #fff; }
+  .missing { color: var(--redo); }
+  @media (max-width: 800px) { .wrap { grid-template-columns: 1fr; } .stage { position: static; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="c" width="1040" height="1040"></canvas>
+    <div class="now" id="now">Loading Dombi…</div>
+    <div class="row">
+      <button class="plain" id="talk">Talk for 3 s</button>
+      <button class="plain" id="reset">Reset</button>
+      <button class="plain" id="copy">Copy my marks</button>
+    </div>
+  </div>
+  <div>
+    <h1>Everything Dombi can do today</h1>
+    <p class="lead">Click to play. Mark each one ✓ keep or ✗ redo; the marks stay in this browser. "Copy my marks" puts the list on your clipboard to paste back to me.</p>
+    <div id="groups"></div>
+  </div>
+</div>
+<script src="/design/rive/node_modules/@rive-app/canvas/rive.js"></script>
+<script src="/design/motion/motion.js"></script>
+<script>
+const $ = (s) => document.querySelector(s);
+const KEY = 'dombi-actions-marks';
+let marks = {}; try { marks = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} };
+// the groups, by the rig's own property names; anything the file has that is not listed here still shows up under "Other"
+const GROUPS = [
+  ['Mark these: holds (press to start, press again to let go)', 'hold', ['dance', 'wiggleDance', 'robotDance', 'headbang', 'airGuitar', 'applause', 'cheer', 'laughHard', 'drumroll', 'shiver',
+    'phoneScroll', 'peekSide', 'readBook', 'writeNote', 'magnify', 'chinRub', 'headScratch', 'impatient', 'armsCrossed', 'fingerWag',
+    'boxing', 'doubleFlex', 'dozeOff', 'sweat', 'steam', 'hideFace', 'sneakyLook', 'wobbleJelly', 'bounceBall', 'yesYes']],
+  ['Mark this: small talking motion (a random nod, tilt or bob each press)', 'trigger', ['beat']],
+  ['One-off actions', 'trigger', ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink']],
+  ['Mark these: batch 6 moves', 'trigger', ['byeBye', 'doubleJump', 'roll', 'bounceBall', 'squash', 'stretchTall', 'wobbleJelly', 'peekSide', 'sneakyLook', 'karate', 'boxing', 'doubleFlex', 'ohNo', 'cheer', 'wiggleDance', 'robotDance', 'chinRub', 'callMe', 'cantHear', 'shush', 'yesYes', 'rofl', 'faint', 'runAway', 'startled', 'bubbleGum', 'readBook', 'writeNote', 'trophy', 'gift', 'magnify', 'dozeOff', 'bigStretch', 'airGuitar', 'mindBlown']],
+  ['Mark these: batch 6 faces', 'enum', ['mood'], ['angry', 'smugFace', 'worried', 'woozy', 'tired', 'delighted', 'judging', 'flirty', 'cocky', 'scared', 'puzzled', 'hungry', 'dreamy', 'serious', 'evilLaugh']],
+  ['Batch 5 moves', 'trigger', ['salute', 'fingerGuns', 'applause', 'headbang', 'sneeze', 'hiccup', 'yawn', 'shiver', 'phoneScroll', 'teaSip', 'kickBall', 'impatient', 'pointLaugh', 'boo', 'headShake', 'slide', 'drumroll', 'gasp']],
+  ['Batch 5 faces', 'enum', ['mood'], ['hmph', 'squint', 'innocent', 'excited', 'speechless', 'nervousGrin', 'content', 'thinkingHard']],
+  ['Round 3', 'trigger', ['micDrop', 'idea', 'steam', 'sweat', 'chefKiss', 'hideFace', 'laughHard', 'flop', 'whisper', 'armsCrossed', 'flex']],
+  ['Redone faces', 'enum', ['mood'], ['sideEye', 'cryLaugh']],
+  ['Round 2 faces', 'enum', ['mood'], ['sideEye','deadpan','grin','suspicious','cringe','disgusted','shocked','awkward','cryLaugh','bored']],
+  ['Round 1', 'trigger', ['shrug', 'headScratch', 'armsCrossed', 'fingerWag', 'flex', 'brushShoulders', 'stomp', 'bow', 'melt']],
+  ['New emotes', 'trigger', ['spit', 'dance', 'facepalm', 'fistsUp', 'eyeRoll']],
+  ['Idle breaks (the page fires these now)', 'trigger', ['lookAround', 'weightShift', 'idleHop', 'leanBack', 'nod']],
+  ['Loops (play)', 'enum', ['play']],
+  ['Hand gestures', 'enum', ['gesture']],
+  ['Faces (mood)', 'enum', ['mood']],
+  ['Hat', 'enum', ['hat']],
+  ['Switches', 'boolean', ['talking', 'listening', 'looking', 'hidden', 'dark']],
+  ['Body and eyes', 'number', ['squish', 'stretch', 'swing', 'lookX', 'lookY', 'amp', 'viseme']],
+];
+const now = (t) => { $('#now').textContent = t; };
+function card(id, label, play) {
+  const el = document.createElement('div'); el.className = 'act' + (marks[id] ? ' ' + marks[id] : '');
+  el.innerHTML = `<button class="go"></button><button class="mark k" title="keep">✓</button><button class="mark r" title="redo">✗</button>`;
+  el.querySelector('.go').textContent = label;
+  el.querySelector('.go').onclick = () => play(el.querySelector('.go'));
+  const mark = (m) => { marks[id] = marks[id] === m ? undefined : m; el.classList.remove('keep', 'redo'); if (marks[id]) el.classList.add(marks[id]); save(); };
+  el.querySelector('.k').onclick = () => mark('keep'); el.querySelector('.r').onclick = () => mark('redo');
+  return el;
+}
+function section(title, grid) { const h = document.createElement('h2'); h.textContent = title; $('#groups').append(h, grid); }
+
+(async () => {
+  const vm = await M.rive($('#c'), 'Dombi', 'Dombi');
+  if (!vm) { now('Could not bind Dombi\'s view model'); return; }
+  const props = Object.fromEntries((vm.properties || []).map((p) => [p.name, String(p.type)]));
+  const seen = new Set(['gestureDone', 'hold']);                                 // a signal the rig sends back, and the hold switch the hold buttons use
+  let held = null;                                                               // the hold button that is on
+  const letGo = () => { if (!held) return; vm.boolean('hold').value = false; held.classList.remove('on'); held = null; };
+  const enumValues = (name) => { try { return vm.enum(name).values || []; } catch (e) { return []; } };
+  for (const [title, kind, names, only] of GROUPS) {
+    const grid = document.createElement('div'); grid.className = 'grid';
+    for (const name of names) {
+      seen.add(name);
+      if (!(name in props)) { const m = document.createElement('div'); m.className = 'missing'; m.textContent = name + ': not in the exported file'; grid.append(m); continue; }
+      if (kind === 'hold') grid.append(card('hold:' + name, name, (btn) => {
+        if (held === btn) { letGo(); now('■ ' + name + ' let go'); return; }
+        letGo(); vm.boolean('hold').value = true; vm.trigger(name).trigger(); btn.classList.add('on'); held = btn; now('▶ ' + name + ' (holding)'); }));
+      else if (kind === 'trigger') grid.append(card(name, name, () => { vm.trigger(name).trigger(); now('▶ ' + name); }));
+      else if (kind === 'enum') for (const v of enumValues(name).filter((v) => !only || only.includes(v))) grid.append(card(name + '=' + v, (names.length > 1 ? name + ': ' : '') + v, (btn) => {
+        vm.enum(name).value = v; now(name + ' = ' + v);
+        grid.querySelectorAll('.go.on').forEach((b) => b.classList.remove('on')); btn.classList.add('on'); }));
+      else if (kind === 'boolean') grid.append(card(name, name, (btn) => {
+        const p = vm.boolean(name); p.value = !p.value; btn.classList.toggle('on', p.value); now(name + ' = ' + p.value);
+        if (name === 'dark') $('#stage').classList.toggle('dark', p.value); }));
+      else if (kind === 'number') {
+        const max = name === 'viseme' ? 11 : name.startsWith('look') ? 100 : 100, min = name.startsWith('look') ? -100 : 0;
+        const s = document.createElement('div'); s.className = 'slider';
+        s.innerHTML = `<label><span>${name}</span><b>0</b></label><input type="range" min="${min}" max="${max}" value="0">`;
+        s.querySelector('input').oninput = (e) => { const n = +e.target.value; vm.number(name).value = n; s.querySelector('b').textContent = n; now(name + ' = ' + n); };
+        grid.append(s);
+      }
+    }
+    section(title, grid);
+  }
+  // anything in the file that the groups above don't name
+  const other = Object.keys(props).filter((n) => !seen.has(n));
+  if (other.length) { const grid = document.createElement('div'); grid.className = 'grid';
+    for (const n of other) { const m = document.createElement('div'); m.className = 'slider'; m.textContent = n + ' (' + props[n] + ')'; grid.append(m); }
+    section('Other properties in the file', grid); }
+  now('Ready: ' + Object.keys(props).length + ' controls in the file');
+  window.DOMBI = { vm, props };
+
+  // a fake 3 s of talking so you can see an action play over the moving mouth
+  $('#talk').onclick = async () => { const V = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4]; vm.boolean('talking').value = true;
+    for (let t = 0, i = 0; t < 3000; t += 95, i++) { vm.number('amp').value = 40; vm.number('viseme').value = V[i % V.length]; await new Promise((r) => setTimeout(r, 95)); }
+    vm.boolean('talking').value = false; vm.number('amp').value = 0; vm.number('viseme').value = 0; };
+  $('#reset').onclick = () => { letGo(); for (const [n, v] of [['play', 'none'], ['gesture', 'none'], ['mood', 'smirk'], ['hat', 'none']]) try { vm.enum(n).value = v; } catch (e) {}
+    for (const n of ['talking', 'listening', 'looking', 'hidden']) try { vm.boolean(n).value = false; } catch (e) {}
+    document.querySelectorAll('.go.on').forEach((b) => b.classList.remove('on')); now('Reset'); };
+  $('#copy').onclick = async () => { const keep = Object.keys(marks).filter((k) => marks[k] === 'keep'), redo = Object.keys(marks).filter((k) => marks[k] === 'redo');
+    const text = `KEEP: ${keep.join(', ') || '-'}\nREDO: ${redo.join(', ') || '-'}`;
+    try { await navigator.clipboard.writeText(text); now('Copied'); } catch (e) { now(text); } };
+})();
+</script>
+</body>
+</html>

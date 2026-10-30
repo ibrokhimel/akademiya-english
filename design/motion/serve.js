@@ -3,14 +3,15 @@
 //   node serve.js 8793 lan  ->  also open to phones on the same Wi-Fi (to feel the taps in the hand). The mic needs https, so speaking stays on the PC.
 const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
-const T = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.wasm': 'application/wasm',
+const T = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.wasm': 'application/wasm',
             '.png': 'image/png', '.svg': 'image/svg+xml', '.riv': 'application/octet-stream', '.json': 'application/json', '.wav': 'audio/wav' };
 const PORT = +process.argv[2] || 8791, LAN = process.argv[3] === 'lan';
 http.createServer((q, s) => {
   let u = decodeURIComponent(q.url.split('?')[0]);
   if (u.endsWith('/')) u += 'index.html';
   const f = path.join(ROOT, u);
-  if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { s.writeHead(404); return s.end(); }
+  // never the speak lab's server folder (its .env holds the Gemini key, its logs hold the learner's talks) nor any dotfile
+  if (/\/\.|^\/src\/speak-lab\/server\//.test(u) || !f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { s.writeHead(404); return s.end(); }
   s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
   fs.createReadStream(f).pipe(s);
 }).listen(PORT, LAN ? '0.0.0.0' : '127.0.0.1', () => { console.log(`Open http://127.0.0.1:${PORT}/design/motion/`);

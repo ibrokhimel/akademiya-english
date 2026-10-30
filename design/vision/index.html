@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#7B5CFF">
+  <title>Akademiya · The Version 1 vision</title>
+  <link rel="icon" href="/src/mobile/assets/favicon.png">
+  <link rel="stylesheet" href="vision.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to the map</a>
+  <aside class="sidebar">
+    <a class="brand" href="#map"><img src="/src/mobile/assets/icon.png" alt=""><span>akademiya<span class="brand-sub">ENGLISH · PRODUCT ATLAS</span></span></a>
+    <div class="edition"><span class="edition-dot"></span>Version 1 <span>Vision draft</span></div>
+    <a class="blueprint-link" href="/docs/blueprint/">Read the full product blueprint ↗</a>
+    <nav aria-label="Atlas views" id="main-nav"></nav>
+    <div class="nav-label">EXPLORE THE APP</div>
+    <nav aria-label="App areas" id="area-nav"></nav>
+    <div class="sidebar-bottom"><img src="/design/icons/characters-dombi/pose-wave.svg" alt="Dombi waving"><p>Small steps.<br><strong>Real conversations.</strong></p><a href="/src/web/" target="_blank" rel="noopener">Open the existing browser MVP ↗</a></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <button class="mobile-menu icon-btn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <div class="breadcrumb">Product vision <span>/</span> <strong id="crumb">Whole map</strong></div>
+      <div class="header-actions"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a screen or idea…" aria-label="Find a screen or idea"><kbd>/</kbd></label><button id="theme" class="icon-btn" aria-label="Switch to dark theme">◐</button></div>
+    </header>
+    <main id="content" tabindex="-1"></main>
+    <footer class="footer"><span>Based on our product docs + the current Android app.</span><span>Planning canvas · no launch work</span></footer>
+  </div>
+  <dialog id="inspector" aria-labelledby="detail-title"><div id="detail"></div></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="vision.js"></script>
+</body>
+</html>

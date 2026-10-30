@@ -37,6 +37,18 @@ speech, fluency/confidence scores, pet assistant, conversations, scenes, any liv
 
 ## Part 2 — After-MVP AI plan (PROPOSED — not confirmed)
 
+**Navigation update, 2026-10-23:** the owner confirmed a dedicated **AI Speaking** main tab
+for the full application, alongside Learn, Progress and Profile. Free conversation,
+guided topics and situational roleplays have a direct entrance there; Dombi is an
+additional shortcut. Providers, costs, exact modes and the remaining AI proposals below
+still require their own implementation and decisions.
+
+**Built 2026-10-28:** free talk with Dombi runs in the browser on Gemini Live (`src/speak-lab/`), with the six
+personality packs, text feedback cards, Uzbek explanations, silence nudges, a report and a memory. Design:
+[2026-10-28-speaking-companion-design.md](../superpowers/specs/2026-10-28-speaking-companion-design.md). Scenes
+stay planned. Navoiy is dropped as Dombi's voice (a Gemini voice from now on); his eight app lines are still
+the old clips until they are re-made.
+
 ### Three kinds of AI
 
 | Kind | Does | Cost per use |

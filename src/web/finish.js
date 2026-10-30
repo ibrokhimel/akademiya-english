@@ -46,10 +46,11 @@ export async function canSay(phone, screen, lesson) {
 export async function result(phone, screen, lesson, stats, spokenMs) {
   const perfect = stats.perfect, news = (lesson.new || []).map((id) => C.P[id]), secs = Math.round(spokenMs / 1000);
   const count = lesson.checkpoint ? Object.values(C.P).filter((p) => lesson.unit.lessons.some((l) => l.n === p.lesson)).length : news.length;      // after a checkpoint: every phrase of the unit
-  const STATS = [['green', 'ANIQLIK', 'glyph-target-green', '<span id="acc">0</span>%'], ['coral', 'GAPIRDINGIZ', 'glyph-mic-coral', '<span id="spoke">0:00</span>'], ['violet', 'IBORALAR', 'glyph-message-violet', `${lesson.checkpoint ? '' : '+'}<span id="phr">0</span>`]];
+  const STATS = [['green', stats.speechRetries ? 'JAVOBLAR' : 'ANIQLIK', 'glyph-target-green', '<span id="acc">0</span>' + (stats.speechRetries ? '/' + stats.answered : '%')], ['coral', 'GAPIRDINGIZ', 'glyph-mic-coral', '<span id="spoke">0:00</span>'], ['violet', 'IBORALAR', 'glyph-message-violet', `${lesson.checkpoint ? '' : '+'}<span id="phr">0</span>`]];
   screen.innerHTML = `<div class="scr"><div class="status"></div><div class="rbody"><span class="dph" style="width:150px;height:150px;margin:5px 0"></span><h3 style="opacity:0">${lesson.checkpoint ? 'Zo\'r, uddaladingiz!' : 'Dars tugadi!'}</h3>
     ${perfect ? `<div class="pbadge" style="opacity:0"><img src="${ICON}glyph-sparkles-white.png" alt="">MUKAMMAL!</div>` : ''}
     <div class="rstats">${STATS.map(([c, l, ic, v]) => `<div class="rstat ${c}" style="opacity:0"><div class="hd">${l}</div><div class="bd"><img src="${ICON}${ic}.png" alt=""><span class="v">${v}</span></div></div>`).join('')}</div>
+    ${stats.speechRetries ? `<p style="font-size:12px;color:var(--muted);text-align:center">Ovoz ${stats.speechRetries} marta qayta tekshirildi. Bu xato deb hisoblanmadi.</p>` : ''}
     <div class="rk" style="opacity:0">${news.length ? 'ENDI AYTA OLASIZ:' : lesson.title.toUpperCase()}</div>
     ${news.map((p) => `<div class="prow" style="opacity:0"><button class="p3d audio sm"><span class="face"><img src="${ICON}glyph-speaker-violet.png" alt=""><span class="bars"><i></i><i></i><i></i></span></span></button><span><b>${p.en}</b><small>${p.uz}</small></span></div>`).join('')}
     </div><div class="bot" style="opacity:0">${btn('DAVOM ETISH')}</div></div>`;
@@ -57,7 +58,8 @@ export async function result(phone, screen, lesson, stats, spokenMs) {
   if (!perfect) SND.hit('lesson-done', HIT + 50, { ok: () => alive });
   screen.querySelectorAll('.rstat').forEach((s, i) => M.fadeUp(s, 12, 220, 120 + i * 70));
   await M.wait(300);
-  if (M.reduce) { q('#acc').textContent = stats.accuracy; q('#phr').textContent = count; } else { M.countUp(q('#acc'), stats.accuracy, 600); M.countUp(q('#phr'), count, 600); }
+  const accuracyValue = stats.speechRetries ? stats.correct : stats.accuracy;
+  if (M.reduce) { q('#acc').textContent = accuracyValue; q('#phr').textContent = count; } else { M.countUp(q('#acc'), accuracyValue, 600); M.countUp(q('#phr'), count, 600); }
   const sp = q('#spoke'), t0 = performance.now(), tick = (now) => { const k = Math.min((now - t0) / (600 * M.slow), 1), s = Math.round(secs * (1 - Math.pow(1 - k, 3)));
     sp.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; if (k < 1 && alive) requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   const pf = q('.pbadge');

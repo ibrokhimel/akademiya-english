@@ -46,7 +46,7 @@ body.full .shell { margin: 0; } body.full .phone { border: 0; border-radius: 0; 
 .talker .tav { width: 92px; height: 92px; border-radius: 50%; background: var(--violet-soft); overflow: hidden; outline: 3px solid transparent; transition: outline-color calc(160ms * var(--slow, 1)), scale calc(160ms * var(--slow, 1)); }
 .talker.on .tav { outline-color: var(--violet); scale: 1.06; } .talker.on { color: var(--violet); }
 .talkers.small .tav { width: 56px; height: 56px; } .talkers.small .tav canvas { width: 56px !important; height: 56px !important; }
-.replay { align-self: center; } .replay .face { height: 44px; padding: 0 18px; gap: 8px; font-size: 13px; } .replay img { width: 16px; height: 16px; } .replay.disabled { opacity: .5; pointer-events: none; }
+.replay { align-self: center; } .replay .face { height: 44px; padding: 0 18px; gap: 8px; font-size: 13px; } .replay img { width: 16px; height: 16px; } .replay.disabled { --c: var(--grey); --e: var(--grey-edge); opacity: 1; pointer-events: none; } .replay.disabled .face { color: var(--text-muted); } .replay.disabled img { filter: grayscale(1); }
 .script { flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--surface); font-size: 15px; font-weight: 800; } .script .lbl { font-size: 11px; font-weight: 900; letter-spacing: .6px; color: var(--text-muted); } .script b { color: var(--text-muted); font-weight: 900; }
 .rbody { overflow-y: auto; }
 
