@@ -262,3 +262,11 @@ test('a talk log keeps the timing of captions, audio and acted actions', async (
   const j = JSON.parse(fs.readFileSync(path.join(dir, folder, 'timing.json'), 'utf8'));
   assert.equal(j.timing.length, 2); assert.equal(j.acting[0].id, 'eat');
 });
+test('a talk log keeps his words\' clock times and his mouth shapes too', async () => {
+  const { writeTalk } = await import('./log.js'); const fs = await import('node:fs'); const os = await import('node:os'); const path = await import('node:path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'speak-log-'));
+  const words = [{ turn: 1, words: [['Hi', 1000, 1200], ['there', 1250, 1600]] }], visemes = [[1000, 5], [1080, 1], [1600, 0]];
+  const folder = writeTalk(dir, { id: 't2', timing: [], acting: [], words, visemes });
+  const j = JSON.parse(fs.readFileSync(path.join(dir, folder, 'timing.json'), 'utf8'));
+  assert.deepEqual(j.words, words); assert.deepEqual(j.visemes, visemes);
+});

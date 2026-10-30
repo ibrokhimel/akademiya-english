@@ -41,11 +41,12 @@ test('audio ahead of text: the first word still starts with the sound', () => {
   near(c.startOf(0), 500);
 });
 
-test('a quiet gap re-anchors the next sentence, earlier words stay', () => {
+test('a quiet gap re-anchors the next sentence, the words before it fit between his first sound and the gap', () => {
   const c = makeClock({ weigh }); c.start(0); c.text('Hi there. How are you?'); c.audio(3000);
-  const before = c.startOf(1), est = c.startOf(2);
+  const est = c.startOf(2);
   c.quiet(est - 300, est + 150);
-  near(c.startOf(2), est + 150); near(c.startOf(1), before);
+  near(c.startOf(2), est + 150); near(c.startOf(0), 0);
+  assert.ok(c.startOf(1) > c.startOf(0) && c.endOf(1) <= est + 150, `${c.startOf(1)} ${c.endOf(1)}`);
 });
 
 test('a quiet gap far from any pause is ignored', () => {
@@ -70,7 +71,7 @@ test('sentences and sentenceOf split at . ! ? only', () => {
 test('the measured rate of a closed turn carries to the next turn', () => {
   const a = makeClock({ weigh }); a.start(0); a.text('Hello there.'); a.audio(1200); a.close();   // 600 ms of words spoken in 1200: half speed
   near(a.rate(), 2, 0.01);
-  const b = makeClock({ weigh, rate: a.rate() }); b.start(0); b.text('Hello again'); b.audio(5000);
+  const b = makeClock({ weigh, rate: a.rate() }); b.start(0); b.text('Hello again'); b.audio(1000);
   near(b.startOf(1), 600);
 });
 
@@ -78,4 +79,11 @@ test('numbers count as words, emoji and dashes do not break it', () => {
   const c = makeClock({ weigh }); c.start(0); c.text('In 2026 🔥 - IELTS.'); c.audio(2000); c.close();
   assert.deepEqual(c.words().map((w) => w.text), ['In', '2026', 'IELTS']);
   near(c.endOf(2), 2000);
+});
+
+test('an open turn never runs ahead of the sound received: its words stretch to cover it', () => {
+  const c = makeClock({ weigh, rate: 0.4 }); c.start(0); c.text('Then the bus came late.'); c.audio(1800);
+  near(c.endOf(4), 1800, 1);                                             // 0.4 would have ended it at ~550 ms
+  const d = makeClock({ weigh, rate: 2 }); d.start(0); d.text('Then the bus came late.'); d.audio(1000);
+  near(d.endOf(4), 2 * (4 + 3 + 3 + 4 + 4) * 60, 1);                     // a slower carried pace is kept while text runs ahead
 });

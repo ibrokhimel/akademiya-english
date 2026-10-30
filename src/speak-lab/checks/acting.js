@@ -9,7 +9,7 @@ const SILENT = path.join(os.tmpdir(), 'speak-lab-silent.wav');
 const TURNS = [
   { caption: 'Salom! Qalaysan?', audioMs: 400 },
   { chunks: [{ text: 'I am still dizzy from the bus.', audioMs: 900 }, { text: ' Chorsu samsa is the best.', audioMs: 900 }] },
-  { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 1400 }] },
+  { chunks: [{ text: 'Watch this, I am so hungry! Watch this again.', audioMs: 2800 }] },
   { chunks: [{ text: 'I am still diz', audioMs: 500 }, { text: 'zy, bro.', audioMs: 500 }] },
   { chunks: [{ text: 'Okay okay okay, honestly, it is a lot, that is so cool.', audioMs: 2400 }] },
   { chunks: [{ text: 'That was sweet,', audioMs: 700 }, { text: ' bro, honestly.', audioMs: 800 }] },
@@ -40,7 +40,7 @@ const log = (p) => p.evaluate(() => (window.SPEAK.talk.acting ? window.SPEAK.tal
   ok('eat waits until his voice is done', !!eat && eat.how === 'pause' && eat.at - eat.turnStartAt >= 1800, eat ? `${eat.at - eat.turnStartAt} ms into the turn` : 'not fired');
 
   // 2. several in a sentence (trickSpin on "Watch", eat after his voice), never twice in a turn (sentence 2's trickSpin is skipped)
-  let before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(1800);
+  let before = L.length; await p.evaluate(() => window.SPEAK.fake.next()); await p.waitForTimeout(3400);
   L = await log(p); ok('several actions in a sentence, never twice in a turn', L.slice(before).filter((x) => x.how === 'word' || x.how === 'pause').map((x) => x.id).join() === 'trickSpin,eat', JSON.stringify(L.slice(before).map((x) => x.id + ':' + x.how)));
 
   // 3. a word split across pieces still matches

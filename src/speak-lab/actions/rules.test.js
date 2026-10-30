@@ -142,9 +142,9 @@ test('engine: keep:false ends a topic hold', () => {
 test('engine: interrupted() releases every hold at once', () => {
   const { st, a, say, run, held } = stage();
   const text = 'This party is crazy, and that DJ is the worst though.';
-  say(text, 6000); a.caption(text);
+  say(text, 3500); a.caption(text);
   a.apply({ turn: a.turnId(), beats: [{ action: 'dance', word: 'party', until: 'topic' }, { action: 'mood:angry', word: 'worst', until: 'topic' }], keep: true });
-  run(3000); assert.ok(held('dance').from != null && held('angry').from != null);
+  run(3300); assert.ok(held('dance').from != null && held('angry').from != null);
   const cutAt = st.t; a.interrupted();
   assert.equal(held('dance').to, cutAt); assert.equal(held('angry').to, cutAt);
   a.stop();

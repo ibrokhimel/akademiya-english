@@ -70,10 +70,13 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
 
   // one word clock per turn of his (spec 2026-10-30 in-sync §4.1): the live subtitle and his mouth both read it.
   // `rate` is how fast he really spoke last turn, carried over; the dictionary loads in the background (rules until then)
-  let dict = null, rate = 1, clock = null, clockAudio = 0, clockClosed = false, pendingLine = '';
+  let dict = null, rate = CFG.SPEECH_RATE, clock = null, clockAudio = 0, clockClosed = false, pendingLine = '';
   loadDict().then((d) => { dict = d; });
+  // for the talk log: each turn's word times, as the clock finally had them
+  const wordTimes = [], keepWords = (c) => { if (c && c.words().length) wordTimes.push({ turn: wordTimes.length + 1, words: c.words().map((w) => [w.text, Math.round(w.start), Math.round(w.end)]) }); };
   function newClock() {
     if (pendingLine) fileLine();
+    keepWords(clock);
     clock = T.clock = makeClock({ weigh: (w, p) => weighWord(w, p, dict), rate }); clockAudio = 0; clockClosed = false;
     T.lipsync = makeLipsync({ clock, levelAt: player.levelAt, dict: () => dict, cfg: CFG });
   }
@@ -105,7 +108,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
       if (cutting) return;
       // the finished line goes to the list once his voice has said it (frame loop; at once if his voice already ran out),
       // the transcript has it now
-      if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); pendingLine = line; if (!clock || !player.playing()) fileLine(); } if (clock) { clock.close(); clockClosed = true; } capText = ''; return; }
+      if (final) { T.acting.final(); T.timing.push({ t: Math.round(performance.now()), kind: 'final' }); const line = cleanCaption(capText); if (line) { lastDombi = line; state.captions.push(lastDombi); state.transcript.push({ who: 'dombi', text: lastDombi }); pendingLine = line; if (!clock || !player.playing()) fileLine(); } if (clock) { clock.close(); clockClosed = true; rate = Math.min(1.5, Math.max(0.3, clock.rate())); } capText = ''; return; }
       if (!clock || clockClosed) newClock();
       capText += text; clock.text(cleanCaption(capText)); T.acting.caption(cleanCaption(capText));
       T.timing.push({ t: Math.round(performance.now()), kind: 'caption', words: cleanCaption(capText).split(/\s+/).filter(Boolean).length });
@@ -124,7 +127,8 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   T.end = () => {
     if (ended) return; ended = true; clearInterval(meter); clearInterval(quiet); T.endedAt = Math.round((now() - state.started) / 1000);
     removeEventListener('keydown', keys); removeEventListener('keyup', keys); removeEventListener('blur', release); clearTimeout(cutTimer); T.acting.stop(); T.stage.stop(); T.dombi.reset(); if (mic) mic.stop(); player.clear(); if (T.session) T.session.close(); T.dombi.listening(false); T.dombi.talking(false);
-    const result = { id, timing: T.timing, acting: T.acting.log, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
+    keepWords(clock);
+    const result = { id, timing: T.timing, acting: T.acting.log, words: wordTimes, visemes: T.visemes, transcript: state.transcript, cards: state.cards, nudges: state.nudges, latencies: state.latencies, interruptions: state.interruptions, seconds: Math.round((now() - state.started) / 1000), mood: state.mood, level: state.level, secIn: Math.round(state.secIn), secOut: Math.round(state.secOut), cost: state.cost, pack, topic };
     side('log', result).then((j) => { if (j && j.monthTotal != null) T.month = j; }).catch((e) => console.warn('log', e.message));
     onEnd(result);
   };
@@ -147,7 +151,7 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
   player.onIdle(() => { T.acting.idle(); state.dombiTalking = false; T.dombi.talking(false); T.dombi.amp(0); T.dombi.viseme(0); lastV = 0; if (pendingLine) fileLine(); shown = ''; $('.cap.live').textContent = ''; if (!ended) T.dombi.listening(true); });
   // every frame, on the sound playing now: the live subtitle up to the word he is saying (lit), his mouth shape for it, his
   // face from the words said so far, and quiet gaps in his voice handed to the clock to pin the next sentence
-  let lastV = 0, shown = '', quietFrom = null; T.mouthMoves = 0;
+  let lastV = 0, shown = '', quietFrom = null; T.mouthMoves = 0; T.visemes = [];
   const frame = () => {
     if (ended) return; requestAnimationFrame(frame);
     if (!clock || !player.playing() || (clockClosed && !pendingLine)) return;          // a filed line is not shown again (e.g. under "Slower")
@@ -155,8 +159,8 @@ export async function talkScreen(root, { pack, voice = '', mic: micStart = 'auto
     if (html !== shown) { shown = html; $('.cap.live').innerHTML = html;
       const m = moodFor(words.slice(0, k + 1).map((w) => w.text + w.punct).join(' ')); if (m !== state.mood) { state.mood = m; T.dombi.mood(m); } }
     if (player.levelAt(t) < 4) quietFrom ??= t; else if (quietFrom != null) { if (t - quietFrom >= CFG.QUIET_GAP_MS) clock.quiet(quietFrom, t); quietFrom = null; }
-    const v = state.dombiTalking ? T.lipsync.at(t) : 0; if (v !== lastV) { lastV = v; T.dombi.viseme(v); if (v) T.mouthMoves++; }
-    if (pendingLine && clockClosed && t >= (clock.endOf(words.length - 1) ?? 0)) { rate = Math.min(2, Math.max(0.5, clock.rate())); fileLine(); }
+    const v = state.dombiTalking ? T.lipsync.at(t) : 0; if (v !== lastV) { lastV = v; T.dombi.viseme(v); if (v) T.mouthMoves++; if (T.visemes.length < 20000) T.visemes.push([Math.round(t), v]); }
+    if (pendingLine && clockClosed && t >= (clock.endOf(words.length - 1) ?? 0)) fileLine();
   };
   requestAnimationFrame(frame);
 

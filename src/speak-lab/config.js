@@ -22,6 +22,7 @@ export const CFG = {
   MOUTH_AFTER_MS: 250,                     // a mouth action (eat, yawn) plays this long after the sentence that named it
   // in sync (docs/superpowers/specs/2026-10-30-dombi-in-sync-design.md)
   MOUTH_GATE_MS: 80,                       // his sound quiet this long: the mouth rests
+  SPEECH_RATE: 0.6,                        // his first turn's pace against the lip-sync sound lengths (they are ~1.6x slower than his voice); later turns use the last turn's measured pace
   QUIET_GAP_MS: 150,                       // a quiet gap this long in his voice pins the word after the nearest pause
   BEAT_GAP_MS: 700,                        // two of his acted beats start at least this far apart
   BEATS_PER_SENTENCE: 3,                   // and at most this many start in one sentence

@@ -27,9 +27,14 @@ export function makeClock({ weigh, rate: rate0 = 1 }) {
     const start = new Array(n), end = new Array(n);
     anc.forEach((a, i) => {
       const to = i + 1 < anc.length ? anc[i + 1].k : n;
-      // the last stretch of a finished turn is fitted to its real sound (his last pause is not in the audio)
+      // the last stretch is fitted to his real sound when the turn is finished (his last pause is not in the audio); while it
+      // is still coming in, it runs at the talk's pace but never faster than the sound received so far covers
       let r = rate0;
-      if (closed && to === n && n > a.k) { const nat = N[n] - N[a.k] - (full[n - 1] - S[n - 1]); if (nat > 0) r = Math.max(0.1, (startAt + audioMs - a.at) / nat); }
+      if (to < n && anc[i + 1].k > a.k) r = (anc[i + 1].at - a.at) / (N[anc[i + 1].k] - N[a.k]);   // between two known times: an exact fit
+      else if (to === n && n > a.k) {
+        const nat = N[n] - N[a.k] - (full[n - 1] - S[n - 1]), fit = nat > 0 && audioMs > 0 ? (startAt + audioMs - a.at) / nat : 0;
+        if (closed && fit) r = Math.max(0.1, fit); else if (fit > r) r = fit;
+      }
       for (let k = a.k; k < to; k++) { start[k] = a.at + (N[k] - N[a.k]) * r; end[k] = start[k] + S[k] * r; }
     });
     return (lay = { start, end, N, S, full });
