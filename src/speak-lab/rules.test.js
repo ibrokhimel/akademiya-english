@@ -125,3 +125,14 @@ test('cleanCaption drops tags in brackets and angle brackets', () => {
   assert.equal(cleanCaption('no tags here'), 'no tags here');
   assert.equal(cleanCaption('Okay [smi'), 'Okay');                     // a tag still arriving shows nothing past its bracket
 });
+
+test('cleanCaption drops stars, underscores and stage-direction brackets, keeps real brackets', () => {
+  assert.equal(cleanCaption('Wow *jumps* that is it'), 'Wow that is it');
+  assert.equal(cleanCaption('so _shrugs_ fine'), 'so fine');
+  assert.equal(cleanCaption('Ha (laughs) okay'), 'Ha okay');
+  assert.equal(cleanCaption('(clears throat) Right.'), 'Right.');
+  assert.equal(cleanCaption('Say it (in Uzbek) now'), 'Say it (in Uzbek) now');
+  assert.equal(cleanCaption('a half tag *jum'), 'a half tag');          // still arriving: hidden until it closes
+  assert.equal(cleanCaption('[jump] go'), 'go');                         // today's rules stay
+  assert.equal(cleanCaption('then (dance) we go'), 'then we go');       // a catalog id in brackets is a stage direction too
+});

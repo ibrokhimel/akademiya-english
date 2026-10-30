@@ -1,6 +1,7 @@
 // The page's pure rules: no DOM, no network, tested in node (rules.test.js).
 import { TOPICS } from './config.js';
 import { COPY } from './copy.js';
+import { CATALOG } from './actions/catalog.js';
 
 // the report when there is nothing to report: the learner never spoke ('silent'), or the server's report call failed ('failed')
 export function emptyReport(reason) {
@@ -41,10 +42,18 @@ export function moodFor(text) {
   return 'happy';
 }
 
-// what the voice model sometimes writes but must never show: [smirk], <speaker_set_mood>{…}</speaker_set_mood>; a tag still
-// arriving (an open [ or < with no close yet) hides everything after it until it closes
+// words that, alone in round brackets, are a stage direction and not his speech: (laughs), (clears throat), (dance)
+export const STAGE_WORDS = new Set(['laughs', 'laughing', 'sighs', 'giggles', 'whispers', 'gasps', 'sings', 'coughs', 'clears throat',
+  ...CATALOG.flatMap((e) => [e.id.replace(/^\w+:/, ''), ...e.words])].map((w) => w.toLowerCase()));
+const stageOnly = (inner) => { const t = inner.toLowerCase().replace(/[^\p{L}\s'-]/gu, ' ').replace(/\s+/g, ' ').trim();
+  return STAGE_WORDS.has(t) || (!!t && t.split(' ').every((w) => STAGE_WORDS.has(w))); };
+
+// what the voice model sometimes writes but must never show: [smirk], <speaker_set_mood>{…}</speaker_set_mood>, *jumps*,
+// _shrugs_, (laughs); real brackets like "(in Uzbek)" stay. A tag still arriving (an open [ < * _ with no close yet) hides
+// everything after it until it closes
 export function cleanCaption(text) {
-  return (text || '').replace(/<[^>]*>/g, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\{[^}]*\}/g, ' ').replace(/[[<].*$/, '').replace(/\s+/g, ' ').trim();
+  return (text || '').replace(/<[^>]*>/g, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\{[^}]*\}/g, ' ').replace(/\*[^*]*\*/g, ' ').replace(/_[^_]*_/g, ' ')
+    .replace(/\(([^)]*)\)/g, (m, inner) => (stageOnly(inner) ? ' ' : m)).replace(/[[<*_].*$/, '').replace(/\s+/g, ' ').trim();
 }
 
 // the mic goes to Gemini all the time while Dombi is quiet; while he talks only a clearly loud learner gets through, so his own
