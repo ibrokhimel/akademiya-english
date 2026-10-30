@@ -119,15 +119,24 @@ export function createServer({ gemini, env, buildSystemPrompt = buildPrompt, log
       const pcm = await gemini.tts(str(b.line), VOICES.includes(b.voice) ? b.voice : PACKS.kind, 'Slow and clear, each word separate, a small pause between phrases, the same friendly tone; the words exactly as written.');
       return [200, { pcm: wavSamples(pcm) }];
     },
-    // the director: one of Dombi's catalog actions for a piece of what he is saying (spec 2026-10-30 §4.2); `turn` is echoed
-    // so the page can drop an answer that arrives after his turn moved on
+    // the director: up to three beats of Dombi's catalog actions for a clause of his (spec 2026-10-30 in-sync §4.4), each on a
+    // word of the clause and held `until` a word, the sentence end or the topic's end; `keep` says a running topic hold still
+    // fits. `turn` is echoed so the page can drop an answer that arrives after his turn moved on
     'POST /direct': async (b) => {
       if (!hasKey) return [503, { error: 'no key' }];
       const turn = Number(b.turn) || 0, recent = Array.isArray(b.recent) ? b.recent.map(str).filter(Boolean).slice(-4) : [];
-      const text = `Personality: ${str(b.pack) || 'kind'}\nThe learner just said: "${str(b.learner)}"\nDombi is saying: "${str(b.said)}"\nRecent actions (never again): ${recent.join(', ') || 'none'}`;
+      const said = str(b.said), line = str(b.line) || said;
+      const text = `Personality: ${str(b.pack) || 'kind'}\nThe learner just said: "${str(b.learner)}"\nDombi's line so far: "${line}"\nThe piece to plan: "${said}"\nRecent actions (never again): ${recent.join(', ') || 'none'}`;
       const j = (await gemini.flash([{ text }], { json: true, system: DIRECTOR, model: MODELS.director })) || {};
-      const e = TALKABLE.get(str(j.action));
-      return [200, { action: e ? e.id : null, word: e ? str(j.word) : '', strength: j.strength === 'big' ? 'big' : 'small', turn }];
+      const norm = (w) => str(w).toLowerCase().replace(/[^\p{L}\p{N}'ʻ]/gu, '');
+      const inSaid = new Set(said.split(/\s+/).map(norm).filter(Boolean));
+      const beats = (Array.isArray(j.beats) ? j.beats : []).map((x) => {
+        const e = TALKABLE.get(str(x && x.action)); if (!e) return null;
+        const word = inSaid.has(norm(x.word)) ? str(x.word) : '', u = str(x.until);
+        const until = u === 'sentence' || u === 'topic' ? u : /^word:/.test(u) && inSaid.has(norm(u.slice(5))) ? 'word:' + u.slice(5) : 'sentence';
+        return { action: e.id, word, until };
+      }).filter(Boolean).slice(0, 3);
+      return [200, { beats, keep: j.keep === true, turn }];
     },
     // one sample line in a voice, for the start page's "listen" buttons
     'POST /say': async (b) => {

@@ -204,21 +204,28 @@ test('missing key refuses /token with 503 in English JSON', async () => {
   await s.close();
 });
 
-// the director: Gemini Flash picks one of Dombi's catalog actions for a clause of his (spec 2026-10-30 §4.2)
-test('direct passes a valid pick through with its turn, and turns unknown or touch-only picks into null', async () => {
+// the director: Gemini Flash plans up to three beats for a clause of his (spec 2026-10-30 in-sync §4.4)
+test('direct returns at most 3 sanitized beats with keep and the turn', async () => {
   const s = await up(); const sent = [];
-  let answer = { action: 'trickSpin', word: 'cool', strength: 'small' };
+  let answer = { beats: [{ action: 'shiver', word: 'freezing', until: 'sentence' }, { action: 'tapped', word: 'x' }, { action: 'moonwalk' },
+    { action: 'gasp', word: 'what', until: 'banana' }, { action: 'dance', word: 'party', until: 'word:tonight' }, { action: 'nod', word: 'yes', until: 'topic' }], keep: 'yes' };
   fakeGemini.flash = async (parts, opts) => { sent.push({ parts, opts }); return answer; };
-  let j = await (await post(s.base, '/direct', { learner: 'look at me', said: 'That was cool, bro.', pack: 'rude', recent: ['eat'], turn: 7 })).json();
-  assert.deepEqual(j, { action: 'trickSpin', word: 'cool', strength: 'small', turn: 7 });
+  const said = 'What, I am freezing, party tonight, yes', line = 'Bro. ' + said;
+  let j = await (await post(s.base, '/direct', { learner: 'look at me', said, line, pack: 'rude', recent: ['eat'], turn: 7 })).json();
+  assert.deepEqual(j, { beats: [{ action: 'shiver', word: 'freezing', until: 'sentence' }, { action: 'gasp', word: 'what', until: 'sentence' },
+    { action: 'dance', word: 'party', until: 'word:tonight' }], keep: false, turn: 7 });
   const prompt = sent[0].opts.system + '\n' + sent[0].parts.map((p) => p.text).join('\n');
   assert.ok(prompt.includes('trickSpin') && prompt.includes('showing off, being cool'), 'the catalog ids and their use lines go to Flash');
   assert.ok(!/\btapped\b|play:pet|poke1/.test(prompt), 'touch-only actions are never offered');
+  assert.ok(prompt.includes(line), 'the whole line so far goes to Flash too');
   assert.equal(sent[0].opts.json, true); assert.equal(sent[0].opts.model, 'gemini-3.5-flash-lite');   // the fast model: it answers while he is still talking
-  answer = { action: 'tapped', word: 'x' }; j = await (await post(s.base, '/direct', { said: 'hey', turn: 8 })).json();
-  assert.equal(j.action, null); assert.equal(j.turn, 8);
-  answer = { action: 'moonwalk', word: 'x' }; j = await (await post(s.base, '/direct', { said: 'hey', turn: 9 })).json();
-  assert.equal(j.action, null);
+  answer = { beats: [{ action: 'shiver', word: 'nowhere', until: 'topic' }], keep: true };
+  j = await (await post(s.base, '/direct', { said: 'so cold', turn: 8 })).json();
+  assert.deepEqual(j, { beats: [{ action: 'shiver', word: '', until: 'topic' }], keep: true, turn: 8 });   // a word not in the clause: "now"
+  answer = { beats: 'shiver' }; j = await (await post(s.base, '/direct', { said: 'hey', turn: 9 })).json();
+  assert.deepEqual(j, { beats: [], keep: false, turn: 9 });
+  answer = { beats: [{ action: 'dance', word: 'party', until: 'word:nothere' }] }; j = await (await post(s.base, '/direct', { said: 'a party', turn: 10 })).json();
+  assert.equal(j.beats[0].until, 'sentence');                                                          // an end word not in the clause
   fakeGemini.flash = async () => '{}';
   await s.close();
 });

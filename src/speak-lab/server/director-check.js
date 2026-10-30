@@ -22,12 +22,12 @@ const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
 const rows = [], times = [], tokens = [];
 for (const [said, want] of LINES) {
   const t0 = Date.now();
-  const r = await ai.models.generateContent({ model: process.env.MODEL || MODELS.director, contents: [{ role: 'user', parts: [{ text: `Personality: rude\nThe learner just said: ""\nDombi is saying: "${said}"\nRecent actions (never again): none` }] }],
+  const r = await ai.models.generateContent({ model: process.env.MODEL || MODELS.director, contents: [{ role: 'user', parts: [{ text: `Personality: rude\nThe learner just said: ""\nDombi's line so far: "${said}"\nThe piece to plan: "${said}"\nRecent actions (never again): none` }] }],
     config: { systemInstruction: DIRECTOR, responseMimeType: 'application/json', ...(process.env.THINK === '0' ? { thinkingConfig: { thinkingBudget: 0 } } : process.env.THINK ? { thinkingConfig: { thinkingLevel: process.env.THINK } } : {}) } });
   times.push(Date.now() - t0); const u = r.usageMetadata || {}; tokens.push([u.promptTokenCount || 0, u.candidatesTokenCount || 0]);
   let j = {}; try { j = JSON.parse(r.text); } catch {}
-  const fam = j.action ? family.get(j.action) || 'unknown' : null;
-  rows.push({ said, action: j.action || null, word: j.word || '', fam, ok: want.includes(fam) });
+  const beats = Array.isArray(j.beats) ? j.beats : [], fam = beats[0] ? family.get(beats[0].action) || 'unknown' : null;   // scored on the first beat
+  rows.push({ said, action: beats.map((x) => `${x.action} @${x.word} ~${x.until}`).join(', ') || null, word: '', fam, ok: want.includes(fam) });
 }
 for (const x of rows) console.log(`${x.ok ? 'ok  ' : 'MISS'} ${x.said.padEnd(44)} -> ${x.action || 'null'}${x.word ? ' @' + x.word : ''} (${x.fam})`);
 const sorted = [...times].sort((a, b) => a - b), med = sorted[Math.floor(sorted.length / 2)];
