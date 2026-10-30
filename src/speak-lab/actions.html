@@ -60,6 +60,10 @@ let marks = {}; try { marks = JSON.parse(localStorage.getItem(KEY) || '{}'); } c
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} };
 // the groups, by the rig's own property names; anything the file has that is not listed here still shows up under "Other"
 const GROUPS = [
+  ['Mark these: holds (press to start, press again to let go)', 'hold', ['dance', 'wiggleDance', 'robotDance', 'headbang', 'airGuitar', 'applause', 'cheer', 'laughHard', 'drumroll', 'shiver',
+    'phoneScroll', 'peekSide', 'readBook', 'writeNote', 'magnify', 'chinRub', 'headScratch', 'impatient', 'armsCrossed', 'fingerWag',
+    'boxing', 'doubleFlex', 'dozeOff', 'sweat', 'steam', 'hideFace', 'sneakyLook', 'wobbleJelly', 'bounceBall', 'yesYes']],
+  ['Mark this: small talking motion (a random nod, tilt or bob each press)', 'trigger', ['beat']],
   ['One-off actions', 'trigger', ['eat', 'dizzy', 'shook', 'clap', 'hop', 'land', 'smug', 'snap', 'ahem', 'wake', 'poke1', 'poke2', 'poke3', 'playoff', 'trickSpin', 'trickFlick', 'trickShades', 'grow', 'dress', 'celebrate', 'correct', 'wrong', 'tapped', 'blink']],
   ['Mark these: batch 6 moves', 'trigger', ['byeBye', 'doubleJump', 'roll', 'bounceBall', 'squash', 'stretchTall', 'wobbleJelly', 'peekSide', 'sneakyLook', 'karate', 'boxing', 'doubleFlex', 'ohNo', 'cheer', 'wiggleDance', 'robotDance', 'chinRub', 'callMe', 'cantHear', 'shush', 'yesYes', 'rofl', 'faint', 'runAway', 'startled', 'bubbleGum', 'readBook', 'writeNote', 'trophy', 'gift', 'magnify', 'dozeOff', 'bigStretch', 'airGuitar', 'mindBlown']],
   ['Mark these: batch 6 faces', 'enum', ['mood'], ['angry', 'smugFace', 'worried', 'woozy', 'tired', 'delighted', 'judging', 'flirty', 'cocky', 'scared', 'puzzled', 'hungry', 'dreamy', 'serious', 'evilLaugh']],
@@ -94,14 +98,19 @@ function section(title, grid) { const h = document.createElement('h2'); h.textCo
   const vm = await M.rive($('#c'), 'Dombi', 'Dombi');
   if (!vm) { now('Could not bind Dombi\'s view model'); return; }
   const props = Object.fromEntries((vm.properties || []).map((p) => [p.name, String(p.type)]));
-  const seen = new Set(['gestureDone']);                                         // a signal the rig sends back, not an action
+  const seen = new Set(['gestureDone', 'hold']);                                 // a signal the rig sends back, and the hold switch the hold buttons use
+  let held = null;                                                               // the hold button that is on
+  const letGo = () => { if (!held) return; vm.boolean('hold').value = false; held.classList.remove('on'); held = null; };
   const enumValues = (name) => { try { return vm.enum(name).values || []; } catch (e) { return []; } };
   for (const [title, kind, names, only] of GROUPS) {
     const grid = document.createElement('div'); grid.className = 'grid';
     for (const name of names) {
       seen.add(name);
       if (!(name in props)) { const m = document.createElement('div'); m.className = 'missing'; m.textContent = name + ': not in the exported file'; grid.append(m); continue; }
-      if (kind === 'trigger') grid.append(card(name, name, () => { vm.trigger(name).trigger(); now('▶ ' + name); }));
+      if (kind === 'hold') grid.append(card('hold:' + name, name, (btn) => {
+        if (held === btn) { letGo(); now('■ ' + name + ' let go'); return; }
+        letGo(); vm.boolean('hold').value = true; vm.trigger(name).trigger(); btn.classList.add('on'); held = btn; now('▶ ' + name + ' (holding)'); }));
+      else if (kind === 'trigger') grid.append(card(name, name, () => { vm.trigger(name).trigger(); now('▶ ' + name); }));
       else if (kind === 'enum') for (const v of enumValues(name).filter((v) => !only || only.includes(v))) grid.append(card(name + '=' + v, (names.length > 1 ? name + ': ' : '') + v, (btn) => {
         vm.enum(name).value = v; now(name + ' = ' + v);
         grid.querySelectorAll('.go.on').forEach((b) => b.classList.remove('on')); btn.classList.add('on'); }));
@@ -130,7 +139,7 @@ function section(title, grid) { const h = document.createElement('h2'); h.textCo
   $('#talk').onclick = async () => { const V = [5, 3, 6, 4, 8, 3, 5, 1, 6, 4]; vm.boolean('talking').value = true;
     for (let t = 0, i = 0; t < 3000; t += 95, i++) { vm.number('amp').value = 40; vm.number('viseme').value = V[i % V.length]; await new Promise((r) => setTimeout(r, 95)); }
     vm.boolean('talking').value = false; vm.number('amp').value = 0; vm.number('viseme').value = 0; };
-  $('#reset').onclick = () => { for (const [n, v] of [['play', 'none'], ['gesture', 'none'], ['mood', 'smirk'], ['hat', 'none']]) try { vm.enum(n).value = v; } catch (e) {}
+  $('#reset').onclick = () => { letGo(); for (const [n, v] of [['play', 'none'], ['gesture', 'none'], ['mood', 'smirk'], ['hat', 'none']]) try { vm.enum(n).value = v; } catch (e) {}
     for (const n of ['talking', 'listening', 'looking', 'hidden']) try { vm.boolean(n).value = false; } catch (e) {}
     document.querySelectorAll('.go.on').forEach((b) => b.classList.remove('on')); now('Reset'); };
   $('#copy').onclick = async () => { const keep = Object.keys(marks).filter((k) => marks[k] === 'keep'), redo = Object.keys(marks).filter((k) => marks[k] === 'redo');
